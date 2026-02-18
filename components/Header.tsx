@@ -48,14 +48,12 @@ const Header: React.FC = () => {
         <div className={`container mx-auto px-6 h-20 flex items-center justify-between ${scrolled ? 'text-brand-blue' : 'text-white mix-blend-difference'}`}>
           
           {/* Logo Area */}
-          <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 border-2 flex items-center justify-center font-black text-xl ${scrolled ? 'border-brand-blue' : 'border-white'}`}>
-              V
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-lg leading-none uppercase tracking-wider">VCET</span>
-              <span className="text-[10px] font-medium leading-none uppercase tracking-widest opacity-80">Vidyavardhini's College of Engg</span>
-            </div>
+          <div className="flex items-center">
+            <img 
+              src="/Images/VCET logo.jpeg" 
+              alt="VCET Logo" 
+              className="h-16 w-auto"
+            />
           </div>
 
           {/* Desktop Nav */}
