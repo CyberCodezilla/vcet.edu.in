@@ -6,8 +6,8 @@ import About from './components/About';
 import Departments from './components/Departments';
 import Placements from './components/Placements';
 import Recruiters from './components/Recruiters';
+import Achievements from './components/Achievements';
 import Admissions from './components/Admissions';
-import Naac from './components/Naac';
 import Facilities from './components/Facilities';
 import Footer from './components/Footer';
 
@@ -22,8 +22,8 @@ function App() {
         <Departments />
         <Placements />
         <Recruiters />
+        <Achievements />
         <Admissions />
-        <Naac />
         <Facilities />
       </main>
       <Footer />
