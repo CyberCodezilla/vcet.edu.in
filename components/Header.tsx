@@ -20,7 +20,8 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      // Increased threshold to account for TopBanner
+      setScrolled(window.scrollY > 100);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -30,7 +31,6 @@ const Header: React.FC = () => {
   useEffect(() => {
     if (isSearchOpen) {
       document.body.style.overflow = 'hidden';
-      // Focus input with a slight delay to allow for animation/rendering
       setTimeout(() => {
         searchInputRef.current?.focus();
       }, 100);
@@ -44,7 +44,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white border-b border-brand-blue' : 'bg-transparent text-white'}`}>
+      <header className={`sticky top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white border-b border-brand-blue shadow-md' : 'bg-transparent text-white'}`}>
         <div className={`container mx-auto px-6 h-20 flex items-center justify-between ${scrolled ? 'text-brand-blue' : 'text-white mix-blend-difference'}`}>
           
           {/* Logo Area */}
