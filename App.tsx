@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import TopBanner from './components/TopBanner';
 import About from './components/About';
 import Departments from './components/Departments';
 import Placements from './components/Placements';
@@ -13,6 +14,7 @@ import Footer from './components/Footer';
 function App() {
   return (
     <div className="min-h-screen font-sans">
+      <TopBanner />
       <Header />
       <main>
         <Hero />
