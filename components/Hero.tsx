@@ -1,11 +1,12 @@
 import React from 'react';
 import Button from './Button';
-import { Bell, ChevronRight, FileText, Calendar } from 'lucide-react';
+import { ChevronRight, Calendar } from 'lucide-react';
 
 const notices = [
   { id: 1, text: "Admission 2024-25: Applications open for First Year Engineering.", date: "New" },
   { id: 2, text: "Semester IV Exam Time Table released. Check student portal.", date: "Aug 12" },
   { id: 3, text: "National Level Hackathon 'Hack-n-Code' registration closes soon.", date: "Aug 10" },
+  { id: 4, text: "Guest Lecture on 'AI in Healthcare' by Industry Experts.", date: "Aug 05" },
 ];
 
 const events = [
@@ -16,7 +17,7 @@ const events = [
 const Hero: React.FC = () => {
   return (
     // Added -mt-20 to pull the hero section up behind the sticky header
-    <section id="home" className="relative min-h-screen w-full flex items-center overflow-hidden bg-brand-dark text-white pt-20 -mt-20">
+    <section id="home" className="relative min-h-screen w-full flex items-center overflow-hidden bg-brand-dark text-white pt-32 pb-20 md:pt-40 md:pb-20 -mt-20">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
@@ -28,16 +29,16 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-6 relative z-10 py-12 md:py-20">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="flex flex-col xl:flex-row items-center justify-between gap-12">
           
-          {/* Left Column: Hero Text */}
-          <div className="w-full lg:w-2/3 xl:w-3/4 relative z-20">
+          {/* Left Column: Hero Text - Reduced width to accommodate side-by-side widgets */}
+          <div className="w-full xl:w-5/12 relative z-20">
             <div className="inline-block mb-6 px-3 py-1 border border-white/30 backdrop-blur-md rounded-full">
               <span className="text-xs font-bold uppercase tracking-[0.2em] text-white">Est. 1994 • NAAC Accredited A+</span>
             </div>
             
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tighter leading-[0.9] mb-8 break-words">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] mb-8 break-words">
               Vidyavardhini's <br/>
               <span className="text-transparent stroke-white bg-clip-text bg-cover" style={{WebkitTextStroke: '1px white'}}>College Of</span><br/>
               Engineering
@@ -55,70 +56,67 @@ const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Widgets */}
-          <div className="w-full lg:w-1/3 xl:w-1/4 relative z-30 flex flex-col gap-8 justify-end">
+          {/* Right Column: Widgets Side-by-Side */}
+          <div className="w-full xl:w-7/12 relative z-30 flex flex-col md:flex-row gap-6 justify-end items-stretch">
              
-             {/* Notices Box */}
-             <div className="w-full max-w-sm bg-black/60 backdrop-blur-md border border-white/10 shadow-2xl rounded-sm overflow-hidden">
-                <div className="bg-brand-blue p-4 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Bell className="w-5 h-5 text-white" />
-                    <span className="font-bold uppercase tracking-widest text-xs text-white">Latest Notices</span>
-                  </div>
-                  <div className="flex gap-1">
-                      <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-                  </div>
+             {/* Notices Box - Updated to match Upcoming Events style */}
+             <div className="w-full md:w-1/2 max-w-sm bg-white/5 backdrop-blur-sm border border-white/10 shadow-2xl p-6 flex flex-col rounded-sm">
+                {/* Header */}
+                <div className="flex items-center gap-3 mb-6">
+                    <div className="h-8 w-1 bg-yellow-400"></div>
+                    <h3 className="text-xl font-bold uppercase tracking-wider text-white">Latest Notices</h3>
                 </div>
                 
-                <div className="divide-y divide-white/10 max-h-[200px] overflow-y-auto custom-scrollbar">
-                  {notices.map((notice) => (
-                    <div key={notice.id} className="p-4 hover:bg-white/5 transition-colors cursor-pointer group">
-                       <div className="flex justify-between items-center mb-1">
-                          <span className={`text-[10px] uppercase font-bold px-1.5 py-0.5 rounded ${notice.date === 'New' ? 'bg-red-500 text-white' : 'bg-white/10 text-white/60'}`}>
-                            {notice.date}
-                          </span>
-                          <ChevronRight className="w-4 h-4 text-white/40 group-hover:text-white transition-colors" />
-                       </div>
-                       <p className="text-sm font-medium text-white/90 leading-snug group-hover:text-blue-200 transition-colors">
-                         {notice.text}
-                       </p>
-                    </div>
-                  ))}
+                {/* List */}
+                <div className="flex-grow flex flex-col gap-4">
+                  <div className="divide-y divide-white/10 max-h-[300px] overflow-y-auto custom-scrollbar pr-2">
+                    {notices.map((notice) => (
+                      <div key={notice.id} className="py-3 first:pt-0 hover:bg-white/5 transition-colors cursor-pointer group">
+                         <p className="text-sm font-medium text-white/90 leading-snug group-hover:text-yellow-400 transition-colors mb-2">
+                           {notice.text}
+                         </p>
+                         <span className={`text-[10px] uppercase font-bold px-2 py-1 rounded-sm ${notice.date === 'New' ? 'bg-red-600 text-white' : 'bg-white/20 text-white/70'}`}>
+                              {notice.date}
+                         </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
-                <div className="p-3 bg-black/40 text-center border-t border-white/10">
-                    <a href="#" className="text-xs font-bold uppercase tracking-widest text-white/60 hover:text-white transition-colors flex items-center justify-center gap-2">
-                      View All Archives <FileText className="w-3 h-3" />
+                {/* Footer */}
+                <div className="mt-6 pt-4 border-t border-white/10">
+                    <a href="#" className="text-xs font-bold uppercase tracking-widest text-white/50 hover:text-yellow-400 transition-colors flex items-center gap-2">
+                      View All Notices <ChevronRight className="w-3 h-3" />
                     </a>
                 </div>
              </div>
 
              {/* Upcoming Events Box */}
-             <div className="w-full max-w-sm">
-                <div className="flex items-center gap-3 mb-5">
+             <div className="w-full md:w-1/2 max-w-sm bg-white/5 backdrop-blur-sm border border-white/10 shadow-2xl p-6 flex flex-col rounded-sm">
+                <div className="flex items-center gap-3 mb-6">
                     <div className="h-8 w-1 bg-yellow-400"></div>
                     <h3 className="text-xl font-bold uppercase tracking-wider text-white">Upcoming Events</h3>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-6 flex-grow">
                     {events.map((event) => (
                         <div key={event.id} className="group cursor-pointer">
-                            <div className="flex items-stretch mb-3 shadow-lg">
-                                 <div className="bg-brand-blue text-white font-bold px-4 py-2 text-sm flex items-center justify-center min-w-[90px] border-r border-white/10">
+                            <div className="flex items-stretch mb-3 shadow-lg transform group-hover:-translate-y-1 transition-transform">
+                                 <div className="bg-[#002855] text-white font-bold px-3 py-2 text-xs md:text-sm flex items-center justify-center min-w-[80px] text-center leading-tight">
                                     {event.day}
                                  </div>
-                                 <div className="bg-yellow-400 text-brand-dark font-black px-4 py-2 text-sm flex items-center justify-center min-w-[70px]">
+                                 <div className="bg-yellow-400 text-[#002855] font-black px-3 py-2 text-sm md:text-base flex items-center justify-center min-w-[70px]">
                                     {event.year}
                                  </div>
                             </div>
-                            <p className="text-sm text-blue-100 font-medium leading-relaxed group-hover:text-yellow-400 transition-colors border-l border-white/10 pl-3">
+                            <p className="text-sm text-blue-100 font-medium leading-relaxed group-hover:text-yellow-400 transition-colors border-l-2 border-white/10 pl-3">
                                 {event.title}
                             </p>
                         </div>
                     ))}
                 </div>
                 
-                <div className="mt-6 pt-2 border-t border-white/10">
+                <div className="mt-6 pt-4 border-t border-white/10">
                     <a href="#" className="text-xs font-bold uppercase tracking-widest text-white/50 hover:text-yellow-400 transition-colors flex items-center gap-2">
                         Full Calendar <Calendar className="w-3 h-3" />
                     </a>
@@ -131,7 +129,7 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-10 left-10 hidden xl:block z-10">
+      <div className="absolute bottom-10 left-10 hidden 2xl:block z-10">
         <div className="flex items-center gap-4 -rotate-90 origin-left translate-y-8 animate-bounce">
            <span className="text-xs font-bold uppercase tracking-widest text-white/50">Scroll Down</span>
            <div className="w-20 h-[1px] bg-white/50"></div>
