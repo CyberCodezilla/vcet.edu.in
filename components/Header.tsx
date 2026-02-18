@@ -1,15 +1,79 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X, ArrowUpRight, Search } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Search, ChevronDown } from 'lucide-react';
 import { NavItem } from '../types';
 
+interface DropdownItem {
+  label: string;
+  href: string;
+}
+
+interface MenuGroup {
+  label: string;
+  href?: string;
+  dropdown?: DropdownItem[];
+}
+
+const menuGroups: MenuGroup[] = [
+  { label: 'About Us', href: '#about' },
+  { 
+    label: 'Admission', 
+    dropdown: [
+      { label: 'Admission', href: '#admissions' },
+      { label: 'Training & Placements', href: '#placements' },
+    ]
+  },
+  { 
+    label: 'Academics', 
+    dropdown: [
+      { label: 'Departments', href: '#departments' },
+      { label: 'Academics', href: '#academics' },
+      { label: 'Research', href: '#research' },
+      { label: 'MMS(MBA)', href: '#mms' },
+      { label: 'Exam', href: '#exam' },
+    ]
+  },
+  { 
+    label: 'Campus Life', 
+    dropdown: [
+      { label: 'Facilities', href: '#facilities' },
+      { label: 'Student life@vcet', href: '#student-life' },
+      { label: 'Committees', href: '#committees' },
+    ]
+  },
+  { 
+    label: 'Accreditation', 
+    dropdown: [
+      { label: 'NAAC', href: '#naac' },
+      { label: 'Accreditation', href: '#accreditation' },
+    ]
+  },
+  { 
+    label: 'More', 
+    dropdown: [
+      { label: 'Alumni Portal', href: '#alumni' },
+      { label: 'Career@VCET', href: '#career' },
+      { label: 'Contact Us', href: '#footer' },
+    ]
+  },
+];
+
 const navItems: NavItem[] = [
-  { label: 'Home', href: '#home' },
-  { label: 'About', href: '#about' },
+  { label: 'About Us', href: '#about' },
+  { label: 'Admission', href: '#admissions' },
   { label: 'Departments', href: '#departments' },
-  { label: 'Admissions', href: '#admissions' },
-  { label: 'NAAC', href: '#naac' },
+  { label: 'Academics', href: '#academics' },
+  { label: 'Research', href: '#research' },
   { label: 'Facilities', href: '#facilities' },
-  { label: 'Contact', href: '#footer' },
+  { label: 'Student life@vcet', href: '#student-life' },
+  { label: 'Committees', href: '#committees' },
+  { label: 'Alumni Portal', href: '#alumni' },
+  { label: 'NAAC', href: '#naac' },
+  { label: 'Accreditation', href: '#accreditation' },
+  { label: 'Training & Placements', href: '#placements' },
+  { label: 'MMS(MBA)', href: '#mms' },
+  { label: 'Career@VCET', href: '#career' },
+  { label: 'Exam', href: '#exam' },
+  { label: 'Contact Us', href: '#footer' },
 ];
 
 const Header: React.FC = () => {
@@ -57,15 +121,39 @@ const Header: React.FC = () => {
           </div>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {navItems.map((item) => (
-              <a 
-                key={item.label} 
-                href={item.href} 
-                className="text-sm font-bold uppercase tracking-widest hover:underline decoration-2 underline-offset-4 transition-all"
-              >
-                {item.label}
-              </a>
+          <nav className="hidden lg:flex items-center gap-6">
+            {menuGroups.map((group) => (
+              <div key={group.label} className="relative group/nav">
+                {group.dropdown ? (
+                  <>
+                    <button className="text-xs font-bold uppercase tracking-widest hover:opacity-70 transition-all flex items-center gap-1">
+                      {group.label}
+                      <ChevronDown className="w-3 h-3" />
+                    </button>
+                    {/* Dropdown Menu */}
+                    <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover/nav:opacity-100 group-hover/nav:visible transition-all duration-200">
+                      <div className={`${scrolled ? 'bg-white border border-brand-blue' : 'bg-brand-dark border border-white/20'} shadow-lg min-w-[200px] py-2`}>
+                        {group.dropdown.map((item) => (
+                          <a
+                            key={item.label}
+                            href={item.href}
+                            className={`block px-4 py-2 text-xs font-semibold uppercase tracking-wide ${scrolled ? 'text-brand-blue hover:bg-brand-blue/10' : 'text-white hover:bg-white/10'} transition-colors`}
+                          >
+                            {item.label}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <a 
+                    href={group.href} 
+                    className="text-xs font-bold uppercase tracking-widest hover:underline decoration-2 underline-offset-4 transition-all"
+                  >
+                    {group.label}
+                  </a>
+                )}
+              </div>
             ))}
             
             {/* Search Trigger (Desktop) */}
@@ -103,21 +191,43 @@ const Header: React.FC = () => {
         </div>
 
         {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 bg-brand-dark text-white z-40 flex flex-col pt-32 px-6 transition-transform duration-500 ease-in-out lg:hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <nav className="flex flex-col gap-8">
-            {navItems.map((item) => (
-              <a 
-                key={item.label} 
-                href={item.href} 
-                onClick={() => setIsOpen(false)}
-                className="text-4xl font-black uppercase tracking-tighter hover:text-gray-400 transition-colors border-b border-white/20 pb-4 flex justify-between items-center group"
-              >
-                {item.label}
-                <ArrowUpRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </a>
+        <div className={`fixed inset-0 bg-brand-dark text-white z-40 flex flex-col pt-32 px-6 transition-transform duration-500 ease-in-out lg:hidden overflow-y-auto ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          <nav className="flex flex-col gap-6 pb-8">
+            {menuGroups.map((group) => (
+              <div key={group.label}>
+                {group.dropdown ? (
+                  <div className="border-b border-white/20 pb-4">
+                    <div className="text-2xl font-black uppercase tracking-tighter mb-3 text-gray-400">
+                      {group.label}
+                    </div>
+                    <div className="flex flex-col gap-2 pl-4">
+                      {group.dropdown.map((item) => (
+                        <a
+                          key={item.label}
+                          href={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className="text-lg font-semibold hover:text-gray-400 transition-colors flex items-center gap-2"
+                        >
+                          <ArrowUpRight className="w-4 h-4" />
+                          {item.label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <a 
+                    href={group.href} 
+                    onClick={() => setIsOpen(false)}
+                    className="text-3xl font-black uppercase tracking-tighter hover:text-gray-400 transition-colors border-b border-white/20 pb-4 flex justify-between items-center group"
+                  >
+                    {group.label}
+                    <ArrowUpRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </a>
+                )}
+              </div>
             ))}
           </nav>
-          <div className="mt-auto mb-12">
+          <div className="mt-auto mb-12 border-t border-white/20 pt-8">
             <p className="text-gray-400 text-sm uppercase tracking-widest mb-2">Contact</p>
             <p className="text-xl font-bold">vcet_inbox@vcet.edu.in</p>
             <p className="text-xl font-bold">+91 0250-2338234</p>

@@ -2,21 +2,12 @@ import React, { useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const recruiters = [
-  { name: 'Infosys', logo: 'https://logo.clearbit.com/infosys.com' },
-  { name: 'Coca Cola', logo: 'https://logo.clearbit.com/coca-colacompany.com' },
-  { name: 'Capgemini', logo: 'https://logo.clearbit.com/capgemini.com' },
-  { name: 'Built.io', logo: 'https://logo.clearbit.com/built.io' },
-  { name: 'TCS', logo: 'https://logo.clearbit.com/tcs.com' },
-  { name: 'Wipro', logo: 'https://logo.clearbit.com/wipro.com' },
-  { name: 'Accenture', logo: 'https://logo.clearbit.com/accenture.com' },
-  { name: 'Amazon', logo: 'https://logo.clearbit.com/amazon.com' },
-  { name: 'Microsoft', logo: 'https://logo.clearbit.com/microsoft.com' },
-  { name: 'Google', logo: 'https://logo.clearbit.com/google.com' },
-  { name: 'IBM', logo: 'https://logo.clearbit.com/ibm.com' },
-  { name: 'Cisco', logo: 'https://logo.clearbit.com/cisco.com' },
-  { name: 'Oracle', logo: 'https://logo.clearbit.com/oracle.com' },
-  { name: 'Jio', logo: 'https://logo.clearbit.com/jio.com' },
-  { name: 'Deloitte', logo: 'https://logo.clearbit.com/deloitte.com' },
+  { name: 'Accenture', logo: '/Images/recriters/Accenture-Logo-PNG-Vector-EPS-Free-Download.jpeg' },
+  { name: 'Godrej Infotech', logo: '/Images/recriters/godrej-infotech.jpeg' },
+  { name: 'Hexaware', logo: '/Images/recriters/hexaware-logo.jpeg' },
+  { name: 'Interactive Brokers', logo: '/Images/recriters/interactive-brokers.jpeg' },
+  { name: 'Neebal Technologies', logo: '/Images/recriters/neebal-technologoes.jpeg' },
+  { name: 'Vodafone', logo: '/Images/recriters/vodafone-logo.jpeg' },
 ];
 
 const Recruiters: React.FC = () => {
@@ -35,10 +26,10 @@ const Recruiters: React.FC = () => {
   };
 
   return (
-    <section className="py-16 bg-white border-b border-slate-100 overflow-hidden">
+    <section className="py-8 bg-white border-b border-slate-100 overflow-hidden">
       <div className="container mx-auto px-6">
         {/* Header */}
-        <div className="mb-12 border-l-4 border-yellow-400 pl-4">
+        <div className="mb-6 border-l-4 border-yellow-400 pl-4">
             <h2 className="text-3xl font-black uppercase tracking-tighter text-brand-blue">
                 Recruiters
             </h2>
@@ -58,14 +49,14 @@ const Recruiters: React.FC = () => {
             {/* Scroll Area */}
             <div
                 ref={scrollRef}
-                className="flex items-center gap-12 md:gap-24 overflow-x-auto no-scrollbar py-6 scroll-smooth px-4"
+                className="flex items-center gap-8 md:gap-16 overflow-x-auto no-scrollbar py-4 scroll-smooth px-4"
             >
                 {recruiters.map((company, idx) => (
-                    <div key={idx} className="flex-shrink-0 w-32 md:w-40 group/logo">
+                    <div key={idx} className="flex-shrink-0 w-48 md:w-56 group/logo">
                         <img
                             src={company.logo}
                             alt={company.name}
-                            className="w-full h-12 md:h-16 object-contain grayscale opacity-50 group-hover/logo:grayscale-0 group-hover/logo:opacity-100 transition-all duration-500 transform group-hover/logo:scale-110 filter"
+                            className="w-full h-20 md:h-24 object-contain grayscale opacity-50 group-hover/logo:grayscale-0 group-hover/logo:opacity-100 transition-all duration-500 transform group-hover/logo:scale-110 filter"
                             loading="lazy"
                         />
                     </div>
