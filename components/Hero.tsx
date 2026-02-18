@@ -1,12 +1,16 @@
 import React from 'react';
 import Button from './Button';
-import { Bell, ChevronRight, FileText } from 'lucide-react';
+import { Bell, ChevronRight, FileText, Calendar } from 'lucide-react';
 
 const notices = [
   { id: 1, text: "Admission 2024-25: Applications open for First Year Engineering.", date: "New" },
   { id: 2, text: "Semester IV Exam Time Table released. Check student portal.", date: "Aug 12" },
   { id: 3, text: "National Level Hackathon 'Hack-n-Code' registration closes soon.", date: "Aug 10" },
-  { id: 4, text: "Guest Lecture on 'AI in Healthcare' by Industry Experts.", date: "Aug 05" },
+];
+
+const events = [
+  { id: 1, day: "09th Feb", year: "2026", title: "2026 IEEE International Conference on Communication, Computing and Emerging Technologies (IC3ET)" },
+  { id: 2, day: "16th Jan", year: "2026", title: "ZEAL 2026 - Annual Cultural Festival & Sports Meet" },
 ];
 
 const Hero: React.FC = () => {
@@ -51,12 +55,11 @@ const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Notice Board */}
-          <div className="w-full lg:w-1/3 xl:w-1/4 relative z-30 flex justify-end">
-             {/* Box Container */}
+          {/* Right Column: Widgets */}
+          <div className="w-full lg:w-1/3 xl:w-1/4 relative z-30 flex flex-col gap-8 justify-end">
+             
+             {/* Notices Box */}
              <div className="w-full max-w-sm bg-black/60 backdrop-blur-md border border-white/10 shadow-2xl rounded-sm overflow-hidden">
-                
-                {/* Header */}
                 <div className="bg-brand-blue p-4 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Bell className="w-5 h-5 text-white" />
@@ -67,8 +70,7 @@ const Hero: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* List */}
-                <div className="divide-y divide-white/10 max-h-[320px] overflow-y-auto custom-scrollbar">
+                <div className="divide-y divide-white/10 max-h-[200px] overflow-y-auto custom-scrollbar">
                   {notices.map((notice) => (
                     <div key={notice.id} className="p-4 hover:bg-white/5 transition-colors cursor-pointer group">
                        <div className="flex justify-between items-center mb-1">
@@ -84,13 +86,45 @@ const Hero: React.FC = () => {
                   ))}
                 </div>
 
-                {/* Footer */}
                 <div className="p-3 bg-black/40 text-center border-t border-white/10">
                     <a href="#" className="text-xs font-bold uppercase tracking-widest text-white/60 hover:text-white transition-colors flex items-center justify-center gap-2">
                       View All Archives <FileText className="w-3 h-3" />
                     </a>
                 </div>
              </div>
+
+             {/* Upcoming Events Box */}
+             <div className="w-full max-w-sm">
+                <div className="flex items-center gap-3 mb-5">
+                    <div className="h-8 w-1 bg-yellow-400"></div>
+                    <h3 className="text-xl font-bold uppercase tracking-wider text-white">Upcoming Events</h3>
+                </div>
+
+                <div className="space-y-6">
+                    {events.map((event) => (
+                        <div key={event.id} className="group cursor-pointer">
+                            <div className="flex items-stretch mb-3 shadow-lg">
+                                 <div className="bg-brand-blue text-white font-bold px-4 py-2 text-sm flex items-center justify-center min-w-[90px] border-r border-white/10">
+                                    {event.day}
+                                 </div>
+                                 <div className="bg-yellow-400 text-brand-dark font-black px-4 py-2 text-sm flex items-center justify-center min-w-[70px]">
+                                    {event.year}
+                                 </div>
+                            </div>
+                            <p className="text-sm text-blue-100 font-medium leading-relaxed group-hover:text-yellow-400 transition-colors border-l border-white/10 pl-3">
+                                {event.title}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+                
+                <div className="mt-6 pt-2 border-t border-white/10">
+                    <a href="#" className="text-xs font-bold uppercase tracking-widest text-white/50 hover:text-yellow-400 transition-colors flex items-center gap-2">
+                        Full Calendar <Calendar className="w-3 h-3" />
+                    </a>
+                </div>
+             </div>
+
           </div>
 
         </div>

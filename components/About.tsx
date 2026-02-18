@@ -11,7 +11,7 @@ const About: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <div className="space-y-8">
             <p className="text-2xl md:text-3xl font-light leading-tight text-slate-800">
-              At Vidyavardhini's College of Engg, we believe education is not just about textbooks. It's about <span className="font-bold border-b-4 border-brand-blue">breaking boundaries</span> and creating solutions for real-world problems.
+              At Nova Institute, we believe education is not just about textbooks. It's about <span className="font-bold border-b-4 border-brand-blue">breaking boundaries</span> and creating solutions for real-world problems.
             </p>
             <p className="text-slate-600 leading-relaxed">
               Located in the heart of the tech corridor, our sprawling 100-acre campus is home to over 5,000 students and 300 faculty members. We combine traditional engineering discipline with modern design thinking.
