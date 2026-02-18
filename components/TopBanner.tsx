@@ -9,15 +9,14 @@ const TopBanner: React.FC = () => {
        </div>
 
        <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-center gap-6 relative z-10">
-          {/* Logo Placeholder - Left */}
-          <div className="hidden md:flex w-24 h-24 flex-shrink-0 items-center justify-center">
-             <div className="w-20 h-20 border-2 border-brand-blue rounded-full flex items-center justify-center bg-white shadow-lg relative group">
-                 <div className="absolute inset-1 border border-brand-blue/20 rounded-full"></div>
-                 <div className="text-center transform group-hover:scale-105 transition-transform">
-                    <span className="block text-[8px] font-bold uppercase tracking-widest text-brand-blue/60">Estd</span>
-                    <span className="block text-xl font-black text-brand-blue leading-none">1994</span>
-                 </div>
-             </div>
+          {/* Logo - Left */}
+          <div className="hidden md:flex w-24 h-24 flex-shrink-0 items-center justify-center ml-8">
+             <img 
+               src="/images/WhatsApp-Image-2024-10-21-at-9.32.04-AM-150x150.jpeg" 
+               alt="VCET Logo" 
+               className="w-20 h-20 object-contain transform hover:scale-105 transition-transform duration-300"
+               style={{ mixBlendMode: 'multiply' }}
+             />
           </div>
 
           {/* Center Text */}
