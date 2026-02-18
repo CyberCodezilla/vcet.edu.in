@@ -92,7 +92,7 @@ const Achievements: React.FC = () => {
           <button
             onClick={handlePrevious}
             disabled={currentIndex === 0}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white rounded-full p-3 shadow-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white/80 backdrop-blur-sm rounded-full p-3 shadow-lg hover:bg-white hover:shadow-xl disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 opacity-60 hover:opacity-100"
             aria-label="Previous achievements"
           >
             <ChevronLeft className="w-6 h-6 text-brand-dark" />
@@ -101,7 +101,7 @@ const Achievements: React.FC = () => {
           {/* Cards Container */}
           <div className="overflow-hidden">
             <div
-              className="flex transition-transform duration-500 ease-in-out"
+              className="flex transition-transform duration-700 ease-out"
               style={{
                 transform: `translateX(-${currentIndex * (100 / itemsPerView)}%)`
               }}
@@ -112,33 +112,46 @@ const Achievements: React.FC = () => {
                   className="flex-shrink-0 px-3"
                   style={{ width: `${100 / itemsPerView}%` }}
                 >
-                  <div className="group relative bg-brand-dark h-80 overflow-hidden border border-brand-blue/20">
-                    {/* Image Container */}
-                    <div className="relative h-full overflow-hidden">
+                  <div className="group relative bg-white h-96 overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.15)] hover:-translate-y-1.5 transition-all duration-300 ease-out">
+                    {/* Image Container with Gradient Overlay - Top Half */}
+                    <div className="relative h-48 overflow-hidden bg-brand-dark">
                       <img
                         src={achievement.image}
                         alt={achievement.title}
-                        className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700 ease-out"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          target.src = 'https://via.placeholder.com/400x300/003366/FFFFFF?text=Achievement';
+                          target.src = 'https://via.placeholder.com/600x400/003366/FFFFFF?text=Achievement';
                         }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent" />
+                      {/* Dark Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
                       
-                      {/* Yellow Overlay with Text */}
-                      <div className="absolute inset-0 bg-yellow-400/90 flex flex-col justify-center items-center p-6 text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <h3 className="text-xl font-bold text-brand-dark mb-3 uppercase">
+                      {/* Title Text Overlay */}
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <h3 className="text-lg font-bold text-white uppercase leading-tight">
                           {achievement.title}
                         </h3>
-                        <p className="text-sm text-brand-dark leading-relaxed">
-                          {achievement.description}
-                        </p>
                       </div>
+                      
+                      {/* Minimal Yellow Accent Bar */}
+                      <div className="absolute bottom-0 left-0 w-12 h-0.5 bg-yellow-400 group-hover:w-full transition-all duration-700 ease-out" />
                     </div>
                     
-                    {/* Top Border on Hover */}
-                    <div className="absolute top-0 left-0 w-0 h-1 bg-yellow-400 group-hover:w-full transition-all duration-500 ease-in-out" />
+                    {/* Text Content - Bottom Half */}
+                    <div className="relative h-48 p-6 flex flex-col bg-white">
+                      <p className="text-sm text-gray-600 leading-relaxed line-clamp-4 max-w-[90%]" style={{ lineHeight: '1.7' }}>
+                        {achievement.description}
+                      </p>
+                      
+                      {/* Read More link on hover */}
+                      <div className="mt-auto pt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="flex items-center text-xs font-semibold text-brand-blue uppercase tracking-wider cursor-pointer">
+                          <span className="w-8 h-px bg-yellow-400 mr-2"></span>
+                          Read More
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -149,7 +162,7 @@ const Achievements: React.FC = () => {
           <button
             onClick={handleNext}
             disabled={currentIndex >= maxIndex}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white rounded-full p-3 shadow-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white/80 backdrop-blur-sm rounded-full p-3 shadow-lg hover:bg-white hover:shadow-xl disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 opacity-60 hover:opacity-100"
             aria-label="Next achievements"
           >
             <ChevronRight className="w-6 h-6 text-brand-dark" />

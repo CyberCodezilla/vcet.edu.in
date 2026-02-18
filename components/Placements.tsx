@@ -15,6 +15,7 @@ const placementData = [
 const Placements: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [animatedCounts, setAnimatedCounts] = useState<number[]>(placementData.map(() => 0));
   
   // Drag to scroll state
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -40,6 +41,35 @@ const Placements: React.FC = () => {
       if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, []);
+
+  // Count-up animation
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const duration = 2000; // 2 seconds
+    const steps = 60;
+    const stepDuration = duration / steps;
+
+    placementData.forEach((item, index) => {
+      let currentStep = 0;
+      const increment = item.count / steps;
+
+      const timer = setInterval(() => {
+        currentStep++;
+        if (currentStep <= steps) {
+          setAnimatedCounts(prev => {
+            const newCounts = [...prev];
+            newCounts[index] = Math.min(Math.round(increment * currentStep), item.count);
+            return newCounts;
+          });
+        } else {
+          clearInterval(timer);
+        }
+      }, stepDuration);
+
+      return () => clearInterval(timer);
+    });
+  }, [isVisible]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollRef.current) return;
@@ -122,18 +152,18 @@ const Placements: React.FC = () => {
                             className={`relative z-10 flex flex-col items-center justify-center mx-6 md:mx-10 group transition-all duration-700 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
                             style={{ transitionDelay: `${index * 150}ms` }}
                         >
-                            {/* Count */}
+                            {/* Count with animation */}
                             <div className="mb-4 transform group-hover:-translate-y-1 transition-transform duration-300">
-                                <span className="text-4xl md:text-5xl font-black text-yellow-400 tabular-nums drop-shadow-[0_0_10px_rgba(250,204,21,0.3)]">
-                                    {item.count}
+                                <span className="text-4xl md:text-5xl font-black text-yellow-400 tabular-nums drop-shadow-[0_0_6px_rgba(250,204,21,0.15)]">
+                                    {animatedCounts[index]}
                                 </span>
                             </div>
 
-                            {/* Marker on line */}
-                            <div className="bg-slate-900 p-1 rounded-full border-2 border-yellow-400 mb-4 shadow-[0_0_15px_rgba(250,204,21,0.5)] group-hover:scale-125 transition-transform duration-300 relative">
+                            {/* Marker on line - Reduced glow */}
+                            <div className="bg-slate-900 p-1 rounded-full border-2 border-yellow-400 mb-4 shadow-[0_0_8px_rgba(250,204,21,0.25)] group-hover:scale-125 transition-transform duration-300 relative">
                                 <CheckCircle2 className="w-4 h-4 text-yellow-400" />
-                                {/* Glow effect */}
-                                <div className="absolute inset-0 rounded-full bg-yellow-400/20 animate-ping"></div>
+                                {/* Subtle glow effect */}
+                                <div className="absolute inset-0 rounded-full bg-yellow-400/10 animate-ping"></div>
                             </div>
 
                             {/* Year */}
