@@ -3,20 +3,18 @@ import React from 'react';
 const TopBanner: React.FC = () => {
   return (
     <div className="bg-gradient-to-r from-sky-50 via-white to-sky-50 text-brand-blue border-b-4 border-brand-blue relative overflow-hidden print:hidden">
-       {/* Decorative Background Pattern */}
-       <div className="absolute inset-0 opacity-5 pointer-events-none" 
-            style={{backgroundImage: 'radial-gradient(circle, #003366 1px, transparent 1px)', backgroundSize: '20px 20px'}}>
-       </div>
+       {/* Removed the background pattern to match the cleaner reference style */}
 
        <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-center gap-6 relative z-10">
-          {/* Logo - Left */}
-          <div className="hidden md:flex w-24 h-24 flex-shrink-0 items-center justify-center ml-8">
-             <img 
-               src="/images/WhatsApp-Image-2024-10-21-at-9.32.04-AM-150x150.jpeg" 
-               alt="VCET Logo" 
-               className="w-20 h-20 object-contain transform hover:scale-105 transition-transform duration-300"
-               style={{ mixBlendMode: 'multiply' }}
-             />
+          {/* Logo Placeholder - Left */}
+          <div className="hidden md:flex w-24 h-24 flex-shrink-0 items-center justify-center">
+             <div className="w-20 h-20 border-2 border-brand-blue rounded-full flex items-center justify-center bg-white shadow-lg relative group">
+                 <div className="absolute inset-1 border border-brand-blue/20 rounded-full"></div>
+                 <div className="text-center transform group-hover:scale-105 transition-transform">
+                    <span className="block text-[8px] font-bold uppercase tracking-widest text-brand-blue/60">Estd</span>
+                    <span className="block text-xl font-black text-brand-blue leading-none">1994</span>
+                 </div>
+             </div>
           </div>
 
           {/* Center Text */}
@@ -37,17 +35,8 @@ const TopBanner: React.FC = () => {
              </div>
           </div>
           
-           {/* Logo Placeholder - Right (Optional balance or another badge) */}
-           <div className="hidden md:flex w-24 h-24 flex-shrink-0 items-center justify-center">
-             {/* Using a placeholder for DTE or AICTE logo representation */}
-              <div className="w-20 h-20 flex items-center justify-center opacity-80">
-                  <div className="text-center">
-                       <div className="w-12 h-12 border-2 border-brand-blue/30 mx-auto mb-1 rounded flex items-center justify-center rotate-45">
-                          <div className="w-8 h-8 border border-brand-blue/30 -rotate-45 bg-brand-blue/5"></div>
-                       </div>
-                  </div>
-              </div>
-           </div>
+           {/* Logo Placeholder - Right (REMOVED as requested) */}
+           <div className="hidden md:flex w-24 h-24 flex-shrink-0"></div>
        </div>
     </div>
   );
