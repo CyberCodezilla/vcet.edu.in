@@ -12,8 +12,8 @@ const galleryItems: GalleryItem[] = [
   { id: 2, title: 'Center of Excellence', type: 'blue', link: '#coe' },
   { id: 3, title: 'Machinery Diagnostics', type: 'yellow', link: '#machinery' },
   { id: 4, title: 'Texas Instruments Innovation Lab', type: 'yellow', link: '#texas' },
-  { id: 5, title: 'Robotics', type: 'yellow', link: '#robotics' },
-  { id: 6, title: 'Siemens', type: 'yellow', link: '#siemens' },
+  { id: 5, title: 'Robotics', type: 'blue', link: '#robotics' },
+  { id: 6, title: 'Siemens', type: 'blue', link: '#siemens' },
   { id: 7, title: 'Oracle Academy', type: 'yellow', link: '#oracle' },
   { id: 8, title: 'e-Yantra', type: 'yellow', link: '#eyantra' }
 ];
@@ -21,9 +21,9 @@ const galleryItems: GalleryItem[] = [
 const Gallery: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
-  // Placeholder images - replace with actual gallery images
+  // Gallery images
   const galleryImages = [
-    '/Images/gallery/gallery1.jpg',
+    '/Images/gallery/Gallary_1.jpg',
     '/Images/gallery/gallery2.jpg',
     '/Images/gallery/gallery3.jpg'
   ];
@@ -41,14 +41,14 @@ const Gallery: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Image Section */}
-          <div className="relative group overflow-hidden shadow-xl">
+          <div className="relative group overflow-hidden shadow-xl aspect-video">
             <img
               src={galleryImages[currentImageIndex]}
               alt="Gallery"
-              className="w-full h-96 object-cover transition-transform duration-700 group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.src = 'https://via.placeholder.com/800x600/003366/FFFFFF?text=Gallery+Image';
+                target.src = 'https://via.placeholder.com/1920x1080/003366/FFFFFF?text=Gallery+Image';
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

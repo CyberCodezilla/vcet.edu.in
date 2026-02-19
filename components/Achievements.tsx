@@ -13,31 +13,145 @@ const achievements: Achievement[] = [
     id: 1,
     title: "Best Faculty Award",
     description: "Congratulations to Prof. Deepak Chaudhary Won best faculty award in St.VC 2025, Coimbatore",
-    image: "/Images/achievements/achievement1.jpg"
+    image: "/Images/Remarkable Acheivements/Prof.Deepak Chaudhary.png"
   },
   {
     id: 2,
     title: "VCET KABADDI TEAM Runners Up",
     description: "At MIT WPU PUNE NATIONAL LEVEL \"SUMMIT\" CHAMPIONSHIP 2025.",
-    image: "/Images/achievements/achievement2.jpg"
+    image: "/Images/Remarkable Acheivements/VCET KABADDI TEAM Runners Up.png"
   },
   {
     id: 3,
     title: "Grant from AICTE",
     description: "Congratulations to Department of Mechanical Engineering and Team VCET SGLECTHON for receiving Grant of Rs 1 lakh form AICTE under SPICES",
-    image: "/Images/achievements/achievement3.jpg"
+    image: "/Images/Remarkable Acheivements/Congratulations to Department of Mechanical Engineering and Team VCET SOLECTHON.png"
   },
   {
     id: 4,
     title: "Avishkar 2nd Rank",
     description: "Avishkar secured 2nd rank final round University level. Project- Optimized WiFi based Control System for Pond Aerators in Shrimp Farming.",
-    image: "/Images/achievements/achievement4.jpg"
+    image: "/Images/Remarkable Acheivements/Avishkar secured 2nd rank final round(University Level.jpg"
   },
   {
     id: 5,
     title: "MoU with IITM Pune",
     description: "Memorandum of Understanding (MoU) between IITM Pune and VCET Installation of Short-Range X-Band Polarimetric Scanning Doppler Weather Radar at VCET.",
-    image: "/Images/achievements/achievement5.jpg"
+    image: "/Images/Remarkable Acheivements/Memorandum of Understanding (MoU) between IITM Pune and VCET.jpg"
+  },
+  {
+    id: 6,
+    title: "Team Airnova of VCET Secures 1st Place",
+    description: "SkyGlider Competition at Ascension 2025, Technex IIT (BHU) Varanasi.",
+    image: "/Images/Remarkable Acheivements/Team Airnova of VCET has secured 1st place ..png"
+  },
+  {
+    id: 7,
+    title: "Congratulations Miss Shyamli Jadhav (2019 Passout, Mechanical)",
+    description: "Selected as Officer – Short Service Commission (SSC).",
+    image: "/Images/Remarkable Acheivements/Congratulations Miss Shyamli Jadhav, (2019 passout) fMechanical..png"
+  },
+  {
+    id: 8,
+    title: "Grant of Patent Awarded",
+    description: "Ms. Vaishali Shirshat and Ms. Pragati Patil awarded for innovation and patent grant.",
+    image: "/Images/Remarkable Acheivements/Ms.Vaishali Shirsath and Ms.Pragati Patil..jpg"
+  },
+  {
+    id: 9,
+    title: "Dream Job Achiever – Jitendra Prajapati",
+    description: "Placed in Perplexity with 1.06 Crore per annum package.",
+    image: "/Images/Remarkable Acheivements/Jitendra Prajapati.jpg"
+  },
+  {
+    id: 10,
+    title: "5th Time National Champion",
+    description: "1st Prize & 9 awards at Solar EV Championship 2025, Hindusthan College of Engineering, Coimbatore.",
+    image: "/Images/Remarkable Acheivements/5th Time National Champion.png"
+  },
+  {
+    id: 11,
+    title: "Snehal Tate & Team – 1st Prize",
+    description: "National Project Competition, Mumbai.",
+    image: "/Images/Remarkable Acheivements/Snehal Tate and Team.png"
+  },
+  {
+    id: 12,
+    title: "Sanjeev Sharma & Team – 1st Prize",
+    description: "National Project Competition, Mumbai.",
+    image: "/Images/Remarkable Acheivements/Sanjeev Sharma & Team.png"
+  },
+  {
+    id: 13,
+    title: "Devanshi Solanki Secures 3rd Place",
+    description: "Maharashtra State University Chess Tournament.",
+    image: "/Images/Remarkable Acheivements/Devanshi-Solanki-1.jpg"
+  },
+  {
+    id: 14,
+    title: "Team Centurion – 11th Rank",
+    description: "Quad Bike Design Challenge, Hyderabad.",
+    image: "/Images/Remarkable Acheivements/Team Centurion.png"
+  },
+  {
+    id: 15,
+    title: "Tanvi Patil Wins 1st Place",
+    description: "Carrom Singles at SKREAM 2025, KJ Somaiya College.",
+    image: "/Images/Remarkable Acheivements/Tanvi Patil from SE Comps has Won First place in Carrom Singles.png"
+  },
+  {
+    id: 16,
+    title: "Shreyas Pathe Wins Gold Medal",
+    description: "Badminton Men's Singles & Doubles, Clara's College of Commerce, 2025.",
+    image: "/Images/Remarkable Acheivements/Shreyas Pathe TE IT won Gold Medal in Badminton Men's Singles and Doubles.png"
+  },
+  {
+    id: 17,
+    title: "Kishor Madne Wins Silver Medal",
+    description: "Mumbai Suburban Zone II Tournament.",
+    image: "/Images/Remarkable Acheivements/Kishor Madne SE IT.jpg"
+  },
+  {
+    id: 18,
+    title: "SIH 2023 Grand Finale Winner",
+    description: "Team Softracer IT – VCET.",
+    image: "/Images/Remarkable Acheivements/SIH 2023 Grand Finale.jpg"
+  },
+  {
+    id: 19,
+    title: "Palak Churi Selected for AIU",
+    description: "Inter University National Mallakhamb Competition 2025–26.",
+    image: "/Images/Remarkable Acheivements/Palak Churi TE Comps.jpg"
+  },
+  {
+    id: 20,
+    title: "Solar EV Team – Championship Excellence",
+    description: "Continued dominance in national-level EV competitions.",
+    image: "/Images/achievements/achievement20.jpg"
+  },
+  {
+    id: 21,
+    title: "Innovation Council Recognition",
+    description: "Institutional Innovation Council acknowledged research excellence.",
+    image: "/Images/achievements/achievement21.jpg"
+  },
+  {
+    id: 22,
+    title: "Student Research Patent Recognition",
+    description: "VCET students granted intellectual property recognition.",
+    image: "/Images/achievements/achievement22.jpg"
+  },
+  {
+    id: 23,
+    title: "AICTE Idea Lab Success",
+    description: "Promoting innovation and startup culture among students.",
+    image: "/Images/achievements/achievement23.jpg"
+  },
+  {
+    id: 24,
+    title: "Center of Excellence Initiative",
+    description: "Strengthening industry-academia collaboration and advanced training.",
+    image: "/Images/achievements/achievement24.jpg"
   }
 ];
 

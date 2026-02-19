@@ -17,7 +17,7 @@ const testimonials: Testimonial[] = [
     name: "Vinit Kanvinde",
     position: "Network Engineer",
     company: "Google",
-    image: "/Images/testimonials/person1.jpg"
+    image: "/Images/testimonials/Vinit Kanvinde.jpg"
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const testimonials: Testimonial[] = [
     name: "Dr Amrita M A",
     position: "Manager Learning Studio",
     company: "I-Nurture Solutions",
-    image: "/Images/testimonials/person2.jpg"
+    image: "/Images/testimonials/Dr Amrita M A.jpg"
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ const testimonials: Testimonial[] = [
     name: "Amit Verma",
     position: "Product And Process Manager",
     company: "BillDesk",
-    image: "/Images/testimonials/person3.jpg"
+    image: "/Images/testimonials/Amit Verma.jpg"
   },
   {
     id: 4,
@@ -41,7 +41,7 @@ const testimonials: Testimonial[] = [
     name: "Anish Patki",
     position: "General Manager",
     company: "Marketing",
-    image: "/Images/testimonials/person4.jpg"
+    image: "/Images/testimonials/Anish Patki.jpg"
   }
 ];
 
