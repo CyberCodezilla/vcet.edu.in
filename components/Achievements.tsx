@@ -122,36 +122,6 @@ const achievements: Achievement[] = [
     title: "Palak Churi Selected for AIU",
     description: "Inter University National Mallakhamb Competition 2025–26.",
     image: "/Images/Remarkable%20Acheivements/Palak%20Churi%20TE%20Comps.jpg"
-  },
-  {
-    id: 20,
-    title: "Solar EV Team – Championship Excellence",
-    description: "Continued dominance in national-level EV competitions.",
-    image: "/Images/achievements/achievement20.jpg"
-  },
-  {
-    id: 21,
-    title: "Innovation Council Recognition",
-    description: "Institutional Innovation Council acknowledged research excellence.",
-    image: "/Images/achievements/achievement21.jpg"
-  },
-  {
-    id: 22,
-    title: "Student Research Patent Recognition",
-    description: "VCET students granted intellectual property recognition.",
-    image: "/Images/achievements/achievement22.jpg"
-  },
-  {
-    id: 23,
-    title: "AICTE Idea Lab Success",
-    description: "Promoting innovation and startup culture among students.",
-    image: "/Images/achievements/achievement23.jpg"
-  },
-  {
-    id: 24,
-    title: "Center of Excellence Initiative",
-    description: "Strengthening industry-academia collaboration and advanced training.",
-    image: "/Images/achievements/achievement24.jpg"
   }
 ];
 
