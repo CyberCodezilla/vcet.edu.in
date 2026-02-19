@@ -235,7 +235,7 @@ const Achievements: React.FC = () => {
                         className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700 ease-out"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          target.src = 'https://via.placeholder.com/600x400/003366/FFFFFF?text=Achievement';
+                          target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="600" height="400"%3E%3Crect fill="%23003366" width="600" height="400"/%3E%3Ctext fill="%23ffffff" font-family="Arial" font-size="20" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3EAchievement%3C/text%3E%3C/svg%3E';
                         }}
                       />
                       {/* Dark Gradient Overlay */}

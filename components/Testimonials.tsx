@@ -132,7 +132,7 @@ const Testimonials: React.FC = () => {
                           className="w-full h-full object-cover"
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
-                            target.src = 'https://via.placeholder.com/100/003366/FFFFFF?text=Profile';
+                            target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Ccircle cx="50" cy="50" r="50" fill="%23003366"/%3E%3Ctext fill="%23ffffff" font-family="Arial" font-size="40" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3E?%3C/text%3E%3C/svg%3E';
                           }}
                         />
                       </div>
