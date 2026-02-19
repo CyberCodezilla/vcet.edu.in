@@ -17,7 +17,7 @@ const About: React.FC = () => {
               Located in the heart of the tech corridor, our sprawling 100-acre campus is home to over 5,000 students and 300 faculty members. We combine traditional engineering discipline with modern design thinking.
             </p>
             <div className="h-[400px] w-full bg-gray-100 overflow-hidden relative group">
-                <img src="https://picsum.photos/600/800?random=1" alt="Students" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='800'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23003366;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23001a33;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23grad)' width='600' height='800'/%3E%3Ctext fill='%23ffffff' font-family='Arial' font-size='24' x='50%25' y='50%25' text-anchor='middle' dominant-baseline='middle'%3EVCET Students%3C/text%3E%3C/svg%3E" alt="Students" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
             </div>
           </div>
 
