@@ -21,7 +21,7 @@ const Hero: React.FC = () => {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/Images/Home background/VCET-Home-1-scaled.jpg" 
+          src="/Images/Home%20background/VCET-Home-1-scaled.jpg" 
           alt="VCET Campus" 
           className="w-full h-full object-cover opacity-30"
         />

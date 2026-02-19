@@ -122,7 +122,7 @@ const Placements: React.FC = () => {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
             <img 
-              src="/Images/Placement/Placement_Background.jpg" 
+              src="/Images/PLACEMENT/Placement_Background.jpg" 
               alt="Placements Background" 
               className="w-full h-full object-cover opacity-30"
             />

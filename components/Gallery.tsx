@@ -24,8 +24,8 @@ const Gallery: React.FC = () => {
   // Gallery images
   const galleryImages = [
     '/Images/gallery/Gallary_1.jpg',
-    '/Images/gallery/gallery2.jpg',
-    '/Images/gallery/gallery3.jpg'
+    '/Images/gallery/Gallary_1.jpg',
+    '/Images/gallery/Gallary_1.jpg'
   ];
 
   return (

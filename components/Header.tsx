@@ -114,9 +114,13 @@ const Header: React.FC = () => {
           {/* Logo Area */}
           <div className="flex items-center">
             <img 
-              src="/Images/VCET logo.jpeg" 
+              src="/Images/VCET%20logo.jpeg" 
               alt="VCET Logo" 
               className="h-16 w-auto"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
             />
           </div>
 

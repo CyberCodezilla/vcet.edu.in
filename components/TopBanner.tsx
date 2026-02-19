@@ -9,9 +9,13 @@ const TopBanner: React.FC = () => {
           {/* Logo - Left */}
           <div className="flex w-20 h-20 md:w-24 md:h-24 flex-shrink-0 items-center justify-center">
              <img 
-               src="/Images/VCET logo.jpeg" 
+               src="/Images/VCET%20logo.jpeg" 
                alt="VCET Logo" 
                className="w-full h-full object-contain drop-shadow-md"
+               onError={(e) => {
+                 const target = e.target as HTMLImageElement;
+                 target.style.display = 'none';
+               }}
              />
           </div>
 
