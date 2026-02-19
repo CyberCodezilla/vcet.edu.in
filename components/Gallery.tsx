@@ -83,7 +83,7 @@ const Gallery: React.FC = () => {
                 }`}
               >
                 {/* Background pattern */}
-                <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500"
+                <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-500"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 0h20L0 20z'/%3E%3C/g%3E%3C/svg%3E")`
                   }}

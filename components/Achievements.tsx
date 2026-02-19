@@ -226,7 +226,7 @@ const Achievements: React.FC = () => {
                   className="flex-shrink-0 px-3"
                   style={{ width: `${100 / itemsPerView}%` }}
                 >
-                  <div className="group relative bg-white h-96 overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.15)] hover:-translate-y-1.5 transition-all duration-300 ease-out">
+                  <div className="group relative bg-white h-96 overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.2)] hover:-translate-y-1.5 transition-all duration-300 ease-out">
                     {/* Image Container with Gradient Overlay - Top Half */}
                     <div className="relative h-48 overflow-hidden bg-brand-dark">
                       <img
@@ -239,7 +239,7 @@ const Achievements: React.FC = () => {
                         }}
                       />
                       {/* Dark Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 to-black/40" />
                       
                       {/* Title Text Overlay */}
                       <div className="absolute bottom-0 left-0 right-0 p-4">

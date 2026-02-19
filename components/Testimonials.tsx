@@ -118,7 +118,7 @@ const Testimonials: React.FC = () => {
                     
                     {/* Testimonial Text */}
                     <div className="flex-grow mb-6 relative z-10">
-                      <p className="text-gray-700 text-sm leading-relaxed italic line-clamp-[10]" style={{ lineHeight: '1.7' }}>
+                      <p className="text-gray-700 text-sm leading-relaxed italic line-clamp-4" style={{ lineHeight: '1.7' }}>
                         "{testimonial.text}"
                       </p>
                     </div>

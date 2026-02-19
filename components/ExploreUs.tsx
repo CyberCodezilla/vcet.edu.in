@@ -45,14 +45,14 @@ const ExploreUs: React.FC = () => {
               <a
                 key={item.id}
                 href={item.link}
-                className="group relative bg-white/5 backdrop-blur-sm border border-white/10 p-8 hover:bg-white/10 hover:border-yellow-400/50 transition-all duration-500 overflow-hidden"
+                className="group relative bg-white/5 backdrop-blur-sm border border-white/10 p-8 hover:bg-white/15 hover:border-yellow-400/50 transition-all duration-500 overflow-hidden"
               >
                 {/* Background glow effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/0 to-yellow-400/0 group-hover:from-yellow-400/5 group-hover:to-transparent transition-all duration-500" />
                 
                 <div className="relative z-10 flex flex-col items-center text-center">
                   {/* Icon with border */}
-                  <div className="w-20 h-20 rounded-full border-2 border-yellow-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-yellow-300 transition-all duration-500">
+                  <div className="w-20 h-20 rounded-full border-2 border-yellow-400 flex items-center justify-center mb-6 group-hover:scale-105 group-hover:border-yellow-300 transition-all duration-500">
                     <IconComponent className="w-10 h-10 text-yellow-400 group-hover:text-yellow-300 transition-colors duration-500" />
                   </div>
                   
