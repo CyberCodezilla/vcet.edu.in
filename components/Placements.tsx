@@ -49,6 +49,7 @@ const Placements: React.FC = () => {
     const duration = 2000; // 2 seconds
     const steps = 60;
     const stepDuration = duration / steps;
+    const timers: NodeJS.Timeout[] = [];
 
     placementData.forEach((item, index) => {
       let currentStep = 0;
@@ -67,8 +68,12 @@ const Placements: React.FC = () => {
         }
       }, stepDuration);
 
-      return () => clearInterval(timer);
+      timers.push(timer);
     });
+
+    return () => {
+      timers.forEach(timer => clearInterval(timer));
+    };
   }, [isVisible]);
 
   const handleMouseDown = (e: React.MouseEvent) => {

@@ -7,11 +7,11 @@ const TopBanner: React.FC = () => {
 
        <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-center gap-6 relative z-10">
           {/* Logo - Left */}
-          <div className="hidden md:flex w-24 h-24 flex-shrink-0 items-center justify-center">
+          <div className="flex w-20 h-20 md:w-24 md:h-24 flex-shrink-0 items-center justify-center">
              <img 
                src="/Images/VCET logo.jpeg" 
                alt="VCET Logo" 
-               className="w-20 h-20 object-contain"
+               className="w-full h-full object-contain drop-shadow-md"
              />
           </div>
 
