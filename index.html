@@ -9,45 +9,195 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              sans: ['Inter', 'sans-serif'],
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+              display: ['Playfair Display', 'Georgia', 'serif'],
             },
             colors: {
-              'brand-blue': '#003366', // VCET Primary Blue
-              'brand-dark': '#001a33', // Darker shade for Footer/Backgrounds
-              'brand-light': '#f0f4f8',
-              'nova-white': '#F5F5F5',
+              'brand-blue': '#1B3A5C',
+              'brand-dark': '#0F1F33',
+              'brand-light': '#F5F7FA',
+              'brand-gold': '#D4A843',
+              'brand-gold-light': '#E8C972',
+              'brand-navy': '#142D4C',
+              'nova-white': '#FAFBFC',
             },
             animation: {
-                'scroll-up': 'scroll-up 10s linear infinite',
+              'scroll-up': 'scroll-up 10s linear infinite',
+              'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
+              'slide-in-right': 'slideInRight 0.5s ease-out forwards',
+              'counter-up': 'counterUp 0.4s ease-out forwards',
+              'marquee': 'marquee 30s linear infinite',
             },
             keyframes: {
-                'scroll-up': {
-                    '0%': { transform: 'translateY(0)' },
-                    '100%': { transform: 'translateY(-50%)' },
-                }
+              'scroll-up': {
+                '0%': { transform: 'translateY(0)' },
+                '100%': { transform: 'translateY(-50%)' },
+              },
+              'fadeInUp': {
+                '0%': { opacity: '0', transform: 'translateY(24px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              'fadeIn': {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              'slideInRight': {
+                '0%': { opacity: '0', transform: 'translateX(-20px)' },
+                '100%': { opacity: '1', transform: 'translateX(0)' },
+              },
+              'counterUp': {
+                '0%': { opacity: '0', transform: 'scale(0.8)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              },
+              'marquee': {
+                '0%': { transform: 'translateX(0)' },
+                '100%': { transform: 'translateX(-50%)' },
+              },
             }
           }
         }
       }
     </script>
     <style>
-      /* Smooth scrolling for anchor links */
       html {
         scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
-      /* Hide scrollbar for clean look in some elements */
+      body {
+        line-height: 1.6;
+        letter-spacing: -0.01em;
+      }
       .no-scrollbar::-webkit-scrollbar {
         display: none;
       }
       .no-scrollbar {
         -ms-overflow-style: none;
         scrollbar-width: none;
+      }
+      /* Intersection observer fade-in utility */
+      .reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      /* Smooth hover transitions globally */
+      a, button {
+        transition: all 0.3s ease;
+      }
+      /* Custom scrollbar for placement section */
+      .custom-scrollbar::-webkit-scrollbar { height: 4px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(212,168,67,0.4); border-radius: 10px; }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(212,168,67,0.8); }
+      /* Line clamp utility */
+      .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+      .line-clamp-4 { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+      /* Gradient text utility */
+      .text-gradient {
+        background: linear-gradient(135deg, #1B3A5C 0%, #D4A843 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      /* ── Scroll Progress Bar ─────────────────────────── */
+      #scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        width: 0%;
+        background: linear-gradient(90deg, #1B3A5C, #D4A843);
+        z-index: 9999;
+        transition: width 0.08s linear;
+        border-radius: 0 2px 2px 0;
+      }
+      /* ── Scroll-to-Top Button ─────────────────────────── */
+      #scroll-top-btn {
+        position: fixed;
+        bottom: 32px;
+        right: 24px;
+        z-index: 9998;
+        width: 44px;
+        height: 44px;
+        background: #1B3A5C;
+        color: #D4A843;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 0.35s ease, transform 0.35s ease, background 0.2s;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        pointer-events: none;
+      }
+      #scroll-top-btn.visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: all;
+      }
+      #scroll-top-btn:hover {
+        background: #D4A843;
+        color: #0F1F33;
+        box-shadow: 0 6px 28px rgba(212,168,67,0.35);
+        transform: translateY(-2px);
+      }
+      /* ── Hero entrance animations ─────────────────────── */
+      .hero-anim {
+        opacity: 0;
+        transform: translateY(28px);
+        animation: heroFadeUp 0.8s ease-out forwards;
+      }
+      @keyframes heroFadeUp {
+        to { opacity: 1; transform: translateY(0); }
+      }
+      /* ── Animated counter ─────────────────────────────── */
+      .counter-value {
+        display: inline-block;
+        transition: transform 0.3s ease;
+      }
+      /* ── Marquee ticker ───────────────────────────────── */
+      .ticker-wrap {
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .ticker-track {
+        display: inline-flex;
+        animation: ticker 35s linear infinite;
+      }
+      .ticker-track:hover {
+        animation-play-state: paused;
+      }
+      @keyframes ticker {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+      /* ── Card tilt microinteraction ───────────────────── */
+      .tilt-card {
+        transform-style: preserve-3d;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .tilt-card:hover {
+        box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+      }
+      /* ── Shimmer loader ───────────────────────────────── */
+      @keyframes shimmer {
+        0%   { background-position: -400px 0; }
+        100% { background-position: 400px 0; }
       }
     </style>
   <script type="importmap">
@@ -62,7 +212,40 @@
 </script>
 </head>
   <body class="bg-white text-slate-900 antialiased selection:bg-brand-blue selection:text-white">
+    <!-- Scroll progress bar -->
+    <div id="scroll-progress"></div>
+
+    <!-- Scroll-to-top button -->
+    <button id="scroll-top-btn" aria-label="Scroll to top" title="Back to top">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
+
+    <script>
+      // Scroll progress bar + scroll-to-top button
+      (function() {
+        var bar = document.getElementById('scroll-progress');
+        var btn = document.getElementById('scroll-top-btn');
+        window.addEventListener('scroll', function() {
+          var scrolled = window.scrollY;
+          var total = document.documentElement.scrollHeight - window.innerHeight;
+          var pct = total > 0 ? (scrolled / total) * 100 : 0;
+          if (bar) bar.style.width = pct + '%';
+          if (btn) {
+            if (scrolled > 400) btn.classList.add('visible');
+            else btn.classList.remove('visible');
+          }
+        }, { passive: true });
+        if (btn) {
+          btn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+        }
+      })();
+    </script>
   </body>
 </html>

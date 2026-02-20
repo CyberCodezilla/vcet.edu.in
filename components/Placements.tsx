@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import { motion } from 'motion/react';
+import { LampContainer } from '../ui/lamp';
 
 const placementData = [
   { year: '2017-18', count: 299 },
@@ -17,7 +18,6 @@ const Placements: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [animatedCounts, setAnimatedCounts] = useState<number[]>(placementData.map(() => 0));
   
-  // Drag to scroll state
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDown, setIsDown] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -26,27 +26,17 @@ const Placements: React.FC = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
       { threshold: 0.2 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
-    };
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); };
   }, []);
 
-  // Count-up animation
   useEffect(() => {
     if (!isVisible) return;
-
-    const duration = 2000; // 2 seconds
+    const duration = 2000;
     const steps = 60;
     const stepDuration = duration / steps;
     const timers: NodeJS.Timeout[] = [];
@@ -54,7 +44,6 @@ const Placements: React.FC = () => {
     placementData.forEach((item, index) => {
       let currentStep = 0;
       const increment = item.count / steps;
-
       const timer = setInterval(() => {
         currentStep++;
         if (currentStep <= steps) {
@@ -67,13 +56,10 @@ const Placements: React.FC = () => {
           clearInterval(timer);
         }
       }, stepDuration);
-
       timers.push(timer);
     });
 
-    return () => {
-      timers.forEach(timer => clearInterval(timer));
-    };
+    return () => timers.forEach(timer => clearInterval(timer));
   }, [isVisible]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -82,110 +68,100 @@ const Placements: React.FC = () => {
     setStartX(e.pageX - scrollRef.current.offsetLeft);
     setScrollLeft(scrollRef.current.scrollLeft);
   };
-
-  const handleMouseLeave = () => {
-    setIsDown(false);
-  };
-
-  const handleMouseUp = () => {
-    setIsDown(false);
-  };
-
+  const handleMouseLeave = () => setIsDown(false);
+  const handleMouseUp = () => setIsDown(false);
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDown || !scrollRef.current) return;
     e.preventDefault();
     const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // Scroll speed multiplier
-    scrollRef.current.scrollLeft = scrollLeft - walk;
+    scrollRef.current.scrollLeft = scrollLeft - (x - startX) * 2;
   };
 
+  const maxCount = Math.max(...placementData.map(d => d.count));
+
   return (
-    <section ref={sectionRef} className="relative py-12 bg-slate-900 text-white overflow-hidden">
-        <style>{`
-          .custom-scrollbar::-webkit-scrollbar {
-            height: 6px;
-          }
-          .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-          }
-          .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(250, 204, 21, 0.4); 
-            border-radius: 10px;
-            cursor: pointer;
-          }
-          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(250, 204, 21, 0.8); 
-          }
-        `}</style>
+    <section ref={sectionRef} className="relative bg-slate-950 text-white overflow-hidden">
 
-        {/* Background Image */}
+      {/* ── Lamp Header ── */}
+      <LampContainer className="pt-10 pb-0 min-h-[320px]">
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8, ease: 'easeInOut' }}
+          className="flex flex-col items-center text-center"
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-8 h-0.5 bg-brand-gold"></div>
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-gold">Track Record</span>
+            <div className="w-8 h-0.5 bg-brand-gold"></div>
+          </div>
+          <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tight bg-gradient-to-br from-amber-200 via-brand-gold to-amber-400 bg-clip-text text-transparent">
+            Placement Excellence
+          </h2>
+          <p className="text-white/50 mt-3 text-sm md:text-base max-w-md">
+            1800+ students placed — consistent career success across academic years
+          </p>
+        </motion.div>
+      </LampContainer>
+
+      {/* ── Chart Section ── */}
+      <div className="relative py-10 md:py-14 bg-gradient-to-b from-slate-950 to-brand-dark">
         <div className="absolute inset-0 z-0">
-            <img 
-              src="/Images/PLACEMENT/Placement_Background.jpg" 
-              alt="Placements Background" 
-              className="w-full h-full object-cover opacity-30"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-slate-900/60"></div>
+          <img
+            src="/Images/PLACEMENT/Placement_Background.jpg"
+            alt="Placements Background"
+            className="w-full h-full object-cover opacity-10"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/90 to-transparent"></div>
         </div>
+      <div className="container mx-auto px-6 relative z-10">
 
-        <div className="container mx-auto px-6 relative z-10">
-            {/* Header */}
-            <div className={`mb-8 border-l-4 border-yellow-400 pl-4 transition-all duration-1000 transform ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'}`}>
-                <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter text-white">
-                    Placements
-                </h2>
-                <p className="text-blue-200 mt-1 text-sm md:text-base">Consistent track record of career success.</p>
-            </div>
+        {/* Chart-style Timeline */}
+        <div 
+          ref={scrollRef}
+          className="w-full overflow-x-auto pb-4 custom-scrollbar cursor-grab active:cursor-grabbing select-none"
+          onMouseDown={handleMouseDown}
+          onMouseLeave={handleMouseLeave}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
+        >
+          <div className="flex items-end gap-6 md:gap-8 min-w-max px-4 pb-2" style={{height: '280px'}}>
+            {placementData.map((item, index) => {
+              const barHeight = (item.count / maxCount) * 180;
+              return (
+                <div 
+                  key={index} 
+                  className={`flex flex-col items-center gap-3 transition-all duration-700 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+                  style={{ transitionDelay: `${index * 150}ms` }}
+                >
+                  {/* Count */}
+                  <span className="text-2xl md:text-3xl font-bold text-brand-gold tabular-nums">
+                    {animatedCounts[index]}
+                  </span>
 
-            {/* Horizontal Timeline Container */}
-            <div 
-                ref={scrollRef}
-                className="w-full overflow-x-auto pb-6 pt-2 custom-scrollbar cursor-grab active:cursor-grabbing select-none"
-                onMouseDown={handleMouseDown}
-                onMouseLeave={handleMouseLeave}
-                onMouseUp={handleMouseUp}
-                onMouseMove={handleMouseMove}
-            >
-                <div className="flex items-center min-w-max relative py-4 px-4">
-                     {/* Horizontal Line connecting items - Visible only on md and up for cleaner mobile look */}
-                    <div className={`absolute left-0 w-full h-px bg-white/20 top-1/2 -translate-y-1/2 z-0 transition-all duration-1000 delay-500 origin-left hidden md:block ${isVisible ? 'scale-x-100' : 'scale-x-0'}`}></div>
+                  {/* Bar */}
+                  <div className="w-14 md:w-16 relative group">
+                    <div 
+                      className="w-full bg-gradient-to-t from-brand-gold/80 to-brand-gold/40 rounded-t-lg transition-all duration-1000 ease-out group-hover:from-brand-gold group-hover:to-brand-gold/60"
+                      style={{ height: isVisible ? `${barHeight}px` : '0px', transitionDelay: `${index * 150}ms` }}
+                    ></div>
+                  </div>
 
-                    {placementData.map((item, index) => (
-                        <div 
-                            key={index} 
-                            className={`relative z-10 flex flex-col items-center justify-center mx-6 md:mx-10 group transition-all duration-700 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-                            style={{ transitionDelay: `${index * 150}ms` }}
-                        >
-                            {/* Count with animation */}
-                            <div className="mb-4 transform group-hover:-translate-y-1 transition-transform duration-300">
-                                <span className="text-4xl md:text-5xl font-black text-yellow-400 tabular-nums drop-shadow-[0_0_6px_rgba(250,204,21,0.15)]">
-                                    {animatedCounts[index]}
-                                </span>
-                            </div>
-
-                            {/* Marker on line - Reduced glow */}
-                            <div className="bg-slate-900 p-1 rounded-full border-2 border-yellow-400 mb-4 shadow-[0_0_8px_rgba(250,204,21,0.25)] group-hover:scale-125 transition-transform duration-300 relative">
-                                <CheckCircle2 className="w-4 h-4 text-yellow-400" />
-                                {/* Subtle glow effect */}
-                                <div className="absolute inset-0 rounded-full bg-yellow-400/10 animate-ping"></div>
-                            </div>
-
-                            {/* Year */}
-                            <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-white/80 group-hover:text-white transition-colors">
-                                {item.year}
-                            </span>
-                        </div>
-                    ))}
-                    {/* Add extra padding at the end for scroll space */}
-                    <div className="w-12"></div>
+                  {/* Year label */}
+                  <span className="text-[11px] font-semibold uppercase tracking-wider text-white/50 whitespace-nowrap">
+                    {item.year}
+                  </span>
                 </div>
-            </div>
-            
-            <div className="mt-4 text-center md:text-right text-white/40 text-[10px] uppercase tracking-widest">
-                * Current Academic Year (In Progress)
-            </div>
+              );
+            })}
+          </div>
         </div>
+        
+        <div className="mt-4 text-right text-white/30 text-[10px] uppercase tracking-widest">
+          * Current Academic Year (In Progress)
+        </div>
+      </div>
+      </div>
     </section>
   );
 };
