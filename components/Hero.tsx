@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import Button from './Button';
 import { ChevronRight, Calendar, ArrowDown } from 'lucide-react';
 
@@ -17,18 +18,73 @@ const events = [
 const Hero: React.FC = () => {
   return (
     <section id="home" className="relative min-h-screen w-full flex items-center overflow-hidden bg-brand-dark text-white -mt-[4.5rem] pt-[4.5rem]">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
-        <img 
-          src="/Images/Home%20background/VCET-Home-1-scaled.jpg" 
-          alt="VCET Campus" 
-          className="w-full h-full object-cover"
+
+      {/* ── Watercolour Ink Reveal ──────────────────────────────────────────── */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+
+        {/* Image: starts blurred + grey + zoomed, bleeds into full colour */}
+        <motion.img
+          src="/Images/Home%20background/VCET-Home-1-scaled.jpg"
+          alt="VCET Campus"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ willChange: 'filter, transform' }}
+          initial={{ scale: 1.08, filter: 'blur(28px) saturate(0) brightness(0.55)' }}
+          animate={{ scale: 1.02, filter: 'blur(0px)  saturate(1.05) brightness(1)' }}
+          transition={{ duration: 1.9, ease: [0.22, 1, 0.36, 1] }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/95 via-brand-dark/75 to-brand-navy/50"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent"></div>
+
+        {/* Ink drop 1 — gold wash, bleeds from bottom-left */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse 90% 80% at 15% 75%, #D4A84360 0%, transparent 70%)' }}
+          initial={{ opacity: 0, scale: 0.3 }}
+          animate={{ opacity: [0, 0.9, 0],  scale: [0.3, 1.15, 1.4] }}
+          transition={{ duration: 2.0, delay: 0.05, ease: 'easeOut' }}
+        />
+
+        {/* Ink drop 2 — deep blue wash, bleeds from top-right */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse 80% 90% at 85% 20%, #0e2a4d70 0%, transparent 70%)' }}
+          initial={{ opacity: 0, scale: 0.3 }}
+          animate={{ opacity: [0, 0.85, 0], scale: [0.3, 1.1,  1.4] }}
+          transition={{ duration: 2.1, delay: 0.18, ease: 'easeOut' }}
+        />
+
+        {/* Ink drop 3 — amber accent, blooms from centre */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse 60% 55% at 48% 55%, #c8893240 0%, transparent 65%)' }}
+          initial={{ opacity: 0, scale: 0.2 }}
+          animate={{ opacity: [0, 0.7, 0],  scale: [0.2, 1.0,  1.3] }}
+          transition={{ duration: 1.8, delay: 0.3,  ease: 'easeOut' }}
+        />
+
+        {/* Ink drop 4 — teal fade, bottom-right corner bleeds last */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse 70% 60% at 80% 85%, #0d3d4050 0%, transparent 70%)' }}
+          initial={{ opacity: 0, scale: 0.25 }}
+          animate={{ opacity: [0, 0.6, 0],  scale: [0.25, 1.05, 1.3] }}
+          transition={{ duration: 2.0, delay: 0.4,  ease: 'easeOut' }}
+        />
+
+        {/* Final dark overlays — settle in as ink fades */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-brand-dark/95 via-brand-dark/70 to-brand-navy/45"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.2, delay: 0.9, ease: 'easeOut' }}
+        />
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.4, delay: 1.0, ease: 'easeOut' }}
+        />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10 py-20 md:py-28">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 py-14 sm:py-20 md:py-28">
         <div className="flex flex-col xl:flex-row items-center justify-between gap-12 xl:gap-16">
           
           {/* Left: Main Content */}
@@ -69,7 +125,7 @@ const Hero: React.FC = () => {
 
             {/* Quick Stats – delay 0.65 */}
             <div className="hero-anim" style={{animationDelay: '0.65s'}}>
-              <div className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-white/10">
+              <div className="flex flex-wrap gap-6 sm:gap-8 mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-white/10">
                 {[
                   { value: '30+', label: 'Years' },
                   { value: '5000+', label: 'Students' },
@@ -85,8 +141,8 @@ const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Right: Notices & Events Cards – delay 0.4 */}
-          <div className="hero-anim w-full xl:w-7/12 relative z-30 flex flex-col md:flex-row gap-5 justify-end items-stretch" style={{animationDelay: '0.4s'}}>
+          {/* Right: Notices & Events Cards – delay 0.4 — hidden on mobile */}
+          <div className="hero-anim hidden md:flex w-full xl:w-7/12 relative z-30 flex-col md:flex-row gap-5 justify-end items-stretch" style={{animationDelay: '0.4s'}}>
              
              {/* Notices Card */}
              <div className="w-full md:w-1/2 max-w-sm bg-white/[0.04] backdrop-blur-md border border-white/[0.08] p-6 flex flex-col rounded-xl">

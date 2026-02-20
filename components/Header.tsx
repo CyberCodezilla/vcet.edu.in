@@ -98,7 +98,7 @@ const Header: React.FC = () => {
           ? 'bg-white/95 backdrop-blur-md shadow-[0_1px_3px_rgba(0,0,0,0.08)] border-b border-gray-100' 
           : 'bg-transparent'
       }`}>
-        <div className={`container mx-auto px-6 h-16 md:h-[4.5rem] flex items-center justify-between transition-colors duration-500 ${
+        <div className={`container mx-auto px-4 sm:px-6 h-14 md:h-[4.5rem] flex items-center justify-between transition-colors duration-500 ${
           scrolled ? 'text-brand-blue' : 'text-white'
         }`}>
           
@@ -199,9 +199,9 @@ const Header: React.FC = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu — slides in from the right */}
         <div className={`fixed inset-0 bg-brand-dark/98 backdrop-blur-lg text-white z-40 flex flex-col transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] lg:hidden ${
-          isOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+          isOpen ? 'opacity-100 visible translate-x-0' : 'opacity-0 invisible translate-x-full pointer-events-none'
         }`}>
           <div className="flex items-center justify-between px-6 h-16 border-b border-white/10">
             <span className="text-lg font-bold tracking-tight">VCET</span>

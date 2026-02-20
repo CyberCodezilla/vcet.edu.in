@@ -14,7 +14,28 @@ const TopBanner: React.FC = () => {
     <div className="bg-white border-b border-gray-100 relative overflow-hidden print:hidden">
       {/* Decorative top accent line */}
       <div className="h-1 bg-gradient-to-r from-brand-blue via-brand-gold to-brand-blue"></div>
-      
+
+      {/* ── Mobile compact row (phones only) ── */}
+      <div className="flex md:hidden items-center gap-3 px-4 py-3">
+        <img
+          src="/Images/VCET%20logo.jpeg"
+          alt="VCET Logo"
+          className="w-10 h-10 object-contain rounded-sm flex-shrink-0"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+        />
+        <div className="flex-1 min-w-0">
+          <p className="text-[13px] font-extrabold uppercase tracking-tight text-brand-blue leading-tight truncate">
+            Vidyavardhini's College of Engg &amp; Tech
+          </p>
+          <p className="text-[10px] text-slate-500 mt-0.5">Vasai Road &bull; Estd. 1994</p>
+        </div>
+        <span className="flex-shrink-0 inline-flex items-center gap-1 bg-brand-gold/15 border border-brand-gold/30 text-brand-navy px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
+          NAAC A+
+        </span>
+      </div>
+
+      {/* ── Desktop full row (md+) ── */}
+      <div className="hidden md:block">
       <div className="container mx-auto px-4 md:px-6 py-5 md:py-6">
         <div className="flex flex-col md:flex-row items-center justify-center gap-5 md:gap-8">
           
@@ -67,6 +88,7 @@ const TopBanner: React.FC = () => {
           </div>
         </div>
       </div>
+      </div>{/* closes hidden md:block */}
 
       {/* Marquee Ticker */}
       <div className="border-t border-brand-blue/10 bg-brand-blue/[0.03]">
