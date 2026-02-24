@@ -36,7 +36,7 @@ const TopBanner: React.FC = () => {
 
       {/* ── Desktop full row (md+) ── */}
       <div className="hidden md:block">
-      <div className="container mx-auto px-4 md:px-6 py-5 md:py-6">
+      <div className="container mx-auto px-4 md:px-6 py-6 md:py-7">
         <div className="flex flex-col md:flex-row items-center justify-center gap-5 md:gap-8">
           
           {/* Logo */}
@@ -44,7 +44,7 @@ const TopBanner: React.FC = () => {
             <img 
               src="/Images/VCET%20logo.jpeg" 
               alt="VCET Logo" 
-              className="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-sm"
+              className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 object-contain drop-shadow-sm"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';

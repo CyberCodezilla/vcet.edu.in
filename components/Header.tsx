@@ -201,10 +201,7 @@ const Header: React.FC = () => {
               className="h-14 md:h-16 w-auto rounded-sm"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
-            <div className={`hidden sm:block ${scrolled ? '' : 'mix-blend-difference'}`}>
-              <span className="text-sm font-bold tracking-tight leading-none block">VCET</span>
-              <span className="text-[10px] font-medium opacity-60 tracking-wider uppercase">Engineering</span>
-            </div>
+
           </a>
 
           {/* Desktop Nav */}
