@@ -130,7 +130,7 @@ const Placements: React.FC = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={isVisible ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, ease: 'easeOut' }}
-            className="relative rounded-2xl border border-white/8 bg-white/3 backdrop-blur-sm shadow-[0_8px_48px_rgba(0,0,0,0.45)] overflow-hidden p-6 md:p-10"
+            className="relative rounded-2xl border border-white/8 bg-white/3 backdrop-blur-sm shadow-[0_8px_48px_rgba(0,0,0,0.45)] overflow-hidden p-4 sm:p-6 md:p-10"
           >
             {/* Subtle inner glow */}
             <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-brand-gold/10" />
@@ -139,7 +139,7 @@ const Placements: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
               <div>
                 <p className="text-[11px] uppercase tracking-widest text-white/40 mb-1">Year-wise Placements</p>
-                <p className="text-2xl font-bold text-white">
+                <p className="text-xl sm:text-2xl font-bold text-white">
                   {isVisible ? (
                     <span className="tabular-nums">
                       {animatedCounts.reduce((a, b) => a + b, 0).toLocaleString()}

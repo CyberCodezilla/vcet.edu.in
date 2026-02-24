@@ -157,7 +157,7 @@ const ExploreUs: React.FC = () => {
       <div className="relative z-10">
 
         {/* ── Header row ── */}
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
           <div>
             <div className="flex items-center gap-3 mb-3">
               <div className="w-8 h-0.5 bg-brand-gold" />
@@ -230,7 +230,7 @@ const ExploreUs: React.FC = () => {
             onMouseEnter={() => pauseScroll(6000)}
             onMouseLeave={() => { pausedRef.current = false; }}
             onTouchStart={() => pauseScroll(6000)}
-            className="flex gap-5 overflow-x-auto px-6 pt-4 pb-4 select-none"
+            className="flex gap-5 overflow-x-auto px-3 sm:px-6 pt-4 pb-4 select-none"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', overflowY: 'visible' }}
           >
             {/* XL container centering spacer */}
@@ -247,7 +247,7 @@ const ExploreUs: React.FC = () => {
                   href={item.link}
                   onMouseEnter={() => { setHoveredId(item.id); pauseScroll(6000); }}
                   onMouseLeave={() => { setHoveredId(null); pausedRef.current = false; }}
-                  className={`flex-shrink-0 w-[290px] md:w-[310px] rounded-2xl relative overflow-hidden group bg-gradient-to-br ${item.bg}`}
+                  className={`flex-shrink-0 w-[260px] sm:w-[290px] md:w-[310px] rounded-2xl relative overflow-hidden group bg-gradient-to-br ${item.bg}`}
                   style={{
                     height: '300px',
                     border: isHovered
@@ -361,7 +361,7 @@ const ExploreUs: React.FC = () => {
         </div>
 
         {/* ── Dot progress ── */}
-        <div className="max-w-7xl mx-auto px-6 mt-6 flex items-center justify-center gap-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-6 flex items-center justify-center gap-2">
           {exploreItems.map((item, i) => {
             const isAct = activeIdx === i;
             return (

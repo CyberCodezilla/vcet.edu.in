@@ -7,8 +7,8 @@ const Footer: React.FC = () => {
       {/* Top decorative line */}
       <div className="h-0.5 bg-gradient-to-r from-brand-blue via-brand-gold to-brand-blue"></div>
       
-      <div className="container mx-auto px-6 pt-16 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+      <div className="container mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 mb-10 sm:mb-14">
           
           {/* MENU Column */}
           <div>

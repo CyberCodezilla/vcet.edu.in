@@ -65,9 +65,9 @@ const Testimonials: React.FC = () => {
     <section className="py-20 md:py-28 bg-brand-light relative overflow-hidden">
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-brand-blue/[0.03] rounded-full translate-x-1/3 translate-y-1/3"></div>
       
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Header */}
-        <div className="flex items-center justify-between mb-12">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 sm:mb-12">
           <div>
             <div className="flex items-center gap-3 mb-3">
               <div className="w-8 h-0.5 bg-brand-gold"></div>
@@ -78,7 +78,7 @@ const Testimonials: React.FC = () => {
             </h2>
           </div>
           
-          <div className="hidden md:flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
               disabled={currentIndex === 0}
@@ -110,7 +110,7 @@ const Testimonials: React.FC = () => {
                 className="flex-shrink-0 px-3"
                 style={{ width: `${100 / itemsPerView}%` }}
               >
-                <div className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 flex flex-col h-[360px] relative border border-gray-50">
+                <div className="group bg-white rounded-2xl p-5 sm:p-8 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 flex flex-col min-h-[320px] sm:h-[360px] relative border border-gray-50">
                   {/* Quote icon */}
                   <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-brand-gold/10 flex items-center justify-center">
                     <Quote className="w-4 h-4 text-brand-gold" />

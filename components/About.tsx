@@ -61,10 +61,10 @@ const About: React.FC = () => {
       {/* Subtle background pattern */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-brand-blue/[0.02] rounded-full -translate-y-1/2 translate-x-1/2"></div>
       
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <SectionHeader title="Who We Are" subtitle="Pioneering education for a digital world since 1994 — shaping engineers who build the future." />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-14 lg:gap-20 items-start">
           {/* Left Column */}
           <div className="space-y-8 reveal">
             <p className="text-2xl md:text-3xl font-display font-semibold leading-snug text-slate-800">

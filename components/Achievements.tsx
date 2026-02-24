@@ -129,7 +129,7 @@ const Achievements: React.FC = () => {
       {/* Decorative blob */}
       <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-brand-blue/[0.03] rounded-full -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 mb-12">
         {/* Section header */}
         <div className="flex items-center gap-3 mb-3">
           <div className="w-8 h-0.5 bg-brand-gold" />

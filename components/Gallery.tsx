@@ -60,7 +60,7 @@ const STAGGER_MS = 320;
 const Gallery: React.FC = () => {
   return (
     <section className="py-20 md:py-28 bg-white relative">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="mb-12">
           <div className="flex items-center gap-3 mb-3">
@@ -82,7 +82,7 @@ const Gallery: React.FC = () => {
             Item 0 (campus):  col-span-2, row-span-2  → big featured shot
             Items 1-8 (labs): col-span-1, row-span-1
         */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[260px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[200px] sm:auto-rows-[260px]">
           {galleryItems.map((item, idx) => {
             const isFeatured = idx === 0;
             return (

@@ -49,7 +49,7 @@ const Departments: React.FC = () => {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-blue/10 rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-brand-gold/5 rounded-full translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <SectionHeader
           title="Academic Departments"
           theme="dark"
