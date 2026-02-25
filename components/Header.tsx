@@ -487,13 +487,13 @@ const Header: React.FC = () => {
     <>
       {/* â”€â”€â”€â”€â”€â”€â”€â”€ STICKY HEADER â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header className="sticky top-0 w-full z-50 bg-white shadow-[0_2px_16px_rgba(0,0,0,0.08)] border-b border-gray-100">
-        <div className="container mx-auto px-3 sm:px-4 h-14 md:h-[4.2rem] flex items-center gap-2">
+        <div className="container mx-auto px-3 sm:px-4 h-11 md:h-12 flex items-center gap-2">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 mr-1">
             <img
               src="/Images/VCET%20logo.jpeg"
               alt="VCET Logo"
-              className="h-10 md:h-11 w-auto rounded-sm"
+              className="h-8 md:h-9 w-auto rounded-sm"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
           </Link>
@@ -513,7 +513,7 @@ const Header: React.FC = () => {
                         onBlur={scheduleClose}
                         aria-haspopup="true"
                         aria-expanded={activeMenu === group.label}
-                        className={`flex items-center gap-0.5 px-[2px] md:px-[3px] lg:px-[5px] xl:px-[7px] py-1.5 lg:py-2 text-[6.5px] md:text-[7px] lg:text-[8px] xl:text-[9px] 2xl:text-[10px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap select-none ${
+                        className={`flex items-center gap-0.5 px-[3px] md:px-[4px] lg:px-[6px] xl:px-[8px] py-1.5 lg:py-2 text-[8px] md:text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[12px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap select-none ${
                           activeMenu === group.label
                             ? 'bg-brand-blue text-white'
                             : 'text-slate-700 hover:bg-brand-blue/8 hover:text-brand-blue'
@@ -551,7 +551,7 @@ const Header: React.FC = () => {
                   ) : group.href?.startsWith('/') ? (
                     <Link
                       to={group.href}
-                      className="block px-[2px] md:px-[3px] lg:px-[5px] xl:px-[7px] py-1.5 lg:py-2 text-[6.5px] md:text-[7px] lg:text-[8px] xl:text-[9px] 2xl:text-[10px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap text-slate-700 hover:bg-brand-blue/8 hover:text-brand-blue"
+                      className="block px-[3px] md:px-[4px] lg:px-[6px] xl:px-[8px] py-1.5 lg:py-2 text-[8px] md:text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[12px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap text-slate-700 hover:bg-brand-blue/8 hover:text-brand-blue"
                     >
                       {group.label}
                     </Link>
@@ -560,7 +560,7 @@ const Header: React.FC = () => {
                       href={group.href}
                       target={group.href?.startsWith('http') ? '_blank' : '_self'}
                       rel="noopener noreferrer"
-                      className="block px-[2px] md:px-[3px] lg:px-[5px] xl:px-[7px] py-1.5 lg:py-2 text-[6.5px] md:text-[7px] lg:text-[8px] xl:text-[9px] 2xl:text-[10px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap text-slate-700 hover:bg-brand-blue/8 hover:text-brand-blue"
+                      className="block px-[3px] md:px-[4px] lg:px-[6px] xl:px-[8px] py-1.5 lg:py-2 text-[8px] md:text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[12px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap text-slate-700 hover:bg-brand-blue/8 hover:text-brand-blue"
                     >
                       {group.label}
                     </a>
@@ -582,7 +582,7 @@ const Header: React.FC = () => {
             </button>
             <a
               href="#admissions"
-              className="ml-0.5 flex items-center gap-1 px-2 lg:px-3 py-1.5 lg:py-2 rounded-lg text-[7px] lg:text-[9px] xl:text-[10px] font-bold uppercase tracking-wide bg-brand-blue text-white hover:bg-brand-navy shadow-sm hover:shadow-md transition-all duration-200 whitespace-nowrap"
+              className="ml-0.5 flex items-center gap-1 px-2 lg:px-3 py-1.5 lg:py-2 rounded-lg text-[9px] lg:text-[10px] xl:text-[12px] font-bold uppercase tracking-wide bg-brand-blue text-white hover:bg-brand-navy shadow-sm hover:shadow-md transition-all duration-200 whitespace-nowrap"
             >
               Apply Now <ArrowUpRight className="w-3 h-3" />
             </a>

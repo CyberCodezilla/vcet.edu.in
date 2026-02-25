@@ -1,217 +1,216 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import Button from './Button';
-import { ChevronRight, Calendar, ArrowDown } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowDown, Send, ChevronDown } from 'lucide-react';
 
-const notices = [
-  { id: 1, text: "Admission 2025-26: Applications open for First Year Engineering.", date: "New" },
-  { id: 2, text: "Semester IV Exam Time Table released. Check student portal.", date: "Aug 12" },
-  { id: 3, text: "National Level Hackathon 'Hack-n-Code' registration closes soon.", date: "Aug 10" },
-  { id: 4, text: "Guest Lecture on 'AI in Healthcare' by Industry Experts.", date: "Aug 05" },
+const departments = [
+  'Computer Engineering',
+  'Information Technology',
+  'Electronics & Telecom',
+  'Mechanical Engineering',
+  'Civil Engineering',
+  'AI & Data Science',
+  'Computer Science & DS',
 ];
 
-const events = [
-  { id: 1, day: "09th Feb", year: "2026", title: "2026 IEEE International Conference on Communication, Computing and Emerging Technologies (IC3ET)" },
-  { id: 2, day: "16th Jan", year: "2026", title: "ZEAL 2026 — Annual Cultural Festival & Sports Meet" },
-];
+const courses = ['B.E.', 'M.E.', 'MBA', 'MCA'];
+const specializations = ['General', 'Cyber Security', 'Data Science', 'VLSI', 'Structural'];
+
+const AdmissionForm: React.FC = () => {
+  const [form, setForm] = useState({
+    name: '', email: '', phone: '', state: '', city: '',
+    department: '', course: '', specialization: '', consent: false,
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handle = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    setForm(f => ({ ...f, [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value }));
+  };
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 4000);
+  };
+
+  const inputCls = "w-full bg-white/[0.06] border border-white/20 rounded-lg px-3 py-2.5 text-sm text-white placeholder-white/45 focus:outline-none focus:border-brand-gold/70 focus:bg-white/[0.10] transition-all duration-200";
+  const selectCls = `${inputCls} appearance-none cursor-pointer`;
+  const labelCls = "block text-xs font-semibold uppercase tracking-wider text-white/60 mb-1";
+
+  return (
+    <div className="w-full h-full flex flex-col overflow-hidden">
+      {/* Header */}
+      <div className="relative mb-4 rounded-xl overflow-hidden flex-shrink-0"
+        style={{ background: 'linear-gradient(135deg, #1a2a4a 0%, #0f1e38 60%, #7a5c00 100%)' }}>
+        <div className="absolute inset-0 opacity-10"
+          style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255,255,255,0.3) 8px, rgba(255,255,255,0.3) 9px)' }} />
+        <div className="relative px-4 py-3 text-center">
+          <span className="inline-block bg-brand-gold/20 border border-brand-gold/40 text-brand-gold text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full mb-1.5">
+            Now Accepting Applications
+          </span>
+          <h2 className="text-sm font-extrabold text-white tracking-tight leading-tight">
+            Admissions Open<br />
+            <span className="text-brand-gold text-base">2026 – 27</span>
+          </h2>
+        </div>
+      </div>
+
+      {/* Form */}
+      <div className="flex-1 overflow-y-auto no-scrollbar pr-0.5">
+        {submitted ? (
+          <div className="flex flex-col items-center justify-center h-full gap-3 text-center px-2">
+            <div className="w-14 h-14 rounded-full bg-brand-gold/20 border-2 border-brand-gold flex items-center justify-center">
+              <Send className="w-6 h-6 text-brand-gold" />
+            </div>
+            <p className="text-sm font-bold text-white">Thank you!</p>
+            <p className="text-xs text-white/50">Our admissions team will reach out to you shortly.</p>
+          </div>
+        ) : (
+          <form onSubmit={submit} className="space-y-3">
+            {/* Name */}
+            <div>
+              <label className={labelCls}>Full Name</label>
+              <input name="name" value={form.name} onChange={handle} required
+                placeholder="Enter your full name"
+                className={inputCls} />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className={labelCls}>Email Address</label>
+              <input name="email" type="email" value={form.email} onChange={handle} required
+                placeholder="you@example.com"
+                className={inputCls} />
+            </div>
+
+            {/* Phone */}
+            <div>
+              <label className={labelCls}>Mobile Number</label>
+              <div className="flex gap-2">
+                <span className="flex items-center px-2.5 bg-white/[0.06] border border-white/20 rounded-lg text-sm text-white/60 font-semibold flex-shrink-0">+91</span>
+                <input name="phone" type="tel" value={form.phone} onChange={handle} required
+                  placeholder="10-digit number"
+                  className={`${inputCls} flex-1`} />
+              </div>
+            </div>
+
+            {/* State + City */}
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className={labelCls}>State</label>
+                <input name="state" value={form.state} onChange={handle}
+                  placeholder="State"
+                  className={inputCls} />
+              </div>
+              <div>
+                <label className={labelCls}>City</label>
+                <input name="city" value={form.city} onChange={handle}
+                  placeholder="City"
+                  className={inputCls} />
+              </div>
+            </div>
+
+            {/* Department */}
+            <div>
+              <label className={labelCls}>Department</label>
+              <div className="relative">
+                <select name="department" value={form.department} onChange={handle} required className={selectCls}>
+                  <option value="" disabled className="bg-brand-dark">Select Department</option>
+                  {departments.map(d => <option key={d} value={d} className="bg-brand-dark">{d}</option>)}
+                </select>
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 text-white/40 pointer-events-none" />
+              </div>
+            </div>
+
+            {/* Course + Specialization */}
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className={labelCls}>Course</label>
+                <div className="relative">
+                  <select name="course" value={form.course} onChange={handle} required className={selectCls}>
+                    <option value="" disabled className="bg-brand-dark">Select</option>
+                    {courses.map(c => <option key={c} value={c} className="bg-brand-dark">{c}</option>)}
+                  </select>
+                  <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-white/40 pointer-events-none" />
+                </div>
+              </div>
+              <div>
+                <label className={labelCls}>Specialization</label>
+                <div className="relative">
+                  <select name="specialization" value={form.specialization} onChange={handle} className={selectCls}>
+                    <option value="" disabled className="bg-brand-dark">Select</option>
+                    {specializations.map(s => <option key={s} value={s} className="bg-brand-dark">{s}</option>)}
+                  </select>
+                  <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-white/40 pointer-events-none" />
+                </div>
+              </div>
+            </div>
+
+            {/* Consent */}
+            <label className="flex items-start gap-2 cursor-pointer group">
+              <input type="checkbox" name="consent" checked={form.consent} onChange={handle} required
+                className="mt-0.5 w-3.5 h-3.5 accent-brand-gold flex-shrink-0 cursor-pointer" />
+              <span className="text-[10px] text-white/45 leading-relaxed group-hover:text-white/60 transition-colors">
+                I agree to be contacted by VCET regarding admissions via call, SMS or email.
+              </span>
+            </label>
+
+            {/* Submit */}
+            <button type="submit"
+              className="w-full flex items-center justify-center gap-2 bg-brand-gold hover:bg-yellow-400 text-brand-dark font-extrabold text-sm uppercase tracking-widest py-3 rounded-xl shadow-lg hover:shadow-brand-gold/30 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0">
+              Submit Application
+              <Send className="w-3.5 h-3.5" />
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const Hero: React.FC = () => {
   return (
-    <section id="home" className="relative min-h-screen w-full flex items-center overflow-hidden bg-brand-dark text-white -mt-[4.5rem] pt-[4.5rem]">
+    <section id="home" className="relative h-screen w-full flex items-center overflow-hidden bg-brand-dark text-white -mt-12 pt-12">
 
-      {/* ── Watercolour Ink Reveal ──────────────────────────────────────────── */}
+      {/* ── Static Background ──────────────────────────────────────────── */}
       <div className="absolute inset-0 z-0 overflow-hidden">
 
-        {/* Image: starts blurred + grey + zoomed, bleeds into full colour */}
-        <motion.img
+        {/* Static campus image — no animations, no overlay */}
+        <img
           src="/Images/Home%20background/VCET-Home-1-scaled.jpg"
           alt="VCET Campus"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ willChange: 'filter, transform' }}
-          initial={{ scale: 1.08, filter: 'blur(28px) saturate(0) brightness(0.55)' }}
-          animate={{ scale: 1.02, filter: 'blur(0px)  saturate(1.05) brightness(1)' }}
-          transition={{ duration: 1.9, ease: [0.22, 1, 0.36, 1] }}
-        />
-
-        {/* Ink drop 1 — gold wash, bleeds from bottom-left */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 90% 80% at 15% 75%, #D4A84360 0%, transparent 70%)' }}
-          initial={{ opacity: 0, scale: 0.3 }}
-          animate={{ opacity: [0, 0.9, 0],  scale: [0.3, 1.15, 1.4] }}
-          transition={{ duration: 2.0, delay: 0.05, ease: 'easeOut' }}
-        />
-
-        {/* Ink drop 2 — deep blue wash, bleeds from top-right */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 80% 90% at 85% 20%, #0e2a4d70 0%, transparent 70%)' }}
-          initial={{ opacity: 0, scale: 0.3 }}
-          animate={{ opacity: [0, 0.85, 0], scale: [0.3, 1.1,  1.4] }}
-          transition={{ duration: 2.1, delay: 0.18, ease: 'easeOut' }}
-        />
-
-        {/* Ink drop 3 — amber accent, blooms from centre */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 60% 55% at 48% 55%, #c8893240 0%, transparent 65%)' }}
-          initial={{ opacity: 0, scale: 0.2 }}
-          animate={{ opacity: [0, 0.7, 0],  scale: [0.2, 1.0,  1.3] }}
-          transition={{ duration: 1.8, delay: 0.3,  ease: 'easeOut' }}
-        />
-
-        {/* Ink drop 4 — teal fade, bottom-right corner bleeds last */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 70% 60% at 80% 85%, #0d3d4050 0%, transparent 70%)' }}
-          initial={{ opacity: 0, scale: 0.25 }}
-          animate={{ opacity: [0, 0.6, 0],  scale: [0.25, 1.05, 1.3] }}
-          transition={{ duration: 2.0, delay: 0.4,  ease: 'easeOut' }}
-        />
-
-        {/* Final dark overlays — settle in as ink fades */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-brand-dark/95 via-brand-dark/70 to-brand-navy/45"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: 0.9, ease: 'easeOut' }}
-        />
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.4, delay: 1.0, ease: 'easeOut' }}
         />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-10 py-14 sm:py-20 md:py-28">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-16">
-          
-          {/* Left: Main Content */}
-          <div className="w-full md:w-5/12 relative z-20">
-            {/* Badge – delay 0 */}
-            <div className="hero-anim" style={{animationDelay: '0.1s'}}>
-              <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 bg-white/5 backdrop-blur-md rounded-full border border-white/10">
-                <span className="w-2 h-2 bg-brand-gold rounded-full animate-pulse"></span>
-                <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white/80">Est. 1994 &bull; NAAC Accredited</span>
-              </div>
-            </div>
-            
-            {/* Headline – delay 0.2 */}
-            <div className="hero-anim" style={{animationDelay: '0.2s'}}>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.2rem] font-display font-bold tracking-tight leading-[1.05] mb-8">
-                Vidyavardhini's<br/>
-                <span className="text-brand-gold">College of</span><br/>
-                Engineering
-              </h1>
-            </div>
-            
-            {/* Tagline – delay 0.35 */}
-            <div className="hero-anim" style={{animationDelay: '0.35s'}}>
-              <p className="text-base md:text-lg font-light text-white/70 max-w-xl mb-10 leading-relaxed">
-                Empowering students with quality technical education and professional ethics to meet global challenges since three decades.
-              </p>
-            </div>
-            
-            {/* CTA Buttons – delay 0.5 */}
-            <div className="hero-anim" style={{animationDelay: '0.5s'}}>
-              <div className="flex flex-wrap gap-3">
-                <Button variant="gold" icon>Apply Now</Button>
-                <Button variant="outline" className="text-white border-white/30 hover:bg-white hover:text-brand-blue hover:border-white">
-                  Explore Departments
-                </Button>
-              </div>
-            </div>
+      <div className="relative z-10 h-full w-full flex">
+        {/* Left panel */}
+        <div className="w-full md:w-[27.5%] h-full flex flex-col bg-brand-dark/[0.70] backdrop-blur-sm pt-16 pb-4 relative overflow-hidden" style={{ paddingLeft: 'clamp(1rem, 2vw, 1.75rem)', paddingRight: 'clamp(1rem, 2vw, 1.75rem)', maxWidth: '420px' }}>
 
-            {/* Quick Stats – delay 0.65 */}
-            <div className="hero-anim" style={{animationDelay: '0.65s'}}>
-              <div className="flex flex-wrap gap-6 sm:gap-8 mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-white/10">
-                {[
-                  { value: '30+', label: 'Years' },
-                  { value: '5000+', label: 'Students' },
-                  { value: '96%', label: 'Placements' },
-                  { value: 'B++', label: 'NAAC' },
-                ].map((stat, idx) => (
-                  <div key={idx} className="text-center group cursor-default">
-                    <div className="text-2xl md:text-3xl font-bold text-brand-gold group-hover:scale-110 transition-transform duration-300 inline-block">{stat.value}</div>
-                    <div className="text-[10px] font-semibold uppercase tracking-widest text-white/40 mt-1">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
+          {/* Admission form — scrolls internally if content overflows */}
+          <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar">
+            <AdmissionForm />
+          </div>
+
+          {/* Quick Stats — always pinned at bottom inside the panel */}
+          <div className="hero-anim flex-shrink-0 pt-3" style={{animationDelay: '0.65s'}}>
+            <div className="grid grid-cols-4 gap-2">
+              {[
+                { value: '30+', label: 'Years' },
+                { value: '5000+', label: 'Students' },
+                { value: '96%', label: 'Placements' },
+                { value: 'B++', label: 'NAAC' },
+              ].map((stat, idx) => (
+                <div
+                  key={idx}
+                  className="stat-glow text-center py-2.5 px-1 rounded-xl border border-brand-gold/30 bg-brand-dark/70 backdrop-blur-md cursor-default group transition-all duration-300 hover:bg-brand-dark/80 hover:border-brand-gold/50"
+                >
+                  <div className="text-base sm:text-lg md:text-xl font-bold text-brand-gold group-hover:scale-110 transition-transform duration-300 inline-block leading-tight whitespace-nowrap">{stat.value}</div>
+                  <div className="text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider text-white/60 mt-1">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Right: Notices & Events Cards – delay 0.4 — hidden on mobile */}
-          <div className="hero-anim hidden md:flex w-full md:w-7/12 relative z-30 flex-col md:flex-row gap-5 justify-end items-stretch" style={{animationDelay: '0.4s'}}>
-             
-             {/* Notices Card */}
-             <div className="w-full md:w-1/2 max-w-sm bg-white/[0.04] backdrop-blur-md border border-white/[0.08] p-6 flex flex-col rounded-xl">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="h-7 w-0.5 bg-brand-gold rounded-full"></div>
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-white">Latest Notices</h3>
-                </div>
-                
-                <div className="flex-grow">
-                  <div className="divide-y divide-white/[0.06] max-h-[280px] overflow-y-auto pr-2 no-scrollbar">
-                    {notices.map((notice) => (
-                      <div key={notice.id} className="py-3 first:pt-0 hover:bg-white/[0.03] rounded-lg px-2 -mx-2 transition-colors cursor-pointer group">
-                        <p className="text-sm font-medium text-white/80 leading-snug group-hover:text-brand-gold transition-colors mb-2">
-                          {notice.text}
-                        </p>
-                        <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded ${
-                          notice.date === 'New' 
-                            ? 'bg-red-500/20 text-red-400' 
-                            : 'bg-white/10 text-white/50'
-                        }`}>
-                          {notice.date}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-5 pt-4 border-t border-white/[0.06]">
-                  <a href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-brand-gold transition-colors flex items-center gap-2 group">
-                    View All Notices 
-                    <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                </div>
-             </div>
-
-             {/* Events Card */}
-             <div className="w-full md:w-1/2 max-w-sm bg-white/[0.04] backdrop-blur-md border border-white/[0.08] p-6 flex flex-col rounded-xl">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="h-7 w-0.5 bg-brand-gold rounded-full"></div>
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-white">Upcoming Events</h3>
-                </div>
-
-                <div className="space-y-5 flex-grow">
-                  {events.map((event) => (
-                    <div key={event.id} className="group cursor-pointer">
-                      <div className="flex items-stretch mb-2.5 rounded-lg overflow-hidden shadow-lg transform group-hover:-translate-y-0.5 transition-transform duration-300">
-                        <div className="bg-brand-navy text-white font-bold px-3 py-2 text-xs flex items-center justify-center min-w-[80px] text-center leading-tight">
-                          {event.day}
-                        </div>
-                        <div className="bg-brand-gold text-brand-dark font-extrabold px-3 py-2 text-sm flex items-center justify-center min-w-[65px]">
-                          {event.year}
-                        </div>
-                      </div>
-                      <p className="text-sm text-white/70 font-medium leading-relaxed group-hover:text-brand-gold transition-colors border-l-2 border-white/10 pl-3">
-                        {event.title}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="mt-5 pt-4 border-t border-white/[0.06]">
-                  <a href="#" className="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-brand-gold transition-colors flex items-center gap-2 group">
-                    Full Calendar 
-                    <Calendar className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                </div>
-             </div>
-
-          </div>
         </div>
       </div>
 

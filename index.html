@@ -79,10 +79,18 @@
         scroll-behavior: smooth;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        /* Fluid base: scales all rem-based Tailwind sizes with the viewport */
+        font-size: clamp(11px, 0.85vw + 1.5px, 15px);
       }
       body {
         line-height: 1.6;
         letter-spacing: -0.01em;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      /* Hero background always covers the full viewport */
+      #home {
+        height: 100dvh;
       }
       .no-scrollbar::-webkit-scrollbar {
         display: none;
@@ -207,6 +215,14 @@
       @keyframes shimmer {
         0%   { background-position: -400px 0; }
         100% { background-position: 400px 0; }
+      }
+      /* ── Glow pulse for stat tabs ────────────────────── */
+      @keyframes glowPulse {
+        0%, 100% { box-shadow: 0 0 8px rgba(212,168,67,0.3), 0 0 20px rgba(212,168,67,0.1); }
+        50%      { box-shadow: 0 0 16px rgba(212,168,67,0.6), 0 0 40px rgba(212,168,67,0.25); }
+      }
+      .stat-glow {
+        animation: glowPulse 2.5s ease-in-out infinite;
       }
     </style>
   <script type="importmap">
