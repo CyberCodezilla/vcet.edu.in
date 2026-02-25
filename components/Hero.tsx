@@ -51,17 +51,13 @@ const AdmissionForm: React.FC = () => {
   return (
     <div className="w-full h-full flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="relative mb-4 rounded-xl overflow-hidden flex-shrink-0"
-        style={{ background: 'linear-gradient(135deg, #1a2a4a 0%, #0f1e38 60%, #7a5c00 100%)' }}>
-        <div className="absolute inset-0 opacity-10"
-          style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255,255,255,0.3) 8px, rgba(255,255,255,0.3) 9px)' }} />
-        <div className="relative px-4 py-3 text-center">
-          <span className="inline-block bg-brand-gold/20 border border-brand-gold/40 text-brand-gold text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full mb-1.5">
-            Now Accepting Applications
-          </span>
-          <h2 className="text-sm font-extrabold text-white tracking-tight leading-tight">
-            Admissions Open<br />
-            <span className="text-brand-gold text-base">2026 – 27</span>
+      <div className="flex items-stretch flex-shrink-0 mb-4" style={{ background: '#0f1e38' }}>
+        {/* Gold left accent bar */}
+        <div className="w-1 flex-shrink-0 bg-brand-gold" />
+        <div className="flex flex-col justify-center px-4 py-3">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-white/50 mb-0.5">Now Accepting Applications</p>
+          <h2 className="text-lg font-extrabold uppercase tracking-widest text-white leading-tight">
+            Admissions Open <span className="text-brand-gold">2026–27</span>
           </h2>
         </div>
       </div>
@@ -201,7 +197,7 @@ const Hero: React.FC = () => {
         <div className="relative">
         {/* Single floating card */}
         <div
-          className="w-[340px] sm:w-[380px] flex flex-col rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
+          className="w-[340px] sm:w-[380px] flex flex-col overflow-hidden border border-white/10 shadow-2xl"
           style={{
             background: 'rgba(10, 20, 45, 0.72)',
             backdropFilter: 'blur(18px)',
@@ -316,7 +312,7 @@ const Hero: React.FC = () => {
           {/* Arrow toggle — sibling to card, never clipped */}
           <button
             onClick={() => setPanelOpen(o => !o)}
-            className="absolute top-1/2 -translate-y-1/2 -right-5 z-20 w-10 h-14 flex items-center justify-center rounded-r-2xl shadow-xl transition-all duration-200 hover:scale-105 active:scale-95"
+            className="absolute top-1/2 -translate-y-1/2 -right-5 z-20 w-10 h-14 flex items-center justify-center shadow-xl transition-all duration-200 hover:scale-105 active:scale-95"
             style={{ background: '#C49535', boxShadow: '0 4px 20px rgba(196,149,53,0.5)' }}
             aria-label="Toggle notices panel"
           >
