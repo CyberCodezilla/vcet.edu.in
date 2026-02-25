@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
-import { ArrowDown, Send, ChevronDown } from 'lucide-react';
+import { ArrowDown, Send, ChevronDown, ChevronRight, ChevronLeft, Calendar, Bell } from 'lucide-react';
+
+const notices = [
+  { text: "Admission 2024-25: Applications open for First Year Engineering.", tag: "NEW", date: null },
+  { text: "Semester IV Exam Time Table released. Check student portal.", tag: null, date: "Aug 12" },
+  { text: "National Level Hackathon 'Hack-n-Code' registration closes soon.", tag: null, date: "Aug 10" },
+  { text: "Guest Lecture on 'AI in Healthcare' by industry experts.", tag: null, date: "Aug 8" },
+];
+
+const events = [
+  { day: "09th Feb", year: "2026", title: "2026 IEEE International Conference on Communication, Computing and Emerging Technologies (IC3ET)" },
+  { day: "16th Jan", year: "2026", title: "ZEAL 2026 - Annual Cultural Festival & Sports Meet" },
+];
 
 const departments = [
   'Computer Engineering',
@@ -168,6 +180,8 @@ const AdmissionForm: React.FC = () => {
 };
 
 const Hero: React.FC = () => {
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'notices'|'events'>('notices');
   return (
     <section id="home" className="relative h-screen w-full flex items-center overflow-hidden bg-brand-dark text-white -mt-12 pt-12">
 
@@ -182,17 +196,107 @@ const Hero: React.FC = () => {
         />
       </div>
 
-      <div className="relative z-10 h-full w-full flex">
-        {/* Left panel */}
-        <div className="w-full md:w-[27.5%] h-full flex flex-col bg-brand-dark/[0.70] backdrop-blur-sm pt-16 pb-4 relative overflow-hidden" style={{ paddingLeft: 'clamp(1rem, 2vw, 1.75rem)', paddingRight: 'clamp(1rem, 2vw, 1.75rem)', maxWidth: '420px' }}>
+      <div className="relative z-10 h-full w-full flex items-center justify-start px-6 md:px-12">
+        {/* Outer wrapper — allows the toggle button to escape overflow-hidden */}
+        <div className="relative">
+        {/* Single floating card */}
+        <div
+          className="w-[340px] sm:w-[380px] flex flex-col rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
+          style={{
+            background: 'rgba(10, 20, 45, 0.72)',
+            backdropFilter: 'blur(18px)',
+            WebkitBackdropFilter: 'blur(18px)',
+            height: 'calc(100vh - 100px)',
+            maxHeight: 'calc(100vh - 100px)',
+          }}
+        >
 
-          {/* Admission form — scrolls internally if content overflows */}
-          <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar">
-            <AdmissionForm />
+          {/* Content — swaps between form and notices/events */}
+          <div className="flex-1 min-h-0 overflow-hidden px-5 pt-5 pb-2 flex flex-col">
+            {!panelOpen ? (
+              <div className="h-full overflow-y-auto no-scrollbar">
+                <AdmissionForm />
+              </div>
+            ) : (
+              <div className="flex flex-col h-full">
+                {/* Tab switcher */}
+                <div className="flex flex-shrink-0 gap-1 mb-5">
+                  <button
+                    onClick={() => setActiveTab('notices')}
+                    className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg transition-all duration-200 ${
+                      activeTab === 'notices'
+                        ? 'bg-brand-gold text-brand-dark shadow-md'
+                        : 'bg-white/8 text-white/50 hover:bg-white/12 hover:text-white/80'
+                    }`}
+                  >
+                    <Bell className="w-3 h-3" /> Notices
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('events')}
+                    className={`flex-1 flex items-center justify-center gap-1.5 py-2 text-[10px] font-bold uppercase tracking-widest rounded-lg transition-all duration-200 ${
+                      activeTab === 'events'
+                        ? 'bg-brand-gold text-brand-dark shadow-md'
+                        : 'bg-white/8 text-white/50 hover:bg-white/12 hover:text-white/80'
+                    }`}
+                  >
+                    <Calendar className="w-3 h-3" /> Events
+                  </button>
+                </div>
+
+                {/* Section heading with gold left border */}
+                <div className="flex items-center gap-3 flex-shrink-0 mb-4">
+                  <div className="w-1 self-stretch bg-brand-gold rounded-full flex-shrink-0" />
+                  <h3 className="text-xl font-extrabold uppercase tracking-widest text-white leading-tight">
+                    {activeTab === 'notices' ? 'Latest Notices' : 'Upcoming Events'}
+                  </h3>
+                </div>
+
+                {/* Scrollable content */}
+                <div className="flex-1 overflow-y-auto gold-scrollbar pr-1">
+                  {activeTab === 'notices' ? (
+                    <div>
+                      {notices.map((n, i) => (
+                        <div key={i} className="py-4 border-b border-white/10 last:border-0">
+                          <p className="text-[15px] font-medium text-white leading-snug">{n.text}</p>
+                          <div className="mt-2 flex flex-wrap gap-1.5">
+                            {n.tag && (
+                              <span className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-red-600 text-white rounded">{n.tag}</span>
+                            )}
+                            {n.date && (
+                              <span className="px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-white/10 text-white/70 rounded border border-white/20">{n.date}</span>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div>
+                      {events.map((ev, i) => (
+                        <div key={i} className="py-4 border-b border-white/10 last:border-0">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-xs font-bold text-white/80 bg-white/10 px-2.5 py-1 rounded border border-white/20">{ev.day}</span>
+                            <span className="text-xs font-extrabold bg-brand-gold text-brand-dark px-2.5 py-1 rounded">{ev.year}</span>
+                          </div>
+                          <p className="text-[15px] font-medium text-white leading-snug">{ev.title}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer link */}
+                <div className="flex-shrink-0 pt-3 border-t border-white/10 mt-2">
+                  <button className="text-[11px] font-bold uppercase tracking-widest text-white/45 hover:text-white/80 flex items-center gap-1 transition-colors">
+                    {activeTab === 'notices' ? 'View All Notices' : 'Full Calendar'}
+                    <ChevronRight className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Quick Stats — always pinned at bottom inside the panel */}
-          <div className="hero-anim flex-shrink-0 pt-3" style={{animationDelay: '0.65s'}}>
+          {/* Quick Stats — always pinned at bottom */}
+          <div className="flex-shrink-0 px-5 py-4 border-t border-white/10">
             <div className="grid grid-cols-4 gap-2">
               {[
                 { value: '30+', label: 'Years' },
@@ -200,17 +304,26 @@ const Hero: React.FC = () => {
                 { value: '96%', label: 'Placements' },
                 { value: 'B++', label: 'NAAC' },
               ].map((stat, idx) => (
-                <div
-                  key={idx}
-                  className="stat-glow text-center py-2.5 px-1 rounded-xl border border-brand-gold/30 bg-brand-dark/70 backdrop-blur-md cursor-default group transition-all duration-300 hover:bg-brand-dark/80 hover:border-brand-gold/50"
-                >
-                  <div className="text-base sm:text-lg md:text-xl font-bold text-brand-gold group-hover:scale-110 transition-transform duration-300 inline-block leading-tight whitespace-nowrap">{stat.value}</div>
-                  <div className="text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider text-white/60 mt-1">{stat.label}</div>
+                <div key={idx} className="text-center py-2.5 px-1 rounded-xl border border-brand-gold/30 bg-white/5 cursor-default group transition-all duration-300 hover:bg-white/10 hover:border-brand-gold/50">
+                  <div className="text-base sm:text-lg font-bold text-brand-gold group-hover:scale-110 transition-transform duration-300 inline-block leading-tight whitespace-nowrap">{stat.value}</div>
+                  <div className="text-[9px] font-semibold uppercase tracking-wider text-white/60 mt-1">{stat.label}</div>
                 </div>
               ))}
             </div>
           </div>
+        </div>
 
+          {/* Arrow toggle — sibling to card, never clipped */}
+          <button
+            onClick={() => setPanelOpen(o => !o)}
+            className="absolute top-1/2 -translate-y-1/2 -right-5 z-20 w-10 h-14 flex items-center justify-center rounded-r-2xl shadow-xl transition-all duration-200 hover:scale-105 active:scale-95"
+            style={{ background: '#C49535', boxShadow: '0 4px 20px rgba(196,149,53,0.5)' }}
+            aria-label="Toggle notices panel"
+          >
+            {panelOpen
+              ? <ChevronLeft className="w-5 h-5 text-white" />
+              : <ChevronRight className="w-5 h-5 text-white" />}
+          </button>
         </div>
       </div>
 

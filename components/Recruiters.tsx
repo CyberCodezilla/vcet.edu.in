@@ -206,12 +206,11 @@ const Recruiters: React.FC = () => (
           <div className="px-8 pt-8 pb-6" style={{ background: "#0B3D91" }}>
             <div className="flex items-center gap-3 mb-1">
               <div className="w-6 h-px" style={{ background: "#F4B400" }} />
-              <p className="text-[11px] font-bold uppercase tracking-[0.25em]" style={{ color: "#EAF2FB" }}>
+              <p className="text-[14px] font-bold uppercase tracking-[0.25em]" style={{ color: "#EAF2FB" }}>
                 Our Hiring Partners
               </p>
               <div className="w-6 h-px" style={{ background: "#F4B400" }} />
             </div>
-            <p className="text-sm mt-1" style={{ color: "rgba(234,242,251,0.7)" }}>Companies that regularly recruit VCET graduates</p>
           </div>
           {/* Logo grid */}
           <div className="bg-white px-4 sm:px-8 py-6 sm:py-10">
