@@ -149,7 +149,7 @@ const Recruiters: React.FC = () => (
               Highest Package
             </p>
             <h3 className="text-5xl font-extrabold leading-none" style={{ color: "#F4B400" }}>
-              ₹1.04 Cr LPA
+              ₹1.06 Cpa
             </h3>
             <p className="text-sm mt-2" style={{ color: "#64748B" }}>Best offer &middot; 2024-25 batch</p>
           </div>
