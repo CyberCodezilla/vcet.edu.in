@@ -496,13 +496,13 @@ const Header: React.FC = () => {
     <>
       {/* â”€â”€â”€â”€â”€â”€â”€â”€ STICKY HEADER â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header className="sticky top-0 w-full z-50 bg-white shadow-[0_2px_16px_rgba(0,0,0,0.08)] border-b border-gray-100">
-        <div className="container mx-auto px-3 sm:px-4 h-11 md:h-12 flex items-center gap-2">
+        <div className="container mx-auto px-3 sm:px-4 h-14 md:h-16 flex items-center gap-2">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 mr-1">
             <img
               src="/Images/VCET%20logo.jpeg"
               alt="VCET Logo"
-              className="h-8 md:h-9 w-auto rounded-sm"
+              className="h-12 md:h-14 w-auto rounded-sm"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
           </Link>

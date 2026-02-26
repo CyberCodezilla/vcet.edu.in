@@ -36,16 +36,16 @@ const TopBanner: React.FC = () => {
 
       {/* ── Desktop full row (md+) ── */}
       <div className="hidden md:block">
-      <div className="container mx-auto px-4 md:px-6 py-6 md:py-7">
-        <div className="flex flex-row items-center justify-between gap-4">
+      <div className="container mx-auto px-4 md:px-6 py-3 md:py-4">
+        <div className="flex flex-row items-center gap-4">
 
-          {/* Logo + College Name — tight unit, centered */}
-          <div className="flex flex-row items-center gap-5 flex-1 justify-center">
+          {/* Logo + College Name */}
+          <div className="flex flex-row items-center gap-5 flex-shrink-0">
             <div className="flex-shrink-0">
               <img 
                 src="/Images/VCET%20logo.jpeg" 
                 alt="VCET Logo" 
-                className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 object-contain drop-shadow-sm"
+                className="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-sm"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';
@@ -64,22 +64,16 @@ const TopBanner: React.FC = () => {
             <p className="text-[11px] md:text-xs font-medium text-slate-500 mt-2 tracking-wide">
               Approved by AICTE, DTE Maharashtra &bull; an Autonomous Institute Affiliated to University of Mumbai
             </p>
-            <div className="flex flex-wrap items-center justify-start gap-2 mt-3">
-              <span className="inline-flex items-center gap-1.5 bg-brand-blue/5 border border-brand-blue/10 text-brand-blue px-3 py-1 rounded text-[11px] font-bold uppercase tracking-wider">
-                <span className="w-1.5 h-1.5 bg-brand-gold rounded-full"></span>
-                NAAC Accredited
-              </span>
-              <span className="inline-flex items-center gap-1.5 bg-brand-gold/10 border border-brand-gold/20 text-brand-navy px-3 py-1 rounded text-[11px] font-bold uppercase tracking-wider">
-                <span className="w-1.5 h-1.5 bg-brand-blue rounded-full"></span>
-                NBA Accredited
-              </span>
-            </div>
+
           </div>
 
           </div>{/* closes logo+text unit */}
 
+          {/* ── Empty space reserved for logos ── */}
+          <div className="flex-1" />
+
           {/* Quick Contact + Social - Desktop only */}
-          <div className="hidden md:flex items-center gap-4 flex-shrink-0">
+          <div className="flex items-center gap-4 flex-shrink-0">
             <div className="flex flex-col gap-1.5 text-right">
               <a href="tel:+917972019446" className="flex items-center gap-2 text-xs text-slate-500 hover:text-brand-blue transition-colors">
                 <Phone className="w-3.5 h-3.5" />
