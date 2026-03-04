@@ -63,13 +63,13 @@ const AboutVCET: React.FC = () => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 reveal" style={{ transitionDelay: '0.25s' }}>
                   {[
                     { icon: Calendar, value: '1994', label: 'Established' },
-                    { icon: MapPin, value: '12.27 Acres', label: 'Campus Area' },
+                    { icon: MapPin, value: '12.27', label: 'Campus Area (Acres)' },
                     { icon: Building2, value: 'Mumbai University', label: 'Affiliation' },
                     { icon: BadgeCheck, value: 'AICTE', label: 'Approved By' },
                   ].map((stat, idx) => (
                   <div key={idx} className="bg-brand-light rounded-xl p-5 text-center group hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                     <stat.icon className="w-5 h-5 mx-auto mb-2 text-brand-gold group-hover:text-brand-blue transition-colors duration-300" />
-                    <span className="text-2xl font-bold text-brand-navy block">{stat.value}</span>
+                    <span className={`font-bold text-brand-navy block ${stat.value.length > 10 ? 'text-sm md:text-base' : 'text-2xl'}`}>{stat.value}</span>
                     <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mt-1 block">{stat.label}</span>
                   </div>
                 ))}

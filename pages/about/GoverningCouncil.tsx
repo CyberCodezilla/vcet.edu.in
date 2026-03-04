@@ -21,15 +21,6 @@ const members = [
 const chairman = members[0];
 const otherMembers = members.slice(1);
 
-const getInitials = (name: string) =>
-  name
-    .replace(/[^a-zA-Z ]/g, '')
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? '')
-    .join('');
-
 const GoverningCouncil: React.FC = () => {
   return (
     <PageLayout>
@@ -52,7 +43,7 @@ const GoverningCouncil: React.FC = () => {
             <div className="reveal bg-white border border-gray-100 shadow-sm rounded-2xl p-8 md:p-10">
               <div className="flex flex-col md:flex-row items-center gap-6">
                 <div className="w-28 h-28 rounded-full bg-gradient-to-br from-brand-blue to-brand-navy text-white flex items-center justify-center font-display text-3xl font-bold">
-                  {getInitials(chairman.name)}
+                  VV
                 </div>
                 <div className="text-center md:text-left">
                   <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">
@@ -68,7 +59,7 @@ const GoverningCouncil: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {otherMembers.map((member, idx) => (
                 <div
-                  key={member.name}
+                  key={`${member.name}-${idx}`}
                   className="reveal bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-300"
                   style={{ transitionDelay: `${idx * 0.04}s` }}
                 >
