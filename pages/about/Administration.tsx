@@ -1,7 +1,7 @@
 import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
-import { Mail, User } from 'lucide-react';
+import { Mail } from 'lucide-react';
 
 interface AdminMember {
   name: string;
@@ -39,7 +39,7 @@ const Administration: React.FC = () => {
         ]}
       />
 
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-gradient-to-b from-brand-light/30 via-white to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">
             {/* Section Header */}
@@ -67,7 +67,7 @@ const Administration: React.FC = () => {
                   className="reveal"
                   style={{ transitionDelay: `${idx * 0.15}s` }}
                 >
-                  <div className="bg-brand-light rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg hover:border-brand-gold/30 transition-all duration-500 group">
+                  <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg hover:border-brand-gold/30 transition-all duration-500 group">
                     {/* Photo Placeholder */}
                     <div className="aspect-[3/4] bg-gradient-to-br from-brand-blue/10 to-brand-gold/10 flex items-center justify-center relative overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/5 to-transparent" />

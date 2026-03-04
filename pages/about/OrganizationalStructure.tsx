@@ -86,7 +86,7 @@ const OrganizationalStructure: React.FC = () => {
       />
 
       {/* Org Chart Image Section */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-gradient-to-b from-brand-light/30 via-white to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">
             {/* Section Header */}
@@ -107,7 +107,7 @@ const OrganizationalStructure: React.FC = () => {
             </div>
 
             {/* Image Placeholder */}
-            <div className="reveal mb-20">
+            <div className="reveal mb-20 bg-white border border-gray-100 rounded-2xl p-6 md:p-8 shadow-sm">
               <div className="aspect-[16/10] bg-brand-light rounded-2xl border-2 border-dashed border-gray-200 flex items-center justify-center hover:border-brand-gold/40 transition-colors duration-300">
                 <div className="text-center">
                   <Building2 className="w-16 h-16 text-brand-blue/20 mx-auto mb-3" />
@@ -132,7 +132,9 @@ const OrganizationalStructure: React.FC = () => {
             </div>
 
             <div className="flex justify-center overflow-x-auto pb-8">
-              <OrgCard node={hierarchy} delay={1} />
+              <div className="bg-white rounded-2xl border border-gray-100 p-4 md:p-6 shadow-sm">
+                <OrgCard node={hierarchy} delay={1} />
+              </div>
             </div>
           </div>
         </div>

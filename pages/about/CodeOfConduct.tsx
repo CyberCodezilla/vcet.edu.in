@@ -110,7 +110,7 @@ const CodeOfConduct: React.FC = () => {
         ]}
       />
 
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-gradient-to-b from-brand-light/30 via-white to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-5xl mx-auto">
             {/* Section Header */}
@@ -159,7 +159,7 @@ const CodeOfConduct: React.FC = () => {
                     {section.items.map((item, iIdx) => (
                       <div
                         key={item.title}
-                        className="reveal group bg-brand-light rounded-2xl border border-gray-100 p-5 hover:border-brand-gold/30 hover:shadow-md transition-all duration-500"
+                        className="reveal group bg-white rounded-2xl border border-gray-100 p-5 hover:border-brand-gold/30 hover:shadow-md transition-all duration-500"
                         style={{ transitionDelay: `${(sIdx * 0.12) + (iIdx * 0.06)}s` }}
                       >
                         <div className="flex items-start gap-3">

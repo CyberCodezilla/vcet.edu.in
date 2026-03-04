@@ -53,7 +53,7 @@ const StrategicPlan: React.FC = () => {
         ]}
       />
 
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-gradient-to-b from-brand-light/30 via-white to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mx-auto">
             {/* Section Header */}
@@ -84,7 +84,7 @@ const StrategicPlan: React.FC = () => {
                   className="reveal group"
                   style={{ transitionDelay: `${idx * 0.08}s` }}
                 >
-                  <div className="flex items-center gap-4 p-5 bg-brand-light rounded-2xl border border-gray-100 hover:border-brand-gold/40 hover:shadow-lg transition-all duration-500 h-full">
+                  <div className="flex items-center gap-4 p-5 bg-white rounded-2xl border border-gray-100 hover:border-brand-gold/40 hover:shadow-lg transition-all duration-500 h-full">
                     {/* Icon */}
                     <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-brand-blue to-brand-navy flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                       <FileText className="w-6 h-6 text-white" />

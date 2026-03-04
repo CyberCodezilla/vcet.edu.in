@@ -1,7 +1,7 @@
 import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
-import { Target, Eye, BookOpen, Award, MapPin, Calendar, Users, GraduationCap } from 'lucide-react';
+import { Target, Eye, BookOpen, Award, MapPin, Calendar, Building2, BadgeCheck } from 'lucide-react';
 
 const AboutVCET: React.FC = () => {
   return (
@@ -15,15 +15,15 @@ const AboutVCET: React.FC = () => {
       />
 
       {/* Main Content */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-16 md:py-24 bg-gradient-to-b from-brand-light/30 via-white to-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
 
             {/* Left: Main Content */}
             <div className="lg:col-span-2 space-y-8">
               {/* Introduction */}
-              <div className="reveal">
-                <p className="text-lg md:text-xl text-slate-600 leading-relaxed">
+              <div className="reveal bg-white rounded-2xl border border-gray-100 p-6 md:p-8 shadow-sm">
+                <p className="text-lg md:text-xl text-slate-700 leading-relaxed">
                   Vidyavardhini means a Body committed to enhancement of Knowledge. Vidyavardhini
                   was established as a registered society in 1970 by late <span className="font-semibold text-brand-blue">Padmashri H. G. alias
                   Bhausaheb Vartak</span> for the noble cause of education in rural areas.
@@ -61,12 +61,12 @@ const AboutVCET: React.FC = () => {
 
               {/* Quick Facts */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 reveal" style={{ transitionDelay: '0.25s' }}>
-                {[
-                  { icon: Calendar, value: '1994', label: 'Established' },
-                  { icon: MapPin, value: '12.27', label: 'Acres Campus' },
-                  { icon: GraduationCap, value: '5000+', label: 'Students' },
-                  { icon: Users, value: '200+', label: 'Faculty' },
-                ].map((stat, idx) => (
+                  {[
+                    { icon: Calendar, value: '1994', label: 'Established' },
+                    { icon: MapPin, value: '12.27 Acres', label: 'Campus Area' },
+                    { icon: Building2, value: 'Mumbai University', label: 'Affiliation' },
+                    { icon: BadgeCheck, value: 'AICTE', label: 'Approved By' },
+                  ].map((stat, idx) => (
                   <div key={idx} className="bg-brand-light rounded-xl p-5 text-center group hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                     <stat.icon className="w-5 h-5 mx-auto mb-2 text-brand-gold group-hover:text-brand-blue transition-colors duration-300" />
                     <span className="text-2xl font-bold text-brand-navy block">{stat.value}</span>
