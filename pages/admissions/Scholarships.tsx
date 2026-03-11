@@ -1,67 +1,89 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
-import { Award, FileText, ExternalLink, BookOpen } from 'lucide-react';
+import { Award, FileText, ExternalLink, BookOpen, Download } from 'lucide-react';
 
 const governmentScholarships = [
   {
     title: 'Rajarshi Chhatrapati Shahu Maharaj Shikshan Shulkh Shishyavrutti Yojna - EBC',
-    link: '#',
+    link: 'https://vcet.edu.in/wp-content/uploads/2022/11/Rajarshi-Chhatrapati-Shahu-Maharaj-Shikshan-Shulkh-Shishyavrutti-Yojna-EBC..pdf',
   },
   {
     title: 'Post Matric Scholarship to OBC Students - OBC Scholarship',
-    link: '#',
+    link: 'https://vcet.edu.in/wp-content/uploads/2022/11/Post-Matric-Scholarship-to-OBC-Students-OBC-Scholarship.pdf',
   },
   {
     title: 'Tuition Fees and Examination Fees to OBC Students - OBC Freeship',
-    link: '#',
+    link: 'https://vcet.edu.in/wp-content/uploads/2022/11/Tuition-Fees-and-Examination-Fees-to-OBC-Students-OBC-Freeship.pdf',
   },
   {
-    title: 'Scholarship Scheme for State Minority Communities Pursuing Higher Professional Education',
-    link: '#',
+    title: 'Scholarship Scheme for State Minority Communities Pursuing Higher Professional Education - Technical Course DTE',
+    link: 'https://vcet.edu.in/wp-content/uploads/2022/11/Scholarship-Scheme-for-State-Minority-Communities-Pursuing-Higher-Professional-Education-Technical-Course-DTE..pdf',
   },
   {
     title: 'Post Matric Scholarship to SBC Students - SBC Scholarship',
-    link: '#',
+    link: 'https://vcet.edu.in/wp-content/uploads/2022/11/Post-Matric-Scholarship-to-SBC-Students-SBC-Scholarship.pdf',
   },
   {
     title: 'Tuition Fees and Examination Fees to SBC Students - SBC Freeship',
-    link: '#',
+    link: 'https://vcet.edu.in/wp-content/uploads/2022/11/Tuition-Fees-and-Examination-Fees-to-SBC-Students-SBC-Freeship.pdf',
   },
   {
     title: 'Post Matric Scholarship Scheme - Government of India - ST Scholarship',
-    link: '#',
+    link: 'https://vcet.edu.in/wp-content/uploads/2022/11/Post-Matric-Scholarship-Scheme-Government-of-India-ST-Scholarship.pdf',
   },
   {
     title: 'Government of India Post-Matric Scholarship for SC Category',
-    link: '#',
+    link: 'https://vcet.edu.in/wp-content/uploads/2022/11/Government-of-India-Post-Matric-Scholarship-for-SC-Category.pdf',
   },
   {
     title: 'Post-Matric Tuition Fee and Examination Fee SC Category Freeship',
-    link: '#',
+    link: 'https://vcet.edu.in/wp-content/uploads/2022/11/Post-Matric-Tuition-Fee-and-Examination-Fee-SC-Category-Freeship.pdf',
   },
   {
     title: 'Post Matric Scholarship to VJNT Students VJ-DT-NT Scholarship',
-    link: '#',
+    link: 'https://vcet.edu.in/wp-content/uploads/2022/11/Post-Matric-Scholarship-to-VJNT-Students-VJ-DT-NT-Scholarship.pdf',
   },
   {
     title: 'Tuition Fees and Examination Fees to VJNT Students - VJ-DT-NT Freeship',
-    link: '#',
+    link: 'https://vcet.edu.in/wp-content/uploads/2022/11/Tuition-Fees-and-Examination-Fees-to-VJNT-Students-VJ-DT-NT-Freeship.pdf',
   },
   {
     title: 'Vocational Education Fee Reimbursement ST Category Freeship',
-    link: '#',
+    link: 'https://vcet.edu.in/wp-content/uploads/2022/11/Vocational-Education-Fee-Reimbursement-ST-Category-Freeship.pdf',
   },
 ];
 
 const aicteSchemes = [
-  { title: 'AICTE Swanath Scheme Document', link: '#' },
-  { title: 'Brief Summary Swanath', link: '#' },
-  { title: 'AICTE SCHOLARSHIP Schemes 2021-22', link: '#' },
-  { title: 'Scholarship/Freeship 2023-24', link: '#' },
+  { 
+    title: 'AICTE Swanath Scheme Document_Sept 2021', 
+    link: 'https://vcet.edu.in/wp-content/uploads/2021/12/AICTE-Swanath-Scheme-Document_Sept-2021-1.pdf' 
+  },
+  { 
+    title: 'Brief Summary_Swanath', 
+    link: 'https://vcet.edu.in/wp-content/uploads/2021/12/Brief-Summary_Swanath-1.pdf' 
+  },
+  { 
+    title: 'AICTE SCHOLARSHIP Schemes 2021-22', 
+    link: 'https://vcet.edu.in/wp-content/uploads/2021/12/AICTE-SCHOLARSHIP-Schemes-2021-22-2.pdf' 
+  },
+  { 
+    title: 'Scholarship/Freeship Notice 2023-24', 
+    link: 'https://vcet.edu.in/wp-content/uploads/2023/08/NOTICE-WEBSITE.pdf' 
+  },
 ];
 
 const Scholarships: React.FC = () => {
+  const [activeSection, setActiveSection] = useState('govt');
+
+  const scrollTo = (id: string, section: string) => {
+    setActiveSection(section);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <PageLayout>
       <PageBanner
@@ -72,104 +94,125 @@ const Scholarships: React.FC = () => {
         ]}
       />
 
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6">
-          {/* Section Intro */}
-          <div className="max-w-3xl mx-auto text-center mb-14 reveal">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy mb-4">
-              Financial Assistance & Scholarships
-            </h2>
-            <p className="text-slate-500 text-lg leading-relaxed">
-              VCET helps students avail various government and institutional scholarship schemes.
-              Explore the available options below and download the relevant documents.
-            </p>
-          </div>
-
-          {/* Government Scholarships */}
-          <div className="max-w-5xl mx-auto mb-16">
-            <div className="reveal flex items-center gap-3 mb-8">
-              <div className="w-10 h-10 bg-gradient-to-br from-brand-blue to-brand-navy rounded-xl flex items-center justify-center">
-                <Award className="w-5 h-5 text-white" />
+      <section className="py-12 md:py-20 bg-[#f8fafc]">
+        <div className="container mx-auto px-4 max-w-[1400px]">
+          <div className="flex flex-col lg:flex-row gap-10 items-start">
+            
+            {/* STICKY SIDEBAR NAVIGATION */}
+            <aside className="w-full lg:w-80 lg:sticky lg:top-32 shrink-0">
+              <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-200">
+             
+                
+                <nav className="flex flex-col">
+                  <button 
+                    onClick={() => scrollTo('govt-section', 'govt')}
+                    className={`flex items-center gap-4 px-6 py-5 transition-all border-l-4 ${activeSection === 'govt' ? 'bg-[#1e4e85] border-[#e6a315] text-white' : 'bg-white border-transparent text-slate-600 hover:bg-slate-50'}`}
+                  >
+                    <Award size={18} className={activeSection === 'govt' ? 'text-[#e6a315]' : 'text-slate-400'} />
+                    <div className="flex flex-col items-start gap-0.5">
+                      <span className="text-[10px] font-bold tracking-widest text-[#e6a315] uppercase">State Funded</span>
+                      <span className="text-sm font-bold">Government Schemes</span>
+                    </div>
+                  </button>
+                  
+                  <button 
+                    onClick={() => scrollTo('aicte-section', 'aicte')}
+                    className={`flex items-center gap-4 px-6 py-5 transition-all border-l-4 ${activeSection === 'aicte' ? 'bg-[#1e4e85] border-[#e6a315] text-white' : 'bg-white border-transparent text-slate-600 hover:bg-slate-50'}`}
+                  >
+                    <BookOpen size={18} className={activeSection === 'aicte' ? 'text-[#e6a315]' : 'text-slate-400'} />
+                    <div className="flex flex-col items-start gap-0.5">
+                      <span className="text-[10px] font-bold tracking-widest text-[#e6a315] uppercase">Technical Education</span>
+                      <span className="text-sm font-bold">AICTE & Institutional</span>
+                    </div>
+                  </button>
+                </nav>
               </div>
-              <h3 className="text-2xl font-display font-bold text-brand-navy">
-                Government Scholarships & Freeships
-              </h3>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {governmentScholarships.map((item, idx) => (
-                <a
-                  key={idx}
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="reveal group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg p-5 flex items-start gap-4 transition-all duration-500 hover:-translate-y-0.5 hover:border-brand-gold/30"
-                  style={{ transitionDelay: `${0.03 * idx}s` }}
-                >
-                  <div className="flex-shrink-0 w-10 h-10 bg-brand-light rounded-lg flex items-center justify-center group-hover:bg-brand-gold/10 transition-colors duration-300">
-                    <FileText className="w-5 h-5 text-brand-blue group-hover:text-brand-gold transition-colors duration-300" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-semibold text-slate-700 group-hover:text-brand-blue transition-colors duration-300 leading-snug">
-                      {item.title}
-                    </h4>
-                    <span className="inline-flex items-center gap-1 mt-2 text-[10px] font-bold uppercase tracking-widest text-brand-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      View Details
-                      <ExternalLink className="w-2.5 h-2.5" />
-                    </span>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* AICTE Schemes */}
-          <div className="max-w-5xl mx-auto">
-            <div className="reveal flex items-center gap-3 mb-8">
-              <div className="w-10 h-10 bg-gradient-to-br from-brand-gold to-yellow-600 rounded-xl flex items-center justify-center">
-                <BookOpen className="w-5 h-5 text-white" />
+              {/* QUICK STAT/NOTE CARD */}
+              <div className="mt-6 bg-[#e6a315] p-6 rounded-2xl shadow-lg shadow-yellow-600/20 text-white">
+                <h4 className="text-lg font-bold mb-2">Notice</h4>
+                <p className="text-xs opacity-90 leading-relaxed font-medium">
+                  Please ensure all scholarship applications are submitted before the official state deadlines to avoid rejection.
+                </p>
               </div>
-              <h3 className="text-2xl font-display font-bold text-brand-navy">
-                AICTE Schemes
-              </h3>
-            </div>
+            </aside>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {aicteSchemes.map((item, idx) => (
-                <a
-                  key={idx}
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="reveal group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg p-5 flex items-start gap-4 transition-all duration-500 hover:-translate-y-0.5 hover:border-brand-gold/30"
-                  style={{ transitionDelay: `${0.05 * idx}s` }}
-                >
-                  <div className="flex-shrink-0 w-10 h-10 bg-brand-gold/10 rounded-lg flex items-center justify-center group-hover:bg-brand-blue/10 transition-colors duration-300">
-                    <FileText className="w-5 h-5 text-brand-gold group-hover:text-brand-blue transition-colors duration-300" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-semibold text-slate-700 group-hover:text-brand-blue transition-colors duration-300 leading-snug">
-                      {item.title}
-                    </h4>
-                    <span className="inline-flex items-center gap-1 mt-2 text-[10px] font-bold uppercase tracking-widest text-brand-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      Download PDF
-                      <ExternalLink className="w-2.5 h-2.5" />
-                    </span>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
+            {/* MAIN CONTENT AREA */}
+            <main className="flex-1 w-full">
+              
+              {/* SECTION: GOVERNMENT */}
+              <div id="govt-section" className="mb-12 scroll-mt-10">
+                <div className="flex items-center gap-4 mb-8">
+                  <h2 className="text-2xl font-bold text-[#1e4e85] whitespace-nowrap">Government Scholarships</h2>
+                  <div className="h-px bg-slate-200 w-full"></div>
+                </div>
 
-          {/* Help Note */}
-          <div className="max-w-3xl mx-auto mt-14 reveal" style={{ transitionDelay: '0.3s' }}>
-            <div className="bg-brand-light rounded-xl p-6 border border-brand-blue/10 text-center">
-              <p className="text-sm text-slate-500">
-                <span className="font-semibold text-brand-navy">Need help?</span> For scholarship
-                guidance and application assistance, please contact the Scholarship Section at the
-                college office during working hours.
-              </p>
-            </div>
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-slate-50 border-b border-slate-100">
+                        <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest w-16">Sr.</th>
+                        <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Scholarship Name</th>
+                        <th className="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-50">
+                      {governmentScholarships.map((item, idx) => (
+                        <tr key={idx} className="hover:bg-blue-50/30 transition-colors group">
+                          <td className="px-6 py-4 text-sm font-bold text-slate-300">
+                            {(idx + 1).toString().padStart(2, '0')}
+                          </td>
+                          <td className="px-6 py-4">
+                            <h4 className="text-[13.5px] font-bold text-[#1e4e85] group-hover:text-blue-700 leading-snug">
+                              {item.title}
+                            </h4>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <a 
+                              href={item.link} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-slate-100 text-slate-400 hover:bg-[#1e4e85] hover:text-white transition-all shadow-sm"
+                            >
+                              <Download size={18} />
+                            </a>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* SECTION: AICTE */}
+              <div id="aicte-section" className="scroll-mt-10">
+                <div className="flex items-center gap-4 mb-8">
+                  <h2 className="text-2xl font-bold text-[#1e4e85] whitespace-nowrap">AICTE & Notices</h2>
+                  <div className="h-px bg-slate-200 w-full"></div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {aicteSchemes.map((item, idx) => (
+                    <a
+                      key={idx}
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="p-3 bg-yellow-50 rounded-lg text-[#e6a315] group-hover:bg-[#1e4e85] group-hover:text-white transition-colors">
+                          <FileText size={20} />
+                        </div>
+                        <span className="text-sm font-bold text-[#1e4e85]">{item.title}</span>
+                      </div>
+                      <ExternalLink size={16} className="text-slate-300 group-hover:text-[#e6a315]" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+            </main>
           </div>
         </div>
       </section>

@@ -1,7 +1,7 @@
 import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
-import { FileText, Download, ExternalLink, ClipboardList } from 'lucide-react';
+import { FileText, Download, ClipboardList } from 'lucide-react';
 
 const documents = [
   {
@@ -41,77 +41,79 @@ const DocumentsRequired: React.FC = () => {
         ]}
       />
 
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6">
-          {/* Section Intro */}
-          <div className="max-w-3xl mx-auto text-center mb-14 reveal">
-            <div className="w-14 h-14 bg-gradient-to-br from-brand-blue to-brand-navy rounded-2xl flex items-center justify-center mx-auto mb-5">
-              <ClipboardList className="w-7 h-7 text-white" />
-            </div>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy mb-4">
-              Documents Required for Admission
-            </h2>
-            <p className="text-slate-500 text-lg leading-relaxed">
-              Download the complete list of documents required for admission to various programs.
-              Please ensure all documents are ready before reporting for the admission process.
-            </p>
+      <div className="bg-white min-h-screen font-sans">
+        {/* Header Section */}
+        <section className="pt-20 pb-16 px-4 text-center">
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="h-0.5 w-12 bg-[#e6a315]"></div>
+            <span className="text-[#e6a315] text-[10px] font-bold uppercase tracking-[0.3em]">Admission</span>
+            <div className="h-0.5 w-12 bg-[#e6a315]"></div>
           </div>
+          
+          <h1 className="text-4xl md:text-5xl font-serif font-bold text-[#1e4e85] mb-6">
+            Documents Required for Admission
+          </h1>
+          
+          <p className="max-w-2xl mx-auto text-slate-500 text-lg leading-relaxed">
+            Download the complete list of documents required for admission to various programs.
+            Please ensure all documents are ready before reporting for the admission process.
+          </p>
+        </section>
 
-          {/* Document Cards */}
-          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Grid of Download Cards */}
+        <section className="pb-24 px-4 sm:px-6">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
             {documents.map((doc, idx) => (
               <a
                 key={idx}
                 href={doc.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="reveal group bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:border-brand-gold/30"
-                style={{ transitionDelay: `${0.1 * idx}s` }}
+                className="group flex items-center gap-5 p-6 bg-[#ebf1f7] hover:bg-[#dfe7f0] rounded-2xl transition-all duration-300 border border-transparent hover:border-slate-200"
               >
-                {/* Tag bar */}
-                <div className="bg-gradient-to-r from-brand-blue to-brand-navy px-6 py-2.5">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold/90">
-                    {doc.tag}
-                  </span>
+                {/* Left Side: Dark Icon Container */}
+                <div className="shrink-0 w-16 h-16 bg-[#1e4e85] rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+                  <FileText className="w-8 h-8 text-white" />
                 </div>
 
-                <div className="p-6 flex items-start gap-5">
-                  {/* Icon */}
-                  <div className="flex-shrink-0 w-14 h-14 bg-brand-light rounded-xl flex items-center justify-center group-hover:bg-brand-gold/10 transition-colors duration-300">
-                    <FileText className="w-7 h-7 text-brand-blue group-hover:text-brand-gold transition-colors duration-300" />
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-base font-display font-bold text-brand-navy group-hover:text-brand-blue transition-colors duration-300 mb-1.5">
-                      {doc.title}
-                    </h3>
-                    <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                      {doc.description}
-                    </p>
-                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-brand-gold group-hover:text-brand-blue transition-colors duration-300">
-                      <Download className="w-3.5 h-3.5" />
-                      Download PDF
-                      <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                {/* Middle Side: Content */}
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-[17px] font-serif font-bold text-[#1e4e85] mb-1">
+                    {doc.title}
+                  </h3>
+                  <p className="text-xs text-slate-400 mb-2 leading-relaxed">
+                    {doc.description}
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-bold tracking-wide text-[#e6a315] uppercase">
+                      {doc.tag}
                     </span>
                   </div>
+                </div>
+
+                {/* Right Side: Download Button */}
+                <div className="shrink-0 w-10 h-10 bg-white rounded-lg flex items-center justify-center text-slate-400 group-hover:text-[#1e4e85] group-hover:shadow-sm transition-all">
+                  <Download size={20} />
                 </div>
               </a>
             ))}
           </div>
 
-          {/* Info Note */}
-          <div className="max-w-3xl mx-auto mt-14 reveal" style={{ transitionDelay: '0.5s' }}>
-            <div className="bg-brand-light rounded-xl p-6 border border-brand-blue/10 text-center">
-              <p className="text-sm text-slate-500">
-                <span className="font-semibold text-brand-navy">Important:</span> Original
-                documents along with two sets of photocopies must be submitted at the time of
+          {/* Footer Note */}
+          <div className="mt-16 text-center">
+            <p className="text-sm text-slate-400 font-medium italic">
+              All documents are in PDF format. Click to download or open in a new tab.
+            </p>
+            <div className="mt-8 max-w-2xl mx-auto p-6 bg-slate-50 rounded-xl border border-slate-100">
+              <p className="text-xs text-slate-500 leading-relaxed">
+                <span className="font-bold text-[#1e4e85] uppercase tracking-tighter mr-2">Important:</span> 
+                Original documents along with two sets of photocopies must be submitted at the time of
                 admission. Incomplete documentation may result in delay of the admission process.
               </p>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </PageLayout>
   );
 };
