@@ -51,6 +51,7 @@ vcet.edu.in/
 |
 |-- components/                # Reusable UI components (homepage sections + shared layout)
 |   |-- TopBanner.tsx          # Top bar with logos and contact
+|   |                          # (includes nav dropdown: Departments > MMS)
 |   |-- Header.tsx             # Navigation menu
 |   |-- Hero.tsx               # Hero / banner section
 |   |-- About.tsx              # About stats block
@@ -72,6 +73,12 @@ vcet.edu.in/
 |   |-- SplashScreen.tsx       # Initial splash/loader
 |   |-- DepartmentPage.tsx     # Generic department page template
 |   |-- Admissions.tsx         # Admissions info component
+|   |
+|   |-- mms/                   # ★ MMS-specific shared components
+|       |-- MMSLayout.tsx      # Wrapper for all MMS pages (MMS header + footer)
+|       |-- MMSHeader.tsx      # MMS internal nav bar with own menu & dropdown
+|       |-- MMSHero.tsx        # MMS hero image carousel
+|       |-- MMSEnquirePopup.tsx # Global "Enquire Now" floating button + modal
 |
 |-- pages/                     # All route-level page components (lazy loaded)
 |   |-- about/                 # Institute information
@@ -175,7 +182,50 @@ vcet.edu.in/
 |   |   |-- BestPractices.tsx
 |   |
 |   |-- contact/
-|       |-- ContactUs.tsx
+|   |   |-- ContactUs.tsx
+|   |
+|   |-- mms/                         # ★ MMS (MBA) mini-site — routes under /mms/*
+|       |-- MMSHome.tsx               # /mms — MMS landing page
+|       |
+|       |-- about/                    # /mms/about/*
+|       |   |-- MMSAbout.tsx          # /mms/about (tab: About)
+|       |   |-- MMSPrincipalsDesk.tsx # /mms/about/principals-desk
+|       |   |-- MMSHODsDesk.tsx       # /mms/about/hods-desk
+|       |   |-- MMSFaculty.tsx        # /mms/about/faculty
+|       |   |-- MMSVisionMission.tsx  # /mms/about/vision-mission
+|       |   |-- MMSDAB.tsx            # /mms/about/dab (Departmental Advisory Board)
+|       |   |-- MMSProgramOutcomes.tsx # /mms/about/program-outcomes
+|       |
+|       |-- admission/
+|       |   |-- MMSAdmission.tsx      # /mms/admission
+|       |
+|       |-- experiential-learning/
+|       |   |-- MMSExperientialLearning.tsx  # /mms/experiential-learning
+|       |                                    # tabs: Info, Role Play, Group Discussion,
+|       |                                    #       Entrepreneurial Drive, Financial
+|       |                                    #       Literacy Program, NESCO Bombay
+|       |                                    #       Exhibition Centre, 3D Model Making
+|       |
+|       |-- training-placement/
+|       |   |-- MMSTraining.tsx       # /mms/training-placement/training
+|       |   |                         # tabs: Training, Events, Career Guidance,
+|       |   |                         #       Internship, Gallery
+|       |   |-- MMSPlacement.tsx      # /mms/training-placement/placement
+|       |
+|       |-- students-life/
+|       |   |-- MMSStudentsLife.tsx   # /mms/students-life
+|       |                             # tabs: V-Ecstatic, DLLE, Book Review,
+|       |                             #       Add-on Courses (Power BI / Advance Excel),
+|       |                             #       Industry Expert Session, NSIM Training,
+|       |                             #       Oscillations, IDEATHON 1.0, Rankers
+|       |
+|       |-- facilities/
+|       |   |-- MMSFacilities.tsx     # /mms/facilities
+|       |                             # tabs: Computer Labs, Library, Seminar Hall,
+|       |                             #       Classroom, Gymkhana
+|       |
+|       |-- faqs/
+|           |-- MMSFAQs.tsx           # /mms/faqs (13 Q&A items)
 |
 |-- services/                  # Public API fetch functions (main website, no auth)
 |   |-- api.ts                 # Base fetch client — reads VITE_API_URL env var
@@ -256,6 +306,15 @@ vcet.edu.in/
 |       |-- recriters/
 |       |-- Remarkable Acheivements/
 |       |-- testimonials/
+|       |
+|       |-- mms/               # ★ MMS-specific image assets
+|           |-- logo/          # VCETLOGO.png, VCET.BANNER.png
+|           |-- hero/          # Hero carousel images (gal1–gal5, _MG_0233, _MG_0244, _MG_0252)
+|           |-- internships/   # Summer internship company logos (l2, l7, logo1)
+|           |-- events/        # Events carousel images (e1, e2, e3)
+|           |-- about/         # About page images (img4.jpeg)
+|           |-- facilities/    # Facilities images (cl1, cl2, inf5)
+|           |-- syllabus/      # FY.pdf, SY_syllabus.pdf (downloadable syllabi)
 |
 |-- Images/                    # Source image assets (mirrored to public/Images/)
 |-- uploads/                   # Runtime file uploads from admin panel (not in Git)
