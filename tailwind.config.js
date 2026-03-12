@@ -1,4 +1,9 @@
-/** @type {import('tailwindcss').Config} */
+/**
+ * LEGACY — superseded by Tailwind CSS v4.
+ * All theme tokens (colors, fonts, animations, keyframes) have been moved to
+ * the @theme block in index.css.  Content scanning is now automatic in v4.
+ * This file is kept for reference only and is NOT loaded by the build.
+ */
 export default {
   content: [
     './index.html',
