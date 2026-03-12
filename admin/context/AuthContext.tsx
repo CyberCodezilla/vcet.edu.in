@@ -6,6 +6,17 @@ import type { User } from '../types';
 const TOKEN_KEY = 'admin_token';
 const USER_KEY  = 'admin_user';
 
+// ── Dev bypass ───────────────────────────────────────────────────────────────
+// When the backend is offline, seed localStorage so ProtectedRoute lets you in.
+const DEV_BYPASS = import.meta.env.DEV && import.meta.env.VITE_DEV_BYPASS === 'true';
+if (DEV_BYPASS && !localStorage.getItem(TOKEN_KEY)) {
+  localStorage.setItem(TOKEN_KEY, 'dev-mock-token');
+  localStorage.setItem(USER_KEY, JSON.stringify({
+    id: 1, username: 'admin', full_name: 'Dev Admin', role: 'super',
+  }));
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 interface AuthContextValue {
   user: User | null;
   isLoading: boolean;

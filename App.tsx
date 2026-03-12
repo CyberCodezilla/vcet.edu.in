@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import { AuthProvider } from './admin/context/AuthContext';
 import ProtectedRoute from './admin/components/ProtectedRoute';
@@ -320,6 +320,7 @@ function App() {
 
           {/* ─── Admin Panel ─── */}
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<Navigate to="/admin" replace />} />
           <Route
             path="/admin"
             element={
