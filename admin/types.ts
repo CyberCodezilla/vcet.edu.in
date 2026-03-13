@@ -44,6 +44,7 @@ export interface DeleteResponse {
 export interface Notice {
   id: number;
   title: string;
+  category: string | null;
   description: string | null;
   attachment: string | null;
   external_link: string | null;
@@ -56,6 +57,7 @@ export interface Notice {
 
 export interface NoticePayload {
   title: string;
+  category?: string;
   description?: string;
   external_link?: string;
   is_new?: boolean;
@@ -69,12 +71,14 @@ export interface NoticePayload {
 export interface Event {
   id: number;
   title: string;
+  organizer: string | null;
   description: string | null;
   date: string;
   time: string | null;
   venue: string | null;
   image: string | null;
   category: string | null;
+  status: 'Upcoming' | 'Completed' | 'Cancelled' | null;
   is_featured: boolean;
   is_active: boolean;
   created_at: string;
@@ -82,12 +86,14 @@ export interface Event {
 }
 
 export interface EventPayload {
-  title: string;
+  title?: string;
+  organizer?: string;
   description?: string;
-  date: string;
+  date?: string;
   time?: string;
   venue?: string;
   category?: string;
+  status?: 'Upcoming' | 'Completed' | 'Cancelled';
   is_featured?: boolean;
   is_active?: boolean;
   image?: File;
@@ -132,7 +138,7 @@ export interface HeroSlide {
 }
 
 export interface HeroSlidePayload {
-  title: string;
+  title?: string;
   subtitle?: string;
   button_text?: string;
   button_link?: string;
@@ -166,6 +172,13 @@ export interface Achievement {
   id: number;
   title: string;
   value: string;
+  participant_name: string | null;
+  participant_avatar: string | null;
+  participant_role: string | null;
+  date: string | null;
+  category: string | null;
+  document_name: string | null;
+  document_url: string | null;
   description: string | null;
   icon: string | null;
   sort_order: number;
@@ -175,8 +188,14 @@ export interface Achievement {
 }
 
 export interface AchievementPayload {
-  title: string;
-  value: string;
+  title?: string;
+  value?: string;
+  participant_name?: string;
+  participant_role?: string;
+  date?: string;
+  category?: string;
+  document_name?: string;
+  document_url?: string;
   description?: string;
   icon?: string;
   sort_order?: number;
@@ -198,9 +217,9 @@ export interface Testimonial {
 }
 
 export interface TestimonialPayload {
-  name: string;
+  name?: string;
   role?: string;
-  text: string;
+  text?: string;
   rating?: number;
   is_active?: boolean;
   photo?: File;

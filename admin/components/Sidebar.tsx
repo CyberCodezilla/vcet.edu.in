@@ -98,34 +98,35 @@ const navSections: NavSection[] = [
   {
     label: '',
     items: [
-      { label: 'Dashboard',   path: '/admin',             icon: <LayoutGrid /> },
+      { label: 'Dashboard', path: '/admin', icon: <LayoutGrid /> },
     ],
   },
   {
-    label: 'Content',
+    label: 'Content Management',
     items: [
-      { label: 'Notices',         path: '/admin/notices',           icon: <Bell /> },
-      { label: 'Events',          path: '/admin/events',            icon: <CalendarIcon /> },
-      { label: 'Hero Slides',     path: '/admin/hero-slides',       icon: <MonitorIcon /> },
-      { label: 'News Ticker',     path: '/admin/news-ticker',       icon: <HashIcon /> },
-      { label: 'Achievements',    path: '/admin/achievements',      icon: <StarIcon /> },
-      { label: 'Testimonials',    path: '/admin/testimonials',      icon: <QuoteIcon /> },
-      { label: 'Gallery',         path: '/admin/gallery',           icon: <ImageIcon /> },
-    ],
-  },
-  {
-    label: 'Placements',
-    items: [
-      { label: 'Placements',      path: '/admin/placements',        icon: <BriefcaseIcon /> },
-      { label: 'Partners',        path: '/admin/placement-partners',icon: <UsersIcon /> },
+      { label: 'Notices', path: '/admin/notices', icon: <Bell /> },
+      { label: 'Events', path: '/admin/events', icon: <CalendarIcon /> },
+      { label: 'Hero Slides', path: '/admin/hero-slides', icon: <MonitorIcon /> },
+      { label: 'News Ticker', path: '/admin/news-ticker', icon: <HashIcon /> },
+      { label: 'Achievements', path: '/admin/achievements', icon: <StarIcon /> },
+      { label: 'Testimonials', path: '/admin/testimonials', icon: <QuoteIcon /> },
+      { label: 'Gallery', path: '/admin/gallery', icon: <ImageIcon /> },
     ],
   },
   {
     label: 'Enquiries',
     items: [
-      { label: 'Enquiries',       path: '/admin/enquiries',         icon: <MailIcon /> },
+      { label: 'Enquiries', path: '/admin/enquiries', icon: <MailIcon /> },
     ],
   },
+  {
+    label: 'Corporate Relations',
+    items: [
+      { label: 'Placements', path: '/admin/placements', icon: <BriefcaseIcon /> },
+      { label: 'Partners', path: '/admin/placement-partners', icon: <UsersIcon /> },
+    ],
+  },
+
 ];
 
 const Sidebar: React.FC = () => {
@@ -139,20 +140,21 @@ const Sidebar: React.FC = () => {
   };
 
   const linkClass = (active: boolean) =>
-    `flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
-      active
-        ? 'bg-yellow-400/10 text-yellow-400 border border-yellow-400/20'
-        : 'text-white/50 hover:text-white hover:bg-white/5'
+    `flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${active
+      ? 'bg-[#1e293b] text-white shadow-sm'
+      : 'text-slate-500 hover:text-[#1e293b] hover:bg-slate-100'
     }`;
 
   const nav = (
     <nav className="flex flex-col h-full">
       {/* Logo */}
-      <div className="px-6 py-5 border-b border-white/5 flex items-center gap-3">
-        <img src="/Images/LOGO/vcet-logo.png" alt="VCET" className="w-8 h-8 object-contain" />
+      <div className="px-6 py-5 border-b border-slate-200 flex items-center gap-3">
+        <div className="w-9 h-9 rounded-full bg-[#1e293b] flex items-center justify-center flex-shrink-0">
+          <img src="/images/VCET logo.jpeg " alt="VCET LOGO" className='w-10 h-10' />
+        </div>
         <div>
-          <p className="text-white text-sm font-bold leading-tight">VCET</p>
-          <p className="text-white/30 text-[10px] uppercase tracking-widest">Admin Panel</p>
+          <p className="text-[#1e293b] text-sm font-bold leading-tight">VCET Admin</p>
+          <p className="text-slate-400 text-[10px] uppercase tracking-widest">Admin Panel</p>
         </div>
       </div>
 
@@ -161,7 +163,7 @@ const Sidebar: React.FC = () => {
         {navSections.map((section) => (
           <div key={section.label}>
             {section.label && (
-              <p className="px-4 mb-1 text-[10px] font-semibold uppercase tracking-widest text-white/20">
+              <p className="px-4 mb-1 text-[10px] font-semibold uppercase tracking-widest text-slate-400">
                 {section.label}
               </p>
             )}
@@ -184,14 +186,21 @@ const Sidebar: React.FC = () => {
       </div>
 
       {/* User + Logout */}
-      <div className="px-3 py-4 border-t border-white/5">
-        <div className="px-4 py-3 rounded-xl bg-white/5 mb-2">
-          <p className="text-white text-sm font-medium truncate">{user?.full_name ?? 'Admin'}</p>
-          <p className="text-white/30 text-xs capitalize">{user?.role}</p>
+      <div className="px-3 py-4 border-t border-slate-200">
+        <div className="px-4 py-3 rounded-xl bg-slate-50 mb-2 flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-[#1e293b] flex items-center justify-center flex-shrink-0">
+            <span className="text-white text-sm font-bold">
+              {(user?.full_name ?? 'A').charAt(0).toUpperCase()}
+            </span>
+          </div>
+          <div className="min-w-0">
+            <p className="text-slate-800 text-sm font-medium truncate">{user?.full_name ?? 'Admin'}</p>
+            <p className="text-slate-400 text-xs capitalize">{user?.role ?? 'Super Admin'}</p>
+          </div>
         </div>
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-red-400 hover:bg-red-400/5 transition-all duration-200"
+          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-slate-500 hover:text-red-500 hover:bg-red-50 transition-all duration-200"
         >
           <LogOutIcon />
           Sign out
@@ -205,7 +214,7 @@ const Sidebar: React.FC = () => {
       {/* Mobile toggle */}
       <button
         onClick={() => setOpen(!open)}
-        className="lg:hidden fixed top-4 left-4 z-50 w-9 h-9 bg-[#0A1128] border border-white/10 rounded-lg flex items-center justify-center text-white"
+        className="lg:hidden fixed top-4 left-4 z-50 w-9 h-9 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-slate-700 shadow-sm"
       >
         {open ? <XIcon /> : <MenuIcon />}
       </button>
@@ -213,14 +222,14 @@ const Sidebar: React.FC = () => {
       {/* Mobile overlay */}
       {open && (
         <div
-          className="lg:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+          className="lg:hidden fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
           onClick={() => setOpen(false)}
         />
       )}
 
       {/* Sidebar panel */}
       <aside
-        className={`fixed top-0 left-0 z-40 h-full w-64 bg-[#070E20] border-r border-white/5
+        className={`fixed top-0 left-0 z-40 h-full w-64 bg-white border-r border-slate-200
           transition-transform duration-300 lg:translate-x-0
           ${open ? 'translate-x-0' : '-translate-x-full'}`}
       >

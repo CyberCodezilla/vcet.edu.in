@@ -1,5 +1,9 @@
 import { client } from './client';
 import type { ListResponse, ItemResponse, DeleteResponse, HeroSlide, HeroSlidePayload } from '../types';
+import { createMockCrud, MOCK_HERO_SLIDES } from './mockStore';
+
+const USE_MOCK = import.meta.env.DEV && import.meta.env.VITE_MOCK_AUTH === 'true';
+const mock = USE_MOCK ? createMockCrud<HeroSlide>(MOCK_HERO_SLIDES) : null;
 
 function toFormData(payload: HeroSlidePayload): FormData {
   const form = new FormData();
@@ -13,21 +17,27 @@ function toFormData(payload: HeroSlidePayload): FormData {
 }
 
 export const heroSlidesApi = {
-  list: () =>
-    client.request<ListResponse<HeroSlide>>('/hero-slides'),
+  list: USE_MOCK
+    ? () => mock!.list()
+    : () => client.request<ListResponse<HeroSlide>>('/hero-slides'),
 
-  get: (id: number) =>
-    client.request<ItemResponse<HeroSlide>>(`/hero-slides/${id}`),
+  get: USE_MOCK
+    ? (id: number) => mock!.get(id)
+    : (id: number) => client.request<ItemResponse<HeroSlide>>(`/hero-slides/${id}`),
 
-  create: (payload: HeroSlidePayload) =>
-    client.requestForm<ItemResponse<HeroSlide>>('/hero-slides', toFormData(payload)),
+  create: USE_MOCK
+    ? (payload: HeroSlidePayload) => mock!.create(payload as unknown as Partial<HeroSlide>)
+    : (payload: HeroSlidePayload) => client.requestForm<ItemResponse<HeroSlide>>('/hero-slides', toFormData(payload)),
 
-  update: (id: number, payload: HeroSlidePayload) => {
-    const form = toFormData(payload);
-    form.append('_method', 'PUT');
-    return client.requestForm<ItemResponse<HeroSlide>>(`/hero-slides/${id}`, form);
-  },
+  update: USE_MOCK
+    ? (id: number, payload: HeroSlidePayload) => mock!.update(id, payload as unknown as Partial<HeroSlide>)
+    : (id: number, payload: HeroSlidePayload) => {
+        const form = toFormData(payload);
+        form.append('_method', 'PUT');
+        return client.requestForm<ItemResponse<HeroSlide>>(`/hero-slides/${id}`, form);
+      },
 
-  delete: (id: number) =>
-    client.request<DeleteResponse>(`/hero-slides/${id}`, { method: 'DELETE' }),
+  delete: USE_MOCK
+    ? (id: number) => mock!.delete(id)
+    : (id: number) => client.request<DeleteResponse>(`/hero-slides/${id}`, { method: 'DELETE' }),
 };

@@ -1,5 +1,9 @@
 import { client } from './client';
 import type { ListResponse, ItemResponse, DeleteResponse, Notice, NoticePayload } from '../types';
+import { createMockCrud, MOCK_NOTICES } from './mockStore';
+
+const USE_MOCK = import.meta.env.DEV && import.meta.env.VITE_MOCK_AUTH === 'true';
+const mock = USE_MOCK ? createMockCrud<Notice>(MOCK_NOTICES) : null;
 
 function toFormData(payload: NoticePayload): FormData {
   const form = new FormData();
@@ -17,21 +21,27 @@ function toFormData(payload: NoticePayload): FormData {
 }
 
 export const noticesApi = {
-  list: () =>
-    client.request<ListResponse<Notice>>('/notices'),
+  list: USE_MOCK
+    ? () => mock!.list()
+    : () => client.request<ListResponse<Notice>>('/notices'),
 
-  get: (id: number) =>
-    client.request<ItemResponse<Notice>>(`/notices/${id}`),
+  get: USE_MOCK
+    ? (id: number) => mock!.get(id)
+    : (id: number) => client.request<ItemResponse<Notice>>(`/notices/${id}`),
 
-  create: (payload: NoticePayload) =>
-    client.requestForm<ItemResponse<Notice>>('/notices', toFormData(payload)),
+  create: USE_MOCK
+    ? (payload: NoticePayload) => mock!.create(payload as unknown as Partial<Notice>)
+    : (payload: NoticePayload) => client.requestForm<ItemResponse<Notice>>('/notices', toFormData(payload)),
 
-  update: (id: number, payload: NoticePayload) => {
-    const form = toFormData(payload);
-    form.append('_method', 'PUT'); // Laravel method spoofing
-    return client.requestForm<ItemResponse<Notice>>(`/notices/${id}`, form);
-  },
+  update: USE_MOCK
+    ? (id: number, payload: NoticePayload) => mock!.update(id, payload as unknown as Partial<Notice>)
+    : (id: number, payload: NoticePayload) => {
+        const form = toFormData(payload);
+        form.append('_method', 'PUT');
+        return client.requestForm<ItemResponse<Notice>>(`/notices/${id}`, form);
+      },
 
-  delete: (id: number) =>
-    client.request<DeleteResponse>(`/notices/${id}`, { method: 'DELETE' }),
+  delete: USE_MOCK
+    ? (id: number) => mock!.delete(id)
+    : (id: number) => client.request<DeleteResponse>(`/notices/${id}`, { method: 'DELETE' }),
 };

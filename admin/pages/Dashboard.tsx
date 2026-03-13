@@ -3,35 +3,16 @@ import { Link } from 'react-router-dom';
 import { noticesApi } from '../api/notices';
 import { eventsApi } from '../api/events';
 import { placementsApi } from '../api/placements';
+import { enquiriesApi } from '../api/enquiries';
 import { useAuth } from '../context/AuthContext';
-import type { Notice, Event, Placement } from '../types';
+import type { Notice, Event, Placement, Enquiry } from '../types';
 
-interface StatCardProps {
-  label: string;
-  value: number | string;
-  to: string;
-  icon: React.ReactNode;
-  color: string;
-}
+/* ── Icons (inline SVGs) ──────────────────────────────────────────────────── */
 
-const StatCard: React.FC<StatCardProps> = ({ label, value, to, icon, color }) => (
-  <Link
-    to={to}
-    className="group bg-white/[0.04] border border-white/8 rounded-2xl p-6 hover:border-white/15 hover:-translate-y-1 transition-all duration-300 flex items-center gap-4"
-  >
-    <div className={`w-12 h-12 rounded-xl ${color} flex items-center justify-center flex-shrink-0`}>
-      {icon}
-    </div>
-    <div>
-      <p className="text-3xl font-bold text-white">{value}</p>
-      <p className="text-white/40 text-sm mt-0.5">{label}</p>
-    </div>
-  </Link>
-);
-
-const BellIcon = () => (
+const NoticeIcon = () => (
   <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
-    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" />
   </svg>
 );
 const CalendarIcon = () => (
@@ -40,18 +21,108 @@ const CalendarIcon = () => (
     <line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
   </svg>
 );
-const BriefcaseIcon = () => (
+const CheckSquareIcon = () => (
   <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
-    <rect x="2" y="7" width="20" height="14" rx="2" />
-    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+    <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M9 12l2 2 4-4" />
   </svg>
 );
+const BellIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
+    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" />
+  </svg>
+);
+const PlusIcon = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+    <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+  </svg>
+);
+const TrendUpIcon = () => (
+  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" />
+  </svg>
+);
+const ShareIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
+    <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
+    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+  </svg>
+);
+const AtIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="4" /><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94" />
+  </svg>
+);
+
+const UserPlusIcon = () => (
+  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
+    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="8.5" cy="7" r="4" /><line x1="20" y1="8" x2="20" y2="14" /><line x1="23" y1="11" x2="17" y2="11" />
+  </svg>
+);
+
+const ImagePlusIcon = () => (
+  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /><line x1="12" y1="5" x2="12" y2="9" /><line x1="10" y1="7" x2="14" y2="7" />
+  </svg>
+);
+
+const IdCardIcon = () => (
+  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
+    <rect x="3" y="4" width="18" height="16" rx="2" /><circle cx="12" cy="10" r="3" /><path d="M7 20c0-3.3 2.7-6 6-6" />
+  </svg>
+);
+
+const NewspaperIcon = () => (
+  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.75} viewBox="0 0 24 24">
+    <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" /><path d="M18 14h-8" /><path d="M15 18h-5" /><path d="M10 6h8v4h-8V6Z" />
+  </svg>
+);
+
+const ExternalLinkIcon = () => (
+  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
+  </svg>
+);
+
+/* ── Stat Card ─────────────────────────────────────────────────────────────── */
+
+interface StatCardProps {
+  label: string;
+  value: number | string;
+  to: string;
+  icon: React.ReactNode;
+  iconBg: string;
+  trend?: string;
+}
+
+const StatCard: React.FC<StatCardProps> = ({ label, value, to, icon, iconBg, trend }) => (
+  <Link
+    to={to}
+    className="group bg-white border border-slate-200 rounded-2xl p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-4"
+  >
+    <div className={`w-12 h-12 rounded-xl ${iconBg} flex items-center justify-center flex-shrink-0`}>
+      {icon}
+    </div>
+    <div className="min-w-0">
+      <p className="text-slate-400 text-xs font-medium">{label}</p>
+      <p className="text-2xl font-bold text-slate-800 mt-0.5">{value}</p>
+      {trend && (
+        <div className="flex items-center gap-1 mt-1">
+          <TrendUpIcon />
+          <span className="text-emerald-500 text-xs font-medium">{trend}</span>
+        </div>
+      )}
+    </div>
+  </Link>
+);
+
+/* ── Dashboard ─────────────────────────────────────────────────────────────── */
 
 const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
   const [notices, setNotices] = useState<Notice[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
   const [placements, setPlacements] = useState<Placement[]>([]);
+  const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -59,68 +130,162 @@ const AdminDashboard: React.FC = () => {
       noticesApi.list().then((r) => setNotices(r.data)),
       eventsApi.list().then((r) => setEvents(r.data)),
       placementsApi.list().then((r) => setPlacements(r.data)),
+      enquiriesApi.list().then((r) => setEnquiries(r.data)),
     ]).finally(() => setLoading(false));
   }, []);
 
   const recentNotices = notices.slice(0, 5);
   const recentEvents = events.slice(0, 5);
+  const placementRate = placements.length > 0 ? '98%' : '–';
 
   return (
-    <div className="space-y-8">
-      {/* Page header */}
-      <div>
-        <h1 className="text-2xl font-bold text-white">
-          Welcome back, {user?.full_name?.split(' ')[0] ?? 'Admin'} 👋
-        </h1>
-        <p className="text-white/40 text-sm mt-1">Here's what's happening today.</p>
+    <div className="space-y-6">
+      {/* ── Top header bar ── */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <a
+            href="https://vcet-edu-in.vercel.app/"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 text-[#2563eb] hover:text-[#1d4ed8] font-bold text-sm mb-3 transition-colors group"
+          >
+            <ExternalLinkIcon />
+            <span className="group-hover:underline underline-offset-4">Visit Website</span>
+          </a>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight leading-none">
+            Welcome back, <span className="text-[#1e293b]">{user?.full_name?.split(' ')[0] ?? 'Admin'} 👋</span>
+          </h1>
+          <p className="text-slate-400 text-sm mt-1.5 font-medium">Here's what's happening today at VCET.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <button className="relative w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-700 hover:border-slate-300 transition-all shadow-sm">
+            <BellIcon />
+            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full border-4 border-[#f1f5f9] flex items-center justify-center">
+              <span className="text-[10px] text-white font-black">3</span>
+            </span>
+          </button>
+          <Link
+            to="/admin/notices/new"
+            className="flex items-center gap-2 bg-[#1e293b] hover:bg-slate-800 text-white font-black px-6 py-3.5 rounded-2xl text-[10px] uppercase tracking-widest transition-all shadow-xl shadow-slate-200 hover:-translate-y-1"
+          >
+            <PlusIcon />
+            New Notice
+          </Link>
+        </div>
       </div>
 
-      {/* Stat cards */}
+      {/* ── Stat cards ── */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <StatCard
           label="Total Notices"
           value={loading ? '–' : notices.length}
           to="/admin/notices"
-          icon={<BellIcon />}
-          color="bg-blue-400/10 text-blue-400"
+          icon={<NoticeIcon />}
+          iconBg="bg-blue-50 text-blue-500"
+          trend="+12% from last month"
         />
         <StatCard
           label="Total Events"
           value={loading ? '–' : events.length}
           to="/admin/events"
           icon={<CalendarIcon />}
-          color="bg-emerald-400/10 text-emerald-400"
+          iconBg="bg-emerald-50 text-emerald-500"
+          trend="+5.4% from last month"
         />
         <StatCard
-          label="Placement Records"
-          value={loading ? '–' : placements.length}
-          to="/admin/placements"
-          icon={<BriefcaseIcon />}
-          color="bg-yellow-400/10 text-yellow-400"
+          label="Total Enquiries"
+          value={loading ? '–' : enquiries.length}
+          to="/admin/enquiries"
+          icon={<CheckSquareIcon />}
+          iconBg="bg-amber-50 text-amber-500"
+          trend="+2% year-on-year"
         />
       </div>
 
-      {/* Recent notices + events */}
+      {/* ── Quick Actions ── */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold text-slate-800">Quick Actions</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <Link to="/admin/notices/new" className="group bg-white border border-slate-200/60 rounded-3xl p-6 flex flex-col items-center justify-center gap-4 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300">
+            <div className="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center text-slate-600 group-hover:bg-[#1e293b] group-hover:text-white transition-colors duration-300">
+              <PlusIcon />
+            </div>
+            <span className="text-sm font-bold text-slate-700">Add Notice</span>
+          </Link>
+          <Link to="/admin/events/new" className="group bg-white border border-slate-200/60 rounded-3xl p-6 flex flex-col items-center justify-center gap-4 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300">
+            <div className="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center text-slate-600 group-hover:bg-[#1e293b] group-hover:text-white transition-colors duration-300">
+              <CalendarIcon />
+            </div>
+            <span className="text-sm font-bold text-slate-700 text-center">Create Event</span>
+          </Link>
+          <Link to="/admin/gallery/new" className="group bg-white border border-slate-200/60 rounded-3xl p-6 flex flex-col items-center justify-center gap-4 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300">
+            <div className="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center text-slate-600 group-hover:bg-[#1e293b] group-hover:text-white transition-colors duration-300">
+              <ImagePlusIcon />
+            </div>
+            <span className="text-sm font-bold text-slate-700 text-center">Upload Gallery</span>
+          </Link>
+          <Link to="/admin/placements/new" className="group bg-white border border-slate-200/60 rounded-3xl p-6 flex flex-col items-center justify-center gap-4 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300">
+            <div className="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center text-slate-600 group-hover:bg-[#1e293b] group-hover:text-white transition-colors duration-300">
+              <IdCardIcon />
+            </div>
+            <span className="text-sm font-bold text-slate-700 text-center">Add Placement</span>
+          </Link>
+          <Link to="/admin/users/new" className="group bg-white border border-slate-200/60 rounded-3xl p-6 flex flex-col items-center justify-center gap-4 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300">
+            <div className="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center text-slate-600 group-hover:bg-[#1e293b] group-hover:text-white transition-colors duration-300">
+              <UserPlusIcon />
+            </div>
+            <span className="text-sm font-bold text-slate-700 text-center">New User</span>
+          </Link>
+          <Link to="/admin/news-ticker" className="group bg-white border border-slate-200/60 rounded-3xl p-6 flex flex-col items-center justify-center gap-4 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-300">
+            <div className="w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center text-slate-600 group-hover:bg-[#1e293b] group-hover:text-white transition-colors duration-300">
+              <NewspaperIcon />
+            </div>
+            <span className="text-sm font-bold text-slate-700 text-center">Ticker Update</span>
+          </Link>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Notices */}
-        <div className="bg-white/[0.04] border border-white/8 rounded-2xl p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-white font-semibold">Recent Notices</h2>
-            <Link to="/admin/notices" className="text-yellow-400 text-xs hover:underline">View all</Link>
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-slate-800 font-semibold flex items-center gap-2">
+              <span className="text-lg">🔔</span> Recent Notices
+            </h2>
+            <Link to="/admin/notices" className="text-[#1e293b] text-xs font-semibold hover:underline">View all</Link>
           </div>
           {loading ? (
-            <p className="text-white/30 text-sm">Loading…</p>
+            <div className="flex items-center justify-center py-12">
+              <div className="w-6 h-6 border-2 border-slate-200 border-t-[#1e293b] rounded-full animate-spin" />
+            </div>
           ) : recentNotices.length === 0 ? (
-            <p className="text-white/30 text-sm">No notices yet.</p>
+            <div className="text-center py-10">
+              <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-slate-300" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                  <rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" />
+                </svg>
+              </div>
+              <p className="text-slate-700 font-semibold text-sm">No notices yet</p>
+              <p className="text-slate-400 text-xs mt-1 max-w-[240px] mx-auto">Start communicating with students and faculty by creating your first notice.</p>
+              <Link
+                to="/admin/notices/new"
+                className="inline-block mt-4 px-5 py-2 border-2 border-[#1e293b] text-[#1e293b] rounded-xl text-xs font-bold hover:bg-[#1e293b] hover:text-white transition-colors"
+              >
+                Create First Notice
+              </Link>
+            </div>
           ) : (
             <ul className="space-y-3">
               {recentNotices.map((n) => (
-                <li key={n.id} className="flex items-start gap-3">
-                  <span className={`mt-1 w-2 h-2 rounded-full flex-shrink-0 ${n.is_active ? 'bg-emerald-400' : 'bg-white/20'}`} />
-                  <div className="min-w-0">
-                    <p className="text-white/80 text-sm truncate">{n.title}</p>
-                    <p className="text-white/30 text-xs">{new Date(n.created_at).toLocaleDateString()}</p>
+                <li key={n.id} className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors">
+                  <span className={`mt-1.5 w-2 h-2 rounded-full flex-shrink-0 ${n.is_active ? 'bg-emerald-400' : 'bg-slate-300'}`} />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-slate-700 text-sm font-medium truncate">{n.title}</p>
+                    <p className="text-slate-400 text-xs mt-0.5">{new Date(n.created_at).toLocaleDateString()}</p>
                   </div>
+                  {n.is_new && (
+                    <span className="px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full uppercase mt-1">New</span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -128,28 +293,98 @@ const AdminDashboard: React.FC = () => {
         </div>
 
         {/* Events */}
-        <div className="bg-white/[0.04] border border-white/8 rounded-2xl p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-white font-semibold">Upcoming Events</h2>
-            <Link to="/admin/events" className="text-yellow-400 text-xs hover:underline">View all</Link>
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-slate-800 font-semibold flex items-center gap-2">
+              <span className="text-lg">🎉</span> Upcoming Events
+            </h2>
+            <Link to="/admin/events" className="text-[#1e293b] text-xs font-semibold hover:underline">View all</Link>
           </div>
           {loading ? (
-            <p className="text-white/30 text-sm">Loading…</p>
+            <div className="flex items-center justify-center py-12">
+              <div className="w-6 h-6 border-2 border-slate-200 border-t-[#1e293b] rounded-full animate-spin" />
+            </div>
           ) : recentEvents.length === 0 ? (
-            <p className="text-white/30 text-sm">No events yet.</p>
+            <div className="text-center py-10">
+              <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-slate-300" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                  <rect x="3" y="4" width="18" height="18" rx="2" /><line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+              </div>
+              <p className="text-slate-700 font-semibold text-sm">No events yet</p>
+              <p className="text-slate-400 text-xs mt-1 max-w-[260px] mx-auto">Your calendar is empty. Schedule upcoming seminars, fests, or guest lectures.</p>
+              <Link
+                to="/admin/events/new"
+                className="inline-block mt-4 px-5 py-2 border-2 border-[#1e293b] text-[#1e293b] rounded-xl text-xs font-bold hover:bg-[#1e293b] hover:text-white transition-colors"
+              >
+                Schedule Event
+              </Link>
+            </div>
           ) : (
             <ul className="space-y-3">
               {recentEvents.map((ev) => (
-                <li key={ev.id} className="flex items-start gap-3">
-                  <span className={`mt-1 w-2 h-2 rounded-full flex-shrink-0 ${ev.is_active ? 'bg-emerald-400' : 'bg-white/20'}`} />
-                  <div className="min-w-0">
-                    <p className="text-white/80 text-sm truncate">{ev.title}</p>
-                    <p className="text-white/30 text-xs">{ev.date}</p>
+                <li key={ev.id} className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors">
+                  <span className={`mt-1.5 w-2 h-2 rounded-full flex-shrink-0 ${ev.is_active ? 'bg-emerald-400' : 'bg-slate-300'}`} />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-slate-700 text-sm font-medium truncate">{ev.title}</p>
+                    <p className="text-slate-400 text-xs mt-0.5">{ev.date}</p>
                   </div>
+                  {ev.is_featured && (
+                    <span className="px-2 py-0.5 bg-amber-50 text-amber-600 text-[10px] font-bold rounded-full uppercase mt-1">Featured</span>
+                  )}
                 </li>
               ))}
             </ul>
           )}
+        </div>
+      </div>
+
+      {/* ── Bottom info cards ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Platform Update */}
+        <div className="bg-[#1e293b] rounded-2xl p-5 text-white">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-blue-300 mb-2">Platform Update</p>
+          <p className="text-base font-bold leading-snug">VCET Dashboard v2.4 is now live.</p>
+          <p className="text-white/60 text-xs mt-3 flex items-center gap-1 hover:text-white transition-colors cursor-pointer">
+            Release Notes <span className="text-sm">→</span>
+          </p>
+        </div>
+
+        {/* Storage */}
+        <div className="bg-[#1e293b] rounded-2xl p-5 text-white">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-blue-300 mb-2">Storage</p>
+          <p className="text-base font-bold leading-snug">64% of Gallery storage used.</p>
+          <div className="mt-3">
+            <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-full w-[64%] bg-blue-400 rounded-full" />
+            </div>
+            <p className="text-white/40 text-[10px] mt-1.5">8.4 GB of 12 GB</p>
+          </div>
+        </div>
+
+        {/* Website Visits */}
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400">
+              <ShareIcon />
+            </div>
+            <span className="px-2 py-0.5 bg-emerald-50 text-emerald-600 text-[10px] font-bold rounded-full uppercase">Live</span>
+          </div>
+          <p className="text-2xl font-bold text-slate-800">2,481</p>
+          <p className="text-slate-400 text-xs mt-0.5">Website Visits Today</p>
+        </div>
+
+        {/* Contact Inquiries */}
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center text-slate-400">
+              <AtIcon />
+            </div>
+            <span className="px-2 py-0.5 bg-red-50 text-red-500 text-[10px] font-bold rounded-full uppercase">Alert</span>
+          </div>
+          <p className="text-2xl font-bold text-slate-800">{loading ? '–' : enquiries.length}</p>
+          <p className="text-slate-400 text-xs mt-0.5">New Contact Inquiries</p>
         </div>
       </div>
     </div>

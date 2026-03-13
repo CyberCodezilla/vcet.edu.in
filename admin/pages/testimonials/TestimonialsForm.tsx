@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { testimonialsApi } from '../../api/testimonials';
 import type { TestimonialPayload } from '../../types';
 
@@ -35,8 +35,8 @@ const TestimonialsForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!form.name.trim()) { setError('Name is required.'); return; }
-    if (!form.text.trim()) { setError('Quote text is required.'); return; }
+    if (!form.name?.trim()) { setError('Name is required.'); return; }
+    if (!form.text?.trim()) { setError('Quote text is required.'); return; }
     setSaving(true);
     try {
       const payload: TestimonialPayload = { ...form, ...(photoFile ? { photo: photoFile } : {}) };
@@ -50,59 +50,154 @@ const TestimonialsForm: React.FC = () => {
     }
   };
 
-  if (loading) return <div className="flex items-center justify-center py-24"><div className="w-6 h-6 border-2 border-white/10 border-t-yellow-400 rounded-full animate-spin" /></div>;
+  if (loading) return (
+    <div className="flex flex-col items-center justify-center py-24 gap-4">
+      <div className="w-10 h-10 border-4 border-slate-100 border-t-[#1e293b] rounded-full animate-spin" />
+      <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">Loading Testimonial...</p>
+    </div>
+  );
 
   return (
-    <div className="max-w-xl space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-white">{isEdit ? 'Edit Testimonial' : 'New Testimonial'}</h1>
-        <p className="text-white/40 text-sm mt-1">Student or alumni quote shown on the homepage.</p>
+    <div className="max-w-4xl mx-auto pb-24">
+      {/* Breadcrumbs */}
+      <div className="flex items-center gap-2 text-[11px] font-bold text-slate-400 mb-4 uppercase tracking-widest">
+        <Link to="/admin" className="hover:text-slate-600 transition-colors">Dashboard</Link>
+        <span className="text-slate-300 font-normal">/</span>
+        <Link to="/admin/testimonials" className="hover:text-slate-600 transition-colors">Testimonials</Link>
+        <span className="text-slate-300 font-normal">/</span>
+        <span className="text-slate-600">{isEdit ? 'Edit' : 'New'}</span>
       </div>
 
-      {error && <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-sm text-red-400">{error}</div>}
+      <div className="flex items-center justify-between mb-12">
+        <h1 className="text-4xl font-black text-slate-900 tracking-tight">
+          {isEdit ? 'Edit' : 'Add New'} <span className="text-slate-400">Testimonial</span>
+        </h1>
+        <button 
+          onClick={() => navigate('/admin/testimonials')}
+          className="text-slate-400 hover:text-slate-600 font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-colors"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+          Back to List
+        </button>
+      </div>
 
-      <style>{`.ai{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:.75rem;padding:.625rem .875rem;width:100%;color:#fff;font-size:.875rem;outline:none;transition:border-color .15s}.ai:focus{border-color:rgba(250,204,21,.4)}.ai::placeholder{color:rgba(255,255,255,.2)}`}</style>
-
-      <form onSubmit={handleSubmit} className="bg-white/[0.03] border border-white/8 rounded-2xl p-6 space-y-5">
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs text-white/40 uppercase tracking-wider mb-2">Name *</label>
-            <input name="name" value={form.name} onChange={handleChange} required className="ai" placeholder="Rahul Sharma" />
-          </div>
-          <div>
-            <label className="block text-xs text-white/40 uppercase tracking-wider mb-2">Role / Batch</label>
-            <input name="role" value={form.role ?? ''} onChange={handleChange} className="ai" placeholder="B.E. Computer, 2023" />
-          </div>
-        </div>
-        <div>
-          <label className="block text-xs text-white/40 uppercase tracking-wider mb-2">Quote *</label>
-          <textarea name="text" value={form.text} onChange={handleChange} required rows={4} className="ai resize-none" placeholder="Their testimonial quote…" />
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs text-white/40 uppercase tracking-wider mb-2">Rating</label>
-            <select name="rating" value={form.rating ?? 5} onChange={handleChange} className="ai">
-              {[5, 4, 3, 2, 1].map((r) => <option key={r} value={r}>{r} star{r !== 1 ? 's' : ''}</option>)}
-            </select>
-          </div>
-          <label className="flex items-center gap-3 cursor-pointer select-none self-end pb-2">
-            <div className={`relative w-10 h-5 rounded-full transition-colors ${form.is_active ? 'bg-yellow-400' : 'bg-white/10'}`}>
-              <input type="checkbox" name="is_active" checked={form.is_active ?? true} onChange={handleChange} className="sr-only" />
-              <span className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${form.is_active ? 'translate-x-5' : 'translate-x-0'}`} />
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left Column: Form Fields */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Person's Name</label>
+                <input
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="e.g. Rahul Sharma"
+                  className="w-full bg-slate-50 border-2 border-transparent focus:border-[#1e293b] focus:bg-white rounded-2xl px-6 py-4 text-sm font-bold transition-all outline-none"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Role / Batch</label>
+                <input
+                  name="role"
+                  value={form.role ?? ''}
+                  onChange={handleChange}
+                  placeholder="e.g. B.E. Computer, 2023"
+                  className="w-full bg-slate-50 border-2 border-transparent focus:border-[#1e293b] focus:bg-white rounded-2xl px-6 py-4 text-sm font-bold transition-all outline-none"
+                />
+              </div>
             </div>
-            <span className="text-sm text-white/60">Active</span>
-          </label>
+
+            <div className="space-y-2">
+              <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Testimonial Quote</label>
+              <textarea
+                name="text"
+                value={form.text}
+                onChange={handleChange}
+                placeholder="Share their experience at VCET..."
+                rows={5}
+                className="w-full bg-slate-50 border-2 border-transparent focus:border-[#1e293b] focus:bg-white rounded-3xl px-6 py-4 text-sm font-bold transition-all outline-none resize-none"
+                required
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Star Rating</label>
+                <select
+                  name="rating"
+                  value={form.rating ?? 5}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 border-2 border-transparent focus:border-[#1e293b] focus:bg-white rounded-2xl px-6 py-4 text-sm font-bold transition-all outline-none"
+                >
+                  {[5, 4, 3, 2, 1].map((r) => <option key={r} value={r}>{r} Star{r !== 1 ? 's' : ''}</option>)}
+                </select>
+              </div>
+              <div className="flex items-end pb-4">
+                <label className="flex items-center gap-3 cursor-pointer group">
+                  <div className={`relative w-12 h-6 rounded-full transition-all duration-300 ${form.is_active ? 'bg-emerald-500' : 'bg-slate-200'}`}>
+                    <input
+                      type="checkbox"
+                      name="is_active"
+                      checked={form.is_active}
+                      onChange={handleChange}
+                      className="sr-only"
+                    />
+                    <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 ${form.is_active ? 'left-7' : 'left-1'}`} />
+                  </div>
+                  <span className="text-xs font-black text-slate-500 uppercase tracking-widest group-hover:text-slate-700 transition-colors">Visible on Site</span>
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <label className="block text-xs text-white/40 uppercase tracking-wider mb-2">Photo (optional)</label>
-          <input type="file" accept="image/*" onChange={(e) => setPhotoFile(e.target.files?.[0] ?? null)} className="ai cursor-pointer file:mr-3 file:rounded-lg file:border-0 file:bg-yellow-400/10 file:text-yellow-400 file:text-xs file:px-3 file:py-1" />
-          {photoFile && <p className="text-xs text-white/40 mt-1">{photoFile.name}</p>}
-        </div>
-        <div className="flex items-center gap-3 pt-2 border-t border-white/8">
-          <button type="submit" disabled={saving} className="bg-yellow-400 hover:bg-yellow-300 disabled:opacity-50 text-[#0A1128] font-bold px-6 py-2.5 rounded-xl text-sm transition-colors">
-            {saving ? 'Saving…' : isEdit ? 'Save Changes' : 'Create Testimonial'}
-          </button>
-          <button type="button" onClick={() => navigate('/admin/testimonials')} className="text-white/40 hover:text-white text-sm px-6 py-2.5 rounded-xl hover:bg-white/5 transition-all">Cancel</button>
+
+        {/* Right Column: Photo Upload & Actions */}
+        <div className="space-y-6">
+          <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100">
+            <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1 block mb-4">Profile Photo</label>
+            <div className="relative group cursor-pointer">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setPhotoFile(e.target.files?.[0] ?? null)}
+                className="absolute inset-0 opacity-0 cursor-pointer z-10"
+              />
+              <div className="w-full aspect-square rounded-[2rem] bg-slate-50 border-4 border-dashed border-slate-100 flex flex-col items-center justify-center gap-3 group-hover:bg-slate-100 group-hover:border-slate-200 transition-all overflow-hidden">
+                {photoFile ? (
+                  <img src={URL.createObjectURL(photoFile)} alt="Preview" className="w-full h-full object-cover" />
+                ) : (
+                  <>
+                    <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    </div>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Update Photo</p>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-slate-900 p-8 rounded-[2.5rem] shadow-2xl shadow-slate-900/20 text-white space-y-6">
+            <h3 className="font-bold text-lg">Save Changes</h3>
+            <p className="text-slate-400 text-xs leading-relaxed font-medium">Ensure all details are accurate before publishing the testimonial.</p>
+            {error && <p className="text-red-400 text-xs font-bold leading-relaxed">{error}</p>}
+            <button
+              onClick={handleSubmit}
+              disabled={saving}
+              className="w-full bg-white text-slate-900 font-black py-4 rounded-2xl text-sm transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {saving && <div className="w-4 h-4 border-2 border-slate-900/20 border-t-slate-900 rounded-full animate-spin" />}
+              {isEdit ? 'Update Testimonial' : 'Publish Testimonial'}
+            </button>
+            <button
+              onClick={() => navigate('/admin/testimonials')}
+              className="w-full bg-slate-800 text-slate-400 font-bold py-4 rounded-2xl text-xs uppercase tracking-widest transition-all hover:bg-slate-700 hover:text-white"
+            >
+              Discard Changes
+            </button>
+          </div>
         </div>
       </form>
     </div>
