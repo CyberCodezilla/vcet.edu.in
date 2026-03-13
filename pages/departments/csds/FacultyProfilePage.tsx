@@ -93,5 +93,9 @@ export default function FacultyProfilePage() {
     );
   }
 
-  return <FacultyProfileView faculty={profileData} />;
+  return (
+    <PageLayout>
+      <FacultyProfileView faculty={profileData} />
+    </PageLayout>
+  );
 }

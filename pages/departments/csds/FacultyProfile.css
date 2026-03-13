@@ -12,6 +12,8 @@
   --r:14px; --rs:9px;
   --glow-p:0 0 0 2px rgba(26,75,124,.18),0 4px 18px rgba(26,75,124,.13);
   --glow-a:0 0 0 2px rgba(253,184,19,.22),0 4px 18px rgba(253,184,19,.15);
+  --faculty-mini-offset: 108px;
+  --faculty-mini-offset-mobile: 78px;
   font-family: 'Inter', sans-serif;
   background: var(--bg);
   color: var(--td);
@@ -28,7 +30,7 @@
 .accent-bar { height: 3px; background: linear-gradient(90deg, var(--a), var(--aw), var(--a)); }
 
 /*  MINI-BAR  */
-.mini-bar { position: fixed; top: 55px; left: 0; right: 0; z-index: 290; background: rgba(18,53,88,.97); backdrop-filter: blur(10px); border-bottom: 2px solid var(--a); padding: 7px 20px; display: flex; align-items: center; gap: 12px; transform: translateY(-120%); transition: transform .26s ease; box-shadow: 0 4px 20px rgba(0,0,0,.18); }
+.mini-bar { position: sticky; top: var(--faculty-mini-offset); left: 0; right: 0; z-index: 10; background: rgba(18,53,88,.97); backdrop-filter: blur(10px); border-bottom: 2px solid var(--a); padding: 7px 20px; display: flex; align-items: center; gap: 12px; transform: translateY(-120%); transition: transform .26s ease; box-shadow: 0 4px 20px rgba(0,0,0,.18); }
 .mini-bar.show { transform: translateY(0); }
 .mini-ava { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg,#152c55,#2a5298); border: 2px solid var(--a); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 10px; color: var(--a); flex-shrink: 0; }
 .mini-info { min-width: 0; }
@@ -261,6 +263,7 @@
 
 /*  RESPONSIVE  */
 @media(max-width:900px) {
+  .mini-bar { top: var(--faculty-mini-offset-mobile); }
   .stat-ribbon { flex-wrap: wrap; }
   .sr-item { flex: 0 0 33.33%; border-bottom: 1px solid var(--bdr); }
   .mini-tabs { display: none; }
