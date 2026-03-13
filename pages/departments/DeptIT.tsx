@@ -1,62 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import PageLayout from '../../../components/PageLayout';
+import PageLayout from '../../components/PageLayout';
 
-/* ── Sidebar navigation links ─────────────────────────────── */
 const sidebarLinks = [
-  { id: 'about',        label: 'About',                        icon: 'ph-info' },
-  { id: 'vision',       label: 'Vision and Mission',           icon: 'ph-target' },
-  { id: 'dab',          label: 'Departmental Advisory Board',  icon: 'ph-users-three' },
-  { id: 'mou',          label: 'MoU',                          icon: 'ph-handshake' },
-  { id: 'patent',       label: 'Patent',                       icon: 'ph-certificate' },
-  { id: 'peo',          label: 'POs, PEOs, PSOs',              icon: 'ph-chart-bar' },
-  { id: 'faculty',      label: 'Faculty',                      icon: 'ph-chalkboard-teacher' },
-  { id: 'toppers',      label: 'Toppers',                      icon: 'ph-medal' },
-  { id: 'syllabus',     label: 'Syllabus',                     icon: 'ph-book-open' },
-  { id: 'publications', label: 'Publications',                 icon: 'ph-file-text' },
-  { id: 'newsletter',   label: 'Newsletter',                   icon: 'ph-newspaper' },
+  { id: 'about',      label: 'About',                        icon: 'ph-info' },
+  { id: 'vision',     label: 'Vision and Mission',           icon: 'ph-target' },
+  { id: 'dab',        label: 'Departmental Advisory Board',  icon: 'ph-users-three' },
+  { id: 'mou',        label: 'MoU',                          icon: 'ph-handshake' },
+  { id: 'patent',     label: 'Patent',                       icon: 'ph-certificate' },
+  { id: 'peo',        label: 'POs, PEOs, PSOs',              icon: 'ph-chart-bar' },
+  { id: 'faculty',    label: 'Faculty',                      icon: 'ph-chalkboard-teacher' },
+  { id: 'toppers',    label: 'Toppers',                      icon: 'ph-medal' },
+  { id: 'syllabus',   label: 'Syllabus',                     icon: 'ph-book-open' },
+  { id: 'newsletter', label: 'Newsletter',                   icon: 'ph-newspaper' },
 ];
 
-/* ── Core skills ────────────────────────────────────────────── */
 const skills = [
-  { icon: 'ph-code',            label: 'Programming & Algorithms' },
-  { icon: 'ph-database',        label: 'Database Management' },
-  { icon: 'ph-brain',           label: 'Artificial Intelligence & ML' },
-  { icon: 'ph-cloud',           label: 'Cloud Computing' },
-  { icon: 'ph-shield-check',    label: 'Cyber Security' },
-  { icon: 'ph-network',         label: 'Computer Networks' },
-  { icon: 'ph-terminal-window', label: 'Operating Systems' },
+  { icon: 'ph-code',               label: 'Web & App Development' },
+  { icon: 'ph-database',           label: 'Database Management' },
+  { icon: 'ph-cloud',              label: 'Cloud Computing' },
+  { icon: 'ph-shield-check',       label: 'Cyber Security' },
+  { icon: 'ph-brain',              label: 'Artificial Intelligence & ML' },
+  { icon: 'ph-network',            label: 'Networking & Infrastructure' },
+  { icon: 'ph-terminal-window',    label: 'Software Engineering' },
 ];
 
-/* ── Career roles ────────────────────────────────────────────── */
 const roles = [
   {
-    icon: 'ph-code-block', accent: 'gold', title: 'Software Engineer',
-    description: "Software Engineers design, develop, and maintain software systems. They work across the full stack — from backend logic to frontend interfaces — applying engineering principles to create reliable, scalable, and maintainable software products for businesses and end users.",
+    icon: 'ph-code', accent: 'gold', title: 'Software Developer',
+    description: 'Software Developers design, build, and maintain applications and systems. They work across the full development lifecycle — from gathering requirements and writing code to testing and deployment — using languages like Java, Python, C#, and JavaScript.',
   },
   {
-    icon: 'ph-cloud-arrow-up', accent: 'navy', title: 'Cloud & DevOps Engineer',
-    description: "Cloud & DevOps Engineers build and maintain the infrastructure that powers modern applications. They automate deployment pipelines, manage cloud platforms (AWS, Azure, GCP), and bridge the gap between development and operations to accelerate delivery cycles.",
+    icon: 'ph-shield-check', accent: 'navy', title: 'Cybersecurity Analyst',
+    description: 'Cybersecurity Analysts protect organizations from digital threats by monitoring networks, analyzing vulnerabilities, and implementing security measures. They respond to incidents, conduct penetration testing, and ensure compliance with security standards.',
   },
   {
-    icon: 'ph-shield-check', accent: 'gold', title: 'Cybersecurity Analyst',
-    description: "Cybersecurity Analysts protect organizational systems from digital threats. They monitor networks for breaches, conduct vulnerability assessments, implement security protocols, and respond to incidents — ensuring the confidentiality, integrity, and availability of data.",
+    icon: 'ph-cloud', accent: 'gold', title: 'Cloud & DevOps Engineer',
+    description: 'Cloud and DevOps Engineers build and manage scalable cloud infrastructure on platforms like AWS, Azure, and GCP. They automate deployment pipelines, manage containerized workloads with Docker/Kubernetes, and ensure high availability of services.',
   },
   {
-    icon: 'ph-graph', accent: 'navy', title: 'Machine Learning Engineer',
-    description: "ML Engineers build intelligent systems that learn from data. They design and deploy machine learning models for applications such as recommendation systems, image recognition, natural language processing, and predictive analytics.",
+    icon: 'ph-database', accent: 'navy', title: 'Database Administrator',
+    description: 'Database Administrators design, implement, and manage database systems ensuring data integrity, security, and performance. They handle backup and recovery strategies, query optimization, and work with both relational (SQL) and NoSQL databases.',
   },
   {
-    icon: 'ph-device-mobile', accent: 'gold', title: 'Full Stack / App Developer',
-    description: "Full Stack Developers craft end-to-end digital products — designing databases, writing server-side logic, and building responsive user interfaces. App Developers specialize in mobile platforms, creating feature-rich iOS and Android applications.",
+    icon: 'ph-network', accent: 'gold', title: 'Network & Systems Engineer',
+    description: 'Network and Systems Engineers design and maintain IT infrastructure including routers, switches, firewalls, and servers. They ensure network reliability and performance, troubleshoot connectivity issues, and implement secure communication protocols.',
   },
 ];
 
 const delayClass = (idx: number) =>
   idx % 3 === 0 ? 'delay-100' : idx % 3 === 1 ? 'delay-200' : 'delay-300';
 
-/* ── Component ─────────────────────────────────────────────── */
-const DeptComputerEngg: React.FC = () => {
+const DeptIT: React.FC = () => {
   const [activeId, setActiveId] = useState('about');
   const activeLink = sidebarLinks.find(l => l.id === activeId);
 
@@ -70,7 +65,7 @@ const DeptComputerEngg: React.FC = () => {
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
     );
     const t = setTimeout(() => {
       document.querySelectorAll('.reveal:not(.visible)').forEach((el) => observer.observe(el));
@@ -88,20 +83,20 @@ const DeptComputerEngg: React.FC = () => {
         <nav className="absolute top-[52px] left-6 z-20 flex items-center space-x-2 text-sm font-medium text-white/70">
           <a href="/" className="hover:text-brand-gold transition-colors duration-200 flex items-center"><i className="ph ph-house text-base" /></a>
           <i className="ph ph-caret-right text-xs" />
-          <span className="text-brand-gold font-semibold">Computer Engineering</span>
+          <span className="text-brand-gold font-semibold">Information Technology</span>
         </nav>
         <div className="container mx-auto px-6 max-w-7xl relative z-10">
 
           <h1 className="font-display font-bold text-white leading-[1.08] tracking-tight text-center">
-            <span className="block text-4xl md:text-5xl lg:text-6xl">Computer Engineering</span>
+            <span className="block text-4xl md:text-5xl lg:text-6xl">Information Technology</span>
           </h1>
         </div>
       </header>
 
-      {/* ── Page Body ────────────────────────────────────────────── */}
+      {/* ── Page Body ───────────────────────────────────────────── */}
       <div className="container mx-auto px-6 py-12 max-w-7xl flex flex-col lg:flex-row gap-10">
 
-        {/* ── Sticky Sidebar ───────────────────────────────────── */}
+        {/* Sticky Sidebar */}
         <aside className="w-full lg:w-1/4 flex-shrink-0">
           <div className="sticky top-28 bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
             <nav className="flex flex-col py-2">
@@ -131,55 +126,50 @@ const DeptComputerEngg: React.FC = () => {
           </div>
         </aside>
 
-        {/* ── Main Content ─────────────────────────────────────── */}
+        {/* Main Content */}
         <main className="w-full lg:w-3/4 space-y-16">
 
-          {/* ════ ABOUT ═════════════════════════════════════════ */}
+          {/* ════ ABOUT ════════════════════════════════════════════ */}
           {activeId === 'about' && (
             <>
-              {/* dept info */}
               <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="space-y-6 text-slate-600 leading-relaxed text-justify">
                   <p>
-                    The Department of Computer Engineering was established in the year 1999 to impart knowledge and develop practical
-                    skills in various areas of computer engineering. The Department offers an undergraduate program in Computer Engineering
-                    with a current intake of 180 seats. The Department was accredited by the National Board of Accreditation (NBA) from
-                    2012–2015, reaccredited from July 2022 to June 2025, and is permanently affiliated with the University of Mumbai.
+                    Established in 2000, the Department of Information Technology is amongst the premier Departments of VCET.
+                    Currently, it is running an Under Graduate program, B.E in Information Technology with an intake of 60 seats.
+                    The Department is accredited by the National Board of Accreditation (NBA) from July 2022 to June 2025 and is
+                    affiliated to the University of Mumbai.
                   </p>
                   <p>
-                    The Department has expert and well-trained human resources and state-of-the-art laboratories to impart domain-specific
-                    knowledge in the areas of programming, database management, operating systems, web development, networking, artificial
-                    intelligence, machine learning, deep learning, etc. The faculty uses various instructional pedagogies, innovative
-                    techniques, and ICT tools to enhance the teaching-learning process.
+                    The Department of Information Technology (IT) aims at developing technical and experimental skills in students
+                    along with logical thinking so as to prepare them for competent, responsible and rewarding careers in the IT
+                    profession. We strive to achieve the aim with young, dynamic and highly qualified faculty members, state of art
+                    infrastructure and Industry-Institution Interaction.
                   </p>
                   <p>
-                    The Department motivates its students to participate in co-curricular and extra-curricular activities essential for the
-                    development and nurturing of team spirit and organizational skills. The Department is associated with the Computer
-                    Society of India (CSI). The Department has a local Code-Chef chapter, Bit-Byte-Go, which provides a peer learning
-                    platform to develop coding skills.
+                    The department has laboratories which are well equipped with latest configuration machines, high speed internet,
+                    Wi-Fi and legal licensed software. Modern aids such as LCD projectors and Educational CDs make classroom teaching
+                    more interesting and effective.
                   </p>
                   <p>
-                    The Department also has a student-driven Android Application Development Club, a Meta-Club, and a Microsoft Learn
-                    Students Club to foster peer learning and skill development. The Department publishes a newsletter, an e-magazine,
-                    and a wall magazine designed by students.
-                  </p>
-                  <p>
-                    The Department encourages students for various IPR activities such as publications, copyrights, and patents. The
-                    Department provides placement and higher studies support through various guidance sessions.
+                    We encourage extra-curricular activities as they help in developing the student's personality which ultimately
+                    enhances their future. It is our constant endeavor to shape personalities who will contribute positively to the
+                    world around them.
                   </p>
                   <div className="bg-gradient-to-r from-brand-navylight to-white p-6 rounded-2xl border-l-4 border-brand-gold shadow-inner">
                     <p className="text-brand-navy font-semibold m-0 flex items-start gap-3">
                       <i className="ph-fill ph-lightbulb text-brand-gold text-2xl mt-1 flex-shrink-0" />
-                      The Department's strong industry connect and placement track record make it one of the most sought-after programs at VCET.
+                      The Department's strong focus on industry-ready skills and its consistent NBA accreditation make it one of the
+                      most sought-after IT programs in the region.
                     </p>
                   </div>
                 </div>
               </section>
 
-              {/* Skills */}
+              {/* Skills section */}
               <section className="reveal">
                 <h2 className="text-3xl font-bold text-brand-navy relative inline-block mb-10">
-                  Core Skills in Computer Engineering:
+                  Core Skills in Information Technology:
                   <span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" />
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -197,10 +187,10 @@ const DeptComputerEngg: React.FC = () => {
                 </div>
               </section>
 
-              {/* Career Roles */}
+              {/* Roles section */}
               <section className="reveal">
                 <h2 className="text-3xl font-bold text-brand-navy relative inline-block mb-12">
-                  Prominent Career Roles in Computer Engineering:
+                  Prominent Career Roles in Information Technology:
                   <span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" />
                 </h2>
                 <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-brand-navy before:via-brand-navylight before:to-transparent">
@@ -218,7 +208,9 @@ const DeptComputerEngg: React.FC = () => {
                       </div>
                       <div
                         className={`w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl shadow-sm hover:shadow-lg transition-shadow border-t-4 ${
-                          role.accent === 'gold' ? 'bg-[#deeaf7] border-t-brand-navy' : 'bg-[#e8f2fb] border-t-brand-gold'
+                          role.accent === 'gold'
+                            ? 'bg-[#deeaf7] border-t-brand-navy'
+                            : 'bg-[#e8f2fb] border-t-brand-gold'
                         }`}
                       >
                         <h3 className="text-xl font-bold text-brand-gold mb-3">{role.title}</h3>
@@ -231,12 +223,12 @@ const DeptComputerEngg: React.FC = () => {
             </>
           )}
 
-          {/* ════ VISION & MISSION ══════════════════════════════ */}
+          {/* ════ VISION & MISSION ═════════════════════════════════ */}
           {activeId === 'vision' && (
             <div className="space-y-16">
               <div className="reveal flex items-center gap-4">
                 <span className="w-8 h-px bg-brand-gold" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Computer Engineering</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Information Technology</span>
               </div>
 
               <section className="reveal">
@@ -255,11 +247,11 @@ const DeptComputerEngg: React.FC = () => {
                       </div>
                     </div>
                     <blockquote className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-white leading-[1.3] italic mb-10 max-w-4xl">
-                      "To develop competent Computer Engineers empowered with knowledge, skills, and ethical values to serve industry and society."
+                      "To develop competent IT professionals with strong technical skills and ethical values to meet the challenges of a dynamic and technology-driven world."
                     </blockquote>
                     <div className="flex items-center gap-4">
                       <div className="h-px flex-1 bg-white/10" />
-                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">VCET · Computer Engineering</span>
+                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">VCET · Information Technology</span>
                       <div className="h-px w-12 bg-brand-gold/40" />
                     </div>
                   </div>
@@ -278,28 +270,27 @@ const DeptComputerEngg: React.FC = () => {
                   </div>
                 </div>
                 <div className="h-px bg-gradient-to-r from-brand-gold via-brand-navylight to-transparent" />
-
                 <div className="grid md:grid-cols-2 gap-5 pt-2">
                   {[
                     {
                       id: '01', delay: 'delay-100', icon: 'ph-graduation-cap',
                       title: 'Quality Education',
-                      body: 'Provide quality education in Computer Engineering with strong fundamentals, preparing graduates who can engineer solutions across software, hardware, and networking domains.',
+                      body: 'Provide quality education in Information Technology with an industry-relevant curriculum, enabling students to build strong technical foundations and practical problem-solving skills.',
                     },
                     {
                       id: '02', delay: 'delay-200', icon: 'ph-lightbulb',
-                      title: 'Innovation & Research',
-                      body: 'Foster innovation, research aptitude, and entrepreneurial skills by encouraging students to publish, patent, and participate in national and international competitions.',
+                      title: 'Innovation & Critical Thinking',
+                      body: 'Foster a culture of innovation, critical thinking and creative problem-solving, encouraging students to develop novel IT solutions that address real-world challenges.',
                     },
                     {
-                      id: '03', delay: 'delay-300', icon: 'ph-compass',
-                      title: 'Ethics & Social Responsibility',
-                      body: 'Inculcate professional ethics, leadership qualities, and social responsibility, enabling graduates to be conscientious contributors to their organizations and communities.',
+                      id: '03', delay: 'delay-300', icon: 'ph-flask',
+                      title: 'Research & Development',
+                      body: 'Promote research and development in emerging IT domains such as AI, cloud computing, cybersecurity and data analytics, keeping students at the forefront of technological advancement.',
                     },
                     {
-                      id: '04', delay: 'delay-100', icon: 'ph-buildings',
-                      title: 'Industry–Institute Interaction',
-                      body: 'Establish strong industry-institute interaction for holistic student development through MoUs, internships, guest lectures, and industry-sponsored projects.',
+                      id: '04', delay: 'delay-100', icon: 'ph-compass',
+                      title: 'Social Responsibility',
+                      body: 'Develop socially responsible IT professionals with strong ethical values, who contribute positively to their communities and organizations while upholding the highest standards of professional integrity.',
                     },
                   ].map((m, idx) => (
                     <div
@@ -326,18 +317,18 @@ const DeptComputerEngg: React.FC = () => {
             </div>
           )}
 
-          {/* ════ DAB ════════════════════════════════════════════ */}
+          {/* ════ DAB ══════════════════════════════════════════════ */}
           {activeId === 'dab' && (() => {
             const members = [
-              { sr: 1, name: 'Dr. Rakesh Himte',   designation: 'Principal',                    org: 'VCET, Vasai',       role: 'Chairman',                tag: 'internal' },
-              { sr: 2, name: 'Dr. Megha Trivedi',   designation: 'HOD, Computer Engineering',   org: 'VCET, Vasai',       role: 'Head of Department',      tag: 'internal' },
-              { sr: 3, name: 'TBD',                 designation: 'Academic Representative',      org: 'External Institute', role: 'Academic Representative', tag: 'academic' },
-              { sr: 4, name: 'TBD',                 designation: 'Academic Representative',      org: 'External Institute', role: 'Academic Representative', tag: 'academic' },
-              { sr: 5, name: 'TBD',                 designation: 'Industry Expert',              org: 'Industry Partner',   role: 'Industry Representative', tag: 'industry' },
-              { sr: 6, name: 'TBD',                 designation: 'Industry Expert',              org: 'Industry Partner',   role: 'Industry Representative', tag: 'industry' },
-              { sr: 7, name: 'TBD',                 designation: 'Senior Faculty, Comp. Engg',   org: 'VCET, Vasai',       role: 'Secretary',               tag: 'internal' },
-              { sr: 8, name: 'TBD',                 designation: 'BE Student',                   org: 'VCET, Vasai',       role: 'Student Representative',  tag: 'student'  },
-              { sr: 9, name: 'TBD',                 designation: 'TE Student',                   org: 'VCET, Vasai',       role: 'Student Representative',  tag: 'student'  },
+              { sr: 1,  name: 'Dr. Rakesh Himte',     designation: 'Principal',                       org: 'VCET, Vasai',        role: 'Chairman',                tag: 'internal' },
+              { sr: 2,  name: 'Dr. Thaksen Parvat',   designation: 'Professor & HOD, IT',             org: 'VCET, Vasai',        role: 'Head of Department',      tag: 'internal' },
+              { sr: 3,  name: 'TBD',                  designation: 'Academic Representative',         org: 'External Institute', role: 'Academic Representative', tag: 'academic' },
+              { sr: 4,  name: 'TBD',                  designation: 'Academic Representative',         org: 'External Institute', role: 'Academic Representative', tag: 'academic' },
+              { sr: 5,  name: 'TBD',                  designation: 'Industry Expert',                 org: 'Industry Partner',   role: 'Industry Representative', tag: 'industry' },
+              { sr: 6,  name: 'TBD',                  designation: 'Industry Expert',                 org: 'Industry Partner',   role: 'Industry Representative', tag: 'industry' },
+              { sr: 7,  name: 'TBD',                  designation: 'Senior Faculty, IT Dept.',        org: 'VCET, Vasai',        role: 'Secretary',               tag: 'internal' },
+              { sr: 8,  name: 'TBD',                  designation: 'BE Student',                      org: 'VCET, Vasai',        role: 'Student Representative',  tag: 'student'  },
+              { sr: 9,  name: 'TBD',                  designation: 'TE Student',                      org: 'VCET, Vasai',        role: 'Student Representative',  tag: 'student'  },
             ];
             const tagStyle: Record<string, string> = {
               internal: 'bg-brand-navylight text-brand-navy',
@@ -351,7 +342,7 @@ const DeptComputerEngg: React.FC = () => {
                 <div className="reveal">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="w-8 h-px bg-brand-gold" />
-                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Computer Engineering</span>
+                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Information Technology</span>
                   </div>
                   <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy leading-tight">
                     Departmental Advisory Board<span className="text-brand-gold"> (DAB)</span>
@@ -364,10 +355,10 @@ const DeptComputerEngg: React.FC = () => {
                 </div>
                 <div className="reveal grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {[
-                    { count: '2', label: 'Industry Experts', icon: 'ph-buildings' },
-                    { count: '2', label: 'Academic Reps',    icon: 'ph-graduation-cap' },
-                    { count: '2', label: 'Student Reps',     icon: 'ph-student' },
-                    { count: '3', label: 'Internal Members', icon: 'ph-users' },
+                    { count: '2', label: 'Industry Experts',    icon: 'ph-buildings' },
+                    { count: '2', label: 'Academic Reps',       icon: 'ph-graduation-cap' },
+                    { count: '2', label: 'Student Reps',        icon: 'ph-student' },
+                    { count: '3', label: 'Internal Members',    icon: 'ph-users' },
                   ].map(s => (
                     <div key={s.label} className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-brand-navylight flex items-center justify-center flex-shrink-0">
@@ -410,7 +401,7 @@ const DeptComputerEngg: React.FC = () => {
             );
           })()}
 
-          {/* ════ POs, PEOs & PSOs ══════════════════════════════ */}
+          {/* ════ POs, PEOs & PSOs ═════════════════════════════════ */}
           {activeId === 'peo' && (() => {
             const pos = [
               { n: '01', text: 'An ability to apply knowledge of mathematics, science, and engineering.' },
@@ -427,15 +418,15 @@ const DeptComputerEngg: React.FC = () => {
               { n: '12', text: 'An understanding of engineering and management principles and the ability to apply these to manage projects in multidisciplinary environments.' },
             ];
             const psos = [
-              { n: 'PSO1', text: 'To apply the knowledge of Computer Engineering to analyze, design, and implement solutions for complex computational problems using modern software tools.' },
-              { n: 'PSO2', text: 'To develop applications leveraging AI, cloud computing, cybersecurity, and networking technologies to address real-world industry challenges.' },
+              { n: 'PSO1', text: 'To apply the knowledge of Information Technology to analyze, design, and implement solutions for complex real-world problems using modern software and networking tools.' },
+              { n: 'PSO2', text: 'To develop applications leveraging cloud computing, cybersecurity, AI/ML, and web technologies to build scalable, secure, and efficient information systems.' },
             ];
             return (
               <div className="space-y-16">
                 <div className="reveal">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="w-8 h-px bg-brand-gold" />
-                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Computer Engineering</span>
+                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Information Technology</span>
                   </div>
                   <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy">POs, PEOs &amp; PSOs</h2>
                   <div className="mt-4 h-px bg-gradient-to-r from-brand-gold via-brand-navylight to-transparent" />
@@ -486,7 +477,7 @@ const DeptComputerEngg: React.FC = () => {
                       <i className="ph-fill ph-star text-white text-lg" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">Computer Engineering Specific</p>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">IT Specific</p>
                       <h3 className="text-2xl font-display font-bold text-brand-navy leading-tight">Program Specific Outcomes (PSOs)</h3>
                     </div>
                   </div>
@@ -510,214 +501,106 @@ const DeptComputerEngg: React.FC = () => {
             );
           })()}
 
-          {/* ════ FACULTY ════════════════════════════════════════ */}
+          {/* ════ FACULTY ══════════════════════════════════════════ */}
           {activeId === 'faculty' && (() => {
             const faculty = [
               {
-                slug: 'dr-megha-trivedi',
-                name: 'Dr. Megha Trivedi',
-                post: 'Associate Professor & Head Of Department',
-                email: 'megha.trivedi@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/dr-megha-trivedi.jpg',
-                initials: 'MT',
+                slug: 'dr-thaksen-parvat',
+                name: 'Dr. Thaksen Parvat',
+                post: 'Professor & HOD, Dean IT Infrastructure',
+                email: 'thaksen.parvat@vcet.edu.in',
+                photo: '/Images/departments/it/faculty/dr-thaksen-parvat.jpg',
+                initials: 'TP',
                 color: '#1a4b7c',
               },
               {
-                slug: 'dr-dinesh-patil',
-                name: 'Dr. Dinesh Patil',
-                post: 'Associate Professor',
-                email: 'dinesh.patil@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/dr-dinesh-patil.jpg',
-                initials: 'DP',
-                color: '#2563a8',
-              },
-              {
-                slug: 'dr-swapna-borde',
-                name: 'Dr. Swapna Borde',
-                post: 'Asst. Prof.',
-                email: 'swapna.borde@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/dr-swapna-borde.jpg',
-                initials: 'SB',
-                color: '#1a4b7c',
-              },
-              {
-                slug: 'anil-hingmire',
-                name: 'Anil Hingmire',
-                post: 'Asst. Prof. & Deputy HOD',
-                email: 'anil.hingmire@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/anil-hingmire.jpg',
-                initials: 'AH',
-                color: '#2563a8',
-              },
-              {
-                slug: 'smita-jawale',
-                name: 'Smita Jawale',
-                post: 'Asst. Prof. & Deputy HOD',
-                email: 'smita.jawale@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/smita-jawale.jpg',
-                initials: 'SJ',
-                color: '#1a4b7c',
-              },
-              {
-                slug: 'sunil-katkar',
-                name: 'Sunil Katkar',
-                post: 'Asst. Prof.',
-                email: 'sunil.katkar@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/sunil-katkar.jpg',
-                initials: 'SK',
-                color: '#2563a8',
-              },
-              {
-                slug: 'dr-swati-varma',
-                name: 'Dr. Swati Varma',
-                post: 'Asst. Prof.',
-                email: 'swati.varma@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/dr-swati-varma.jpg',
-                initials: 'SV',
-                color: '#1a4b7c',
-              },
-              {
-                slug: 'sanket-patil',
-                name: 'Mr. Sanket Patil',
+                slug: 'chandan-kolvankar',
+                name: 'Mr. Chandan Kolvankar',
                 post: 'Asst. Prof. (Ph.D. Pursuing)',
-                email: 'sanket.patil@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/sanket-patil.jpg',
+                email: 'chandan.kolvankar@vcet.edu.in',
+                photo: '/Images/departments/it/faculty/chandan-kolvankar.jpg',
+                initials: 'CK',
+                color: '#2563a8',
+              },
+              {
+                slug: 'dr-archana-ekbote',
+                name: 'Dr. Archana Ekbote',
+                post: 'Asst. Prof.',
+                email: 'archana.ekbote@vcet.edu.in',
+                photo: '/Images/departments/it/faculty/dr-archana-ekbote.jpg',
+                initials: 'AE',
+                color: '#1a4b7c',
+              },
+              {
+                slug: 'dr-madhavi-waghmare',
+                name: 'Dr. Madhavi Waghmare',
+                post: 'Asst. Prof.',
+                email: 'madhavi.waghmare@vcet.edu.in',
+                photo: '/Images/departments/it/faculty/dr-madhavi-waghmare.jpg',
+                initials: 'MW',
+                color: '#2563a8',
+              },
+              {
+                slug: 'dr-vaishali-shirsath',
+                name: 'Dr. Vaishali A. Shirsath',
+                post: 'Asst. Prof.',
+                email: 'vaishali.shirsath@vcet.edu.in',
+                photo: '/Images/departments/it/faculty/dr-vaishali-shirsath.jpg',
+                initials: 'VS',
+                color: '#1a4b7c',
+              },
+              {
+                slug: 'dr-sainath-patil',
+                name: 'Dr. Sainath Patil',
+                post: 'Asst. Prof.',
+                email: 'sainath.patil@vcet.edu.in',
+                photo: '/Images/departments/it/faculty/dr-sainath-patil.jpg',
                 initials: 'SP',
                 color: '#2563a8',
               },
               {
-                slug: 'dr-sneha-mhatre',
-                name: 'Dr. Sneha Mhatre',
+                slug: 'dr-anagha-patil',
+                name: 'Dr. Anagha Patil',
                 post: 'Asst. Prof.',
-                email: 'sneha.mhatre@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/dr-sneha-mhatre.jpg',
+                email: 'anagha.patil@vcet.edu.in',
+                photo: '/Images/departments/it/faculty/dr-anagha-patil.jpg',
+                initials: 'AP',
+                color: '#1a4b7c',
+              },
+              {
+                slug: 'snehal-mhatre',
+                name: 'Ms. Snehal Mhatre',
+                post: 'Asst. Prof.',
+                email: 'snehal.mhatre@vcet.edu.in',
+                photo: '/Images/departments/it/faculty/snehal-mhatre.jpg',
                 initials: 'SM',
-                color: '#1a4b7c',
-              },
-              {
-                slug: 'vishal-pande',
-                name: 'Mr. Vishal Pande',
-                post: 'Asst. Prof.',
-                email: 'vishal.pande@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/vishal-pande.jpg',
-                initials: 'VP',
                 color: '#2563a8',
               },
               {
-                slug: 'neha-surti',
-                name: 'Ms. Neha Surti',
-                post: 'Asst. Prof.',
-                email: 'neha.surti@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/neha-surti.jpg',
-                initials: 'NS',
-                color: '#1a4b7c',
-              },
-              {
-                slug: 'brinal-colaco',
-                name: 'Ms. Brinal Colaco',
+                slug: 'pragati-patil',
+                name: 'Ms. Pragati Patil',
                 post: 'Asst. Prof. (Ph.D. Pursuing)',
-                email: 'brinal.colaco@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/brinal-colaco.jpg',
-                initials: 'BC',
-                color: '#2563a8',
-              },
-              {
-                slug: 'sweety-patil',
-                name: 'Ms. Sweety Patil',
-                post: 'Asst. Prof.',
-                email: 'sweety.patil@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/sweety-patil.jpg',
-                initials: 'SP',
+                email: 'pragati.patil@vcet.edu.in',
+                photo: '/Images/departments/it/faculty/pragati-patil.jpg',
+                initials: 'PP',
                 color: '#1a4b7c',
               },
               {
-                slug: 'soniya-khatu',
-                name: 'Ms. Soniya Khatu',
+                slug: 'jessica-falcao',
+                name: 'Ms. Jessica Falcao',
                 post: 'Asst. Prof.',
-                email: 'soniya.khatu@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/soniya-khatu.jpg',
-                initials: 'SK',
+                email: 'jessica.falcao@vcet.edu.in',
+                photo: '/Images/departments/it/faculty/jessica-falcao.jpg',
+                initials: 'JF',
                 color: '#2563a8',
               },
               {
-                slug: 'bhakti-jadhav',
-                name: 'Ms. Bhakti Jadhav',
+                slug: 'dr-yogita-shelar',
+                name: 'Dr. Yogita Shelar',
                 post: 'Asst. Prof.',
-                email: 'bhakti.jadhav@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/bhakti-jadhav.jpg',
-                initials: 'BJ',
-                color: '#1a4b7c',
-              },
-              {
-                slug: 'manali-payghan',
-                name: 'Ms. Manali Payghan',
-                post: 'Asst. Prof.',
-                email: 'manali.payghan@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/manali-payghan.jpg',
-                initials: 'MP',
-                color: '#2563a8',
-              },
-              {
-                slug: 'vinal-waghela',
-                name: 'Ms. Vinal Waghela',
-                post: 'Asst. Prof.',
-                email: 'vinal.waghela@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/vinal-waghela.jpg',
-                initials: 'VW',
-                color: '#1a4b7c',
-              },
-              {
-                slug: 'joyce-lemos',
-                name: 'Ms. Joyce Lemos',
-                post: 'Asst. Prof.',
-                email: 'joyce.dsouza@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/joyce-lemos.jpg',
-                initials: 'JL',
-                color: '#2563a8',
-              },
-              {
-                slug: 'sridhar-subramanian',
-                name: 'Mr. Sridhar Subramanian',
-                post: 'Asst. Prof.',
-                email: 'sridhar.s@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/sridhar-subramanian.jpg',
-                initials: 'SS',
-                color: '#1a4b7c',
-              },
-              {
-                slug: 'atharva-desai',
-                name: 'Mr. Atharva Desai',
-                post: 'Asst. Prof.',
-                email: 'atharva.desai@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/atharva-desai.jpg',
-                initials: 'AD',
-                color: '#2563a8',
-              },
-              {
-                slug: 'awantika-sharma',
-                name: 'Ms. Awantika Sharma',
-                post: 'Asst. Prof.',
-                email: 'awantika.sharma@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/awantika-sharma.jpg',
-                initials: 'AS',
-                color: '#1a4b7c',
-              },
-              {
-                slug: 'shilpa-jaiswal',
-                name: 'Ms. Shilpa Jaiswal',
-                post: 'Asst. Prof.',
-                email: 'shilpa.jaiswal@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/shilpa-jaiswal.jpg',
-                initials: 'SJ',
-                color: '#2563a8',
-              },
-              {
-                slug: 'vanashree-gaikwad',
-                name: 'Ms. Vanashree Gaikwad',
-                post: 'Asst. Prof.',
-                email: 'vanashree.gaikwad@vcet.edu.in',
-                photo: '/Images/departments/comp/faculty/vanashree-gaikwad.jpg',
-                initials: 'VG',
+                email: 'yogita.shelar@vcet.edu.in',
+                photo: '/Images/departments/it/faculty/dr-yogita-shelar.jpg',
+                initials: 'YS',
                 color: '#1a4b7c',
               },
             ];
@@ -727,15 +610,15 @@ const DeptComputerEngg: React.FC = () => {
                 <div className="reveal flex items-center justify-between flex-wrap gap-4 pb-5 border-b-2 border-brand-gold/30">
                   <div>
                     <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-brand-navy/60 flex items-center gap-2 mb-1">
-                      <i className="ph-fill ph-chalkboard-teacher text-sm text-brand-navy/50" /> Computer Engineering
+                      <i className="ph-fill ph-chalkboard-teacher text-sm text-brand-navy/50" /> Information Technology
                     </span>
                     <h2 className="text-2xl font-display font-bold text-brand-navy">Our Faculty</h2>
                   </div>
                   <div className="flex items-center divide-x divide-slate-200">
                     {[
                       { icon: 'ph-users-three',    value: `${faculty.length}`, label: 'Members' },
-                      { icon: 'ph-graduation-cap', value: '5',                 label: 'PhD' },
-                      { icon: 'ph-trophy',         value: '100+',              label: 'Yrs Exp.' },
+                      { icon: 'ph-graduation-cap', value: '7',                 label: 'PhD' },
+                      { icon: 'ph-trophy',         value: '80+',               label: 'Yrs Exp.' },
                     ].map(stat => (
                       <div key={stat.label} className="flex items-center gap-2.5 px-5">
                         <i className={`ph-fill ${stat.icon} text-lg text-brand-navy`} />
@@ -753,7 +636,7 @@ const DeptComputerEngg: React.FC = () => {
                   {faculty.map((f) => (
                     <Link
                       key={f.email}
-                      to={`/computer-engineering/faculty/${f.slug}`}
+                      to={`/information-technology/faculty/${f.slug}`}
                       className="group bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 border-t-[3px] border-b-[3px] border-t-[#1a4b7c] border-b-[#fdb813] flex flex-col items-center px-6 pt-6 pb-5 no-underline"
                     >
                       {/* Photo with gold badge at bottom-right */}
@@ -807,7 +690,7 @@ const DeptComputerEngg: React.FC = () => {
             );
           })()}
 
-          {/* ════ OTHER SECTIONS (placeholder) ═════════════════ */}
+          {/* ════ OTHER SECTIONS (placeholder) ════════════════════ */}
           {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
@@ -824,4 +707,4 @@ const DeptComputerEngg: React.FC = () => {
   );
 };
 
-export default DeptComputerEngg;
+export default DeptIT;

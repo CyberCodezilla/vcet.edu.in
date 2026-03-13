@@ -43,65 +43,11 @@ const DocumentsRequired = lazy(() => import('./pages/admissions/DocumentsRequire
 const CutOff = lazy(() => import('./pages/admissions/CutOff'));
 
 // pages/departments
-const DeptComputerEngg = lazy(() => import('./pages/departments/ComputerEngineering/DeptComputerEngg'));
-const DeptCSDS = lazy(() => import('./pages/departments/csds/DeptCSDS'));
+const DeptComputerEngg = lazy(() => import('./pages/departments/DeptComputerEngg'));
+const DeptCSDS = lazy(() => import('./pages/departments/DeptCSDS'));
 const CSDSFacultyProfile = lazy(() => import('./pages/departments/csds/FacultyProfilePage'));
-const FacultyYogesh      = lazy(() => import('./pages/departments/csds/FacultyYogesh'));
-const FacultyLeena       = lazy(() => import('./pages/departments/csds/FacultyLeena'));
-const FacultyOdilia      = lazy(() => import('./pages/departments/csds/FacultyOdilia'));
-const FacultyJanisa      = lazy(() => import('./pages/departments/csds/FacultyJanisa'));
-const FacultyMaya        = lazy(() => import('./pages/departments/csds/FacultyMaya'));
-const FacultyIchhanshu   = lazy(() => import('./pages/departments/csds/FacultyIchhanshu'));
-const FacultyKranti      = lazy(() => import('./pages/departments/csds/FacultyKranti'));
-const FacultyShital      = lazy(() => import('./pages/departments/csds/FacultyShital'));
-const FacultyKrunali     = lazy(() => import('./pages/departments/csds/FacultyKrunali'));
-const FacultyBhavika     = lazy(() => import('./pages/departments/csds/FacultyBhavika'));
-// pages/departments/ComputerEngineering — Faculty
-const FacultyMegha       = lazy(() => import('./pages/departments/ComputerEngineering/FacultyMegha'));
-const FacultyDinesh      = lazy(() => import('./pages/departments/ComputerEngineering/FacultyDinesh'));
-const FacultySwapna      = lazy(() => import('./pages/departments/ComputerEngineering/FacultySwapna'));
-const FacultyAnil        = lazy(() => import('./pages/departments/ComputerEngineering/FacultyAnil'));
-const FacultySmita       = lazy(() => import('./pages/departments/ComputerEngineering/FacultySmita'));
-const FacultySunil       = lazy(() => import('./pages/departments/ComputerEngineering/FacultySunil'));
-const FacultySwati       = lazy(() => import('./pages/departments/ComputerEngineering/FacultySwati'));
-const FacultySanket      = lazy(() => import('./pages/departments/ComputerEngineering/FacultySanket'));
-const FacultySneha       = lazy(() => import('./pages/departments/ComputerEngineering/FacultySneha'));
-const FacultyVishalCE    = lazy(() => import('./pages/departments/ComputerEngineering/FacultyVishal'));
-const FacultyNeha        = lazy(() => import('./pages/departments/ComputerEngineering/FacultyNeha'));
-const FacultyBrinal      = lazy(() => import('./pages/departments/ComputerEngineering/FacultyBrinal'));
-const FacultySweety      = lazy(() => import('./pages/departments/ComputerEngineering/FacultySweety'));
-const FacultySoniya      = lazy(() => import('./pages/departments/ComputerEngineering/FacultySoniya'));
-const FacultyBhakti      = lazy(() => import('./pages/departments/ComputerEngineering/FacultyBhakti'));
-const FacultyManali      = lazy(() => import('./pages/departments/ComputerEngineering/FacultyManali'));
-const FacultyVinalCE     = lazy(() => import('./pages/departments/ComputerEngineering/FacultyVinal'));
-const FacultyJoyce       = lazy(() => import('./pages/departments/ComputerEngineering/FacultyJoyce'));
-const FacultySridhar     = lazy(() => import('./pages/departments/ComputerEngineering/FacultySridhar'));
-const FacultyAtharva     = lazy(() => import('./pages/departments/ComputerEngineering/FacultyAtharva'));
-const FacultyAwantika    = lazy(() => import('./pages/departments/ComputerEngineering/FacultyAwantika'));
-const FacultyShilpa      = lazy(() => import('./pages/departments/ComputerEngineering/FacultyShilpa'));
-const FacultyVanashree   = lazy(() => import('./pages/departments/ComputerEngineering/FacultyVanashree'));
-// pages/departments/IT — Faculty
-const FacultyThaksen     = lazy(() => import('./pages/departments/IT/FacultyThaksen'));
-const FacultyChandan     = lazy(() => import('./pages/departments/IT/FacultyChandan'));
-const FacultyArchana     = lazy(() => import('./pages/departments/IT/FacultyArchana'));
-const FacultyMadhavi     = lazy(() => import('./pages/departments/IT/FacultyMadhavi'));
-const FacultyVaishali    = lazy(() => import('./pages/departments/IT/FacultyVaishali'));
-const FacultySainath     = lazy(() => import('./pages/departments/IT/FacultySainath'));
-const FacultyAnagha      = lazy(() => import('./pages/departments/IT/FacultyAnagha'));
-const FacultySnehalIT    = lazy(() => import('./pages/departments/IT/FacultySnehalIT'));
-const FacultyPragati     = lazy(() => import('./pages/departments/IT/FacultyPragati'));
-const FacultyJessicaIT   = lazy(() => import('./pages/departments/IT/FacultyJessicaIT'));
-const FacultyYogita      = lazy(() => import('./pages/departments/IT/FacultyYogita'));
-const DeptIT = lazy(() => import('./pages/departments/IT/DeptIT'));
-const DeptAIDS = lazy(() => import('./pages/departments/AIDS/DeptAIDS'));
-// pages/departments/AIDS — Faculty
-const FacultyTatwadarshi = lazy(() => import('./pages/departments/AIDS/FacultyTatwadarshi'));
-const FacultySejal       = lazy(() => import('./pages/departments/AIDS/FacultySejal'));
-const FacultySnehaYadav  = lazy(() => import('./pages/departments/AIDS/FacultySnehaYadav'));
-const FacultyNehaRaut    = lazy(() => import('./pages/departments/AIDS/FacultyNehaRaut'));
-const FacultyKshitija    = lazy(() => import('./pages/departments/AIDS/FacultyKshitija'));
-const FacultyRaunak      = lazy(() => import('./pages/departments/AIDS/FacultyRaunak'));
-const FacultyRujuta      = lazy(() => import('./pages/departments/AIDS/FacultyRujuta'));
+const DeptIT = lazy(() => import('./pages/departments/DeptIT'));
+const DeptAIDS = lazy(() => import('./pages/departments/DeptAIDS'));
 const DeptMech = lazy(() => import('./pages/departments/DeptMech'));
 const DeptENTC = lazy(() => import('./pages/departments/DeptENTC'));
 const DeptCivil = lazy(() => import('./pages/departments/DeptCivil'));
@@ -289,61 +235,10 @@ function App() {
 
           {/* Departments */}
           <Route path="/computer-engineering" element={<DeptComputerEngg />} />
-          <Route path="/computer-engineering/faculty/megha-trivedi"       element={<FacultyMegha />} />
-          <Route path="/computer-engineering/faculty/dinesh-patil"        element={<FacultyDinesh />} />
-          <Route path="/computer-engineering/faculty/swapna-borde"        element={<FacultySwapna />} />
-          <Route path="/computer-engineering/faculty/anil-hingmire"       element={<FacultyAnil />} />
-          <Route path="/computer-engineering/faculty/smita-jawale"        element={<FacultySmita />} />
-          <Route path="/computer-engineering/faculty/sunil-katkar"        element={<FacultySunil />} />
-          <Route path="/computer-engineering/faculty/swati-varma"         element={<FacultySwati />} />
-          <Route path="/computer-engineering/faculty/sanket-patil"        element={<FacultySanket />} />
-          <Route path="/computer-engineering/faculty/sneha-mhatre"        element={<FacultySneha />} />
-          <Route path="/computer-engineering/faculty/vishal-pande"        element={<FacultyVishalCE />} />
-          <Route path="/computer-engineering/faculty/neha-surti"          element={<FacultyNeha />} />
-          <Route path="/computer-engineering/faculty/brinal-colaco"       element={<FacultyBrinal />} />
-          <Route path="/computer-engineering/faculty/sweety-patil"        element={<FacultySweety />} />
-          <Route path="/computer-engineering/faculty/soniya-khatu"        element={<FacultySoniya />} />
-          <Route path="/computer-engineering/faculty/bhakti-jadhav"       element={<FacultyBhakti />} />
-          <Route path="/computer-engineering/faculty/manali-payghan"      element={<FacultyManali />} />
-          <Route path="/computer-engineering/faculty/vinal-waghela"       element={<FacultyVinalCE />} />
-          <Route path="/computer-engineering/faculty/joyce-lemos"         element={<FacultyJoyce />} />
-          <Route path="/computer-engineering/faculty/sridhar-subramanian" element={<FacultySridhar />} />
-          <Route path="/computer-engineering/faculty/atharva-desai"       element={<FacultyAtharva />} />
-          <Route path="/computer-engineering/faculty/awantika-sharma"     element={<FacultyAwantika />} />
-          <Route path="/computer-engineering/faculty/shilpa-jaiswal"      element={<FacultyShilpa />} />
-          <Route path="/computer-engineering/faculty/vanashree-gaikwad"   element={<FacultyVanashree />} />
           <Route path="/cs-data-science" element={<DeptCSDS />} />
           <Route path="/cs-data-science/faculty/:slug" element={<CSDSFacultyProfile />} />
-          <Route path="/cs-data-science/faculty/yogesh-pingle"    element={<FacultyYogesh />} />
-          <Route path="/cs-data-science/faculty/leena-raut"        element={<FacultyLeena />} />
-          <Route path="/cs-data-science/faculty/odilia-gonsalves"  element={<FacultyOdilia />} />
-          <Route path="/cs-data-science/faculty/janisa-pereira"    element={<FacultyJanisa />} />
-          <Route path="/cs-data-science/faculty/maya-varghese"     element={<FacultyMaya />} />
-          <Route path="/cs-data-science/faculty/ichhanshu-jaiswal" element={<FacultyIchhanshu />} />
-          <Route path="/cs-data-science/faculty/kranti-gule"       element={<FacultyKranti />} />
-          <Route path="/cs-data-science/faculty/shital-cheke"      element={<FacultyShital />} />
-          <Route path="/cs-data-science/faculty/krunali-vartak"    element={<FacultyKrunali />} />
-          <Route path="/cs-data-science/faculty/bhavika-joshi"     element={<FacultyBhavika />} />
           <Route path="/information-technology" element={<DeptIT />} />
-          <Route path="/information-technology/faculty/thaksen-parvat"     element={<FacultyThaksen />} />
-          <Route path="/information-technology/faculty/chandan-kolvankar"  element={<FacultyChandan />} />
-          <Route path="/information-technology/faculty/archana-ekbote"     element={<FacultyArchana />} />
-          <Route path="/information-technology/faculty/madhavi-waghmare"   element={<FacultyMadhavi />} />
-          <Route path="/information-technology/faculty/vaishali-shirsath"  element={<FacultyVaishali />} />
-          <Route path="/information-technology/faculty/sainath-patil"      element={<FacultySainath />} />
-          <Route path="/information-technology/faculty/anagha-patil"       element={<FacultyAnagha />} />
-          <Route path="/information-technology/faculty/snehal-mhatre"      element={<FacultySnehalIT />} />
-          <Route path="/information-technology/faculty/pragati-patil"      element={<FacultyPragati />} />
-          <Route path="/information-technology/faculty/jessica-falcao"     element={<FacultyJessicaIT />} />
-          <Route path="/information-technology/faculty/yogita-shelar"      element={<FacultyYogita />} />
           <Route path="/ai-data-science" element={<DeptAIDS />} />
-          <Route path="/ai-data-science/faculty/tatwadarshi-nagarhalli" element={<FacultyTatwadarshi />} />
-          <Route path="/ai-data-science/faculty/sejal-dmello"          element={<FacultySejal />} />
-          <Route path="/ai-data-science/faculty/sneha-yadav"           element={<FacultySnehaYadav />} />
-          <Route path="/ai-data-science/faculty/neha-raut"             element={<FacultyNehaRaut />} />
-          <Route path="/ai-data-science/faculty/kshitija-gharat"       element={<FacultyKshitija />} />
-          <Route path="/ai-data-science/faculty/raunak-joshi"          element={<FacultyRaunak />} />
-          <Route path="/ai-data-science/faculty/rujuta-vartak"         element={<FacultyRujuta />} />
           <Route path="/mechanical-engineering" element={<DeptMech />} />
           <Route path="/electronics-telecomm" element={<DeptENTC />} />
           <Route path="/civil-engineering" element={<DeptCivil />} />
