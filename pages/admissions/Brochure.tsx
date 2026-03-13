@@ -8,10 +8,7 @@ const Brochure: React.FC = () => {
     <PageLayout>
       <PageBanner
         title="Brochure"
-        breadcrumbs={[
-          { label: 'Admission', href: '/admission' },
-          { label: 'Brochure' },
-        ]}
+        breadcrumbs={[{ label: 'Brochure' }]}
       />
 
       <section className="py-16 md:py-24 bg-white">

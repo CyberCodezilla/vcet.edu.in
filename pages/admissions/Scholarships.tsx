@@ -88,10 +88,7 @@ const Scholarships: React.FC = () => {
     <PageLayout>
       <PageBanner
         title="Scholarships"
-        breadcrumbs={[
-          { label: 'Admission', href: '/admission' },
-          { label: 'Scholarships' },
-        ]}
+        breadcrumbs={[{ label: 'Scholarships' }]}
       />
 
       <section className="py-12 md:py-20 bg-[#f8fafc]">

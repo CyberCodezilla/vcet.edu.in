@@ -35,10 +35,7 @@ const DocumentsRequired: React.FC = () => {
     <PageLayout>
       <PageBanner
         title="Documents Required"
-        breadcrumbs={[
-          { label: 'Admission', href: '/admission' },
-          { label: 'Documents Required' },
-        ]}
+        breadcrumbs={[{ label: 'Documents Required' }]}
       />
 
       <div className="bg-white min-h-screen font-sans">

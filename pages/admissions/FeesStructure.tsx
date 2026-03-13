@@ -47,10 +47,7 @@ const FeesStructure: React.FC = () => {
     <PageLayout>
       <PageBanner
         title="Fees Structure 25-26"
-        breadcrumbs={[
-          { label: 'Admission', href: '/admission' },
-          { label: 'Fees Structure' },
-        ]}
+        breadcrumbs={[{ label: 'Fees Structure' }]}
       />
 
       <div className="bg-white min-h-screen font-sans">

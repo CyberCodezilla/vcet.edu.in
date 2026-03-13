@@ -126,10 +126,7 @@ const CoursesIntake: React.FC = () => {
     <PageLayout>
       <PageBanner
         title="Courses and Intake"
-        breadcrumbs={[
-          { label: 'Admission', href: '/admission' },
-          { label: 'Courses and Intake' },
-        ]}
+        breadcrumbs={[{ label: 'Courses and Intake' }]}
       />
 
       <div className="bg-[#eff3f8] min-h-screen font-sans py-12 px-6 lg:px-12">
