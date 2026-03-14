@@ -171,7 +171,7 @@ const Scholarships: React.FC = () => {
                               rel="noopener noreferrer"
                               className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-slate-100 text-slate-400 hover:bg-[#1e4e85] hover:text-white transition-all shadow-sm"
                             >
-                              <Download size={18} />
+                              <ExternalLink size={16} className="text-slate-300 group-hover:text-[#e6a315]" />
                             </a>
                           </td>
                         </tr>
