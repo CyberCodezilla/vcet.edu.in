@@ -8,18 +8,16 @@ const faculty: FacultyData = {
   email: "rujuta.vartak@vcet.edu.in",
   experienceYears: "12",
   papersPublished: "3",
-  photo: "faculty/aids/rujuta-vartak.jpg",
+  photo: "/Images/departments/aids/faculty/rujuta-vartak.jpg",
   qualifications: [
     "M.E. (Computer)",
   ],
   specialization: ["Data Mining"],
   patents: [
-    { title: "Copyright 1 ÔÇô details to be updated" },
-    { title: "Copyright 2 ÔÇô details to be updated" },
-    { title: "Copyright 3 ÔÇô details to be updated" },
+    { title: "Copyrights registered: 03" },
   ],
   memberships: [
-    { label: "ISTE", fullName: "Life Membership ÔÇô LM 140370" },
+    { label: "ISTE", fullName: "Life Membership - LM 140370" },
   ],
 };
 

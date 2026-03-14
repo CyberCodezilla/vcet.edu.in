@@ -8,11 +8,14 @@ const faculty: FacultyData = {
   email: "kshitija.gharat@vcet.edu.in",
   experienceYears: "2.7",
   papersPublished: "3",
-  photo: "faculty/aids/kshitija-gharat.jpg",
+  photo: "/Images/departments/aids/faculty/kshitija-gharat.jpg",
   qualifications: [
     "M.E. (Computer)",
   ],
   specialization: ["Data Science", "Machine Learning", "Artificial Intelligence"],
+  publications: [
+    { title: "Conference papers presented: 01" },
+  ],
 };
 
 export default faculty;

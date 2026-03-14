@@ -8,20 +8,21 @@ const faculty: FacultyData = {
   email: "neha.raut@vcet.edu.in",
   experienceYears: "3.5",
   papersPublished: "8",
-  photo: "faculty/aids/neha-raut.jpg",
+  photo: "/Images/departments/aids/faculty/neha-raut.jpg",
   qualifications: [
     "Ph.D. (Pursuing)",
     "M.E. (IT)",
     "MMS",
   ],
   specialization: ["Data Science", "Blockchain"],
+  publications: [
+    { title: "Conference papers presented: 04" },
+  ],
   patents: [
-    { title: "Copyright 1 ÔÇô details to be updated" },
-    { title: "Copyright 2 ÔÇô details to be updated" },
-    { title: "Copyright 3 ÔÇô details to be updated" },
+    { title: "Copyrights registered: 03" },
   ],
   memberships: [
-    { label: "ISTE", fullName: "Life Membership ÔÇô LM 137512" },
+    { label: "ISTE", fullName: "Life Membership - LM 137512" },
   ],
 };
 

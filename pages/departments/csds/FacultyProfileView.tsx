@@ -157,6 +157,21 @@ function initials(name: string): string {
     .join("");
 }
 
+function parsePublicationLink(title: string): { text: string; url?: string } {
+  const urlMatch = title.match(/(https?:\/\/\S+)/i);
+  if (!urlMatch) {
+    return { text: title };
+  }
+
+  const url = urlMatch[1];
+  const text = title
+    .replace(url, "")
+    .replace(/[\s-]+$/g, "")
+    .trim();
+
+  return { text: text || title, url };
+}
+
 /* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
    SHARED FACULTY PROFILE VIEW  (accepts any FacultyData prop)
 ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */
@@ -190,8 +205,13 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
   ];
 
   const [activeTab, setActiveTab] = useState("profile");
+  const [photoFailed, setPhotoFailed] = useState(false);
   const heroRef   = useRef<HTMLDivElement>(null);
   const tabNavRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    setPhotoFailed(false);
+  }, [faculty.photo, faculty.name]);
 
   const switchTab = (id: string) => setActiveTab(id);
 
@@ -210,7 +230,25 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
           <div className="hero-g">
             <div className="ph-wrap">
               <div className="ph-circle">
-                <img src={photoSrc} alt={faculty.name} />
+                {!photoFailed ? (
+                  <img src={photoSrc} alt={faculty.name} onError={() => setPhotoFailed(true)} />
+                ) : (
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: '#1a4b7c',
+                      color: '#ffffff',
+                      fontWeight: 700,
+                      fontSize: '2rem',
+                    }}
+                  >
+                    {abbr}
+                  </div>
+                )}
               </div>
               {faculty.qualifications?.some(
                 (q) => q.toLowerCase().startsWith("ph.d") || q.toLowerCase().startsWith("phd")
@@ -565,7 +603,19 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
                   <div className="con" key={i}>
                     <div className="c-num">{i + 1}</div>
                     <div>
-                      <span className="c-title">{p.title}</span>
+                      {(() => {
+                        const { text, url } = parsePublicationLink(p.title);
+                        return (
+                          <>
+                            <span className="c-title">{text}</span>
+                            {url && (
+                              <div className="c-meta">
+                                <a href={url} target="_blank" rel="noopener noreferrer">View Article</a>
+                              </div>
+                            )}
+                          </>
+                        );
+                      })()}
                       {p.journal && (
                         <div className="c-meta">{p.journal} &mdash; {p.year}</div>
                       )}
