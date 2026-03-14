@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
                 'EOA Report 25-26', 'Certificate – Medium of Instruction'
               ].map((item) => (
                 <li key={item}>
-                  <a href="#" className="text-white/40 text-[13px] hover:text-white hover:pl-1 transition-all duration-300 block break-words leading-snug">
+                  <a href="#!" onClick={(e) => e.preventDefault()} className="text-white/40 text-[13px] hover:text-white hover:pl-1 transition-all duration-300 block break-words leading-snug">
                     {item}
                   </a>
                 </li>

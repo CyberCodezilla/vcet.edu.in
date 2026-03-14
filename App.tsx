@@ -1,6 +1,7 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
+import { PageTitleUpdater } from './components/PageTitleUpdater';
 import { AuthProvider } from './admin/context/AuthContext';
 import ProtectedRoute from './admin/components/ProtectedRoute';
 import AdminLayout from './admin/components/AdminLayout';
@@ -208,6 +209,7 @@ function App() {
     <AuthProvider>
     <BrowserRouter>
       <ScrollToTop />
+      <PageTitleUpdater />
       <Suspense fallback={<PageLoader />}>
         <Routes>
           {/* Homepage */}

@@ -16,42 +16,42 @@ const galleryItems: GalleryItem[] = [
   {
     title: 'AICTE IDEA Lab',
     subtitle: 'Innovation & Design',
-    src: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=1600&auto=format&fit=crop',
+    src: '/Images/gallery/Gallary_1.jpg',
   },
   {
     title: 'Center of Excellence',
     subtitle: 'Advanced Research',
-    src: 'https://images.unsplash.com/photo-1530319067432-f2a729c03db5?q=80&w=1600&auto=format&fit=crop',
+    src: '/Images/gallery/Gallary_1.jpg',
   },
   {
     title: 'Machinery Diagnostics',
     subtitle: 'Precision Engineering',
-    src: 'https://images.unsplash.com/photo-1565514020179-026b92b2d70b?q=80&w=1600&auto=format&fit=crop',
+    src: '/Images/gallery/Gallary_1.jpg',
   },
   {
     title: 'Texas Instruments Lab',
     subtitle: 'Embedded Systems',
-    src: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop',
+    src: '/Images/gallery/Gallary_1.jpg',
   },
   {
     title: 'Robotics Lab',
     subtitle: 'Automation & AI',
-    src: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1600&auto=format&fit=crop',
+    src: '/Images/gallery/Gallary_1.jpg',
   },
   {
     title: 'Siemens Lab',
     subtitle: 'Industrial Automation',
-    src: 'https://images.unsplash.com/photo-1507149833265-60c372daea22?q=80&w=1600&auto=format&fit=crop',
+    src: '/Images/gallery/Gallary_1.jpg',
   },
   {
     title: 'Oracle Academy',
     subtitle: 'Cloud & Databases',
-    src: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1600&auto=format&fit=crop',
+    src: '/Images/gallery/Gallary_1.jpg',
   },
   {
     title: 'e-Yantra Lab',
     subtitle: 'Drones & Embedded',
-    src: 'https://images.unsplash.com/photo-1501700493788-fa1a4fc9fe62?q=80&w=1600&auto=format&fit=crop',
+    src: '/Images/gallery/Gallary_1.jpg',
   },
 ];
 
