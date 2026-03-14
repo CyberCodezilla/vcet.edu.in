@@ -1,4 +1,3 @@
-// commit test
 import React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
@@ -97,7 +96,7 @@ const NSDC = lazy(() => import('./pages/student-life/NSDC'));
 const Training = lazy(() => import('./pages/student-life/Training'));
 const ECell = lazy(() => import('./pages/student-life/ECell'));
 const IIIC = lazy(() => import('./pages/student-life/IIIC'));
-const Patents = lazy(() => import('./pages/student-life/Parents'));
+const Parents = lazy(() => import('./pages/student-life/Parents'));
 
 // pages/clubs
 const IEEE = lazy(() => import('./pages/clubs/IEEE'));
@@ -262,7 +261,7 @@ function App() {
           <Route path="/funded-research" element={<FundedResearch />} />
           <Route path="/publications" element={<Publications />} />
           <Route path="/patents" element={<ResearchPatents />} />
-          <Route path="/parents" element={<Patents />} />
+          <Route path="/parents" element={<Parents />} />
           <Route path="/consultancy-projects" element={<ConsultancyProjects />} />
           <Route path="/research-facility" element={<ResearchFacility />} />
           <Route path="/research-conventions" element={<ResearchConventions />} />

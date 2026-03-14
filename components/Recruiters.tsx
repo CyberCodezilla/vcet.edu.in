@@ -336,6 +336,7 @@ const Recruiters: React.FC = () => {
       alt=""
       className="absolute inset-0 w-full h-full object-cover"
       aria-hidden="true"
+      loading="lazy"
     />
     {/* Light overlay so content stays readable */}
     <div className="absolute inset-0" style={{ background: "rgba(248,250,252,0.82)" }} />

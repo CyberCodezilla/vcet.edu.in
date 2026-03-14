@@ -47,7 +47,7 @@ const DocumentsRequired: React.FC = () => {
             <div className="h-0.5 w-12 bg-[#e6a315]"></div>
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-[#1e4e85] mb-6">
+          <h1 className="text-4xl md:text-5xl font-display font-bold text-[#1e4e85] mb-6">
             Documents Required for Admission
           </h1>
           
@@ -75,7 +75,7 @@ const DocumentsRequired: React.FC = () => {
 
                 {/* Middle Side: Content */}
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-[17px] font-serif font-bold text-[#1e4e85] mb-1">
+                  <h3 className="text-[17px] font-display font-bold text-[#1e4e85] mb-1">
                     {doc.title}
                   </h3>
                   <p className="text-xs text-slate-400 mb-2 leading-relaxed">

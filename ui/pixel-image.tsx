@@ -101,6 +101,7 @@ export function PixelImage({
           <img
             src={src}
             alt={`${alt} piece ${index + 1}`}
+            loading="lazy"
             draggable={false}
             className="absolute inset-0 w-full h-full object-cover"
             style={{

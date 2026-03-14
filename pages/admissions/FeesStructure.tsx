@@ -59,7 +59,7 @@ const FeesStructure: React.FC = () => {
             <div className="h-0.5 w-12 bg-[#e6a315]"></div>
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-[#1e4e85] mb-6">
+          <h1 className="text-4xl md:text-5xl font-display font-bold text-[#1e4e85] mb-6">
             Fees Structure 2025-26
           </h1>
           
@@ -87,7 +87,7 @@ const FeesStructure: React.FC = () => {
 
                 {/* Middle Side: Content */}
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-[17px] font-serif font-bold text-[#1e4e85] truncate mb-1">
+                  <h3 className="text-[17px] font-display font-bold text-[#1e4e85] truncate mb-1">
                     {item.title}
                   </h3>
                   <div className="flex items-center gap-2 text-[#e6a315]">

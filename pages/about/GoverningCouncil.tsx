@@ -1,4 +1,4 @@
-ï»¿import React from 'react';
+import React from 'react';
 import { Crown, Home, ChevronRight } from 'lucide-react';
 import PageLayout from '../../components/PageLayout';
 
@@ -20,8 +20,8 @@ const members = [
   { id: 8,  role: 'Member',           name: 'Director, WRO AICTE',                   description: 'Ex-Officio',                                     image: 'https://picsum.photos/seed/aicte/400/400'  },
   { id: 9,  role: 'Member',           name: 'Educationalist / Industrialist',         description: 'Nominated by AICTE',                             image: 'https://picsum.photos/seed/edu/400/400'    },
   { id: 10, role: 'Member Secretary', name: 'Dr. Rakesh Himte',                       description: 'Principal',                                      image: 'https://picsum.photos/seed/himte/400/400'  },
-  { id: 11, role: 'Member',           name: 'Dr. Uday Aswalekar',                     description: 'Staff Representative, Professor â€” Mechanical Engg.', image: 'https://picsum.photos/seed/aswalekar/400/400' },
-  { id: 12, role: 'Member',           name: 'Dr. Archana Ekbote',                     description: 'Staff Representative, Assistant Professor â€” IT',  image: 'https://picsum.photos/seed/ekbote/400/400' },
+  { id: 11, role: 'Member',           name: 'Dr. Uday Aswalekar',                     description: 'Staff Representative, Professor — Mechanical Engg.', image: 'https://picsum.photos/seed/aswalekar/400/400' },
+  { id: 12, role: 'Member',           name: 'Dr. Archana Ekbote',                     description: 'Staff Representative, Assistant Professor — IT',  image: 'https://picsum.photos/seed/ekbote/400/400' },
 ];
 
 export default function GoverningCouncil() {
@@ -34,7 +34,7 @@ export default function GoverningCouncil() {
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full translate-y-1/2 -translate-x-1/3 blur-3xl pointer-events-none" />
 
-          {/* Breadcrumb â€” top left */}
+          {/* Breadcrumb — top left */}
           <div className="relative z-10 flex items-center text-sm text-blue-200/80 gap-2 font-medium mb-10">
             <Home className="w-4 h-4" />
             <ChevronRight className="w-4 h-4" />
@@ -54,10 +54,10 @@ export default function GoverningCouncil() {
               <div className="w-12 h-px bg-[#fdb813]" />
             </div>
 
-            <h1 className="font-serif text-5xl md:text-6xl text-white mb-6">
+            <h1 className="font-display text-5xl md:text-6xl text-white mb-6">
               The Governing Council
             </h1>
-            <p className="font-serif text-lg text-blue-100 max-w-2xl leading-relaxed italic">
+            <p className="font-display text-lg text-blue-100 max-w-2xl leading-relaxed italic">
               A distinguished assembly of educators, industrialists, and visionaries
               dedicated to shaping the future of our academic community.
             </p>
@@ -90,7 +90,7 @@ export default function GoverningCouncil() {
                 <p className="text-xs font-bold tracking-[0.25em] uppercase text-[#fdb813] mb-2">
                   {chairman.role}
                 </p>
-                <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#1a4b7c] mb-3">
+                <h2 className="font-display text-3xl md:text-4xl font-bold text-[#1a4b7c] mb-3">
                   {chairman.name}
                 </h2>
                 <p className="text-slate-500 italic leading-relaxed text-lg">
@@ -129,7 +129,7 @@ export default function GoverningCouncil() {
                       <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-[#fdb813] leading-none mb-1">
                         {member.role}
                       </p>
-                      <h3 className="font-serif font-bold text-[#1a4b7c] text-base leading-snug">
+                      <h3 className="font-display font-bold text-[#1a4b7c] text-base leading-snug">
                         {member.name}
                       </h3>
                       <p className="text-sm text-slate-500 mt-0.5">{member.description}</p>
