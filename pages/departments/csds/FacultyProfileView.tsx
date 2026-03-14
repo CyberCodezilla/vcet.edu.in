@@ -234,8 +234,18 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
               <div className="sr-ico"><i className="fas fa-chalkboard-teacher"></i></div>
               <div>
                 <div className="sr-val">{faculty.experienceYears}</div>
-                <div className="sr-lbl">Years of</div>
+                <div className="sr-lbl">Experience</div>
                 <div className="sr-sub">Teaching</div>
+              </div>
+            </div>
+          )}
+          {faculty.industryYears && (
+            <div className="sr-item">
+              <div className="sr-ico"><i className="fas fa-industry"></i></div>
+              <div>
+                <div className="sr-val">{faculty.industryYears}</div>
+                <div className="sr-lbl">Experience</div>
+                <div className="sr-sub">Industry</div>
               </div>
             </div>
           )}
