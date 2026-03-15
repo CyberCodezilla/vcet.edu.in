@@ -8,10 +8,10 @@ const faculty: FacultyData = {
   email: "sneha.yadav@vcet.edu.in",
   experienceYears: "9",
   papersPublished: "9",
-  photo: "faculty/aids/sneha-yadav.jpg",
+  photo: "/Images/departments/aids/faculty/sneha-yadav.jpg",
   qualifications: [
     "Ph.D. (Pursuing)",
-    "M.E. (IT) ÔÇô With Distinction",
+    "M.E. (IT) - With Distinction",
   ],
   specialization: [
     "Algorithms",
@@ -20,13 +20,14 @@ const faculty: FacultyData = {
     "Computer Networks",
     "OOPs",
   ],
+  publications: [
+    { title: "Conference papers presented: 04" },
+  ],
   patents: [
-    { title: "Copyright 1 ÔÇô details to be updated" },
-    { title: "Copyright 2 ÔÇô details to be updated" },
-    { title: "Copyright 3 ÔÇô details to be updated" },
+    { title: "Copyrights registered: 03" },
   ],
   memberships: [
-    { label: "ISTE", fullName: "Life Membership ÔÇô LM 135066" },
+    { label: "ISTE", fullName: "Life Membership - LM 135066" },
   ],
 };
 

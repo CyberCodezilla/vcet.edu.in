@@ -1,7 +1,7 @@
 import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
-import { FileText, Download, Calendar } from 'lucide-react';
+import { FileText, Download, Calendar, ShieldCheck } from 'lucide-react';
 
 const feesData = [
   {
@@ -50,76 +50,104 @@ const FeesStructure: React.FC = () => {
         breadcrumbs={[{ label: 'Fees Structure' }]}
       />
 
-      <div className="bg-white min-h-screen font-sans">
-        {/* Header Section */}
-        <section className="pt-20 pb-16 px-4 text-center">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <div className="h-0.5 w-12 bg-[#e6a315]"></div>
-            <span className="text-[#e6a315] text-[10px] font-bold uppercase tracking-[0.3em]">Documents</span>
-            <div className="h-0.5 w-12 bg-[#e6a315]"></div>
-          </div>
-          
-          <h1 className="text-4xl md:text-5xl font-serif font-bold text-[#1e4e85] mb-6">
-            Fees Structure 2025-26
-          </h1>
-          
-          <p className="max-w-2xl mx-auto text-slate-500 text-lg leading-relaxed">
-            Download the fee structure documents for various programs offered at VCET. 
-            Access official PDF outlines for academic excellence and administrative clarity.
-          </p>
-        </section>
-
-        {/* Grid of Download Cards */}
-        <section className="pb-24 px-4 sm:px-6">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-            {feesData.map((item, idx) => (
-              <a
-                key={idx}
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center gap-5 p-6 bg-[#ebf1f7] hover:bg-[#dfe7f0] rounded-2xl transition-all duration-300 border border-transparent hover:border-slate-200"
-              >
-                {/* Left Side: Dark Icon Container */}
-                <div className="shrink-0 w-16 h-16 bg-[#1e4e85] rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-                  <FileText className="w-8 h-8 text-white" />
-                </div>
-
-                {/* Middle Side: Content */}
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-[17px] font-serif font-bold text-[#1e4e85] truncate mb-1">
-                    {item.title}
-                  </h3>
-                  <div className="flex items-center gap-2 text-[#e6a315]">
-                    <Calendar size={14} />
-                    <span className="text-xs font-bold tracking-wide">
-                      {item.year}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Right Side: Download Button */}
-                <div className="shrink-0 w-10 h-10 bg-white rounded-lg flex items-center justify-center text-slate-400 group-hover:text-[#1e4e85] group-hover:shadow-sm transition-all">
-                  <Download size={20} />
-                </div>
-              </a>
-            ))}
-          </div>
-
-          {/* Footer Note */}
-          <div className="mt-16 text-center">
-            <p className="text-sm text-slate-400 font-medium italic">
-              All documents are in PDF format. Click to download or open in a new tab.
-            </p>
-            <div className="mt-8 max-w-2xl mx-auto p-6 bg-slate-50 rounded-xl border border-slate-100">
-              <p className="text-xs text-slate-500 leading-relaxed">
-                <span className="font-bold text-[#1e4e85] uppercase tracking-tighter mr-2">Note:</span> 
-                Fee structures are subject to revision as per directives from the Fee Regulating Authority and University of Mumbai. 
-                Please contact the admission office for the latest details.
-              </p>
+      <div className="bg-white min-h-screen">
+        
+        {/* ── Introduction Strip ── */}
+        <section className="py-20 px-6 border-b border-slate-100">
+          <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row md:items-end gap-12">
+            <div className="flex-1">
+              <span className="text-[12px] font-bold uppercase tracking-[0.4em] text-[#fdb813] mb-4 block">
+                Academic Administration
+              </span>
+              <h2 className="text-4xl md:text-5xl font-display font-bold text-[#1a4b7c] leading-tight tracking-tight">
+                Fee Structure
+              </h2>
+              <div className="w-20 h-1.5 bg-[#1a4b7c] mt-6" />
             </div>
+            <p className="md:max-w-md text-[17px] text-[#6B7280] leading-[1.8] italic border-l-4 border-[#fdb813] pl-6">
+              Official fee schedules for the 2025-26 session, providing transparent 
+              breakdowns for all undergraduate and postgraduate programs.
+            </p>
           </div>
         </section>
+
+        {/* ── Table Section ── */}
+        <section className="py-20 px-6 bg-[#FBFBFB]">
+          <div className="max-w-[1200px] mx-auto">
+            
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-3">
+
+              </div>
+              <div className="hidden md:flex items-center gap-2 text-[11px] font-bold text-[#6B7280] uppercase tracking-[0.2em]">
+              
+              </div>
+            </div>
+
+            {/* Formal Ledger Table */}
+            <div className="border-[6px] border-[#1a4b7c] bg-white overflow-hidden shadow-2xl">
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[900px] border-collapse">
+                  <thead>
+                    <tr className="bg-[#1a4b7c] text-white">
+                      <th className="px-8 py-5 text-left text-[13px] font-bold uppercase tracking-[0.2em] border-r border-white/10 w-[80px]"></th>
+                      <th className="px-8 py-5 text-left text-[13px] font-bold uppercase tracking-[0.2em] border-r border-white/10">Program Documentation</th>
+                      <th className="px-8 py-5 text-center text-[13px] font-bold uppercase tracking-[0.2em] border-r border-white/10 w-[180px]">Year</th>
+                      <th className="px-8 py-5 text-right text-[13px] font-bold uppercase tracking-[0.2em] w-[200px]">Download Link</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {feesData.map((item, idx) => (
+                      <tr 
+                        key={idx}
+                        className={`group border-b border-[#E5E7EB] last:border-b-0 transition-colors duration-200 ${
+                          idx % 2 === 0 ? 'bg-white' : 'bg-[#FAFBFC]'
+                        } hover:bg-[#1a4b7c]/5`}
+                      >
+                        <td className="px-8 py-6 text-center border-r border-[#E5E7EB]">
+                          <div className="w-10 h-10 border-2 border-[#1a4b7c] flex items-center justify-center font-bold text-[#1a4b7c] group-hover:bg-[#1a4b7c] group-hover:text-white transition-all">
+                            {String(idx + 1).padStart(2, '0')}
+                          </div>
+                        </td>
+                        <td className="px-8 py-6 border-r border-[#E5E7EB]">
+                          <div className="flex items-start gap-4">
+                            <FileText className="w-5 h-5 text-[#fdb813] mt-1 shrink-0" />
+                            <div>
+                              <h4 className="text-[17px] font-display font-bold text-[#1a4b7c] mb-1 group-hover:text-[#1a4b7c] transition-colors">
+                                {item.title}
+                              </h4>
+                              <p className="text-[14px] text-[#6B7280] leading-relaxed">
+                                {item.description}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-8 py-6 text-center border-r border-[#E5E7EB]">
+                          <span className="inline-flex items-center gap-2 px-3 py-1 bg-[#1a4b7c]/5 text-[#1a4b7c] text-[12px] font-bold uppercase tracking-widest border border-[#1a4b7c]/10">
+                            <Calendar className="w-3.5 h-3.5" />
+                            {item.year}
+                          </span>
+                        </td>
+                        <td className="px-8 py-6 text-center">
+                          <a 
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center text-[#1a4b7c] hover:text-[#fdb813] transition-all duration-300"
+                          >
+                            <Download className="w-5 h-5" />
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
       </div>
     </PageLayout>
   );

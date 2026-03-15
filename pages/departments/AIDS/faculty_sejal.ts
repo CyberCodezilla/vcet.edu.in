@@ -8,19 +8,22 @@ const faculty: FacultyData = {
   email: "sejal.dmelo@vcet.edu.in",
   experienceYears: "13",
   papersPublished: "10",
-  photo: "faculty/aids/sejal-dmello.jpg",
+  photo: "/Images/departments/aids/faculty/sejal-dmello.jpg",
   qualifications: [
-    "M.E. (Information Technology) ÔÇô First Class",
+    "M.E. (Information Technology) - First Class",
   ],
   specialization: ["DevOps", "Software Engineering & Testing"],
+  publications: [
+    { title: "Conference papers presented: 03" },
+  ],
   roles: [
     { icon: "fa-sitemap", label: "Deputy Head of Department (Deputy HOD)" },
   ],
   patents: [
-    { title: "Copyright ÔÇô details to be updated" },
+    { title: "Copyright registered: 01" },
   ],
   memberships: [
-    { label: "ISTE", fullName: "Life Membership ÔÇô LM 108146" },
+    { label: "ISTE", fullName: "Life Membership - LM 108146" },
   ],
 };
 

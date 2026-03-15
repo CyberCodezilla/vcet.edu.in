@@ -8,7 +8,7 @@ const faculty: FacultyData = {
   email: "ronak.joshi@vcet.edu.in",
   experienceYears: "2.5",
   papersPublished: "20",
-  photo: "faculty/aids/raunak-joshi.jpg",
+  photo: "/Images/departments/aids/faculty/raunak-joshi.jpg",
   qualifications: [
     "M.E. (Computer)",
   ],

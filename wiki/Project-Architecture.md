@@ -9,6 +9,8 @@ The project follows a **two-repo, fully-decoupled architecture**:
 - **This repo (`vcet.edu.in`)** — React SPA + React Admin Panel UI, built with Vite.
 - **Backend repo ([ivory-26/vcet](https://github.com/ivory-26/vcet))** — Pure Laravel REST JSON API.
 
+*(**Note:** The backend is currently configured as a Laravel + Inertia.js monolith. Integration is ongoing. See the [Backend Integration Status](Backend-Integration-Status.md) doc for exact details on API routing differences.)*
+
 Both repos are deployed independently. The frontend calls the backend API over HTTP using Bearer token authentication.
 
 ```

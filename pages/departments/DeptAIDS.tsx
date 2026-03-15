@@ -10,6 +10,8 @@ const sidebarLinks = [
   { id: 'patent',     label: 'Patent',                       icon: 'ph-certificate' },
   { id: 'peo',        label: 'POs, PEOs, PSOs',              icon: 'ph-chart-bar' },
   { id: 'faculty',    label: 'Faculty',                      icon: 'ph-chalkboard-teacher' },
+  { id: 'student-achievements', label: 'Student Achievements', icon: 'ph-medal' },
+  { id: 'teaching-learning',    label: 'Innovations in Teaching Learning', icon: 'ph-lightbulb' },
   { id: 'toppers',    label: 'Toppers',                      icon: 'ph-medal' },
   { id: 'syllabus',   label: 'Syllabus',                     icon: 'ph-book-open' },
   { id: 'newsletter', label: 'Newsletter',                   icon: 'ph-newspaper' },
@@ -417,7 +419,7 @@ const DeptAIDS: React.FC = () => {
                 slug: 'sejal-dmello',
                 name: 'Ms. Sejal D\'mello',
                 post: 'Deputy HOD & Asst. Prof.',
-                email: 'sejal.dmello@vcet.edu.in',
+                email: 'sejal.dmelo@vcet.edu.in',
                 photo: '/Images/departments/aids/faculty/sejal-dmello.jpg',
                 initials: 'SD',
                 color: '#2563a8',
@@ -453,7 +455,7 @@ const DeptAIDS: React.FC = () => {
                 slug: 'raunak-joshi',
                 name: 'Mr. Raunak Joshi',
                 post: 'Asst. Prof.',
-                email: 'raunak.joshi@vcet.edu.in',
+                email: 'ronak.joshi@vcet.edu.in',
                 photo: '/Images/departments/aids/faculty/raunak-joshi.jpg',
                 initials: 'RJ',
                 color: '#2563a8',
@@ -468,12 +470,12 @@ const DeptAIDS: React.FC = () => {
                 color: '#1a4b7c',
               },
               {
-                slug: 'sweety-patil',
-                name: 'Ms. Sweety Patil',
+                slug: 'kranti-gule',
+                name: 'Ms. Kranti Gule',
                 post: 'Asst. Prof.',
-                email: 'sweety.patil@vcet.edu.in',
-                photo: '/Images/departments/aids/faculty/sweety-patil.jpg',
-                initials: 'SP',
+                email: 'kranti.gule@vcet.edu.in',
+                photo: '/Images/departments/aids/faculty/kranti-gule.jpg',
+                initials: 'KG',
                 color: '#2563a8',
               },
             ];
@@ -570,7 +572,7 @@ const DeptAIDS: React.FC = () => {
                 <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-brand-navy`} />
               </div>
               <h3 className="text-xl font-bold text-brand-navy mb-2">{activeLink?.label}</h3>
-              <p className="text-slate-500">Content for this section is coming soon.</p>
+              <p className="text-slate-500">The content will be published soon!</p>
             </section>
           )}
 

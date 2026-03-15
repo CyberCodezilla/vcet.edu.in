@@ -4,6 +4,8 @@
 > All endpoints are prefixed `/api/`  
 > **Public endpoints** require no auth. **Admin endpoints** require `Authorization: Bearer <token>`.
 
+*(**Important Note:** The current backend repository `vcet` is partially built as an Inertia.js Monolith. The APIs listed below (with the exception of `/api/enquiries`) are target endpoints expected by the frontend but are yet to be implemented statelessly in the Laravel backend API. See [Backend Integration Status](Backend-Integration-Status.md) for more info.)*
+
 ---
 
 ## Authentication

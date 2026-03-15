@@ -1,6 +1,7 @@
 import type { FacultyData } from '../csds/FacultyProfileView';
 
 import kshitija from './faculty_kshitija';
+import kranti from './faculty_kranti_gule';
 import nehaRaut from './faculty_neha_raut';
 import raunak from './faculty_raunak';
 import rujuta from './faculty_rujuta';
@@ -15,9 +16,9 @@ const map: Record<string, FacultyData> = {
   'sneha-yadav': snehaYadav,
   'neha-raut': nehaRaut,
   'kshitija-gharat': kshitija,
+  'kranti-gule': kranti,
   'raunak-joshi': raunak,
   'rujuta-vartak': rujuta,
-  'sweety-patil': rujuta,
 };
 
 export default map;

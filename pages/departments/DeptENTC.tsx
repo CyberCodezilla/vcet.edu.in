@@ -10,6 +10,12 @@ const sidebarLinks = [
   { id: 'patent',     label: 'Patent',                       icon: 'ph-certificate' },
   { id: 'peo',        label: 'POs, PEOs, PSOs',              icon: 'ph-chart-bar' },
   { id: 'faculty',    label: 'Faculty',                      icon: 'ph-chalkboard-teacher' },
+  { id: 'paqic',      label: 'PAQIC',                        icon: 'ph-clipboard-text' },
+  { id: 'student-achievements', label: 'Student Achievements', icon: 'ph-medal' },
+  { id: 'infrastructure', label: 'Infrastructure',           icon: 'ph-buildings' },
+  { id: 'time-table', label: 'Time Table',                   icon: 'ph-calendar' },
+  { id: 'teaching-learning', label: 'Innovations in Teaching Learning', icon: 'ph-lightbulb' },
+  { id: 'distinguished-alumni', label: 'Distinguished Alumni', icon: 'ph-user-circle' },
   { id: 'toppers',    label: 'Toppers',                      icon: 'ph-medal' },
   { id: 'syllabus',   label: 'Syllabus',                     icon: 'ph-book-open' },
   { id: 'newsletter', label: 'Newsletter',                   icon: 'ph-newspaper' },
@@ -608,7 +614,7 @@ const DeptENTC: React.FC = () => {
                 <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-brand-navy`} />
               </div>
               <h3 className="text-xl font-bold text-brand-navy mb-2">{activeLink?.label}</h3>
-              <p className="text-slate-500">Content for this section is coming soon.</p>
+              <p className="text-slate-500">The content will be published soon!</p>
             </section>
           )}
 

@@ -358,11 +358,22 @@ Output goes to `dist/`. See [DEPLOYMENT.md](./DEPLOYMENT.md) for full hosting in
 
 ## API & Dynamic Data
 
-The backend is a **separate Laravel 12 REST API** at [ivory-26/vcet](https://github.com/ivory-26/vcet).
-This frontend consumes it via `VITE_API_URL` — see `.env.example`.
+*(**Note:** See [wiki/Backend-Integration-Status.md](./wiki/Backend-Integration-Status.md) for details on the current implementation differences between the frontend expectations and backend Laravel Inertia monolith).*
+
+The backend is a **Laravel 12 REST API** hosted in a separate repository: [ivory-26/vcet](https://github.com/ivory-26/vcet).
+
+### Backend & Database Setup
+If you are running the backend locally or deploying a new instance:
+
+1. **MySQL Configuration**:
+   - Create a database named `vcet`.
+   - Update your `.env` with the database credentials (use `DB_PORT=4000` for TiDB Cloud).
+2. **Migrations & Seeding**:
+   - Run `php artisan migrate --seed` to set up tables and the admin user (`admin@vcet.edu.in` / `password`).
+3. **Environment Variables**:
+   - Ensure `VITE_API_URL` in your frontend `.env` points to your running backend (e.g., `http://localhost:8000/api` or `https://vcet-api.onrender.com/api`).
 
 ### Data flow
-
 ```
 Backend (Laravel) → services/ → hooks/ → components/
 ```
@@ -390,6 +401,7 @@ Backend (Laravel) → services/ → hooks/ → components/
 | `POST /api/enquiries` | `useEnquiryForm` | Admissions / contact form |
 
 See [wiki/API-Endpoint-Map.md](./wiki/API-Endpoint-Map.md) for the full 38-endpoint reference including all admin CRUD routes.
+Also, review the internal [Backend Architecture Data Flow](./wiki/Backend-Architecture.md) to understand the current routing mechanics of the Laravel repository.
 
 ---
 
@@ -582,7 +594,9 @@ This project is built by an amazing team of developers committed to creating a w
 | 7 | **sumritasawant101-droid** | [@sumritasawant101-droid](https://github.com/sumritasawant101-droid) |
 | 8 | **dakshata2405956201-svg** | [@dakshata2405956201-svg](https://github.com/dakshata2405956201-svg) |
 | 9 | **shweta1909patil-maker** | [@shweta1909patil-maker](https://github.com/shweta1909patil-maker) |
-| 10 | **antarikshsingh** | [@antarikshsingh](https://github.com/antarikshsingh) |
+| 10 | **Sumit Vishwakarma** | [@Sumitc0de](https://github.com/Sumitc0de) |
+| 11 | **antarikshsingh** | [@antarikshsingh](https://github.com/antarikshsingh) |
+| 12 | **PratikRavale24** | [@PratikRavale24](https://github.com/PratikRavale24) |
 
 ### How to contribute
 

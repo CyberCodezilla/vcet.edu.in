@@ -176,7 +176,7 @@ const Achievements: React.FC = () => {
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
           onClick={() => setSelectedAchievement(null)}
           onWheel={e => {
-            e.preventDefault();
+            // e.preventDefault(); // removed to fix passive event listener error
             setLightboxZoom(z => Math.min(1.35, Math.max(1, z + (e.deltaY < 0 ? 0.05 : -0.05))));
           }}
         >

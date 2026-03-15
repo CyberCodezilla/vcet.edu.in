@@ -644,6 +644,15 @@ const DeptCSDS: React.FC = () => {
                 initials: 'BJ',
                 color: '#2563a8',
               },
+              {
+                slug: 'ms-odilia-gonsalves',
+                name: 'Ms. Odilia Gonsalves',
+                post: 'Asst. Prof.',
+                email: 'odilia.gonsalves@vcet.edu.in',
+                photo: '/Images/departments/csds/faculty/ms-odilia-gonsalves.jpg',
+                initials: 'OG',
+                color: '#1a4b7c',
+              },
             ];
 
             return (

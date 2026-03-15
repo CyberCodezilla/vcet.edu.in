@@ -199,24 +199,32 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
     clickTargetRef.current = null;
   };
 
-  // -- Mouse wheel horizontal scrolling --
-  const onWheel = (e: React.WheelEvent) => {
-    // Only handle horizontal-like scroll (shift+wheel or trackpad)
-    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-    if (delta === 0) return;
-    e.preventDefault();
-    pausedRef.current = true;
-    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+  // -- Mouse wheel horizontal scrolling using native listener for passive: false --
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
 
-    const el = scrollRef.current;
-    if (!el) return;
-    const oneSetWidth = el.scrollWidth / 3;
-    posRef.current += delta * 0.8;
-    if (posRef.current >= oneSetWidth * 2) posRef.current -= oneSetWidth;
-    if (posRef.current < 0) posRef.current += oneSetWidth;
-    el.style.transform = `translateX(${-posRef.current}px)`;
-    scheduleResume();
-  };
+    const onWheelNative = (e: WheelEvent) => {
+      // Only handle horizontal-like scroll (shift+wheel or trackpad)
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (delta === 0) return;
+      e.preventDefault();
+      pausedRef.current = true;
+      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+
+      const el = scrollRef.current;
+      if (!el) return;
+      const oneSetWidth = el.scrollWidth / 3;
+      posRef.current += delta * 0.8;
+      if (posRef.current >= oneSetWidth * 2) posRef.current -= oneSetWidth;
+      if (posRef.current < 0) posRef.current += oneSetWidth;
+      el.style.transform = `translateX(${-posRef.current}px)`;
+      scheduleResume();
+    };
+
+    wrapper.addEventListener("wheel", onWheelNative, { passive: false });
+    return () => wrapper.removeEventListener("wheel", onWheelNative);
+  }, []);
 
   const tripled = [...items, ...items, ...items];
 
@@ -228,7 +236,6 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
-      onWheel={onWheel}
       style={{
         WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
         maskImage: "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)",
@@ -336,6 +343,7 @@ const Recruiters: React.FC = () => {
       alt=""
       className="absolute inset-0 w-full h-full object-cover"
       aria-hidden="true"
+      loading="lazy"
     />
     {/* Light overlay so content stays readable */}
     <div className="absolute inset-0" style={{ background: "rgba(248,250,252,0.82)" }} />
