@@ -11,29 +11,7 @@ import {
   Image,
 } from "lucide-react";
 import { post } from "../services/api";
-
-const notices = [
-  {
-    text: "Admission 2024-25: Applications open for First Year Engineering.",
-    tag: "NEW",
-    date: null,
-  },
-  {
-    text: "Semester IV Exam Time Table released. Check student portal.",
-    tag: null,
-    date: "Aug 12",
-  },
-  {
-    text: "National Level Hackathon 'Hack-n-Code' registration closes soon.",
-    tag: null,
-    date: "Aug 10",
-  },
-  {
-    text: "Guest Lecture on 'AI in Healthcare' by industry experts.",
-    tag: null,
-    date: "Aug 8",
-  },
-];
+import { useNotices } from "../hooks/useNotices";
 
 const events = [
   {
@@ -370,6 +348,7 @@ const Hero: React.FC = () => {
   const [packageIndex, setPackageIndex] = useState(0);
   const [pkgZoom, setPkgZoom] = useState(1);
   const [slideIndex, setSlideIndex] = useState(0);
+  const { notices, loading: noticesLoading } = useNotices();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -491,28 +470,43 @@ const Hero: React.FC = () => {
                   <div className="flex-1 overflow-y-auto gold-scrollbar pr-1">
                     {activeTab === "notices" ? (
                       <div>
-                        {notices.map((n, i) => (
-                          <div
-                            key={i}
-                            className="py-4 border-b border-white/10 last:border-0"
-                          >
+                        {noticesLoading ? (
+                          <div className="py-4 border-b border-white/10 last:border-0">
                             <p className="text-[15px] font-medium text-white leading-snug">
-                              {n.text}
+                              Loading latest notices...
                             </p>
-                            <div className="mt-2 flex flex-wrap gap-1.5">
-                              {n.tag && (
-                                <span className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-red-600 text-white rounded">
-                                  {n.tag}
-                                </span>
-                              )}
-                              {n.date && (
-                                <span className="px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-white/10 text-white/70 rounded border border-white/20">
-                                  {n.date}
-                                </span>
-                              )}
-                            </div>
                           </div>
-                        ))}
+                        ) : notices.length === 0 ? (
+                          <div className="py-4 border-b border-white/10 last:border-0">
+                            <p className="text-[15px] font-medium text-white leading-snug">
+                              No active notices available right now.
+                            </p>
+                          </div>
+                        ) : (
+                          notices.slice(0, 6).map((n) => (
+                            <div
+                              key={n.id}
+                              className="py-4 border-b border-white/10 last:border-0"
+                            >
+                              <p className="text-[15px] font-medium text-white leading-snug">
+                                {n.title}
+                              </p>
+                              <div className="mt-2 flex flex-wrap gap-1.5">
+                                {n.type !== "general" && (
+                                  <span className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-red-600 text-white rounded">
+                                    {n.type}
+                                  </span>
+                                )}
+                                <span className="px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider bg-white/10 text-white/70 rounded border border-white/20">
+                                  {new Date(n.created_at).toLocaleDateString(
+                                    "en-US",
+                                    { month: "short", day: "2-digit" },
+                                  )}
+                                </span>
+                              </div>
+                            </div>
+                          ))
+                        )}
                       </div>
                     ) : (
                       <div>

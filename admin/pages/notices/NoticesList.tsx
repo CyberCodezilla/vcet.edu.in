@@ -16,7 +16,7 @@ const NoticesList: React.FC = () => {
     setLoading(true);
     noticesApi
       .list()
-      .then((r) => setNotices(r.data ?? []))
+      .then((r) => setNotices((r.data ?? []).filter((notice) => !notice.deleted_at)))
       .catch((e: Error) => setError(e.message))
       .finally(() => setLoading(false));
   };
@@ -45,9 +45,10 @@ const NoticesList: React.FC = () => {
     }
   };
 
-  const filteredNotices = notices.filter(n => 
+  const filteredNotices = notices.filter(n =>
     n.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (n.category && n.category.toLowerCase().includes(searchTerm.toLowerCase()))
+    n.body.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    n.type.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const stats = {
@@ -56,14 +57,17 @@ const NoticesList: React.FC = () => {
     drafts: notices.filter(n => !n.is_active).length
   };
 
-  const getCategoryStyles = (category: string | null) => {
-    switch (category?.toLowerCase()) {
-      case 'academic': return 'bg-blue-50 text-blue-600';
-      case 'cultural': return 'bg-purple-50 text-purple-600';
-      case 'placement': return 'bg-orange-50 text-orange-600';
+  const getTypeStyles = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'info': return 'bg-blue-50 text-blue-600';
+      case 'warning': return 'bg-orange-50 text-orange-600';
+      case 'urgent': return 'bg-red-50 text-red-600';
       default: return 'bg-slate-50 text-slate-600';
     }
   };
+
+  const getTypeLabel = (type: string) =>
+    type.charAt(0).toUpperCase() + type.slice(1);
 
   return (
     <div className="space-y-10 pb-12">
@@ -137,7 +141,7 @@ const NoticesList: React.FC = () => {
               <thead className="bg-slate-50/50">
                 <tr className="border-b border-slate-100 text-slate-400 text-[11px] uppercase tracking-[0.1em] font-bold">
                   <th className="text-left px-8 py-5">Notice Title</th>
-                  <th className="text-left px-6 py-5">Category</th>
+                  <th className="text-left px-6 py-5">Type</th>
                   <th className="text-left px-6 py-5">Published Date</th>
                   <th className="text-left px-6 py-5">Status</th>
                   <th className="text-right px-8 py-5">Actions</th>
@@ -157,17 +161,17 @@ const NoticesList: React.FC = () => {
                       </div>
                     </td>
                     <td className="px-6 py-5">
-                      <span className={`px-3 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase ${getCategoryStyles(n.category)}`}>
-                        {n.category || 'General'}
+                      <span className={`px-3 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase ${getTypeStyles(n.type)}`}>
+                        {getTypeLabel(n.type)}
                       </span>
                     </td>
                     <td className="px-6 py-5 text-slate-500 font-medium">
-                      {n.is_active ? new Date(n.created_at).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }) : '—'}
+                      {new Date(n.created_at).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}
                     </td>
                     <td className="px-6 py-5">
                       <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase ${n.is_active ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-500'}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${n.is_active ? 'bg-emerald-500' : 'bg-slate-400'}`} />
-                        {n.is_active ? 'Published' : 'Draft'}
+                        {n.is_active ? 'Published' : 'Inactive'}
                       </div>
                     </td>
                     <td className="px-8 py-5 text-right">

@@ -134,7 +134,8 @@ const AdminDashboard: React.FC = () => {
     ]).finally(() => setLoading(false));
   }, []);
 
-  const recentNotices = notices.slice(0, 5);
+  const visibleNotices = notices.filter((notice) => !notice.deleted_at);
+  const recentNotices = visibleNotices.slice(0, 5);
   const recentEvents = events.slice(0, 5);
   const placementRate = placements.length > 0 ? '98%' : '–';
 
@@ -178,7 +179,7 @@ const AdminDashboard: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <StatCard
           label="Total Notices"
-          value={loading ? '–' : notices.length}
+          value={loading ? '–' : visibleNotices.length}
           to="/admin/notices"
           icon={<NoticeIcon />}
           iconBg="bg-blue-50 text-blue-500"
@@ -283,8 +284,10 @@ const AdminDashboard: React.FC = () => {
                     <p className="text-slate-700 text-sm font-medium truncate">{n.title}</p>
                     <p className="text-slate-400 text-xs mt-0.5">{new Date(n.created_at).toLocaleDateString()}</p>
                   </div>
-                  {n.is_new && (
-                    <span className="px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full uppercase mt-1">New</span>
+                  {n.type !== 'general' && (
+                    <span className="px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full uppercase mt-1">
+                      {n.type}
+                    </span>
                   )}
                 </li>
               ))}

@@ -4,25 +4,48 @@ import { noticesApi } from '../../api/notices';
 import type { NoticePayload } from '../../types';
 import { Link } from 'react-router-dom';
 
-const CATEGORIES = ['Academic', 'Cultural', 'Placement', 'Administrative', 'General'];
+const NOTICE_TYPES: Array<{ label: string; value: NonNullable<NoticePayload['type']> }> = [
+  { label: 'General', value: 'general' },
+  { label: 'Info', value: 'info' },
+  { label: 'Warning', value: 'warning' },
+  { label: 'Urgent', value: 'urgent' },
+];
 
-const empty: NoticePayload = {
+interface NoticeFormState {
+  title: string;
+  type: NonNullable<NoticePayload['type']>;
+  body: string;
+  link_url: string;
+  link_label: string;
+  deactivates_at: string;
+  is_active: boolean;
+}
+
+const empty: NoticeFormState = {
   title: '',
-  category: 'General',
-  description: '',
-  external_link: '',
-  is_new: false,
+  type: 'general',
+  body: '',
+  link_url: '',
+  link_label: '',
+  deactivates_at: '',
   is_active: true,
-  sort_order: 0,
 };
+
+function toLocalDateTimeInput(value: string | null | undefined): string {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+
+  const timezoneOffsetMs = date.getTimezoneOffset() * 60_000;
+  return new Date(date.getTime() - timezoneOffsetMs).toISOString().slice(0, 16);
+}
 
 const NoticeForm: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const isEdit = Boolean(id);
   const navigate = useNavigate();
 
-  const [form, setForm] = useState<NoticePayload>(empty);
-  const [file, setFile] = useState<File | null>(null);
+  const [form, setForm] = useState<NoticeFormState>(empty);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(isEdit);
   const [error, setError] = useState('');
@@ -37,12 +60,12 @@ const NoticeForm: React.FC = () => {
           const d = r.data;
           setForm({
             title: d.title,
-            category: d.category ?? 'General',
-            description: d.description ?? '',
-            external_link: d.external_link ?? '',
-            is_new: d.is_new,
+            type: d.type ?? 'general',
+            body: d.body ?? '',
+            link_url: d.link_url ?? '',
+            link_label: d.link_label ?? '',
+            deactivates_at: toLocalDateTimeInput(d.deactivates_at),
             is_active: d.is_active,
-            sort_order: d.sort_order,
           });
         }
       })
@@ -50,14 +73,24 @@ const NoticeForm: React.FC = () => {
       .finally(() => setFetching(false));
   }, [id]);
 
-  const set = <K extends keyof NoticePayload>(key: K, value: NoticePayload[K]) =>
+  const set = <K extends keyof NoticeFormState>(key: K, value: NoticeFormState[K]) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-    const payload: NoticePayload = { ...form, ...(file ? { attachment: file } : {}) };
+
+    const payload: NoticePayload = {
+      title: form.title.trim(),
+      body: form.body.trim(),
+      type: form.type,
+      link_url: form.link_url.trim() || null,
+      link_label: form.link_label.trim() || null,
+      deactivates_at: form.deactivates_at ? new Date(form.deactivates_at).toISOString() : null,
+      is_active: form.is_active,
+    };
+
     try {
       if (isEdit) {
         await noticesApi.update(Number(id), payload);
@@ -125,68 +158,68 @@ const NoticeForm: React.FC = () => {
             />
           </div>
 
-          {/* Category */}
+          {/* Type */}
           <div>
-            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Category</label>
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Type</label>
             <select
-              value={form.category ?? 'General'}
-              onChange={(e) => set('category', e.target.value)}
+              value={form.type}
+              onChange={(e) => set('type', e.target.value as NonNullable<NoticePayload['type']>)}
               className="admin-input appearance-none"
             >
-              {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+              {NOTICE_TYPES.map((type) => (
+                <option key={type.value} value={type.value}>
+                  {type.label}
+                </option>
+              ))}
             </select>
           </div>
 
-          {/* Sort Order */}
+          {/* Scheduled Deactivation */}
           <div>
-            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Sort Order</label>
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Deactivates At</label>
             <input
-              type="number"
-              value={form.sort_order}
-              onChange={(e) => set('sort_order', Number(e.target.value))}
+              type="datetime-local"
+              value={form.deactivates_at}
+              onChange={(e) => set('deactivates_at', e.target.value)}
               className="admin-input"
-              min={0}
             />
           </div>
         </div>
 
-        {/* Description */}
+        {/* Body */}
         <div>
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Description (Snippet)</label>
+          <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Notice Content *</label>
           <textarea
-            value={form.description ?? ''}
-            onChange={(e) => set('description', e.target.value)}
-            rows={4}
+            value={form.body}
+            onChange={(e) => set('body', e.target.value)}
+            rows={5}
             className="admin-input resize-none"
-            placeholder="Briefly describe what this notice is about..."
+            placeholder="Write the full notice content..."
+            required
           />
         </div>
 
-        {/* External link */}
+        {/* Link fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">External Link</label>
             <input
               type="url"
-              value={form.external_link ?? ''}
-              onChange={(e) => set('external_link', e.target.value)}
+              value={form.link_url}
+              onChange={(e) => set('link_url', e.target.value)}
               className="admin-input"
               placeholder="https://vcet.edu.in/..."
             />
           </div>
-
-          {/* PDF attachment */}
           <div>
-            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Attachment (PDF)</label>
-            <div className="relative group">
-              <input
-                type="file"
-                accept=".pdf"
-                onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                className="block w-full text-sm text-slate-500 file:mr-4 file:py-3 file:px-6 file:rounded-2xl file:border-0 file:text-xs file:font-bold file:bg-[#1e293b]/5 file:text-[#1e293b] hover:file:bg-[#1e293b]/10 cursor-pointer transition-all admin-input p-0 overflow-hidden"
-              />
-            </div>
-            {file && <p className="text-[10px] text-emerald-600 font-bold mt-2 uppercase tracking-tight">Selected: {file.name}</p>}
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Link Label</label>
+            <input
+              type="text"
+              value={form.link_label}
+              onChange={(e) => set('link_label', e.target.value)}
+              className="admin-input"
+              placeholder="Read More"
+            />
           </div>
         </div>
 
@@ -200,17 +233,6 @@ const NoticeForm: React.FC = () => {
             <div>
               <span className="block text-sm font-bold text-slate-700 group-hover:text-black transition-colors">Visible to Public</span>
               <span className="block text-[10px] text-slate-400 font-medium uppercase tracking-tighter">Live on Website</span>
-            </div>
-          </label>
-
-          <label className="flex items-center gap-3.5 cursor-pointer group select-none">
-            <div className={`relative flex items-center w-12 h-6.5 rounded-full transition-all duration-300 ${form.is_new ? 'bg-blue-600' : 'bg-slate-200'}`}>
-              <input type="checkbox" checked={form.is_new} onChange={(e) => set('is_new', e.target.checked)} className="sr-only" />
-              <span className={`w-4.5 h-4.5 rounded-full bg-white shadow-md transform transition-transform duration-300 ${form.is_new ? 'translate-x-6.5' : 'translate-x-1'}`} />
-            </div>
-            <div>
-              <span className="block text-sm font-bold text-slate-700 group-hover:text-black transition-colors">Highlight as New</span>
-              <span className="block text-[10px] text-slate-400 font-medium uppercase tracking-tighter">Adds "NEW" Badge</span>
             </div>
           </label>
         </div>
