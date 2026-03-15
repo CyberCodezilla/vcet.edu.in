@@ -9,6 +9,7 @@ const API_BASE =
 const API_ORIGIN = API_BASE.replace(/\/api$/, "");
 const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
 let csrfBootstrapPromise: Promise<void> | null = null;
+let csrfToken: string | null = null;
 
 function getCookie(name: string): string | null {
   if (typeof document === "undefined") return null;
@@ -32,7 +33,7 @@ function buildHeaders(input?: HeadersInit): Headers {
 }
 
 async function ensureCsrfCookie(forceRefresh = false): Promise<void> {
-  if (!forceRefresh && getCookie("XSRF-TOKEN")) {
+  if (!forceRefresh && (csrfToken || getCookie("XSRF-TOKEN"))) {
     return;
   }
 
@@ -42,10 +43,18 @@ async function ensureCsrfCookie(forceRefresh = false): Promise<void> {
       credentials: "include",
       headers: buildHeaders(),
     }).then(async (res) => {
+      const payload = (await res.json().catch(() => null)) as { token?: string } | null;
+
       if (!res.ok) {
-        const message = await res.text().catch(() => "");
+        const message = payload && typeof payload === "object" && "message" in payload
+          ? String(payload.message ?? "")
+          : "";
         throw new Error(message || `Unable to initialize CSRF protection (HTTP ${res.status})`);
       }
+
+      csrfToken = typeof payload?.token === "string" && payload.token.length > 0
+        ? payload.token
+        : getCookie("XSRF-TOKEN");
     }).finally(() => {
       csrfBootstrapPromise = null;
     });
@@ -55,7 +64,7 @@ async function ensureCsrfCookie(forceRefresh = false): Promise<void> {
 }
 
 function applyCsrfHeader(headers: Headers): void {
-  const token = getCookie("XSRF-TOKEN");
+  const token = csrfToken ?? getCookie("XSRF-TOKEN");
   if (token) {
     headers.set("X-XSRF-TOKEN", token);
   }
