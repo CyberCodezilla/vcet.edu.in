@@ -57,7 +57,6 @@ const DeptFE = lazy(() => import('./pages/departments/DeptFE'));
 const DeanAcademics = lazy(() => import('./pages/academics/DeanAcademics'));
 const AcademicCalendar = lazy(() => import('./pages/academics/AcademicCalendar'));
 const TeachingLearning = lazy(() => import('./pages/academics/TeachingLearning'));
-const SwayamNPTEL = lazy(() => import('./pages/academics/SwayamNPTEL'));
 const HonoursMinor = lazy(() => import('./pages/academics/HonoursMinor'));
 const ExamCell = lazy(() => import('./pages/academics/ExamCell'));
 
@@ -255,7 +254,6 @@ function App() {
           <Route path="/dean-academics" element={<DeanAcademics />} />
           <Route path="/academic-calendar" element={<AcademicCalendar />} />
           <Route path="/teaching-learning" element={<TeachingLearning />} />
-          <Route path="/swayam-nptel" element={<SwayamNPTEL />} />
           <Route path="/honours-minor" element={<HonoursMinor />} />
 
           {/* Research */}
