@@ -59,7 +59,7 @@ const CollegeDevelopmentCommittee: React.FC = () => {
       <section className="bg-[radial-gradient(1200px_500px_at_10%_0%,rgba(26,75,124,0.09),transparent),radial-gradient(900px_400px_at_90%_10%,rgba(253,184,19,0.08),transparent),#f5f7fa] py-10 md:py-14">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto space-y-8 md:space-y-10">
-            <div className="reveal bg-white rounded-2xl border-2 border-[#c4cdd8] shadow-[0_10px_24px_rgba(0,0,0,0.10),0_2px_6px_rgba(0,0,0,0.06)] p-6 md:p-8 transition-all duration-500 hover:shadow-[0_14px_32px_rgba(0,0,0,0.14),0_4px_10px_rgba(0,0,0,0.08)]">
+            <div className="reveal bg-white border-2 border-[#b5c5d6] border-l-4 border-l-[#fdb813] shadow-[0_16px_34px_rgba(253,184,19,0.38),0_6px_14px_rgba(0,0,0,0.08)] p-6 md:p-8 transition-all duration-500">
               <div className="w-16 h-1.5 rounded-full bg-[#fdb813] mb-4" />
               <h2 className="font-display text-3xl md:text-4xl text-[#1a4b7c] font-bold mb-4">
                 About the Committee
@@ -72,7 +72,7 @@ const CollegeDevelopmentCommittee: React.FC = () => {
             </div>
 
             <div
-              className="reveal bg-gradient-to-br from-white to-[#f8fbff] border-2 border-[#c4cdd8] shadow-sm p-6 md:p-8 transition-all duration-500 hover:shadow-md"
+              className="reveal bg-gradient-to-br from-white to-[#f8fbff] border-2 border-[#c4cdd8] shadow-[0_14px_28px_rgba(26,75,124,0.30),0_4px_10px_rgba(0,0,0,0.08)] p-6 md:p-8 transition-all duration-500"
               style={{ transitionDelay: '0.06s' }}
             >
               <div className="w-16 h-1.5 rounded-full bg-[#fdb813] mb-4" />
@@ -106,7 +106,7 @@ const CollegeDevelopmentCommittee: React.FC = () => {
             </div>
 
             <div
-              className="reveal bg-gradient-to-br from-white to-[#f7faff] border-2 border-[#c4cdd8] shadow-sm p-6 md:p-8 transition-all duration-500 hover:shadow-md"
+              className="reveal bg-gradient-to-br from-white to-[#f7faff] border-2 border-[#c4cdd8] shadow-[0_16px_32px_rgba(253,184,19,0.36),0_4px_10px_rgba(0,0,0,0.08)] p-6 md:p-8 transition-all duration-500"
               style={{ transitionDelay: '0.12s' }}
             >
               <div className="w-16 h-1.5 rounded-full bg-[#fdb813] mb-4" />

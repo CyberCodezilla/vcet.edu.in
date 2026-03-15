@@ -106,7 +106,6 @@ const IETE = lazy(() => import('./pages/clubs/IETE'));
 const ISHRAE = lazy(() => import('./pages/clubs/ISHRAE'));
 const VMEA = lazy(() => import('./pages/clubs/VMEA'));
 const IGBC = lazy(() => import('./pages/clubs/IGBC'));
-const IIC = lazy(() => import('./pages/clubs/IIC'));
 
 // pages/committees
 const CollegeDevelopmentCommittee = lazy(() => import('./pages/committees/CollegeDevelopmentCommittee'));
