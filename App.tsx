@@ -94,6 +94,7 @@ const StudentsClub = lazy(() => import('./pages/student-life/StudentsClub'));
 const Hackathon = lazy(() => import('./pages/student-life/Hackathon'));
 const NSDC = lazy(() => import('./pages/student-life/NSDC'));
 const Training = lazy(() => import('./pages/student-life/Training'));
+const Placement = lazy(() => import('./pages/student-life/Placement'));
 const ECell = lazy(() => import('./pages/student-life/ECell'));
 const IIIC = lazy(() => import('./pages/student-life/IIIC'));
 const Parents = lazy(() => import('./pages/student-life/Parents'));
@@ -373,6 +374,7 @@ function App() {
             {/* Contact & Others */}
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/training" element={<Training />} />
+            <Route path="/placement" element={<Placement />} />
             <Route path="/e-cell" element={<ECell />} />
             <Route path="/iiic" element={<IIIC />} />
             <Route path="/exam-cell" element={<ExamCell />} />

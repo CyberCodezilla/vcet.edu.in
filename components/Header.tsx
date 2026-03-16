@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Search, ChevronDown, ChevronRight } from 'lucide-react';
 
@@ -86,7 +86,7 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'Academics',
     dropdown: [
-      { label: "Dean Academic's Desk",       href: '/dean-academics' },
+      { label: "Dean Academics Desk",       href: '/dean-academics' },
       {
         label: 'Academic Calendar',
         href: '/academic-calendar',
@@ -224,7 +224,7 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'Training & Placement',
     dropdown: [
-      { label: 'Placement', href: '#placements' },
+      { label: 'Placement', href: '/placement' },
       { label: 'Training',  href: '/training' },
       { label: 'E-CELL',    href: '/e-cell' },
       { label: 'IIIC',      href: '/iiic' },
