@@ -49,11 +49,11 @@ export default function MMSFaculty() {
                 key={faculty.name}
                 className="group flex flex-col items-center rounded-lg border border-gray-100 border-b-[3px] border-t-[3px] border-b-[#fdb813] border-t-[#1a4b7c] bg-white px-6 pb-5 pt-6 shadow-sm transition-shadow duration-300 hover:shadow-md"
               >
-                <div className="relative mb-4 flex h-32 w-32 items-center justify-center bg-brand-navylight text-2xl font-bold text-brand-navy">
-                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-navy to-brand-blue text-white">
-                    {initials}
+                <div className="relative mb-5 flex h-36 w-36 items-center justify-center bg-gradient-to-br from-brand-gold via-yellow-300 to-yellow-500 p-[2.5px] shadow-[0_10px_28px_rgba(26,75,124,0.2)]">
+                  <div className="relative flex h-full w-full items-center justify-center overflow-hidden border border-white/70 bg-gradient-to-br from-brand-navy via-brand-blue to-[#245f99] text-3xl font-extrabold text-white">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_22%,rgba(255,255,255,0.3),transparent_42%)]" />
+                    <span className="relative tracking-wide">{initials}</span>
                   </div>
-                  <div className="absolute bottom-0 right-0 h-4 w-4 bg-[#fdb813]" />
                 </div>
 
                 <h3 className="text-center text-base font-bold leading-snug text-[#1a4b7c]">{faculty.name}</h3>

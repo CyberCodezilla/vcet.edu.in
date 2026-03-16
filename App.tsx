@@ -130,6 +130,16 @@ const NaacPage = lazy(() => import('./pages/naac/NAACPage'));
 // pages/contact
 const ContactUs = lazy(() => import('./pages/contact/ContactUs'));
 
+// pages/footer
+const GermanLanguageClubLayout = lazy(() => import('./pages/footer/german-language-club/GermanLanguageClubLayout'));
+const GermanClubAbout = lazy(() => import('./pages/footer/german-language-club/GermanClubAbout'));
+const GermanClubCourseObjectives = lazy(() => import('./pages/footer/german-language-club/GermanClubCourseObjectives'));
+const GermanClubCourseContent = lazy(() => import('./pages/footer/german-language-club/GermanClubCourseContent'));
+const GermanClubActivities = lazy(() => import('./pages/footer/german-language-club/GermanClubActivities'));
+const GermanClubGallery = lazy(() => import('./pages/footer/german-language-club/GermanClubGallery'));
+const GermanClubFaculty = lazy(() => import('./pages/footer/german-language-club/GermanClubFaculty'));
+const HelplineForDivyangjan = lazy(() => import('./pages/footer/HelplineForDivyangjan'));
+
 // pages/mms
 const MMSHome = lazy(() => import('./pages/mms/MMSHome'));
 const MMSAbout = lazy(() => import('./pages/mms/about/MMSAbout'));
@@ -378,6 +388,18 @@ function App() {
             <Route path="/e-cell" element={<ECell />} />
             <Route path="/iiic" element={<IIIC />} />
             <Route path="/exam-cell" element={<ExamCell />} />
+            <Route path="/helpline-for-divyangjan" element={<HelplineForDivyangjan />} />
+
+            {/* Footer Pages */}
+            <Route path="/german-language-club" element={<GermanLanguageClubLayout />}>
+              <Route index element={<Navigate to="about" replace />} />
+              <Route path="about" element={<GermanClubAbout />} />
+              <Route path="course-objectives" element={<GermanClubCourseObjectives />} />
+              <Route path="course-content" element={<GermanClubCourseContent />} />
+              <Route path="activities" element={<GermanClubActivities />} />
+              <Route path="gallery" element={<GermanClubGallery />} />
+              <Route path="faculty" element={<GermanClubFaculty />} />
+            </Route>
 
           {/* MMS mini-site */}
           <Route path="/mms" element={<MMSHome />} />

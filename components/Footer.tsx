@@ -15,15 +15,25 @@ const Footer: React.FC = () => {
             <h3 className="text-xs font-bold uppercase tracking-[0.15em] mb-5 text-brand-gold">Menu</h3>
             <ul className="space-y-2.5">
               {[
-                'Home', 'Mandatory Disclosure', 'German Language Club',
-                'FRA FEE PROPOSAL 2025-26 – ENGG', 'Fee Approved by FRA for 25-26',
-                'Fee Approved by FRA for 24-25', 'Fee Proposal for 2024-25 Engineering',
-                'Fee Proposal for 2025-26 Engineering', 'Audited Statement',
-                'EOA Report 25-26', 'Certificate – Medium of Instruction'
+                { label: 'Home', href: 'https://vcet.edu.in/', external: true },
+                { label: 'Mandatory Disclosure', href: 'https://vcet.edu.in/wp-content/uploads/2026/01/Mandatory-Disclosure-as-On-December-2025-FINAL.pdf', external: true },
+                { label: 'German Language Club', href: '/german-language-club', external: false },
+                { label: 'FRA FEE PROPOSAL 2025-26 – ENGG', href: 'https://vcet.edu.in/wp-content/uploads/2025/05/FRA-FEE-PROPOSAL-2025-26-ENGG.pdf', external: true },
+                { label: 'FRA FEE PROPOSAL 2025-26-ME', href: 'https://vcet.edu.in/wp-content/uploads/2025/05/FRA-FEE-PROPOSAL-2025-26-ME.pdf', external: true },
+                { label: 'FRA FEE PROPOSAL 2025-26-MBA', href: 'https://vcet.edu.in/wp-content/uploads/2025/05/FRA-FEE-PROPOSAL-2025-26-MBA.pdf', external: true },
+                { label: 'Fee Approved By FRA for 25-26', href: 'https://vcet.edu.in/wp-content/uploads/2025/10/FRA-Fee-2025-26-17.7.25.pdf', external: true },
+                { label: 'EOA 1994 to 2024', href: 'https://vcet.edu.in/wp-content/uploads/2026/03/EOA-1994-2024.pdf', external: true },
+                { label: 'EOA Report 25-26', href: 'https://vcet.edu.in/wp-content/uploads/2025/06/EOA-Report-2025-2026.pdf', external: true },
+                { label: 'Certificate – Medium of Instruction', href: 'https://vcet.edu.in/wp-content/uploads/2026/03/Medium-of-Instruction-Cert.pdf', external: true },
               ].map((item) => (
-                <li key={item}>
-                  <a href="#!" onClick={(e) => e.preventDefault()} className="text-white/40 text-[13px] hover:text-white hover:pl-1 transition-all duration-300 block break-words leading-snug">
-                    {item}
+                <li key={item.label}>
+                  <a
+                    href={item.href}
+                    target={item.external ? '_blank' : undefined}
+                    rel={item.external ? 'noopener noreferrer' : undefined}
+                    className="text-white/40 text-[13px] hover:text-white hover:pl-1 transition-all duration-300 block break-words leading-snug"
+                  >
+                    {item.label}
                   </a>
                 </li>
               ))}
@@ -35,15 +45,15 @@ const Footer: React.FC = () => {
             <h3 className="text-xs font-bold uppercase tracking-[0.15em] mb-5 text-brand-gold">Useful Links</h3>
             <ul className="space-y-2.5">
               {[
-                { label: 'Student Educational Verification', href: '#', external: false },
+                { label: 'Procedure for Student Educational Verification.', href: 'https://vcet.edu.in/wp-content/uploads/2021/11/Educational_verification-1-1.pdf', external: true },
                 { label: 'Mumbai University', href: 'https://mu.ac.in/', external: true },
                 { label: 'AICTE', href: 'https://www.aicte-india.org/', external: true },
                 { label: 'DTE Maharashtra', href: 'https://dte.maharashtra.gov.in/', external: true },
-                { label: 'Helpline for Divyagjan', href: '#', external: false },
+                { label: 'Helpline for Divyagjan', href: '/helpline-for-divyangjan', external: false },
                 { label: 'Online Grievance Form', href: '#', external: false },
                 { label: 'AICTE Feedback', href: '#', external: false },
-                { label: 'VCET HR Policy', href: '#', external: false },
-                { label: 'Institute Research Policy', href: '#', external: false },
+                { label: 'VCET HR policy', href: 'https://vcet.edu.in/NAAC/VCET_HR_POLICY.pdf', external: true },
+                { label: 'Institute Research Policy', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/Institute-Research-Policy.pdf', external: true },
               ].map((item) => (
                 <li key={item.label}>
                   <a 
