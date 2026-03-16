@@ -170,7 +170,13 @@ const Training: React.FC = () => {
                       {/* Row 1 */}
                       <tr className="hover:bg-slate-50/50 transition-colors">
                         <td className="p-4 align-top font-medium text-slate-500">1</td>
-                        <td className="p-4 align-top font-semibold text-brand-navy">Aptitude Training</td>
+                        <td className="p-4 align-top font-semibold text-brand-navy">
+                          Aptitude Training
+                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
+                            <i className="ph ph-image text-3xl mb-2"></i>
+                            <span className="text-xs font-normal">Image Placeholder</span>
+                          </div>
+                        </td>
                         <td className="p-4 align-top space-y-3">
                           <p>
                             <span className="text-brand-gold mr-2">❖</span> 
@@ -187,7 +193,13 @@ const Training: React.FC = () => {
                       {/* Row 2 */}
                       <tr className="hover:bg-slate-50/50 transition-colors">
                         <td className="p-4 align-top font-medium text-slate-500">2</td>
-                        <td className="p-4 align-top font-semibold text-brand-navy">AMCAT Test</td>
+                        <td className="p-4 align-top font-semibold text-brand-navy">
+                          AMCAT Test
+                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
+                            <i className="ph ph-image text-3xl mb-2"></i>
+                            <span className="text-xs font-normal">Image Placeholder</span>
+                          </div>
+                        </td>
                         <td className="p-4 align-top space-y-3">
                           <p>
                             <span className="text-brand-gold mr-2">❖</span>
@@ -204,7 +216,13 @@ const Training: React.FC = () => {
                       {/* Row 3 */}
                       <tr className="hover:bg-slate-50/50 transition-colors">
                         <td className="p-4 align-top font-medium text-slate-500">3</td>
-                        <td className="p-4 align-top font-semibold text-brand-navy">Aptitude Test Series</td>
+                        <td className="p-4 align-top font-semibold text-brand-navy">
+                          Aptitude Test Series
+                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
+                            <i className="ph ph-image text-3xl mb-2"></i>
+                            <span className="text-xs font-normal">Image Placeholder</span>
+                          </div>
+                        </td>
                         <td className="p-4 align-top space-y-3">
                           <p>
                             <span className="text-brand-gold mr-2">❖</span>
@@ -216,6 +234,121 @@ const Training: React.FC = () => {
                           </p>
                         </td>
                         <td className="p-4 align-top whitespace-nowrap text-slate-500">Since 2017</td>
+                      </tr>
+
+                      {/* Row 4 */}
+                      <tr className="hover:bg-slate-50/50 transition-colors">
+                        <td className="p-4 align-top font-medium text-slate-500">4</td>
+                        <td className="p-4 align-top font-semibold text-brand-navy">
+                          MaTPO Aptitude Idol-2019
+                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
+                            <i className="ph ph-image text-3xl mb-2"></i>
+                            <span className="text-xs font-normal">Image Placeholder</span>
+                          </div>
+                        </td>
+                        <td className="p-4 align-top space-y-3">
+                          <p>
+                            <span className="text-brand-gold mr-2">❖</span>
+                            Maharashtra Association of TPOs (MaTPO) organized the Online Aptitude Test to improve Employability of students so that these students can get better employability exposure.
+                          </p>
+                          <p>
+                            <span className="text-brand-gold mr-2">❖</span>
+                            MaTPO APTITUDE IDOL-2019 Round I was scheduled on 22nd July, 2019. Total 331 final year students from all branches of VCET participated in the round.
+                          </p>
+                        </td>
+                        <td className="p-4 align-top whitespace-nowrap text-slate-500">2019-20</td>
+                      </tr>
+
+                      {/* Row 5 */}
+                      <tr className="hover:bg-slate-50/50 transition-colors">
+                        <td className="p-4 align-top font-medium text-slate-500">5</td>
+                        <td className="p-4 align-top font-semibold text-brand-navy">
+                          Refresher Course on Technical interview Preparation.
+                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
+                            <i className="ph ph-image text-3xl mb-2"></i>
+                            <span className="text-xs font-normal">Image Placeholder</span>
+                          </div>
+                        </td>
+                        <td className="p-4 align-top space-y-3">
+                          <p>
+                            <span className="text-brand-gold mr-2">❖</span>
+                            Refresher courses for enhancing basic programming skills and skills pertaining to the program are organized by the &quot;Training &amp; Placement Cell.&quot; These courses focus on reviewing and updating knowledge and skills required for clearing the aptitude
+                          </p>
+                          <p>
+                            <span className="text-brand-gold mr-2">❖</span>
+                            VCET Faculties conducts refreshers course for students of all the branches
+                          </p>
+                        </td>
+                        <td className="p-4 align-top whitespace-nowrap text-slate-500">Every Year</td>
+                      </tr>
+
+                      {/* Row 6 */}
+                      <tr className="hover:bg-slate-50/50 transition-colors">
+                        <td className="p-4 align-top font-medium text-slate-500">6</td>
+                        <td className="p-4 align-top font-semibold text-brand-navy">
+                          Aptitude Training by Campus Credentials
+                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
+                            <i className="ph ph-image text-3xl mb-2"></i>
+                            <span className="text-xs font-normal">Image Placeholder</span>
+                          </div>
+                        </td>
+                        <td className="p-4 align-top space-y-3">
+                          <p>
+                            <span className="text-brand-gold mr-2">❖</span>
+                            Campus Credential is a training institute and has established itself as Forerunner in Competitive Exam training
+                          </p>
+                          <p>
+                            <span className="text-brand-gold mr-2">❖</span>
+                            Students in the Year 2017-18 &amp; 2018-19 received aptitude training from this company.
+                          </p>
+                        </td>
+                        <td className="p-4 align-top whitespace-nowrap text-slate-500">2017 to 2019</td>
+                      </tr>
+
+                      {/* Row 7 */}
+                      <tr className="hover:bg-slate-50/50 transition-colors">
+                        <td className="p-4 align-top font-medium text-slate-500">7</td>
+                        <td className="p-4 align-top font-semibold text-brand-navy">
+                          Mock Interview
+                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
+                            <i className="ph ph-image text-3xl mb-2"></i>
+                            <span className="text-xs font-normal">Image Placeholder</span>
+                          </div>
+                        </td>
+                        <td className="p-4 align-top space-y-3">
+                          <p>
+                            <span className="text-brand-gold mr-2">❖</span>
+                            Mock Interview sessions were organized at VCET for helping student getting hands on experience for facing the interviewers face to face and tackle difficult questions.
+                          </p>
+                          <p>
+                            <span className="text-brand-gold mr-2">❖</span>
+                            Every year mock interviews are arranged in odd semesters to train students for interview process.
+                          </p>
+                        </td>
+                        <td className="p-4 align-top whitespace-nowrap text-slate-500">Every Year</td>
+                      </tr>
+
+                      {/* Row 8 */}
+                      <tr className="hover:bg-slate-50/50 transition-colors">
+                        <td className="p-4 align-top font-medium text-slate-500">8</td>
+                        <td className="p-4 align-top font-semibold text-brand-navy">
+                          IMS
+                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
+                            <i className="ph ph-image text-3xl mb-2"></i>
+                            <span className="text-xs font-normal">Image Placeholder</span>
+                          </div>
+                        </td>
+                        <td className="p-4 align-top space-y-3">
+                          <p>
+                            <span className="text-brand-gold mr-2">❖</span>
+                            IMS is a training institute for Competitive Exam training.
+                          </p>
+                          <p>
+                            <span className="text-brand-gold mr-2">❖</span>
+                            Students in the Year 2014-15 &amp; 2016-17 received aptitude training from this company.
+                          </p>
+                        </td>
+                        <td className="p-4 align-top whitespace-nowrap text-slate-500">2014 to 2017</td>
                       </tr>
 
                     </tbody>
