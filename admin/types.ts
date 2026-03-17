@@ -154,7 +154,7 @@ export interface HeroSlide {
   id: number;
   title: string;
   subtitle: string | null;
-  image: string;
+  image_url: string | null; // Renamed from image to match backend Append attribute
   button_text: string | null;
   button_link: string | null;
   sort_order: number;

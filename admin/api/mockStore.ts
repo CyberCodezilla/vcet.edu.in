@@ -298,7 +298,7 @@ export const MOCK_HERO_SLIDES: HeroSlide[] = [
   {
     id: 1, title: 'Welcome to VCET',
     subtitle: 'Shaping Tomorrow\'s Engineers Since 1994',
-    image: '/Images/hero/campus.jpg',
+    image_url: '/Images/hero/campus.jpg',
     button_text: 'Explore', button_link: '/about-us',
     sort_order: 1, is_active: true,
     created_at: '2026-01-01T10:00:00Z', updated_at: '2026-01-01T10:00:00Z',
@@ -306,7 +306,7 @@ export const MOCK_HERO_SLIDES: HeroSlide[] = [
   {
     id: 2, title: 'Admissions 2026-27',
     subtitle: 'Apply now for B.E. / B.Tech programs',
-    image: '/Images/hero/admissions.jpg',
+    image_url: '/Images/hero/admissions.jpg',
     button_text: 'Apply Now', button_link: '/courses-and-intake',
     sort_order: 2, is_active: true,
     created_at: '2026-01-01T10:00:00Z', updated_at: '2026-01-01T10:00:00Z',

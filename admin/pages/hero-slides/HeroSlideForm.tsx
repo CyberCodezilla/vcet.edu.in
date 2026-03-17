@@ -9,6 +9,7 @@ const HeroSlideForm: React.FC = () => {
   const isEdit = !!id;
 
   const [form, setForm] = useState<HeroSlidePayload>({ title: '', subtitle: '', button_text: '', button_link: '', sort_order: 0, is_active: true });
+  const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(isEdit);
@@ -21,6 +22,7 @@ const HeroSlideForm: React.FC = () => {
         if (!r.data) return;
         const s = r.data;
         setForm({ title: s.title, subtitle: s.subtitle ?? '', button_text: s.button_text ?? '', button_link: s.button_link ?? '', sort_order: s.sort_order, is_active: s.is_active });
+        if (s.image_url) setExistingImageUrl(s.image_url);
       })
       .catch((e: Error) => setError(e.message))
       .finally(() => setLoading(false));
@@ -176,6 +178,8 @@ const HeroSlideForm: React.FC = () => {
               <div className="w-full aspect-video rounded-[2rem] bg-slate-50 border-4 border-dashed border-slate-100 flex flex-col items-center justify-center gap-3 group-hover:bg-slate-100 group-hover:border-slate-200 transition-all overflow-hidden">
                 {imageFile ? (
                   <img src={URL.createObjectURL(imageFile)} alt="Preview" className="w-full h-full object-cover" />
+                ) : existingImageUrl ? (
+                  <img src={existingImageUrl} alt="Preview" className="w-full h-full object-cover opacity-80" />
                 ) : (
                   <>
                     <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform">

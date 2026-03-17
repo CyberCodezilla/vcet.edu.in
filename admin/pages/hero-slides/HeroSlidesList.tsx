@@ -8,6 +8,7 @@ const HeroSlidesList: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
 
   const fetchItems = () => {
     setLoading(true);
@@ -43,10 +44,54 @@ const HeroSlidesList: React.FC = () => {
     }
   };
 
-  const filteredSlides = slides.filter(slide => 
-    slide.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (slide.subtitle && slide.subtitle.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const filteredSlides = slides.filter(slide => {
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase();
+      const matchesSearch = (slide.title && slide.title.toLowerCase().includes(term)) ||
+                            (slide.subtitle && slide.subtitle.toLowerCase().includes(term)) ||
+                            (slide.button_text && slide.button_text.toLowerCase().includes(term));
+      if (!matchesSearch) return false;
+    }
+    
+    if (statusFilter === 'active' && !slide.is_active) return false;
+    if (statusFilter === 'inactive' && slide.is_active) return false;
+    
+    return true;
+  });
+
+  const toggleFilter = () => {
+    setStatusFilter(prev => prev === 'all' ? 'active' : prev === 'active' ? 'inactive' : 'all');
+  };
+
+  const handleExport = () => {
+    if (filteredSlides.length === 0) {
+      alert("No data to export");
+      return;
+    }
+
+    const headers = ["ID", "Title", "Subtitle", "Sort Order", "Status", "Button Text", "Button Link", "Created At"];
+    const rows = filteredSlides.map(s => [
+      s.id,
+      `"${(s.title || '').replace(/"/g, '""')}"`,
+      `"${(s.subtitle || '').replace(/"/g, '""')}"`,
+      s.sort_order,
+      s.is_active ? 'Active' : 'Inactive',
+      `"${(s.button_text || '').replace(/"/g, '""')}"`,
+      `"${(s.button_link || '').replace(/"/g, '""')}"`,
+      new Date(s.created_at).toLocaleDateString()
+    ]);
+
+    const csvContent = [headers.join(","), ...rows.map(row => row.join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute("href", url);
+    link.setAttribute("download", `hero_slides_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="space-y-10 pb-12">
@@ -82,11 +127,17 @@ const HeroSlidesList: React.FC = () => {
           <svg className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 bg-white ring-1 ring-slate-200 px-6 py-4 rounded-2xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
+          <button 
+            onClick={toggleFilter}
+            className={`flex items-center gap-2 ring-1 px-6 py-4 rounded-2xl text-xs font-bold transition-all shadow-sm ${statusFilter !== 'all' ? 'bg-[#1e293b] text-white ring-[#1e293b]' : 'bg-white text-slate-600 ring-slate-200 hover:bg-slate-50'}`}
+          >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4.5h18m-18 5h18m-18 5h18m-18 5h18" /></svg>
-            Filter
+            Filter: {statusFilter === 'all' ? 'All' : statusFilter === 'active' ? 'Active' : 'Inactive'}
           </button>
-          <button className="flex items-center gap-2 bg-white ring-1 ring-slate-200 px-6 py-4 rounded-2xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
+          <button 
+            onClick={handleExport}
+            className="flex items-center gap-2 bg-white ring-1 ring-slate-200 px-6 py-4 rounded-2xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm"
+          >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
             Export
           </button>
@@ -117,8 +168,8 @@ const HeroSlidesList: React.FC = () => {
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-6">
                         <div className="w-32 h-18 rounded-2xl bg-slate-100 border-2 border-white shadow-sm overflow-hidden shrink-0 group-hover:scale-105 transition-transform aspect-video">
-                          {slide.image ? (
-                            <img src={slide.image} alt="" className="w-full h-full object-cover" />
+                          {slide.image_url ? (
+                            <img src={slide.image_url} alt="" className="w-full h-full object-cover" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-slate-300">
                               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>

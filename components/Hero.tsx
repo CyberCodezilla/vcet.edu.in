@@ -13,6 +13,7 @@ import {
 import { post } from "../services/api";
 import { useEvents } from "../hooks/useEvents";
 import { useNotices } from "../hooks/useNotices";
+import { useHeroSlides } from "../hooks/useHeroSlides";
 import ImagePreviewModal from "./ImagePreviewModal";
 
 const departments = [
@@ -323,7 +324,7 @@ const packageImages = [
   },
 ];
 
-const bannerSlides = [
+const fallbackBannerSlides = [
   { src: "/Images/Banner/bruse-banner.png", alt: "Bruse Banner" },
   { src: "/Images/Banner/yearly-banner.png", alt: "Yearly Banner" },
 ];
@@ -340,13 +341,23 @@ const Hero: React.FC = () => {
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const { notices, loading: noticesLoading } = useNotices();
   const { events, loading: eventsLoading } = useEvents();
+  const { slides: apiSlides, loading: slidesLoading } = useHeroSlides();
+
+  // Format the API slides
+  const apiFormattedSlides = apiSlides
+    .map((s) => ({ src: s.image_url || '', alt: s.title || 'Slide' }))
+    .filter((s) => s.src);
+
+  // Combine API slides WITH the original fallback slides so both are shown and they keep animating
+  const displaySlides = [...apiFormattedSlides, ...fallbackBannerSlides];
 
   useEffect(() => {
+    if (displaySlides.length <= 1) return;
     const timer = setInterval(() => {
-      setSlideIndex((i) => (i + 1) % bannerSlides.length);
+      setSlideIndex((i) => (i + 1) % displaySlides.length);
     }, 10000);
     return () => clearInterval(timer);
-  }, []);
+  }, [displaySlides.length]);
   return (
     <section
       id="home"
@@ -366,11 +377,11 @@ const Hero: React.FC = () => {
         <div className="relative w-full">
           {/* Spacer image to set natural aspect ratio */}
           <img
-            src={bannerSlides[0].src}
+            src={displaySlides[0]?.src}
             alt=""
             className="w-full h-auto block opacity-0 pointer-events-none"
           />
-          {bannerSlides.map((slide, i) => (
+          {displaySlides.map((slide, i) => (
             <img
               key={slide.src}
               src={slide.src}
@@ -382,7 +393,7 @@ const Hero: React.FC = () => {
         </div>
         {/* Dot indicators */}
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-          {bannerSlides.map((_, i) => (
+          {displaySlides.map((_, i) => (
             <button
               key={i}
               onClick={() => setSlideIndex(i)}
