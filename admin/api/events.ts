@@ -13,11 +13,30 @@ interface EventPaginatorResponse {
   total: number;
 }
 
+type EventApiShape = Event & {
+  image_url?: string | null;
+  admin_image_url?: string | null;
+  poster?: string | null;
+  poster_url?: string | null;
+  attachment_url?: string | null;
+  pdf_url?: string | null;
+  admin_pdf_url?: string | null;
+  document_url?: string | null;
+};
+
 function normalizeEvent(event: Event): Event {
+  const raw = event as EventApiShape;
+
   return {
     ...event,
-    image: resolveApiUrl(event.image),
-    // note: typescript hack for attachment if you want, but the interface says image
+    image: resolveApiUrl(raw.image ?? raw.admin_image_url ?? raw.image_url ?? raw.poster ?? raw.poster_url),
+    attachment: resolveApiUrl(
+      raw.attachment ??
+      raw.attachment_url ??
+      raw.pdf_url ??
+      raw.admin_pdf_url ??
+      raw.document_url
+    ),
   };
 }
 
@@ -40,6 +59,7 @@ function toFormData(payload: EventPayload): FormData {
     if (val === undefined || val === null) return;
     if (val instanceof File) {
       form.append(key, val);
+      if (key === 'attachment') form.append('pdf', val);
     } else if (typeof val === 'boolean') {
       form.append(key, val ? '1' : '0');
     } else {

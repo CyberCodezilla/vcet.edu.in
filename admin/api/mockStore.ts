@@ -162,8 +162,9 @@ export const MOCK_NOTICES: Notice[] = [
     pdf_url: null,
     admin_pdf_url: null,
     is_active: true,
-    deactivates_at: null,
-    added_by: 1,
+    sort_order: 1,
+    expiry_date: null,
+    expiry_time: null,
     created_at: '2024-10-12T10:00:00Z', updated_at: '2024-10-12T10:00:00Z',
   },
   {
@@ -179,8 +180,9 @@ export const MOCK_NOTICES: Notice[] = [
     pdf_url: null,
     admin_pdf_url: null,
     is_active: true,
-    deactivates_at: null,
-    added_by: 1,
+    sort_order: 2,
+    expiry_date: null,
+    expiry_time: null,
     created_at: '2024-10-14T09:00:00Z', updated_at: '2024-10-14T09:00:00Z',
   },
   {
@@ -196,8 +198,9 @@ export const MOCK_NOTICES: Notice[] = [
     pdf_url: null,
     admin_pdf_url: null,
     is_active: false,
-    deactivates_at: null,
-    added_by: 1,
+    sort_order: 3,
+    expiry_date: null,
+    expiry_time: null,
     created_at: '2024-10-15T14:00:00Z', updated_at: '2024-10-15T14:00:00Z',
   },
   {
@@ -213,8 +216,9 @@ export const MOCK_NOTICES: Notice[] = [
     pdf_url: null,
     admin_pdf_url: null,
     is_active: true,
-    deactivates_at: null,
-    added_by: 1,
+    sort_order: 4,
+    expiry_date: null,
+    expiry_time: null,
     created_at: '2024-10-01T11:00:00Z', updated_at: '2024-10-01T11:00:00Z',
   },
 ];
@@ -227,6 +231,7 @@ export const MOCK_EVENTS: Event[] = [
     date: '2024-10-24', time: '09:00 AM - 05:00 PM', venue: 'Main Auditorium, Block A',
     image: null, category: 'Seminar', status: 'Upcoming', is_featured: true, is_active: true,
     expiry_date: '2027-10-24', expiry_time: '17:00',
+    attachment: null, external_link: null, external_link_label: null,
     created_at: '2024-03-01T10:00:00Z', updated_at: '2024-03-01T10:00:00Z',
   },
   {
@@ -236,6 +241,7 @@ export const MOCK_EVENTS: Event[] = [
     date: '2024-10-15', time: '10:00 AM - 01:00 PM', venue: 'IoT Lab, 3rd Floor',
     image: null, category: 'Workshop', status: 'Completed', is_featured: true, is_active: true,
     expiry_date: '2024-10-15', expiry_time: '13:00', // Intentionally past expiry
+    attachment: null, external_link: null, external_link_label: null,
     created_at: '2024-02-20T10:00:00Z', updated_at: '2024-02-20T10:00:00Z',
   },
   {
@@ -245,6 +251,7 @@ export const MOCK_EVENTS: Event[] = [
     date: '2024-12-12', time: 'All Day', venue: 'College Grounds',
     image: null, category: 'Fest', status: 'Upcoming', is_featured: false, is_active: true,
     expiry_date: '2027-12-12', expiry_time: '23:59',
+    attachment: null, external_link: null, external_link_label: null,
     created_at: '2024-02-15T10:00:00Z', updated_at: '2024-02-15T10:00:00Z',
   },
   {
@@ -254,6 +261,7 @@ export const MOCK_EVENTS: Event[] = [
     date: '2024-09-28', time: '02:00 PM - 04:00 PM', venue: 'Conference Room 2',
     image: null, category: 'Seminar', status: 'Cancelled', is_featured: false, is_active: true,
     expiry_date: '2027-09-28', expiry_time: '16:00',
+    attachment: null, external_link: null, external_link_label: null,
     created_at: '2024-02-12T10:00:00Z', updated_at: '2024-02-12T10:00:00Z',
   },
 ];

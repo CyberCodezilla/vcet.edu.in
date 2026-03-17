@@ -100,6 +100,8 @@ export interface Event {
   expiry_date: string | null;
   expiry_time: string | null;
   attachment: string | null;
+  external_link: string | null;
+  external_link_label: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -119,6 +121,8 @@ export interface EventPayload {
   expiry_time?: string;
   image?: File;
   attachment?: File;
+  external_link?: string;
+  external_link_label?: string;
 }
 
 // ── Placements ────────────────────────────────────────────────────────────────
