@@ -7,7 +7,6 @@ const sidebarLinks = [
   { id: 'vision',     label: 'Vision and Mission',           icon: 'ph-target' },
   { id: 'dab',        label: 'Departmental Advisory Board',  icon: 'ph-users-three' },
   { id: 'mou',        label: 'MoU',                          icon: 'ph-handshake' },
-  { id: 'patent',     label: 'Patent',                       icon: 'ph-certificate' },
   { id: 'peo',        label: 'POs, PEOs, PSOs',              icon: 'ph-chart-bar' },
   { id: 'faculty',    label: 'Faculty',                      icon: 'ph-chalkboard-teacher' },
   { id: 'paqic',      label: 'PAQIC',                        icon: 'ph-clipboard-text' },
@@ -287,14 +286,18 @@ const DeptMech: React.FC = () => {
                   </div>
                 </section>
                 <section className="reveal">
-                  <div className="rounded-2xl bg-brand-navy p-6 sm:p-8 border border-brand-navy/80">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold/80 mb-1">Objectives</p>
-                    <h3 className="text-2xl font-display font-bold text-white mb-4">Program Educational Objectives (PEOs)</h3>
-                    <ul className="space-y-2">
-                      {peos.map((item, idx) => (
-                        <li key={item} className="text-white/90 text-sm leading-7">{idx + 1}. {item}</li>
-                      ))}
-                    </ul>
+                  <div className="relative rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg,#0d2d56 0%,#1a4b7c 100%)' }}>
+                    <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px)', backgroundSize: '28px 28px' }} />
+                    <div className="absolute top-0 right-0 w-64 h-64 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(253,184,19,0.12) 0%,transparent 70%)' }} />
+                    <div className="relative z-10 p-6 sm:p-8">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold/80 mb-1">Objectives</p>
+                      <h3 className="text-2xl font-display font-bold text-white mb-4">Program Educational Objectives (PEOs)</h3>
+                      <ul className="space-y-2">
+                        {peos.map((item, idx) => (
+                          <li key={item} className="text-white/90 text-sm leading-7">{idx + 1}. {item}</li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </section>
                 <section className="reveal space-y-6">

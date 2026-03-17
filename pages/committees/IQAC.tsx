@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Check, FileText } from 'lucide-react';
@@ -66,7 +66,6 @@ const IQAC: React.FC = () => {
       <PageBanner
         title="IQAC"
         breadcrumbs={[
-          { label: 'Committees', href: '/college-development-committee' },
           { label: 'IQAC' },
         ]}
       />

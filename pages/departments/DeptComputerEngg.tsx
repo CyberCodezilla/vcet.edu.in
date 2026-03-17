@@ -17,7 +17,6 @@ const sidebarLinks = [
   { id: 'time-table',   label: 'Time Table',                   icon: 'ph-calendar' },
   { id: 'toppers',      label: 'Toppers',                      icon: 'ph-medal' },
   { id: 'syllabus',     label: 'Syllabus',                     icon: 'ph-book-open' },
-  { id: 'publications', label: 'Publications',                 icon: 'ph-file-text' },
   { id: 'newsletter',   label: 'Newsletter',                   icon: 'ph-newspaper' },
 ];
 

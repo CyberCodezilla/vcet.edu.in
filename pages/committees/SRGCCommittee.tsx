@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Check } from 'lucide-react';
@@ -25,7 +25,6 @@ const SRGCCommittee: React.FC = () => {
       <PageBanner
         title="Student Grievance Redressal Committee (SGRC)"
         breadcrumbs={[
-          { label: 'Committees', href: '/college-development-committee' },
           { label: 'Statutory Committees', href: '/anti-ragging-committee' },
           { label: 'Student Grievance Redressal Committee (SDRC)' },
         ]}

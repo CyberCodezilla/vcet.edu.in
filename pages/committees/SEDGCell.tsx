@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Heart, Users, BookOpen, HandHeart, Target, Lightbulb, GraduationCap, Award } from 'lucide-react';
@@ -55,7 +55,6 @@ const SEDGCell: React.FC = () => {
       <PageBanner
         title="Socio-Economically Disadvantaged Groups Cell"
         breadcrumbs={[
-          { label: 'Committees', href: '#' },
           { label: 'SEDG Cell' },
         ]}
       />

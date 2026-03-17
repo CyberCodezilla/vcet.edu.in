@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Check } from 'lucide-react';

@@ -7,7 +7,6 @@ const sidebarLinks = [
   { id: 'vision',     label: 'Vision and Mission',           icon: 'ph-target' },
   { id: 'dab',        label: 'Departmental Advisory Board',  icon: 'ph-users-three' },
   { id: 'mou',        label: 'MoU',                          icon: 'ph-handshake' },
-  { id: 'patent',     label: 'Patent',                       icon: 'ph-certificate' },
   { id: 'peo',        label: 'POs, PEOs, PSOs',              icon: 'ph-chart-bar' },
   { id: 'faculty',    label: 'Faculty',                      icon: 'ph-chalkboard-teacher' },
   { id: 'paqic',      label: 'PAQIC',                        icon: 'ph-clipboard-text' },
@@ -102,8 +101,16 @@ const DeptENTC: React.FC = () => {
           {/* ════ ABOUT ════════════════════════════════════════════ */}
           {activeId === 'about' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+              <div className="mb-8 flex flex-col items-center text-center">
+                <div className="w-full max-w-[340px] rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-12">
+                  <i className="ph ph-image text-4xl text-slate-400" />
+                  <p className="mt-3 text-sm font-semibold text-slate-500">HOD Image Placeholder</p>
+                  <p className="mt-1 text-xs text-slate-400">Add image later in this area</p>
+                </div>
+                <p className="mt-4 text-2xl font-bold text-brand-navy">Dr. Amrita Ruperee</p>
+                <p className="mt-1 text-sm font-semibold text-brand-gold">Professor &amp; Head of Department</p>
+              </div>
               <div className="space-y-6 text-slate-600 leading-8 text-left">
-                <p className="text-lg font-bold text-brand-navy">Dr. Amrita Ruperee, Professor &amp; Head of Department</p>
                 <p>
                   The Department of Electronics and Telecommunication Engineering (EXTC) was established in the year 1994 with the aim of providing state of the art education in the field of Electronics and Telecommunication Engineering. Since then, the department has evolved to match the ever-changing needs of the industry with highly qualified faculty members and staff.
                 </p>
@@ -277,14 +284,18 @@ const DeptENTC: React.FC = () => {
                   </div>
                 </section>
                 <section className="reveal">
-                  <div className="rounded-2xl bg-brand-navy p-6 sm:p-8 border border-brand-navy/80">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold/80 mb-1">Objectives</p>
-                    <h3 className="text-2xl font-display font-bold text-white mb-4">Program Educational Objectives (PEOs)</h3>
-                    <ul className="space-y-2">
-                      {peos.map((item, idx) => (
-                        <li key={item} className="text-white/90 text-sm leading-7">{idx + 1}. {item}</li>
-                      ))}
-                    </ul>
+                  <div className="relative rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg,#0d2d56 0%,#1a4b7c 100%)' }}>
+                    <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px)', backgroundSize: '28px 28px' }} />
+                    <div className="absolute top-0 right-0 w-64 h-64 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(253,184,19,0.12) 0%,transparent 70%)' }} />
+                    <div className="relative z-10 p-6 sm:p-8">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold/80 mb-1">Objectives</p>
+                      <h3 className="text-2xl font-display font-bold text-white mb-4">Program Educational Objectives (PEOs)</h3>
+                      <ul className="space-y-2">
+                        {peos.map((item, idx) => (
+                          <li key={item} className="text-white/90 text-sm leading-7">{idx + 1}. {item}</li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </section>
                 <section className="reveal space-y-6">
@@ -940,10 +951,30 @@ const DeptENTC: React.FC = () => {
                     ))}
                   </div>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600 leading-7">
-                  <p><span className="font-semibold text-brand-navy">Staff Incharge:</span> Ms. Ashwini Katkar</p>
-                  <p className="mt-1"><span className="font-semibold text-brand-navy">Department:</span> Electronics and Telecommunication Engineering</p>
-                  <p className="mt-1"><span className="font-semibold text-brand-navy">Email:</span> ashwini.katkar@vcet.edu.in</p>
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 md:p-6">
+                  <h4 className="text-lg font-bold text-brand-navy relative inline-block">
+                    Committee Details
+                    {' '}
+                    <span className="absolute -bottom-2 left-0 h-1 w-10 rounded-full bg-brand-gold" />
+                  </h4>
+                  <p className="mt-5 text-base font-semibold text-brand-navy">Staff Incharge</p>
+
+                  <div className="mt-6 flex justify-center">
+                    <div className="w-full max-w-[340px] rounded-2xl border-2 border-dashed border-slate-300 bg-white px-4 py-12 text-center">
+                      <i className="ph ph-image text-4xl text-slate-400" />
+                      <p className="mt-3 text-sm font-semibold text-slate-500">Staff Image Placeholder</p>
+                      <p className="mt-1 text-xs text-slate-400">Add image later in this area</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 text-center">
+                    <p className="text-2xl font-bold text-brand-navy">Ms. Ashwini Katkar</p>
+                    <p className="mt-2 text-sm text-slate-600">Electronics and Telecommunication Engineering</p>
+                    <p className="mt-3 text-sm text-slate-700">
+                      <i className="ph ph-envelope mr-2 text-brand-gold align-middle" />
+                      <span className="align-middle">ashwini.katkar@vcet.edu.in</span>
+                    </p>
+                  </div>
                 </div>
 
                 <div className="rounded-2xl border border-slate-200 bg-white p-5">

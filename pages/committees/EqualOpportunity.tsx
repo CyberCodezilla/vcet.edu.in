@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Accessibility, Heart, BookOpen, Users, Target, HandHeart, GraduationCap, Lightbulb } from 'lucide-react';
@@ -54,7 +54,6 @@ const EqualOpportunity: React.FC = () => {
       <PageBanner
         title="Equal Opportunity Cell"
         breadcrumbs={[
-          { label: 'Committees', href: '#' },
           { label: 'Equal Opportunity Cell' },
         ]}
       />

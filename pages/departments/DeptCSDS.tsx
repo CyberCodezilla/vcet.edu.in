@@ -15,42 +15,6 @@ const sidebarLinks = [
   { id: 'newsletter', label: 'Newsletter',                   icon: 'ph-newspaper' },
 ];
 
-const skills = [
-  { icon: 'ph-code',               label: 'Programming Skills' },
-  { icon: 'ph-chart-line-up',      label: 'Statistics' },
-  { icon: 'ph-brain',              label: 'Machine Learning' },
-  { icon: 'ph-math-operations',    label: 'Multivariable Calculus & Linear Algebra' },
-  { icon: 'ph-database',           label: 'Data Wrangling' },
-  { icon: 'ph-presentation-chart', label: 'Data Visualization & Communication' },
-  { icon: 'ph-terminal-window',    label: 'Software Engineering' },
-];
-
-const roles = [
-  {
-    icon: 'ph-flask', accent: 'gold', title: 'Data Scientist',
-    description: "A Data Scientist's primary job role is to extract consumable information from structured and unstructured data with computer programming tools and processes. Their job also includes creating methodology and blueprint to present information to stakeholders. They are also supposed to maintain databases.",
-  },
-  {
-    icon: 'ph-magnifying-glass-chart', accent: 'navy', title: 'Data Analyst',
-    description: "A Data Analyst has the responsibility of analyzing the data, identifying trends, and creating a predictive model based on data studied. Another critical responsibility of a Data Analyst is to translate findings into reports, which can be understood by the management, and help them accurately visualize the possible outcome. They are also supposed to maintain databases and data systems.",
-  },
-  {
-    icon: 'ph-gear-six', accent: 'gold', title: 'Data Engineer',
-    description: "Data Engineers are required to study data, develop data set processes, prepare the predictive model, and build algorithms through which stakeholders can easily consume raw data. It may include developing dashboards and reports that can be accessed and used by all stakeholders. Data Engineers need to have strong communication skills. Analysts predict that the country will have more than 11 million job openings by 2026.",
-  },
-  {
-    icon: 'ph-pickaxe', accent: 'navy', title: 'Data Mining Engineer',
-    description: "The job of a Data Mining Engineer is mainly extracting data from an extensive database and analyzing them. They are also responsible for building and maintaining software and digital infrastructure to study big chunks of data.",
-  },
-  {
-    icon: 'ph-compass-tool', accent: 'gold', title: 'Data Architect',
-    description: "Data Architect's role is to ensure that data used in creating a blueprint of a project is stable, secure, and available to all stakeholders at all times. The job role includes collating, organizing, centralizing, maintaining, and protecting a company or client's data.",
-  },
-];
-
-const delayClass = (idx: number) =>
-  idx % 3 === 0 ? 'delay-100' : idx % 3 === 1 ? 'delay-200' : 'delay-300';
-
 const DeptCSDS: React.FC = () => {
   const [activeId, setActiveId] = useState('about');
   const activeLink = sidebarLinks.find(l => l.id === activeId);
@@ -135,105 +99,41 @@ const DeptCSDS: React.FC = () => {
 
           {/* ── ABOUT ──────────────────────────────────────────── */}
           {activeId === 'about' && (
-            <>
-              {/* About section */}
-              <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
-                <div className="space-y-6 text-slate-600 leading-relaxed text-justify">
-                  <p>
-                    The Computer Science &amp; Engineering (Data Science) Department is established in the year 2019.
-                    Having started with a four-year undergraduate program, B.E. (CSE&#8209;DS), the department is
-                    willing to start the Post Graduate Program, M.E. CSE&#8209;DS with specializations, shortly in
-                    coming days. Data Science is a field of Scientific theories where Unstructured, Raw data is taken
-                    and moulded into meaningful information by means of Programming, Business skills, and Analytics.
-                  </p>
-                  <p>
-                    Many Multinational Companies across the globe are using Digital methods to Rationalize their work
-                    and Maintaining their inventory. This technological advancement helps in various factors like Cost
-                    Saving, Resource Saving, and Time Saving. The concept of Data science consists of various
-                    components or sub building units that help to segregate or segment data using calculus and
-                    algorithms, it's a time-saving process.
-                  </p>
-                  <p>
-                    The data can be either in structured form or unstructured form. The structured form data can be
-                    in form of a tabular form or Excel sheets, etc whereas the unstructured form of data can be
-                    Images, audios, videos, pdf files, etc. DML Data Manipulation Language is used to Manipulate and
-                    Extract meaningful data out of junk. Until and unless the Data Scientists don't have a good
-                    knowledge about statistics and Probability, they are not capable of segmenting data, it may lead
-                    to the high possibility of misinterpreting data and reaching to the incorrect conclusions.
-                  </p>
-                  <p>
-                    The Data Scientists have to work over the algorithms of Machine Learning in day-to-day life. The
-                    regression and Classification concepts help the Data scientists to predict the valuable insights
-                    from all the Unstructured or structured form of Data available. The concept of Big Data helps to
-                    extract the main information out of all the possible raw data available. Like we can separate oil
-                    from water, The Data Scientist uses various concepts and skills to extract data like JAVA, R,
-                    Apache Spark, Hadoop Etc.
-                  </p>
-                  <div className="bg-gradient-to-r from-brand-navylight to-white p-6 rounded-2xl border-l-4 border-brand-gold shadow-inner">
-                    <p className="text-brand-navy font-semibold m-0 flex items-start gap-3">
-                      <i className="ph-fill ph-lightbulb text-brand-gold text-2xl mt-1 flex-shrink-0" />
-                      Thus, there are many more components of data science available and every component works on
-                      different algorithms.
-                    </p>
-                  </div>
-                </div>
-              </section>
-
-              {/* Skills section */}
-              <section className="reveal">
-                <h2 className="text-3xl font-bold text-brand-navy relative inline-block mb-10">
-                  Skills Required for Data Science career:
-                  <span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" />
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                  {skills.map((skill, idx) => (
-                    <div
-                      key={skill.label}
-                      className={`reveal ${delayClass(idx)} bg-white p-4 rounded-2xl shadow-sm border border-slate-100 hover:-translate-y-1 hover:shadow-md hover:border-brand-gold transition-all duration-300 flex items-center gap-4 group`}
-                    >
-                      <div className="w-12 h-12 rounded-xl bg-brand-navylight flex items-center justify-center text-brand-navy group-hover:bg-brand-gold group-hover:text-white transition-colors flex-shrink-0">
-                        <i className={`ph ${skill.icon} text-2xl`} />
-                      </div>
-                      <span className="font-semibold text-slate-700 leading-tight">{skill.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              {/* Roles section */}
-              <section className="reveal">
-                <h2 className="text-3xl font-bold text-brand-navy relative inline-block mb-12">
-                  Some of the prominent data science roles are listed below:
-                  <span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" />
-                </h2>
-                <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-brand-navy before:via-brand-navylight before:to-transparent">
-                  {roles.map((role, idx) => (
-                    <div
-                      key={role.title}
-                      className={`relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group reveal ${delayClass(idx)}`}
-                    >
-                      <div
-                        className={`flex items-center justify-center w-10 h-10 rounded-full border-4 border-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 transition-transform group-hover:scale-110 ${
-                          role.accent === 'gold' ? 'bg-brand-gold' : 'bg-brand-navy'
-                        }`}
-                      >
-                        <i className={`ph-fill ${role.icon} text-white text-lg`} />
-                      </div>
-                      <div
-                        className={`w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl shadow-sm hover:shadow-lg transition-shadow border-t-4 ${
-                          role.accent === 'gold'
-                            ? 'bg-[#deeaf7] border-t-brand-navy'
-                            : 'bg-[#e8f2fb] border-t-brand-gold'
-                        }`}
-                      >
-                        <h3 className="text-xl font-bold text-brand-gold mb-3">{role.title}</h3>
-                        <p className="text-slate-600 text-sm leading-relaxed text-justify">{role.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            </>
+            <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
+              <div className="space-y-6 text-slate-600 leading-relaxed text-justify">
+                <p>
+                  The Computer Science &amp; Engineering (Data Science) Department is established in the year 2019.
+                  Having started with a four-year undergraduate program, B.E. (CSE&#8209;DS), the department is
+                  willing to start the Post Graduate Program, M.E. CSE&#8209;DS with specializations, shortly in
+                  coming days. Data Science is a field of Scientific theories where Unstructured, Raw data is taken
+                  and moulded into meaningful information by means of Programming, Business skills, and Analytics.
+                </p>
+                <p>
+                  Many Multinational Companies across the globe are using Digital methods to Rationalize their work
+                  and Maintaining their inventory. This technological advancement helps in various factors like Cost
+                  Saving, Resource Saving, and Time Saving. The concept of Data science consists of various
+                  components or sub building units that help to segregate or segment data using calculus and
+                  algorithms, it's a time-saving process.
+                </p>
+                <p>
+                  The data can be either in structured form or unstructured form. The structured form data can be
+                  in form of a tabular form or Excel sheets, etc whereas the unstructured form of data can be
+                  Images, audios, videos, pdf files, etc. DML Data Manipulation Language is used to Manipulate and
+                  Extract meaningful data out of junk. Until and unless the Data Scientists don't have a good
+                  knowledge about statistics and Probability, they are not capable of segmenting data, it may lead
+                  to the high possibility of misinterpreting data and reaching to the incorrect conclusions.
+                </p>
+                <p>
+                  The Data Scientists have to work over the algorithms of Machine Learning in day-to-day life. The
+                  regression and Classification concepts help the Data scientists to predict the valuable insights
+                  from all the Unstructured or structured form of Data available. The concept of Big Data helps to
+                  extract the main information out of all the possible raw data available. Like we can separate oil
+                  from water, The Data Scientist uses various concepts and skills to extract data like JAVA, R,
+                  Apache Spark, Hadoop Etc.
+                </p>
+                <p>Thus, there are many more components of data science available and every component works on different algorithms.</p>
+              </div>
+            </section>
           )}
 
           {/* ── VISION & MISSION ───────────────────────────────── */}
@@ -259,9 +159,6 @@ const DeptCSDS: React.FC = () => {
                   <div className="relative z-10 p-8 md:p-14">
                     {/* label row */}
                     <div className="flex items-center gap-3 mb-8">
-                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(253,184,19,0.15)', border: '1px solid rgba(253,184,19,0.3)' }}>
-                        <i className="ph-fill ph-eye text-xl text-brand-gold" />
-                      </div>
                       <div>
                         <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold/70">Department</p>
                         <p className="text-sm font-bold text-white/90 uppercase tracking-widest">Vision</p>
@@ -298,53 +195,22 @@ const DeptCSDS: React.FC = () => {
                 </div>
                 <div className="h-px bg-gradient-to-r from-brand-gold via-brand-navylight to-transparent" />
 
-                {/* cards grid */}
-                <div className="grid md:grid-cols-3 gap-5 pt-2">
-                  {[
-                    {
-                      id: '01', delay: 'delay-100', icon: 'ph-graduation-cap',
-                      title: 'Quality Education & Core Competence',
-                      body: 'Impart solid foundational knowledge and advanced analytical skills in Data Science, enabling students to design and develop robust data-driven solutions.',
-                    },
-                    {
-                      id: '02', delay: 'delay-200', icon: 'ph-buildings',
-                      title: 'Industry Collaboration & Research',
-                      body: 'Foster strong partnerships with industries and research organizations, facilitating real-world problem solving, internships, and cutting-edge innovations.',
-                    },
-                    {
-                      id: '03', delay: 'delay-300', icon: 'ph-compass',
-                      title: 'Ethics & Lifelong Learning',
-                      body: 'Instill professional ethics, leadership qualities, and a continuous learning attitude, empowering students to adapt to the rapidly evolving technological landscape.',
-                    },
-                  ].map((m, idx) => (
-                    <div
-                      key={m.id}
-                      className={`reveal ${m.delay} group relative bg-white rounded-2xl p-7 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col`}
-                    >
-                      {/* hover fill */}
-                      <div className="absolute inset-0 bg-brand-navy opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
-
-                      {/* number watermark */}
-                      <span className="absolute top-4 right-5 text-6xl font-display font-bold text-slate-100 group-hover:text-white/10 transition-colors duration-300 leading-none select-none">{m.id}</span>
-
-                      <div className="relative z-10 flex flex-col flex-1">
-                        {/* icon */}
-                        <div className="w-11 h-11 rounded-xl bg-brand-navylight group-hover:bg-brand-gold/20 flex items-center justify-center mb-5 transition-colors duration-300">
-                          <i className={`ph-fill ${m.icon} text-xl text-brand-navy group-hover:text-brand-gold transition-colors duration-300`} />
-                        </div>
-                        {/* title */}
-                        <h3 className="text-base font-bold text-brand-navy group-hover:text-white transition-colors duration-300 mb-3 leading-snug">{m.title}</h3>
-                        {/* body */}
-                        <p className="text-sm text-slate-500 group-hover:text-white/70 leading-relaxed transition-colors duration-300 flex-1">{m.body}</p>
-                        {/* bottom accent */}
-                        <div className="mt-6 flex items-center gap-2">
-                          <div className="h-px flex-1 bg-slate-100 group-hover:bg-white/20 transition-colors duration-300" />
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-brand-gold">M{idx + 1}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-100">
+                  <ul className="space-y-3">
+                    <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-brand-navylight/35 px-4 py-3 text-slate-700 leading-7">
+                      <span className="mt-2 h-2 w-2 rounded-full bg-brand-navy flex-shrink-0" />
+                      <span>To provide an environment for learning data science, fostering expertise and innovation.</span>
+                    </li>
+                    <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-brand-navylight/35 px-4 py-3 text-slate-700 leading-7">
+                      <span className="mt-2 h-2 w-2 rounded-full bg-brand-navy flex-shrink-0" />
+                      <span>To promote interdisciplinary innovations in emerging data technologies.</span>
+                    </li>
+                    <li className="flex items-start gap-3 rounded-xl border border-slate-200 bg-brand-navylight/35 px-4 py-3 text-slate-700 leading-7">
+                      <span className="mt-2 h-2 w-2 rounded-full bg-brand-navy flex-shrink-0" />
+                      <span>To foster quality education, ethical values, meeting personal, professional, and societal needs on a holistic level.</span>
+                    </li>
+                  </ul>
+                </section>
               </section>
 
             </div>
@@ -384,33 +250,15 @@ const DeptCSDS: React.FC = () => {
                   </div>
                   <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy leading-tight">
                     Departmental Advisory Board
-                    <span className="text-brand-gold"> (DAB)</span>
+                    {' '}
+                    <span className="text-brand-gold">(DAB)</span>
                   </h2>
                   <div className="mt-3 flex items-center gap-2 text-slate-500 text-sm">
                     <i className="ph-fill ph-check-circle text-brand-gold text-base" />
+                    {' '}
                     Following are the members of the committee starting from 2022&#8209;23.
                   </div>
                   <div className="mt-5 h-px bg-gradient-to-r from-brand-gold via-brand-navylight to-transparent" />
-                </div>
-
-                {/* Stats row */}
-                <div className="reveal grid grid-cols-2 sm:grid-cols-4 gap-4">
-                  {[
-                    { count: '2', label: 'Industry Experts',    icon: 'ph-buildings' },
-                    { count: '2', label: 'Academic Reps',       icon: 'ph-graduation-cap' },
-                    { count: '2', label: 'Student Reps',        icon: 'ph-student' },
-                    { count: '5', label: 'Internal Members',    icon: 'ph-users' },
-                  ].map(s => (
-                    <div key={s.label} className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-brand-navylight flex items-center justify-center flex-shrink-0">
-                        <i className={`ph-fill ${s.icon} text-xl text-brand-navy`} />
-                      </div>
-                      <div>
-                        <p className="text-2xl font-display font-bold text-brand-navy leading-none">{s.count}</p>
-                        <p className="text-[11px] text-slate-500 mt-0.5">{s.label}</p>
-                      </div>
-                    </div>
-                  ))}
                 </div>
 
                 {/* Table */}
@@ -488,29 +336,29 @@ const DeptCSDS: React.FC = () => {
                 {/* ── PROGRAM OUTCOMES ── */}
                 <section className="reveal space-y-6">
                   {/* heading */}
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-brand-navy flex items-center justify-center flex-shrink-0">
-                      <i className="ph-fill ph-chart-bar text-brand-gold text-lg" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">12 Outcomes</p>
-                      <h3 className="text-2xl font-display font-bold text-brand-navy leading-tight">Program Outcomes (POs)</h3>
-                    </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">12 Outcomes</p>
+                    <h3 className="text-2xl font-display font-bold text-brand-navy leading-tight">Program Outcomes (POs)</h3>
                   </div>
 
                   {/* 2-col grid on md+ */}
                   <div className="grid md:grid-cols-2 gap-3">
-                    {pos.map((po, idx) => (
-                      <div
-                        key={po.n}
-                        className={`reveal ${idx % 3 === 0 ? 'delay-100' : idx % 3 === 1 ? 'delay-200' : 'delay-300'} group flex gap-4 items-start bg-white border border-slate-100 rounded-xl px-5 py-4 shadow-sm hover:shadow-md hover:border-brand-gold/40 hover:-translate-y-0.5 transition-all duration-200`}
-                      >
-                        <span className="flex-shrink-0 w-9 h-9 rounded-lg bg-brand-navylight group-hover:bg-brand-navy flex items-center justify-center text-[11px] font-bold text-brand-navy group-hover:text-brand-gold transition-colors duration-200">
-                          {po.n}
-                        </span>
-                        <p className="text-sm text-slate-600 leading-relaxed pt-1">{po.text}</p>
-                      </div>
-                    ))}
+                    {pos.map((po, idx) => {
+                      let delay = 'delay-300';
+                      if (idx % 3 === 0) delay = 'delay-100';
+                      else if (idx % 3 === 1) delay = 'delay-200';
+                      return (
+                        <div
+                          key={po.n}
+                          className={`reveal ${delay} flex gap-4 items-start bg-white border border-slate-100 rounded-xl px-5 py-4 shadow-sm`}
+                        >
+                          <span className="flex-shrink-0 w-9 h-9 rounded-lg bg-brand-navylight flex items-center justify-center text-[11px] font-bold text-brand-navy">
+                            {po.n}
+                          </span>
+                          <p className="text-sm text-slate-600 leading-relaxed pt-1">{po.text}</p>
+                        </div>
+                      );
+                    })}
                   </div>
                 </section>
 
@@ -519,14 +367,11 @@ const DeptCSDS: React.FC = () => {
                   <div className="relative rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg,#0d2d56 0%,#1a4b7c 100%)' }}>
                     <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px)', backgroundSize: '28px 28px' }} />
                     <div className="absolute top-0 right-0 w-64 h-64 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(253,184,19,0.12) 0%,transparent 70%)' }} />
-                    <div className="relative z-10 p-8 md:p-10 flex flex-col md:flex-row md:items-center gap-6">
-                      <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(253,184,19,0.15)', border: '1px solid rgba(253,184,19,0.3)' }}>
-                        <i className="ph-fill ph-target text-2xl text-brand-gold" />
-                      </div>
-                      <div>
+                    <div className="relative z-10 p-8 md:p-10">
+                      <div className="max-w-4xl">
                         <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold/80 mb-1">Objectives</p>
                         <h3 className="text-2xl font-display font-bold text-white mb-2">Program Educational Objectives (PEOs)</h3>
-                        <p className="text-white/60 text-sm leading-relaxed">PEO details will be published by the department. Please check back or contact the department office for the latest information.</p>
+                        <p className="text-white/85 text-sm leading-relaxed">Program Educational Objectives (PEOs):</p>
                       </div>
                     </div>
                   </div>
@@ -534,40 +379,56 @@ const DeptCSDS: React.FC = () => {
 
                 {/* ── PROGRAM SPECIFIC OUTCOMES ── */}
                 <section className="reveal space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-brand-gold flex items-center justify-center flex-shrink-0">
-                      <i className="ph-fill ph-star text-white text-lg" />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">Data Science Specific</p>
-                      <h3 className="text-2xl font-display font-bold text-brand-navy leading-tight">Program Specific Outcomes (PSOs)</h3>
-                    </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">Data Science Specific</p>
+                    <h3 className="text-2xl font-display font-bold text-brand-navy leading-tight">Program Specific Outcomes (PSOs)</h3>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-5">
-                    {psos.map((pso, idx) => (
-                      <div
-                        key={pso.n}
-                        className={`reveal ${idx === 0 ? 'delay-100' : 'delay-200'} relative group bg-white rounded-2xl p-7 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden`}
-                      >
-                        {/* hover fill */}
-                        <div className="absolute inset-0 bg-brand-navy opacity-0 group-hover:opacity-100 transition-opacity duration-400 rounded-2xl" />
-                        {/* watermark number */}
-                        <span className="absolute bottom-3 right-5 text-7xl font-display font-bold text-slate-100 group-hover:text-white/10 transition-colors duration-300 leading-none select-none">{idx + 1}</span>
-                        <div className="relative z-10">
-                          <span className="inline-block px-3 py-1 rounded-full bg-brand-navylight group-hover:bg-brand-gold/20 text-brand-navy group-hover:text-brand-gold text-[11px] font-bold uppercase tracking-widest mb-4 transition-colors duration-300">
-                            {pso.n}
-                          </span>
-                          <p className="text-slate-600 group-hover:text-white/80 text-sm leading-relaxed transition-colors duration-300">{pso.text}</p>
+                    {psos.map((pso, idx) => {
+                      let delay = 'delay-300';
+                      if (idx % 3 === 0) delay = 'delay-100';
+                      else if (idx % 3 === 1) delay = 'delay-200';
+                      return (
+                        <div
+                          key={pso.n}
+                          className={`reveal ${delay} bg-white rounded-2xl p-6 border border-slate-100 shadow-sm`}
+                        >
+                          <p className="text-sm font-bold text-brand-navy mb-2">{pso.n}</p>
+                          <p className="text-slate-600 text-sm leading-relaxed">{pso.text}</p>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </section>
 
               </div>
             );
           })()}
+
+          {/* ── MoU ────────────────────────────────────────────── */}
+          {activeId === 'mou' && (
+            <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
+              <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span></div>
+              <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">MoU{' '}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+              <a href="https://vcet.edu.in/wp-content/uploads/2024/06/MOU_CSEDS.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                <span>MoU Document (CSE-DS)</span>
+                <i className="ph ph-arrow-up-right text-brand-gold" />
+              </a>
+            </section>
+          )}
+
+          {/* ── PATENT ─────────────────────────────────────────── */}
+          {activeId === 'patent' && (
+            <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
+              <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span></div>
+              <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Patent{' '}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+              <a href="https://vcet.edu.in/wp-content/uploads/2024/04/Intellectual_Property_India_Journal_Publication.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                <span>Patents Published</span>
+                <i className="ph ph-arrow-up-right text-brand-gold" />
+              </a>
+            </section>
+          )}
 
           {/* ── FACULTY ────────────────────────────────────────── */}
           {activeId === 'faculty' && (() => {
@@ -700,7 +561,8 @@ const DeptCSDS: React.FC = () => {
                           onError={(e) => {
                             const t = e.currentTarget;
                             t.style.display = 'none';
-                            (t.nextElementSibling as HTMLElement)!.style.display = 'flex';
+                            const fallback = t.nextElementSibling as HTMLElement | null;
+                            if (fallback) fallback.style.display = 'flex';
                           }}
                         />
                         {/* Fallback initials */}
@@ -728,17 +590,18 @@ const DeptCSDS: React.FC = () => {
                       <div className="w-10 h-0.5 bg-gray-300 my-3" />
 
                       {/* Email */}
-                      <div
+                      <button
+                        type="button"
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          window.location.href = `mailto:${f.email}`;
+                          globalThis.location.href = `mailto:${f.email}`;
                         }}
                         className="flex items-center gap-2 text-xs text-gray-500 hover:text-[#1a4b7c] transition-colors w-full cursor-pointer"
                       >
                         <i className="ph-fill ph-envelope text-sm shrink-0 text-gray-400" />
                         <span className="truncate">{f.email}</span>
-                      </div>
+                      </button>
                     </Link>
                   ))}
                 </div>
@@ -747,8 +610,107 @@ const DeptCSDS: React.FC = () => {
             );
           })()}
 
+          {/* ── TOPPERS ───────────────────────────────────────── */}
+          {activeId === 'toppers' && (() => {
+            const toppers = [
+              { rank: 1, name: 'Shukla Abhay Devnath', score: '9.79 SGPI' },
+              { rank: 2, name: 'Kalathiya Deven Gunvanthbhai', score: '9.08 SGPI' },
+              { rank: 3, name: 'Berde Jayesh Sunil', score: '9 SGPI' },
+            ];
+            return (
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span></div>
+                <h3 className="text-2xl font-bold text-brand-navy mb-1 relative inline-block">Toppers{' '}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <p className="mt-4 text-sm font-semibold text-brand-navy">Academic Year: 2021-22 (SE)</p>
+                <div className="mt-5 overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-brand-navy text-white">
+                        <th className="px-4 py-3 text-left">Rank</th>
+                        <th className="px-4 py-3 text-left">Student Name</th>
+                        <th className="px-4 py-3 text-left">SGPI</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {toppers.map((item, idx) => (
+                        <tr key={item.rank} className="border-t border-slate-100">
+                          <td className="px-4 py-3 font-semibold text-brand-navy">{item.rank}</td>
+                          <td className="px-4 py-3 text-slate-700">{item.name}</td>
+                          <td className="px-4 py-3 text-slate-700">{item.score}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            );
+          })()}
+
+          {/* ── SYLLABUS ──────────────────────────────────────── */}
+          {activeId === 'syllabus' && (() => {
+            const links = [
+              { label: 'Syllabus Revised 2019-20 (Computer SE New 8 Branch)', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/Computer_SE_New_8_Branch_R2019_1.7.2021.pdf' },
+              { label: 'Syllabus Revised 2019-20 (Final Syllabus)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/Final-Syllabus-1.pdf' },
+              { label: 'Syllabus Revised 2019-20 (BE CSE AIML / CSE DS)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE.pdf' },
+              { label: 'Honours & Minor Degree Program (Data Science)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/Honours-Minor-Degree-Program-Data-Science.pdf' },
+              { label: 'PO PSO CO (Rev-2019 CSEDS Syllabus)', url: 'https://vcet.edu.in/wp-content/uploads/2023/11/2.6.1_Rev-2019_CSEDS_Syllabus.pdf' },
+            ];
+            return (
+              <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span></div>
+                <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Syllabus{' '}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <div className="space-y-3">
+                  {links.map((item) => (
+                    <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                      <span>{item.label}</span>
+                      <i className="ph ph-arrow-up-right text-brand-gold" />
+                    </a>
+                  ))}
+                </div>
+              </section>
+            );
+          })()}
+
+          {/* ── NEWSLETTER ────────────────────────────────────── */}
+          {activeId === 'newsletter' && (() => {
+            const links = [
+              { label: 'Newsletter (A3 Print)', url: 'https://vcet.edu.in/wp-content/uploads/2024/11/A3-PRINT-3.pdf' },
+              { label: 'News Letter Even Sem 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2024/11/DataCite-Vol2-A4-final.pdf' },
+              { label: 'News Letter Odd Sem 2024-25 / 2025-26', url: 'https://vcet.edu.in/wp-content/uploads/2025/12/DataCite-Volume3-Issue1-1.pdf' },
+            ];
+            return (
+              <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100 space-y-6">
+                <div className="flex items-center gap-3"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span></div>
+                <h3 className="text-2xl font-bold text-brand-navy relative inline-block">Newsletter{' '}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <div className="space-y-2">
+                  {links.map((item) => (
+                    <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                      <span>{item.label}</span>
+                      <i className="ph ph-arrow-up-right text-brand-gold" />
+                    </a>
+                  ))}
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 md:p-6">
+                  <h4 className="text-lg font-bold text-brand-navy relative inline-block">Committee Details<span className="absolute -bottom-2 left-0 h-1 w-10 rounded-full bg-brand-gold" /></h4>
+                  <p className="mt-5 text-base font-semibold text-brand-navy">Staff Incharge</p>
+                  <div className="mt-6 flex justify-center">
+                    <div className="w-full max-w-[340px] rounded-2xl border-2 border-dashed border-slate-300 bg-white px-4 py-12 text-center">
+                      <i className="ph ph-image text-4xl text-slate-400" />
+                      <p className="mt-3 text-sm font-semibold text-slate-500">Staff Image Placeholder</p>
+                      <p className="mt-1 text-xs text-slate-400">Add image later in this area</p>
+                    </div>
+                  </div>
+                  <div className="mt-5 text-center">
+                    <p className="text-2xl font-bold text-brand-navy">Ms. Leena Raut</p>
+                    <p className="mt-3 text-sm text-slate-700"><i className="ph ph-envelope mr-2 text-brand-gold align-middle" /><span className="align-middle">leena.raut@vcet.edu.in</span></p>
+                  </div>
+                </div>
+              </section>
+            );
+          })()}
+
           {/* ── OTHER SECTIONS (placeholder) ───────────────────── */}
-          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && (
+          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'mou' && activeId !== 'patent' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'newsletter' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
                 <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-brand-navy`} />

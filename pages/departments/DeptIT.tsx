@@ -7,7 +7,6 @@ const sidebarLinks = [
   { id: 'vision',     label: 'Vision and Mission',           icon: 'ph-target' },
   { id: 'dab',        label: 'Departmental Advisory Board',  icon: 'ph-users-three' },
   { id: 'mou',        label: 'MoU',                          icon: 'ph-handshake' },
-  { id: 'patent',     label: 'Patent',                       icon: 'ph-certificate' },
   { id: 'peo',        label: 'POs, PEOs, PSOs',              icon: 'ph-chart-bar' },
   { id: 'faculty',    label: 'Faculty',                      icon: 'ph-chalkboard-teacher' },
   { id: 'paqic',      label: 'PAQIC',                        icon: 'ph-clipboard-text' },

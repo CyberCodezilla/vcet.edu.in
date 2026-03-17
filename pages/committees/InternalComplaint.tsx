@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Check } from 'lucide-react';
@@ -82,7 +82,6 @@ const InternalComplaint: React.FC = () => {
       <PageBanner
         title="Internal Complaint Committee"
         breadcrumbs={[
-          { label: 'Committees', href: '/college-development-committee' },
           { label: 'Statutory Committees', href: '/anti-ragging-committee' },
           { label: 'Internal Complaint Committee' },
         ]}
