@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { noticesApi } from '../../api/notices';
 import type { NoticePayload } from '../../types';
@@ -217,7 +217,7 @@ const NoticeForm: React.FC = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
     if (!selected) {
-      setFile(null);
+      setSelectedPdf(null);
       return;
     }
     if (selected.type !== 'application/pdf') {
@@ -225,7 +225,7 @@ const NoticeForm: React.FC = () => {
       e.target.value = '';
       return;
     }
-    setFile(selected);
+    setSelectedPdf(selected);
   };
 
   if (fetching) {
@@ -236,16 +236,10 @@ const NoticeForm: React.FC = () => {
     );
   }
 
-  const pdfPreviewToUse = file ? URL.createObjectURL(file) : existingPdfUrl;
+  const pdfPreviewToUse = previewUrl;
 
   return (
     <div className="max-w-3xl mx-auto space-y-8 pb-12">
-      <PdfPreviewModal 
-        isOpen={previewOpen} 
-        onClose={() => setPreviewOpen(false)} 
-        pdfUrl={pdfPreviewToUse} 
-        title={form.title || 'PDF Preview'} 
-      />
 
       <div className="flex items-center justify-between">
         <div>
@@ -341,80 +335,6 @@ const NoticeForm: React.FC = () => {
           </div>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex items-start justify-between gap-4 flex-col sm:flex-row sm:items-center">
-            <div>
-              <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Notice PDF</label>
-              <p className="text-sm text-slate-500">
-                Upload a PDF to store it in the database and open it directly from the website.
-              </p>
-            </div>
-            <label className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-sm font-bold text-slate-700 transition-colors cursor-pointer">
-              <input ref={fileInputRef} type="file" accept="application/pdf,.pdf" className="sr-only" onChange={handlePdfChange} />
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4" /></svg>
-              {selectedPdf || existingPdf ? 'Replace PDF' : 'Upload PDF'}
-            </label>
-          </div>
-
-          {(pdfName || removePdf) && (
-            <div className={`rounded-2xl border px-5 py-4 ${removePdf ? 'border-red-200 bg-red-50' : 'border-slate-200 bg-slate-50'}`}>
-              <div className="flex items-start justify-between gap-4 flex-col sm:flex-row">
-                <div>
-                  <p className="text-sm font-bold text-slate-800">
-                    {removePdf ? 'Stored PDF will be removed when you save.' : pdfName}
-                  </p>
-                  {!removePdf && (
-                    <p className="text-xs text-slate-500 mt-1">
-                      {pdfSize ? `${(pdfSize / 1024 / 1024).toFixed(2)} MB` : 'PDF attached'}
-                      {selectedPdf ? ' • New upload ready to save' : ' • Already stored in database'}
-                    </p>
-                  )}
-                </div>
-                <button
-                  type="button"
-                  onClick={handlePdfAction}
-                  className={`text-sm font-bold transition-colors ${removePdf ? 'text-emerald-700 hover:text-emerald-900' : 'text-red-600 hover:text-red-800'}`}
-                >
-                  {selectedPdf ? 'Discard selected PDF' : removePdf ? 'Keep stored PDF' : 'Remove stored PDF'}
-                </button>
-              </div>
-            </div>
-          )}
-
-          <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50/70 overflow-hidden">
-            <div className="px-5 py-4 border-b border-slate-200/80 flex items-center justify-between gap-4 flex-col sm:flex-row">
-              <div>
-                <p className="text-sm font-bold text-slate-800">PDF Preview</p>
-                <p className="text-xs text-slate-500 mt-1">
-                  Browser preview is shown here before you publish the notice.
-                </p>
-              </div>
-              {(previewUrl || publicPdfUrl) && (
-                <a
-                  href={previewUrl ?? publicPdfUrl ?? '#'}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-sm font-bold text-slate-700 hover:text-black transition-colors"
-                >
-                  Open in New Tab
-                </a>
-              )}
-            </div>
-
-            {previewUrl ? (
-              <iframe
-                src={previewUrl}
-                title="Notice PDF preview"
-                className="w-full h-[28rem] bg-white"
-              />
-            ) : (
-              <div className="px-5 py-16 text-center text-sm text-slate-500 bg-white">
-                Upload a PDF to preview it here.
-              </div>
-            )}
-          </div>
-        </div>
-
         {/* PDF Upload Area */}
         <div className="space-y-6 pt-2">
           <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">Document Upload</h3>
@@ -439,25 +359,41 @@ const NoticeForm: React.FC = () => {
 
             {/* Display Selected File or Existing PDF */}
             {pdfPreviewToUse && (
-              <div className="mt-6 w-full flex items-center justify-between bg-white border border-blue-100 rounded-xl p-4 shadow-sm">
-                <div className="flex items-center gap-3 overflow-hidden">
-                  <div className="w-10 h-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs font-black tracking-tight">PDF</span>
-                  </div>
-                  <div className="text-left truncate">
-                    <p className="text-sm font-bold text-slate-900 truncate">{file ? file.name : (form.title || 'Current Document.pdf')}</p>
-                    <p className="text-xs text-emerald-600 font-bold uppercase tracking-wide">Ready for upload</p>
+              <>
+                <div className="mt-6 w-full flex items-center justify-between bg-white border border-blue-100 rounded-xl p-4 shadow-sm">
+                  <div className="flex items-center gap-3 overflow-hidden">
+                    <div className="w-10 h-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0">
+                      <span className="text-xs font-black tracking-tight">PDF</span>
+                    </div>
+                    <div className="text-left truncate">
+                      <p className="text-sm font-bold text-slate-900 truncate">{selectedPdf ? selectedPdf.name : (form.title || 'Current Document.pdf')}</p>
+                      <p className="text-xs text-emerald-600 font-bold uppercase tracking-wide">Ready for upload</p>
+                    </div>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setPreviewOpen(true)}
-                  className="ml-4 px-4 py-2 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg text-xs font-bold transition-colors flex items-center gap-2 whitespace-nowrap"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                  Preview
-                </button>
-              </div>
+
+                {/* Inline PDF Preview */}
+                <div className="mt-6 w-full rounded-2xl border border-slate-200 bg-slate-50/70 overflow-hidden">
+                  <div className="px-5 py-4 border-b border-slate-200/80 flex items-center justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-bold text-slate-800">PDF Preview</p>
+                    </div>
+                    <a
+                      href={pdfPreviewToUse}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-sm font-bold text-slate-700 hover:text-black transition-colors"
+                    >
+                      Open in New Tab
+                    </a>
+                  </div>
+                  <iframe
+                    src={pdfPreviewToUse}
+                    title="Notice PDF preview"
+                    className="w-full h-[28rem] bg-white"
+                  />
+                </div>
+              </>
             )}
           </div>
         </div>
