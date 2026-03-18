@@ -598,6 +598,7 @@ This project is built by an amazing team of developers committed to creating a w
 | 11 | **antarikshsingh** | [@antarikshsingh](https://github.com/antarikshsingh) |
 | 12 | **PratikRavale24** | [@PratikRavale24](https://github.com/PratikRavale24) |
 | 13 | **Pranish Harish Shetty** | [@pranishshetty](https://share.google/b5ZkgP5lON5wfUw4y) |
+| 14 | **Rehan Pinjari** | [@rehanw1](https://github.com/rehanw1) |
 
 ### How to contribute
 
