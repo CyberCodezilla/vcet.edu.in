@@ -9,6 +9,32 @@ const PlacementsList: React.FC = () => {
   const [error, setError] = useState('');
   const [deleting, setDeleting] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
+
+  const toggleFilter = () => {
+    setStatusFilter(prev => prev === 'all' ? 'active' : prev === 'active' ? 'inactive' : 'all');
+  };
+
+  const handleExport = () => {
+    let exportItems = [];
+    try { exportItems = filteredItems; } catch(e) { try { exportItems = items; } catch(e) {} }
+    if (!exportItems || exportItems.length === 0) {
+      alert('No data to export');
+      return;
+    }
+    const headers = Object.keys(exportItems[0]);
+    const csvData = exportItems.map(item => 
+      headers.map(h => `"${String((item)[h] ?? '').replace(/"/g, '""')}"`).join(',')
+    );
+    csvData.unshift(headers.join(','));
+    const blob = new Blob([csvData.join('\n')], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'export.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const load = () => {
     setLoading(true);
@@ -53,7 +79,13 @@ const PlacementsList: React.FC = () => {
   const filteredItems = placements.filter(p => 
     p.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.year.toString().includes(searchTerm)
-  );
+  ).filter((item: any) => {
+    if (statusFilter === 'all') return true;
+    const isActive = item.is_active !== undefined ? item.is_active : true;
+    if (statusFilter === 'active' && !isActive) return false;
+    if (statusFilter === 'inactive' && isActive) return false;
+    return true;
+  });
 
   return (
     <div className="space-y-10 pb-12">
@@ -91,11 +123,11 @@ const PlacementsList: React.FC = () => {
           <svg className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 bg-white ring-1 ring-slate-200 px-6 py-4 rounded-2xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
+          <button onClick={toggleFilter} className={`flex items-center gap-2 ring-1 px-6 py-4 rounded-2xl text-xs font-bold transition-all shadow-sm ${statusFilter !== 'all' ? 'bg-[#1e293b] text-white ring-[#1e293b]' : 'bg-white text-slate-600 ring-slate-200 hover:bg-slate-50'}`}>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4.5h18m-18 5h18m-18 5h18m-18 5h18" /></svg>
-            Filter
+            Filter: {statusFilter === 'all' ? 'All' : statusFilter === 'active' ? 'Active' : 'Inactive'}
           </button>
-          <button className="flex items-center gap-2 bg-white ring-1 ring-slate-200 px-6 py-4 rounded-2xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
+          <button onClick={handleExport} className="flex items-center gap-2 bg-white ring-1 ring-slate-200 px-6 py-4 rounded-2xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
             Export
           </button>

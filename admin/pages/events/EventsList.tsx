@@ -11,6 +11,32 @@ const EventsList: React.FC = () => {
   
   // UI State
   const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
+
+  const toggleFilter = () => {
+    setStatusFilter(prev => prev === 'all' ? 'active' : prev === 'active' ? 'inactive' : 'all');
+  };
+
+  const handleExport = () => {
+    let exportItems = [];
+    try { exportItems = filteredItems; } catch(e) { try { exportItems = items; } catch(e) {} }
+    if (!exportItems || exportItems.length === 0) {
+      alert('No data to export');
+      return;
+    }
+    const headers = Object.keys(exportItems[0]);
+    const csvData = exportItems.map(item => 
+      headers.map(h => `"${String((item)[h] ?? '').replace(/"/g, '""')}"`).join(',')
+    );
+    csvData.unshift(headers.join(','));
+    const blob = new Blob([csvData.join('\n')], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'export.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;
   const [sortConfig, setSortConfig] = useState<{ key: 'date' | 'expiry_date'; direction: 'asc' | 'desc' }>({
