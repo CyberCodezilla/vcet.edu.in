@@ -597,6 +597,7 @@ This project is built by an amazing team of developers committed to creating a w
 | 10 | **Sumit Vishwakarma** | [@Sumitc0de](https://github.com/Sumitc0de) |
 | 11 | **antarikshsingh** | [@antarikshsingh](https://github.com/antarikshsingh) |
 | 12 | **PratikRavale24** | [@PratikRavale24](https://github.com/PratikRavale24) |
+| 13 | **Pranish Harish Shetty** | [@pranishshetty](https://share.google/b5ZkgP5lON5wfUw4y) |
 
 ### How to contribute
 
