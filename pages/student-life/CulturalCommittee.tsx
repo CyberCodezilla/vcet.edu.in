@@ -1,7 +1,15 @@
 import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
-import { Music, Palette, Drama, Sparkles, Mic2, Camera, Star, Users, Trophy, CalendarDays } from 'lucide-react';
+import {
+  BulletList,
+  ContentSection,
+  DataTable,
+  EventGrid,
+  GalleryGrid,
+  IntroSection,
+  ProfileHighlight,
+} from './studentLifeShared';
 
 const objectiveItems = [
   'Foster leadership, represent student interests, and enhance the sense of community.',
@@ -12,202 +20,187 @@ const objectiveItems = [
   'These committees collectively contribute to the overall development of students, offering them opportunities for personal growth, community engagement, and cultural enrichment.',
 ];
 
-const stats = [
-  { icon: Users,        value: '500+',  label: 'Active Members'   },
-  { icon: CalendarDays, value: '20+',   label: 'Events Per Year'  },
-  { icon: Trophy,       value: '50+',   label: 'Awards Won'       },
-  { icon: Star,         value: '10+',   label: 'Years of Legacy'  },
-];
-
-const activities = [
-  {
-    icon: Music,
-    title: 'Music & Band',
-    description: 'From classical ragas to contemporary beats, the music wing nurtures budding musicians through regular practice sessions and performances.',
-  },
-  {
-    icon: Drama,
-    title: 'Drama & Theatre',
-    description: 'Street plays, skits, and theatrical performances that address social issues and showcase the creative talents of students.',
-  },
-  {
-    icon: Palette,
-    title: 'Art & Craft',
-    description: 'Painting competitions, rangoli making, poster design, and various craft activities that bring out the artistic side of students.',
-  },
-  {
-    icon: Mic2,
-    title: 'Dance Performances',
-    description: 'Classical, folk, and contemporary dance performances during college festivals, inter-college competitions, and cultural events.',
-  },
-  {
-    icon: Sparkles,
-    title: 'Annual Fest',
-    description: 'The grand annual cultural festival showcasing a vibrant mix of performances, competitions, workshops, and celebrity appearances.',
-  },
-  {
-    icon: Camera,
-    title: 'Photography & Film',
-    description: 'Short film making, photography contests, and video production activities that capture and celebrate campus life.',
-  },
-];
-
 const events = [
   {
-    title: 'Annual Cultural Festival',
-    description: 'A multi-day extravaganza featuring performances, competitions, workshops, and celebrity appearances that unite the entire college.',
+    title: 'FE Orientation:',
+    description:
+      "A formal meet is arranged for the FE students where in the convoluted domains pertaining to academics by means of an elaborate overview of the engineering curriculum. An informal orientation is organized by Students' Council where the freshers are imparted with few tips and tricks to tackle both academics as well as extra-curricular. The students are informed about the various clubs and committees within the college and the events that they participate in and conduct. They are also made familiar with the nearby places of visit and acquainted with the basic rules and regulations of the college. A booklet is also provided to the students which includes the details about the college premises and other information.",
   },
   {
-    title: 'Inter-College Competitions',
-    description: 'VCET students regularly participate and win accolades in cultural events organized by other colleges and universities.',
+    title: "Fresher's Party:",
+    description:
+      "Fresher's Party' the first event for the first-year students is hosted by Students' Council at its apex grandeur and elaboration. The day is marked with pulsating enthusiasm, excitement, and anticipation among all the FE Students. Every year a theme is decided and title for Mr. and Ms. Freshers are announced too. Various games and activities are organized wherein the first-year students participate and enjoy to their fullest.",
   },
   {
-    title: 'Traditional Day Celebrations',
-    description: 'Celebrating the rich cultural diversity of India through traditional attire, food, and performances on special occasions.',
+    title: "Teacher's Day :",
+    description:
+      "5th September marks the Birth Anniversary of our former President and renowed teacher Dr. Sarwapalli Radhakrishnan. On this occasion Students' Council hosts Teacher's Day celebration keeping up with tradition of VCET, the teachers are welcomed with a rose and a card along with countless number of wishes. The celebration is scheduled in the evening and all the teaching and non-teaching staff are cordially invited for the same. The teachers enjoy the event and eventually engage into quirky and captivating fun games planned for them. The day ends in high spirits and appreciation from Teachers for Councils' efforts.",
+  },
+  {
+    title: 'Garba Night :',
+    description:
+      'The auspicious festival of Navratri is celebrated by the staffs and students of VCET with great fever and enthusiasm. The event begins with worshipping of Goddess Durga by our Principal, after which the students and teachers dance to the upbeat and traditional Garba tunes played by the DJ. Students dress up beautifully and enjoy the beats with their synchronous and energetic Garba moves. There are prizes for energetic Garba moves and colourful costumes.',
+  },
+  {
+    title: 'CL MEET :',
+    description:
+      'The Contingent Leaders (CL) Meet is a pre-event gathering conducted before the annual college cultural fest, Zeal. During this meet, contingent leaders from various colleges across Mumbai come together to foster collaboration and camaraderie. The primary aim of the CL Meet is to publicize Zeal, ensuring wide participation and generating excitement for the upcoming cultural fest. Additionally, it facilitates the exchange of ideas and participation strategies among the leaders, enhancing the overall experience of the fest. While the CL Meet happens around the cultural fest, its impact and objectives extend throughout the entire year, continually promoting engagement and involvement in Zeal.',
+  },
+  {
+    title: 'Zeal :',
+    description:
+      "The Students' Council then begins preparing for the most anticipated cultural fest, that is ZEAL. When it comes to cultural uplifting, Zeal is certainly one of the highlights of our college. From brainstorming ideas to watching the live streams of ZEAL is an experience that every Students' Council member will never forget. All in all, the Students' Council takes immense pride and gratitude for achieving everything that is planned every year with great success and joy.",
+  },
+  {
+    title: 'BE Farewell :',
+    description:
+      'With Zeal being on extravaganza of energy, enthusiasm, and electrifying aura to be in, the cherry on the cake for the Students Council is the BE Farewell. The BE Farewell witnesses an over enthusiastic crowd who with their presence make the atmosphere a heavenly space. The BEs dance and groove their hearts out to the electrifying beats of the DJ and enjoy to their fullest.',
   },
 ];
 
-// ─── Component ────────────────────────────────────────────────────────────────
+const gallery = [
+  { src: '/images/student-life/cultural-committee/gallery-01.jpg', alt: 'Cultural Committee gallery image 1', placeholder: true },
+  { src: '/images/student-life/cultural-committee/gallery-02.jpg', alt: 'Cultural Committee gallery image 2', placeholder: true },
+  { src: '/images/student-life/cultural-committee/gallery-03.jpg', alt: 'Cultural Committee gallery image 3', placeholder: true },
+  { src: '/images/student-life/cultural-committee/gallery-04.jpg', alt: 'Cultural Committee gallery image 4', placeholder: true },
+  { src: '/images/student-life/cultural-committee/gallery-05.jpg', alt: 'Cultural Committee gallery image 5', placeholder: true },
+  { src: '/images/student-life/cultural-committee/gallery-06.jpg', alt: 'Cultural Committee gallery image 6', placeholder: true },
+  { src: '/images/student-life/cultural-committee/gallery-07.jpg', alt: 'Cultural Committee gallery image 7', placeholder: true },
+  { src: '/images/student-life/cultural-committee/gallery-08.jpg', alt: 'Cultural Committee gallery image 8', placeholder: true },
+];
+
+const teamRows = [
+  ['General Secretary', 'Mr. Jayesh Solminde', 'COMPS'],
+  ['Treasurer', 'Mr. Rutwoj Acharya', 'IT'],
+  ['Deputy General Secretary', 'Mr. Manav Nivate', 'MECH'],
+  ['Cultural Secretary', 'Ms. Arya Sable', 'IT'],
+  ['Joint Cultural Secretary', 'Ms. Tanvi Prabhudesai', 'COMPS'],
+  ['Joint Cultural Secretary', 'Mr. Aditya Bawane', 'IT'],
+  ['Joint Cultural Secretary', 'Ms. Shreya Wankhede', 'AIDS'],
+  ['Joint Cultural Secretary', 'Mr. Kashyap Jethwa', 'COMPS'],
+  ['Technical Head', 'Mr. Vishal Mane', 'COMPS'],
+  ['Technical Head', 'Mr. Kartik Sangle', 'COMPS'],
+  ['Technical Head', 'Mr. Aman Mishra', 'MECH'],
+  ['Sponsorship Head', 'Mr. Saurabhsingh Pardeshi', 'AIDS'],
+  ['Sponsorship Head', 'Mr. Akhilesh Patil', 'AIDS'],
+  ['Creative Head', 'Mr. Pranav Rewale', 'COMPS'],
+  ['Creative Head', 'Ms. Ishika Bhate', 'CIVIL'],
+  ['Creative Head', 'Ms. Siddhi Chavan', 'IT'],
+  ['Creative Head', 'Ms. Akansha Chaudhari', 'COMPS'],
+  ['Creative Head', 'Mr. Tanmay Narayankar', 'COMPS'],
+  ['Taskforce Head', 'Mr. Yogesh Dhangar', 'EXTC'],
+  ['Taskforce Head', 'Mr. Sumit Mali', 'COMPS'],
+  ['Taskforce Head', 'Mr. Anuj Newalkar', 'CIVIL'],
+  ['Taskforce Head', 'Mr. Nihal Deshmukh', 'IT'],
+  ['PR & Publicity Head', 'Mr. Hardik Sanap', 'CSE DS'],
+  ['PR & Publicity Head', 'Mr. Ashirwad Kothavate', 'COMPS'],
+  ['PR & Publicity Head', 'Mr. Gargi Betawadkar', 'COMPS'],
+  ['Social Media Head', 'Mr. Prathamesh Pandey', 'COMPS'],
+  ['Social Media Head', 'Ms. Arya Jadhav', 'CIVIL'],
+  ['Social Media Head', 'Mr. Ankita Yadav', 'COMPS'],
+];
 
 const CulturalCommittee: React.FC = () => {
   return (
     <PageLayout>
-      <PageBanner
+      <PageBanner title="Cultural Committee" breadcrumbs={[{ label: 'Cultural Committee' }]} />
+
+      <IntroSection
+        id="intro"
         title="Cultural Committee"
-        breadcrumbs={[
-          { label: 'Student Life', href: '/student-life' },
-          { label: 'Cultural Committee' },
+        image="/images/student-life/cultural-committee/hero.jpeg"
+        imageAlt="Cultural Committee"
+        hideImage
+        imagePlaceholderLabel="Cultural Committee Hero Image"
+        chips={[
+          { label: 'Objectives', href: '#objectives' },
+          { label: 'Events', href: '#events' },
+          { label: 'Gallery', href: '#gallery' },
+          { label: 'Team', href: '#team' },
         ]}
+        imageFit="contain"
+        links={[
+          {
+            label: "Students' Council Instagram",
+            href: 'https://www.instagram.com/vcetstudentscouncil?igsh=MTVjamlqaWNrbnIzbg==',
+            icon: 'instagram',
+          },
+          {
+            label: 'Watch Highlight Video',
+            href: 'https://youtu.be/-O0TexTnwJ8?si=3oPGI5pT0jiduJ6P',
+            icon: 'video',
+          },
+        ]}
+        aside={
+          <div className="rounded-2xl border border-brand-gold/20 bg-brand-light p-5">
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">
+              Best Outgoing Student
+            </p>
+            <p className="text-lg font-display font-bold text-brand-navy">Rishabh Tripathi</p>
+            <p className="mt-2 text-sm text-slate-500">Computer Engineering Department</p>
+            <p className="text-sm text-slate-500">Batch : 2023 - 2024</p>
+          </div>
+        }
       />
 
-      {/* Overview */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div className="reveal">
-                <div className="bg-brand-light rounded-2xl aspect-[4/3] flex items-center justify-center border border-brand-blue/10">
-                  <span className="text-sm font-semibold text-brand-blue/40 tracking-wide">
-                    cultural-committee.jpg
-                  </span>
-                </div>
-              </div>
+      <ContentSection
+        id="objectives"
+        title="Objectives"
+        subtitle="Objectives of Extracurricular Activities Committees."
+        backgroundClassName="bg-brand-light"
+      >
+        <BulletList items={objectiveItems} />
+      </ContentSection>
 
-              <div className="reveal" style={{ transitionDelay: '0.1s' }}>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-0.5 bg-brand-gold" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">
-                    Celebrate. Create. Inspire.
-                  </span>
-                </div>
-                <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy mb-6">
-                  Cultural Committee
-                </h2>
-                <p className="text-slate-500 leading-relaxed mb-4">
-                  The Cultural Committee at VCET is the vibrant heart of the campus, dedicated to
-                  nurturing the artistic and creative talents of students. From mesmerizing dance
-                  performances to soul-stirring music, from thought-provoking theatre to stunning
-                  visual art, the committee provides a platform for every form of creative expression.
-                </p>
-                <p className="text-slate-500 leading-relaxed">
-                  Throughout the year, the committee organizes a wide range of cultural events,
-                  competitions, and workshops that bring the entire college community together and
-                  foster a spirit of unity in diversity.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ContentSection
+        title="Best Outgoing Student"
+        subtitle="Source highlight published on the official VCET Cultural Committee page."
+        backgroundClassName="bg-white"
+      >
+        <ProfileHighlight
+          title="Best Outgoing Student"
+          image="/images/student-life/cultural-committee/best-outgoing-student.png"
+          imageAlt="Best Outgoing Student"
+          hideImage
+          imagePlaceholderLabel="Best Outgoing Student Image"
+          heading="Rishabh Tripathi"
+          lines={['Computer Engineering Department', 'Batch : 2023 - 2024']}
+          actions={[
+            {
+              label: 'Watch Highlight Video',
+              href: 'https://youtu.be/-O0TexTnwJ8?si=3oPGI5pT0jiduJ6P',
+              icon: 'video',
+            },
+          ]}
+        />
+      </ContentSection>
 
-      {/* Stats */}
-      <section className="py-14 bg-gradient-to-br from-brand-dark via-brand-blue to-brand-navy">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            {stats.map((stat, idx) => (
-              <div
-                key={idx}
-                className="reveal text-center p-6"
-                style={{ transitionDelay: `${0.1 * idx}s` }}
-              >
-                <div className="w-12 h-12 mx-auto mb-4 bg-white/10 rounded-xl flex items-center justify-center">
-                  <stat.icon className="w-6 h-6 text-brand-gold" />
-                </div>
-                <div className="text-2xl md:text-3xl font-display font-bold text-white mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-xs uppercase tracking-widest text-white/50 font-semibold">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ContentSection
+        id="events"
+        title="Events"
+        subtitle="Published activities and celebrations featured on the official Cultural Committee page."
+        backgroundClassName="bg-brand-light"
+      >
+        <EventGrid items={events} />
+      </ContentSection>
 
-      {/* Activities */}
-      <section className="py-16 md:py-24 bg-brand-light">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-3xl mx-auto text-center mb-14 reveal">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy mb-4">
-              Our Activities
-            </h2>
-            <p className="text-slate-500 text-lg leading-relaxed">
-              A kaleidoscope of artistic and creative pursuits.
-            </p>
-          </div>
+      <ContentSection
+        id="gallery"
+        title="Gallery"
+        subtitle="Official VCET Cultural Committee gallery images."
+        backgroundClassName="bg-white"
+      >
+        <GalleryGrid items={gallery} />
+      </ContentSection>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {activities.map((activity, idx) => (
-              <div
-                key={idx}
-                className="reveal group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg p-6 transition-all duration-500 hover:-translate-y-1 hover:border-brand-gold/30"
-                style={{ transitionDelay: `${0.05 * idx}s` }}
-              >
-                <div className="w-12 h-12 bg-brand-light rounded-xl flex items-center justify-center mb-4 group-hover:bg-brand-gold/10 transition-colors duration-300">
-                  <activity.icon className="w-6 h-6 text-brand-blue group-hover:text-brand-gold transition-colors duration-300" />
-                </div>
-                <h3 className="text-lg font-display font-bold text-brand-navy mb-2 group-hover:text-brand-blue transition-colors duration-300">
-                  {activity.title}
-                </h3>
-                <p className="text-sm text-slate-500 leading-relaxed">{activity.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Events */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-3xl mx-auto text-center mb-14 reveal">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy mb-4">
-              Flagship Events
-            </h2>
-            <p className="text-slate-500 text-lg leading-relaxed">
-              Events that bring the campus alive with creativity and enthusiasm.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {events.map((event, idx) => (
-              <div
-                key={idx}
-                className="reveal group bg-gradient-to-br from-brand-dark via-brand-blue to-brand-navy rounded-xl p-6 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl"
-                style={{ transitionDelay: `${0.1 * idx}s` }}
-              >
-                <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center mb-4">
-                  <Sparkles className="w-5 h-5 text-brand-gold" />
-                </div>
-                <h3 className="text-lg font-display font-bold text-white mb-2">
-                  {event.title}
-                </h3>
-                <p className="text-sm text-white/60 leading-relaxed">{event.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ContentSection
+        id="team"
+        title="Team"
+        subtitle="B.E. Students Council Core Committee (A.Y. 2025-26) :"
+        backgroundClassName="bg-brand-light"
+      >
+        <DataTable columns={['Position', 'Name', 'Department']} rows={teamRows} />
+      </ContentSection>
     </PageLayout>
   );
 };
