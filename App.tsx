@@ -87,6 +87,7 @@ const DifferentlyAbled = lazy(() => import('./pages/facilities/DifferentlyAbled'
 
 // pages/student-life
 const CulturalCommittee = lazy(() => import('./pages/student-life/CulturalCommittee'));
+const StudentsCouncil = lazy(() => import('./pages/student-life/StudentsCouncil'));
 const SportsCommittee = lazy(() => import('./pages/student-life/SportsCommittee'));
 const Literati = lazy(() => import('./pages/student-life/Literati'));
 const NSS = lazy(() => import('./pages/student-life/NSS'));
@@ -123,8 +124,6 @@ const Developers = lazy(() => import('./pages/committees/Developers'));
 // pages/naac
 const SSS = lazy(() => import('./pages/naac/SSS'));
 const SSSReport = lazy(() => import('./pages/naac/SSSReportPage'));
-// const SSRCycle1 = lazy(() => import('./pages/naac/SSRCycle1'));
-// const SSRCycle2 = lazy(() => import('./pages/naac/SSRCycle2'));
 const BestPractices = lazy(() => import('./pages/naac/BestPractices'));
 const NAACScore = lazy(() => import('./pages/naac/NAACScore'));
 const NaacPage = lazy(() => import('./pages/naac/NAACPage'));
@@ -359,7 +358,7 @@ function App() {
 
             {/* Student Life */}
             <Route path="/career-at-vcet" element={<ExternalRedirect to={CAREER_AT_VCET_PDF_URL} />} />
-            <Route path="/students-council" element={<Navigate to="/" replace />} />
+            <Route path="/students-council" element={<StudentsCouncil />} />
             <Route path="/cultural-committee" element={<CulturalCommittee />} />
             <Route path="/sports-committee" element={<SportsCommittee />} />
             <Route path="/literati" element={<Literati />} />
@@ -429,10 +428,7 @@ function App() {
           <Route path="/mms/admission/scholarship" element={<MMSScholarship />} />
           <Route path="/mms/admission/documents-required" element={<MMSDocumentsRequired />} />
           <Route path="/mms/admission/fees-structure" element={<MMSFeesStructure />} />
-          <Route path="/mms/admission-details" element={<MMSAdmission />} />
-          <Route path="/mms/admission-details/scholarship" element={<MMSScholarship />} />
-          <Route path="/mms/admission-details/documents-required" element={<MMSDocumentsRequired />} />
-          <Route path="/mms/admission-details/fees-structure" element={<MMSFeesStructure />} />
+
           <Route path="/mms/experiential-learning" element={<MMSExperientialLearning />} />
           <Route path="/mms/experiential-learning/role-play" element={<MMSExperientialRolePlay />} />
           <Route path="/mms/experiential-learning/group-discussion" element={<MMSExperientialGroupDiscussion />} />
@@ -447,7 +443,7 @@ function App() {
           <Route path="/mms/training-placement/training/gallery" element={<MMSTrainingGallery />} />
           <Route path="/mms/training-placement/placement" element={<MMSPlacement />} />
           <Route path="/mms/training-placement/placement/soft-skill-training" element={<MMSPlacementSoftSkillTraining />} />
-          <Route path="/mms/training-placement/placement/psycometric-test" element={<MMSPlacementPsycometricTest />} />
+
           <Route path="/mms/training-placement/placement/psychometric-test" element={<MMSPlacementPsycometricTest />} />
           <Route path="/mms/training-placement/placement/placement-cell" element={<MMSPlacementCell />} />
           <Route path="/mms/training-placement/placement/gallery" element={<MMSPlacementGallery />} />
@@ -461,7 +457,7 @@ function App() {
           <Route path="/mms/students-life/about-add-on-courses" element={<MMSStudentsLifeAboutAddOnCourses />} />
           <Route path="/mms/students-life/add-on-courses-powerbi" element={<MMSStudentsLifePowerBi />} />
           <Route path="/mms/students-life/add-on-courses-advance-excel" element={<MMSStudentsLifeAdavanceExcel />} />
-          <Route path="/mms/students-life/add-on-courses-adavance-excel" element={<MMSStudentsLifeAdavanceExcel />} />
+          <Route path="/mms/students-life/add-on-courses-advance-excel" element={<MMSStudentsLifeAdavanceExcel />} />
           <Route path="/mms/students-life/industry-expert-sessions" element={<MMSStudentsLifeIndustryExpertSessions />} />
           <Route path="/mms/students-life/nsim-training" element={<MMSStudentsLifeNSIMTraining />} />
           <Route path="/mms/students-life/oscillations" element={<MMSStudentsLifeOscillations />} />
