@@ -5,40 +5,52 @@ import type { Card } from '../ui/focus-cards';
 
 const departments: Card[] = [
   {
-    title: 'Computer Science',
-    description: 'AI, ML & Data Science',
-    src: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1600&auto=format&fit=crop',
+    title: 'Computer Engineering',
+    description: 'Software Systems & Core Computing',
+    src: '',
     href: '/computer-engineering',
   },
   {
-    title: 'Mechanical Eng.',
-    description: 'Robotics & Automation',
-    src: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1600&auto=format&fit=crop',
+    title: 'Computer Science & Engineering (Data Science)',
+    description: 'Data Science, AI & Applied Analytics',
+    src: '',
+    href: '/cs-data-science',
+  },
+  {
+    title: 'Information Technology',
+    description: 'Cloud, Security & Enterprise Computing',
+    src: '',
+    href: '/information-technology',
+  },
+  {
+    title: 'Artificial Intelligence & Data Science',
+    description: 'Machine Learning & Intelligent Systems',
+    src: '',
+    href: '/ai-data-science',
+  },
+  {
+    title: 'Mechanical Engineering',
+    description: 'Robotics, Design & Manufacturing',
+    src: '',
     href: '/mechanical-engineering',
   },
   {
-    title: 'Electronics & Comm.',
-    description: 'IoT & Embedded Systems',
-    src: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop',
+    title: 'Electronics & Telecommunication Engineering',
+    description: 'Embedded Systems, IoT & Communication',
+    src: '',
     href: '/electronics-telecomm',
   },
   {
     title: 'Civil Engineering',
-    description: 'Sustainable Infrastructure',
-    src: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1600&auto=format&fit=crop',
+    description: 'Infrastructure, Planning & Sustainability',
+    src: '',
     href: '/civil-engineering',
   },
   {
-    title: 'Information Tech',
-    description: 'Cloud & Cyber Security',
-    src: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1600&auto=format&fit=crop',
-    href: '/information-technology',
-  },
-  {
-    title: 'AI & Data Science',
-    description: 'Machine Learning & AI',
-    src: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=1600&auto=format&fit=crop',
-    href: '/ai-data-science',
+    title: 'Master of Management Studies (MBA)',
+    description: 'Management Studies, Strategy & Leadership',
+    src: '',
+    href: '/mms',
   },
 ];
 

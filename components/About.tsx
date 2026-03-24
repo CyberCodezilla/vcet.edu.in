@@ -2,11 +2,14 @@ import React, { useRef, useState, useEffect } from 'react';
 import SectionHeader from './SectionHeader';
 import { Target, Eye, Users, BookOpen, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
 
+const ESTABLISHED_DATE = new Date(1994, 6, 1); // July 1994
+const currentYear = new Date().getFullYear();
+const yearsSinceEstablished = Math.max(currentYear - ESTABLISHED_DATE.getFullYear(), 1);
+
 const stats = [
   { icon: Users, target: 5000, suffix: '+', label: 'Students' },
   { icon: BookOpen, target: 200, suffix: '+', label: 'Faculty' },
-  { icon: Target, target: 25, suffix: '+', label: 'Years' },
-  { icon: Eye, target: null, suffix: 'B++', label: 'NAAC Grade' },
+  { icon: Target, target: yearsSinceEstablished, suffix: '', label: 'Years' },
 ];
 
 function useCountUp(target: number | null, duration = 1800) {
@@ -146,7 +149,7 @@ const About: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-16">
           {stats.map((stat, idx) => (
             <StatCard key={idx} stat={stat} onVisible={() => {}} />
           ))}

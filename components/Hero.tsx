@@ -670,12 +670,11 @@ const Hero: React.FC = () => {
 
             {/* Quick Stats — always pinned at bottom */}
             <div className="flex-shrink-0 px-5 py-4 border-t border-white/10">
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 {[
                   { value: "30+", label: "Years" },
                   { value: "5000+", label: "Students" },
                   { value: "96%", label: "Placements" },
-                  { value: "B++", label: "NAAC" },
                 ].map((stat, idx) => (
                   <div
                     key={idx}

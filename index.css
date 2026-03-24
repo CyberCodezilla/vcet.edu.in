@@ -56,3 +56,15 @@
     100% { transform: translateX(-50%); }
   }
 }
+
+/* Homepage interactive cursor behavior */
+.home-page button,
+.home-page a,
+.home-page [role="button"] {
+  cursor: pointer;
+}
+
+/* Preserve explicit non-clickable UI intent */
+.home-page .cursor-default {
+  cursor: default;
+}

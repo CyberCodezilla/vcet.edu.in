@@ -106,18 +106,23 @@ const Gallery: React.FC = () => {
                   isFeatured ? 'sm:col-span-2 lg:col-span-2 md:row-span-2 lg:row-span-2' : '',
                 ].join(' ')}
               >
-                {/* Pixel-reveal image — staggered by card index */}
-                <PixelImage
-                  src={item.src}
-                  alt={item.title}
-                  customGrid={isFeatured ? { rows: 6, cols: 8 } : { rows: 4, cols: 6 }}
-                  grayscaleAnimation
-                  pixelFadeInDuration={500}
-                  maxAnimationDelay={600}
-                  colorRevealDelay={700}
-                  animationDelay={idx * STAGGER_MS}
-                  className="absolute inset-0"
-                />
+                {/* Pixel-reveal image — only load for featured item */}
+                {isFeatured ? (
+                  <PixelImage
+                    src={item.src}
+                    alt={item.title}
+                    customGrid={{ rows: 6, cols: 8 }}
+                    grayscaleAnimation
+                    pixelFadeInDuration={500}
+                    maxAnimationDelay={600}
+                    colorRevealDelay={700}
+                    animationDelay={idx * STAGGER_MS}
+                    className="absolute inset-0"
+                  />
+                ) : (
+                  /* Image placeholder for non-featured items */
+                  <div className="absolute inset-0 bg-gradient-to-b from-slate-300 to-slate-400 animate-pulse" />
+                )}
 
                 {/* Label overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent pointer-events-none" />

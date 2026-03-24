@@ -18,9 +18,11 @@ import Achievements from './components/Achievements';
 import ExploreUs from './components/ExploreUs';
 import Gallery from './components/Gallery';
 import Testimonials from './components/Testimonials';
-import Facilities from './components/Facilities';
 import Footer from './components/Footer';
 import SplashScreen from './components/SplashScreen';
+
+const CAREER_AT_VCET_PDF_URL =
+  'https://drive.google.com/file/d/1grwZ4_QIjC23c4HHFCM4xPJuFywsWtgw/view?usp=sharing';
 
 /* ── Lazy-loaded Pages ── */
 
@@ -83,8 +85,6 @@ const HealthFacilities = lazy(() => import('./pages/facilities/HealthFacilities'
 const DifferentlyAbled = lazy(() => import('./pages/facilities/DifferentlyAbled'));
 
 // pages/student-life
-const CareerAtVCET = lazy(() => import('./pages/student-life/CareerAtVCET'));
-const StudentsCouncil = lazy(() => import('./pages/student-life/StudentsCouncil'));
 const CulturalCommittee = lazy(() => import('./pages/student-life/CulturalCommittee'));
 const SportsCommittee = lazy(() => import('./pages/student-life/SportsCommittee'));
 const Literati = lazy(() => import('./pages/student-life/Literati'));
@@ -117,6 +117,7 @@ const SCSTCommittee = lazy(() => import('./pages/committees/SCSTCommittee'));
 const InternalComplaint = lazy(() => import('./pages/committees/InternalComplaint'));
 const EqualOpportunity = lazy(() => import('./pages/committees/EqualOpportunity'));
 const SEDGCell = lazy(() => import('./pages/committees/SEDGCell'));
+const Developers = lazy(() => import('./pages/committees/Developers'));
 
 // pages/naac
 const SSS = lazy(() => import('./pages/naac/SSS'));
@@ -229,6 +230,14 @@ const PageLoader = () => (
 );
 
 /* ── Homepage Component ── */
+const ExternalRedirect: React.FC<{ to: string }> = ({ to }) => {
+  useEffect(() => {
+    window.location.replace(to);
+  }, [to]);
+
+  return <PageLoader />;
+};
+
 const HomePage: React.FC = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -246,7 +255,7 @@ const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen font-sans bg-white text-slate-800">
+    <div className="home-page min-h-screen font-sans bg-white text-slate-800">
       <SplashScreen />
       <div className="sticky top-0 z-[100] md:contents">
         <TopBanner />
@@ -262,7 +271,6 @@ const HomePage: React.FC = () => {
         <ExploreUs />
         <Gallery />
         <Testimonials />
-        <Facilities />
       </main>
       <Footer />
     </div>
@@ -348,8 +356,8 @@ function App() {
             <Route path="/differently-abled" element={<DifferentlyAbled />} />
 
             {/* Student Life */}
-            <Route path="/career-at-vcet" element={<CareerAtVCET />} />
-            <Route path="/students-council" element={<StudentsCouncil />} />
+            <Route path="/career-at-vcet" element={<ExternalRedirect to={CAREER_AT_VCET_PDF_URL} />} />
+            <Route path="/students-council" element={<Navigate to="/" replace />} />
             <Route path="/cultural-committee" element={<CulturalCommittee />} />
             <Route path="/sports-committee" element={<SportsCommittee />} />
             <Route path="/literati" element={<Literati />} />
@@ -375,6 +383,7 @@ function App() {
             <Route path="/internal-complaint" element={<InternalComplaint />} />
             <Route path="/equal-opportunity" element={<EqualOpportunity />} />
             <Route path="/sedg-cell" element={<SEDGCell />} />
+            <Route path="/developers" element={<Developers />} />
 
           {/* NAAC */}
           {/* <Route path="/naac-ssr-cycle-1" element={<NaacPage />} /> */}
@@ -391,7 +400,8 @@ function App() {
             <Route path="/placement" element={<Placement />} />
             <Route path="/e-cell" element={<ECell />} />
             <Route path="/iiic" element={<IIIC />} />
-            <Route path="/exam-cell" element={<ExamCell />} />
+            <Route path="/exam" element={<ExamCell />} />
+            <Route path="/exam-cell" element={<Navigate to="/exam" replace />} />
             <Route path="/helpline-for-divyangjan" element={<HelplineForDivyangjan />} />
 
             {/* Footer Pages */}

@@ -18,23 +18,56 @@ export interface AuthUserResponse {
   user: User;
 }
 
+const USE_MOCK = import.meta.env.DEV && import.meta.env.VITE_MOCK_AUTH === 'true';
+
+const MOCK_USER: User = {
+  id: 1,
+  username: 'admin',
+  full_name: 'System Administrator',
+  role: 'super',
+};
+
 export const authApi = {
   /** POST /api/auth/login — returns { success, message, user } */
-  login: (payload: LoginPayload) =>
-    client.request<LoginResponse>("/auth/login", {
+  login: async (payload: LoginPayload): Promise<LoginResponse> => {
+    if (USE_MOCK) {
+      // Simulate network delay
+      await new Promise(r => setTimeout(r, 500));
+      return {
+        success: true,
+        message: 'Login successful (Mock)',
+        user: MOCK_USER,
+      };
+    }
+    return client.request<LoginResponse>("/auth/login", {
       method: "POST",
       body: JSON.stringify(payload),
-    }),
+    });
+  },
 
   /** GET /api/auth/me — returns the authenticated user */
-  me: () =>
-    client.request<AuthUserResponse>("/auth/me", {
+  me: async (): Promise<AuthUserResponse> => {
+    if (USE_MOCK) {
+      await new Promise(r => setTimeout(r, 200));
+      return {
+        success: true,
+        user: MOCK_USER,
+      };
+    }
+    return client.request<AuthUserResponse>("/auth/me", {
       method: "GET",
-    }),
+    });
+  },
 
   /** POST /api/auth/logout — ends the authenticated session */
-  logout: () =>
-    client.request<{ success: boolean; message: string }>("/auth/logout", {
+  logout: async (): Promise<{ success: boolean; message: string }> => {
+    if (USE_MOCK) {
+      await new Promise(r => setTimeout(r, 300));
+      return { success: true, message: 'Logged out (Mock)' };
+    }
+    return client.request<{ success: boolean; message: string }>("/auth/logout", {
       method: "POST",
-    }),
+    });
+  },
 };
+

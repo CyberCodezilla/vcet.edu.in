@@ -37,9 +37,9 @@ const AboutVCET: React.FC = () => {
 
       <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:items-stretch lg:gap-16">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:items-start lg:gap-16">
 
-            <div className="space-y-8 lg:col-span-2 lg:flex lg:h-full lg:flex-col">
+            <div className="space-y-8 lg:col-span-2">
               <div id="history" className="info-card reveal">
                 <div className="info-card-top">
                   <span className="flex items-center gap-2">
@@ -96,7 +96,7 @@ const AboutVCET: React.FC = () => {
                 </div>
               </div>
 
-              <div className="reveal flex h-[300px] items-center justify-center overflow-hidden rounded-2xl border border-brand-blue/10 bg-brand-light shadow-sm md:h-[430px] lg:h-auto lg:min-h-[520px] lg:flex-1" style={{ transitionDelay: '0.16s' }}>
+              <div className="reveal flex h-[300px] items-center justify-center overflow-hidden rounded-2xl border border-brand-blue/10 bg-brand-light shadow-sm md:h-[430px] lg:h-[430px]" style={{ transitionDelay: '0.16s' }}>
                 <div className="text-center">
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-blue/10">
                     <MapPin className="h-8 w-8 text-brand-blue/40" />

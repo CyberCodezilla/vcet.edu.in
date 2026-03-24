@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Linkedin, Youtube, ArrowRight, MapPin, Phone, Mail, ExternalLink } from 'lucide-react';
 
 const Footer: React.FC = () => {
@@ -154,7 +155,12 @@ const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-6 border-t border-white/5 text-[11px] text-white/25 uppercase tracking-widest">
           <p>&copy; 2025 VCET. All Rights Reserved.</p>
-          <p className="mt-2 md:mt-0">Designed by VCET</p>
+          <Link
+            to="/developers"
+            className="mt-2 md:mt-0 text-white/60 hover:text-white transition-all duration-300 drop-shadow-[0_0_6px_rgba(255,255,255,0.25)] hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.45)]"
+          >
+            Designed by VCET Developer's Team
+          </Link>
         </div>
       </div>
     </footer>

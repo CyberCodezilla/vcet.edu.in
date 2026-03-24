@@ -20,46 +20,6 @@ const sidebarLinks = [
   { id: 'newsletter', label: 'Newsletter',                   icon: 'ph-newspaper' },
 ];
 
-const skills = [
-  { icon: 'ph-math-operations',   label: 'Engineering Mathematics' },
-  { icon: 'ph-atom',              label: 'Physics & Chemistry' },
-  { icon: 'ph-code',              label: 'Programming Fundamentals' },
-  { icon: 'ph-pencil-ruler',      label: 'Engineering Drawing & Graphics' },
-  { icon: 'ph-lightning',         label: 'Basic Electrical Engineering' },
-  { icon: 'ph-gear',              label: 'Basic Mechanical Engineering' },
-  { icon: 'ph-chats',             label: 'Communication & Professional Skills' },
-];
-
-const pathways = [
-  {
-    icon: 'ph-desktop-tower', accent: 'gold', title: 'Computer Engineering / IT',
-    description: 'Students with a passion for software, algorithms, and digital systems transition to Computer Engineering or Information Technology — building skills in programming, databases, networking, and AI/ML over the next three years.',
-  },
-  {
-    icon: 'ph-circuit-board', accent: 'navy', title: 'Electronics & Telecomm. Engineering',
-    description: 'Students inclined towards hardware, circuits, and communication systems move into Electronics & Telecommunication Engineering — exploring VLSI, embedded systems, wireless technologies, and signal processing.',
-  },
-  {
-    icon: 'ph-gear-six', accent: 'gold', title: 'Mechanical Engineering',
-    description: 'Students interested in machines, manufacturing, and thermodynamics specialize in Mechanical Engineering — mastering CAD/CAM, fluid mechanics, heat transfer, and advanced manufacturing processes.',
-  },
-  {
-    icon: 'ph-buildings', accent: 'navy', title: 'Civil Engineering',
-    description: 'Students drawn to infrastructure, construction, and the built environment branch into Civil Engineering — learning structural analysis, geotechnics, environmental engineering, and construction management.',
-  },
-  {
-    icon: 'ph-brain', accent: 'gold', title: 'Artificial Intelligence & Data Science',
-    description: 'Students passionate about data, machine learning, and intelligent systems enter the AI & Data Science program — specializing in Python, machine learning algorithms, big data analytics, and deep learning.',
-  },
-  {
-    icon: 'ph-database', accent: 'navy', title: 'Computer Science (Data Science)',
-    description: 'Students keen on blending computer science with advanced data engineering transition to CS (Data Science) — learning data engineering, cloud computing, statistical modeling, and business intelligence.',
-  },
-];
-
-const delayClass = (idx: number) =>
-  idx % 3 === 0 ? 'delay-100' : idx % 3 === 1 ? 'delay-200' : 'delay-300';
-
 const DeptFE: React.FC = () => {
   const [activeId, setActiveId] = useState('about');
   const activeLink = sidebarLinks.find(l => l.id === activeId);
@@ -137,277 +97,92 @@ const DeptFE: React.FC = () => {
 
           {/* ════ ABOUT ════════════════════════════════════════════ */}
           {activeId === 'about' && (
-            <>
-              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
-                <div className="space-y-6 text-slate-600 leading-8 text-left">
-                  <p>
-                    The First Year Engineering Department is the common academic home for all newly admitted engineering students at
-                    VCET. With a combined intake of 720 seats across all branches, this department lays the intellectual and
-                    professional groundwork upon which the entire engineering career is built.
-                  </p>
-                  <p>
-                    The curriculum covers Engineering Mathematics, Physics, Chemistry, Basic Electrical Engineering, Basic Mechanical
-                    Engineering, Engineering Drawing & Graphics, and Programming Fundamentals — forming a comprehensive foundation
-                    designed to align with the demands of all specialisations that follow. Faculty employ ICT tools, virtual labs,
-                    and project-based learning to make the learning experience both engaging and effective.
-                  </p>
-                  <p>
-                    The department actively supports students through bridge courses, remedial sessions, and mentoring programs that
-                    ease the transition from school or junior college into professional engineering education. Career counselling and
-                    branch-orientation activities help students make informed choices about their specialisation.
-                  </p>
-                  <div className="bg-gradient-to-r from-brand-navylight to-white p-6 rounded-2xl border-l-4 border-brand-gold shadow-inner">
-                    <p className="text-brand-navy font-semibold m-0 flex items-start gap-3">
-                      <i className="ph-fill ph-rocket-launch text-brand-gold text-2xl mt-1 flex-shrink-0" />
-                      Every VCET engineer's journey starts here — the First Year Engineering Department provides the shared foundation
-                      of curiosity, rigour, and collaboration that defines the VCET graduate.
-                    </p>
-                  </div>
+            <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+              <div className="mb-8 flex flex-col items-center text-center">
+                <div className="w-full max-w-[340px] rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 px-4 py-12">
+                  <i className="ph ph-image text-4xl text-slate-400" />
+                  <p className="mt-3 text-sm font-semibold text-slate-500">Coordinator Image Placeholder</p>
+                  <p className="mt-1 text-xs text-slate-400">Add image later in this area</p>
                 </div>
-              </section>
+                <p className="mt-4 text-2xl font-bold text-brand-navy">Dr. Sunayana Jadhav</p>
+                <p className="mt-1 text-sm font-semibold text-brand-gold">FE Coordinator</p>
+              </div>
 
-              <section className="reveal">
-                <h2 className="text-3xl font-bold text-brand-navy relative inline-block mb-10">
-                  Foundation Subjects Covered:
-                  <span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" />
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-                  {skills.map((skill, idx) => (
-                    <div key={skill.label} className={`reveal ${delayClass(idx)} bg-white p-4 rounded-2xl shadow-sm border border-slate-100 hover:-translate-y-1 hover:shadow-md hover:border-brand-gold transition-all duration-300 flex items-center gap-4 group`}>
-                      <div className="w-12 h-12 rounded-xl bg-brand-navylight flex items-center justify-center text-brand-navy group-hover:bg-brand-gold group-hover:text-white transition-colors flex-shrink-0">
-                        <i className={`ph ${skill.icon} text-2xl`} />
-                      </div>
-                      <span className="font-semibold text-slate-700 leading-tight">{skill.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              <section className="reveal">
-                <div className="mb-12">
-                  <h2 className="text-3xl font-bold text-brand-navy relative inline-block">
-                    Pathways After First Year:
-                    <span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" />
-                  </h2>
-                  <p className="mt-6 text-slate-500 text-sm max-w-2xl">After completing their first year, students branch into one of six exciting engineering disciplines based on merit and preference.</p>
-                </div>
-                <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-brand-navy before:via-brand-navylight before:to-transparent">
-                  {pathways.map((path, idx) => (
-                    <div key={path.title} className={`relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group reveal ${delayClass(idx)}`}>
-                      <div className={`flex items-center justify-center w-10 h-10 rounded-full border-4 border-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 transition-transform group-hover:scale-110 ${path.accent === 'gold' ? 'bg-brand-gold' : 'bg-brand-navy'}`}>
-                        <i className={`ph-fill ${path.icon} text-white text-lg`} />
-                      </div>
-                      <div className={`w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl shadow-sm hover:shadow-lg transition-shadow border-t-4 ${path.accent === 'gold' ? 'bg-[#deeaf7] border-t-brand-navy' : 'bg-[#e8f2fb] border-t-brand-gold'}`}>
-                        <h3 className="text-xl font-bold text-brand-gold mb-3">{path.title}</h3>
-                        <p className="text-slate-600 text-sm leading-relaxed text-justify">{path.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            </>
+              <div className="space-y-6 text-slate-600 leading-8 text-left">
+                <p>
+                  Established in June 1994 alongside the inception of the college, the First Year Engineering department offers an array of subjects including Engineering Physics, Engineering Chemistry, Engineering Mathematics, and Business Communication &amp; Ethics, and they collectively form the foundational pillars.
+                </p>
+                <p>
+                  The Undergraduate Program (UG) offers various specializations including Computer Engineering with an approved intake of 180 students, Computer Science and Engineering (Data Science) with 180 students, Information Technology with 60 students, and Artificial Intelligence and Data Science with 120 students. Additionally, there are programs in Mechanical Engineering, Electronics and Telecommunication Engineering, and Civil Engineering, each with an approved intake of 60 students.
+                </p>
+                <p>
+                  Bolstered by dedicated faculty members, the department serves as a cornerstone for all engineering disciplines within the college. Faculty members actively engage in professional development through participation in refresher and orientation courses whenever feasible, and the department has hosted several seminars on diverse topics for both students and staff.
+                </p>
+                <p>
+                  Recognized for its pivotal role, the department is equipped with state-of-the-art laboratories and continues to spearhead various curricular and extracurricular initiatives. By nurturing a culture of innovation and collaboration, the department cultivates a strong foundation essential for the success of all engineering branches.
+                </p>
+              </div>
+            </section>
           )}
 
           {/* ════ VISION & MISSION ═════════════════════════════════ */}
           {activeId === 'vision' && (
-            <div className="space-y-16">
-              <div className="reveal flex items-center gap-4">
-                <span className="w-8 h-px bg-brand-gold" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering Department</span>
+            <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
+              <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
+                <i className="ph ph-target text-3xl text-brand-navy" />
               </div>
-              <section className="reveal">
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl" style={{ background: 'linear-gradient(135deg, #0d2d56 0%, #1a4b7c 50%, #0f3460 100%)' }}>
-                  <span className="absolute -top-6 -left-2 text-[200px] font-display font-bold text-white/[0.04] leading-none select-none pointer-events-none">"</span>
-                  <div className="absolute top-0 right-0 w-96 h-96 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(253,184,19,0.12) 0%, transparent 70%)' }} />
-                  <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px)', backgroundSize: '32px 32px' }} />
-                  <div className="relative z-10 p-8 md:p-14">
-                    <div className="flex items-center gap-3 mb-8">
-                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(253,184,19,0.15)', border: '1px solid rgba(253,184,19,0.3)' }}>
-                        <i className="ph-fill ph-eye text-xl text-brand-gold" />
-                      </div>
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold/70">Department</p>
-                        <p className="text-sm font-bold text-white/90 uppercase tracking-widest">Vision</p>
-                      </div>
-                    </div>
-                    <blockquote className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-white leading-[1.3] italic mb-10 max-w-4xl">
-                      "To build a strong academic and personal foundation for aspiring engineers, empowering them to excel in their chosen disciplines and contribute meaningfully to society."
-                    </blockquote>
-                    <div className="flex items-center gap-4">
-                      <div className="h-px flex-1 bg-white/10" />
-                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">VCET · First Year Engineering</span>
-                      <div className="h-px w-12 bg-brand-gold/40" />
-                    </div>
-                  </div>
-                </div>
-              </section>
-              <section className="reveal space-y-6">
-                <div className="flex items-end justify-between mb-2">
-                  <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold mb-1">Guiding Principles</p>
-                    <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy leading-tight">Our Mission</h2>
-                  </div>
-                  <div className="hidden md:flex items-center gap-2 text-slate-400 text-sm">
-                    <i className="ph ph-arrow-down text-brand-gold" />
-                    <span className="text-xs tracking-wide">4 Pillars</span>
-                  </div>
-                </div>
-                <div className="h-px bg-gradient-to-r from-brand-gold via-brand-navylight to-transparent" />
-                <div className="grid md:grid-cols-2 gap-5 pt-2">
-                  {[
-                    { id: '01', delay: 'delay-100', icon: 'ph-graduation-cap', title: 'Quality Foundational Education', body: 'Provide quality foundational education in basic sciences and engineering disciplines — equipping all first-year students with the mathematical, scientific, and technical knowledge needed for advanced engineering study.' },
-                    { id: '02', delay: 'delay-200', icon: 'ph-lightbulb', title: 'Analytical Thinking & Problem Solving', body: 'Develop strong analytical thinking and problem-solving abilities through active learning, project-based activities, and hands-on laboratory experiences that bridge theory with real-world applications.' },
-                    { id: '03', delay: 'delay-300', icon: 'ph-arrows-in', title: 'Smooth Transition to Engineering', body: 'Facilitate a smooth and supportive transition from school and junior college to professional engineering education through bridge courses, mentoring programs, and remedial coaching.' },
-                    { id: '04', delay: 'delay-100', icon: 'ph-star', title: 'Curiosity, Creativity & Passion', body: 'Nurture curiosity, creativity, and a lifelong passion for learning — inspiring students to explore diverse engineering fields, discover their strengths, and make informed choices about their specialisation.' },
-                  ].map((m, idx) => (
-                    <div key={m.id} className={`reveal ${m.delay} group relative bg-white rounded-2xl p-7 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col`}>
-                      <div className="absolute inset-0 bg-brand-navy opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
-                      <span className="absolute top-4 right-5 text-6xl font-display font-bold text-slate-100 group-hover:text-white/10 transition-colors duration-300 leading-none select-none">{m.id}</span>
-                      <div className="relative z-10 flex flex-col flex-1">
-                        <div className="w-11 h-11 rounded-xl bg-brand-navylight group-hover:bg-brand-gold/20 flex items-center justify-center mb-5 transition-colors duration-300">
-                          <i className={`ph-fill ${m.icon} text-xl text-brand-navy group-hover:text-brand-gold transition-colors duration-300`} />
-                        </div>
-                        <h3 className="text-base font-bold text-brand-navy group-hover:text-white transition-colors duration-300 mb-3 leading-snug">{m.title}</h3>
-                        <p className="text-sm text-slate-500 group-hover:text-white/70 leading-relaxed transition-colors duration-300 flex-1">{m.body}</p>
-                        <div className="mt-6 flex items-center gap-2">
-                          <div className="h-px flex-1 bg-slate-100 group-hover:bg-white/20 transition-colors duration-300" />
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-brand-gold">M{idx + 1}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            </div>
+              <h3 className="text-xl font-bold text-brand-navy mb-2">Vision and Mission</h3>
+              <p className="text-slate-500">The content will be published soon.</p>
+            </section>
           )}
 
           {/* ════ DAB ══════════════════════════════════════════════ */}
           {activeId === 'dab' && (() => {
-            const members = [
-              { sr: 1, name: 'Dr. Rakesh Himte',              designation: 'Principal',                      org: 'VCET, Vasai',        role: 'Chairman',                tag: 'internal' },
-              { sr: 2, name: 'HOD, First Year Engineering',   designation: 'Professor & HOD, FE Dept.',       org: 'VCET, Vasai',        role: 'Head of Department',      tag: 'internal' },
-              { sr: 3, name: 'TBD',                           designation: 'Academic Representative',        org: 'External Institute', role: 'Academic Representative', tag: 'academic' },
-              { sr: 4, name: 'TBD',                           designation: 'Academic Representative',        org: 'External Institute', role: 'Academic Representative', tag: 'academic' },
-              { sr: 5, name: 'TBD',                           designation: 'Industry Expert',                org: 'Industry Partner',   role: 'Industry Representative', tag: 'industry' },
-              { sr: 6, name: 'TBD',                           designation: 'Industry Expert',                org: 'Industry Partner',   role: 'Industry Representative', tag: 'industry' },
-              { sr: 7, name: 'TBD',                           designation: 'Senior Faculty, FE Dept.',       org: 'VCET, Vasai',        role: 'Secretary',               tag: 'internal' },
-              { sr: 8, name: 'TBD',                           designation: 'FE Student',                     org: 'VCET, Vasai',        role: 'Student Representative',  tag: 'student'  },
-            ];
-            const tagStyle: Record<string, string> = { internal: 'bg-brand-navylight text-brand-navy', academic: 'bg-blue-50 text-blue-700', industry: 'bg-amber-50 text-amber-700', student: 'bg-emerald-50 text-emerald-700' };
             return (
-              <div className="space-y-10">
-                <div className="reveal">
-                  <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering</span></div>
-                  <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy leading-tight">Departmental Advisory Board<span className="text-brand-gold"> (DAB)</span></h2>
-                  <div className="mt-3 flex items-center gap-2 text-slate-500 text-sm"><i className="ph-fill ph-check-circle text-brand-gold text-base" />Following are the members of the committee starting from 2022&#8209;23.</div>
-                  <div className="mt-5 h-px bg-gradient-to-r from-brand-gold via-brand-navylight to-transparent" />
+              <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
+                <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
+                  <i className="ph ph-users-three text-3xl text-brand-navy" />
                 </div>
-                <div className="reveal grid grid-cols-2 sm:grid-cols-4 gap-4">
-                  {[{ count: '2', label: 'Industry Experts', icon: 'ph-buildings' }, { count: '2', label: 'Academic Reps', icon: 'ph-graduation-cap' }, { count: '1', label: 'Student Rep', icon: 'ph-student' }, { count: '3', label: 'Internal Members', icon: 'ph-users' }].map(s => (
-                    <div key={s.label} className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-brand-navylight flex items-center justify-center flex-shrink-0"><i className={`ph-fill ${s.icon} text-xl text-brand-navy`} /></div>
-                      <div><p className="text-2xl font-display font-bold text-brand-navy leading-none">{s.count}</p><p className="text-[11px] text-slate-500 mt-0.5">{s.label}</p></div>
-                    </div>
-                  ))}
-                </div>
-                <div className="reveal bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead><tr className="bg-brand-navy text-white">{['Sr.', 'Name', 'Designation', 'Organisation', 'Role in DAB'].map(h => <th key={h} className="px-4 py-4 text-left text-[11px] font-bold uppercase tracking-widest">{h}</th>)}</tr></thead>
-                      <tbody>
-                        {members.map((m, idx) => (
-                          <tr key={m.sr} className={`border-t border-slate-100 hover:bg-brand-navylight/40 transition-colors duration-150 ${idx % 2 === 1 ? 'bg-slate-50/60' : 'bg-white'}`}>
-                            <td className="px-4 py-4 font-bold text-brand-navy/40 text-xs">{String(m.sr).padStart(2, '0')}</td>
-                            <td className="px-4 py-4 font-semibold text-brand-navy whitespace-nowrap">{m.name}</td>
-                            <td className="px-4 py-4 text-slate-600">{m.designation}</td>
-                            <td className="px-4 py-4 text-slate-600">{m.org}</td>
-                            <td className="px-4 py-4"><span className={`inline-block px-2.5 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap ${tagStyle[m.tag]}`}>{m.role}</span></td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+                <h3 className="text-xl font-bold text-brand-navy mb-2">Departmental Advisory Board</h3>
+                <p className="text-slate-500">The content will be published soon.</p>
+              </section>
             );
           })()}
 
           {/* ════ POs, PEOs & PSOs ═════════════════════════════════ */}
           {activeId === 'peo' && (() => {
-            const pos = [
-              { n: '01', text: 'An ability to apply knowledge of mathematics, science, and engineering.' },
-              { n: '02', text: 'An ability to design and conduct experiments, as well as to analyze and interpret data.' },
-              { n: '03', text: 'An ability to design a system, component, or process to meet desired needs within realistic constraints.' },
-              { n: '04', text: 'An ability to identify, formulate, and solve engineering problems.' },
-              { n: '05', text: 'An ability to use the techniques, skills, and modern engineering tools necessary for engineering practice.' },
-              { n: '06', text: 'Knowledge of contemporary issues.' },
-              { n: '07', text: 'The broad education necessary to understand the impact of engineering solutions in a global, economic, environmental and societal context.' },
-              { n: '08', text: 'An understanding of professional and ethical responsibility.' },
-              { n: '09', text: 'An ability to function in multidisciplinary teams.' },
-              { n: '10', text: 'An ability to communicate effectively.' },
-              { n: '11', text: 'Recognition of the need for, and an ability to engage in life-long learning.' },
-              { n: '12', text: 'An understanding of engineering and management principles and the ability to apply these to manage projects in multidisciplinary environments.' },
-            ];
-            const psos = [
-              { n: 'PSO1', text: 'To apply foundational knowledge of mathematics, physics, chemistry, and basic engineering sciences to analyse, model, and solve problems encountered in diverse engineering disciplines.' },
-              { n: 'PSO2', text: 'To use fundamental programming, drawing, and communication skills to effectively collaborate in multidisciplinary engineering teams and prepare for seamless transition into specialised engineering branches.' },
-            ];
             return (
-              <div className="space-y-16">
-                <div className="reveal">
-                  <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering</span></div>
-                  <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy">POs, PEOs &amp; PSOs</h2>
-                  <div className="mt-4 h-px bg-gradient-to-r from-brand-gold via-brand-navylight to-transparent" />
+              <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
+                <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
+                  <i className="ph ph-chart-bar text-3xl text-brand-navy" />
                 </div>
-                <section className="reveal space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-brand-navy flex items-center justify-center flex-shrink-0"><i className="ph-fill ph-chart-bar text-brand-gold text-lg" /></div>
-                    <div><p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">12 Outcomes</p><h3 className="text-2xl font-display font-bold text-brand-navy leading-tight">Program Outcomes (POs)</h3></div>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-3">
-                    {pos.map((po, idx) => (
-                      <div key={po.n} className={`reveal ${idx % 3 === 0 ? 'delay-100' : idx % 3 === 1 ? 'delay-200' : 'delay-300'} group flex gap-4 items-start bg-white border border-slate-100 rounded-xl px-5 py-4 shadow-sm hover:shadow-md hover:border-brand-gold/40 hover:-translate-y-0.5 transition-all duration-200`}>
-                        <span className="flex-shrink-0 w-9 h-9 rounded-lg bg-brand-navylight group-hover:bg-brand-navy flex items-center justify-center text-[11px] font-bold text-brand-navy group-hover:text-brand-gold transition-colors duration-200">{po.n}</span>
-                        <p className="text-sm text-slate-600 leading-relaxed pt-1">{po.text}</p>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-                <section className="reveal">
-                  <div className="relative rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg,#0d2d56 0%,#1a4b7c 100%)' }}>
-                    <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px)', backgroundSize: '28px 28px' }} />
-                    <div className="absolute top-0 right-0 w-64 h-64 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(253,184,19,0.12) 0%,transparent 70%)' }} />
-                    <div className="relative z-10 p-8 md:p-10 flex flex-col md:flex-row md:items-center gap-6">
-                      <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(253,184,19,0.15)', border: '1px solid rgba(253,184,19,0.3)' }}><i className="ph-fill ph-target text-2xl text-brand-gold" /></div>
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold/80 mb-1">Objectives</p>
-                        <h3 className="text-2xl font-display font-bold text-white mb-2">Program Educational Objectives (PEOs)</h3>
-                        <p className="text-white/60 text-sm leading-relaxed">PEO details will be published by the department. Please check back or contact the department office for the latest information.</p>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-                <section className="reveal space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-brand-gold flex items-center justify-center flex-shrink-0"><i className="ph-fill ph-star text-white text-lg" /></div>
-                    <div><p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">FE Specific</p><h3 className="text-2xl font-display font-bold text-brand-navy leading-tight">Program Specific Outcomes (PSOs)</h3></div>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-5">
-                    {psos.map((pso, idx) => (
-                      <div key={pso.n} className={`reveal ${idx === 0 ? 'delay-100' : 'delay-200'} relative group bg-white rounded-2xl p-7 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden`}>
-                        <div className="absolute inset-0 bg-brand-navy opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
-                        <span className="absolute bottom-3 right-5 text-7xl font-display font-bold text-slate-100 group-hover:text-white/10 transition-colors duration-300 leading-none select-none">{idx + 1}</span>
-                        <div className="relative z-10">
-                          <span className="inline-block px-3 py-1 rounded-full bg-brand-navylight group-hover:bg-brand-gold/20 text-brand-navy group-hover:text-brand-gold text-[11px] font-bold uppercase tracking-widest mb-4 transition-colors duration-300">{pso.n}</span>
-                          <p className="text-slate-600 group-hover:text-white/80 text-sm leading-relaxed transition-colors duration-300">{pso.text}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              </div>
+                <h3 className="text-xl font-bold text-brand-navy mb-2">POs, PEOs, PSOs</h3>
+                <p className="text-slate-500">The content will be published soon.</p>
+              </section>
             );
           })()}
+
+          {/* ════ MoU ═════════════════════════════════════════════ */}
+          {activeId === 'mou' && (
+            <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
+              <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
+                <i className="ph ph-handshake text-3xl text-brand-navy" />
+              </div>
+              <h3 className="text-xl font-bold text-brand-navy mb-2">MoU</h3>
+              <p className="text-slate-500">The content will be published soon.</p>
+            </section>
+          )}
+
+          {/* ════ PATENT ══════════════════════════════════════════ */}
+          {activeId === 'patent' && (
+            <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
+              <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
+                <i className="ph ph-certificate text-3xl text-brand-navy" />
+              </div>
+              <h3 className="text-xl font-bold text-brand-navy mb-2">Patent</h3>
+              <p className="text-slate-500">The content will be published soon.</p>
+            </section>
+          )}
 
           {/* ════ FACULTY ══════════════════════════════════════════ */}
           {activeId === 'faculty' && (() => {
@@ -682,7 +457,8 @@ const DeptFE: React.FC = () => {
                           onError={(e) => {
                             const t = e.currentTarget;
                             t.style.display = 'none';
-                            (t.nextElementSibling as HTMLElement)!.style.display = 'flex';
+                            const fallback = t.nextElementSibling as HTMLElement | null;
+                            if (fallback) fallback.style.display = 'flex';
                           }}
                         />
                         {/* Fallback initials */}
@@ -710,7 +486,14 @@ const DeptFE: React.FC = () => {
                       <div className="w-10 h-0.5 bg-gray-300 my-3" />
 
                       {/* Email */}
-                      <div onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.href = `mailto:${f.email}`; }} className="flex items-center gap-2 text-xs text-gray-500 hover:text-[#1a4b7c] transition-colors w-full cursor-pointer"><i className="ph-fill ph-envelope text-sm shrink-0 text-gray-400" /><span className="truncate">{f.email}</span></div>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); globalThis.location.href = `mailto:${f.email}`; }}
+                        className="flex items-center gap-2 text-xs text-gray-500 hover:text-[#1a4b7c] transition-colors w-full cursor-pointer"
+                      >
+                        <i className="ph-fill ph-envelope text-sm shrink-0 text-gray-400" />
+                        <span className="truncate">{f.email}</span>
+                      </button>
                     </Link>
                   ))}
                 </div>
@@ -718,8 +501,217 @@ const DeptFE: React.FC = () => {
             );
           })()}
 
+          {/* ════ INFRASTRUCTURE ═════════════════════════════════ */}
+          {activeId === 'infrastructure' && (
+            <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+              <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering</span></div>
+              <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Infrastructure<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+              <p className="text-slate-600 leading-8">
+                Recognized for its pivotal role, the department is equipped with state-of-the-art laboratories and continues to spearhead various curricular and extracurricular initiatives.
+              </p>
+            </section>
+          )}
+
+          {/* ════ SYLLABUS ═══════════════════════════════════════ */}
+          {activeId === 'syllabus' && (() => {
+            const links = [
+              { label: 'All Branches Scheme Syllabus (Sem I & Sem II)', url: 'https://vcet.edu.in/wp-content/uploads/2024/08/First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25.pdf' },
+              { label: 'Course Outcomes for First Year Engineering', url: 'https://vcet.edu.in/wp-content/uploads/2025/02/Course-Outcomes-for-First-Year-Engineering.pdf' },
+              { label: 'NEP 2020 Theory CO (All Subjects)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/FE-COsNEP-2020-All-Subjects-Theory.pdf' },
+              { label: 'Lab COs', url: 'https://vcet.edu.in/wp-content/uploads/2025/02/LAB-COs.pdf' },
+              { label: 'NEP 2020 Lab CO (All Subjects)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/FE-COsNEP-2020-All-Subjects-LAB.pdf' },
+            ];
+            return (
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering</span></div>
+                <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Syllabus<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <div className="space-y-3">
+                  {links.map((item) => (
+                    <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                      <span>{item.label}</span><i className="ph ph-arrow-up-right text-brand-gold" />
+                    </a>
+                  ))}
+                </div>
+              </section>
+            );
+          })()}
+
+          {/* ════ TIME TABLE ═════════════════════════════════════ */}
+          {activeId === 'time-table' && (() => {
+            const sem2Links = [
+              { label: 'Sem II - FE A (Comp 1)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivAComps1_Sem2_TT.pdf' },
+              { label: 'Sem II - FE B (Comp 2)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivBComps2_Sem2_TT-.pdf' },
+              { label: 'Sem II - FE C (Comp 3)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivCComps3_Sem2_TT.pdf' },
+              { label: 'Sem II - FE D (Civil)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivDCivil_Sem2_TT.pdf' },
+              { label: 'Sem II - FE E (CSEDS 1)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivECSEDS1_Sem2_TT.pdf' },
+              { label: 'Sem II - FE F (CSEDS 2)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivFCSEDS2_Sem2_TT.pdf' },
+              { label: 'Sem II - FE G (INFT)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-G-INFT-Engg.-_-SemII-_-2024-25.pdf' },
+              { label: 'Sem II - FE H (AI & DS)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivHAIDS_Sem2_TT.pdf' },
+              { label: 'Sem II - FE I (EXTC)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-I-EXTC-Engg._-semII_-2024-25.pdf' },
+              { label: 'Sem II - FE J (Mech)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-J_MECH.pdf' },
+              { label: 'Sem II - FE K (Civil & VLSI)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-K_-VLSI.pdf' },
+              { label: 'Sem II - FE L (CSEDS 3)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-L_-CSEDS-3.pdf' },
+            ];
+            const sem1Links = [
+              { label: 'Sem I - FE A (Comp 1)', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/Div-A-Comp1-_-TT.pdf' },
+              { label: 'Sem I - FE B (Comp 2)', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/Div-B-Comp2-_-TT.pdf' },
+              { label: 'Sem I - FE C (Comp 3)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-C-Comp3-_-TT.pdf' },
+              { label: 'Sem I - FE D (Civil)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-D-Civil-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE E (CSEDS 1)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-E-CSE-DS-1-_-TT.pdf' },
+              { label: 'Sem I - FE F (CSEDS 2)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-F-CSE-DS-2-_-TT.pdf' },
+              { label: 'Sem I - FE G (INFT)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-G-INFT-engg-_-TT.pdf' },
+              { label: 'Sem I - FE H (AI-DS)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-H-AI-DS-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE I (EXTC)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-I-EXTC-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE J (Mech)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-J-Mech-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE K (VLSI)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-K-VLSI-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE L (CSE-DS 3)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/L-Div-_-CSE-DS-3_-TT.pdf' },
+            ];
+            return (
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-8">
+                <div className="flex items-center gap-3"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering</span></div>
+                <h3 className="text-2xl font-bold text-brand-navy relative inline-block">Time Table<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <div>
+                  <h4 className="text-lg font-bold text-brand-navy mb-3">Time Table Sem II</h4>
+                  <div className="space-y-3">
+                    {sem2Links.map((item) => (
+                      <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                        <span>{item.label}</span><i className="ph ph-arrow-up-right text-brand-gold" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-lg font-bold text-brand-navy mb-3">Time Table Sem I</h4>
+                  <div className="space-y-3">
+                    {sem1Links.map((item) => (
+                      <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                        <span>{item.label}</span><i className="ph ph-arrow-up-right text-brand-gold" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            );
+          })()}
+
+          {/* ════ INNOVATIONS IN TEACHING LEARNING ══════════════ */}
+          {activeId === 'teaching-learning' && (() => {
+            const links = [
+              { label: 'Innovation in Teaching Report 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Innovation-in-Teaching-report-2024-25.pdf' },
+              { label: 'Innovation in Teaching Report 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Innovation-in-Teaching-report-2023-24.pdf' },
+              { label: 'Innovation in Teaching Report 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/Innovation-in-Teaching-report-2022-23-Copy.pdf' },
+              { label: 'Innovation in Teaching Report 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2022/09/Innovation-in-Teaching-report-2021-22-1.pdf' },
+              { label: 'Innovation in Teaching Report 2020-21', url: 'https://vcet.edu.in/wp-content/uploads/2022/09/Innovation-in-Teaching-report-2020-21-2.pdf' },
+            ];
+            return (
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering</span></div>
+                <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Innovations in Teaching Learning<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <div className="space-y-3">
+                  {links.map((item) => (
+                    <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                      <span>{item.label}</span><i className="ph ph-arrow-up-right text-brand-gold" />
+                    </a>
+                  ))}
+                </div>
+              </section>
+            );
+          })()}
+
+          {/* ════ INDUCTION PROGRAM ═════════════════════════════ */}
+          {activeId === 'induction' && (() => {
+            const links = [
+              { label: 'SIP Report 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/SIP-Report_24-25.pdf' },
+              { label: 'SIP Report 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/SIP-Report_23-24.pdf' },
+              { label: 'SIP Report 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/SIP-Report_22-23.pdf' },
+              { label: 'SIP Report 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/SIP-Report_21-22.pdf' },
+              { label: 'SIP Report 2020-21', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/SIP-REPORT_20-21.pdf' },
+              { label: 'SIP Report 2019-20', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/SIP-REPORT_19-20.pdf' },
+            ];
+            return (
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-6">
+                <div className="flex items-center gap-3"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering</span></div>
+                <h3 className="text-2xl font-bold text-brand-navy relative inline-block">Induction Programme<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <p className="text-slate-600 leading-8">
+                  VCET conducts the induction program for newcomers to help students adjust to the academic environment, connect with faculty and seniors, understand institutional practices and values, and begin regular classes after completion of the induction activities.
+                </p>
+                <div className="space-y-3">
+                  {links.map((item) => (
+                    <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                      <span>{item.label}</span><i className="ph ph-arrow-up-right text-brand-gold" />
+                    </a>
+                  ))}
+                </div>
+              </section>
+            );
+          })()}
+
+          {/* ════ TOPPERS ════════════════════════════════════════ */}
+          {activeId === 'toppers' && (() => {
+            const toppers = [
+              { term: '2020-21 SEM-I', topper: 'Thakur Mihir Ashish', score: '9.26 SGPI' },
+              { term: '2020-21 SEM-II', topper: 'Singh Mohit', score: '9.83 SGPI' },
+              { term: '2021-22 SEM-I', topper: 'Vanjara Riddhesh', score: '10 SGPI' },
+              { term: '2021-22 SEM-II', topper: '24 STUDENTS HAVE 10 POINTER', score: '10 SGPI' },
+              { term: '2022-23 SEM-I', topper: 'Gharat Parth', score: '10 SGPI' },
+              { term: '2022-23 SEM-II', topper: 'Kashish Bhanushali, Nishant Bhandigare, Bharti Kiran', score: '10 SGPI' },
+              { term: '2023-24 SEM-I', topper: 'Rishiraj Yadav, Saish Sutar', score: '10 SGPI' },
+              { term: '2023-24 SEM-II', topper: 'Kalyani Rane', score: '9.8 SGPI' },
+              { term: '2024-25 SEM-I', topper: 'Avadh Mehta', score: '9.52 SGPI' },
+            ];
+
+            return (
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering</span></div>
+                <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Toppers<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-brand-navy text-white">
+                        <th className="px-4 py-3 text-left">Term</th>
+                        <th className="px-4 py-3 text-left">Topper</th>
+                        <th className="px-4 py-3 text-left">SGPI</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {toppers.map((item) => (
+                        <tr key={item.term} className="border-t border-slate-100">
+                          <td className="px-4 py-3 text-slate-700 whitespace-nowrap">{item.term}</td>
+                          <td className="px-4 py-3 text-slate-700">{item.topper}</td>
+                          <td className="px-4 py-3 text-slate-700 whitespace-nowrap">{item.score}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            );
+          })()}
+
+          {/* ════ ANNUAL REPORTS ═════════════════════════════════ */}
+          {activeId === 'annual-reports' && (() => {
+            const links = [
+              { label: 'Annual Report 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/First_Year_Engg._Annual_Report_23-24.pdf' },
+              { label: 'Annual Report 2022-23', url: 'https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fvcet.edu.in%2Fwp-content%2Fuploads%2F2024%2F04%2FAnnual_Report_22-23.docx&wdOrigin=BROWSELINK' },
+              { label: 'Annual Report 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2025/02/Annual_Report_21-22.pdf' },
+            ];
+            return (
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering</span></div>
+                <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Annual Reports<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <div className="space-y-3">
+                  {links.map((item) => (
+                    <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                      <span>{item.label}</span><i className="ph ph-arrow-up-right text-brand-gold" />
+                    </a>
+                  ))}
+                </div>
+              </section>
+            );
+          })()}
+
           {/* ════ OTHER SECTIONS (placeholder) ════════════════════ */}
-          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && (
+          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'mou' && activeId !== 'patent' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'infrastructure' && activeId !== 'time-table' && activeId !== 'teaching-learning' && activeId !== 'induction' && activeId !== 'annual-reports' && activeId !== 'toppers' && activeId !== 'syllabus' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
                 <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-brand-navy`} />
