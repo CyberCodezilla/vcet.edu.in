@@ -19,7 +19,7 @@ const EventsList: React.FC = () => {
 
   const handleExport = () => {
     let exportItems = [];
-    try { exportItems = filteredItems; } catch(e) { try { exportItems = items; } catch(e) {} }
+    try { exportItems = filteredAndSorted; } catch(e) { try { exportItems = events; } catch(e) {} }
     if (!exportItems || exportItems.length === 0) {
       alert('No data to export');
       return;

@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Search, ChevronDown, ChevronRight } from 'lucide-react';
 
+const CAREER_AT_VCET_PDF_URL =
+  'https://drive.google.com/file/d/1grwZ4_QIjC23c4HHFCM4xPJuFywsWtgw/view?usp=sharing';
+
 /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    TYPE DEFINITIONS
 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -302,7 +305,7 @@ const keywordMap: Record<string, string[]> = {
   '/health-facilities':    ['health', 'medical', 'doctor', 'first aid'],
   '/differently-abled':    ['differently abled', 'disability', 'accessible', 'divyang'],
   '/career-at-vcet':       ['career', 'jobs', 'recruitment', 'vacancies', 'work at vcet'],
-  '/students-council':     ['student council', 'student body'],
+  [CAREER_AT_VCET_PDF_URL]: ['career', 'jobs', 'recruitment', 'vacancies', 'work at vcet'],
   '/cultural-committee':   ['cultural', 'fest', 'events', 'annual day'],
   '/sports-committee':     ['sports committee', 'games'],
   '/literati':             ['literati', 'magazine', 'literary'],
@@ -342,7 +345,7 @@ const keywordMap: Record<string, string[]> = {
 
 /** Homepage section entries */
 const homepageSections: SearchEntry[] = [
-                    { label: 'Exam',                 href: '/exam' },
+                    { label: 'Exam',                 href: '/exam', category: 'Academics', keywords: ['exam', 'results'] },
   { label: 'Placements Overview', href: '/#placements', category: 'Homepage', keywords: ['placement graph', 'placement stats', 'highest package'] },
   { label: 'Recruiters', href: '/#recruiters', category: 'Homepage', keywords: ['recruiters', 'companies', 'hiring partners'] },
   { label: 'Gallery', href: '/#gallery', category: 'Homepage', keywords: ['gallery', 'photos', 'campus photos'] },
