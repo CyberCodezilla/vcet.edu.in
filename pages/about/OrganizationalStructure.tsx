@@ -80,7 +80,7 @@ const OrganizationalStructure: React.FC = () => {
       <PageBanner
         title="Organizational Structure"
         breadcrumbs={[
-          { label: 'About Us', href: '/about-us' },
+
           { label: 'Organizational Structure' },
         ]}
       />

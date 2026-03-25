@@ -32,7 +32,7 @@ export default function GoverningCouncil() {
           title="The Governing Council"
           subtitle="A distinguished assembly of educators, industrialists, and visionaries dedicated to shaping the future of our academic community."
           breadcrumbs={[
-            { label: 'About Us', href: '/about-us' },
+
             { label: 'Governing Council' },
           ]}
         />

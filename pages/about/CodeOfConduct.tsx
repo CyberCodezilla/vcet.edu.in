@@ -105,7 +105,7 @@ const CodeOfConduct: React.FC = () => {
       <PageBanner
         title="Code of Conduct"
         breadcrumbs={[
-          { label: 'About Us', href: '/about-us' },
+
           { label: 'Code of Conduct' },
         ]}
       />

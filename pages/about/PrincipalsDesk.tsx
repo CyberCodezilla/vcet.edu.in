@@ -16,7 +16,7 @@ const PrincipalsDesk: React.FC = () => {
       <PageBanner
         title="Principal's Desk"
         breadcrumbs={[
-          { label: 'About Us', href: '/about-us' },
+
           { label: "Principal's Desk" },
         ]}
       />
