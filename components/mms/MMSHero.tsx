@@ -6,7 +6,7 @@ const heroImages = [...MMS_HERO_IMAGES];
 export default function MMSHero() {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const activeImage = useMemo(() => heroImages[activeIndex] || '', [activeIndex]);
+  const activeImage = useMemo(() => heroImages[activeIndex] || null, [activeIndex]);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -18,15 +18,17 @@ export default function MMSHero() {
 
   return (
     <section className="relative h-[360px] overflow-hidden rounded-xl border border-slate-200 bg-slate-100 sm:h-[420px]">
-      <img
-        src={activeImage}
-        alt="MMS campus highlights"
-        className="h-full w-full object-cover"
-        onError={(e) => {
-          const target = e.currentTarget;
-          target.style.display = 'none';
-        }}
-      />
+      {activeImage ? (
+        <img
+          src={activeImage}
+          alt="MMS campus highlights"
+          className="h-full w-full object-cover"
+          onError={(e) => {
+            const target = e.currentTarget;
+            target.style.display = 'none';
+          }}
+        />
+      ) : null}
       <div className="absolute inset-0 bg-gradient-to-r from-slate-900/65 to-slate-700/35" />
       <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
         <p className="text-xs font-semibold uppercase tracking-[0.2em]">Vidyavardhini&apos;s College</p>

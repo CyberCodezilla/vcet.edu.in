@@ -270,6 +270,10 @@ const NoticesList: React.FC = () => {
               <tbody className="divide-y divide-slate-100 bg-white">
                 {paginatedNotices.map((n) => {
                   const expired = isExpired(n);
+                  const noticePdfUrl = (() => {
+                    const candidate = n.admin_pdf_url ?? n.pdf_url;
+                    return candidate && candidate.trim() ? candidate : null;
+                  })();
                   let statusRender;
                   if (expired) {
                     statusRender = <span className="inline-flex px-2.5 py-1 rounded-full text-[10px] font-bold bg-orange-50 text-orange-600 border border-orange-100 uppercase tracking-wide">Expired</span>;
@@ -284,9 +288,9 @@ const NoticesList: React.FC = () => {
                       <td className="px-6 py-4">
                         <div className="flex flex-col gap-1.5 max-w-[280px]">
                           <span className="text-slate-900 font-bold truncate block">{n.title}</span>
-                          {(n as any).attachment ? (
+                          {noticePdfUrl ? (
                             <button 
-                              onClick={() => { setPreviewTitle(n.title); setPreviewPdfUrl((n as any).attachment); }}
+                              onClick={() => { setPreviewTitle(n.title); setPreviewPdfUrl(noticePdfUrl); }}
                               className="self-start inline-flex items-center gap-1.5 text-xs font-semibold text-[#2563EB] hover:text-blue-800 transition-colors bg-blue-50 px-2 py-1 rounded-md"
                             >
                               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>

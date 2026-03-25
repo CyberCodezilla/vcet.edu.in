@@ -84,7 +84,7 @@ function ParallaxRow({ items, baseVelocity, onImageClick }: ParallaxRowProps) {
         {doubled.map((a, i) => (
           <div
             key={`${a.id}-${i}`}
-            className="group relative flex-shrink-0 w-[260px] sm:w-[280px] md:w-[340px] h-[195px] sm:h-[210px] md:h-[250px] rounded-2xl overflow-hidden shadow-md cursor-pointer"
+            className="group relative flex-shrink-0 w-[220px] sm:w-[280px] md:w-[340px] h-[170px] sm:h-[210px] md:h-[250px] rounded-2xl overflow-hidden shadow-md cursor-pointer"
             onClick={() => onImageClick(a)}
           >
             {/* Photo */}
@@ -136,7 +136,7 @@ const Achievements: React.FC = () => {
   return (
     <section id="achievements" className="py-10 md:py-14 bg-brand-light relative overflow-hidden">
       {/* Decorative blob */}
-      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-brand-blue/[0.03] rounded-full -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] md:w-[400px] md:h-[400px] bg-brand-blue/[0.03] rounded-full -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 mb-12">
         {/* Section header */}

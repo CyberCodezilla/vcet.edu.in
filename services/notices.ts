@@ -1,4 +1,7 @@
-import { get, resolveApiUrl } from './api';
+import { get } from './api';
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
+import { MOCK_NOTICES, readMockCollection } from '../admin/api/mockStore';
+import { USE_PUBLIC_MOCK, sortByCreatedAtDesc, unwrapListResponse } from './publicData';
 
 export interface NoticeRecord {
   id: number;
@@ -21,7 +24,7 @@ export interface NoticeRecord {
 function normalizeNotice(notice: NoticeRecord): NoticeRecord {
   return {
     ...notice,
-    pdf_url: resolveApiUrl(notice.pdf_url),
+    pdf_url: resolveUploadedAssetUrl(notice.pdf_url),
   };
 }
 
@@ -37,7 +40,10 @@ function isNoticeVisible(notice: NoticeRecord): boolean {
 
 export const noticesService = {
   list: async () => {
-    const notices = await get<NoticeRecord[]>('/notices');
-    return notices.map(normalizeNotice).filter(isNoticeVisible);
+    const notices = USE_PUBLIC_MOCK
+      ? readMockCollection<NoticeRecord>('vcet_mock_notices', MOCK_NOTICES as NoticeRecord[])
+      : unwrapListResponse<NoticeRecord>(await get<unknown>('/notices'));
+
+    return sortByCreatedAtDesc(notices.map(normalizeNotice).filter(isNoticeVisible));
   },
 };

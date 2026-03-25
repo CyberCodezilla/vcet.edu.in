@@ -1,6 +1,7 @@
-import { client, resolveApiUrl } from './client';
+import { client } from './client';
 import type { ListResponse, ItemResponse, DeleteResponse, Event, EventPayload } from '../types';
 import { createMockCrud, MOCK_EVENTS } from './mockStore';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const USE_MOCK = import.meta.env.DEV && import.meta.env.VITE_MOCK_AUTH === 'true';
 const mock = USE_MOCK ? createMockCrud<Event>(MOCK_EVENTS, 'vcet_mock_events') : null;
@@ -29,8 +30,8 @@ function normalizeEvent(event: Event): Event {
 
   return {
     ...event,
-    image: resolveApiUrl(raw.image ?? raw.admin_image_url ?? raw.image_url ?? raw.poster ?? raw.poster_url),
-    attachment: resolveApiUrl(
+    image: resolveUploadedAssetUrl(raw.image ?? raw.admin_image_url ?? raw.image_url ?? raw.poster ?? raw.poster_url),
+    attachment: resolveUploadedAssetUrl(
       raw.attachment ??
       raw.attachment_url ??
       raw.pdf_url ??
@@ -108,14 +109,19 @@ export const eventsApi = {
 
   create: USE_MOCK
     ? (payload: EventPayload) => mock!.create(payload as unknown as Partial<Event>)
-    : (payload: EventPayload) => client.requestForm<ItemResponse<Event>>('/events', toFormData(payload)),
+    : (payload: EventPayload) =>
+        client
+          .requestForm<ItemResponse<Event>>('/events', toFormData(payload))
+          .then((response) => ({ ...response, data: normalizeEvent(response.data) })),
 
   update: USE_MOCK
     ? (id: number, payload: EventPayload) => mock!.update(id, payload as unknown as Partial<Event>)
     : (id: number, payload: EventPayload) => {
         const form = toFormData(payload);
         form.append('_method', 'PUT');
-        return client.requestForm<ItemResponse<Event>>(`/events/${id}`, form);
+        return client
+          .requestForm<ItemResponse<Event>>(`/events/${id}`, form)
+          .then((response) => ({ ...response, data: normalizeEvent(response.data) }));
       },
 
   delete: USE_MOCK

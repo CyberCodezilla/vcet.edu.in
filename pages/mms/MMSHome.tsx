@@ -60,12 +60,16 @@ export default function MMSHome() {
           </div>
 
           <div className="overflow-hidden rounded-2xl border border-brand-blue/15 bg-white shadow-[0_20px_45px_-30px_rgba(13,45,86,0.45)]">
-            <img
-              src={activeHeroSlide.imageUrl}
-              alt="MMS campus hero"
-              className="block h-auto w-full"
-              referrerPolicy="no-referrer"
-            />
+            {activeHeroSlide.imageUrl ? (
+              <img
+                src={activeHeroSlide.imageUrl}
+                alt="MMS campus hero"
+                className="block h-auto w-full"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <Holder label="MMS Hero Banner" />
+            )}
 
             <div className="flex flex-wrap items-center justify-between gap-3 border-t border-brand-blue/10 bg-white px-4 py-3 sm:px-6">
               <div className="flex items-center gap-2">
@@ -123,7 +127,7 @@ export default function MMSHome() {
           <div className="overflow-hidden rounded-xl border border-white/25 bg-white/5">
             {(admissionSection?.items?.[0]?.imageUrl as string) ? (
               <img
-                src={(admissionSection?.items?.[0]?.imageUrl as string) || ''}
+                src={admissionSection?.items?.[0]?.imageUrl as string}
                 alt="MMS Admission Banner"
                 className="block h-auto w-full"
                 referrerPolicy="no-referrer"

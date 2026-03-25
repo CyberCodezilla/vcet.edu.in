@@ -1,6 +1,7 @@
-import { client, resolveApiUrl } from './client';
+import { client } from './client';
 import type { ListResponse, ItemResponse, DeleteResponse, Notice, NoticePayload } from '../types';
 import { createMockCrud, MOCK_NOTICES } from './mockStore';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const USE_MOCK = import.meta.env.DEV && import.meta.env.VITE_MOCK_AUTH === 'true';
 const mock = USE_MOCK ? createMockCrud<Notice>(MOCK_NOTICES, 'vcet_mock_notices') : null;
@@ -38,8 +39,8 @@ function asListResponse(payload: NoticePaginatorResponse): ListResponse<Notice> 
 function normalizeNotice(notice: Notice): Notice {
   return {
     ...notice,
-    pdf_url: resolveApiUrl(notice.pdf_url),
-    admin_pdf_url: resolveApiUrl(notice.admin_pdf_url),
+    pdf_url: resolveUploadedAssetUrl(notice.pdf_url),
+    admin_pdf_url: resolveUploadedAssetUrl(notice.admin_pdf_url),
   };
 }
 

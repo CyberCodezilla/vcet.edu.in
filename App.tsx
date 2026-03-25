@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, Suspense } from 'react';
+wdimport React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import { PageTitleUpdater } from './components/PageTitleUpdater';
@@ -229,6 +229,11 @@ const PlacementPartnersList = lazy(() => import('./admin/pages/placement-partner
 const PlacementPartnersForm = lazy(() => import('./admin/pages/placement-partners/PlacementPartnersForm'));
 const EnquiriesList = lazy(() => import('./admin/pages/enquiries/EnquiriesList'));
 const SitePages = lazy(() => import('./admin/pages/pages/SitePages'));
+const FacultyList = lazy(() => import('./admin/pages/faculty/FacultyList'));
+const FacultyForm = lazy(() => import('./admin/pages/faculty/FacultyForm'));
+const DepartmentLanding = lazy(() => import('./admin/pages/departments/DepartmentLanding'));
+const DepartmentList = lazy(() => import('./admin/pages/departments/DepartmentList'));
+const DepartmentForm = lazy(() => import('./admin/pages/departments/DepartmentForm'));
 
 /* ── Loading Spinner ── */
 const PageLoader = () => (
@@ -268,7 +273,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="home-page min-h-screen font-sans bg-white text-slate-800">
       <SplashScreen />
-      <div className="sticky top-0 z-[100] md:contents">
+      <div className="relative z-[100]">
         <TopBanner />
         <Header />
       </div>
@@ -536,6 +541,13 @@ function App() {
             <Route path="placement-partners/:id/edit" element={<PlacementPartnersForm />} />
             <Route path="enquiries" element={<EnquiriesList />} />
             <Route path="pages" element={<Navigate to="home" replace />} />
+            <Route path="pages/departments" element={<DepartmentLanding />} />
+            <Route path="pages/departments/list" element={<DepartmentList />} />
+            <Route path="pages/departments/list/create" element={<DepartmentForm />} />
+            <Route path="pages/departments/list/:slug/edit" element={<DepartmentForm />} />
+            <Route path="pages/faculty" element={<FacultyList />} />
+            <Route path="pages/faculty/create" element={<FacultyForm />} />
+            <Route path="pages/faculty/:id/edit" element={<FacultyForm />} />
             <Route path="pages/:pageKey" element={<SitePages />} />
           </Route>
         </Routes>

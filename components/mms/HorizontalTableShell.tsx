@@ -4,12 +4,14 @@ type HorizontalTableShellProps = {
   children: React.ReactNode;
   storageKey: string;
   scrollerClassName?: string;
+  showEdgeFades?: boolean;
 };
 
 export default function HorizontalTableShell({
   children,
   storageKey,
   scrollerClassName = '',
+  showEdgeFades = true,
 }: HorizontalTableShellProps) {
   const [showHint, setShowHint] = useState(false);
 
@@ -35,7 +37,7 @@ export default function HorizontalTableShell({
   return (
     <div className="relative">
       <div
-        className={`overflow-x-auto [scrollbar-gutter:stable_both-edges] snap-x snap-proximity lg:snap-none ${scrollerClassName}`}
+        className={`overflow-x-auto snap-x snap-proximity lg:snap-none ${scrollerClassName}`}
         onPointerDown={dismissHint}
         onTouchStart={dismissHint}
         onWheel={dismissHint}
@@ -44,8 +46,12 @@ export default function HorizontalTableShell({
         {children}
       </div>
 
-      <div aria-hidden className="pointer-events-none absolute bottom-[1px] left-[1px] top-[1px] w-8 bg-gradient-to-r from-white via-white/90 to-transparent lg:hidden" />
-      <div aria-hidden className="pointer-events-none absolute bottom-[1px] right-[1px] top-[1px] w-8 bg-gradient-to-l from-white via-white/90 to-transparent lg:hidden" />
+      {showEdgeFades ? (
+        <>
+          <div aria-hidden className="pointer-events-none absolute bottom-[1px] left-[1px] top-[1px] w-8 bg-gradient-to-r from-white via-white/90 to-transparent lg:hidden" />
+          <div aria-hidden className="pointer-events-none absolute bottom-[1px] right-[1px] top-[1px] w-8 bg-gradient-to-l from-white via-white/90 to-transparent lg:hidden" />
+        </>
+      ) : null}
 
       {showHint ? (
         <div className="pointer-events-none absolute inset-x-0 bottom-2 z-30 flex justify-center px-2 lg:hidden">

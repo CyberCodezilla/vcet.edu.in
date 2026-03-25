@@ -417,7 +417,7 @@ export const ProfileHighlight: React.FC<ProfileHighlightProps> = ({
 }) => {
   return (
     <div className="reveal overflow-hidden rounded-[28px] border border-brand-blue/10 bg-white shadow-[0_20px_50px_-30px_rgba(5,43,104,0.35)]">
-      <div className="grid grid-cols-1 md:grid-cols-[280px_1fr]">
+      <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr]">
         <div className="bg-brand-light">
           {hideImage ? (
             <ImagePlaceholder

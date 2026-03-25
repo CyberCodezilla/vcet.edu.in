@@ -85,6 +85,12 @@ const menuGroups: MenuGroup[] = [
     ],
   },
 
+  // MMS (MBA)
+  {
+    label: 'MMS (MBA)',
+    href: '/mms',
+  },
+
   // 4. ACADEMICS
   {
     label: 'Academics',
@@ -838,7 +844,7 @@ const Header: React.FC = () => {
           </Link>
 
           {/* â”€â”€â”€â”€ Desktop Nav â”€â”€â”€â”€ */}
-          <nav className="hidden md:flex items-center flex-1 min-w-0 overflow-x-auto no-scrollbar" aria-label="Main navigation">
+          <nav className="hidden lg:flex items-center flex-1 min-w-0 overflow-x-auto no-scrollbar" aria-label="Main navigation">
             <ul className="flex items-center gap-0.5 lg:gap-1 xl:gap-1.5">
               {menuGroups.map((group, idx) => (
                 <li key={group.label} className="relative flex-shrink-0">
@@ -882,7 +888,7 @@ const Header: React.FC = () => {
           </nav>
 
           {/* Right actions â€” search */}
-          <div className="hidden md:flex items-center gap-1 flex-shrink-0">
+          <div className="hidden lg:flex items-center gap-1 flex-shrink-0">
             <button
               onClick={() => setSearchOpen(true)}
               className="p-2 rounded-lg bg-brand-gold text-blue hover:bg-brand-gold-light transition-all duration-200"
@@ -893,7 +899,7 @@ const Header: React.FC = () => {
           </div>
 
           {/* Mobile controls */}
-          <div className="md:hidden flex items-center gap-1 ml-auto text-slate-700">
+          <div className="lg:hidden flex items-center gap-1 ml-auto text-slate-700">
             <button
               onClick={() => setSearchOpen(true)}
               className="p-2 rounded-lg bg-brand-gold text-blue hover:bg-brand-gold-light transition-all"
@@ -941,11 +947,11 @@ const Header: React.FC = () => {
 
       {/* â”€â”€â”€â”€â”€â”€â”€â”€ MOBILE FULL-SCREEN MENU â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div
-        className={`fixed inset-0 bg-brand-dark/98 backdrop-blur-lg text-white z-[9999] flex flex-col transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] md:hidden ${
+        className={`fixed inset-0 bg-brand-dark/98 backdrop-blur-lg text-white z-[9999] flex flex-col transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] lg:hidden ${
           mobileOpen
             ? 'opacity-100 visible translate-x-0'
             : 'opacity-0 invisible translate-x-full pointer-events-none'
-        }`}
+          }`}
       >
         {/* Mobile top bar */}
         <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 flex-shrink-0">
@@ -979,17 +985,7 @@ const Header: React.FC = () => {
                         }`}
                       />
                     </button>
-                    <div
-                      className="overflow-hidden transition-all duration-400 ease-in-out"
-                      style={{
-                        maxHeight:
-                          mobileExpanded === group.label
-                            ? `${group.dropdown.length * 60 + 30}px`
-                            : '0px',
-                        opacity: mobileExpanded === group.label ? 1 : 0,
-                        transition: 'max-height 0.4s ease-in-out, opacity 0.3s ease-in-out',
-                      }}
-                    >
+                    {mobileExpanded === group.label ? (
                       <div className="pl-3 pr-1 pt-1 pb-3 rounded-b-lg space-y-0.5 mb-1 bg-white/3">
                         {group.dropdown.map((item) => (
                           <MobileAccordionItem
@@ -999,7 +995,7 @@ const Header: React.FC = () => {
                           />
                         ))}
                       </div>
-                    </div>
+                    ) : null}
                   </>
                 ) : group.href?.startsWith('/') ? (
                   <Link

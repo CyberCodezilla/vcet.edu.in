@@ -61,9 +61,9 @@ const Footer: React.FC = () => {
                     href={item.href} 
                     target={item.external ? '_blank' : undefined}
                     rel={item.external ? 'noopener noreferrer' : undefined}
-                    className="text-white/40 text-[13px] hover:text-white hover:pl-1 transition-all duration-300 flex items-center gap-1.5"
+                    className="text-white/40 text-[13px] hover:text-white hover:pl-1 transition-all duration-300 flex items-start gap-1.5 min-w-0"
                   >
-                    {item.label}
+                    <span className="break-words leading-snug">{item.label}</span>
                     {item.external && <ExternalLink className="w-3 h-3 opacity-40" />}
                   </a>
                 </li>

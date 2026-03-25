@@ -1,6 +1,7 @@
-import { client, resolveApiUrl } from './client';
+import { client } from './client';
 import type { ListResponse, ItemResponse, DeleteResponse, Placement, PlacementPayload } from '../types';
 import { createMockCrud, MOCK_PLACEMENTS } from './mockStore';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const USE_MOCK = import.meta.env.DEV && import.meta.env.VITE_MOCK_AUTH === 'true';
 const mock = USE_MOCK ? createMockCrud<Placement>(MOCK_PLACEMENTS, 'vcet_mock_placements') : null;
@@ -16,7 +17,7 @@ interface PlacementPaginatorResponse {
 function normalizePlacement(p: Placement): Placement {
   return {
     ...p,
-    logo: resolveApiUrl(p.logo),
+    logo: resolveUploadedAssetUrl(p.logo),
   };
 }
 
@@ -86,15 +87,34 @@ export const placementsApi = {
       },
 
   create: USE_MOCK
-    ? (payload: PlacementPayload) => mock!.create(payload as unknown as Partial<Placement>)
-    : (payload: PlacementPayload) => client.requestForm<ItemResponse<Placement>>('/placements', toFormData(payload)),
+    ? async (payload: PlacementPayload) => {
+        const response = await mock!.create(payload as unknown as Partial<Placement>);
+        return {
+          ...response,
+          data: normalizePlacement(response.data),
+        } as ItemResponse<Placement>;
+      }
+    : (payload: PlacementPayload) =>
+        client.requestForm<ItemResponse<Placement>>('/placements', toFormData(payload)).then((response) => ({
+          ...response,
+          data: normalizePlacement(response.data),
+        })),
 
   update: USE_MOCK
-    ? (id: number, payload: PlacementPayload) => mock!.update(id, payload as unknown as Partial<Placement>)
+    ? async (id: number, payload: PlacementPayload) => {
+        const response = await mock!.update(id, payload as unknown as Partial<Placement>);
+        return {
+          ...response,
+          data: normalizePlacement(response.data),
+        } as ItemResponse<Placement>;
+      }
     : (id: number, payload: PlacementPayload) => {
         const form = toFormData(payload);
         form.append('_method', 'PUT');
-        return client.requestForm<ItemResponse<Placement>>(`/placements/${id}`, form);
+        return client.requestForm<ItemResponse<Placement>>(`/placements/${id}`, form).then((response) => ({
+          ...response,
+          data: normalizePlacement(response.data),
+        }));
       },
 
   delete: USE_MOCK

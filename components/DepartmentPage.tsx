@@ -42,12 +42,13 @@ const DepartmentPage: React.FC<DepartmentPageProps> = ({ dept }) => {
 
             {/* Tab Navigation */}
             <div className="reveal mb-10 -mt-4">
-              <div className="flex flex-wrap gap-1 bg-brand-light rounded-xl p-1.5">
+              <div className="overflow-x-auto no-scrollbar">
+                <div className="inline-flex min-w-max gap-1 bg-brand-light rounded-xl p-1.5">
                 {dept.tabs.map((tab, idx) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(idx)}
-                    className={`px-4 py-2.5 text-xs font-semibold rounded-lg transition-all duration-300 ${
+                    className={`px-4 py-2.5 text-xs font-semibold rounded-lg whitespace-nowrap transition-all duration-300 ${
                       activeTab === idx
                         ? 'bg-brand-blue text-white shadow-md'
                         : 'text-slate-500 hover:text-brand-blue hover:bg-white'
@@ -56,6 +57,7 @@ const DepartmentPage: React.FC<DepartmentPageProps> = ({ dept }) => {
                     {tab}
                   </button>
                 ))}
+                </div>
               </div>
             </div>
 

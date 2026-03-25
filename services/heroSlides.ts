@@ -1,4 +1,7 @@
-import { get, resolveApiUrl } from './api';
+import { get } from './api';
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
+import { MOCK_HERO_SLIDES, readMockCollection } from '../admin/api/mockStore';
+import { USE_PUBLIC_MOCK, sortBySortOrder, unwrapListResponse } from './publicData';
 
 export interface HeroSlideRecord {
   id: number;
@@ -19,14 +22,17 @@ export interface HeroSlideRecord {
 function normalizeSlide(slide: HeroSlideRecord): HeroSlideRecord {
   return {
     ...slide,
-    image_url: resolveApiUrl(slide.image_url),
+    image_url: resolveUploadedAssetUrl(slide.image_url),
   };
 }
 
 export const heroSlidesService = {
   list: async () => {
-    const res = await get<{ data: HeroSlideRecord[] }>('/hero-slides?active=1');
-    return (res.data || []).map(normalizeSlide);
+    const slides = USE_PUBLIC_MOCK
+      ? readMockCollection<HeroSlideRecord>('vcet_mock_heroslides', MOCK_HERO_SLIDES as HeroSlideRecord[])
+      : unwrapListResponse<HeroSlideRecord>(await get<unknown>('/hero-slides?active=1'));
+
+    return sortBySortOrder(slides.filter((slide) => slide.is_active).map(normalizeSlide));
   },
 };
 
