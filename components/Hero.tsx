@@ -332,6 +332,7 @@ const fallbackBannerSlides = [
 
 const Hero: React.FC = () => {
   const [panelOpen, setPanelOpen] = useState(false);
+  const [mobileAdmissionOpen, setMobileAdmissionOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"notices" | "events">("notices");
   const [cardOpen, setCardOpen] = useState(true);
   const [packagesOpen, setPackagesOpen] = useState(false);
@@ -362,7 +363,7 @@ const Hero: React.FC = () => {
   return (
     <section
       id="home"
-      className="relative min-h-[100dvh] md:h-screen w-full flex items-center overflow-hidden bg-brand-dark text-white -mt-14 pt-14 md:-mt-16 md:pt-16"
+      className="relative min-h-[82dvh] lg:min-h-[100dvh] lg:h-screen w-full flex items-center overflow-hidden bg-brand-dark text-white -mt-14 pt-14 md:-mt-16 md:pt-16"
     >
       {/* ── Static Background ──────────────────────────────────────────── */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -405,9 +406,36 @@ const Hero: React.FC = () => {
       </div>
 
       <div className="relative z-10 h-full w-full flex items-center justify-start px-3 sm:px-6 md:px-10 lg:px-12">
+        {/* Mobile hero content */}
+        <div className="lg:hidden w-full pt-8 pb-8">
+          <div className="max-w-[95%] rounded-2xl border border-white/20 bg-black/35 backdrop-blur-sm px-4 py-4 shadow-2xl">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-brand-gold font-bold">Admissions 2026-27</p>
+            <h2 className="mt-1 text-xl font-extrabold leading-tight text-white">
+              Build Your Engineering Future at VCET
+            </h2>
+            <p className="mt-2 text-xs leading-relaxed text-white/80">
+              Explore programs, campus life, and placement support. Open the admission form when you are ready.
+            </p>
+            <div className="mt-3 flex gap-2">
+              <button
+                onClick={() => setMobileAdmissionOpen(true)}
+                className="flex-1 rounded-xl bg-brand-gold text-brand-dark text-xs font-extrabold uppercase tracking-wider py-2.5"
+              >
+                Apply Now
+              </button>
+              <a
+                href="/mms"
+                className="flex-1 rounded-xl border border-white/30 bg-white/10 text-white text-xs font-bold uppercase tracking-wider py-2.5 text-center"
+              >
+                Explore MMS
+              </a>
+            </div>
+          </div>
+        </div>
+
         {/* Outer wrapper — allows the toggle button to escape overflow-hidden */}
         <div
-          className="relative transition-all duration-500 ease-in-out"
+          className="hidden lg:block relative transition-all duration-500 ease-in-out"
           style={{
             transform: cardOpen ? "translateX(0)" : "translateX(-120%)",
             opacity: cardOpen ? 1 : 0,
@@ -726,7 +754,7 @@ const Hero: React.FC = () => {
       {/* ENQUIRE NOW — vertical tab on left edge */}
       <button
         onClick={() => setCardOpen(o => !o)}
-        className="hidden md:flex absolute left-0 top-[44%] -translate-y-1/2 z-20 flex-col items-center justify-center gap-1 py-4 px-2 shadow-2xl transition-all duration-200 hover:brightness-110 active:scale-95"
+        className="hidden lg:flex absolute left-0 top-[44%] -translate-y-1/2 z-20 flex-col items-center justify-center gap-1 py-4 px-2 shadow-2xl transition-all duration-200 hover:brightness-110 active:scale-95"
         style={{
           background: "rgba(11, 61, 145, 0.45)",
           backdropFilter: "blur(16px)",
@@ -750,7 +778,7 @@ const Hero: React.FC = () => {
       {/* PACKAGES — vertical tab below ENQUIRE NOW */}
       <button
         onClick={() => { setPackagesOpen(true); setPackageIndex(0); setPkgZoom(1); }}
-        className="hidden md:flex absolute left-0 z-20 flex-col items-center justify-center gap-1 py-4 px-2 shadow-2xl transition-all duration-200 hover:brightness-110 active:scale-95"
+        className="hidden lg:flex absolute left-0 z-20 flex-col items-center justify-center gap-1 py-4 px-2 shadow-2xl transition-all duration-200 hover:brightness-110 active:scale-95"
         style={{
           background: 'rgba(196, 149, 53, 0.55)',
           backdropFilter: 'blur(16px)',
@@ -846,6 +874,30 @@ const Hero: React.FC = () => {
               {packageImages[packageIndex].label} — {packageIndex + 1} /{" "}
               {packageImages.length}
             </p>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile admission drawer */}
+      {mobileAdmissionOpen && (
+        <div className="lg:hidden fixed inset-0 z-[9997] bg-black/70 backdrop-blur-sm" onClick={() => setMobileAdmissionOpen(false)}>
+          <div
+            className="absolute left-0 right-0 bottom-0 max-h-[76dvh] rounded-t-2xl border-t border-white/20 bg-[#0f1e38] shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+              <h3 className="text-sm font-extrabold uppercase tracking-wider text-white">Admission Enquiry</h3>
+              <button
+                onClick={() => setMobileAdmissionOpen(false)}
+                className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center"
+                aria-label="Close admission form"
+              >
+                <X className="w-4 h-4 text-white" />
+              </button>
+            </div>
+            <div className="px-4 py-3 overflow-y-auto max-h-[calc(76dvh-56px)]">
+              <AdmissionForm />
+            </div>
           </div>
         </div>
       )}

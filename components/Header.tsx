@@ -947,7 +947,7 @@ const Header: React.FC = () => {
 
       {/* â”€â”€â”€â”€â”€â”€â”€â”€ MOBILE FULL-SCREEN MENU â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div
-        className={`fixed inset-0 bg-brand-dark/98 backdrop-blur-lg text-white z-[9999] flex flex-col transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] md:hidden ${
+        className={`fixed inset-0 bg-brand-dark/98 backdrop-blur-lg text-white z-[9999] flex flex-col transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] lg:hidden ${
           mobileOpen
             ? 'opacity-100 visible translate-x-0'
             : 'opacity-0 invisible translate-x-full pointer-events-none'
@@ -985,17 +985,7 @@ const Header: React.FC = () => {
                         }`}
                       />
                     </button>
-                    <div
-                      className="overflow-hidden transition-all duration-400 ease-in-out"
-                      style={{
-                        maxHeight:
-                          mobileExpanded === group.label
-                            ? `${group.dropdown.length * 60 + 30}px`
-                            : '0px',
-                        opacity: mobileExpanded === group.label ? 1 : 0,
-                        transition: 'max-height 0.4s ease-in-out, opacity 0.3s ease-in-out',
-                      }}
-                    >
+                    {mobileExpanded === group.label ? (
                       <div className="pl-3 pr-1 pt-1 pb-3 rounded-b-lg space-y-0.5 mb-1 bg-white/3">
                         {group.dropdown.map((item) => (
                           <MobileAccordionItem
@@ -1005,7 +995,7 @@ const Header: React.FC = () => {
                           />
                         ))}
                       </div>
-                    </div>
+                    ) : null}
                   </>
                 ) : group.href?.startsWith('/') ? (
                   <Link

@@ -31,7 +31,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden font-sans bg-white text-slate-800">
-      <div className="sticky top-0 z-[100] lg:contents">
+      <div className="relative z-[100]">
         <TopBanner />
         <Header />
       </div>

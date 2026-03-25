@@ -20,26 +20,38 @@ const TopBanner: React.FC = () => {
       <div className="h-1 bg-gradient-to-r from-brand-blue via-brand-gold to-brand-blue"></div>
 
       {/* ── Compact row — visible up to tablet ── */}
-      <div className="flex lg:hidden items-center gap-3 px-3 sm:px-4 py-3">
-        <img
-          src="/Images/VCET%20logo.jpeg"
-          alt="VCET Logo"
-          className="w-10 h-10 object-contain rounded-sm flex-shrink-0"
-          onError={(e) => {
-            (e.target as HTMLImageElement).style.display = "none";
-          }}
-        />
-        <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-extrabold uppercase tracking-tight text-brand-blue leading-tight truncate">
-            Vidyavardhini's College of Engg &amp; Tech
-          </p>
-          <p className="text-[10px] text-slate-500 mt-0.5">
-            Vasai Road &bull; Estd. 1994
-          </p>
+      <div className="lg:hidden px-3 sm:px-4 py-3.5">
+        <div className="flex items-start gap-3">
+          <img
+            src="/Images/VCET%20logo.jpeg"
+            alt="VCET Logo"
+            className="w-11 h-11 object-contain rounded-sm flex-shrink-0"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = "none";
+            }}
+          />
+          <div className="flex-1 min-w-0">
+            <p className="text-[12px] font-extrabold uppercase tracking-tight text-brand-blue leading-tight">
+              Vidyavardhini&apos;s College of Engineering &amp; Technology
+            </p>
+            <p className="text-[10px] text-slate-500 mt-1 leading-snug">
+              Vasai Road • Autonomous Institute, University of Mumbai
+            </p>
+          </div>
         </div>
-        <span className="flex-shrink-0 inline-flex items-center gap-1 bg-brand-gold/15 border border-brand-gold/30 text-brand-navy px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
-          NAAC
-        </span>
+        <div className="mt-2.5 flex items-center justify-between gap-2">
+          <span className="inline-flex items-center gap-1 bg-brand-gold/15 border border-brand-gold/30 text-brand-navy px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
+            NAAC Accredited
+          </span>
+          <img
+            src="/Images/LOGO/NBA%20logo.webp"
+            alt="NBA Accredited"
+            className="h-8 w-auto object-contain flex-shrink-0"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = "none";
+            }}
+          />
+        </div>
       </div>
 
       {/* ── Desktop full row (lg+) ── */}
