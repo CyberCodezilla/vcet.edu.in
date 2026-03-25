@@ -8,7 +8,7 @@ interface Testimonial {
   name: string;
   position: string;
   company: string;
-  image: string;
+  image: string | null;
 }
 
 const testimonials: Testimonial[] = [
@@ -56,7 +56,7 @@ const Testimonials: React.FC = () => {
     name: t.name,
     position: t.role || '',
     company: '', // Backend doesn't have company distinct from role yet
-    image: t.photo || ''
+    image: t.photo || null
   })) : testimonials;
   return (
     <section id="testimonials" className="py-10 md:py-16 bg-brand-light relative overflow-hidden">
@@ -95,15 +95,21 @@ const Testimonials: React.FC = () => {
               {/* Author */}
               <div className="flex items-center gap-4 pt-5 border-t border-gray-100">
                 <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-brand-gold/20 flex-shrink-0 group-hover:ring-brand-gold transition-all duration-500">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Ccircle cx="50" cy="50" r="50" fill="%231B3A5C"/%3E%3Ctext fill="%23D4A843" font-family="Inter" font-size="36" x="50%25" y="55%25" text-anchor="middle" dominant-baseline="middle"%3E?%3C/text%3E%3C/svg%3E';
-                    }}
-                  />
+                  {testimonial.image ? (
+                    <img
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Ccircle cx="50" cy="50" r="50" fill="%231B3A5C"/%3E%3Ctext fill="%23D4A843" font-family="Inter" font-size="36" x="50%25" y="55%25" text-anchor="middle" dominant-baseline="middle"%3E?%3C/text%3E%3C/svg%3E';
+                      }}
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-brand-navy text-brand-gold text-lg font-bold">
+                      ?
+                    </div>
+                  )}
                 </div>
                 <div>
                   <h4 className="font-bold text-brand-navy text-sm group-hover:text-brand-blue transition-colors">

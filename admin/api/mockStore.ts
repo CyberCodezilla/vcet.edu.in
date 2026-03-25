@@ -41,28 +41,54 @@ const hydrateDataUrl = (dataUrl: string | null): string | null => {
   }
 };
 
+function hydrateStoredValue<T>(value: T): T {
+  if (typeof value === 'string') {
+    return hydrateDataUrl(value) as T;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((entry) => hydrateStoredValue(entry)) as T;
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>).map(([key, entry]) => [
+        key,
+        hydrateStoredValue(entry),
+      ]),
+    ) as T;
+  }
+
+  return value;
+}
+
+export function readMockCollection<T>(storageKey: string, seed: T[]): T[] {
+  if (typeof localStorage === 'undefined') {
+    return seed.map((item) => hydrateStoredValue(item));
+  }
+
+  try {
+    const stored = localStorage.getItem(storageKey);
+    if (stored) {
+      const parsed = JSON.parse(stored) as T[];
+      return Array.isArray(parsed)
+        ? parsed.map((item) => hydrateStoredValue(item))
+        : seed.map((item) => hydrateStoredValue(item));
+    }
+  } catch (e) {
+    console.error(`Failed to parse ${storageKey} from localStorage`, e);
+  }
+
+  return seed.map((item) => hydrateStoredValue(item));
+}
+
 // ── Generic CRUD factory ─────────────────────────────────────────────────────
 export function createMockCrud<T extends { id: number }>(seed: T[], storageKey: string) {
-  const initStore = () => {
-    try {
-      const stored = localStorage.getItem(storageKey);
-      if (stored) {
-        const parsed = JSON.parse(stored) as T[];
-        // Hydrate attachments/images back to object URLs so iframe viewers don't break CSP
-        return parsed.map((item: any) => {
-          if (item.attachment) item.attachment = hydrateDataUrl(item.attachment);
-          if (item.image) item.image = hydrateDataUrl(item.image);
-          return item;
-        });
-      }
-    } catch (e) {
-      console.error(`Failed to parse ${storageKey} from localStorage`, e);
-    }
-    // Seed arrays might also have base64 or mock URLs, but let's just return seed
-    return [...seed];
-  };
+  let store = readMockCollection(storageKey, seed);
 
-  let store = initStore();
+  const syncFromStorage = () => {
+    store = readMockCollection(storageKey, seed);
+  };
 
   const persist = () => {
     try {
@@ -75,11 +101,13 @@ export function createMockCrud<T extends { id: number }>(seed: T[], storageKey: 
   return {
     list: async (): Promise<ListResponse<T>> => {
       await delay();
+      syncFromStorage();
       return { success: true, data: [...store] };
     },
 
     get: async (id: number): Promise<ItemResponse<T>> => {
       await delay();
+      syncFromStorage();
       const item = store.find((i) => i.id === id);
       if (!item) throw new Error(`Item ${id} not found`);
       return { success: true, data: { ...item } };
@@ -87,6 +115,7 @@ export function createMockCrud<T extends { id: number }>(seed: T[], storageKey: 
 
     create: async (payload: Partial<T>): Promise<ItemResponse<T>> => {
       await delay(300);
+      syncFromStorage();
       
       // Handle mock file uploads by generating local object URLs
       const processedPayload = { ...payload } as Record<string, any>;
@@ -115,6 +144,7 @@ export function createMockCrud<T extends { id: number }>(seed: T[], storageKey: 
 
     update: async (id: number, payload: Partial<T>): Promise<ItemResponse<T>> => {
       await delay(300);
+      syncFromStorage();
       const idx = store.findIndex((i) => i.id === id);
       if (idx === -1) throw new Error(`Item ${id} not found`);
 
@@ -139,6 +169,7 @@ export function createMockCrud<T extends { id: number }>(seed: T[], storageKey: 
 
     delete: async (id: number): Promise<DeleteResponse> => {
       await delay(200);
+      syncFromStorage();
       store = store.filter((i) => i.id !== id);
       persist();
       return { success: true, message: 'Deleted successfully' };
@@ -523,24 +554,11 @@ export const MOCK_FACULTY: Faculty[] = [
 
 // ── Gallery-specific CRUD (no "get" or "update", only upload + delete) ───────
 export function createGalleryCrud(seed: GalleryImage[], storageKey: string = 'vcet_mock_gallery') {
-  const initStore = () => {
-    try {
-      const stored = localStorage.getItem(storageKey);
-      if (stored) {
-        const parsed = JSON.parse(stored) as GalleryImage[];
-        return parsed.map((item) => {
-          if (item.image) item.image = hydrateDataUrl(item.image) || item.image;
-          return item;
-        });
-      }
-    } catch (e) {
-      console.error(`Failed to parse ${storageKey} from localStorage`, e);
-    }
-    // Seed arrays might also have base64 or mock URLs, but let's just return seed
-    return [...seed];
-  };
+  let store = readMockCollection(storageKey, seed);
 
-  let store = initStore();
+  const syncFromStorage = () => {
+    store = readMockCollection(storageKey, seed);
+  };
 
   const persist = () => {
     try {
@@ -553,10 +571,12 @@ export function createGalleryCrud(seed: GalleryImage[], storageKey: string = 'vc
   return {
     list: async (): Promise<ListResponse<GalleryImage>> => {
       await delay();
+      syncFromStorage();
       return { success: true, data: [...store] };
     },
     upload: async (payload: { image: File; caption?: string }): Promise<{ data: GalleryImage; message: string }> => {
       await delay(400);
+      syncFromStorage();
       const base64Image = await fileToDataUrl(payload.image);
       const item: GalleryImage = {
         id: nextId(),
@@ -572,6 +592,7 @@ export function createGalleryCrud(seed: GalleryImage[], storageKey: string = 'vc
     },
     delete: async (id: number): Promise<DeleteResponse> => {
       await delay(200);
+      syncFromStorage();
       store = store.filter((i) => i.id !== id);
       persist();
       return { success: true, message: 'Deleted successfully' };

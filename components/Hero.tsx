@@ -348,8 +348,8 @@ const Hero: React.FC = () => {
 
   // Format the API slides
   const apiFormattedSlides = apiSlides
-    .map((s) => ({ src: s.image_url || '', alt: s.title || 'Slide' }))
-    .filter((s) => s.src);
+    .filter((s) => Boolean(s.image_url))
+    .map((s) => ({ src: s.image_url as string, alt: s.title || 'Slide' }));
 
   // Combine API slides WITH the original fallback slides so both are shown and they keep animating
   const displaySlides = [...apiFormattedSlides, ...fallbackBannerSlides];
@@ -379,11 +379,13 @@ const Hero: React.FC = () => {
       <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 z-10 w-[40%] max-w-[560px] shadow-2xl rounded-lg overflow-hidden">
         <div className="relative w-full">
           {/* Spacer image to set natural aspect ratio */}
-          <img
-            src={displaySlides[0]?.src}
-            alt=""
-            className="w-full h-auto block opacity-0 pointer-events-none"
-          />
+          {displaySlides[0]?.src ? (
+            <img
+              src={displaySlides[0].src}
+              alt=""
+              className="w-full h-auto block opacity-0 pointer-events-none"
+            />
+          ) : null}
           {displaySlides.map((slide, i) => (
             <img
               key={slide.src}

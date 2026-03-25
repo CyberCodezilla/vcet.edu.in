@@ -42,23 +42,23 @@ export default function MMSFeesStructure() {
   return (
     <MMSLayout title="Fees Structure">
       <div className="space-y-6">
-        <section className="overflow-hidden border border-[#2c4f7c] bg-white shadow-[0_14px_34px_-24px_rgba(11,61,145,0.5)]">
-          <div className="px-3 py-3 sm:px-4 sm:py-4 md:px-5">
-            <HorizontalTableShell storageKey="mms-table-hint-fees" scrollerClassName="border border-[#2c4f7c]/35 bg-white">
-              <table className="w-full min-w-[760px] snap-start border-collapse">
+        <section className="overflow-hidden rounded-none border border-[#21466f]/20 bg-gradient-to-b from-[#f8fbff] to-white shadow-[0_16px_34px_-24px_rgba(11,61,145,0.45)]">
+          <div>
+            <HorizontalTableShell storageKey="mms-table-hint-fees" scrollerClassName="rounded-none border border-[#2c4f7c]/55 bg-white [scrollbar-gutter:auto]" showEdgeFades={false}>
+              <table className="w-full min-w-full table-auto border-collapse text-slate-900">
               <thead>
                 <tr className="text-left text-white">
-                  <th className="sticky top-0 z-20 w-[130px] border border-[#263f63] bg-[#315682] px-3 py-3 text-xl font-semibold uppercase">SR. NO.</th>
-                  <th className="sticky top-0 z-20 border border-[#263f63] bg-[#315682] px-3 py-3 text-xl font-semibold uppercase">CATEGORY</th>
-                  <th className="sticky top-0 z-20 w-[260px] border border-[#263f63] bg-[#315682] px-3 py-3 text-xl font-semibold uppercase">COLLEGE FEES</th>
+                  <th className="sticky top-0 z-20 w-[12%] border border-[#25466f] bg-[#2f5887] px-4 py-3 text-center text-sm font-semibold uppercase tracking-[0.05em] sm:text-base">SR. NO.</th>
+                  <th className="sticky top-0 z-20 border border-[#25466f] bg-[#2f5887] px-4 py-3 text-sm font-semibold uppercase tracking-[0.05em] sm:text-base">CATEGORY</th>
+                  <th className="sticky top-0 z-20 w-[26%] border border-[#25466f] bg-[#2f5887] px-4 py-3 text-center text-sm font-semibold uppercase tracking-[0.05em] sm:text-base">COLLEGE FEES</th>
                 </tr>
               </thead>
               <tbody>
                 {feeRows.map((row) => (
-                  <tr key={row.srNo} className="bg-white text-slate-900">
-                    <td className="border border-slate-700/70 px-3 py-3 text-[33px] leading-none sm:text-[36px]">{row.srNo}</td>
-                    <td className="border border-slate-700/70 px-3 py-3 text-[30px] leading-tight sm:text-[34px]">{row.category}</td>
-                    <td className="border border-slate-700/70 px-3 py-3 text-[31px] leading-none sm:text-[35px]">{row.collegeFees}</td>
+                  <tr key={row.srNo} className="bg-white align-middle odd:bg-white even:bg-slate-50/35">
+                    <td className="border border-slate-400/75 px-4 py-4 text-center text-[21px] font-semibold leading-none sm:text-[22px]">{row.srNo}</td>
+                    <td className="border border-slate-400/75 px-4 py-4 text-[18px] font-medium leading-snug sm:text-[20px]">{row.category}</td>
+                    <td className="border border-slate-400/75 px-4 py-4 text-center text-[20px] font-semibold leading-none sm:text-[21px]">{row.collegeFees}</td>
                   </tr>
                 ))}
               </tbody>
