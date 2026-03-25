@@ -71,7 +71,7 @@ const DeptAIDS: React.FC = () => {
 
         {/* Sticky Sidebar */}
         <aside className="w-full lg:w-72 xl:w-80 flex-shrink-0">
-          <div className="sticky top-24 bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 max-h-[calc(100vh-7rem)] overflow-y-auto">
+          <div className="lg:sticky lg:top-24 bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
             <nav className="flex flex-col py-2">
               {sidebarLinks.map((link) => {
                 const isActive = activeId === link.id;

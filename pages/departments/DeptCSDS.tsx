@@ -66,7 +66,7 @@ const DeptCSDS: React.FC = () => {
 
         {/* Sticky Sidebar */}
         <aside className="w-full lg:w-1/4 flex-shrink-0">
-          <div className="sticky top-28 bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
+          <div className="lg:sticky lg:top-28 bg-white rounded-xl shadow-md overflow-hidden border border-slate-200">
             <nav className="flex flex-col py-2">
               {sidebarLinks.map((link) => {
                 const isActive = activeId === link.id;

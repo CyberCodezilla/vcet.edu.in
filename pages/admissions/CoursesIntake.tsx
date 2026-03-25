@@ -171,7 +171,7 @@ const CoursesIntake: React.FC = () => {
               {(activeTab === 'all' || activeTab === 'ug') && (
                 <section>
                   <div className="flex items-center gap-4 mb-6">
-                    <h4 className="text-2xl font-black text-[#1e4e85] uppercase tracking-tight whitespace-nowrap">Under Graduate Program</h4>
+                    <h4 className="text-2xl font-black text-[#1e4e85] uppercase tracking-tight">Under Graduate Program</h4>
                     <div className="h-px bg-slate-200 flex-1"></div>
                   </div>
                   <CourseTable courses={ugCourses} startIndex={1} />
@@ -181,7 +181,7 @@ const CoursesIntake: React.FC = () => {
               {(activeTab === 'all' || activeTab === 'pg') && (
                 <section>
                   <div className="flex items-center gap-4 mb-6">
-                    <h4 className="text-2xl font-black text-[#1e4e85] uppercase tracking-tight whitespace-nowrap">Post Graduate Program</h4>
+                    <h4 className="text-2xl font-black text-[#1e4e85] uppercase tracking-tight">Post Graduate Program</h4>
                     <div className="h-px bg-slate-200 flex-1"></div>
                   </div>
                   <CourseTable courses={pgCourses} startIndex={ugCourses.length + 1} />
@@ -191,7 +191,7 @@ const CoursesIntake: React.FC = () => {
               {(activeTab === 'all' || activeTab === 'mgmt') && (
                 <section>
                   <div className="flex items-center gap-4 mb-6">
-                    <h4 className="text-2xl font-black text-[#1e4e85] uppercase tracking-tight whitespace-nowrap">Management Program</h4>
+                    <h4 className="text-2xl font-black text-[#1e4e85] uppercase tracking-tight">Management Program</h4>
                     <div className="h-px bg-slate-200 flex-1"></div>
                   </div>
                   <CourseTable courses={mgmtCourses} startIndex={ugCourses.length + pgCourses.length + 1} />

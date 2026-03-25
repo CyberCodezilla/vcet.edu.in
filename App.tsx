@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, Suspense } from 'react';
+wdimport React, { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import { PageTitleUpdater } from './components/PageTitleUpdater';
@@ -262,7 +262,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="home-page min-h-screen font-sans bg-white text-slate-800">
       <SplashScreen />
-      <div className="sticky top-0 z-[100] md:contents">
+      <div className="relative z-[100]">
         <TopBanner />
         <Header />
       </div>
