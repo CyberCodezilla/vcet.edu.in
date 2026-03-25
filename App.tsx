@@ -193,6 +193,17 @@ const MMSFacilitiesClassroom = lazy(() => import('./pages/mms/facilities/MMSFaci
 const MMSFacilitiesGymkhana = lazy(() => import('./pages/mms/facilities/MMSFacilitiesGymkhana'));
 const MMSFAQs = lazy(() => import('./pages/mms/faqs/MMSFAQs'));
 
+// pages/academics/exam
+const ExamDashboard = lazy(() => import('./pages/academics/exam/ExamDashboard'));
+const ExamAbout = lazy(() => import('./pages/academics/exam/ExamAbout'));
+const ExamSyllabus = lazy(() => import('./pages/academics/exam/ExamSyllabus'));
+const ExamTimetable = lazy(() => import('./pages/academics/exam/ExamTimetable'));
+const ExamQuestionPaper = lazy(() => import('./pages/academics/exam/ExamQuestionPaper'));
+const ExamSamplePapers = lazy(() => import('./pages/academics/exam/ExamSamplePapers'));
+const ExamResults = lazy(() => import('./pages/academics/exam/ExamResults'));
+const ExamVerification = lazy(() => import('./pages/academics/exam/ExamVerification'));
+const ExamNotices = lazy(() => import('./pages/academics/exam/ExamNotices'));
+
 /* ── Admin Panel Pages (lazy) ── */
 const AdminLogin = lazy(() => import('./admin/pages/Login'));
 const AdminDashboard = lazy(() => import('./admin/pages/Dashboard'));
@@ -405,7 +416,16 @@ function App() {
             <Route path="/placement" element={<Placement />} />
             <Route path="/e-cell" element={<ECell />} />
             <Route path="/iiic" element={<IIIC />} />
-            <Route path="/exam" element={<ExamCell />} />
+            {/* Exam Section */}
+            <Route path="/exam" element={<ExamDashboard />} />
+            <Route path="/exam/about" element={<ExamAbout />} />
+            <Route path="/exam/syllabus" element={<ExamSyllabus />} />
+            <Route path="/exam/timetable" element={<ExamTimetable />} />
+            <Route path="/exam/question-paper" element={<ExamQuestionPaper />} />
+            <Route path="/exam/sample-papers" element={<ExamSamplePapers />} />
+            <Route path="/exam/results" element={<ExamResults />} />
+            <Route path="/exam/verification" element={<ExamVerification />} />
+            <Route path="/exam/notices" element={<ExamNotices />} />
             <Route path="/exam-cell" element={<Navigate to="/exam" replace />} />
             <Route path="/helpline-for-divyangjan" element={<HelplineForDivyangjan />} />
 
