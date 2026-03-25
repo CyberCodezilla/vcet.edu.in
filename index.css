@@ -68,3 +68,73 @@
 .home-page .cursor-default {
   cursor: default;
 }
+
+/* Global responsive hardening */
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+img,
+picture,
+video,
+canvas {
+  max-width: 100%;
+}
+
+/* Keep decorative wrappers from forcing horizontal scroll */
+.home-page section,
+.home-page main,
+.home-page header,
+.home-page footer {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .hero-mobile-pan {
+    object-position: 0% 50%;
+    animation: hero-pan-horizontal 14s ease-in-out infinite alternate;
+    will-change: object-position;
+  }
+
+  @keyframes hero-pan-horizontal {
+    0% {
+      object-position: 0% 50%;
+    }
+    100% {
+      object-position: 100% 50%;
+    }
+  }
+
+  .info-card-top {
+    padding: 0.65rem 1rem;
+  }
+
+  .info-card-body {
+    padding: 1.1rem 1rem 1.3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-mobile-pan {
+    animation: none;
+    object-position: 50% 50%;
+  }
+}
+
+@media (max-width: 767px) {
+  .ticker-track {
+    animation-duration: 42s;
+  }
+}

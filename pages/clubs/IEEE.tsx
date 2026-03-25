@@ -611,7 +611,6 @@ const IEEE: React.FC = () => {
         title="IEEE Student Branch"
         subtitle="Empowering students and nurturing essential professional skills through technological innovation and excellence."
         breadcrumbs={[
-          { label: 'Student & Career', href: '#' },
           { label: 'IEEE' },
         ]}
       />

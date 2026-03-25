@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-content-router-dom';
 import { testimonialsApi } from '../../api/testimonials';
 import type { TestimonialPayload } from '../../types';
+
+// Note: Link and useNavigate might be from react-router-dom, let me fix the import if needed.
+// Based on previous file, it was react-router-dom.
+import { useNavigate, useParams, Link } from 'react-router-dom';
 
 const TestimonialsForm: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -9,7 +13,6 @@ const TestimonialsForm: React.FC = () => {
   const isEdit = !!id;
 
   const [form, setForm] = useState<TestimonialPayload>({ name: '', role: '', text: '', rating: 5, is_active: true });
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(isEdit);
   const [error, setError] = useState('');
@@ -39,9 +42,8 @@ const TestimonialsForm: React.FC = () => {
     if (!form.text?.trim()) { setError('Quote text is required.'); return; }
     setSaving(true);
     try {
-      const payload: TestimonialPayload = { ...form, ...(photoFile ? { photo: photoFile } : {}) };
-      if (isEdit) await testimonialsApi.update(Number(id), payload);
-      else await testimonialsApi.create(payload);
+      if (isEdit) await testimonialsApi.update(Number(id), form);
+      else await testimonialsApi.create(form);
       navigate('/admin/testimonials');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Save failed');
@@ -153,32 +155,8 @@ const TestimonialsForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: Photo Upload & Actions */}
+        {/* Right Column: Actions */}
         <div className="space-y-6">
-          <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100">
-            <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1 block mb-4">Profile Photo</label>
-            <div className="relative group cursor-pointer">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setPhotoFile(e.target.files?.[0] ?? null)}
-                className="absolute inset-0 opacity-0 cursor-pointer z-10"
-              />
-              <div className="w-full aspect-square rounded-[2rem] bg-slate-50 border-4 border-dashed border-slate-100 flex flex-col items-center justify-center gap-3 group-hover:bg-slate-100 group-hover:border-slate-200 transition-all overflow-hidden">
-                {photoFile ? (
-                  <img src={URL.createObjectURL(photoFile)} alt="Preview" className="w-full h-full object-cover" />
-                ) : (
-                  <>
-                    <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                    </div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Update Photo</p>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-
           <div className="bg-slate-900 p-8 rounded-[2.5rem] shadow-2xl shadow-slate-900/20 text-white space-y-6">
             <h3 className="font-bold text-lg">Save Changes</h3>
             <p className="text-slate-400 text-xs leading-relaxed font-medium">Ensure all details are accurate before publishing the testimonial.</p>

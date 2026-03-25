@@ -9,7 +9,6 @@ const PlacementPartnersForm: React.FC = () => {
   const isEdit = !!id;
 
   const [form, setForm] = useState<PlacementPartnerPayload>({ name: '', website: '', is_active: true, sort_order: 0 });
-  const [logoFile, setLogoFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(isEdit);
   const [error, setError] = useState('');
@@ -37,9 +36,8 @@ const PlacementPartnersForm: React.FC = () => {
     if (!form.name.trim()) { setError('Company name is required.'); return; }
     setSaving(true);
     try {
-      const payload: PlacementPartnerPayload = { ...form, ...(logoFile ? { logo: logoFile } : {}) };
-      if (isEdit) await placementPartnersApi.update(Number(id), payload);
-      else await placementPartnersApi.create(payload);
+      if (isEdit) await placementPartnersApi.update(Number(id), form);
+      else await placementPartnersApi.create(form);
       navigate('/admin/placement-partners');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Save failed');
@@ -71,7 +69,7 @@ const PlacementPartnersForm: React.FC = () => {
             <h1 className="text-3xl font-black text-slate-900 tracking-tight mb-3">
               {isEdit ? 'Edit' : 'New'} <span className="text-[#1e293b]">Recruiter</span>
             </h1>
-            <p className="text-slate-400 text-sm">Fill in the company details and logo for display.</p>
+            <p className="text-slate-400 text-sm">Fill in the company details for display.</p>
           </div>
 
           {error && (
@@ -126,25 +124,6 @@ const PlacementPartnersForm: React.FC = () => {
                   </div>
                   <span className="text-xs font-black text-slate-600 uppercase tracking-widest group-hover:text-slate-900 transition-colors">Visible to Public</span>
                 </label>
-              </div>
-
-              <div className="md:col-span-2">
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Company Logo</label>
-                <div className="relative group">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setLogoFile(e.target.files?.[0] ?? null)}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                  />
-                  <div className="w-full bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl px-6 py-8 flex flex-col items-center justify-center gap-2 group-hover:border-[#1e293b] group-hover:bg-white transition-all">
-                    <svg className="w-8 h-8 text-slate-300 group-hover:text-[#1e293b] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-                    <p className="text-xs font-bold text-slate-500 group-hover:text-slate-800">
-                      {logoFile ? logoFile.name : 'Click to upload company logo'}
-                    </p>
-                    <p className="text-[10px] text-slate-400">PNG, JPG or SVG up to 5MB</p>
-                  </div>
-                </div>
               </div>
             </div>
 

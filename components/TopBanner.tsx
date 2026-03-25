@@ -19,31 +19,43 @@ const TopBanner: React.FC = () => {
       {/* Decorative top accent line */}
       <div className="h-1 bg-gradient-to-r from-brand-blue via-brand-gold to-brand-blue"></div>
 
-      {/* ── Mobile compact row — visible on mobile only ── */}
-      <div className="flex md:hidden items-center gap-3 px-4 py-3">
-        <img
-          src="/Images/VCET%20logo.jpeg"
-          alt="VCET Logo"
-          className="w-10 h-10 object-contain rounded-sm flex-shrink-0"
-          onError={(e) => {
-            (e.target as HTMLImageElement).style.display = "none";
-          }}
-        />
-        <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-extrabold uppercase tracking-tight text-brand-blue leading-tight truncate">
-            Vidyavardhini's College of Engg &amp; Tech
-          </p>
-          <p className="text-[10px] text-slate-500 mt-0.5">
-            Vasai Road &bull; Estd. 1994
-          </p>
+      {/* ── Compact row — visible up to tablet ── */}
+      <div className="lg:hidden px-3 sm:px-4 py-3.5">
+        <div className="flex items-start gap-3">
+          <img
+            src="/Images/VCET%20logo.jpeg"
+            alt="VCET Logo"
+            className="w-11 h-11 object-contain rounded-sm flex-shrink-0"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = "none";
+            }}
+          />
+          <div className="flex-1 min-w-0">
+            <p className="text-[12px] font-extrabold uppercase tracking-tight text-brand-blue leading-tight">
+              Vidyavardhini&apos;s College of Engineering &amp; Technology
+            </p>
+            <p className="text-[10px] text-slate-500 mt-1 leading-snug">
+              Vasai Road • Autonomous Institute, University of Mumbai
+            </p>
+          </div>
         </div>
-        <span className="flex-shrink-0 inline-flex items-center gap-1 bg-brand-gold/15 border border-brand-gold/30 text-brand-navy px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
-          NAAC
-        </span>
+        <div className="mt-2.5 flex items-center justify-between gap-2">
+          <span className="inline-flex items-center gap-1 bg-brand-gold/15 border border-brand-gold/30 text-brand-navy px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
+            NAAC Accredited
+          </span>
+          <img
+            src="/Images/LOGO/NBA%20logo.webp"
+            alt="NBA Accredited"
+            className="h-8 w-auto object-contain flex-shrink-0"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = "none";
+            }}
+          />
+        </div>
       </div>
 
-      {/* ── Desktop full row (md+) ── */}
-      <div className="hidden md:block">
+      {/* ── Desktop full row (lg+) ── */}
+      <div className="hidden lg:block">
         <div className="container mx-auto px-4 md:px-6 py-3 md:py-4">
           <div className="flex flex-row items-center gap-4">
             {/* Logo + College Name */}
@@ -161,11 +173,11 @@ const TopBanner: React.FC = () => {
 
       {/* Marquee Ticker */}
       <div className="border-t border-brand-blue/10 bg-brand-blue/[0.03]">
-        <div className="flex items-center h-8 overflow-hidden">
+        <div className="flex items-center h-9 sm:h-8 overflow-hidden">
           {/* Label */}
-          <div className="flex-shrink-0 flex items-center gap-1.5 px-3 bg-brand-gold h-full">
+          <div className="flex-shrink-0 flex items-center gap-1.5 px-2.5 sm:px-3 bg-brand-gold h-full">
             <Bell className="w-3 h-3 text-brand-blue" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-blue whitespace-nowrap">
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-blue whitespace-nowrap">
               Latest News
             </span>
           </div>
@@ -175,7 +187,7 @@ const TopBanner: React.FC = () => {
               {[...tickerItems, ...tickerItems].map((item, i) => (
                 <span
                   key={i}
-                  className="whitespace-nowrap flex items-center gap-2 text-[11px] text-brand-navy/70 font-medium px-8"
+                  className="whitespace-nowrap flex items-center gap-2 text-[10px] sm:text-[11px] text-brand-navy/70 font-medium px-5 sm:px-8"
                 >
                   <span>{item.text}</span>
                   {item.link && (

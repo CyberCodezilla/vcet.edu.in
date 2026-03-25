@@ -5,7 +5,7 @@
 
 import type {
   Notice, Event, Placement, HeroSlide, NewsTicker,
-  Achievement, Testimonial, GalleryImage, PlacementPartner, Enquiry,
+  Achievement, Testimonial, GalleryImage, PlacementPartner, Enquiry, Faculty, Department,
   ListResponse, ItemResponse, DeleteResponse,
 } from '../types';
 
@@ -41,28 +41,54 @@ const hydrateDataUrl = (dataUrl: string | null): string | null => {
   }
 };
 
+function hydrateStoredValue<T>(value: T): T {
+  if (typeof value === 'string') {
+    return hydrateDataUrl(value) as T;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((entry) => hydrateStoredValue(entry)) as T;
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>).map(([key, entry]) => [
+        key,
+        hydrateStoredValue(entry),
+      ]),
+    ) as T;
+  }
+
+  return value;
+}
+
+export function readMockCollection<T>(storageKey: string, seed: T[]): T[] {
+  if (typeof localStorage === 'undefined') {
+    return seed.map((item) => hydrateStoredValue(item));
+  }
+
+  try {
+    const stored = localStorage.getItem(storageKey);
+    if (stored) {
+      const parsed = JSON.parse(stored) as T[];
+      return Array.isArray(parsed)
+        ? parsed.map((item) => hydrateStoredValue(item))
+        : seed.map((item) => hydrateStoredValue(item));
+    }
+  } catch (e) {
+    console.error(`Failed to parse ${storageKey} from localStorage`, e);
+  }
+
+  return seed.map((item) => hydrateStoredValue(item));
+}
+
 // ── Generic CRUD factory ─────────────────────────────────────────────────────
 export function createMockCrud<T extends { id: number }>(seed: T[], storageKey: string) {
-  const initStore = () => {
-    try {
-      const stored = localStorage.getItem(storageKey);
-      if (stored) {
-        const parsed = JSON.parse(stored) as T[];
-        // Hydrate attachments/images back to object URLs so iframe viewers don't break CSP
-        return parsed.map((item: any) => {
-          if (item.attachment) item.attachment = hydrateDataUrl(item.attachment);
-          if (item.image) item.image = hydrateDataUrl(item.image);
-          return item;
-        });
-      }
-    } catch (e) {
-      console.error(`Failed to parse ${storageKey} from localStorage`, e);
-    }
-    // Seed arrays might also have base64 or mock URLs, but let's just return seed
-    return [...seed];
-  };
+  let store = readMockCollection(storageKey, seed);
 
-  let store = initStore();
+  const syncFromStorage = () => {
+    store = readMockCollection(storageKey, seed);
+  };
 
   const persist = () => {
     try {
@@ -75,11 +101,13 @@ export function createMockCrud<T extends { id: number }>(seed: T[], storageKey: 
   return {
     list: async (): Promise<ListResponse<T>> => {
       await delay();
+      syncFromStorage();
       return { success: true, data: [...store] };
     },
 
     get: async (id: number): Promise<ItemResponse<T>> => {
       await delay();
+      syncFromStorage();
       const item = store.find((i) => i.id === id);
       if (!item) throw new Error(`Item ${id} not found`);
       return { success: true, data: { ...item } };
@@ -87,6 +115,7 @@ export function createMockCrud<T extends { id: number }>(seed: T[], storageKey: 
 
     create: async (payload: Partial<T>): Promise<ItemResponse<T>> => {
       await delay(300);
+      syncFromStorage();
       
       // Handle mock file uploads by generating local object URLs
       const processedPayload = { ...payload } as Record<string, any>;
@@ -115,6 +144,7 @@ export function createMockCrud<T extends { id: number }>(seed: T[], storageKey: 
 
     update: async (id: number, payload: Partial<T>): Promise<ItemResponse<T>> => {
       await delay(300);
+      syncFromStorage();
       const idx = store.findIndex((i) => i.id === id);
       if (idx === -1) throw new Error(`Item ${id} not found`);
 
@@ -139,6 +169,7 @@ export function createMockCrud<T extends { id: number }>(seed: T[], storageKey: 
 
     delete: async (id: number): Promise<DeleteResponse> => {
       await delay(200);
+      syncFromStorage();
       store = store.filter((i) => i.id !== id);
       persist();
       return { success: true, message: 'Deleted successfully' };
@@ -448,26 +479,86 @@ export const MOCK_ENQUIRIES: Enquiry[] = [
   },
 ];
 
+export const MOCK_FACULTY: Faculty[] = [
+  {
+    id: 1, name: 'Dr. Sunita Mehta', department: 'Computer Engineering', page: 'Departments',
+    teachingExperience: 18, industryExperience: 4, papers: 32, books: 3, patents: 2,
+    dob: '1978-06-15', joinDate: '2006-07-01', email: 'sunita.mehta@vcet.edu.in',
+    qualification: 'Ph.D. Computer Science', specialization: 'Machine Learning & AI',
+    pgProjects: '12 M.Tech projects guided', researchDomain: 'Artificial Intelligence, Deep Learning',
+    consultancyProjects: 'Smart City Analytics for Mumbai Municipal Corp',
+    publications: { books: 'Machine Learning Fundamentals (Springer, 2022)', isbn: '978-3-030-12345-6', patents: 'AI-based Traffic Management System (IN202100345)', papers: '32 papers in IEEE, Elsevier, Springer' },
+    roles: 'Head of Department - Computer Engineering\nMember - Board of Studies\nConvener - Smart India Hackathon (College Level)',
+    awards: 'Best Researcher Award 2023 - University of Mumbai\nExcellence in Teaching - VCET 2021',
+    onlinePresence: { website: 'https://scholar.google.com/sunita-mehta', youtube: '', resources: 'https://vcet.edu.in/resources/cse' },
+    memberships: 'IEEE Senior Member\nACM Professional Member\nCSI Life Member',
+    is_active: true, created_at: '2024-01-10T10:00:00Z', updated_at: '2024-01-10T10:00:00Z',
+  },
+  {
+    id: 2, name: 'Prof. Rajesh Kulkarni', department: 'Information Technology', page: 'Departments',
+    teachingExperience: 12, industryExperience: 6, papers: 18, books: 1, patents: 0,
+    dob: '1984-03-22', joinDate: '2012-08-15', email: 'rajesh.kulkarni@vcet.edu.in',
+    qualification: 'M.Tech Information Technology', specialization: 'Cybersecurity & Network Systems',
+    pgProjects: '8 M.Tech projects guided', researchDomain: 'Network Security, Blockchain',
+    consultancyProjects: 'Cybersecurity Audit for State Bank of India',
+    publications: { books: 'Network Security Essentials (Pearson, 2023)', isbn: '978-0-13-456789-0', patents: '', papers: '18 papers in IEEE, ACM conferences' },
+    roles: 'Cybersecurity Lab In-charge\nNBA Coordinator\nExam Cell Member',
+    awards: 'Best Paper Award - IEEE ICCCNT 2022',
+    onlinePresence: { website: 'https://rajeshk.dev', youtube: 'https://youtube.com/@rajeshk-cybersec', resources: '' },
+    memberships: 'IEEE Member\nISCA Member',
+    is_active: true, created_at: '2024-02-15T10:00:00Z', updated_at: '2024-02-15T10:00:00Z',
+  },
+  {
+    id: 3, name: 'Dr. Priya Nair', department: 'Electronics & Telecommunication', page: 'Departments',
+    teachingExperience: 15, industryExperience: 3, papers: 25, books: 2, patents: 1,
+    dob: '1981-11-09', joinDate: '2009-06-20', email: 'priya.nair@vcet.edu.in',
+    qualification: 'Ph.D. Electronics Engineering', specialization: 'VLSI Design & Embedded Systems',
+    pgProjects: '10 M.Tech projects guided', researchDomain: 'VLSI, IoT, Embedded Systems',
+    consultancyProjects: 'IoT-based Water Quality Monitoring for MPCB',
+    publications: { books: 'VLSI Design Principles (McGraw Hill, 2021)', isbn: '978-1-259-12345-8', patents: 'Low-power IoT Sensor Module (IN202000567)', papers: '25 papers in Springer, Elsevier' },
+    roles: 'Associate Dean - Research\nIQAC Member\nWomen Development Cell Coordinator',
+    awards: 'Young Scientist Award 2020 - DST\nBest Faculty - VCET 2022',
+    onlinePresence: { website: 'https://scholar.google.com/priya-nair', youtube: '', resources: 'https://vcet.edu.in/resources/extc' },
+    memberships: 'IETE Fellow\nIEEE Member\nIISF Member',
+    is_active: true, created_at: '2024-01-05T10:00:00Z', updated_at: '2024-01-05T10:00:00Z',
+  },
+  {
+    id: 4, name: 'Prof. Amit Desai', department: 'Mechanical Engineering', page: 'Departments',
+    teachingExperience: 10, industryExperience: 8, papers: 12, books: 0, patents: 3,
+    dob: '1986-09-03', joinDate: '2014-07-10', email: 'amit.desai@vcet.edu.in',
+    qualification: 'M.E. Mechanical Engineering', specialization: 'Thermal Engineering & CFD',
+    pgProjects: '5 M.E. projects guided', researchDomain: 'Computational Fluid Dynamics, Renewable Energy',
+    consultancyProjects: 'Solar Panel Efficiency Study for Tata Power',
+    publications: { books: '', isbn: '', patents: 'Optimized Heat Exchanger Design (IN201900234)\nSolar Thermal Collector (IN202100678)\nWind Turbine Blade Design (IN202200890)', papers: '12 papers in ASME, Elsevier journals' },
+    roles: 'Workshop Superintendent\nIndustrial Visit Coordinator\nAnti-Ragging Committee Member',
+    awards: 'ISTE Best Teacher Award 2023',
+    onlinePresence: { website: '', youtube: 'https://youtube.com/@amitdesai-mech', resources: '' },
+    memberships: 'ISTE Life Member\nISHRAE Member\nSAE India Member',
+    is_active: true, created_at: '2024-03-20T10:00:00Z', updated_at: '2024-03-20T10:00:00Z',
+  },
+  {
+    id: 5, name: 'Dr. Kavita Sharma', department: 'AI & Data Science', page: 'Departments',
+    teachingExperience: 8, industryExperience: 5, papers: 22, books: 1, patents: 1,
+    dob: '1988-01-17', joinDate: '2018-01-05', email: 'kavita.sharma@vcet.edu.in',
+    qualification: 'Ph.D. Data Science', specialization: 'Natural Language Processing & Big Data',
+    pgProjects: '6 M.Tech projects guided', researchDomain: 'NLP, Big Data Analytics, Computer Vision',
+    consultancyProjects: 'Sentiment Analysis Engine for Flipkart',
+    publications: { books: 'Data Science with Python (O\'Reilly, 2023)', isbn: '978-1-492-12345-9', patents: 'NLP-based Chatbot Framework (IN202200123)', papers: '22 papers in ACL, NeurIPS, AAAI' },
+    roles: 'AI Lab Coordinator\nStartup Incubation Cell Mentor\nPlacement Coordinator - AIDS Dept',
+    awards: 'Google Research Award 2023\nBest Innovator - VCET 2024',
+    onlinePresence: { website: 'https://kavitasharma.ai', youtube: 'https://youtube.com/@kavita-ai', resources: 'https://github.com/kavita-sharma-ai' },
+    memberships: 'ACM Member\nIEEE Member\nIndia AI Council Member',
+    is_active: true, created_at: '2024-04-01T10:00:00Z', updated_at: '2024-04-01T10:00:00Z',
+  },
+];
+
 // ── Gallery-specific CRUD (no "get" or "update", only upload + delete) ───────
 export function createGalleryCrud(seed: GalleryImage[], storageKey: string = 'vcet_mock_gallery') {
-  const initStore = () => {
-    try {
-      const stored = localStorage.getItem(storageKey);
-      if (stored) {
-        const parsed = JSON.parse(stored) as GalleryImage[];
-        return parsed.map((item) => {
-          if (item.image) item.image = hydrateDataUrl(item.image) || item.image;
-          return item;
-        });
-      }
-    } catch (e) {
-      console.error(`Failed to parse ${storageKey} from localStorage`, e);
-    }
-    // Seed arrays might also have base64 or mock URLs, but let's just return seed
-    return [...seed];
-  };
+  let store = readMockCollection(storageKey, seed);
 
-  let store = initStore();
+  const syncFromStorage = () => {
+    store = readMockCollection(storageKey, seed);
+  };
 
   const persist = () => {
     try {
@@ -480,10 +571,12 @@ export function createGalleryCrud(seed: GalleryImage[], storageKey: string = 'vc
   return {
     list: async (): Promise<ListResponse<GalleryImage>> => {
       await delay();
+      syncFromStorage();
       return { success: true, data: [...store] };
     },
     upload: async (payload: { image: File; caption?: string }): Promise<{ data: GalleryImage; message: string }> => {
       await delay(400);
+      syncFromStorage();
       const base64Image = await fileToDataUrl(payload.image);
       const item: GalleryImage = {
         id: nextId(),
@@ -499,6 +592,7 @@ export function createGalleryCrud(seed: GalleryImage[], storageKey: string = 'vc
     },
     delete: async (id: number): Promise<DeleteResponse> => {
       await delay(200);
+      syncFromStorage();
       store = store.filter((i) => i.id !== id);
       persist();
       return { success: true, message: 'Deleted successfully' };
@@ -521,3 +615,46 @@ export function createEnquiriesCrud(seed: Enquiry[]) {
     },
   };
 }
+
+// ── Departments ────────────────────────────────────────────────────────────────
+export const MOCK_DEPARTMENTS: Department[] = [
+  {
+    id: 1,
+    name: 'Computer Engineering',
+    slug: 'computer-engineering',
+    is_active: true,
+    created_at: now(),
+    updated_at: now(),
+    content: {
+      about: 'The Department of Computer Engineering is committed to excellence in teaching, research, and innovation. We prepare students for leadership roles in the tech industry.',
+      vision: 'To be a center of excellence in Computer Engineering education and research, producing globally competent professionals.',
+      mission: [
+        'To provide high-quality education in computer engineering fundamentals and advanced technologies.',
+        'To foster a culture of research, innovation, and entrepreneurship among students and faculty.',
+        'To collaborate with industry and premier institutions for mutual growth and societal benefit.'
+      ],
+      dabMembers: [
+        { name: 'Dr. John Doe', designation: 'Professor', organization: 'IIT Bombay' },
+        { name: 'Mr. Jane Smith', designation: 'Senior Engineer', organization: 'TCS' }
+      ],
+      mou: 'We have active MoUs with top tech companies including Microsoft, AWS Academy, and Red Hat for student training and internships.',
+      patents: 'The department holds 5 granted patents and has filed over 20 patents in fields like AI, IoT, and Cybersecurity.',
+      pos: '1. Engineering Knowledge\n2. Problem Analysis\n3. Design/Development of Solutions',
+      peo: '1. Graduates will have successful careers in the software industry or pursue higher studies.',
+      pso: '1. Ability to apply standard software engineering practices and strategies in software project development.',
+      faculty: [1, 2], // IDs of 'Dr. Sunita Mehta' and 'Prof. Rahul Sharma' from MOCK_FACULTY
+      toppers: [
+        { name: 'Aarav Patel', year: '2023-24', cgpa: '9.8' },
+        { name: 'Riya Gupta', year: '2022-23', cgpa: '9.7' }
+      ],
+      syllabus: [
+        { year: 'FE', link: 'https://mum.digitaluniversity.ac/fe-syllabus' },
+        { year: 'SE', link: 'https://mum.digitaluniversity.ac/se-syllabus' }
+      ],
+      newsletter: [
+        { title: 'Jan 2024 Edition', link: 'https://vcet.edu.in/newsletter-2024.pdf' }
+      ],
+      timetable: ''
+    }
+  }
+];

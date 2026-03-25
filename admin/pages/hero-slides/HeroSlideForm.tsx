@@ -9,8 +9,6 @@ const HeroSlideForm: React.FC = () => {
   const isEdit = !!id;
 
   const [form, setForm] = useState<HeroSlidePayload>({ title: '', subtitle: '', button_text: '', button_link: '', sort_order: 0, is_active: true });
-  const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(isEdit);
   const [error, setError] = useState('');
@@ -22,7 +20,6 @@ const HeroSlideForm: React.FC = () => {
         if (!r.data) return;
         const s = r.data;
         setForm({ title: s.title, subtitle: s.subtitle ?? '', button_text: s.button_text ?? '', button_link: s.button_link ?? '', sort_order: s.sort_order, is_active: s.is_active });
-        if (s.image_url) setExistingImageUrl(s.image_url);
       })
       .catch((e: Error) => setError(e.message))
       .finally(() => setLoading(false));
@@ -40,9 +37,8 @@ const HeroSlideForm: React.FC = () => {
     if (!form.title?.trim()) { setError('Title is required.'); return; }
     setSaving(true);
     try {
-      const payload: HeroSlidePayload = { ...form, ...(imageFile ? { image: imageFile } : {}) };
-      if (isEdit) await heroSlidesApi.update(Number(id), payload);
-      else await heroSlidesApi.create(payload);
+      if (isEdit) await heroSlidesApi.update(Number(id), form);
+      else await heroSlidesApi.create(form);
       navigate('/admin/hero-slides');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Save failed');
@@ -164,34 +160,8 @@ const HeroSlideForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: Image Upload & Actions */}
+        {/* Right Column: Actions */}
         <div className="space-y-6">
-          <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100">
-            <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1 block mb-4">Background Image</label>
-            <div className="relative group cursor-pointer">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
-                className="absolute inset-0 opacity-0 cursor-pointer z-10"
-              />
-              <div className="w-full aspect-video rounded-[2rem] bg-slate-50 border-4 border-dashed border-slate-100 flex flex-col items-center justify-center gap-3 group-hover:bg-slate-100 group-hover:border-slate-200 transition-all overflow-hidden">
-                {imageFile ? (
-                  <img src={URL.createObjectURL(imageFile)} alt="Preview" className="w-full h-full object-cover" />
-                ) : existingImageUrl ? (
-                  <img src={existingImageUrl} alt="Preview" className="w-full h-full object-cover opacity-80" />
-                ) : (
-                  <>
-                    <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center text-slate-400 group-hover:scale-110 transition-transform">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                    </div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center px-4">Upload Banner Image</p>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-
           <div className="bg-slate-900 p-8 rounded-[2.5rem] shadow-2xl shadow-slate-900/20 text-white space-y-6">
             <h3 className="font-bold text-lg">Banner Settings</h3>
             <p className="text-slate-400 text-xs leading-relaxed font-medium">This slide will be displayed on the homepage hero section.</p>

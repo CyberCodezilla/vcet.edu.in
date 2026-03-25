@@ -8,7 +8,8 @@ interface PdfPreviewModalProps {
 }
 
 const PdfPreviewModal: React.FC<PdfPreviewModalProps> = ({ isOpen, onClose, pdfUrl, title = 'PDF Preview' }) => {
-  if (!isOpen || !pdfUrl) return null;
+  const safePdfUrl = pdfUrl?.trim() || null;
+  if (!isOpen || !safePdfUrl) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/50 backdrop-blur-sm">
@@ -31,7 +32,7 @@ const PdfPreviewModal: React.FC<PdfPreviewModalProps> = ({ isOpen, onClose, pdfU
           </div>
           <div className="flex items-center gap-3">
             <a
-              href={pdfUrl}
+              href={safePdfUrl}
               download
               target="_blank"
               rel="noopener noreferrer"
@@ -51,15 +52,15 @@ const PdfPreviewModal: React.FC<PdfPreviewModalProps> = ({ isOpen, onClose, pdfU
 
         {/* Content */}
         <div className="flex-1 bg-slate-100 p-2 sm:p-4 rounded-b-2xl overflow-hidden relative">
-          {pdfUrl.startsWith('data:') || pdfUrl.startsWith('blob:') ? (
+          {safePdfUrl.startsWith('data:') || safePdfUrl.startsWith('blob:') ? (
             <iframe
-              src={pdfUrl}
+              src={safePdfUrl}
               className="w-full h-full rounded-xl bg-white shadow-sm border border-slate-200"
               title={title}
             />
           ) : (
             <iframe
-              src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
+              src={`https://docs.google.com/viewer?url=${encodeURIComponent(safePdfUrl)}&embedded=true`}
               className="w-full h-full rounded-xl bg-white shadow-sm border border-slate-200"
               title={title}
             />

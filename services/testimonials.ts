@@ -1,4 +1,7 @@
 import { get } from './api';
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
+import { MOCK_TESTIMONIALS, readMockCollection } from '../admin/api/mockStore';
+import { USE_PUBLIC_MOCK, sortByCreatedAtDesc, unwrapListResponse } from './publicData';
 
 export interface TestimonialDTO {
   id: number;
@@ -18,8 +21,14 @@ interface TestimonialResponse {
 
 export const getTestimonials = async (): Promise<TestimonialDTO[]> => {
   try {
-    const response = await get<TestimonialResponse>('/testimonials?active=true');
-    return response.data || [];
+    const items = USE_PUBLIC_MOCK
+      ? readMockCollection<TestimonialDTO>('vcet_mock_testimonials', MOCK_TESTIMONIALS as TestimonialDTO[])
+      : unwrapListResponse<TestimonialDTO>(await get<unknown>('/testimonials?active=true'));
+
+    return sortByCreatedAtDesc(items.filter((testimonial) => testimonial.is_active)).map((testimonial) => ({
+      ...testimonial,
+      photo: resolveUploadedAssetUrl(testimonial.photo),
+    }));
   } catch (error) {
     console.error('Error fetching testimonials:', error);
     return [];

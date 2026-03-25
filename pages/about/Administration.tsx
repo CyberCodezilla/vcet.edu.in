@@ -34,7 +34,7 @@ const Administration: React.FC = () => {
       <PageBanner
         title="Administration"
         breadcrumbs={[
-          { label: 'About Us', href: '/about-us' },
+
           { label: 'Administration' },
         ]}
       />

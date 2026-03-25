@@ -14,7 +14,8 @@ const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
   imageUrl, 
   title = 'Event Poster' 
 }) => {
-  if (!isOpen || !imageUrl) return null;
+  const safeImageUrl = imageUrl?.trim() || null;
+  if (!isOpen || !safeImageUrl) return null;
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -42,7 +43,7 @@ const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         <img
-          src={imageUrl}
+          src={safeImageUrl}
           alt={title}
           className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
         />

@@ -1,68 +1,41 @@
 import React from 'react';
-import { Crown, Home, ChevronRight } from 'lucide-react';
+import { Crown, User } from 'lucide-react';
 import PageLayout from '../../components/PageLayout';
+import PageBanner from '../../components/PageBanner';
 
 const chairman = {
   id: 1,
   role: 'Chairman',
   name: 'Sri. Vikas Vartak',
   description: 'Chairman Vidyavardhini',
-  image: 'https://picsum.photos/seed/vikas/400/400',
 };
 
 const members = [
-  { id: 2,  role: 'Member',           name: 'Sri. M.N. alias Bhausaheb Mohol',         description: 'Industrialist',                                  image: 'https://picsum.photos/seed/mohol/400/400'  },
-  { id: 3,  role: 'Member',           name: 'Sri. Pandurang alias Babansheth Naik',    description: 'Educationist',                                   image: 'https://picsum.photos/seed/naik/400/400'   },
-  { id: 4,  role: 'Member',           name: 'Sri. Hasmukh Shah',                       description: 'Industrialist',                                  image: 'https://picsum.photos/seed/shah/400/400'   },
-  { id: 5,  role: 'Member',           name: 'Sri. Madhurkar B. Parekh',                description: 'Industrialist, Chairman of Pidilite Industries', image: 'https://picsum.photos/seed/parekh/400/400' },
-  { id: 6,  role: 'Member',           name: 'Director of Technical Education (M.S.)', description: 'Ex-Officio',                                     image: 'https://picsum.photos/seed/dte/400/400'    },
-  { id: 7,  role: 'Member',           name: 'Nominee of the University',              description: 'Ex-Officio',                                     image: 'https://picsum.photos/seed/uni/400/400'    },
-  { id: 8,  role: 'Member',           name: 'Director, WRO AICTE',                   description: 'Ex-Officio',                                     image: 'https://picsum.photos/seed/aicte/400/400'  },
-  { id: 9,  role: 'Member',           name: 'Educationalist / Industrialist',         description: 'Nominated by AICTE',                             image: 'https://picsum.photos/seed/edu/400/400'    },
-  { id: 10, role: 'Member Secretary', name: 'Dr. Rakesh Himte',                       description: 'Principal',                                      image: 'https://picsum.photos/seed/himte/400/400'  },
-  { id: 11, role: 'Member',           name: 'Dr. Uday Aswalekar',                     description: 'Staff Representative, Professor — Mechanical Engg.', image: 'https://picsum.photos/seed/aswalekar/400/400' },
-  { id: 12, role: 'Member',           name: 'Dr. Archana Ekbote',                     description: 'Staff Representative, Assistant Professor — IT',  image: 'https://picsum.photos/seed/ekbote/400/400' },
+  { id: 2,  role: 'Member',           name: 'Sri. M.N. alias Bhausaheb Mohol',         description: 'Industrialist' },
+  { id: 3,  role: 'Member',           name: 'Sri. Pandurang alias Babansheth Naik',    description: 'Educationist' },
+  { id: 4,  role: 'Member',           name: 'Sri. Hasmukh Shah',                       description: 'Industrialist' },
+  { id: 5,  role: 'Member',           name: 'Sri. Madhurkar B. Parekh',                description: 'Industrialist, Chairman of Pidilite Industries' },
+  { id: 6,  role: 'Member',           name: 'Director of Technical Education (M.S.)', description: 'Ex-Officio' },
+  { id: 7,  role: 'Member',           name: 'Nominee of the University',              description: 'Ex-Officio' },
+  { id: 8,  role: 'Member',           name: 'Director, WRO AICTE',                   description: 'Ex-Officio' },
+  { id: 9,  role: 'Member',           name: 'Educationalist / Industrialist',         description: 'Nominated by AICTE' },
+  { id: 10, role: 'Member Secretary', name: 'Dr. Rakesh Himte',                       description: 'Principal' },
+  { id: 11, role: 'Member',           name: 'Dr. Uday Aswalekar',                     description: 'Staff Representative, Professor - Mechanical Engg.' },
+  { id: 12, role: 'Member',           name: 'Dr. Archana Ekbote',                     description: 'Staff Representative, Assistant Professor - IT' },
 ];
 
 export default function GoverningCouncil() {
   return (
     <PageLayout>
       <div className="w-full bg-white min-h-screen font-sans">
+        <PageBanner
+          title="The Governing Council"
+          subtitle="A distinguished assembly of educators, industrialists, and visionaries dedicated to shaping the future of our academic community."
+          breadcrumbs={[
 
-        {/* Blue Hero Header */}
-        <div className="bg-[#1a4b7c] pt-4 pb-16 md:pb-24 px-6 md:px-12 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full translate-y-1/2 -translate-x-1/3 blur-3xl pointer-events-none" />
-
-          {/* Breadcrumb — top left */}
-          <div className="relative z-10 flex items-center text-sm text-blue-200/80 gap-2 font-medium mb-10">
-            <Home className="w-4 h-4" />
-            <ChevronRight className="w-4 h-4" />
-            <span className="hover:text-white cursor-pointer transition-colors">About Us</span>
-            <ChevronRight className="w-4 h-4" />
-            <span className="text-[#fdb813]">Governing Council</span>
-          </div>
-
-          <div className="max-w-5xl mx-auto text-left relative z-10">
-
-            {/* Eyebrow */}
-            <div className="flex items-center justify-start gap-3 mb-6">
-              <div className="w-12 h-px bg-[#fdb813]" />
-              <p className="font-sans text-xs tracking-[0.3em] text-[#fdb813] font-bold uppercase">
-                Leadership &amp; Governance
-              </p>
-              <div className="w-12 h-px bg-[#fdb813]" />
-            </div>
-
-            <h1 className="font-display text-5xl md:text-6xl text-white mb-6">
-              The Governing Council
-            </h1>
-            <p className="font-display text-lg text-blue-100 max-w-2xl leading-relaxed italic">
-              A distinguished assembly of educators, industrialists, and visionaries
-              dedicated to shaping the future of our academic community.
-            </p>
-          </div>
-        </div>
+            { label: 'Governing Council' },
+          ]}
+        />
 
         {/* Body */}
         <div className="max-w-5xl mx-auto px-6 md:px-12 py-16">
@@ -72,12 +45,8 @@ export default function GoverningCouncil() {
             <div className="flex flex-col md:flex-row items-center gap-8 bg-[#f8fafc] p-8 md:p-12 rounded-tr-[4rem] rounded-bl-[4rem] border border-gray-100 shadow-sm">
               {/* Photo with Crown badge */}
               <div className="relative shrink-0">
-                <div className="w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden border-4 border-[#fdb813] shadow-lg">
-                  <img
-                    src={chairman.image}
-                    alt={chairman.name}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden border-4 border-[#fdb813] shadow-lg bg-gray-200 flex items-center justify-center">
+                   <User className="w-20 h-20 text-gray-400" />
                 </div>
                 <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-[#1a4b7c] rounded-full flex items-center justify-center shadow-md border-2 border-white">
                   <Crown className="w-5 h-5 text-[#fdb813]" />
@@ -113,14 +82,9 @@ export default function GoverningCouncil() {
               <div className="flex flex-col gap-6">
                 {members.map((member) => (
                   <div key={member.id} className="flex items-center gap-5 group">
-                    {/* Serial number */}
                     {/* Circular photo */}
-                    <div className="w-24 h-24 shrink-0 rounded-full overflow-hidden border-2 border-transparent group-hover:border-[#fdb813] transition-all duration-300 shadow-sm">
-                      <img
-                        src={member.image}
-                        alt={member.name}
-                        className="w-full h-full object-cover"
-                      />
+                    <div className="w-24 h-24 shrink-0 rounded-full overflow-hidden border-2 border-transparent group-hover:border-[#fdb813] transition-all duration-300 shadow-sm bg-gray-200 flex items-center justify-center">
+                       <User className="w-10 h-10 text-gray-400" />
                     </div>
 
                     {/* Text */}

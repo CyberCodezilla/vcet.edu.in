@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { noticesService, type NoticeRecord } from '../services/notices';
 
+const REFRESH_INTERVAL_MS = 60_000;
+
 export function useNotices() {
   const [notices, setNotices] = useState<NoticeRecord[]>([]);
   const [loading, setLoading] = useState(true);
@@ -9,8 +11,8 @@ export function useNotices() {
   useEffect(() => {
     let cancelled = false;
 
-    const load = async () => {
-      setLoading(true);
+    const load = async (silent = false) => {
+      if (!silent) setLoading(true);
       setError(null);
 
       try {
@@ -19,14 +21,36 @@ export function useNotices() {
       } catch (err) {
         if (!cancelled) setError(err instanceof Error ? err.message : 'Unable to load notices');
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled && !silent) setLoading(false);
       }
     };
 
-    load();
+    void load();
+
+    const onFocus = () => {
+      void load(true);
+    };
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        void load(true);
+      }
+    };
+
+    const intervalId = window.setInterval(() => {
+      if (document.visibilityState !== 'hidden') {
+        void load(true);
+      }
+    }, REFRESH_INTERVAL_MS);
+
+    window.addEventListener('focus', onFocus);
+    document.addEventListener('visibilitychange', onVisibilityChange);
 
     return () => {
       cancelled = true;
+      window.clearInterval(intervalId);
+      window.removeEventListener('focus', onFocus);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
     };
   }, []);
 

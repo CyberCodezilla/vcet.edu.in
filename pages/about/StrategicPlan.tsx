@@ -48,7 +48,7 @@ const StrategicPlan: React.FC = () => {
       <PageBanner
         title="Strategic Plan"
         breadcrumbs={[
-          { label: 'About Us', href: '/about-us' },
+
           { label: 'Strategic Plan' },
         ]}
       />

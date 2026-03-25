@@ -140,7 +140,7 @@ const Scholarships: React.FC = () => {
               {/* SECTION: GOVERNMENT */}
               <div id="govt-section" className="mb-12 scroll-mt-10">
                 <div className="flex items-center gap-4 mb-8">
-                  <h2 className="text-2xl font-bold text-[#1e4e85] whitespace-nowrap">Government Scholarships</h2>
+                  <h2 className="text-2xl font-bold text-[#1e4e85]">Government Scholarships</h2>
                   <div className="h-px bg-slate-200 w-full"></div>
                 </div>
 
@@ -184,7 +184,7 @@ const Scholarships: React.FC = () => {
               {/* SECTION: AICTE */}
               <div id="aicte-section" className="scroll-mt-10">
                 <div className="flex items-center gap-4 mb-8">
-                  <h2 className="text-2xl font-bold text-[#1e4e85] whitespace-nowrap">AICTE & Notices</h2>
+                  <h2 className="text-2xl font-bold text-[#1e4e85]">AICTE & Notices</h2>
                   <div className="h-px bg-slate-200 w-full"></div>
                 </div>
 

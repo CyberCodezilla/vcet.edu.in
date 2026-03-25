@@ -127,7 +127,7 @@ export default function MMSLayout({ title, children }: MMSLayoutProps) {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-white text-slate-800">
-      <div className="sticky top-0 z-[100] md:contents">
+      <div className="relative z-[100]">
         <TopBanner />
         <Header />
       </div>

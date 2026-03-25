@@ -236,7 +236,7 @@ const NoticeForm: React.FC = () => {
     );
   }
 
-  const pdfPreviewToUse = previewUrl;
+  const pdfPreviewToUse = previewUrl?.trim() || null;
 
   return (
     <div className="max-w-3xl mx-auto space-y-8 pb-12">

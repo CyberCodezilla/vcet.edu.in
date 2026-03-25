@@ -9,7 +9,7 @@ const PresidentsDesk: React.FC = () => {
       <PageBanner
         title="President's Desk"
         breadcrumbs={[
-          { label: 'About Us', href: '/about-us' },
+
           { label: "President's Desk" },
         ]}
       />

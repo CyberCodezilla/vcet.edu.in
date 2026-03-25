@@ -58,8 +58,8 @@ const Departments: React.FC = () => {
   return (
     <section id="departments" className="py-20 md:py-28 bg-brand-light text-brand-dark relative overflow-hidden">
       {/* Decorative elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-blue/10 rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-gold/8 rounded-full translate-y-1/2 -translate-x-1/3 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[220px] h-[220px] sm:w-[340px] sm:h-[340px] md:w-[500px] md:h-[500px] bg-brand-blue/10 rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[180px] h-[180px] sm:w-[280px] sm:h-[280px] md:w-[400px] md:h-[400px] bg-brand-gold/8 rounded-full translate-y-1/2 -translate-x-1/3 pointer-events-none" />
       {/* Top edge accent */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-blue via-brand-gold to-brand-blue" />
 
