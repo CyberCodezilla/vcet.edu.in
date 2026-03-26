@@ -17,7 +17,7 @@ const fallbackGalleryItems: FallbackGalleryItem[] = [
   {
     title: 'AICTE IDEA Lab',
     subtitle: 'Innovation & Design',
-    src: '/Images/gallery/Gallary_1.jpg',
+    src: '/Images/gallery/aicte_idea_lab.png',
   },
   {
     title: 'Center of Excellence',
@@ -32,7 +32,7 @@ const fallbackGalleryItems: FallbackGalleryItem[] = [
   {
     title: 'Texas Instruments Lab',
     subtitle: 'Embedded Systems',
-    src: '/Images/gallery/Gallary_1.jpg',
+    src: '/Images/gallery/texas_instruments_lab.png',
   },
   {
     title: 'Robotics Lab',
@@ -106,12 +106,12 @@ const Gallery: React.FC = () => {
                   isFeatured ? 'sm:col-span-2 lg:col-span-2 md:row-span-2 lg:row-span-2' : '',
                 ].join(' ')}
               >
-                {/* Pixel-reveal image — only load for featured item */}
-                {isFeatured ? (
+                {/* Pixel-reveal image — load for featured item or specific labs with images */}
+                {isFeatured || item.title === 'AICTE IDEA Lab' || item.title === 'Texas Instruments Lab' ? (
                   <PixelImage
                     src={item.src}
                     alt={item.title}
-                    customGrid={{ rows: 6, cols: 8 }}
+                    customGrid={isFeatured ? { rows: 6, cols: 8 } : { rows: 4, cols: 4 }}
                     grayscaleAnimation
                     pixelFadeInDuration={500}
                     maxAnimationDelay={600}
@@ -120,7 +120,7 @@ const Gallery: React.FC = () => {
                     className="absolute inset-0"
                   />
                 ) : (
-                  /* Image placeholder for non-featured items */
+                  /* Image placeholder for other non-featured items */
                   <div className="absolute inset-0 bg-gradient-to-b from-slate-300 to-slate-400 animate-pulse" />
                 )}
 
