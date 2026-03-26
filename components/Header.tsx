@@ -206,7 +206,7 @@ const menuGroups: MenuGroup[] = [
           { label: 'Grievance Redressal Committee', href: '/grievance-redressal' },
           { label: 'SGRC Committee', href: '/srgc-committee' },
           { label: 'Anti Ragging Committee', href: '/anti-ragging' },
-          { label: 'SC â€“ ST Committee', href: '/sc-st-committee' },
+          { label: 'SC - ST Committee', href: '/sc-st-committee' },
         ],
       },
       { label: 'Internal Complaint Committee', href: '/internal-complaint' },
