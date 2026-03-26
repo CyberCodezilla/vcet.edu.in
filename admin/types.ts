@@ -432,20 +432,20 @@ export interface Department {
   name: string;
   slug: string;
   content: {
-    about: string;
-    vision: string;
-    mission: string[];
+    // Legacy / Keepers
     dabMembers: { name: string; designation: string; organization: string }[];
-    mou: string;
-    patents: string;
-    pos: string;
-    peo: string;
-    pso: string;
     faculty: number[];
     toppers: { name: string; year: string; cgpa: string }[];
-    syllabus: { year: string; link: string }[];
     newsletter: { title: string; link: string }[];
-    timetable: string;
+
+    // New / Updated
+    patents: { title: string; description: string; pdf?: string | File }[];
+    mous: { organization: string; description: string; pdf?: string | File }[];
+    syllabus: { title: string; pdf?: string | File }[];
+    timetable: { class: string; pdf?: string | File }[];
+    facultyAchievements: { title: string; description: string; image?: string | File; pdf?: string | File }[];
+    studentAchievements: { title: string; description: string; image?: string | File; pdf?: string | File }[];
+    activities: { title: string; description: string; image?: string | File; pdf?: string | File }[];
   };
   is_active: boolean;
   created_at: string;
@@ -456,20 +456,18 @@ export interface DepartmentPayload {
   name?: string;
   slug?: string;
   content?: {
-    about?: string;
-    vision?: string;
-    mission?: string[];
     dabMembers?: { name: string; designation: string; organization: string }[];
-    mou?: string;
-    patents?: string;
-    pos?: string;
-    peo?: string;
-    pso?: string;
     faculty?: number[];
     toppers?: { name: string; year: string; cgpa: string }[];
-    syllabus?: { year: string; link: string }[];
     newsletter?: { title: string; link: string }[];
-    timetable?: string;
+
+    patents?: { title: string; description: string; pdf?: string | File }[];
+    mous?: { organization: string; description: string; pdf?: string | File }[];
+    syllabus?: { title: string; pdf?: string | File }[];
+    timetable?: { class: string; pdf?: string | File }[];
+    facultyAchievements?: { title: string; description: string; image?: string | File; pdf?: string | File }[];
+    studentAchievements?: { title: string; description: string; image?: string | File; pdf?: string | File }[];
+    activities?: { title: string; description: string; image?: string | File; pdf?: string | File }[];
   };
   is_active?: boolean;
 }
