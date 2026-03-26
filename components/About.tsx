@@ -85,14 +85,13 @@ const About: React.FC = () => {
               Located in the heart of the tech corridor, our sprawling campus is home to over 5,000 students and 200+ faculty members. We combine traditional engineering discipline with modern design thinking, preparing graduates who excel in both innovation and execution.
             </p>
             
-            <div className="group relative flex h-[380px] w-full items-center justify-center overflow-hidden rounded-2xl border border-brand-blue/10 bg-brand-light sm:h-[480px] md:h-[520px]">
-              <div className="text-center">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-blue/10">
-                  <MapPin className="h-8 w-8 text-brand-blue/40" />
-                </div>
-                <p className="text-sm font-medium text-slate-500">VCET Campus Image Slot</p>
-                <p className="mt-1 text-xs text-slate-400">placeholder-campus.jpg</p>
-              </div>
+            <div className="group relative h-[380px] w-full overflow-hidden rounded-2xl border border-brand-blue/10 bg-brand-light sm:h-[480px] md:h-[520px]">
+              <img 
+                src="/Images/About/vcet_campus.jpg" 
+                alt="VCET Campus" 
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/20 to-transparent transition-opacity duration-300 pointer-events-none" />
             </div>
           </div>
 

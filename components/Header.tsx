@@ -10,7 +10,8 @@ const CAREER_AT_VCET_PDF_URL =
 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 interface SubItem {
   label: string;
-  href: string;
+  href?: string;
+  subItems?: SubItem[];
 }
 
 interface DropdownItem {
@@ -34,15 +35,15 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'About Us',
     dropdown: [
-      { label: 'About VCET',              href: '/about-us' },
-      { label: "President's Desk",         href: '/presidents-desk' },
-      { label: "Principal's Desk",         href: '/principals-desk' },
-      { label: 'Governing Council',        href: '/governing-council' },
+      { label: 'About VCET', href: '/about-us' },
+      { label: "President's Desk", href: '/presidents-desk' },
+      { label: "Principal's Desk", href: '/principals-desk' },
+      { label: 'Governing Council', href: '/governing-council' },
       { label: 'Organizational Structure', href: '/organizational-structure' },
-      { label: 'Administration',           href: '/administration' },
-      { label: 'Strategic Plan',           href: '/strategic-plan' },
-      { label: 'Code of Conduct',          href: '/code-of-conduct' },
-      { label: 'Contact Us',               href: '/contact-us' },
+      { label: 'Administration', href: '/administration' },
+      { label: 'Strategic Plan', href: '/strategic-plan' },
+      { label: 'Code of Conduct', href: '/code-of-conduct' },
+      { label: 'Contact Us', href: '/contact-us' },
     ],
   },
 
@@ -50,11 +51,11 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'Admission',
     dropdown: [
-      { label: 'Courses and Intake',   href: '/courses-and-intake' },
+      { label: 'Courses and Intake', href: '/courses-and-intake' },
       { label: 'Fees Structure 25-26', href: '/fees-structure' },
-      { label: 'Scholarships',         href: '/scholarships' },
-      { label: 'Brochure',             href: '/brochure' },
-      { label: 'Documents Required',   href: '/documents-required' },
+      { label: 'Scholarships', href: '/scholarships' },
+      { label: 'Brochure', href: '/brochure' },
+      { label: 'Documents Required', href: '/documents-required' },
       {
         label: 'Cut Off 24-25',
         href: '/cut-off',
@@ -73,15 +74,15 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'Departments',
     dropdown: [
-      { label: 'Computer Engineering',                        href: '/computer-engineering' },
+      { label: 'Computer Engineering', href: '/computer-engineering' },
       { label: 'Computer Science & Engineering (Data Science)', href: '/cs-data-science' },
-      { label: 'Information Technology',                      href: '/information-technology' },
-      { label: 'Artificial Intelligence & Data Science',      href: '/ai-data-science' },
-      { label: 'Mechanical Engineering',                      href: '/mechanical-engineering' },
-      { label: 'Electronics & Telecommunication Engineering',       href: '/electronics-telecomm' },
-      { label: 'Civil Engineering',                           href: '/civil-engineering' },
-      { label: 'First Year Engineering',                      href: '/first-year-engineering' },
-      { label: 'Master of Management Studies (MBA)',          href: '/mms' },
+      { label: 'Information Technology', href: '/information-technology' },
+      { label: 'Artificial Intelligence & Data Science', href: '/ai-data-science' },
+      { label: 'Mechanical Engineering', href: '/mechanical-engineering' },
+      { label: 'Electronics & Telecommunication Engineering', href: '/electronics-telecomm' },
+      { label: 'Civil Engineering', href: '/civil-engineering' },
+      { label: 'First Year Engineering', href: '/first-year-engineering' },
+      { label: 'Master of Management Studies (MBA)', href: '/mms' },
     ],
   },
 
@@ -95,27 +96,27 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'Academics',
     dropdown: [
-      { label: "Dean Academics Desk",       href: '/dean-academics' },
+      { label: "Dean Academics Desk", href: '/dean-academics' },
       {
         label: 'Academic Calendar',
         href: '/academic-calendar',
         subItems: [
           { label: 'EVEN SEM 2025-26 SE TE BE (Tentative)', href: 'https://vcet.edu.in/wp-content/uploads/2026/01/Academic_Calendar_Even_2025-26.pdf' },
-          { label: 'ODD SEM 2025-26 SE TE BE',               href: 'https://vcet.edu.in/wp-content/uploads/2025/08/acad-calen-odd-25-26.pdf' },
-          { label: 'EVEN SEM 2024-25',                        href: 'https://vcet.edu.in/wp-content/uploads/2024/12/Academic_Calender_2024_25_Even_2025-1.pdf' },
-          { label: 'ODD SEM 2024-25 FE ME',                   href: 'https://vcet.edu.in/wp-content/uploads/2024/09/Adobe-Scan-13-Sep-2024.pdf' },
-          { label: 'ODD SEM 2024-25 SE TE BE',                href: 'https://vcet.edu.in/wp-content/uploads/2024/07/Adobe-Scan-05-Jul-2024-3.pdf' },
-          { label: 'EVEN SEM 2023-24 SE TE BE',               href: 'https://vcet.edu.in/wp-content/uploads/2024/06/Academic-Calendar_Even-Sem_-2023-2024.pdf' },
-          { label: 'EVEN SEM 2022-23 SE TE BE',               href: 'https://vcet.edu.in/wp-content/uploads/2023/01/Academic-Calendar-Even-Semester-2022-23-SE-TE-BE.pdf' },
-          { label: 'FE & ME EVEN SEM 2022-23',                href: 'https://vcet.edu.in/wp-content/uploads/2023/03/FE_SemII_Academic_Calendar2022-23.pdf' },
-          { label: 'FE ODD SEM 2022-23',                       href: 'https://vcet.edu.in/wp-content/uploads/2023/01/Academic-Calendar-Odd-Semester-2022-23-F.E.pdf' },
+          { label: 'ODD SEM 2025-26 SE TE BE', href: 'https://vcet.edu.in/wp-content/uploads/2025/08/acad-calen-odd-25-26.pdf' },
+          { label: 'EVEN SEM 2024-25', href: 'https://vcet.edu.in/wp-content/uploads/2024/12/Academic_Calender_2024_25_Even_2025-1.pdf' },
+          { label: 'ODD SEM 2024-25 FE ME', href: 'https://vcet.edu.in/wp-content/uploads/2024/09/Adobe-Scan-13-Sep-2024.pdf' },
+          { label: 'ODD SEM 2024-25 SE TE BE', href: 'https://vcet.edu.in/wp-content/uploads/2024/07/Adobe-Scan-05-Jul-2024-3.pdf' },
+          { label: 'EVEN SEM 2023-24 SE TE BE', href: 'https://vcet.edu.in/wp-content/uploads/2024/06/Academic-Calendar_Even-Sem_-2023-2024.pdf' },
+          { label: 'EVEN SEM 2022-23 SE TE BE', href: 'https://vcet.edu.in/wp-content/uploads/2023/01/Academic-Calendar-Even-Semester-2022-23-SE-TE-BE.pdf' },
+          { label: 'FE & ME EVEN SEM 2022-23', href: 'https://vcet.edu.in/wp-content/uploads/2023/03/FE_SemII_Academic_Calendar2022-23.pdf' },
+          { label: 'FE ODD SEM 2022-23', href: 'https://vcet.edu.in/wp-content/uploads/2023/01/Academic-Calendar-Odd-Semester-2022-23-F.E.pdf' },
         ],
       },
-      { label: 'Teaching Learning Process',  href: '/teaching-learning' },
-      { label: 'Swayam - NPTEL',             href: 'https://nptel.ac.in/' },
+      { label: 'Teaching Learning Process', href: '/teaching-learning' },
+      { label: 'Swayam - NPTEL', href: 'https://nptel.ac.in/' },
       {
         label: 'Honours / Minor Degree Program',
-        href:'/honours-minor',
+        href: '/honours-minor',
         subItems: [
           { label: 'Booklet Part 1', href: 'https://vcet.edu.in/wp-content/uploads/2022/08/Honours-Minor-Degree-Program-_Booklet_Part-1-Final.pdf' },
           { label: 'Booklet Part 2', href: 'https://vcet.edu.in/wp-content/uploads/2022/08/Honours-Minor-Degree-Program-Booklet-_Part-2_Detailed-Syllabus-Final.pdf' },
@@ -128,17 +129,17 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'Research',
     dropdown: [
-      { label: 'Introduction',                          href: '/research' },
-      { label: 'Funded Research',                       href: '/funded-research' },
+      { label: 'Introduction', href: '/research' },
+      { label: 'Funded Research', href: '/funded-research' },
       { label: 'Publications (Journals / Conf. / Books)', href: '/publications' },
-      { label: 'Patents',                               href: '/patents' },
-      { label: 'Consultancy Projects',                  href: '/consultancy-projects' },
-      { label: 'Research Facility',                     href: '/research-facility' },
-      { label: 'Research Conventions',                  href: '/research-conventions' },
-      { label: 'Research Policy',                       href: '/research-policy' },
-      { label: 'IIC',                                   href: '/iic' },
-      { label: 'NIRF',                                  href: '/nirf' },
-      { label: 'Downloads',                             href: '/downloads' },
+      { label: 'Patents', href: '/patents' },
+      { label: 'Consultancy Projects', href: '/consultancy-projects' },
+      { label: 'Research Facility', href: '/research-facility' },
+      { label: 'Research Conventions', href: '/research-conventions' },
+      { label: 'Research Policy', href: '/research-policy' },
+      { label: 'IIC', href: '/iic' },
+      { label: 'NIRF', href: '/nirf' },
+      { label: 'Downloads', href: '/downloads' },
     ],
   },
 
@@ -146,13 +147,13 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'Facilities',
     dropdown: [
-      { label: 'Central Computing Facility',     href: '/central-computing' },
-      { label: 'Library',                         href: '/library' },
-      { label: 'Counseling Cell',                 href: '/counseling-cell' },
-      { label: 'Ladies Common Room',              href: '/ladies-common-room' },
-      { label: 'Sports & Gymkhana',               href: '/sports-gymkhana' },
-      { label: 'Health Facilities',               href: '/health-facilities' },
-      { label: 'Differently-Abled Facilities',    href: '/differently-abled' },
+      { label: 'Central Computing Facility', href: '/central-computing' },
+      { label: 'Library', href: '/library' },
+      { label: 'Counseling Cell', href: '/counseling-cell' },
+      { label: 'Ladies Common Room', href: '/ladies-common-room' },
+      { label: 'Sports & Gymkhana', href: '/sports-gymkhana' },
+      { label: 'Health Facilities', href: '/health-facilities' },
+      { label: 'Differently-Abled Facilities', href: '/differently-abled' },
     ],
   },
 
@@ -160,16 +161,20 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'Student & Career',
     dropdown: [
-      { label: 'Career @ VCET',          href: '/career-at-vcet' },
+      { label: 'Career @ VCET', href: '/career-at-vcet' },
       {
-        label: 'Extra Curricular',
+        label: 'Extra curricular Activities',
         subItems: [
-          { label: "Student's Council", href: '/students-council' },
-          { label: 'Cultural Committee', href: '/cultural-committee' },
-          { label: 'Sports Committee', href: '/sports-committee' },
-          { label: 'Literati', href: '/literati' },
-          { label: 'NSS', href: '/nss' },
-          { label: 'EBSB', href: '/ebsb' },
+          {
+            label: "Student's Council",
+            subItems: [
+              { label: 'Cultural Committee', href: '/cultural-committee' },
+              { label: 'Sports Committee', href: '/sports-committee' },
+              { label: 'Literati', href: '/literati' },
+              { label: 'NSS', href: '/nss' },
+              { label: 'EBSB', href: '/ebsb' },
+            ],
+          },
         ],
       },
       {
@@ -194,18 +199,18 @@ const menuGroups: MenuGroup[] = [
     label: 'Committees',
     dropdown: [
       { label: 'College Development Committee', href: '/college-development-committee' },
-      { label: 'IQAC',                           href: '/iqac' },
+      { label: 'IQAC', href: '/iqac' },
       {
         label: 'Statutory Committees',
         subItems: [
           { label: 'Grievance Redressal Committee', href: '/grievance-redressal' },
-          { label: 'SGRC Committee',                href: '/srgc-committee' },
-          { label: 'Anti Ragging Committee',        href: '/anti-ragging' },
-          { label: 'SC â€“ ST Committee',             href: '/sc-st-committee' },
+          { label: 'SGRC Committee', href: '/srgc-committee' },
+          { label: 'Anti Ragging Committee', href: '/anti-ragging' },
+          { label: 'SC â€“ ST Committee', href: '/sc-st-committee' },
         ],
       },
-      { label: 'Internal Complaint Committee',           href: '/internal-complaint' },
-      { label: 'Equal Opportunity Cell',                 href: 'https://vcet.edu.in/wp-content/uploads/2025/03/EOC-Committee.pdf' },
+      { label: 'Internal Complaint Committee', href: '/internal-complaint' },
+      { label: 'Equal Opportunity Cell', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/EOC-Committee.pdf' },
       { label: 'Socio-Economically Disadvantaged Groups Cell', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/SEDG.pdf' },
     ],
   },
@@ -226,9 +231,9 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'NAAC',
     dropdown: [
-      { label: 'SSS',                  href: '/sss' },
-      { label: 'SSS Report',           href: '/sss-report' },
-      { label: 'SSR Cycle 1',          href: '/ssr-cycle-1' },
+      { label: 'SSS', href: '/sss' },
+      { label: 'SSS Report', href: '/sss-report' },
+      { label: 'SSR Cycle 1', href: '/ssr-cycle-1' },
       {
         label: 'SSR Cycle 2',
         subItems: [
@@ -245,9 +250,9 @@ const menuGroups: MenuGroup[] = [
     label: 'Training & Placement',
     dropdown: [
       { label: 'Placement', href: '/placement' },
-      { label: 'Training',  href: '/training' },
-      { label: 'E-CELL',    href: '/e-cell' },
-      { label: 'IIIC',      href: '/iiic' },
+      { label: 'Training', href: '/training' },
+      { label: 'E-CELL', href: '/e-cell' },
+      { label: 'IIIC', href: '/iiic' },
     ],
   },
 ];
@@ -265,93 +270,93 @@ interface SearchEntry {
 
 /** Additional keyword aliases so users find pages with natural queries */
 const keywordMap: Record<string, string[]> = {
-  '/about-us':             ['vcet', 'vidyavardhini', 'history', 'vision', 'mission', 'about college', 'info'],
-  '/presidents-desk':      ['president message', 'chairman', 'trust'],
-  '/principals-desk':      ['principal message', 'head', 'director'],
-  '/governing-council':    ['board', 'management', 'trustees'],
-  '/administration':       ['admin', 'office', 'staff'],
-  '/strategic-plan':       ['plan', 'roadmap', 'goals'],
-  '/code-of-conduct':      ['rules', 'discipline', 'policy', 'conduct'],
-  '/courses-and-intake':   ['courses', 'intake', 'branches', 'seats', 'ug', 'pg', 'btech', 'mtech', 'engineering'],
-  '/fees-structure':       ['fees', 'tuition', 'payment', 'cost', 'fee structure'],
-  '/scholarships':         ['scholarship', 'financial aid', 'freeship', 'merit'],
-  '/brochure':             ['brochure', 'prospectus', 'download'],
-  '/documents-required':   ['documents', 'admission documents', 'required docs'],
-  '/cut-off':              ['cutoff', 'merit list', 'admission cutoff', 'rank'],
+  '/about-us': ['vcet', 'vidyavardhini', 'history', 'vision', 'mission', 'about college', 'info'],
+  '/presidents-desk': ['president message', 'chairman', 'trust'],
+  '/principals-desk': ['principal message', 'head', 'director'],
+  '/governing-council': ['board', 'management', 'trustees'],
+  '/administration': ['admin', 'office', 'staff'],
+  '/strategic-plan': ['plan', 'roadmap', 'goals'],
+  '/code-of-conduct': ['rules', 'discipline', 'policy', 'conduct'],
+  '/courses-and-intake': ['courses', 'intake', 'branches', 'seats', 'ug', 'pg', 'btech', 'mtech', 'engineering'],
+  '/fees-structure': ['fees', 'tuition', 'payment', 'cost', 'fee structure'],
+  '/scholarships': ['scholarship', 'financial aid', 'freeship', 'merit'],
+  '/brochure': ['brochure', 'prospectus', 'download'],
+  '/documents-required': ['documents', 'admission documents', 'required docs'],
+  '/cut-off': ['cutoff', 'merit list', 'admission cutoff', 'rank'],
   '/computer-engineering': ['comps', 'ce', 'computer', 'comp engg', 'cse'],
-  '/cs-data-science':      ['csds', 'data science', 'cs ds'],
+  '/cs-data-science': ['csds', 'data science', 'cs ds'],
   '/information-technology': ['it', 'info tech'],
-  '/ai-data-science':      ['aids', 'artificial intelligence', 'ai', 'ml', 'machine learning'],
+  '/ai-data-science': ['aids', 'artificial intelligence', 'ai', 'ml', 'machine learning'],
   '/mechanical-engineering': ['mech', 'mechanical', 'me'],
   '/electronics-telecomm': ['entc', 'electronics', 'telecomm', 'ece', 'extc'],
-  '/civil-engineering':    ['civil', 'ce civil', 'construction'],
+  '/civil-engineering': ['civil', 'ce civil', 'construction'],
   '/first-year-engineering': ['fe', 'first year', 'fy'],
-  '/dean-academics':       ['dean', 'academic dean'],
-  '/academic-calendar':    ['calendar', 'semester dates', 'schedule'],
-  '/teaching-learning':    ['teaching', 'pedagogy', 'learning'],
-  '/swayam-nptel':         ['swayam', 'nptel', 'mooc', 'online courses'],
-  '/honours-minor':        ['honours', 'minor degree', 'honour'],
-  '/research':             ['research', 'r&d', 'innovation'],
-  '/funded-research':      ['funded', 'grants', 'sponsored research'],
-  '/publications':         ['publications', 'journals', 'papers', 'conferences'],
-  '/patents':              ['patents', 'ipr', 'intellectual property'],
-  '/parents':              ['parents'],
+  '/dean-academics': ['dean', 'academic dean'],
+  '/academic-calendar': ['calendar', 'semester dates', 'schedule'],
+  '/teaching-learning': ['teaching', 'pedagogy', 'learning'],
+  '/swayam-nptel': ['swayam', 'nptel', 'mooc', 'online courses'],
+  '/honours-minor': ['honours', 'minor degree', 'honour'],
+  '/research': ['research', 'r&d', 'innovation'],
+  '/funded-research': ['funded', 'grants', 'sponsored research'],
+  '/publications': ['publications', 'journals', 'papers', 'conferences'],
+  '/patents': ['patents', 'ipr', 'intellectual property'],
+  '/parents': ['parents'],
   '/consultancy-projects': ['consultancy', 'industry projects'],
-  '/research-facility':    ['research lab', 'equipment', 'facility'],
+  '/research-facility': ['research lab', 'equipment', 'facility'],
   '/research-conventions': ['conventions', 'conferences'],
-  '/research-policy':      ['research policy', 'guidelines'],
-  '/iic':                  ['iic', 'institution innovation council'],
-  '/nirf':                 ['nirf', 'ranking', 'national ranking'],
-  '/downloads':            ['downloads', 'forms', 'documents'],
-  '/central-computing':    ['computer lab', 'computing', 'it infrastructure', 'lab'],
-  '/library':              ['library', 'books', 'digital library', 'e-library'],
-  '/counseling-cell':      ['counseling', 'mental health', 'guidance', 'counselling'],
-  '/ladies-common-room':   ['lcr', 'ladies room', 'women'],
-  '/sports-gymkhana':      ['sports', 'gym', 'gymkhana', 'playground', 'athletics'],
-  '/health-facilities':    ['health', 'medical', 'doctor', 'first aid'],
-  '/differently-abled':    ['differently abled', 'disability', 'accessible', 'divyang'],
-  '/career-at-vcet':       ['career', 'jobs', 'recruitment', 'vacancies', 'work at vcet'],
+  '/research-policy': ['research policy', 'guidelines'],
+  '/iic': ['iic', 'institution innovation council'],
+  '/nirf': ['nirf', 'ranking', 'national ranking'],
+  '/downloads': ['downloads', 'forms', 'documents'],
+  '/central-computing': ['computer lab', 'computing', 'it infrastructure', 'lab'],
+  '/library': ['library', 'books', 'digital library', 'e-library'],
+  '/counseling-cell': ['counseling', 'mental health', 'guidance', 'counselling'],
+  '/ladies-common-room': ['lcr', 'ladies room', 'women'],
+  '/sports-gymkhana': ['sports', 'gym', 'gymkhana', 'playground', 'athletics'],
+  '/health-facilities': ['health', 'medical', 'doctor', 'first aid'],
+  '/differently-abled': ['differently abled', 'disability', 'accessible', 'divyang'],
+  '/career-at-vcet': ['career', 'jobs', 'recruitment', 'vacancies', 'work at vcet'],
   [CAREER_AT_VCET_PDF_URL]: ['career', 'jobs', 'recruitment', 'vacancies', 'work at vcet'],
-  '/cultural-committee':   ['cultural', 'fest', 'events', 'annual day'],
-  '/sports-committee':     ['sports committee', 'games'],
-  '/literati':             ['literati', 'magazine', 'literary'],
-  '/nss':                  ['nss', 'national service scheme', 'social service'],
-  '/ebsb':                 ['ebsb', 'ek bharat shreshtha bharat'],
-  '/ieee':                 ['ieee', 'technical society'],
-  '/students-club':        ['clubs', 'student clubs', 'technical clubs'],
-  '/csi':                  ['csi', 'computer society'],
-  '/iete':                 ['iete', 'electronics society'],
-  '/ishrae':               ['ishrae', 'hvac', 'refrigeration'],
-  '/vmea':                 ['vmea', 'mechanical association'],
-  '/hackathon':            ['hackathon', 'coding competition', 'smart india'],
-  '/nsdc':                 ['nsdc', 'skill development'],
-  '/igbc':                 ['igbc', 'green building'],
+  '/cultural-committee': ['cultural', 'fest', 'events', 'annual day'],
+  '/sports-committee': ['sports committee', 'games'],
+  '/literati': ['literati', 'magazine', 'literary'],
+  '/nss': ['nss', 'national service scheme', 'social service'],
+  '/ebsb': ['ebsb', 'ek bharat shreshtha bharat'],
+  '/ieee': ['ieee', 'technical society'],
+  '/students-club': ['clubs', 'student clubs', 'technical clubs'],
+  '/csi': ['csi', 'computer society'],
+  '/iete': ['iete', 'electronics society'],
+  '/ishrae': ['ishrae', 'hvac', 'refrigeration'],
+  '/vmea': ['vmea', 'mechanical association'],
+  '/hackathon': ['hackathon', 'coding competition', 'smart india'],
+  '/nsdc': ['nsdc', 'skill development'],
+  '/igbc': ['igbc', 'green building'],
   '/college-development-committee': ['cdc', 'college development'],
-  '/iqac':                 ['iqac', 'quality assurance', 'quality'],
-  '/grievance-redressal':  ['grievance', 'complaint', 'redressal'],
-  '/srgc-committee':       ['sgrc', 'student redressal'],
-  '/anti-ragging':         ['ragging', 'anti ragging', 'safety'],
-  '/sc-st-committee':      ['sc st', 'reservation', 'caste'],
-  '/internal-complaint':   ['icc', 'internal complaint', 'harassment'],
-  '/equal-opportunity':    ['equal opportunity', 'obc', 'minority'],
-  '/sedg-cell':            ['sedg', 'disadvantaged', 'economically weaker'],
-  '/sss':                  ['sss', 'student satisfaction survey'],
-  '/sss-report':           ['sss report', 'satisfaction report'],
-  '/ssr-cycle-1':          ['ssr', 'self study report', 'cycle 1', 'naac ssr'],
-  '/ssr-cycle-2':          ['ssr cycle 2', 'naac cycle 2'],
-  '/best-practices':       ['best practices', 'institutional distinctiveness'],
-  '/naac-score':           ['naac score', 'accreditation score', 'naac grade', 'naac rating'],
-  '/contact-us':           ['contact', 'phone', 'email', 'address', 'location', 'map', 'reach us'],
-  '/training':             ['training', 'placement training', 'tpo'],
-  '/e-cell':               ['ecell', 'entrepreneurship', 'startup'],
-  '/iiic':                 ['iiic', 'industry interaction', 'mou'],
-  '/exam':                 ['exam', 'examination', 'results', 'hall ticket', 'exam cell'],
-  '/exam-cell':            ['exam', 'examination', 'results', 'hall ticket', 'exam cell'],
+  '/iqac': ['iqac', 'quality assurance', 'quality'],
+  '/grievance-redressal': ['grievance', 'complaint', 'redressal'],
+  '/srgc-committee': ['sgrc', 'student redressal'],
+  '/anti-ragging': ['ragging', 'anti ragging', 'safety'],
+  '/sc-st-committee': ['sc st', 'reservation', 'caste'],
+  '/internal-complaint': ['icc', 'internal complaint', 'harassment'],
+  '/equal-opportunity': ['equal opportunity', 'obc', 'minority'],
+  '/sedg-cell': ['sedg', 'disadvantaged', 'economically weaker'],
+  '/sss': ['sss', 'student satisfaction survey'],
+  '/sss-report': ['sss report', 'satisfaction report'],
+  '/ssr-cycle-1': ['ssr', 'self study report', 'cycle 1', 'naac ssr'],
+  '/ssr-cycle-2': ['ssr cycle 2', 'naac cycle 2'],
+  '/best-practices': ['best practices', 'institutional distinctiveness'],
+  '/naac-score': ['naac score', 'accreditation score', 'naac grade', 'naac rating'],
+  '/contact-us': ['contact', 'phone', 'email', 'address', 'location', 'map', 'reach us'],
+  '/training': ['training', 'placement training', 'tpo'],
+  '/e-cell': ['ecell', 'entrepreneurship', 'startup'],
+  '/iiic': ['iiic', 'industry interaction', 'mou'],
+  '/exam': ['exam', 'examination', 'results', 'hall ticket', 'exam cell'],
+  '/exam-cell': ['exam', 'examination', 'results', 'hall ticket', 'exam cell'],
 };
 
 /** Homepage section entries */
 const homepageSections: SearchEntry[] = [
-                    { label: 'Exam',                 href: '/exam', category: 'Academics', keywords: ['exam', 'results'] },
+  { label: 'Exam', href: '/exam', category: 'Academics', keywords: ['exam', 'results'] },
   { label: 'Placements Overview', href: '/#placements', category: 'Homepage', keywords: ['placement graph', 'placement stats', 'highest package'] },
   { label: 'Recruiters', href: '/#recruiters', category: 'Homepage', keywords: ['recruiters', 'companies', 'hiring partners'] },
   { label: 'Gallery', href: '/#gallery', category: 'Homepage', keywords: ['gallery', 'photos', 'campus photos'] },
@@ -391,8 +396,7 @@ function buildSearchIndex(): SearchEntry[] {
         // Sub-items
         if (item.subItems) {
           for (const sub of item.subItems) {
-            // Avoid duplicates — only add if this exact href+label isn't already present
-            if (!entries.some(e => e.href === sub.href && e.label === sub.label)) {
+            if (sub.href && !entries.some(e => e.href === sub.href && e.label === sub.label)) {
               entries.push({
                 label: sub.label,
                 href: sub.href,
@@ -400,6 +404,19 @@ function buildSearchIndex(): SearchEntry[] {
                 keywords: keywordMap[sub.href] || [],
                 external: sub.href.startsWith('http'),
               });
+            }
+            if (sub.subItems) {
+              for (const deepSub of sub.subItems) {
+                if (deepSub.href && !entries.some(e => e.href === deepSub.href && e.label === deepSub.label)) {
+                  entries.push({
+                    label: deepSub.label,
+                    href: deepSub.href,
+                    category: group.label,
+                    keywords: keywordMap[deepSub.href] || [],
+                    external: deepSub.href.startsWith('http'),
+                  });
+                }
+              }
             }
           }
         }
@@ -465,6 +482,44 @@ function searchPages(query: string): SearchEntry[] {
    DESKTOP DROPDOWN ITEM
    Supports accordion for sub-items
 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+const NestedFlyout: React.FC<{ sub: SubItem }> = ({ sub }) => {
+  const [open, setOpen] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openSub = () => { if (timer.current) clearTimeout(timer.current); setOpen(true); };
+  const closeSub = () => { timer.current = setTimeout(() => setOpen(false), 200); };
+  const keepSub = () => { if (timer.current) clearTimeout(timer.current); };
+
+  return (
+    <div className="relative group/nested" onMouseEnter={openSub} onMouseLeave={closeSub}>
+      <div className="flex items-center justify-between px-4 py-2.5 text-[11.5px] text-slate-600 hover:text-brand-blue hover:bg-brand-blue/5 transition-all duration-150 border-l-2 border-transparent hover:border-brand-gold cursor-pointer select-none">
+        <div className="flex items-center gap-2.5 whitespace-nowrap">
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-gold/40 flex-shrink-0" />
+          {sub.label}
+        </div>
+        <ChevronRight className={`w-3.5 h-3.5 transition-transform ${open ? 'text-brand-blue translate-x-1' : 'text-brand-gold/50'}`} />
+      </div>
+
+      <div
+        onMouseEnter={keepSub} onMouseLeave={closeSub}
+        className={`absolute top-0 left-full ml-1 z-[410] transition-all duration-250 ${open ? 'opacity-100 translate-x-0 pointer-events-auto' : 'opacity-0 -translate-x-2 pointer-events-none'}`}
+      >
+        <div className="bg-white rounded-xl shadow-2xl border border-gray-100 min-w-[200px] py-2 ring-1 ring-black/5">
+          {sub.subItems!.map(child => {
+            const isInternal = child.href?.startsWith('/');
+            const cls = "flex items-center gap-2.5 px-4 py-2.5 text-[11.5px] text-slate-600 hover:text-brand-blue hover:bg-brand-blue/5 transition-all duration-150 border-l-2 border-transparent hover:border-brand-gold group whitespace-nowrap";
+            const dot = <span className="w-1.5 h-1.5 rounded-full bg-brand-gold/40 flex-shrink-0 group-hover:bg-brand-blue transition-colors duration-150" />;
+            return isInternal ? (
+              <Link key={child.label} to={child.href!} className={cls}>{dot}{child.label}</Link>
+            ) : (
+              <a key={child.label} href={child.href!} className={cls} target="_blank" rel="noopener noreferrer">{dot}{child.label}</a>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 interface DesktopDropdownItemProps {
   item: DropdownItem;
   /** flip sub-panel to left when parent dropdown is near right edge */
@@ -474,9 +529,9 @@ const DesktopDropdownItem: React.FC<DesktopDropdownItemProps> = ({ item, flipSub
   const [subOpen, setSubOpen] = useState(false);
   const subTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const openSub  = () => { if (subTimer.current) clearTimeout(subTimer.current); setSubOpen(true); };
+  const openSub = () => { if (subTimer.current) clearTimeout(subTimer.current); setSubOpen(true); };
   const closeSub = () => { subTimer.current = setTimeout(() => setSubOpen(false), 200); };
-  const keepSub  = () => { if (subTimer.current) clearTimeout(subTimer.current); };
+  const keepSub = () => { if (subTimer.current) clearTimeout(subTimer.current); };
 
   /* ── Section divider label (e.g. "Extra-Curricular") ── */
   if (item.isGroupLabel) {
@@ -494,23 +549,21 @@ const DesktopDropdownItem: React.FC<DesktopDropdownItemProps> = ({ item, flipSub
   if (item.subItems && item.subItems.length > 0) {
     const subSide = flipSub ? 'right-full mr-1' : 'left-full ml-1';
     const isInternal = item.href?.startsWith('/');
-    
+
     const triggerContent = (
       <>
         <span className="text-[11.5px] font-semibold">{item.label}</span>
         <ChevronRight
-          className={`w-3.5 h-3.5 flex-shrink-0 ml-3 transition-all duration-250 ${
-            subOpen ? 'text-brand-blue translate-x-1' : 'text-brand-gold/50'
-          }`}
+          className={`w-3.5 h-3.5 flex-shrink-0 ml-3 transition-all duration-250 ${subOpen ? 'text-brand-blue translate-x-1' : 'text-brand-gold/50'
+            }`}
         />
       </>
     );
 
-    const triggerClassName = `flex items-center justify-between px-4 py-2.5 cursor-pointer select-none transition-all duration-150 border-l-2 ${
-      subOpen
+    const triggerClassName = `flex items-center justify-between px-4 py-2.5 cursor-pointer select-none transition-all duration-150 border-l-2 ${subOpen
         ? 'bg-brand-blue/8 text-brand-blue border-brand-blue'
         : 'text-slate-700 hover:text-brand-blue hover:bg-brand-blue/5 border-transparent hover:border-brand-gold'
-    }`;
+      }`;
 
     return (
       <div
@@ -533,31 +586,33 @@ const DesktopDropdownItem: React.FC<DesktopDropdownItemProps> = ({ item, flipSub
         <div
           onMouseEnter={keepSub}
           onMouseLeave={closeSub}
-          className={`absolute top-0 ${subSide} z-[400] transition-all duration-250 ease-[cubic-bezier(0.34,1.18,0.64,1)] origin-left ${
-            subOpen
+          className={`absolute top-0 ${subSide} z-[400] transition-all duration-250 ease-[cubic-bezier(0.34,1.18,0.64,1)] origin-left ${subOpen
               ? 'opacity-100 translate-x-0 pointer-events-auto'
               : 'opacity-0 -translate-x-2 pointer-events-none'
-          }`}
+            }`}
         >
-          <div className="bg-white rounded-xl shadow-2xl border border-gray-100 min-w-[240px] py-2 ring-1 ring-black/5">
+          <div className="bg-white rounded-xl shadow-2xl border border-gray-100 min-w-fit w-full py-2 ring-1 ring-black/5">
             {/* Sub-panel header */}
             <div className="px-4 pb-1.5 pt-1">
-              <span className="text-[8.5px] font-black uppercase tracking-[0.2em] text-brand-blue/50">
+              <span className="block text-[8.5px] font-black uppercase tracking-[0.2em] text-brand-blue/50 whitespace-nowrap">
                 {item.label}
               </span>
             </div>
             <div className="h-px bg-gray-100 mx-3 mb-1" />
             {item.subItems.map((sub) => {
-              const isInternal = sub.href.startsWith('/');
-              const cls = "flex items-center gap-2.5 px-4 py-2.5 text-[11.5px] text-slate-600 hover:text-brand-blue hover:bg-brand-blue/5 transition-all duration-150 border-l-2 border-transparent hover:border-brand-gold group";
+              if (sub.subItems && sub.subItems.length > 0) {
+                return <NestedFlyout key={sub.label} sub={sub} />;
+              }
+              const isInternal = sub.href?.startsWith('/');
+              const cls = "flex items-center gap-2.5 px-4 py-2.5 text-[11.5px] text-slate-600 hover:text-brand-blue hover:bg-brand-blue/5 transition-all duration-150 border-l-2 border-transparent hover:border-brand-gold group whitespace-nowrap";
               const dot = <span className="w-1.5 h-1.5 rounded-full bg-brand-gold/40 flex-shrink-0 group-hover:bg-brand-blue transition-colors duration-150" />;
               return isInternal ? (
-                <Link key={sub.label} to={sub.href} className={cls}>
+                <Link key={sub.label} to={sub.href!} className={cls}>
                   {dot}
                   {sub.label}
                 </Link>
               ) : (
-                <a key={sub.label} href={sub.href} target="_blank" rel="noopener noreferrer" className={cls}>
+                <a key={sub.label} href={sub.href!} target="_blank" rel="noopener noreferrer" className={cls}>
                   {dot}
                   {sub.label}
                 </a>
@@ -595,6 +650,31 @@ const DesktopDropdownItem: React.FC<DesktopDropdownItemProps> = ({ item, flipSub
 /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    MOBILE ACCORDION ITEM
 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+const MobileNestedAccordionItem: React.FC<{ sub: SubItem, onClose: () => void }> = ({ sub, onClose }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div>
+      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between py-2 text-[12px] font-medium text-white/50 hover:text-brand-gold transition-colors">
+        <span>{sub.label}</span>
+        <ChevronDown className={`w-3 h-3 transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+      <div className="overflow-hidden transition-all duration-300" style={{ maxHeight: open ? `${sub.subItems!.length * 36}px` : '0px' }}>
+        <div className="pl-3 border-l border-brand-gold/20 ml-1 space-y-0.5 mt-1">
+          {sub.subItems!.map(child => {
+            const isInternal = child.href?.startsWith('/');
+            const cls = "block py-1.5 text-[11px] text-white/40 hover:text-brand-gold transition-colors";
+            return isInternal ? (
+              <Link key={child.label} to={child.href!} onClick={onClose} className={cls}>{child.label}</Link>
+            ) : (
+              <a key={child.label} href={child.href!} onClick={onClose} target="_blank" rel="noopener noreferrer" className={cls}>{child.label}</a>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 interface MobileAccordionItemProps {
   item: DropdownItem;
   onClose: () => void;
@@ -630,11 +710,14 @@ const MobileAccordionItem: React.FC<MobileAccordionItemProps> = ({ item, onClose
         >
           <div className="pl-4 border-l border-brand-gold/30 ml-2 space-y-0.5">
             {item.subItems.map((sub) => {
-              const isInternal = sub.href.startsWith('/');
+              if (sub.subItems && sub.subItems.length > 0) {
+                return <MobileNestedAccordionItem key={sub.label} sub={sub} onClose={onClose} />;
+              }
+              const isInternal = sub.href?.startsWith('/');
               return isInternal ? (
                 <Link
                   key={sub.label}
-                  to={sub.href}
+                  to={sub.href!}
                   onClick={onClose}
                   className="block py-2 text-[12px] text-white/50 hover:text-brand-gold transition-colors"
                 >
@@ -643,7 +726,7 @@ const MobileAccordionItem: React.FC<MobileAccordionItemProps> = ({ item, onClose
               ) : (
                 <a
                   key={sub.label}
-                  href={sub.href}
+                  href={sub.href!}
                   onClick={onClose}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -688,16 +771,16 @@ const MobileAccordionItem: React.FC<MobileAccordionItemProps> = ({ item, onClose
 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const Header: React.FC = () => {
   const navigate = useNavigate();
-  const [mobileOpen, setMobileOpen]         = useState(false);
-  const [searchOpen, setSearchOpen]         = useState(false);
-  const [searchQuery, setSearchQuery]       = useState('');
-  const [activeMenu, setActiveMenu]         = useState<string | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [selectedResult, setSelectedResult] = useState(-1);
-  const searchInputRef                      = useRef<HTMLInputElement>(null);
-  const resultsRef                          = useRef<HTMLDivElement>(null);
-  const closeTimer                          = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [dropdownPos, setDropdownPos]       = useState<{ top: number; left: number; right: number; alignRight: boolean }>({ top: 0, left: 0, right: 0, alignRight: false });
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [dropdownPos, setDropdownPos] = useState<{ top: number; left: number; right: number; alignRight: boolean }>({ top: 0, left: 0, right: 0, alignRight: false });
 
   /* Compute search results reactively */
   const searchResults = useMemo(() => searchPages(searchQuery), [searchQuery]);
@@ -822,7 +905,7 @@ const Header: React.FC = () => {
   const getDropdownMaxH = (items: DropdownItem[]) => {
     const h = items.reduce((acc, it) => {
       if (it.isGroupLabel) return acc + 34;
-      if (it.subItems)     return acc + 44;
+      if (it.subItems) return acc + 44;
       return acc + 40;
     }, 16);
     return Math.min(h, 520);
@@ -853,17 +936,16 @@ const Header: React.FC = () => {
                       onMouseEnter={(e) => openMenu(group.label, e.currentTarget)}
                       onMouseLeave={scheduleClose}
                       onFocus={(e) => openMenu(group.label, e.currentTarget)}
-                        onBlur={scheduleClose}
-                        aria-haspopup="true"
-                        aria-expanded={activeMenu === group.label}
-                        className={`flex items-center gap-0.5 px-1 lg:px-2 xl:px-2.5 py-1.5 lg:py-2 text-[8.5px] md:text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[12px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap select-none ${
-                          activeMenu === group.label
-                            ? 'bg-brand-blue text-white'
-                            : 'text-slate-700 hover:bg-brand-blue/8 hover:text-brand-blue'
+                      onBlur={scheduleClose}
+                      aria-haspopup="true"
+                      aria-expanded={activeMenu === group.label}
+                      className={`flex items-center gap-0.5 px-1 lg:px-2 xl:px-2.5 py-1.5 lg:py-2 text-[8.5px] md:text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[12px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap select-none ${activeMenu === group.label
+                          ? 'bg-brand-blue text-white'
+                          : 'text-slate-700 hover:bg-brand-blue/8 hover:text-brand-blue'
                         }`}
-                      >
-                        {group.label}
-                      </button>
+                    >
+                      {group.label}
+                    </button>
 
                   ) : group.href?.startsWith('/') ? (
                     <Link
@@ -947,8 +1029,7 @@ const Header: React.FC = () => {
 
       {/* â”€â”€â”€â”€â”€â”€â”€â”€ MOBILE FULL-SCREEN MENU â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div
-        className={`fixed inset-0 bg-brand-dark/98 backdrop-blur-lg text-white z-[9999] flex flex-col transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] lg:hidden ${
-          mobileOpen
+        className={`fixed inset-0 bg-brand-dark/98 backdrop-blur-lg text-white z-[9999] flex flex-col transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] lg:hidden ${mobileOpen
             ? 'opacity-100 visible translate-x-0'
             : 'opacity-0 invisible translate-x-full pointer-events-none'
           }`}
@@ -980,9 +1061,8 @@ const Header: React.FC = () => {
                     >
                       <span>{group.label}</span>
                       <ChevronDown
-                        className={`w-4 h-4 flex-shrink-0 transition-transform duration-350 ${
-                          mobileExpanded === group.label ? 'rotate-180 text-brand-gold' : 'opacity-50'
-                        }`}
+                        className={`w-4 h-4 flex-shrink-0 transition-transform duration-350 ${mobileExpanded === group.label ? 'rotate-180 text-brand-gold' : 'opacity-50'
+                          }`}
                       />
                     </button>
                     {mobileExpanded === group.label ? (
@@ -1032,9 +1112,8 @@ const Header: React.FC = () => {
 
       {/* â”€â”€â”€â”€â”€â”€â”€â”€ SEARCH OVERLAY â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div
-        className={`fixed inset-0 z-[100] bg-brand-dark/97 backdrop-blur-xl transition-all duration-500 ${
-          searchOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
-        }`}
+        className={`fixed inset-0 z-[100] bg-brand-dark/97 backdrop-blur-xl transition-all duration-500 ${searchOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+          }`}
       >
         <button
           onClick={() => setSearchOpen(false)}
@@ -1112,15 +1191,13 @@ const Header: React.FC = () => {
                             key={`${entry.href}-${entry.label}`}
                             onClick={() => goToResult(entry)}
                             onMouseEnter={() => setSelectedResult(i)}
-                            className={`w-full text-left flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group ${
-                              isSelected
+                            className={`w-full text-left flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group ${isSelected
                                 ? 'bg-brand-gold/15 border border-brand-gold/30'
                                 : 'bg-white/[0.03] border border-transparent hover:bg-white/[0.06]'
-                            }`}
+                              }`}
                           >
-                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
-                              isSelected ? 'bg-brand-gold/20' : 'bg-white/5 group-hover:bg-white/10'
-                            }`}>
+                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-200 ${isSelected ? 'bg-brand-gold/20' : 'bg-white/5 group-hover:bg-white/10'
+                              }`}>
                               <Search className={`w-4 h-4 ${isSelected ? 'text-brand-gold' : 'text-white/30'}`} />
                             </div>
                             <div className="flex-1 min-w-0">
@@ -1131,9 +1208,8 @@ const Header: React.FC = () => {
                                 {entry.category}{entry.external ? ' · Opens in new tab' : ''}
                               </p>
                             </div>
-                            <ChevronRight className={`w-4 h-4 flex-shrink-0 transition-all duration-200 ${
-                              isSelected ? 'text-brand-gold translate-x-0.5' : 'text-white/10 group-hover:text-white/30'
-                            }`} />
+                            <ChevronRight className={`w-4 h-4 flex-shrink-0 transition-all duration-200 ${isSelected ? 'text-brand-gold translate-x-0.5' : 'text-white/10 group-hover:text-white/30'
+                              }`} />
                           </button>
                         );
                       })}
@@ -1160,13 +1236,13 @@ const Header: React.FC = () => {
                 <div className="flex flex-wrap gap-2">
                   {[
                     { label: 'Computer Engineering', href: '/computer-engineering' },
-                    { label: 'Admissions',           href: '/#admissions' },
-                    { label: 'Placements',           href: '/#placements' },
-                    { label: 'Exam Cell',            href: '/exam-cell' },
-                    { label: 'Fees Structure',       href: '/fees-structure' },
-                    { label: 'Contact Us',           href: '/contact-us' },
-                    { label: 'Cut Off',              href: '/cut-off' },
-                    { label: 'Library',              href: '/library' },
+                    { label: 'Admissions', href: '/#admissions' },
+                    { label: 'Placements', href: '/#placements' },
+                    { label: 'Exam Cell', href: '/exam-cell' },
+                    { label: 'Fees Structure', href: '/fees-structure' },
+                    { label: 'Contact Us', href: '/contact-us' },
+                    { label: 'Cut Off', href: '/cut-off' },
+                    { label: 'Library', href: '/library' },
                   ].map((tag) => (
                     <button
                       key={tag.label}
