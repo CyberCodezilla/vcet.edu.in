@@ -290,15 +290,15 @@ const FacultyForm: React.FC = () => {
         <SectionCard title="Experience Stats" icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>}>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             {[
-              { label: 'Teaching Yrs', field: 'teachingYears', color: 'blue' },
-              { label: 'Industry Yrs', field: 'industryYears', color: 'slate' },
-              { label: 'Papers', field: 'totalPapers', color: 'emerald' },
-              { label: 'Books', field: 'totalBooks', color: 'purple' },
-              { label: 'Patents', field: 'totalPatents', color: 'orange' },
+              { label: 'Teaching Yrs', field: 'teachingYears', bg: 'bg-blue-50/50', border: 'border-blue-100', textLabel: 'text-blue-400', ring: 'ring-blue-200', focus: 'focus:ring-blue-500', text: 'text-blue-700' },
+              { label: 'Industry Yrs', field: 'industryYears', bg: 'bg-slate-50/50', border: 'border-slate-100', textLabel: 'text-slate-400', ring: 'ring-slate-200', focus: 'focus:ring-slate-500', text: 'text-slate-700' },
+              { label: 'Papers', field: 'totalPapers', bg: 'bg-emerald-50/50', border: 'border-emerald-100', textLabel: 'text-emerald-400', ring: 'ring-emerald-200', focus: 'focus:ring-emerald-500', text: 'text-emerald-700' },
+              { label: 'Books', field: 'totalBooks', bg: 'bg-purple-50/50', border: 'border-purple-100', textLabel: 'text-purple-400', ring: 'ring-purple-200', focus: 'focus:ring-purple-500', text: 'text-purple-700' },
+              { label: 'Patents', field: 'totalPatents', bg: 'bg-orange-50/50', border: 'border-orange-100', textLabel: 'text-orange-400', ring: 'ring-orange-200', focus: 'focus:ring-orange-500', text: 'text-orange-700' },
             ].map(stat => (
-              <div key={stat.field} className={`bg-${stat.color}-50/50 p-4 rounded-3xl text-center border border-${stat.color}-100/50`}>
-                <label className={`block text-[10px] font-black text-${stat.color}-400 uppercase tracking-widest mb-2`}>{stat.label}</label>
-                <input type="number" value={(form.experience as any)?.[stat.field] || 0} onChange={(e) => handleNestedChange('experience', stat.field, Number(e.target.value))} className={`w-full text-center bg-white ring-1 ring-${stat.color}-200 focus:ring-2 focus:ring-${stat.color}-500 rounded-2xl px-3 py-3 text-lg font-black text-${stat.color}-700 outline-none`} />
+              <div key={stat.field} className={`${stat.bg} p-4 rounded-3xl text-center border ${stat.border}`}>
+                <label className={`block text-[10px] font-black ${stat.textLabel} uppercase tracking-widest mb-2`}>{stat.label}</label>
+                <input type="number" value={(form.experience as any)?.[stat.field] || 0} onChange={(e) => handleNestedChange('experience', stat.field, Number(e.target.value))} className={`w-full text-center bg-white ring-1 ${stat.ring} focus:ring-2 ${stat.focus} rounded-2xl px-3 py-3 text-lg font-black ${stat.text} outline-none`} />
               </div>
             ))}
           </div>
