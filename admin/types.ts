@@ -327,74 +327,101 @@ export interface GalleryImagePayload {
 // ── Faculty ───────────────────────────────────────────────────────────────────
 
 export interface Faculty {
-  id: number;
-  name: string;
-  department: string;
-  page: string;
-  teachingExperience: number;
-  industryExperience: number;
-  papers: number;
-  books: number;
-  patents: number;
-  dob: string;
-  joinDate: string;
-  email: string;
-  qualification: string;
-  specialization: string;
-  pgProjects: string;
-  researchDomain: string;
-  consultancyProjects: string;
-  publications: {
-    books: string;
-    isbn: string;
-    patents: string;
-    papers: string;
+  _id: string; 
+  basicInfo: {
+    fullName: string;
+    designation: string;
+    department: string;
+    email: string;
+    dob: string | null;
+    joinDate: string | null;
+    isActive: boolean;
   };
-  roles: string;
-  awards: string;
-  onlinePresence: {
+  profileImage?: {
+    url: string;
+    public_id: string;
+  };
+  qualifications: {
+    degrees: string[];
+    specialization: string;
+  };
+  experience: {
+    teachingYears: number;
+    industryYears: number;
+    totalPapers: number;
+    totalBooks: number;
+    totalPatents: number;
+  };
+  academic: {
+    pgProjects: string;
+    researchDomains: string[];
+    consultancyProjects: string[];
+  };
+  publications: {
+    books: { title: string; isbn: string }[];
+    patents: { title: string; date: string }[];
+    researchPapers: string[];
+  };
+  rolesAndAwards: {
+    roles: string[];
+    awards: string[];
+  };
+  onlineLinks: {
     website: string;
     youtube: string;
-    resources: string;
+    github: string;
   };
-  memberships: string;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
+  memberships: {
+    organizations: string[];
+  };
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface FacultyPayload {
-  name?: string;
-  department?: string;
-  page?: string;
-  teachingExperience?: number;
-  industryExperience?: number;
-  papers?: number;
-  books?: number;
-  patents?: number;
-  dob?: string;
-  joinDate?: string;
-  email?: string;
-  qualification?: string;
-  specialization?: string;
-  pgProjects?: string;
-  researchDomain?: string;
-  consultancyProjects?: string;
+  basicInfo: {
+    fullName: string;
+    designation: string;
+    department: string;
+    email: string;
+    dob?: string;
+    joinDate?: string;
+    isActive?: boolean;
+  };
+  qualifications?: {
+    degrees?: string[];
+    specialization?: string;
+  };
+  experience?: {
+    teachingYears?: number;
+    industryYears?: number;
+    totalPapers?: number;
+    totalBooks?: number;
+    totalPatents?: number;
+  };
+  academic?: {
+    pgProjects?: string;
+    researchDomains?: string[];
+    consultancyProjects?: string[];
+  };
   publications?: {
-    books: string;
-    isbn: string;
-    patents: string;
-    papers: string;
+    books?: { title: string; isbn: string }[];
+    patents?: { title: string; date: string }[];
+    researchPapers?: string[];
   };
-  roles?: string;
-  awards?: string;
-  onlinePresence?: {
-    website: string;
-    youtube: string;
-    resources: string;
+  rolesAndAwards?: {
+    roles?: string[];
+    awards?: string[];
   };
-  memberships?: string;
-  is_active?: boolean;
+  onlineLinks?: {
+    website?: string;
+    youtube?: string;
+    github?: string;
+  };
+  memberships?: {
+    organizations?: string[];
+  };
+  profileImage?: File;
 }
 
 // ── Department ────────────────────────────────────────────────────────────────

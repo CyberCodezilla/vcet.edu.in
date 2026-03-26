@@ -481,76 +481,143 @@ export const MOCK_ENQUIRIES: Enquiry[] = [
 
 export const MOCK_FACULTY: Faculty[] = [
   {
-    id: 1, name: 'Dr. Sunita Mehta', department: 'Computer Engineering', page: 'Departments',
-    teachingExperience: 18, industryExperience: 4, papers: 32, books: 3, patents: 2,
-    dob: '1978-06-15', joinDate: '2006-07-01', email: 'sunita.mehta@vcet.edu.in',
-    qualification: 'Ph.D. Computer Science', specialization: 'Machine Learning & AI',
-    pgProjects: '12 M.Tech projects guided', researchDomain: 'Artificial Intelligence, Deep Learning',
-    consultancyProjects: 'Smart City Analytics for Mumbai Municipal Corp',
-    publications: { books: 'Machine Learning Fundamentals (Springer, 2022)', isbn: '978-3-030-12345-6', patents: 'AI-based Traffic Management System (IN202100345)', papers: '32 papers in IEEE, Elsevier, Springer' },
-    roles: 'Head of Department - Computer Engineering\nMember - Board of Studies\nConvener - Smart India Hackathon (College Level)',
-    awards: 'Best Researcher Award 2023 - University of Mumbai\nExcellence in Teaching - VCET 2021',
-    onlinePresence: { website: 'https://scholar.google.com/sunita-mehta', youtube: '', resources: 'https://vcet.edu.in/resources/cse' },
-    memberships: 'IEEE Senior Member\nACM Professional Member\nCSI Life Member',
-    is_active: true, created_at: '2024-01-10T10:00:00Z', updated_at: '2024-01-10T10:00:00Z',
+    _id: 'mock-1',
+    basicInfo: {
+      fullName: 'Dr. Sunita Mehta',
+      designation: 'Professor & HOD',
+      department: 'Computer Engineering',
+      email: 'sunita.mehta@vcet.edu.in',
+      dob: '1978-06-15',
+      joinDate: '2006-07-01',
+      isActive: true,
+    },
+    profileImage: { url: '/Images/departments/computer/faculty/sunita-mehta.jpg', public_id: 'mock-img-1' },
+    qualifications: {
+      degrees: ['Ph.D. Computer Science', 'M.Tech CSE', 'B.E. IT'],
+      specialization: 'Machine Learning & AI',
+    },
+    experience: {
+      teachingYears: 18,
+      industryYears: 4,
+      totalPapers: 32,
+      totalBooks: 3,
+      totalPatents: 2,
+    },
+    academic: {
+      pgProjects: '12 M.Tech projects guided',
+      researchDomains: ['Artificial Intelligence', 'Deep Learning', 'Computer Vision'],
+      consultancyProjects: ['Smart City Analytics for Mumbai Municipal Corp'],
+    },
+    publications: {
+      books: [{ title: 'Machine Learning Fundamentals (Springer, 2022)', isbn: '978-3-030-12345-6' }],
+      patents: [{ title: 'AI-based Traffic Management System (IN202100345)', date: '2021-05-12' }],
+      researchPapers: ['32 papers in IEEE, Elsevier, Springer'],
+    },
+    rolesAndAwards: {
+      roles: ['Head of Department - Computer Engineering', 'Member - Board of Studies'],
+      awards: ['Best Researcher Award 2023 - University of Mumbai'],
+    },
+    onlineLinks: {
+      website: 'https://scholar.google.com/sunita-mehta',
+      youtube: '',
+      github: 'https://github.com/sunita-mehta',
+    },
+    memberships: {
+      organizations: ['IEEE Senior Member', 'ACM Professional Member', 'CSI Life Member'],
+    },
+    createdAt: '2024-01-10T10:00:00Z',
+    updatedAt: '2024-01-10T10:00:00Z',
   },
   {
-    id: 2, name: 'Prof. Rajesh Kulkarni', department: 'Information Technology', page: 'Departments',
-    teachingExperience: 12, industryExperience: 6, papers: 18, books: 1, patents: 0,
-    dob: '1984-03-22', joinDate: '2012-08-15', email: 'rajesh.kulkarni@vcet.edu.in',
-    qualification: 'M.Tech Information Technology', specialization: 'Cybersecurity & Network Systems',
-    pgProjects: '8 M.Tech projects guided', researchDomain: 'Network Security, Blockchain',
-    consultancyProjects: 'Cybersecurity Audit for State Bank of India',
-    publications: { books: 'Network Security Essentials (Pearson, 2023)', isbn: '978-0-13-456789-0', patents: '', papers: '18 papers in IEEE, ACM conferences' },
-    roles: 'Cybersecurity Lab In-charge\nNBA Coordinator\nExam Cell Member',
-    awards: 'Best Paper Award - IEEE ICCCNT 2022',
-    onlinePresence: { website: 'https://rajeshk.dev', youtube: 'https://youtube.com/@rajeshk-cybersec', resources: '' },
-    memberships: 'IEEE Member\nISCA Member',
-    is_active: true, created_at: '2024-02-15T10:00:00Z', updated_at: '2024-02-15T10:00:00Z',
-  },
-  {
-    id: 3, name: 'Dr. Priya Nair', department: 'Electronics & Telecommunication', page: 'Departments',
-    teachingExperience: 15, industryExperience: 3, papers: 25, books: 2, patents: 1,
-    dob: '1981-11-09', joinDate: '2009-06-20', email: 'priya.nair@vcet.edu.in',
-    qualification: 'Ph.D. Electronics Engineering', specialization: 'VLSI Design & Embedded Systems',
-    pgProjects: '10 M.Tech projects guided', researchDomain: 'VLSI, IoT, Embedded Systems',
-    consultancyProjects: 'IoT-based Water Quality Monitoring for MPCB',
-    publications: { books: 'VLSI Design Principles (McGraw Hill, 2021)', isbn: '978-1-259-12345-8', patents: 'Low-power IoT Sensor Module (IN202000567)', papers: '25 papers in Springer, Elsevier' },
-    roles: 'Associate Dean - Research\nIQAC Member\nWomen Development Cell Coordinator',
-    awards: 'Young Scientist Award 2020 - DST\nBest Faculty - VCET 2022',
-    onlinePresence: { website: 'https://scholar.google.com/priya-nair', youtube: '', resources: 'https://vcet.edu.in/resources/extc' },
-    memberships: 'IETE Fellow\nIEEE Member\nIISF Member',
-    is_active: true, created_at: '2024-01-05T10:00:00Z', updated_at: '2024-01-05T10:00:00Z',
-  },
-  {
-    id: 4, name: 'Prof. Amit Desai', department: 'Mechanical Engineering', page: 'Departments',
-    teachingExperience: 10, industryExperience: 8, papers: 12, books: 0, patents: 3,
-    dob: '1986-09-03', joinDate: '2014-07-10', email: 'amit.desai@vcet.edu.in',
-    qualification: 'M.E. Mechanical Engineering', specialization: 'Thermal Engineering & CFD',
-    pgProjects: '5 M.E. projects guided', researchDomain: 'Computational Fluid Dynamics, Renewable Energy',
-    consultancyProjects: 'Solar Panel Efficiency Study for Tata Power',
-    publications: { books: '', isbn: '', patents: 'Optimized Heat Exchanger Design (IN201900234)\nSolar Thermal Collector (IN202100678)\nWind Turbine Blade Design (IN202200890)', papers: '12 papers in ASME, Elsevier journals' },
-    roles: 'Workshop Superintendent\nIndustrial Visit Coordinator\nAnti-Ragging Committee Member',
-    awards: 'ISTE Best Teacher Award 2023',
-    onlinePresence: { website: '', youtube: 'https://youtube.com/@amitdesai-mech', resources: '' },
-    memberships: 'ISTE Life Member\nISHRAE Member\nSAE India Member',
-    is_active: true, created_at: '2024-03-20T10:00:00Z', updated_at: '2024-03-20T10:00:00Z',
-  },
-  {
-    id: 5, name: 'Dr. Kavita Sharma', department: 'AI & Data Science', page: 'Departments',
-    teachingExperience: 8, industryExperience: 5, papers: 22, books: 1, patents: 1,
-    dob: '1988-01-17', joinDate: '2018-01-05', email: 'kavita.sharma@vcet.edu.in',
-    qualification: 'Ph.D. Data Science', specialization: 'Natural Language Processing & Big Data',
-    pgProjects: '6 M.Tech projects guided', researchDomain: 'NLP, Big Data Analytics, Computer Vision',
-    consultancyProjects: 'Sentiment Analysis Engine for Flipkart',
-    publications: { books: 'Data Science with Python (O\'Reilly, 2023)', isbn: '978-1-492-12345-9', patents: 'NLP-based Chatbot Framework (IN202200123)', papers: '22 papers in ACL, NeurIPS, AAAI' },
-    roles: 'AI Lab Coordinator\nStartup Incubation Cell Mentor\nPlacement Coordinator - AIDS Dept',
-    awards: 'Google Research Award 2023\nBest Innovator - VCET 2024',
-    onlinePresence: { website: 'https://kavitasharma.ai', youtube: 'https://youtube.com/@kavita-ai', resources: 'https://github.com/kavita-sharma-ai' },
-    memberships: 'ACM Member\nIEEE Member\nIndia AI Council Member',
-    is_active: true, created_at: '2024-04-01T10:00:00Z', updated_at: '2024-04-01T10:00:00Z',
+    _id: 'mock-2',
+    basicInfo: {
+      fullName: 'Prof. Rajesh Kulkarni',
+      designation: 'Associate Professor',
+      department: 'Information Technology',
+      email: 'rajesh.kulkarni@vcet.edu.in',
+      dob: '1984-03-22',
+      joinDate: '2012-08-15',
+      isActive: true,
+    },
+    profileImage: { url: '/Images/departments/it/faculty/rajesh-kulkarni.jpg', public_id: 'mock-img-2' },
+    qualifications: {
+      degrees: ['M.Tech Information Technology', 'B.E. IT'],
+      specialization: 'Cybersecurity & Network Systems',
+    },
+    experience: {
+      teachingYears: 12,
+      industryYears: 6,
+      totalPapers: 18,
+      totalBooks: 1,
+      totalPatents: 0,
+    },
+    academic: {
+      pgProjects: '8 M.Tech projects guided',
+      researchDomains: ['Network Security', 'Blockchain'],
+      consultancyProjects: ['Cybersecurity Audit for State Bank of India'],
+    },
+    publications: {
+      books: [{ title: 'Network Security Essentials (Pearson, 2023)', isbn: '978-0-13-456789-0' }],
+      patents: [],
+      researchPapers: ['18 papers in IEEE, ACM conferences'],
+    },
+    rolesAndAwards: {
+      roles: ['Cybersecurity Lab In-charge', 'NBA Coordinator'],
+      awards: ['Best Paper Award - IEEE ICCCNT 2022'],
+    },
+    onlineLinks: {
+      website: 'https://rajeshk.dev',
+      youtube: 'https://youtube.com/@rajeshk-cybersec',
+      github: '',
+    },
+    memberships: {
+      organizations: ['IEEE Member', 'ISCA Member'],
+    },
+    createdAt: '2024-02-15T10:00:00Z',
+    updatedAt: '2024-02-15T10:00:00Z',
   },
 ];
+
+// Special CRUD handler for Faculty to support _id instead of id
+export function createFacultyMockCrud(seed: Faculty[], storageKey: string = 'vcet_mock_faculty_v3') {
+  let store = readMockCollection(storageKey, seed);
+
+  const persist = () => localStorage.setItem(storageKey, JSON.stringify(store));
+
+  return {
+    list: async () => ({ success: true, data: [...store] }),
+    get: async (id: string) => {
+      const item = store.find(f => f._id === id);
+      if (!item) throw new Error('Faculty not found');
+      return { success: true, data: { ...item } };
+    },
+    create: async (payload: any) => {
+      const newItem = { 
+        ...payload, 
+        _id: `mock-${Date.now()}`,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      store.unshift(newItem);
+      persist();
+      return { success: true, data: newItem };
+    },
+    update: async (id: string, payload: any) => {
+      const idx = store.findIndex(f => f._id === id);
+      if (idx === -1) throw new Error('Faculty not found');
+      store[idx] = { ...store[idx], ...payload, updatedAt: new Date().toISOString() };
+      persist();
+      return { success: true, data: store[idx] };
+    },
+    delete: async (id: string) => {
+      store = store.filter(f => f._id !== id);
+      persist();
+      return { success: true };
+    }
+  };
+}
+
+export const mockFacultyApi = createFacultyMockCrud(MOCK_FACULTY);
 
 // ── Gallery-specific CRUD (no "get" or "update", only upload + delete) ───────
 export function createGalleryCrud(seed: GalleryImage[], storageKey: string = 'vcet_mock_gallery') {
