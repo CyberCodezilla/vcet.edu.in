@@ -149,7 +149,58 @@ const EYantra: React.FC = () => {
                 Events
                 <span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" />
               </h3>
-              <p className="text-slate-600 leading-8">Content will be updated shortly.</p>
+              <div className="space-y-4">
+                <p className="text-slate-600 leading-8">
+                  Explore yearly activity reports for the e-Yantra laboratory.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <a
+                    href="https://vcet.edu.in/wp-content/uploads/2024/04/eYantra-Activities-23-24.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors"
+                  >
+                    <span>Year 23-24</span>
+                    <i className="ph ph-arrow-square-out" />
+                  </a>
+                  <a
+                    href="https://vcet.edu.in/wp-content/uploads/2024/04/eYantra-Activities-22-23.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors"
+                  >
+                    <span>Year 22-23</span>
+                    <i className="ph ph-arrow-square-out" />
+                  </a>
+                  <a
+                    href="https://vcet.edu.in/wp-content/uploads/2024/04/eYantra-Activities21-22.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors"
+                  >
+                    <span>Year 21-22</span>
+                    <i className="ph ph-arrow-square-out" />
+                  </a>
+                  <a
+                    href="https://vcet.edu.in/wp-content/uploads/2024/04/eYantra-Activities-20-21.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors"
+                  >
+                    <span>Year 20-21</span>
+                    <i className="ph ph-arrow-square-out" />
+                  </a>
+                  <a
+                    href="https://vcet.edu.in/wp-content/uploads/2024/04/eYantra-Activities19-20.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors sm:col-span-2"
+                  >
+                    <span>Year 19-20</span>
+                    <i className="ph ph-arrow-square-out" />
+                  </a>
+                </div>
+              </div>
             </section>
           )}
 
@@ -163,7 +214,16 @@ const EYantra: React.FC = () => {
                 Equipments
                 <span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" />
               </h3>
-              <p className="text-slate-600 leading-8">Content will be updated shortly.</p>
+              <ul className="list-disc pl-5 space-y-2 text-slate-600 leading-8">
+                <li>FireBird V 2560</li>
+                <li>Spark V Robot (5)</li>
+                <li>P89V51RD2 Development Board</li>
+                <li>Raspberry-Pi 3</li>
+                <li>Zigbee Modules</li>
+                <li>Metal-gear Servo Motors</li>
+                <li>Servo Motor Based Gripper kit for the Fire Bird V Robot</li>
+                <li>Sensor Sharp GP2Y0A21YK0F infrared range</li>
+              </ul>
             </section>
           )}
 
@@ -177,7 +237,13 @@ const EYantra: React.FC = () => {
                 Effectiveness
                 <span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" />
               </h3>
-              <p className="text-slate-600 leading-8">Content will be updated shortly.</p>
+              <ul className="list-disc pl-5 space-y-2 text-slate-600 leading-8">
+                <li>
+                  Participation in intercollegiate and National level competitions like e-Yantra Robotics Competition organized by IIT Bombay.
+                </li>
+                <li>Peer learning during the workshop conducted under the initiative.</li>
+                <li>Implementation of mini projects by students using the kits in the laboratory.</li>
+              </ul>
             </section>
           )}
 
@@ -191,7 +257,18 @@ const EYantra: React.FC = () => {
                 Gallery
                 <span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" />
               </h3>
-              <p className="text-slate-600 leading-8">Content will be updated shortly.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <div
+                    key={idx}
+                    className="rounded-2xl border border-slate-200 overflow-hidden bg-slate-50"
+                  >
+                    <div className="aspect-video bg-slate-200 flex items-center justify-center text-slate-500 text-sm">
+                      Image Placeholder {idx + 1}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </section>
           )}
 
@@ -205,7 +282,38 @@ const EYantra: React.FC = () => {
                 Team
                 <span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" />
               </h3>
-              <p className="text-slate-600 leading-8">Content will be updated shortly.</p>
+              <div className="overflow-x-auto rounded-xl border border-slate-200">
+                <table className="min-w-full text-sm text-slate-700">
+                  <thead className="bg-slate-50 text-left">
+                    <tr>
+                      <th className="px-4 py-3 font-semibold border-b border-slate-200">Post</th>
+                      <th className="px-4 py-3 font-semibold border-b border-slate-200">Name</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-200">
+                    <tr className="odd:bg-white even:bg-slate-50/60">
+                      <td className="px-4 py-3 font-medium">Coordinator :</td>
+                      <td className="px-4 py-3">Dr. Megha Trivedi, HOD Computer Engineering</td>
+                    </tr>
+                    <tr className="odd:bg-white even:bg-slate-50/60">
+                      <td className="px-4 py-3 font-medium">IIC Coordinator</td>
+                      <td className="px-4 py-3">Mr. Prafulla Patil, Placement Manager</td>
+                    </tr>
+                    <tr className="odd:bg-white even:bg-slate-50/60">
+                      <td className="px-4 py-3 font-medium">Members:</td>
+                      <td className="px-4 py-3">
+                        <ul className="list-disc pl-5 space-y-1">
+                          <li>Dr. Madhavi Waghmare (Information Technology)</li>
+                          <li>Mrs. Trupti Shah (EXTC)</li>
+                          <li>Mrs. Shaista Khan (EXTC)</li>
+                          <li>Ms. Deepti Mahadeshwar (Instru)</li>
+                          <li>Ms. Priti Loke</li>
+                        </ul>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </section>
           )}
         </main>
