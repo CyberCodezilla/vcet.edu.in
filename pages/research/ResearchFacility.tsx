@@ -140,7 +140,7 @@ const ResearchFacility: React.FC = () => {
                 className="reveal group bg-white border border-[#E3E8EF] rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(15,23,42,0.06)] hover:shadow-[0_8px_24px_rgba(15,23,42,0.10)] hover:-translate-y-0.5 transition-all duration-300"
                 style={{ transitionDelay: `${index * 0.06}s` }}
               >
-                <div className="relative aspect-[16/10] bg-gradient-to-br from-[#EEF3F9] to-[#E8EDF5] border-b border-[#E3E8EF]">
+                <div className="relative aspect-[16/10] bg-gradient-to-br from-[#EEF3F9] to-[#E8EDF5]">
                   {item.image ? (
                     <img
                       src={item.image}
@@ -167,16 +167,6 @@ const ResearchFacility: React.FC = () => {
                       Research Note {index + 1}
                     </span>
                   </div>
-                </div>
-
-                <div className="p-5 md:p-6">
-                  <h3 className="font-display font-bold text-[#153E6D] text-xl leading-tight mb-2 group-hover:text-[#1a4b7c] transition-colors duration-200">
-                    {item.title}
-                  </h3>
-                  <div className="w-10 h-[2px] bg-[#fdb813] mb-3" />
-                  <p className="text-[15px] md:text-[16px] text-[#4B5563] leading-[1.8]">
-                    {item.description}
-                  </p>
                 </div>
               </article>
             ))}

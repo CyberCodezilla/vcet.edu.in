@@ -586,7 +586,7 @@ This project is built by an amazing team of developers committed to creating a w
 
 | # | Contributor | GitHub |
 |---|-------------|--------|
-| 1 | **frag2win** | [@frag2win](https://github.com/frag2win) |
+| 1 | **frag2win**/**shubham pawar** | [@frag2win](https://github.com/frag2win) |
 | 2 | **Sahil2802-coder** | [@Sahil2802-coder](https://github.com/Sahil2802-coder) |
 | 3 | **yashhh-23** | [@yashhh-23](https://github.com/yashhh-23) |
 | 4 | **RedRex101** | [@RedRex101](https://github.com/RedRex101) |
@@ -600,6 +600,9 @@ This project is built by an amazing team of developers committed to creating a w
 | 12 | **PratikRavale24** | [@PratikRavale24](https://github.com/PratikRavale24) |
 | 13 | **Pranish Harish Shetty** | [@pranishshetty](https://share.google/b5ZkgP5lON5wfUw4y) |
 | 14 | **Rehan Pinjari** | [@rehanw1](https://github.com/rehanw1) |
+| 15 | **Pritiyadav** | [@Pritiyadav6](https://github.com/Pritiyadav6) |
+
+
 
 ### How to contribute
 

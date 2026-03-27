@@ -33,7 +33,7 @@ const Publications: React.FC = () => {
   return (
     <PageLayout>
       <PageBanner
-        title="Publications"
+        title="Publications (Journals, Conference, Books)"
         breadcrumbs={[
           { label: 'Research', href: '/research' },
           { label: 'Publications' },
@@ -130,6 +130,32 @@ const Publications: React.FC = () => {
               </div>
             </div>
           </div>
+
+          {/* Books Published PDF Button */}
+          <div className="reveal mt-10 border border-[#E5E7EB] bg-white">
+            <a
+              href="https://vcet.edu.in/wp-content/uploads/2024/06/BOOKS-PUBLISHED1.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-5 px-6 py-5 group hover:bg-[#F7F9FC] transition-colors duration-200"
+            >
+              <div className="w-14 h-14 flex items-center justify-center bg-[#1a4b7c] text-white flex-shrink-0">
+                <FileText className="w-6 h-6" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-[17px] font-display font-bold text-[#1a4b7c] group-hover:text-[#3a6fa8] transition-colors">
+                  Books &amp; Chapters Published
+                </h3>
+                <p className="text-[14px] text-[#374151] mt-1 leading-relaxed">
+                  View the complete list of books and book chapters published by VCET faculty members across various academic years.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 flex-shrink-0 px-4 py-2 border border-[#1a4b7c] text-[#1a4b7c] group-hover:bg-[#1a4b7c] group-hover:text-white transition-colors duration-200">
+                <span className="text-[14px] font-bold uppercase tracking-[0.15em]">View PDF</span>
+                <ExternalLink className="w-4 h-4" />
+              </div>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -138,10 +164,36 @@ const Publications: React.FC = () => {
           ══════════════════════════════════════════════════ */}
       <section className="py-20 bg-white border-t border-[#E5E7EB]">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
+          {/* Conference Publications PDF Button */}
+          <div className="reveal mb-10 border border-[#E5E7EB] bg-white">
+            <a
+              href="https://vcet.edu.in/wp-content/uploads/2024/04/CONFERENCE-PUBLICATIONS-R1.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-5 px-6 py-5 group hover:bg-[#F7F9FC] transition-colors duration-200"
+            >
+              <div className="w-14 h-14 flex items-center justify-center bg-[#1a4b7c] text-white flex-shrink-0">
+                <FileText className="w-6 h-6" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-[17px] font-display font-bold text-[#1a4b7c] group-hover:text-[#3a6fa8] transition-colors">
+                  Conference Publications
+                </h3>
+                <p className="text-[14px] text-[#374151] mt-1 leading-relaxed">
+                  View the complete list of conference publications by VCET faculty and students, including paper titles, authors, conference names, and indexing details.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 flex-shrink-0 px-4 py-2 border border-[#1a4b7c] text-[#1a4b7c] group-hover:bg-[#1a4b7c] group-hover:text-white transition-colors duration-200">
+                <span className="text-[14px] font-bold uppercase tracking-[0.15em]">View PDF</span>
+                <ExternalLink className="w-4 h-4" />
+              </div>
+            </a>
+          </div>
+
           <div className="reveal mb-10">
             <span className="text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Research Papers</span>
             <h2 className="text-4xl md:text-5xl font-display font-bold text-[#1a4b7c] mt-4 tracking-tight">
-              Journal &amp; Conference Publications
+              Refered Journal Paper Publication
             </h2>
           </div>
 
@@ -258,10 +310,10 @@ const Publications: React.FC = () => {
             </div>
           </div>
 
-          {/* Conference Publications PDF Button */}
+          {/* Journal Publications PDF Button */}
           <div className="reveal mt-10 border border-[#E5E7EB] bg-white">
             <a
-              href="/Images/research/CONFERENCE-PUBLICATIONS.pdf"
+              href="https://vcet.edu.in/wp-content/uploads/2024/04/JOURNAL-PAPER-PUBLICATION.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-5 px-6 py-5 group hover:bg-[#F7F9FC] transition-colors duration-200"
@@ -271,10 +323,10 @@ const Publications: React.FC = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="text-[17px] font-display font-bold text-[#1a4b7c] group-hover:text-[#3a6fa8] transition-colors">
-                  Conference Publications
+                  Journal Publications
                 </h3>
                 <p className="text-[14px] text-[#374151] mt-1 leading-relaxed">
-                  View the complete list of conference publications by VCET faculty and students, including paper titles, authors, conference names, and indexing details.
+                  View the complete list of referred journal papers published by VCET faculty and students, including precise indexing and publication details.
                 </p>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0 px-4 py-2 border border-[#1a4b7c] text-[#1a4b7c] group-hover:bg-[#1a4b7c] group-hover:text-white transition-colors duration-200">
@@ -283,6 +335,7 @@ const Publications: React.FC = () => {
               </div>
             </a>
           </div>
+
         </div>
       </section>
     </PageLayout>

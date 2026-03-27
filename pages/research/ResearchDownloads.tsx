@@ -6,11 +6,11 @@ import { ArrowUpRight, ExternalLink, FileText, Link2 } from 'lucide-react';
 const docButtons = [
   {
     label: 'Form for research recommendation',
-    href: '/research-downloads/Form-for-research-recommendation.docx',
+    href: 'https://docs.google.com/document/d/1RqHvcqpi9CVdeQrYhDnDpt5BEEAOqR6x/view',
   },
   {
     label: 'Form for Institute Research Funding Proposal',
-    href: '/research-downloads/Form-for-Institute-Research-Funding-Proposal.docx',
+    href: 'https://docs.google.com/document/d/1em4Az-lpgdJsC0vCvbI5-CkytCz-pxuF/view',
   },
 ];
 
@@ -130,10 +130,7 @@ const ResearchDownloads: React.FC = () => {
             ))}
           </div>
 
-          <div className="reveal mt-6 flex items-start gap-2.5 text-[13px] md:text-[14px] text-[#6B7280]">
-            <FileText className="w-4 h-4 text-[#1A4B7C] mt-0.5 flex-shrink-0" />
-            <p>For the two top buttons, keep the DOC files in public/research-downloads with the same filenames used in this page.</p>
-          </div>
+
         </div>
       </section>
     </PageLayout>

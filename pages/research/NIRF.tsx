@@ -15,9 +15,9 @@ const sectionTabs = [
 ];
 
 const reportPdfs: PdfItem[] = [
-  { title: 'NIRF 2025 Engineering - VCET', year: '2025', href: '/nirf/NIRF_2025_ENGINEERING_VCET.pdf', note: 'Engineering category PDF' },
-  { title: 'NIRF 2025 Management - VCET', year: '2025', href: '/nirf/NIRF2025_MANAGEMENT_VCET.pdf', note: 'Management category PDF' },
-  { title: 'NIRF 2025 Overall - VCET', year: '2025', href: '/nirf/NIRF2025_Overall_VCET.pdf', note: 'Overall category PDF' },
+  { title: 'NIRF 2025 Engineering - VCET', year: '2025', href: 'https://vcet.edu.in/wp-content/uploads/2025/02/NIRF2025_ENGINEERING_VCET.pdf', note: 'Engineering category PDF' },
+  { title: 'NIRF 2025 Management - VCET', year: '2025', href: 'https://vcet.edu.in/wp-content/uploads/2025/02/NIRF_2025_MANAGEMENT_VCET.pdf', note: 'Management category PDF' },
+  { title: 'NIRF 2025 Overall - VCET', year: '2025', href: 'https://vcet.edu.in/wp-content/uploads/2025/02/NIRF2025_Overall_VCET.pdf', note: 'Overall category PDF' },
 ];
 
 const PdfGrid: React.FC<{ items: PdfItem[] }> = ({ items }) => {
@@ -76,59 +76,7 @@ const NIRF: React.FC = () => {
         ]}
       />
 
-      <section className="relative py-14 md:py-16 bg-[#0F355B] border-b border-[#0D2F50] overflow-hidden">
-        <div className="absolute inset-0 opacity-35 pointer-events-none">
-          <div className="absolute -top-20 right-0 w-72 h-72 rounded-full bg-[#2A76BE]/25 blur-3xl" />
-          <div className="absolute -bottom-16 left-0 w-72 h-72 rounded-full bg-[#fdb813]/20 blur-3xl" />
-        </div>
 
-        <div className="container mx-auto px-4 sm:px-6 max-w-[1200px] relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div className="reveal lg:col-span-7">
-              <span className="inline-block text-[12px] font-bold uppercase tracking-[0.22em] text-[#fdb813] border-b border-[#fdb813]/60 pb-1 mb-4">
-                NIRF Document Library
-              </span>
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-white leading-[1.12] mb-4 tracking-tight">
-                National Institutional Ranking Framework
-              </h2>
-              <p className="text-white/85 text-[16px] md:text-[18px] leading-[1.8] max-w-3xl">
-                This page is fully dedicated to NIRF report PDFs, with direct open and download actions.
-              </p>
-            </div>
-
-            <div className="reveal lg:col-span-5" style={{ transitionDelay: '0.08s' }}>
-              <div className="border border-white/20 bg-white/10 backdrop-blur-sm p-5 shadow-[0_10px_26px_rgba(0,0,0,0.2)]">
-                <p className="text-[12px] uppercase tracking-[0.12em] font-bold text-[#fdb813] mb-3">Quick Access</p>
-                <div className="space-y-2.5">
-                  <a
-                    href="#reports"
-                    className="flex items-center justify-between gap-2 px-3 py-2 border border-white/20 bg-white/[0.05] text-white text-[13px] hover:bg-white/[0.1] transition-colors"
-                  >
-                    <span>Reports</span>
-                    <FolderOpen className="w-4 h-4 text-[#fdb813]" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="sticky top-[72px] z-20 bg-white/95 backdrop-blur-sm border-b border-[#E4EAF2]">
-        <div className="container mx-auto px-4 sm:px-6 max-w-[1200px] py-3">
-          <div className="flex flex-wrap gap-2.5">
-            {sectionTabs.map((tab) => (
-              <a
-                key={tab.label}
-                href={tab.href}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-none border border-[#D7E1EC] bg-[#F8FBFF] text-[#1A4B7C] text-[12px] font-bold uppercase tracking-[0.08em] hover:bg-[#1A4B7C] hover:text-white transition-colors"
-              >
-                {tab.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section id="reports" className="py-14 md:py-16 bg-[#F8FAFC] scroll-mt-28">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">

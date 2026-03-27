@@ -68,8 +68,8 @@ const FundedResearch = lazy(() => import('./pages/research/FundedResearch'));
 const Publications = lazy(() => import('./pages/research/Publications'));
 const ConsultancyProjects = lazy(() => import('./pages/research/ConsultancyProjects'));
 const ResearchFacility = lazy(() => import('./pages/research/ResearchFacility'));
-const ResearchConventions = lazy(() => import('./pages/research/ResearchConventions'));
-const ResearchPolicy = lazy(() => import('./pages/research/ResearchPolicy'));
+
+
 const NIRF = lazy(() => import('./pages/research/NIRF'));
 const ResearchPatents = lazy(() => import('./pages/research/Patents'));
 const ResearchIIC = lazy(() => import('./pages/research/IIC'));
@@ -357,8 +357,8 @@ function App() {
           <Route path="/parents" element={<Parents />} />
           <Route path="/consultancy-projects" element={<ConsultancyProjects />} />
           <Route path="/research-facility" element={<ResearchFacility />} />
-          <Route path="/research-conventions" element={<ResearchConventions />} />
-          <Route path="/research-policy" element={<ResearchPolicy />} />
+
+
           <Route path="/iic" element={<ResearchIIC />} />
           <Route path="/nirf" element={<NIRF />} />
           <Route path="/research-downloads" element={<ResearchDownloads />} />
