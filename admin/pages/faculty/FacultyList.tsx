@@ -52,9 +52,9 @@ const FacultyList: React.FC = () => {
 
   const handleDelete = async (item: Faculty) => {
     if (!window.confirm(`Delete faculty "${item.basicInfo.fullName}"? This action cannot be undone.`)) return;
-    setDeletingId(item._id);
+    setDeletingId(item.id.toString());
     try {
-      await facultyApi.delete(item._id);
+      await facultyApi.delete(item.id);
       setToast({ message: `${item.basicInfo.fullName} deleted successfully`, type: 'success' });
       fetchItems();
     } catch (e) {
@@ -146,7 +146,7 @@ const FacultyList: React.FC = () => {
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {filteredItems.map((item) => (
-                  <tr key={item._id} className="group hover:bg-slate-50/50 transition-all duration-300">
+                  <tr key={item.id} className="group hover:bg-slate-50/50 transition-all duration-300">
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-4">
                         <div className="w-14 h-14 rounded-2xl overflow-hidden bg-slate-100 flex-shrink-0 border-2 border-white shadow-sm">
@@ -181,10 +181,10 @@ const FacultyList: React.FC = () => {
                     </td>
                     <td className="px-8 py-6 text-right">
                       <div className="flex items-center justify-end gap-3">
-                        <Link to={`/admin/pages/faculty/${item._id}/edit`} className="p-2.5 text-slate-400 hover:text-[#1e293b] hover:bg-slate-100 rounded-2xl transition-all" title="Edit Profile">
+                        <Link to={`/admin/pages/faculty/${item.id}/edit`} className="p-2.5 text-slate-400 hover:text-[#1e293b] hover:bg-slate-100 rounded-2xl transition-all" title="Edit Profile">
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
                         </Link>
-                        <button onClick={() => handleDelete(item)} disabled={deletingId === item._id} className="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-all disabled:opacity-40" title="Delete record">
+                        <button onClick={() => handleDelete(item)} disabled={deletingId === item.id.toString()} className="p-2.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-all disabled:opacity-40" title="Delete record">
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                         </button>
                       </div>

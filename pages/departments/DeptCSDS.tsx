@@ -432,7 +432,7 @@ const DeptCSDS: React.FC = () => {
           )}
 
           {/* ── FACULTY ────────────────────────────────────────── */}
-          {activeId === 'faculty' && <DepartmentFacultySection departmentName="CS & Data Science" />}
+          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Computer Science & Data Science" />}
 
           {/* ── TOPPERS ───────────────────────────────────────── */}
           {activeId === 'toppers' && (() => {

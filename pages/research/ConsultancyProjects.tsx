@@ -1,7 +1,7 @@
 import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
-import { Briefcase, TrendingUp, Zap, Download } from 'lucide-react';
+import { Briefcase, TrendingUp, Zap, Download, FileText, ExternalLink } from 'lucide-react';
 
 // ─── Revenue Trend Data (sorted chronologically) ──────────────────────────────
 interface RevenueEntry { year: string; value: number; note: 'Peak' | 'Lowest' | '' }
@@ -127,49 +127,6 @@ const ConsultancyProjects: React.FC = () => {
         ]}
       />
 
-      {/* Introduction */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              {/* Image Placeholder */}
-              <div className="reveal">
-                <div className="aspect-[4/3] bg-brand-light rounded-2xl border border-gray-100 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-gradient-to-br from-brand-blue/20 to-brand-gold/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                      <Briefcase className="w-8 h-8 text-brand-blue/40" />
-                    </div>
-                    <p className="text-xs text-slate-400">consultancy-projects.jpg</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="reveal" style={{ transitionDelay: '0.1s' }}>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-0.5 bg-brand-gold" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">
-                    Industry Collaboration
-                  </span>
-                </div>
-                <h2 className="text-2xl md:text-3xl font-display font-bold text-brand-navy mb-4">
-                  Faculty Consultancy Services
-                </h2>
-                <p className="text-slate-600 leading-relaxed mb-4">
-                  VCET faculty members offer their domain expertise to industry through consultancy
-                  projects spanning multiple engineering and technology disciplines. These
-                  collaborations bridge the gap between academia and industry, providing
-                  practical solutions to real-world challenges.
-                </p>
-                <p className="text-slate-600 leading-relaxed">
-                  The institution has a dedicated consultancy cell that facilitates industry
-                  partnerships, manages project agreements, and ensures timely delivery of
-                  consultancy services while maintaining the highest quality standards.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ── Revenue Trends + Insights Sidebar ─────────────────────────────────── */}
       <section className="py-16 bg-brand-light">
@@ -312,15 +269,28 @@ const ConsultancyProjects: React.FC = () => {
               </div>
 
               {/* ── PDF Download Button ─────────────────────────────────── */}
-              <div className="reveal flex justify-center" style={{ transitionDelay: '0.2s' }}>
+              <div className="reveal mt-10 border border-[#E5E7EB] bg-white w-full">
                 <a
-                  href="/CONSULTANCY-PROJECTS-revised.pdf"
+                  href="https://vcet.edu.in/wp-content/uploads/2024/06/CONSULTANCY-PROJECTS-revised.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-gradient-to-r from-brand-blue to-brand-navy text-white text-sm font-semibold rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                  className="flex items-center gap-5 px-6 py-5 group hover:bg-[#F7F9FC] transition-colors duration-200"
                 >
-                  <Download className="w-4 h-4" />
-                  View Consultancy Projects (PDF)
+                  <div className="w-14 h-14 flex items-center justify-center bg-[#1a4b7c] text-white flex-shrink-0">
+                    <FileText className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 min-w-0 text-left">
+                    <h3 className="text-[17px] font-display font-bold text-[#1a4b7c] group-hover:text-[#3a6fa8] transition-colors">
+                      Consultancy Projects Report
+                    </h3>
+                    <p className="text-[14px] text-[#374151] mt-1 leading-relaxed">
+                      View the detailed record of consultancy projects, revenue trends, and industry collaborations executed by VCET faculty.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0 px-4 py-2 border border-[#1a4b7c] text-[#1a4b7c] group-hover:bg-[#1a4b7c] group-hover:text-white transition-colors duration-200">
+                    <span className="text-[14px] font-bold uppercase tracking-[0.15em]">View PDF</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </div>
                 </a>
               </div>
             </div>

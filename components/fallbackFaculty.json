@@ -1,0 +1,4761 @@
+﻿{
+    "success":  true,
+    "data":  [
+                 {
+                     "id":  3,
+                     "slug":  "dr-tatwadarshi-nagarhalli",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/aids/faculty/dr-tatwadarshi-nagarhalli.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "tatwadarshi.nagarhalli@vcet.edu.in",
+                                       "fullName":  "Dr. Tatwadarshi Nagarhalli",
+                                       "isActive":  true,
+                                       "department":  "Artificial Intelligence \u0026 Data Science",
+                                       "designation":  "Associate Professor \u0026 Head of Department"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/aids/faculty/dr-tatwadarshi-nagarhalli.jpg"
+                                      }
+                 },
+                 {
+                     "id":  4,
+                     "slug":  "ms-sejal-d",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/aids/faculty/sejal-dmello.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "sejal.dmelo@vcet.edu.in",
+                                       "fullName":  "Ms. Sejal D",
+                                       "isActive":  true,
+                                       "department":  "Artificial Intelligence \u0026 Data Science",
+                                       "designation":  "Deputy HOD \u0026 Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/aids/faculty/sejal-dmello.jpg"
+                                      }
+                 },
+                 {
+                     "id":  5,
+                     "slug":  "mrs-sneha-yadav",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/aids/faculty/sejal-dmello.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "sneha.yadav@vcet.edu.in",
+                                       "fullName":  "Mrs. Sneha Yadav",
+                                       "isActive":  true,
+                                       "department":  "Artificial Intelligence \u0026 Data Science",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/aids/faculty/sejal-dmello.jpg"
+                                      }
+                 },
+                 {
+                     "id":  6,
+                     "slug":  "ms-neha-raut",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/aids/faculty/sneha-yadav.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "neha.raut@vcet.edu.in",
+                                       "fullName":  "Ms. Neha Raut",
+                                       "isActive":  true,
+                                       "department":  "Artificial Intelligence \u0026 Data Science",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/aids/faculty/sneha-yadav.jpg"
+                                      }
+                 },
+                 {
+                     "id":  7,
+                     "slug":  "ms-kshitija-gharat",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/aids/faculty/kshitija-gharat.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "kshitija.gharat@vcet.edu.in",
+                                       "fullName":  "Ms. Kshitija Gharat",
+                                       "isActive":  true,
+                                       "department":  "Artificial Intelligence \u0026 Data Science",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/aids/faculty/kshitija-gharat.jpg"
+                                      }
+                 },
+                 {
+                     "id":  8,
+                     "slug":  "mr-raunak-joshi",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/aids/faculty/raunak-joshi.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "ronak.joshi@vcet.edu.in",
+                                       "fullName":  "Mr. Raunak Joshi",
+                                       "isActive":  true,
+                                       "department":  "Artificial Intelligence \u0026 Data Science",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/aids/faculty/raunak-joshi.jpg"
+                                      }
+                 },
+                 {
+                     "id":  9,
+                     "slug":  "ms-rujuta-vartak",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/aids/faculty/rujuta-vartak.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "rujuta.vartak@vcet.edu.in",
+                                       "fullName":  "Ms. Rujuta Vartak",
+                                       "isActive":  true,
+                                       "department":  "Artificial Intelligence \u0026 Data Science",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/aids/faculty/rujuta-vartak.jpg"
+                                      }
+                 },
+                 {
+                     "id":  10,
+                     "slug":  "ms-kranti-gule",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/aids/faculty/rujuta-vartak.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "kranti.gule@vcet.edu.in",
+                                       "fullName":  "Ms. Kranti Gule",
+                                       "isActive":  true,
+                                       "department":  "Artificial Intelligence \u0026 Data Science",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/aids/faculty/rujuta-vartak.jpg"
+                                      }
+                 },
+                 {
+                     "id":  11,
+                     "slug":  "dr-yogesh-pingle-1",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/csds/faculty/dr-yogesh-pingle.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "yogesh.pingle@vcet.edu.in",
+                                       "fullName":  "Dr. Yogesh Pingle",
+                                       "isActive":  true,
+                                       "department":  "Computer Science \u0026 Data Science",
+                                       "designation":  "Deputy HOD \u0026 Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/csds/faculty/dr-yogesh-pingle.jpg"
+                                      }
+                 },
+                 {
+                     "id":  12,
+                     "slug":  "ms-krunali-vartak",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/csds/faculty/ms-krunali-vartak.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "krunalivartak@vcet.edu.in",
+                                       "fullName":  "Ms. Krunali Vartak",
+                                       "isActive":  true,
+                                       "department":  "Computer Science \u0026 Data Science",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/csds/faculty/ms-krunali-vartak.jpg"
+                                      }
+                 },
+                 {
+                     "id":  13,
+                     "slug":  "ms-maya-varghese",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/csds/faculty/ms-maya-varghese.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "maya.varghese@vcet.edu.in",
+                                       "fullName":  "Ms. Maya Varghese",
+                                       "isActive":  true,
+                                       "department":  "Computer Science \u0026 Data Science",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/csds/faculty/ms-maya-varghese.jpg"
+                                      }
+                 },
+                 {
+                     "id":  14,
+                     "slug":  "ms-janisa-pereira",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/csds/faculty/ms-janisa-pereira.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "janisa.pereira@vcet.edu.in",
+                                       "fullName":  "Ms. Janisa Pereira",
+                                       "isActive":  true,
+                                       "department":  "Computer Science \u0026 Data Science",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/csds/faculty/ms-janisa-pereira.jpg"
+                                      }
+                 },
+                 {
+                     "id":  15,
+                     "slug":  "ms-leena-raut",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/csds/faculty/ms-leena-raut.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "leena.raut@vcet.edu.in",
+                                       "fullName":  "Ms. Leena Raut",
+                                       "isActive":  true,
+                                       "department":  "Computer Science \u0026 Data Science",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/csds/faculty/ms-leena-raut.jpg"
+                                      }
+                 },
+                 {
+                     "id":  16,
+                     "slug":  "mr-ichhanshu-jaiswal",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/csds/faculty/mr-ichhanshu-jaiswal.png"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "ichhanshu.jaiswal@vcet.edu.in",
+                                       "fullName":  "Mr. Ichhanshu Jaiswal",
+                                       "isActive":  true,
+                                       "department":  "Computer Science \u0026 Data Science",
+                                       "designation":  "Asst. Prof. (Ph.D pursuing)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/csds/faculty/mr-ichhanshu-jaiswal.png"
+                                      }
+                 },
+                 {
+                     "id":  17,
+                     "slug":  "ms-shital-cheke",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/csds/faculty/ms-shital-cheke.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "shitalcheke@vcet.edu.in",
+                                       "fullName":  "Ms. Shital Cheke",
+                                       "isActive":  true,
+                                       "department":  "Computer Science \u0026 Data Science",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/csds/faculty/ms-shital-cheke.jpg"
+                                      }
+                 },
+                 {
+                     "id":  18,
+                     "slug":  "ms-bhavika-joshi",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/csds/faculty/ms-bhavika-joshi.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "bhavika.joshi@vcet.edu.in",
+                                       "fullName":  "Ms. Bhavika Joshi",
+                                       "isActive":  true,
+                                       "department":  "Computer Science \u0026 Data Science",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/csds/faculty/ms-bhavika-joshi.jpg"
+                                      }
+                 },
+                 {
+                     "id":  19,
+                     "slug":  "ms-odilia-gonsalves",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/csds/faculty/ms-odilia-gonsalves.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "odilia.gonsalves@vcet.edu.in",
+                                       "fullName":  "Ms. Odilia Gonsalves",
+                                       "isActive":  true,
+                                       "department":  "Computer Science \u0026 Data Science",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/csds/faculty/ms-odilia-gonsalves.jpg"
+                                      }
+                 },
+                 {
+                     "id":  20,
+                     "slug":  "dr-ajay-radke",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/civil/faculty/dr-ajay-radke.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "ajay.radke@vcet.edu.in",
+                                       "fullName":  "Dr. Ajay Radke",
+                                       "isActive":  true,
+                                       "department":  "Civil Engineering",
+                                       "designation":  "Professor \u0026 Head of Department"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/civil/faculty/dr-ajay-radke.jpg"
+                                      }
+                 },
+                 {
+                     "id":  21,
+                     "slug":  "dr-archanaa-dongre",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/civil/faculty/dr-archanaa-dongre.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "archanaa.dongre@vcet.edu.in",
+                                       "fullName":  "Dr. Archanaa Dongre",
+                                       "isActive":  true,
+                                       "department":  "Civil Engineering",
+                                       "designation":  "Associate Professor"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/civil/faculty/dr-archanaa-dongre.jpg"
+                                      }
+                 },
+                 {
+                     "id":  22,
+                     "slug":  "dr-jaydeep-chougale",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/civil/faculty/dr-jaydeep-chougale.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "jaydeep.chougale@vcet.edu.in",
+                                       "fullName":  "Dr. Jaydeep Chougale",
+                                       "isActive":  true,
+                                       "department":  "Civil Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/civil/faculty/dr-jaydeep-chougale.jpg"
+                                      }
+                 },
+                 {
+                     "id":  23,
+                     "slug":  "ms-puja-ghadi",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/civil/faculty/puja-ghadi.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "puja.ghadi@vcet.edu.in",
+                                       "fullName":  "Ms. Puja Ghadi",
+                                       "isActive":  true,
+                                       "department":  "Civil Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/civil/faculty/puja-ghadi.jpg"
+                                      }
+                 },
+                 {
+                     "id":  24,
+                     "slug":  "dr-viren-chandanshive",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/civil/faculty/dr-viren-chandanshive.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "viren.chandanshive@vcet.edu.in",
+                                       "fullName":  "Dr. Viren Chandanshive",
+                                       "isActive":  true,
+                                       "department":  "Civil Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/civil/faculty/dr-viren-chandanshive.jpg"
+                                      }
+                 },
+                 {
+                     "id":  25,
+                     "slug":  "mr-vikrant-kothari",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/civil/faculty/vikrant-kothari.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "vikrant.kothari@vcet.edu.in",
+                                       "fullName":  "Mr. Vikrant Kothari",
+                                       "isActive":  true,
+                                       "department":  "Civil Engineering",
+                                       "designation":  "Asst. Prof. (Ph.D. Pursuing)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/civil/faculty/vikrant-kothari.jpg"
+                                      }
+                 },
+                 {
+                     "id":  26,
+                     "slug":  "mr-arbaz-kazi",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/civil/faculty/vikrant-kothari.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "arbaz.kazi@vcet.edu.in",
+                                       "fullName":  "Mr. Arbaz Kazi",
+                                       "isActive":  true,
+                                       "department":  "Civil Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/civil/faculty/vikrant-kothari.jpg"
+                                      }
+                 },
+                 {
+                     "id":  27,
+                     "slug":  "mr-prakash-panda",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/civil/faculty/prakash-panda.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "prakash.panda@vcet.edu.in",
+                                       "fullName":  "Mr. Prakash Panda",
+                                       "isActive":  true,
+                                       "department":  "Civil Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/civil/faculty/prakash-panda.jpg"
+                                      }
+                 },
+                 {
+                     "id":  28,
+                     "slug":  "ms-aishwarya-anil",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/civil/faculty/aishwarya-anil.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "aishwarya.anil@vcet.edu.in",
+                                       "fullName":  "Ms. Aishwarya Anil",
+                                       "isActive":  true,
+                                       "department":  "Civil Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/civil/faculty/aishwarya-anil.jpg"
+                                      }
+                 },
+                 {
+                     "id":  29,
+                     "slug":  "dr-megha-trivedi",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/dr-megha-trivedi.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "megha.trivedi@vcet.edu.in",
+                                       "fullName":  "Dr. Megha Trivedi",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Associate Professor \u0026 Head Of Department"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/dr-megha-trivedi.jpg"
+                                      }
+                 },
+                 {
+                     "id":  30,
+                     "slug":  "dr-dinesh-patil",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/dr-dinesh-patil.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "dinesh.patil@vcet.edu.in",
+                                       "fullName":  "Dr. Dinesh Patil",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Associate Professor"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/dr-dinesh-patil.jpg"
+                                      }
+                 },
+                 {
+                     "id":  31,
+                     "slug":  "dr-swapna-borde",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/dr-swapna-borde.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "swapna.borde@vcet.edu.in",
+                                       "fullName":  "Dr. Swapna Borde",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/dr-swapna-borde.jpg"
+                                      }
+                 },
+                 {
+                     "id":  32,
+                     "slug":  "anil-hingmire",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/anil-hingmire.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "anil.hingmire@vcet.edu.in",
+                                       "fullName":  "Anil Hingmire",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof. \u0026 Deputy HOD"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/anil-hingmire.jpg"
+                                      }
+                 },
+                 {
+                     "id":  33,
+                     "slug":  "smita-jawale",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/smita-jawale.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "smita.jawale@vcet.edu.in",
+                                       "fullName":  "Smita Jawale",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof. \u0026 Deputy HOD"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/smita-jawale.jpg"
+                                      }
+                 },
+                 {
+                     "id":  34,
+                     "slug":  "sunil-katkar",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/smita-jawale.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "sunil.katkar@vcet.edu.in",
+                                       "fullName":  "Sunil Katkar",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/smita-jawale.jpg"
+                                      }
+                 },
+                 {
+                     "id":  35,
+                     "slug":  "dr-swati-varma",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/dr-swati-varma.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "swati.varma@vcet.edu.in",
+                                       "fullName":  "Dr. Swati Varma",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/dr-swati-varma.jpg"
+                                      }
+                 },
+                 {
+                     "id":  36,
+                     "slug":  "mr-sanket-patil",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/sanket-patil.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "sanket.patil@vcet.edu.in",
+                                       "fullName":  "Mr. Sanket Patil",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof. (Ph.D. Pursuing)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/sanket-patil.jpg"
+                                      }
+                 },
+                 {
+                     "id":  37,
+                     "slug":  "dr-sneha-mhatre",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/dr-sneha-mhatre.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "sneha.mhatre@vcet.edu.in",
+                                       "fullName":  "Dr. Sneha Mhatre",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/dr-sneha-mhatre.jpg"
+                                      }
+                 },
+                 {
+                     "id":  38,
+                     "slug":  "mr-vishal-pande",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/vishal-pande.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "vishal.pande@vcet.edu.in",
+                                       "fullName":  "Mr. Vishal Pande",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/vishal-pande.jpg"
+                                      }
+                 },
+                 {
+                     "id":  39,
+                     "slug":  "ms-neha-surti",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/vishal-pande.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "neha.surti@vcet.edu.in",
+                                       "fullName":  "Ms. Neha Surti",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/vishal-pande.jpg"
+                                      }
+                 },
+                 {
+                     "id":  40,
+                     "slug":  "ms-brinal-colaco",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/brinal-colaco.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "brinal.colaco@vcet.edu.in",
+                                       "fullName":  "Ms. Brinal Colaco",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof. (Ph.D. Pursuing)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/brinal-colaco.jpg"
+                                      }
+                 },
+                 {
+                     "id":  41,
+                     "slug":  "ms-sweety-patil",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/sweety-patil.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "sweety.patil@vcet.edu.in",
+                                       "fullName":  "Ms. Sweety Patil",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/sweety-patil.jpg"
+                                      }
+                 },
+                 {
+                     "id":  42,
+                     "slug":  "ms-soniya-khatu",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/sweety-patil.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "soniya.khatu@vcet.edu.in",
+                                       "fullName":  "Ms. Soniya Khatu",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/sweety-patil.jpg"
+                                      }
+                 },
+                 {
+                     "id":  43,
+                     "slug":  "ms-bhakti-jadhav",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/bhakti-jadhav.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "bhakti.jadhav@vcet.edu.in",
+                                       "fullName":  "Ms. Bhakti Jadhav",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/bhakti-jadhav.jpg"
+                                      }
+                 },
+                 {
+                     "id":  44,
+                     "slug":  "ms-manali-payghan",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/manali-payghan.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "manali.payghan@vcet.edu.in",
+                                       "fullName":  "Ms. Manali Payghan",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/manali-payghan.jpg"
+                                      }
+                 },
+                 {
+                     "id":  45,
+                     "slug":  "ms-vinal-waghela",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/vinal-waghela.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "vinal.waghela@vcet.edu.in",
+                                       "fullName":  "Ms. Vinal Waghela",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/vinal-waghela.jpg"
+                                      }
+                 },
+                 {
+                     "id":  46,
+                     "slug":  "ms-joyce-lemos",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/vinal-waghela.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "joyce.dsouza@vcet.edu.in",
+                                       "fullName":  "Ms. Joyce Lemos",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/vinal-waghela.jpg"
+                                      }
+                 },
+                 {
+                     "id":  47,
+                     "slug":  "mr-sridhar-subramanian",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/sridhar-subramanian.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "sridhar.s@vcet.edu.in",
+                                       "fullName":  "Mr. Sridhar Subramanian",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/sridhar-subramanian.jpg"
+                                      }
+                 },
+                 {
+                     "id":  48,
+                     "slug":  "mr-atharva-desai",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/atharva-desai.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "atharva.desai@vcet.edu.in",
+                                       "fullName":  "Mr. Atharva Desai",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/atharva-desai.jpg"
+                                      }
+                 },
+                 {
+                     "id":  49,
+                     "slug":  "ms-awantika-sharma",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/awantika-sharma.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "awantika.sharma@vcet.edu.in",
+                                       "fullName":  "Ms. Awantika Sharma",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/awantika-sharma.jpg"
+                                      }
+                 },
+                 {
+                     "id":  50,
+                     "slug":  "ms-shilpa-jaiswal",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/shilpa-jaiswal.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "shilpa.jaiswal@vcet.edu.in",
+                                       "fullName":  "Ms. Shilpa Jaiswal",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/shilpa-jaiswal.jpg"
+                                      }
+                 },
+                 {
+                     "id":  51,
+                     "slug":  "ms-vanashree-gaikwad",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/comp/faculty/vanashree-gaikwad.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "vanashree.gaikwad@vcet.edu.in",
+                                       "fullName":  "Ms. Vanashree Gaikwad",
+                                       "isActive":  true,
+                                       "department":  "Computer Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/comp/faculty/vanashree-gaikwad.jpg"
+                                      }
+                 },
+                 {
+                     "id":  52,
+                     "slug":  "dr-amrita-ruperee",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/extc/faculty/dr-amrita-ruperee.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "amrita.ruperee@vcet.edu.in",
+                                       "fullName":  "Dr. Amrita Ruperee",
+                                       "isActive":  true,
+                                       "department":  "Electronics \u0026 Telecommunication",
+                                       "designation":  "Professor \u0026 Head of Department"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/extc/faculty/dr-amrita-ruperee.jpg"
+                                      }
+                 },
+                 {
+                     "id":  53,
+                     "slug":  "dr-vikas-gupta",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/extc/faculty/dr-vikas-gupta.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "vikas.gupta@vcet.edu.in",
+                                       "fullName":  "Dr. Vikas Gupta",
+                                       "isActive":  true,
+                                       "department":  "Electronics \u0026 Telecommunication",
+                                       "designation":  "Professor \u0026 Dean Academics"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/extc/faculty/dr-vikas-gupta.jpg"
+                                      }
+                 },
+                 {
+                     "id":  54,
+                     "slug":  "dr-ashish-vanmali",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/extc/faculty/dr-ashish-vanmali.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "ashish.vanmali@vcet.edu.in",
+                                       "fullName":  "Dr. Ashish Vanmali",
+                                       "isActive":  true,
+                                       "department":  "Electronics \u0026 Telecommunication",
+                                       "designation":  "Associate Professor"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/extc/faculty/dr-ashish-vanmali.jpg"
+                                      }
+                 },
+                 {
+                     "id":  55,
+                     "slug":  "dr-sunayana-jadhav",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/extc/faculty/dr-sunayana-jadhav.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "sunayana.jadhav@vcet.edu.in",
+                                       "fullName":  "Dr. Sunayana Jadhav",
+                                       "isActive":  true,
+                                       "department":  "Electronics \u0026 Telecommunication",
+                                       "designation":  "Associate Professor \u0026 FY Engg. Co-ordinator"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/extc/faculty/dr-sunayana-jadhav.jpg"
+                                      }
+                 },
+                 {
+                     "id":  56,
+                     "slug":  "ms-shaista-khan",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/extc/faculty/shaista-khan.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "shaista.khan@vcet.edu.in",
+                                       "fullName":  "Ms. Shaista Khan",
+                                       "isActive":  true,
+                                       "department":  "Electronics \u0026 Telecommunication",
+                                       "designation":  "Asst. Prof. (Ph.D. Pursuing)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/extc/faculty/shaista-khan.jpg"
+                                      }
+                 },
+                 {
+                     "id":  57,
+                     "slug":  "ms-sandhya-supalkar",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/extc/faculty/sandhya-supalkar.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "sandhya.supalkar@vcet.edu.in",
+                                       "fullName":  "Ms. Sandhya Supalkar",
+                                       "isActive":  true,
+                                       "department":  "Electronics \u0026 Telecommunication",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/extc/faculty/sandhya-supalkar.jpg"
+                                      }
+                 },
+                 {
+                     "id":  58,
+                     "slug":  "ms-ashwini-katkar",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/extc/faculty/ashwini-katkar.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "ashwini.katkar@vcet.edu.in",
+                                       "fullName":  "Ms. Ashwini Katkar",
+                                       "isActive":  true,
+                                       "department":  "Electronics \u0026 Telecommunication",
+                                       "designation":  "Asst. Prof. (Ph.D. Pursuing)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/extc/faculty/ashwini-katkar.jpg"
+                                      }
+                 },
+                 {
+                     "id":  59,
+                     "slug":  "ms-neha-gharat",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/extc/faculty/neha-gharat.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "neha.gharat@vcet.edu.in",
+                                       "fullName":  "Ms. Neha Gharat",
+                                       "isActive":  true,
+                                       "department":  "Electronics \u0026 Telecommunication",
+                                       "designation":  "Asst. Prof. (Ph.D. Pursuing)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/extc/faculty/neha-gharat.jpg"
+                                      }
+                 },
+                 {
+                     "id":  60,
+                     "slug":  "ms-trupti-shah",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/extc/faculty/neha-gharat.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "trupti.shah@vcet.edu.in",
+                                       "fullName":  "Ms. Trupti Shah",
+                                       "isActive":  true,
+                                       "department":  "Electronics \u0026 Telecommunication",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/extc/faculty/neha-gharat.jpg"
+                                      }
+                 },
+                 {
+                     "id":  61,
+                     "slug":  "ms-kanchan-sarmalkar",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/extc/faculty/kanchan-sarmalkar.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "kanchan.sarmalkar@vcet.edu.in",
+                                       "fullName":  "Ms. Kanchan Sarmalkar",
+                                       "isActive":  true,
+                                       "department":  "Electronics \u0026 Telecommunication",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/extc/faculty/kanchan-sarmalkar.jpg"
+                                      }
+                 },
+                 {
+                     "id":  62,
+                     "slug":  "ms-bharati-gondhalekar",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/extc/faculty/bharati-gondhalekar.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "bharati.gondhalekar@vcet.edu.in",
+                                       "fullName":  "Ms. Bharati Gondhalekar",
+                                       "isActive":  true,
+                                       "department":  "Electronics \u0026 Telecommunication",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/extc/faculty/bharati-gondhalekar.jpg"
+                                      }
+                 },
+                 {
+                     "id":  63,
+                     "slug":  "mr-sandeep-pawar",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/extc/faculty/sandeep-pawar.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "sandeep.pawar@vcet.edu.in",
+                                       "fullName":  "Mr. Sandeep Pawar",
+                                       "isActive":  true,
+                                       "department":  "Electronics \u0026 Telecommunication",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/extc/faculty/sandeep-pawar.jpg"
+                                      }
+                 },
+                 {
+                     "id":  64,
+                     "slug":  "ms-sampada-pimpale",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/extc/faculty/sampada-pimpale.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "sampada.pimpale@vcet.edu.in",
+                                       "fullName":  "Ms. Sampada Pimpale",
+                                       "isActive":  true,
+                                       "department":  "Electronics \u0026 Telecommunication",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/extc/faculty/sampada-pimpale.jpg"
+                                      }
+                 },
+                 {
+                     "id":  65,
+                     "slug":  "ms-chandrakishori-sonarkar",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/chandrakishori-sonarkar.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "c.v.sonarkar@vcet.edu.in",
+                                       "fullName":  "Ms. Chandrakishori Sonarkar",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.Sc. (Chemistry)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/chandrakishori-sonarkar.jpg"
+                                      }
+                 },
+                 {
+                     "id":  66,
+                     "slug":  "ms-beauty-ansari",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/beauty-ansari.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "beauty.ansari@vcet.edu.in",
+                                       "fullName":  "Ms. Beauty Ansari",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.Sc. (Chemistry) SET"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/beauty-ansari.jpg"
+                                      }
+                 },
+                 {
+                     "id":  67,
+                     "slug":  "dr-rhushirajeshwari-naik",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/dr-rhushirajeshwari-naik.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "rhushirajeshwari.naik@vcet.edu.in",
+                                       "fullName":  "Dr. Rhushirajeshwari Naik",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô Ph.D. (Chemistry)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/dr-rhushirajeshwari-naik.jpg"
+                                      }
+                 },
+                 {
+                     "id":  68,
+                     "slug":  "ms-dipa-patel",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/dipa-patel.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "dipa.patel@vcet.edu.in",
+                                       "fullName":  "Ms. Dipa Patel",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.Sc. (Chemistry), Ph.D. Pursuing"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/dipa-patel.jpg"
+                                      }
+                 },
+                 {
+                     "id":  69,
+                     "slug":  "ms-vaishnavi-gurav",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/vaishnavi-gurav.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "vaishnavi.gurav@vcet.edu.in",
+                                       "fullName":  "Ms. Vaishnavi Gurav",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.Sc. (Physics)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/vaishnavi-gurav.jpg"
+                                      }
+                 },
+                 {
+                     "id":  70,
+                     "slug":  "mr-vikas-bhagat",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/vikas-bhagat.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "vikas.bhagat@vcet.edu.in",
+                                       "fullName":  "Mr. Vikas Bhagat",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.Sc. (Physics)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/vikas-bhagat.jpg"
+                                      }
+                 },
+                 {
+                     "id":  71,
+                     "slug":  "ms-neha-shah",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/neha-shah.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "neha.shah@vcet.edu.in",
+                                       "fullName":  "Ms. Neha Shah",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.Sc. B.Ed (Physics)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/neha-shah.jpg"
+                                      }
+                 },
+                 {
+                     "id":  72,
+                     "slug":  "dr-kavita-churi",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/dr-kavita-churi.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "kavita.churi@vcet.edu.in",
+                                       "fullName":  "Dr. Kavita Churi",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô Ph.D. (Physics)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/dr-kavita-churi.jpg"
+                                      }
+                 },
+                 {
+                     "id":  73,
+                     "slug":  "ms-ankita-mane",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/ankita-mane.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "ankita.mane@vcet.edu.in",
+                                       "fullName":  "Ms. Ankita Mane",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.Sc. (Maths), Ph.D. Pursuing"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/ankita-mane.jpg"
+                                      }
+                 },
+                 {
+                     "id":  74,
+                     "slug":  "ms-praiza-gonsalves",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/praiza-gonsalves.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "praiza.gonsalves@vcet.edu.in",
+                                       "fullName":  "Ms. Praiza Gonsalves",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.Sc. (Maths)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/praiza-gonsalves.jpg"
+                                      }
+                 },
+                 {
+                     "id":  75,
+                     "slug":  "mr-mayur-gohil",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/mayur-gohil.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "mayur.gohil@vcet.edu.in",
+                                       "fullName":  "Mr. Mayur Gohil",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.A. (Maths) SET"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/mayur-gohil.jpg"
+                                      }
+                 },
+                 {
+                     "id":  76,
+                     "slug":  "mr-ganesh-tilave",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/ganesh-tilave.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "ganesh.tilave@vcet.edu.in",
+                                       "fullName":  "Mr. Ganesh Tilave",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.Sc. (Maths) SET"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/ganesh-tilave.jpg"
+                                      }
+                 },
+                 {
+                     "id":  77,
+                     "slug":  "ms-anahita-pereira",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/anahita-pereira.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "anahita.pereira@vcet.edu.in",
+                                       "fullName":  "Ms. Anahita Pereira",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.Sc. (Maths), Ph.D. Pursuing"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/anahita-pereira.jpg"
+                                      }
+                 },
+                 {
+                     "id":  78,
+                     "slug":  "ms-deepika-panchal",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/deepika-panchal.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "deepika.panchal@vcet.edu.in",
+                                       "fullName":  "Ms. Deepika Panchal",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.Sc. (Maths)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/deepika-panchal.jpg"
+                                      }
+                 },
+                 {
+                     "id":  79,
+                     "slug":  "mr-sachin-gondke",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/sachin-gondke.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "sachin.gondke@vcet.edu.in",
+                                       "fullName":  "Mr. Sachin Gondke",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.Sc. (Maths) NET, SET"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/sachin-gondke.jpg"
+                                      }
+                 },
+                 {
+                     "id":  80,
+                     "slug":  "dr-pradip-gulbhile",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/dr-pradip-gulbhile.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "pradip.gulbhile@vcet.edu.in",
+                                       "fullName":  "Dr. Pradip Gulbhile",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô Ph.D. (English)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/dr-pradip-gulbhile.jpg"
+                                      }
+                 },
+                 {
+                     "id":  81,
+                     "slug":  "ms-kamini-more",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/kamini-more.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "kamini.more@vcet.edu.in",
+                                       "fullName":  "Ms. Kamini More",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.A. (English) M.Phil"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/kamini-more.jpg"
+                                      }
+                 },
+                 {
+                     "id":  82,
+                     "slug":  "ms-gloria-collaco",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/gloria-collaco.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "gloria.collaco@vcet.edu.in",
+                                       "fullName":  "Ms. Gloria Collaco",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.A. (English) SET"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/gloria-collaco.jpg"
+                                      }
+                 },
+                 {
+                     "id":  83,
+                     "slug":  "dr-tanya-d",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/dr-tanya-dsouza.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "tanya.dsouza@vcet.edu.in",
+                                       "fullName":  "Dr. Tanya D",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô Ph.D. (English) NET, SET"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/dr-tanya-dsouza.jpg"
+                                      }
+                 },
+                 {
+                     "id":  84,
+                     "slug":  "dr-aashi-cynth",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/dr-aashi-cynth.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "aashi.cynth@vcet.edu.in",
+                                       "fullName":  "Dr. Aashi Cynth",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô Ph.D. (English)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/dr-aashi-cynth.jpg"
+                                      }
+                 },
+                 {
+                     "id":  85,
+                     "slug":  "ms-jenisa-d",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/jenisa-dsilva.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "jenisa.dsilva@vcet.edu.in",
+                                       "fullName":  "Ms. Jenisa D",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.A. (English)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/jenisa-dsilva.jpg"
+                                      }
+                 },
+                 {
+                     "id":  86,
+                     "slug":  "ms-shraddha-gosavi",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/shraddha-gosavi.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "shraddha.gosavi@vcet.edu.in",
+                                       "fullName":  "Ms. Shraddha Gosavi",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.E. (EXTC)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/shraddha-gosavi.jpg"
+                                      }
+                 },
+                 {
+                     "id":  87,
+                     "slug":  "ms-tarranum-khan",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/tarranum-khan.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "tarranum.khan@vcet.edu.in",
+                                       "fullName":  "Ms. Tarranum Khan",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.Tech (Civil)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/tarranum-khan.jpg"
+                                      }
+                 },
+                 {
+                     "id":  88,
+                     "slug":  "ms-prachee-shah",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/prachee-shah.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "prachee.shah@vcet.edu.in",
+                                       "fullName":  "Ms. Prachee Shah",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.E. (Electronics)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/prachee-shah.jpg"
+                                      }
+                 },
+                 {
+                     "id":  89,
+                     "slug":  "ms-rojal-rodrigues",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/fe/faculty/rojal-rodrigues.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "rojal.rodrigues@vcet.edu.in",
+                                       "fullName":  "Ms. Rojal Rodrigues",
+                                       "isActive":  true,
+                                       "department":  "First Year Engineering",
+                                       "designation":  "Asst. Prof. ÔÇô M.E. (EXTC)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/fe/faculty/rojal-rodrigues.jpg"
+                                      }
+                 },
+                 {
+                     "id":  90,
+                     "slug":  "dr-thaksen-parvat",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/it/faculty/dr-thaksen-parvat.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "thaksen.parvat@vcet.edu.in",
+                                       "fullName":  "Dr. Thaksen Parvat",
+                                       "isActive":  true,
+                                       "department":  "Information Technology",
+                                       "designation":  "Professor \u0026 HOD, Dean IT Infrastructure"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:31.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/it/faculty/dr-thaksen-parvat.jpg"
+                                      }
+                 },
+                 {
+                     "id":  91,
+                     "slug":  "mr-chandan-kolvankar",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/it/faculty/chandan-kolvankar.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "chandan.kolvankar@vcet.edu.in",
+                                       "fullName":  "Mr. Chandan Kolvankar",
+                                       "isActive":  true,
+                                       "department":  "Information Technology",
+                                       "designation":  "Asst. Prof. (Ph.D. Pursuing)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/it/faculty/chandan-kolvankar.jpg"
+                                      }
+                 },
+                 {
+                     "id":  92,
+                     "slug":  "dr-archana-ekbote",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/it/faculty/dr-archana-ekbote.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "archana.ekbote@vcet.edu.in",
+                                       "fullName":  "Dr. Archana Ekbote",
+                                       "isActive":  true,
+                                       "department":  "Information Technology",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/it/faculty/dr-archana-ekbote.jpg"
+                                      }
+                 },
+                 {
+                     "id":  93,
+                     "slug":  "dr-madhavi-waghmare",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/it/faculty/dr-madhavi-waghmare.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "madhavi.waghmare@vcet.edu.in",
+                                       "fullName":  "Dr. Madhavi Waghmare",
+                                       "isActive":  true,
+                                       "department":  "Information Technology",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/it/faculty/dr-madhavi-waghmare.jpg"
+                                      }
+                 },
+                 {
+                     "id":  94,
+                     "slug":  "dr-vaishali-a-shirsath",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/it/faculty/dr-vaishali-shirsath.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "vaishali.shirsath@vcet.edu.in",
+                                       "fullName":  "Dr. Vaishali A. Shirsath",
+                                       "isActive":  true,
+                                       "department":  "Information Technology",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/it/faculty/dr-vaishali-shirsath.jpg"
+                                      }
+                 },
+                 {
+                     "id":  95,
+                     "slug":  "dr-sainath-patil",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/it/faculty/dr-sainath-patil.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "sainath.patil@vcet.edu.in",
+                                       "fullName":  "Dr. Sainath Patil",
+                                       "isActive":  true,
+                                       "department":  "Information Technology",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/it/faculty/dr-sainath-patil.jpg"
+                                      }
+                 },
+                 {
+                     "id":  96,
+                     "slug":  "dr-anagha-patil",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/it/faculty/dr-anagha-patil.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "anagha.patil@vcet.edu.in",
+                                       "fullName":  "Dr. Anagha Patil",
+                                       "isActive":  true,
+                                       "department":  "Information Technology",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/it/faculty/dr-anagha-patil.jpg"
+                                      }
+                 },
+                 {
+                     "id":  97,
+                     "slug":  "ms-snehal-mhatre",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/it/faculty/snehal-mhatre.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "snehal.mhatre@vcet.edu.in",
+                                       "fullName":  "Ms. Snehal Mhatre",
+                                       "isActive":  true,
+                                       "department":  "Information Technology",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/it/faculty/snehal-mhatre.jpg"
+                                      }
+                 },
+                 {
+                     "id":  98,
+                     "slug":  "ms-pragati-patil",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/it/faculty/pragati-patil.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "pragati.patil@vcet.edu.in",
+                                       "fullName":  "Ms. Pragati Patil",
+                                       "isActive":  true,
+                                       "department":  "Information Technology",
+                                       "designation":  "Asst. Prof. (Ph.D. Pursuing)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/it/faculty/pragati-patil.jpg"
+                                      }
+                 },
+                 {
+                     "id":  99,
+                     "slug":  "ms-jessica-falcao",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/it/faculty/jessica-falcao.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "jessica.falcao@vcet.edu.in",
+                                       "fullName":  "Ms. Jessica Falcao",
+                                       "isActive":  true,
+                                       "department":  "Information Technology",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/it/faculty/jessica-falcao.jpg"
+                                      }
+                 },
+                 {
+                     "id":  100,
+                     "slug":  "dr-yogita-shelar",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/it/faculty/dr-yogita-shelar.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "yogita.shelar@vcet.edu.in",
+                                       "fullName":  "Dr. Yogita Shelar",
+                                       "isActive":  true,
+                                       "department":  "Information Technology",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/it/faculty/dr-yogita-shelar.jpg"
+                                      }
+                 },
+                 {
+                     "id":  101,
+                     "slug":  "dr-uday-aswalekar",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/dr-uday-aswalekar.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "uday.aswalekar@vcet.edu.in",
+                                       "fullName":  "Dr. Uday Aswalekar",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Professor \u0026 Head of Department"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/dr-uday-aswalekar.jpg"
+                                      }
+                 },
+                 {
+                     "id":  102,
+                     "slug":  "dr-ashish-chaudhari",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/dr-ashish-chaudhari.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "ashish.chaudhari@vcet.edu.in",
+                                       "fullName":  "Dr. Ashish Chaudhari",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Associate Professor, Dean R\u0026D"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/dr-ashish-chaudhari.jpg"
+                                      }
+                 },
+                 {
+                     "id":  103,
+                     "slug":  "mr-dipak-choudhari",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/dipak-choudhari.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "dipak.choudhari@vcet.edu.in",
+                                       "fullName":  "Mr. Dipak Choudhari",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof. (Ph.D. Pursuing)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/dipak-choudhari.jpg"
+                                      }
+                 },
+                 {
+                     "id":  104,
+                     "slug":  "mr-vinay-patel",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/vinay-patel.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "vinay.patel@vcet.edu.in",
+                                       "fullName":  "Mr. Vinay Patel",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof. (Ph.D. Pursuing)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/vinay-patel.jpg"
+                                      }
+                 },
+                 {
+                     "id":  105,
+                     "slug":  "dr-swapnil-mane",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/dr-swapnil-mane.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "swapnil.mane@vcet.edu.in",
+                                       "fullName":  "Dr. Swapnil Mane",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/dr-swapnil-mane.jpg"
+                                      }
+                 },
+                 {
+                     "id":  106,
+                     "slug":  "mr-vishwas-palve",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/vishwas-palve.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "vishwas.palve@vcet.edu.in",
+                                       "fullName":  "Mr. Vishwas Palve",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof. (Ph.D. Pursuing)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/vishwas-palve.jpg"
+                                      }
+                 },
+                 {
+                     "id":  107,
+                     "slug":  "mr-tusharkumar-raut",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/tusharkumar-raut.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "tusharkumar.raut@vcet.edu.in",
+                                       "fullName":  "Mr. Tusharkumar Raut",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/tusharkumar-raut.jpg"
+                                      }
+                 },
+                 {
+                     "id":  108,
+                     "slug":  "ms-priti-vairagi",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/priti-vairagi.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "priti.vairagi@vcet.edu.in",
+                                       "fullName":  "Ms. Priti Vairagi",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/priti-vairagi.jpg"
+                                      }
+                 },
+                 {
+                     "id":  109,
+                     "slug":  "mr-kamlesh-bachkar",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/kamlesh-bachkar.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "kamlesh.bachkar@vcet.edu.in",
+                                       "fullName":  "Mr. Kamlesh Bachkar",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/kamlesh-bachkar.jpg"
+                                      }
+                 },
+                 {
+                     "id":  110,
+                     "slug":  "mr-mukund-kavekar",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/mukund-kavekar.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "mukund.kavekar@vcet.edu.in",
+                                       "fullName":  "Mr. Mukund Kavekar",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof. (Ph.D. Pursuing)"
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/mukund-kavekar.jpg"
+                                      }
+                 },
+                 {
+                     "id":  111,
+                     "slug":  "mr-raahul-krishna",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/raahul-krishna.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "raahul.krishna@vcet.edu.in",
+                                       "fullName":  "Mr. Raahul Krishna",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/raahul-krishna.jpg"
+                                      }
+                 },
+                 {
+                     "id":  112,
+                     "slug":  "mr-rishabh-melwanki",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/rishabh-melwanki.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "rishabh.melwanki@vcet.edu.in",
+                                       "fullName":  "Mr. Rishabh Melwanki",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/rishabh-melwanki.jpg"
+                                      }
+                 },
+                 {
+                     "id":  113,
+                     "slug":  "dr-umeshchandra-mane",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/dr-umeshchandra-mane.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "umesh.mane@vcet.edu.in",
+                                       "fullName":  "Dr. Umeshchandra Mane",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/dr-umeshchandra-mane.jpg"
+                                      }
+                 },
+                 {
+                     "id":  114,
+                     "slug":  "ms-avantika-prabhu",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/avantika-prabhu.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "avantika.prabhu@vcet.edu.in",
+                                       "fullName":  "Ms. Avantika Prabhu",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/avantika-prabhu.jpg"
+                                      }
+                 },
+                 {
+                     "id":  115,
+                     "slug":  "mr-javed-shaikh",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/javed-shaikh.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "javed.shaikh@vcet.edu.in",
+                                       "fullName":  "Mr. Javed Shaikh",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/javed-shaikh.jpg"
+                                      }
+                 },
+                 {
+                     "id":  116,
+                     "slug":  "mr-gaurav-bhawde",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/gaurav-bhawde.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "gaurav.bhawde@vcet.edu.in",
+                                       "fullName":  "Mr. Gaurav Bhawde",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/gaurav-bhawde.jpg"
+                                      }
+                 },
+                 {
+                     "id":  117,
+                     "slug":  "mr-akshay-save",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/gaurav-bhawde.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "akshay.save@vcet.edu.in",
+                                       "fullName":  "Mr. Akshay Save",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/gaurav-bhawde.jpg"
+                                      }
+                 },
+                 {
+                     "id":  118,
+                     "slug":  "ms-mrunal-kshirsagar",
+                     "profile_image":  {
+                                           "url":  "/Images/departments/mech/faculty/mrunal-kshirsagar.jpg"
+                                       },
+                     "basicInfo":  {
+                                       "email":  "mrunal.gosavi@vcet.edu.in",
+                                       "fullName":  "Ms. Mrunal Kshirsagar",
+                                       "isActive":  true,
+                                       "department":  "Mechanical Engineering",
+                                       "designation":  "Asst. Prof."
+                                   },
+                     "qualifications":  [
+
+                                        ],
+                     "experience":  [
+
+                                    ],
+                     "academic":  [
+
+                                  ],
+                     "publications":  [
+
+                                      ],
+                     "rolesAndAwards":  [
+
+                                        ],
+                     "onlineLinks":  [
+
+                                     ],
+                     "memberships":  [
+
+                                     ],
+                     "is_active":  true,
+                     "created_at":  "2026-03-26T17:37:36.000000Z",
+                     "updated_at":  "2026-03-26T18:05:32.000000Z",
+                     "profileImage":  {
+                                          "url":  "/Images/departments/mech/faculty/mrunal-kshirsagar.jpg"
+                                      }
+                 }
+             ]
+}

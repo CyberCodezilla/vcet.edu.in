@@ -25,7 +25,7 @@ const fileToDataUrl = (file: File): Promise<string> => {
 };
 
 const hydrateDataUrl = (dataUrl: string | null): string | null => {
-  if (!dataUrl || !dataUrl.startsWith('data:')) return dataUrl;
+  if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:')) return dataUrl;
   try {
     const [header, base64] = dataUrl.split(',');
     const mime = header.match(/:(.*?);/)?.[1] || '';
@@ -41,6 +41,23 @@ const hydrateDataUrl = (dataUrl: string | null): string | null => {
   }
 };
 
+const processFiles = async (data: any): Promise<any> => {
+  if (typeof File !== 'undefined' && data instanceof File) {
+    return await fileToDataUrl(data);
+  }
+  if (Array.isArray(data)) {
+    return await Promise.all(data.map(processFiles));
+  }
+  if (data && typeof data === 'object' && !(data instanceof Date)) {
+    const result: any = {};
+    for (const [key, value] of Object.entries(data)) {
+      result[key] = await processFiles(value);
+    }
+    return result;
+  }
+  return data;
+};
+
 function hydrateStoredValue<T>(value: T): T {
   if (typeof value === 'string') {
     return hydrateDataUrl(value) as T;
@@ -50,7 +67,7 @@ function hydrateStoredValue<T>(value: T): T {
     return value.map((entry) => hydrateStoredValue(entry)) as T;
   }
 
-  if (value && typeof value === 'object') {
+  if (value && typeof value === 'object' && !(value instanceof Date)) {
     return Object.fromEntries(
       Object.entries(value as Record<string, unknown>).map(([key, entry]) => [
         key,
@@ -117,14 +134,7 @@ export function createMockCrud<T extends { id: number }>(seed: T[], storageKey: 
       await delay(300);
       syncFromStorage();
       
-      // Handle mock file uploads by generating local object URLs
-      const processedPayload = { ...payload } as Record<string, any>;
-      if (processedPayload.attachment instanceof File) {
-        processedPayload.attachment = await fileToDataUrl(processedPayload.attachment);
-      }
-      if (processedPayload.image instanceof File) {
-        processedPayload.image = await fileToDataUrl(processedPayload.image);
-      }
+      const processedPayload = await processFiles(payload);
 
       const item = {
         id: nextId(),
@@ -135,11 +145,7 @@ export function createMockCrud<T extends { id: number }>(seed: T[], storageKey: 
       store.unshift(item);
       persist();
 
-      const returnItem = { ...item } as any;
-      if (returnItem.attachment) returnItem.attachment = hydrateDataUrl(returnItem.attachment);
-      if (returnItem.image) returnItem.image = hydrateDataUrl(returnItem.image);
-
-      return { success: true, data: returnItem, message: 'Created successfully' };
+      return { success: true, data: hydrateStoredValue(item), message: 'Created successfully' };
     },
 
     update: async (id: number, payload: Partial<T>): Promise<ItemResponse<T>> => {
@@ -148,23 +154,12 @@ export function createMockCrud<T extends { id: number }>(seed: T[], storageKey: 
       const idx = store.findIndex((i) => i.id === id);
       if (idx === -1) throw new Error(`Item ${id} not found`);
 
-      // Handle mock file uploads
-      const processedPayload = { ...payload } as Record<string, any>;
-      if (processedPayload.attachment instanceof File) {
-        processedPayload.attachment = await fileToDataUrl(processedPayload.attachment);
-      }
-      if (processedPayload.image instanceof File) {
-        processedPayload.image = await fileToDataUrl(processedPayload.image);
-      }
+      const processedPayload = await processFiles(payload);
 
       store[idx] = { ...store[idx], ...processedPayload, updated_at: now() };
       persist();
 
-      const returnItem = { ...store[idx] } as any;
-      if (returnItem.attachment) returnItem.attachment = hydrateDataUrl(returnItem.attachment);
-      if (returnItem.image) returnItem.image = hydrateDataUrl(returnItem.image);
-
-      return { success: true, data: returnItem, message: 'Updated successfully' };
+      return { success: true, data: hydrateStoredValue(store[idx]), message: 'Updated successfully' };
     },
 
     delete: async (id: number): Promise<DeleteResponse> => {
@@ -667,61 +662,42 @@ export function createGalleryCrud(seed: GalleryImage[], storageKey: string = 'vc
   };
 }
 
-// ── Enquiries CRUD (read-only) ───────────────────────────────────────────────
-export function createEnquiriesCrud(seed: Enquiry[]) {
-  const store = [...seed];
-
-  return {
-    list: async (_page = 1): Promise<ListResponse<Enquiry>> => {
-      await delay();
-      return {
-        success: true,
-        data: [...store],
-        meta: { current_page: 1, last_page: 1, total: store.length, per_page: 20 },
-      };
-    },
-  };
-}
-
-// ── Departments ────────────────────────────────────────────────────────────────
 export const MOCK_DEPARTMENTS: Department[] = [
   {
     id: 1,
-    name: 'Computer Engineering',
-    slug: 'computer-engineering',
+    name: 'Information Technology',
+    slug: 'information-technology',
     is_active: true,
     created_at: now(),
     updated_at: now(),
     content: {
-      about: 'The Department of Computer Engineering is committed to excellence in teaching, research, and innovation. We prepare students for leadership roles in the tech industry.',
-      vision: 'To be a center of excellence in Computer Engineering education and research, producing globally competent professionals.',
-      mission: [
-        'To provide high-quality education in computer engineering fundamentals and advanced technologies.',
-        'To foster a culture of research, innovation, and entrepreneurship among students and faculty.',
-        'To collaborate with industry and premier institutions for mutual growth and societal benefit.'
-      ],
       dabMembers: [
         { name: 'Dr. John Doe', designation: 'Professor', organization: 'IIT Bombay' },
         { name: 'Mr. Jane Smith', designation: 'Senior Engineer', organization: 'TCS' }
       ],
-      mou: 'We have active MoUs with top tech companies including Microsoft, AWS Academy, and Red Hat for student training and internships.',
-      patents: 'The department holds 5 granted patents and has filed over 20 patents in fields like AI, IoT, and Cybersecurity.',
-      pos: '1. Engineering Knowledge\n2. Problem Analysis\n3. Design/Development of Solutions',
-      peo: '1. Graduates will have successful careers in the software industry or pursue higher studies.',
-      pso: '1. Ability to apply standard software engineering practices and strategies in software project development.',
-      faculty: [1, 2], // IDs of 'Dr. Sunita Mehta' and 'Prof. Rahul Sharma' from MOCK_FACULTY
+      faculty: [1, 2],
       toppers: [
         { name: 'Aarav Patel', year: '2023-24', cgpa: '9.8' },
         { name: 'Riya Gupta', year: '2022-23', cgpa: '9.7' }
       ],
-      syllabus: [
-        { year: 'FE', link: 'https://mum.digitaluniversity.ac/fe-syllabus' },
-        { year: 'SE', link: 'https://mum.digitaluniversity.ac/se-syllabus' }
-      ],
       newsletter: [
         { title: 'Jan 2024 Edition', link: 'https://vcet.edu.in/newsletter-2024.pdf' }
       ],
-      timetable: ''
+      patents: [
+        { title: 'AI-based Traffic Management System', description: 'Smart traffic light control using computer vision.', pdf: '' }
+      ],
+      mous: [
+        { organization: 'Microsoft', description: 'Collaboration for student training in Azure Cloud services.', pdf: '' }
+      ],
+      syllabus: [
+        { title: 'Semester 3 - C-Scheme', pdf: '' }
+      ],
+      timetable: [
+        { class: 'SE', pdf: '' }
+      ],
+      facultyAchievements: [],
+      studentAchievements: [],
+      activities: []
     }
   }
 ];

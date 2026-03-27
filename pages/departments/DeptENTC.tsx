@@ -315,7 +315,7 @@ const DeptENTC: React.FC = () => {
           })()}
 
           {/* ════ FACULTY ══════════════════════════════════════════ */}
-          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Electronics & Telecommunication Engineering" />}
+          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Electronics & Telecommunication" />}
 
           {/* ════ PAQIC ═══════════════════════════════════════════ */}
           {activeId === 'paqic' && (() => {

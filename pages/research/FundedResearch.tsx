@@ -158,7 +158,7 @@ const FundedResearch: React.FC = () => {
           {/* Detailed Report Button */}
           <div className="reveal mt-10 border border-[#E5E7EB] bg-white">
             <a
-              href="/Images/research/RESEARCH-FUNDING1.pdf"
+              href="https://vcet.edu.in/wp-content/uploads/2024/06/RESEARCH-FUNDING1.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-5 px-6 py-5 group hover:bg-[#F7F9FC] transition-colors duration-200"

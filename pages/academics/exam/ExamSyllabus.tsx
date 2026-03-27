@@ -22,13 +22,47 @@ const syllabusGroups: PDFGroup[] = [
     groupName: 'Computer Engineering',
     pdfs: [
       { name: 'COMP_SE_2019C', url: '/pdfs/exam/Computer_SE_New_8_Branch_R2019_1.7.2021-1 (1).pdf' },
-      { name: 'COMP_TE_2019C', url: '/pdfs/exam/T.E._AI_ML_DS_DE_R2019 (1).pdf' }
+      { name: 'COMP_TE_2019C', url: '/pdfs/exam/T.E._AI_ML_DS_DE_R2019 (1).pdf' },
+      { name: 'COMP_TE_BE_2019C', url: '/pdfs/exam/COMP_TE-BE_2016 (1).pdf' }
+    ]
+  },
+  {
+    groupName: 'Computer Science and Engineering (Data Science)',
+
+    pdfs: [
+      { name: 'CSE_SE_Revised 2019-20', url: '/pdfs/exam/Computer_SE_New_8_Branch_R2019_1.7.2021 (1).pdf' },
+      { name: 'CSE_TE_Revised 2019-20', url: '/pdfs/exam/Final-Syllabus-1.pdf' },
+      { name: 'CSE_BE_Revised 2019-20', url: '/pdfs/exam/BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE (1).pdf' }
+    ]
+  },
+   {
+    groupName: 'Electronics and Telecommunication Engineering',
+    pdfs: [
+      { name: 'E&TC_SE_2019C', url: '/pdfs/exam/EXTC_SE_2019C.pdf' },
+      { name: 'E&TC_TE_2019C', url: '/pdfs/exam/EXTC_TE_2019C.pdf' },
+      { name: 'E&TC_BE_2019C', url: '/pdfs/exam/EXTC_TE-BE_2016.pdf' }
+    ]
+  },
+   {
+    groupName: 'Information Technology',
+    pdfs: [
+      { name: 'IT_SE_2019C', url: '/pdfs/exam/IT_SE_2019C.pdf' },
+      { name: 'IT_TE_2019C', url: '/pdfs/exam/IT_TE_2019C.pdf' },
+      { name: 'IT_BE_2019C', url: '/pdfs/exam/IT_SE-BE_2016.pdf' }
+    ]
+  },
+   {
+    groupName: 'Mechanical Engineering',
+    pdfs: [
+      { name: 'MECH_BE_2016', url: '/pdfs/exam/MECH_SE-BE_2016.pdf' },
+      { name: 'MECH_SE_2019C', url: '/pdfs/exam/MECH_SE_2019C.pdf' },
+      { name: 'MECH_TE_2019C', url: '/pdfs/exam/MECH_TE_2019C.pdf' }
     ]
   },
   {
     groupName: 'First Year Engineering',
     pdfs: [
-      { name: 'FE_ALL BRANCHES_NEP 2020 Scheme', url: '/pdfs/exam/466-COMP-FE-Sem1-Winter2021.pdf' }
+      { name: 'FE_ALL BRANCHES_NEP 2020 Scheme', url: '/pdfs/exam/First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25.pdf' }
     ]
   }
 ];

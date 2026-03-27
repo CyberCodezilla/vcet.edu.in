@@ -67,8 +67,8 @@ const achievementHolders = [
 const galleryHolders = Array.from({ length: 10 }, (_, index) => `IIC Gallery ${String(index + 1).padStart(2, '0')}`);
 
 const reportPdfs = [
-  { label: '2022-2023', href: '/IIC-REPORT-2022-2023.pdf' },
-  { label: '2020-2021', href: '/IIC-REPORT-2020-2021.pdf' },
+  { label: '2022-2023', href: 'https://vcet.edu.in/wp-content/uploads/2024/07/IIC-REPORT5.0_22-23-_final.pdf' },
+  { label: '2020-2021', href: 'https://vcet.edu.in/wp-content/uploads/2024/07/IIC-Annual-Report-2020-21.pdf' },
 ];
 
 const staffCommitteeRows = [

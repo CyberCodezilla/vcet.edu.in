@@ -292,7 +292,7 @@ const DeptAIDS: React.FC = () => {
           })()}
 
           {/* ════ FACULTY ══════════════════════════════════════════ */}
-          {activeId === 'faculty' && <DepartmentFacultySection departmentName="AI & Data Science" />}
+          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Artificial Intelligence & Data Science" />}
 
           {/* ════ STUDENT ACHIEVEMENTS ════════════════════════════ */}
           {activeId === 'student-achievements' && (
