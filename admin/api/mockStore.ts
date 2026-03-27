@@ -476,7 +476,7 @@ export const MOCK_ENQUIRIES: Enquiry[] = [
 
 export const MOCK_FACULTY: Faculty[] = [
   {
-    _id: 'mock-1',
+    id: 1,
     basicInfo: {
       fullName: 'Dr. Sunita Mehta',
       designation: 'Professor & HOD',
@@ -524,7 +524,7 @@ export const MOCK_FACULTY: Faculty[] = [
     updatedAt: '2024-01-10T10:00:00Z',
   },
   {
-    _id: 'mock-2',
+    id: 2,
     basicInfo: {
       fullName: 'Prof. Rajesh Kulkarni',
       designation: 'Associate Professor',
@@ -582,14 +582,14 @@ export function createFacultyMockCrud(seed: Faculty[], storageKey: string = 'vce
   return {
     list: async () => ({ success: true, data: [...store] }),
     get: async (id: string) => {
-      const item = store.find(f => f._id === id);
+      const item = store.find(f => f.id === Number(id));
       if (!item) throw new Error('Faculty not found');
       return { success: true, data: { ...item } };
     },
     create: async (payload: any) => {
       const newItem = { 
         ...payload, 
-        _id: `mock-${Date.now()}`,
+        id: `mock-${Date.now()}`,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
@@ -598,14 +598,14 @@ export function createFacultyMockCrud(seed: Faculty[], storageKey: string = 'vce
       return { success: true, data: newItem };
     },
     update: async (id: string, payload: any) => {
-      const idx = store.findIndex(f => f._id === id);
+      const idx = store.findIndex(f => f.id === Number(id));
       if (idx === -1) throw new Error('Faculty not found');
       store[idx] = { ...store[idx], ...payload, updatedAt: new Date().toISOString() };
       persist();
       return { success: true, data: store[idx] };
     },
     delete: async (id: string) => {
-      store = store.filter(f => f._id !== id);
+      store = store.filter(f => f.id !== Number(id));
       persist();
       return { success: true };
     }

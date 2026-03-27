@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
+import { departmentApi } from '../../admin/api/departments';
+import type { Department } from '../../admin/types';
+import { resolveApiUrl } from '../../admin/api/client';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -27,6 +30,17 @@ const delayClass = (idx: number) => {
 const DeptAIDS: React.FC = () => {
   const [activeId, setActiveId] = useState('about');
   const activeLink = sidebarLinks.find(l => l.id === activeId);
+  const [department, setDepartment] = useState<Department | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    departmentApi.getBySlug('artificial-intelligence-data-science')
+      .then(res => {
+        if (res.success) setDepartment(res.data);
+      })
+      .catch(err => console.error("Failed to load department data", err))
+      .finally(() => setLoading(false));
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -180,7 +194,7 @@ const DeptAIDS: React.FC = () => {
 
           {/* ════ DAB ══════════════════════════════════════════════ */}
           {activeId === 'dab' && (() => {
-            const members = [
+            const staticMembers = [
               { sr: 1, name: 'Dr. Rakesh Himte', designation: 'Principal', org: 'VCET, Vasai', role: 'Chairman', tag: 'internal' },
               { sr: 2, name: 'Dr. Vikas Gupta', designation: 'Dean Academics', org: 'VCET, Vasai', role: 'Dean', tag: 'internal' },
               { sr: 3, name: 'Dr. Tattwadarshi P. N.', designation: 'HOD, AI-DS', org: 'VCET, Vasai', role: 'HOD', tag: 'internal' },
@@ -194,6 +208,7 @@ const DeptAIDS: React.FC = () => {
               { sr: 11, name: 'Mr. Narendra Shekokar', designation: 'Professor, HOD, IOT & Cyber Security Department', org: 'Dwarkadas J. Sangavi College of Engineering', role: 'Academic Representative', tag: 'academic' },
               { sr: 12, name: 'Mrs. Alka Arora', designation: 'Parent', org: 'VCET, Vasai', role: 'Parent Representative', tag: 'parent' },
             ];
+            const members = department?.content?.dabMembers?.length ? department.content.dabMembers.map((m, i) => ({ sr: i + 1, name: m.name || '-', designation: m.designation || '-', org: m.organization || '-', role: '-', tag: 'internal' })) : staticMembers;
             const tagStyle: Record<string, string> = { internal: 'bg-brand-navylight text-brand-navy', academic: 'bg-blue-50 text-blue-700', industry: 'bg-amber-50 text-amber-700', student: 'bg-emerald-50 text-emerald-700', parent: 'bg-purple-50 text-purple-700' };
             return (
               <div className="space-y-10">
@@ -302,28 +317,30 @@ const DeptAIDS: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">AI &amp; Data Science</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Student Achievements<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2025/08/AIDS-students-Achievement-24-25.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
-                <span>Student Achievements 2024-25</span>
-                <i className="ph ph-arrow-up-right text-brand-gold" />
-              </a>
+              <div className="space-y-3">
+                {department?.content?.studentAchievements?.length ? department.content.studentAchievements.map((ach, idx) => (
+                  <a key={idx} href={resolveApiUrl(ach.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                    <span>{ach.title || `Achievement ${idx + 1}`}</span>
+                    <i className="ph ph-arrow-up-right text-brand-gold" />
+                  </a>
+                )) : (
+                  <a href="https://vcet.edu.in/wp-content/uploads/2025/08/AIDS-students-Achievement-24-25.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                    <span>Student Achievements 2024-25</span>
+                    <i className="ph ph-arrow-up-right text-brand-gold" />
+                  </a>
+                )}
+              </div>
             </section>
           )}
 
           {/* ════ TOPPERS ══════════════════════════════════════════ */}
           {activeId === 'toppers' && (() => {
-            const poSectionToppers = {
-              SE: ['Pranjal Patil (10)', 'Upadhyay Shagun (9.78)', 'Devendra Gurav (9.92)', 'Shravani Raut (9.75)'],
-              TE: ['Nagar Pratham (9.78)', 'Panchal Dhyanesh (9.61)', 'Bari AnkitBARI (9.48)'],
-              BE: ['Jha Devharsh (9.56)', 'Shetty Amulya (9.45)', 'Maurya Hemani (9.34)'],
-            };
-            const toppers2425SetA = {
-              SE: ['Dnyanesh panchal - 10 SGPI', 'Priyanka bhandari - 9.87 SGPI', 'Mohammed Ali Jaffari - 9.3 SGPI'],
-              TE: ['JHA DEVHARSH JAGDANAND - 9.64 SGPI', 'MAURYA HEMANI RAMAKANT - 9.45 SGPI', 'SINGH NEHA VINOD - 9.45 SGPI', 'SHETTY AMULYA CHANDAYYA - 9.36 SGPI'],
-            };
-            const toppers2425SetB = {
-              SE: ['Devharsh Jha - 9.74 SGPI', 'Amulya Shetty - 8.96 SGPI', 'Hemani Maurya - 8.7 SGPI', 'Ryan Chulliyil - 8.7 SGPI'],
-              TE: ['JHA DEVHARSH JAGDANAND - 9.64 SGPI', 'MAURYA HEMANI RAMAKANT - 9.45 SGPI', 'SINGH NEHA VINOD - 9.45 SGPI', 'SHETTY AMULYA CHANDAYYA - 9.36 SGPI'],
-            };
+            const staticToppers = [
+              { name: 'Dnyanesh panchal', year: '2024-25', cgpa: '10 SGPI' },
+              { name: 'Priyanka bhandari', year: '2024-25', cgpa: '9.87 SGPI' },
+              { name: 'Mohammed Ali Jaffari', year: '2024-25', cgpa: '9.3 SGPI' },
+            ];
+            const toppers = department?.content?.toppers?.length ? department.content.toppers : staticToppers;
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-8">
                 <div className="flex items-center gap-3 mb-4">
@@ -331,88 +348,44 @@ const DeptAIDS: React.FC = () => {
                   <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">AI &amp; Data Science</span>
                 </div>
                 <h3 className="text-2xl font-bold text-brand-navy relative inline-block">Toppers<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-
+                
                 <div>
-                  <h4 className="text-base font-bold text-brand-navy mb-3">Entries Listed Before Topper&apos;s Section</h4>
+                  <h4 className="text-base font-bold text-brand-navy mb-3">Student Toppers</h4>
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="bg-brand-navy text-white">
-                          <th className="px-4 py-3 text-left">SE</th>
-                          <th className="px-4 py-3 text-left">TE</th>
-                          <th className="px-4 py-3 text-left">BE</th>
+                          <th className="px-4 py-3 text-left">Name</th>
+                          <th className="px-4 py-3 text-left">Year</th>
+                          <th className="px-4 py-3 text-left">CGPA</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {[0, 1, 2, 3].map((i) => (
-                          <tr key={`po-${i}`} className="border-t border-slate-100">
-                            <td className="px-4 py-3 text-slate-600">{poSectionToppers.SE[i] ?? '-'}</td>
-                            <td className="px-4 py-3 text-slate-600">{poSectionToppers.TE[i] ?? '-'}</td>
-                            <td className="px-4 py-3 text-slate-600">{poSectionToppers.BE[i] ?? '-'}</td>
+                        {toppers.map((t, i) => (
+                          <tr key={`topper-${i}`} className="border-t border-slate-100">
+                            <td className="px-4 py-3 text-slate-600">{t.name || '-'}</td>
+                            <td className="px-4 py-3 text-slate-600">{t.year || '-'}</td>
+                            <td className="px-4 py-3 text-slate-600">{t.cgpa || '-'}</td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
                 </div>
-
-                <div>
-                  <h4 className="text-base font-bold text-brand-navy mb-3">Toppers: 24-25</h4>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="bg-brand-navy text-white">
-                          <th className="px-4 py-3 text-left">SE</th>
-                          <th className="px-4 py-3 text-left">TE</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {[0, 1, 2, 3].map((i) => (
-                          <tr key={`2425a-${i}`} className="border-t border-slate-100">
-                            <td className="px-4 py-3 text-slate-600">{toppers2425SetA.SE[i] ?? '-'}</td>
-                            <td className="px-4 py-3 text-slate-600">{toppers2425SetA.TE[i] ?? '-'}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="text-base font-bold text-brand-navy mb-3">Toppers: 24-25</h4>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="bg-brand-navy text-white">
-                          <th className="px-4 py-3 text-left">SE</th>
-                          <th className="px-4 py-3 text-left">TE</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {[0, 1, 2, 3].map((i) => (
-                          <tr key={`2425b-${i}`} className="border-t border-slate-100">
-                            <td className="px-4 py-3 text-slate-600">{toppers2425SetB.SE[i] ?? '-'}</td>
-                            <td className="px-4 py-3 text-slate-600">{toppers2425SetB.TE[i] ?? '-'}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
               </section>
             );
           })()}
 
           {/* ════ SYLLABUS ═════════════════════════════════════════ */}
           {activeId === 'syllabus' && (() => {
-            const links = [
+            const staticLinks = [
               { label: 'SYLLABUS Revised 2019-20 (SE)', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/Computer_SE_New_8_Branch_R2019_1.7.2021-1.pdf' },
               { label: 'SYLLABUS Revised 2019-20 (TE)', url: 'https://vcet.edu.in/wp-content/uploads/2022/08/T.E._AI_ML_DS_DE_R2019.pdf' },
               { label: 'SYLLABUS Revised 2019-20 (BE)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE.pdf' },
               { label: 'Honours & Minor Degree Program', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE.pdf' },
               { label: 'PO PSO CO', url: 'https://vcet.edu.in/wp-content/uploads/2023/11/2.6.1_Rev-2019_AIDS_Syllabus-.pdf' },
             ];
+            const links = department?.content?.syllabus?.length ? department.content.syllabus.map(s => ({ label: s.title, url: resolveApiUrl(s.pdf as string) || '#' })) : staticLinks;
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="flex items-center gap-3 mb-4">
@@ -421,9 +394,9 @@ const DeptAIDS: React.FC = () => {
                 </div>
                 <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Syllabus<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
                 <div className="space-y-3">
-                  {links.map((item) => (
-                    <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
-                      <span>{item.label}</span>
+                  {links.map((item, idx) => (
+                    <a key={idx} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                      <span>{item.label || `Syllabus ${idx + 1}`}</span>
                       <i className="ph ph-arrow-up-right text-brand-gold" />
                     </a>
                   ))}
@@ -440,10 +413,19 @@ const DeptAIDS: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">AI &amp; Data Science</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Patent / Copyrights<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2025/08/AIDS-Copyright-2024-25.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
-                <span>Copyrights 2024-25</span>
-                <i className="ph ph-arrow-up-right text-brand-gold" />
-              </a>
+              <div className="space-y-3">
+                {department?.content?.patents?.length ? department.content.patents.map((p, idx) => (
+                  <a key={idx} href={resolveApiUrl(p.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                    <span>{p.title || `Patent ${idx + 1}`}</span>
+                    <i className="ph ph-arrow-up-right text-brand-gold" />
+                  </a>
+                )) : (
+                  <a href="https://vcet.edu.in/wp-content/uploads/2025/08/AIDS-Copyright-2024-25.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                    <span>Copyrights 2024-25</span>
+                    <i className="ph ph-arrow-up-right text-brand-gold" />
+                  </a>
+                )}
+              </div>
             </section>
           )}
 
@@ -483,37 +465,44 @@ const DeptAIDS: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">AI &amp; Data Science</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">MoU<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2025/08/AIDS-MoU-2024-25.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
-                <span>MoU 2024-25</span>
-                <i className="ph ph-arrow-up-right text-brand-gold" />
-              </a>
+              <div className="space-y-3">
+                {department?.content?.mous?.length ? department.content.mous.map((m, idx) => (
+                  <a key={idx} href={resolveApiUrl(m.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                    <span>{m.organization || `MoU ${idx + 1}`}</span>
+                    <i className="ph ph-arrow-up-right text-brand-gold" />
+                  </a>
+                )) : (
+                  <a href="https://vcet.edu.in/wp-content/uploads/2025/08/AIDS-MoU-2024-25.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                    <span>MoU 2024-25</span>
+                    <i className="ph ph-arrow-up-right text-brand-gold" />
+                  </a>
+                )}
+              </div>
             </section>
           )}
 
           {/* ════ MAGAZINE / NEWSLETTER ═══════════════════════════ */}
           {activeId === 'newsletter' && (() => {
-            const newsletterLinks = [
+            const staticLinks = [
               { label: 'NEWSLETTER (EVEN SEM 2025)', url: 'https://vcet.edu.in/wp-content/uploads/2025/08/Newsletter-Even-2025.pdf' },
               { label: 'NEWSLETTER (ODD SEM 2024)', url: 'https://vcet.edu.in/wp-content/uploads/2025/08/Newsletter-Odd-2024.pdf' },
               { label: 'NEWSLETTER (EVEN SEM 2024)', url: 'https://vcet.edu.in/wp-content/uploads/2024/06/Add-a-subheading_20240403_153124_0000.pdf' },
             ];
+            const links = department?.content?.newsletter?.length ? department.content.newsletter.map(n => ({ label: n.title, url: resolveApiUrl(n.link) || '#' })) : staticLinks;
             return (
-              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-6">
-                <div className="flex items-center gap-3">
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-4">
                   <span className="w-8 h-px bg-brand-gold" />
                   <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">AI &amp; Data Science</span>
                 </div>
-                <h3 className="text-2xl font-bold text-brand-navy relative inline-block">Magazine / Newsletter<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                <div>
-                  <h4 className="text-lg font-bold text-brand-navy mb-3">Newsletter</h4>
-                  <div className="space-y-2">
-                    {newsletterLinks.map((item) => (
-                      <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
-                        <span>{item.label}</span>
-                        <i className="ph ph-arrow-up-right text-brand-gold" />
-                      </a>
-                    ))}
-                  </div>
+                <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Magazine / Newsletter<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <div className="space-y-3">
+                  {links.map((item, idx) => (
+                    <a key={idx} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                      <span>{item.label || `Newsletter ${idx + 1}`}</span>
+                      <i className="ph ph-arrow-up-right text-brand-gold" />
+                    </a>
+                  ))}
                 </div>
               </section>
             );

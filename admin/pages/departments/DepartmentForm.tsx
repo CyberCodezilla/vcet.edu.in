@@ -258,7 +258,7 @@ export default function DepartmentForm() {
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Department Name</label>
                 <input
                   type="text"
-                  value={name}
+                  value={name || ""}
                   onChange={e => setName(e.target.value)}
                   className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none"
                   placeholder="e.g. Computer Engineering"
@@ -270,7 +270,7 @@ export default function DepartmentForm() {
                   <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">URL Slug</label>
                   <input
                     type="text"
-                    value={slug}
+                    value={slug || ""}
                     onChange={e => setSlug(e.target.value)}
                     className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none text-slate-600"
                     placeholder="e.g. computer-engineering"
@@ -319,7 +319,7 @@ export default function DepartmentForm() {
                       <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Patent Title</label>
                       <input
                         type="text"
-                        value={patent.title}
+                        value={patent.title || ""}
                         onChange={e => updateArrayItem('patents', i, { ...patent, title: e.target.value })}
                         className="w-full bg-white ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 rounded-2xl px-5 py-3.5 text-sm font-bold outline-none transition-all"
                         placeholder="e.g. AI-based Traffic System"
@@ -328,7 +328,7 @@ export default function DepartmentForm() {
                     <div className="md:col-span-2">
                       <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Description</label>
                       <textarea
-                        value={patent.description}
+                        value={patent.description || ""}
                         onChange={e => updateArrayItem('patents', i, { ...patent, description: e.target.value })}
                         className="w-full bg-white ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500 rounded-2xl px-5 py-3.5 text-sm font-medium outline-none transition-all"
                         placeholder="Briefly describe the patent..."
@@ -339,7 +339,7 @@ export default function DepartmentForm() {
                       <FileUpload 
                         label="Patent PDF" 
                         id={`patent-pdf-${i}`} 
-                        value={patent.pdf} 
+                        value={patent.pdf || ""} 
                         onChange={(f) => updateArrayItem('patents', i, { ...patent, pdf: f })} 
                       />
                     </div>
@@ -380,7 +380,7 @@ export default function DepartmentForm() {
                       <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Organization Name</label>
                       <input
                         type="text"
-                        value={mou.organization}
+                        value={mou.organization || ""}
                         onChange={e => updateArrayItem('mous', i, { ...mou, organization: e.target.value })}
                         className="w-full bg-white ring-1 ring-slate-200 focus:ring-2 focus:ring-emerald-500 rounded-2xl px-5 py-3.5 text-sm font-bold outline-none transition-all"
                         placeholder="e.g. Microsoft / AWS Academy"
@@ -389,7 +389,7 @@ export default function DepartmentForm() {
                     <div className="md:col-span-2">
                       <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Description</label>
                       <textarea
-                        value={mou.description}
+                        value={mou.description || ""}
                         onChange={e => updateArrayItem('mous', i, { ...mou, description: e.target.value })}
                         className="w-full bg-white ring-1 ring-slate-200 focus:ring-2 focus:ring-emerald-500 rounded-2xl px-5 py-3.5 text-sm font-medium outline-none transition-all"
                         placeholder="Briefly describe the collaboration..."
@@ -400,7 +400,7 @@ export default function DepartmentForm() {
                       <FileUpload 
                         label="MoU PDF" 
                         id={`mou-pdf-${i}`} 
-                        value={mou.pdf} 
+                        value={mou.pdf || ""} 
                         onChange={(f) => updateArrayItem('mous', i, { ...mou, pdf: f })} 
                       />
                     </div>
@@ -439,21 +439,21 @@ export default function DepartmentForm() {
                       <button type="button" onClick={() => removeArrayItem('facultyAchievements', i)} className="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition-all"><TrashIcon /></button>
                       <input
                         type="text"
-                        value={ach.title}
+                        value={ach.title || ""}
                         onChange={e => updateArrayItem('facultyAchievements', i, { ...ach, title: e.target.value })}
                         className="w-full bg-white ring-1 ring-slate-200 focus:ring-2 focus:ring-amber-500 rounded-2xl px-4 py-3 text-sm font-bold outline-none"
                         placeholder="Achievement Title"
                       />
                       <textarea
-                        value={ach.description}
+                        value={ach.description || ""}
                         onChange={e => updateArrayItem('facultyAchievements', i, { ...ach, description: e.target.value })}
                         className="w-full bg-white ring-1 ring-slate-200 focus:ring-2 focus:ring-amber-500 rounded-2xl px-4 py-3 text-sm font-medium outline-none"
                         placeholder="Brief description..."
                         rows={2}
                       />
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <ImageUpload label="Image (Optional)" id={`fac-ach-img-${i}`} value={ach.image} onChange={f => updateArrayItem('facultyAchievements', i, { ...ach, image: f })} />
-                        <FileUpload label="PDF (Optional)" id={`fac-ach-pdf-${i}`} value={ach.pdf} onChange={f => updateArrayItem('facultyAchievements', i, { ...ach, pdf: f })} />
+                        <ImageUpload label="Image (Optional)" id={`fac-ach-img-${i}`} value={ach.image || ""} onChange={f => updateArrayItem('facultyAchievements', i, { ...ach, image: f })} />
+                        <FileUpload label="PDF (Optional)" id={`fac-ach-pdf-${i}`} value={ach.pdf || ""} onChange={f => updateArrayItem('facultyAchievements', i, { ...ach, pdf: f })} />
                       </div>
                     </div>
                   ))}
@@ -474,21 +474,21 @@ export default function DepartmentForm() {
                       <button type="button" onClick={() => removeArrayItem('studentAchievements', i)} className="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition-all"><TrashIcon /></button>
                       <input
                         type="text"
-                        value={ach.title}
+                        value={ach.title || ""}
                         onChange={e => updateArrayItem('studentAchievements', i, { ...ach, title: e.target.value })}
                         className="w-full bg-white ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 rounded-2xl px-4 py-3 text-sm font-bold outline-none"
                         placeholder="Achievement Title"
                       />
                       <textarea
-                        value={ach.description}
+                        value={ach.description || ""}
                         onChange={e => updateArrayItem('studentAchievements', i, { ...ach, description: e.target.value })}
                         className="w-full bg-white ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 rounded-2xl px-4 py-3 text-sm font-medium outline-none"
                         placeholder="Brief description..."
                         rows={2}
                       />
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <ImageUpload label="Image (Optional)" id={`stu-ach-img-${i}`} value={ach.image} onChange={f => updateArrayItem('studentAchievements', i, { ...ach, image: f })} />
-                        <FileUpload label="PDF (Optional)" id={`stu-ach-pdf-${i}`} value={ach.pdf} onChange={f => updateArrayItem('studentAchievements', i, { ...ach, pdf: f })} />
+                        <ImageUpload label="Image (Optional)" id={`stu-ach-img-${i}`} value={ach.image || ""} onChange={f => updateArrayItem('studentAchievements', i, { ...ach, image: f })} />
+                        <FileUpload label="PDF (Optional)" id={`stu-ach-pdf-${i}`} value={ach.pdf || ""} onChange={f => updateArrayItem('studentAchievements', i, { ...ach, pdf: f })} />
                       </div>
                     </div>
                   ))}
@@ -523,7 +523,7 @@ export default function DepartmentForm() {
                       <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Activity Title</label>
                       <input
                         type="text"
-                        value={act.title}
+                        value={act.title || ""}
                         onChange={e => updateArrayItem('activities', i, { ...act, title: e.target.value })}
                         className="w-full bg-white ring-1 ring-slate-200 focus:ring-2 focus:ring-purple-500 rounded-2xl px-5 py-3.5 text-sm font-bold outline-none"
                         placeholder="e.g. Industrial Visit to ISRO"
@@ -532,7 +532,7 @@ export default function DepartmentForm() {
                     <div>
                       <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Description</label>
                       <textarea
-                        value={act.description}
+                        value={act.description || ""}
                         onChange={e => updateArrayItem('activities', i, { ...act, description: e.target.value })}
                         className="w-full bg-white ring-1 ring-slate-200 focus:ring-2 focus:ring-purple-500 rounded-2xl px-5 py-3.5 text-sm font-medium outline-none"
                         placeholder="Brief details about the activity..."
@@ -540,8 +540,8 @@ export default function DepartmentForm() {
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <ImageUpload label="Activity Image" id={`act-img-${i}`} value={act.image} onChange={f => updateArrayItem('activities', i, { ...act, image: f })} />
-                      <FileUpload label="Activity PDF/Report" id={`act-pdf-${i}`} value={act.pdf} onChange={f => updateArrayItem('activities', i, { ...act, pdf: f })} />
+                      <ImageUpload label="Activity Image" id={`act-img-${i}`} value={act.image || ""} onChange={f => updateArrayItem('activities', i, { ...act, image: f })} />
+                      <FileUpload label="Activity PDF/Report" id={`act-pdf-${i}`} value={act.pdf || ""} onChange={f => updateArrayItem('activities', i, { ...act, pdf: f })} />
                     </div>
                   </div>
                 </div>
@@ -577,21 +577,21 @@ export default function DepartmentForm() {
                   <input
                     type="text"
                     placeholder="Name"
-                    value={member.name}
+                    value={member.name || ""}
                     onChange={e => updateArrayItem('dabMembers', i, { ...member, name: e.target.value })}
                     className="flex-1 bg-slate-50 border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-indigo-500 rounded-2xl px-5 py-4 text-sm font-medium outline-none transition-all"
                   />
                   <input
                     type="text"
                     placeholder="Designation"
-                    value={member.designation}
+                    value={member.designation || ""}
                     onChange={e => updateArrayItem('dabMembers', i, { ...member, designation: e.target.value })}
                     className="flex-1 bg-slate-50 border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-indigo-500 rounded-2xl px-5 py-4 text-sm font-medium outline-none transition-all"
                   />
                   <input
                     type="text"
                     placeholder="Organization"
-                    value={member.organization}
+                    value={member.organization || ""}
                     onChange={e => updateArrayItem('dabMembers', i, { ...member, organization: e.target.value })}
                     className="flex-1 bg-slate-50 border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-indigo-500 rounded-2xl px-5 py-4 text-sm font-medium outline-none transition-all"
                   />
@@ -629,25 +629,24 @@ export default function DepartmentForm() {
                 <div key={deptName} className="space-y-3">
                   <h3 className="text-xs font-black text-slate-300 uppercase tracking-widest px-2">{deptName}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {facs.map(f => {
-                      const isSelected = content.faculty?.includes(f._id as any); // using string _id
-                      return (
-                        <label key={f._id} className={`flex items-start gap-3 p-4 rounded-2xl border cursor-pointer transition-all ${isSelected ? 'bg-indigo-50 border-indigo-200 ring-4 ring-indigo-50' : 'bg-white border-slate-100 hover:border-slate-200'}`}>
+                      {facs.map((f, idx) => {
+                        const isSelected = content.faculty?.includes(f.id as any);
+                        return (
+                          <label key={`${f.id}-${idx}`} className={`flex items-start gap-3 p-4 rounded-2xl border cursor-pointer transition-all ${isSelected ? 'bg-indigo-50 border-indigo-200 ring-4 ring-indigo-50' : 'bg-white border-slate-100 hover:border-slate-200'}`}>
                           <input
                             type="checkbox"
                             className="mt-1 w-4 h-4 text-indigo-600 rounded-lg border-slate-300 focus:ring-indigo-500"
                             checked={isSelected}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                setContent(prev => ({ ...prev, faculty: [...(prev.faculty || []), f._id] as any }));
+                                setContent(prev => ({ ...prev, faculty: [...(prev.faculty || []), f.id] as any }));
                               } else {
-                                setContent(prev => ({ ...prev, faculty: (prev.faculty || []).filter(id => id !== f._id as any) }));
+                                setContent(prev => ({ ...prev, faculty: (prev.faculty || []).filter(id => id !== f.id as any) }));
                               }
                             }}
                           />
                           <div className="flex flex-col">
-                            <span className={`text-sm font-bold ${isSelected ? 'text-indigo-900' : 'text-slate-700'}`}>{f.basicInfo.fullName}</span>
-                            <span className={`text-[11px] font-medium ${isSelected ? 'text-indigo-600/70' : 'text-slate-400'}`}>{f.basicInfo.designation}</span>
+
                             <span className={`text-sm font-bold ${isSelected ? 'text-indigo-900' : 'text-slate-700'}`}>{f.basicInfo?.fullName || 'Unnamed'}</span>
                             <span className={`text-[11px] font-medium ${isSelected ? 'text-indigo-600/70' : 'text-slate-400'}`}>{f.basicInfo?.designation || f.qualifications?.specialization || 'Faculty'}</span>
                           </div>
@@ -686,21 +685,21 @@ export default function DepartmentForm() {
                   <input
                     type="text"
                     placeholder="Student Name"
-                    value={topper.name}
+                    value={topper.name || ""}
                     onChange={e => updateArrayItem('toppers', i, { ...topper, name: e.target.value })}
                     className="flex-1 bg-slate-50 border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-amber-500 rounded-2xl px-5 py-4 text-sm font-medium outline-none transition-all"
                   />
                   <input
                     type="text"
                     placeholder="Year (e.g. 2023-24)"
-                    value={topper.year}
+                    value={topper.year || ""}
                     onChange={e => updateArrayItem('toppers', i, { ...topper, year: e.target.value })}
                     className="w-48 bg-slate-50 border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-amber-500 rounded-2xl px-5 py-4 text-sm font-medium outline-none transition-all"
                   />
                   <input
                     type="text"
                     placeholder="CGPA"
-                    value={topper.cgpa}
+                    value={topper.cgpa || ""}
                     onChange={e => updateArrayItem('toppers', i, { ...topper, cgpa: e.target.value })}
                     className="w-32 bg-slate-50 border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-amber-500 rounded-2xl px-5 py-4 text-sm font-medium outline-none transition-all"
                   />
@@ -744,14 +743,14 @@ export default function DepartmentForm() {
                   <input
                     type="text"
                     placeholder="e.g. FE Syllabus 2024"
-                    value={s.title}
+                    value={s.title || ""}
                     onChange={e => updateArrayItem('syllabus', i, { ...s, title: e.target.value })}
                     className="w-full bg-white border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-indigo-500 rounded-2xl px-4 py-3 text-xs font-bold outline-none"
                   />
                   <FileUpload 
                     label="Syllabus PDF" 
                     id={`syllabus-pdf-${i}`} 
-                    value={s.pdf} 
+                    value={s.pdf || ""} 
                     onChange={f => updateArrayItem('syllabus', i, { ...s, pdf: f })} 
                   />
                   <button 
@@ -788,14 +787,14 @@ export default function DepartmentForm() {
                   <input
                     type="text"
                     placeholder="Title (e.g. Jan 2024 Edition)"
-                    value={n.title}
+                    value={n.title || ""}
                     onChange={e => updateArrayItem('newsletter', i, { ...n, title: e.target.value })}
                     className="w-full bg-white border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-emerald-500 rounded-2xl px-4 py-3 text-xs font-bold outline-none"
                   />
                   <input
                     type="url"
                     placeholder="External Link URL"
-                    value={n.link}
+                    value={n.link || ""}
                     onChange={e => updateArrayItem('newsletter', i, { ...n, link: e.target.value })}
                     className="w-full bg-white border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-emerald-500 rounded-2xl px-4 py-3 text-xs text-blue-500 font-medium outline-none"
                   />
@@ -833,14 +832,14 @@ export default function DepartmentForm() {
                   <input
                     type="text"
                     placeholder="Class (e.g. SE IT)"
-                    value={t.class}
+                    value={t.class || ""}
                     onChange={e => updateArrayItem('timetable', i, { ...t, class: e.target.value })}
                     className="w-full bg-white border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-slate-500 rounded-2xl px-4 py-3 text-xs font-bold outline-none"
                   />
                   <FileUpload 
                     label="Time Table PDF" 
                     id={`timetable-pdf-${i}`} 
-                    value={t.pdf} 
+                    value={t.pdf || ""} 
                     onChange={f => updateArrayItem('timetable', i, { ...t, pdf: f })} 
                   />
                   <button 
@@ -860,3 +859,6 @@ export default function DepartmentForm() {
     </div>
   );
 }
+
+
+
