@@ -143,6 +143,15 @@ const MachineryDiagnostics = lazy(() => import('./pages/MachineryDiagnostics'));
 // pages/texas-instruments-lab
 const TexasInstrumentsLab = lazy(() => import('./pages/TexasInstrumentsLab'));
 
+// pages/robotics-lab
+const RoboticsLab = lazy(() => import('./pages/RoboticsLab'));
+
+// pages/oracle-academy
+const OracleAcademy = lazy(() => import('./pages/OracleAcademy'));
+
+// pages/e-yantra
+const EYantra = lazy(() => import('./pages/EYantra'));
+
 // pages/footer
 const GermanLanguageClubLayout = lazy(() => import('./pages/footer/german-language-club/GermanLanguageClubLayout'));
 const GermanClubAbout = lazy(() => import('./pages/footer/german-language-club/GermanClubAbout'));
@@ -430,6 +439,9 @@ function App() {
             <Route path="/coe-siemens" element={<CenterOfExcellenceSiemens />} />
             <Route path="/machinery-diagnostics" element={<MachineryDiagnostics />} />
             <Route path="/texas-instruments-lab" element={<TexasInstrumentsLab />} />
+            <Route path="/robotics-lab" element={<RoboticsLab />} />
+            <Route path="/oracle-academy" element={<OracleAcademy />} />
+            <Route path="/e-yantra" element={<EYantra />} />
             <Route path="/training" element={<Training />} />
             <Route path="/placement" element={<Placement />} />
             <Route path="/e-cell" element={<ECell />} />

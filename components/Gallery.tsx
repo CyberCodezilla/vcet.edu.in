@@ -103,6 +103,10 @@ const Gallery: React.FC = () => {
             if (item.title === 'AICTE IDEA Lab') linkTo = '/aicte-idea-vcet';
             if (item.title === 'Center of Excellence') linkTo = '/coe-siemens';
             if (item.title === 'Machinery Diagnostics') linkTo = '/machinery-diagnostics';
+            if (item.title === 'Texas Instruments Lab') linkTo = '/texas-instruments-lab';
+            if (item.title === 'Robotics Lab') linkTo = '/robotics-lab';
+            if (item.title === 'Oracle Academy') linkTo = '/oracle-academy';
+            if (item.title === 'e-Yantra Lab') linkTo = '/e-yantra';
             
             return (
               <div
