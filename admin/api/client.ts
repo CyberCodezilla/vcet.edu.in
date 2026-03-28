@@ -98,6 +98,16 @@ function extractErrorMessage(status: number, json: unknown): string {
   return payload?.message ?? `HTTP ${status}`;
 }
 
+function parseJsonSafely(text: string): unknown {
+  if (!text) return {};
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return {};
+  }
+}
+
 async function request<T>(
   path: string,
   options: RequestInit = {},
@@ -120,7 +130,7 @@ async function request<T>(
   });
 
   const text = await res.text();
-  const json = text ? JSON.parse(text) : {};
+  const json = parseJsonSafely(text);
 
   if (!res.ok) {
     if (res.status === 419 && retryOnCsrf) {
@@ -159,7 +169,7 @@ async function requestForm<T>(
   });
 
   const text = await res.text();
-  const json = text ? JSON.parse(text) : {};
+  const json = parseJsonSafely(text);
 
   if (!res.ok) {
     if (res.status === 419 && retryOnCsrf) {

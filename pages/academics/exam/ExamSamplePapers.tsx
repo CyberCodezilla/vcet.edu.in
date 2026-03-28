@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ExamPDFPage, { PDFGroup } from './ExamPDFPage';
+import { pagesApi } from '../../../admin/api/pagesApi';
+import { ExamData } from '../../../admin/types';
 
-const samplePaperGroups: PDFGroup[] = [
+const defaultSamplePaperGroups: PDFGroup[] = [
   {
     groupName: 'Even Semester',
     subTitle: 'SE IV Semester, TE VI Semester & BE VIII Semester',
@@ -39,10 +41,48 @@ const samplePaperGroups: PDFGroup[] = [
 ];
 
 const ExamSamplePapers: React.FC = () => {
-  return (
-    <ExamPDFPage
-      title="Sample Papers"
-      subtitle="Practice with sample papers and mock tests for examinations."
+  const [samplePaperGroups, setSamplePaperGroups] = useState<PDFGroup[]>(defaultSamplePaperGroups);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    pagesApi.exam.get()
+      .then((res: any) => {
+        const data = res?.data || res;
+        if (data && data.samplePapers && data.samplePapers.length > 0) {
+          const baseUrl = (import.meta.env.VITE_API_URL as string || 'http://127.0.0.1:8000').replace(/\/+$/, '');
+          const uploadedPdfs = data.samplePapers.map(doc => ({
+            name: doc.title,
+            url: doc.fileUrl ? `${baseUrl}${doc.fileUrl}` : ''
+          })).filter(doc => doc.url !== '');
+
+          if (uploadedPdfs.length > 0) {
+             setSamplePaperGroups([
+               {
+                 groupName: 'Latest Uploads',
+                 pdfs: uploadedPdfs
+               },
+               ...defaultSamplePaperGroups
+             ]);
+          }
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch exam data', err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-brand-blue border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  return (    <ExamPDFPage
+      title="Sample Papers"      subtitle="Practice with sample papers and mock tests for examinations."
       breadcrumbLabel="Sample Papers"
       groups={samplePaperGroups}
     />
