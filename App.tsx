@@ -161,6 +161,7 @@ const GermanClubActivities = lazy(() => import('./pages/footer/german-language-c
 const GermanClubGallery = lazy(() => import('./pages/footer/german-language-club/GermanClubGallery'));
 const GermanClubFaculty = lazy(() => import('./pages/footer/german-language-club/GermanClubFaculty'));
 const HelplineForDivyangjan = lazy(() => import('./pages/footer/HelplineForDivyangjan'));
+const AuditedStatement = lazy(() => import('./pages/footer/AuditedStatement'));
 const FacultyProfile = lazy(() => import('./pages/FacultyProfile'));
 
 // pages/mms
@@ -458,6 +459,7 @@ function App() {
             <Route path="/exam/notices" element={<ExamNotices />} />
             <Route path="/exam-cell" element={<Navigate to="/exam" replace />} />
             <Route path="/helpline-for-divyangjan" element={<HelplineForDivyangjan />} />
+            <Route path="/audited-statement" element={<AuditedStatement />} />
 
             {/* Footer Pages */}
             <Route path="/german-language-club" element={<GermanLanguageClubLayout />}>
