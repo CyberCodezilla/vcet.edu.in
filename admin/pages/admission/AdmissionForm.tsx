@@ -261,6 +261,73 @@ function buildItemPayload(item: EditableItem, index: number): AdmissionItemPaylo
   };
 }
 
+interface ComparableItemSnapshot {
+  item_type: 'course' | 'document';
+  title: string;
+  description: string | null;
+  category: string | null;
+  academic_year: string | null;
+  badge: string | null;
+  tag: string | null;
+  group_key: string | null;
+  group_label: string | null;
+  intake: number | null;
+  external_url: string | null;
+  is_active: boolean;
+  sort_order: number;
+}
+
+function normalizeNullableText(value: string | null | undefined): string | null {
+  const trimmed = value?.trim() ?? '';
+  return trimmed ? trimmed : null;
+}
+
+function toComparablePayload(payload: AdmissionItemPayload): ComparableItemSnapshot {
+  return {
+    item_type: payload.item_type === 'course' ? 'course' : 'document',
+    title: payload.title.trim(),
+    description: normalizeNullableText(payload.description),
+    category: normalizeNullableText(payload.category),
+    academic_year: normalizeNullableText(payload.academic_year),
+    badge: normalizeNullableText(payload.badge),
+    tag: normalizeNullableText(payload.tag),
+    group_key: normalizeNullableText(payload.group_key),
+    group_label: normalizeNullableText(payload.group_label),
+    intake: payload.intake ?? null,
+    external_url: normalizeNullableText(payload.external_url),
+    is_active: payload.is_active ?? true,
+    sort_order: payload.sort_order ?? 0,
+  };
+}
+
+function toComparableExistingItem(item: AdmissionItem): ComparableItemSnapshot {
+  return {
+    item_type: item.item_type === 'course' ? 'course' : 'document',
+    title: item.title?.trim() ?? '',
+    description: normalizeNullableText(item.description),
+    category: normalizeNullableText(item.category),
+    academic_year: normalizeNullableText(item.academic_year),
+    badge: normalizeNullableText(item.badge),
+    tag: normalizeNullableText(item.tag),
+    group_key: normalizeNullableText(item.group_key),
+    group_label: normalizeNullableText(item.group_label),
+    intake: item.intake ?? null,
+    external_url: normalizeNullableText(item.external_url),
+    is_active: item.is_active,
+    sort_order: item.sort_order ?? 0,
+  };
+}
+
+function hasItemPayloadChanged(existingItem: AdmissionItem, payload: AdmissionItemPayload): boolean {
+  if (payload.pdf) {
+    return true;
+  }
+
+  const existingSnapshot = toComparableExistingItem(existingItem);
+  const payloadSnapshot = toComparablePayload(payload);
+  return JSON.stringify(existingSnapshot) !== JSON.stringify(payloadSnapshot);
+}
+
 function getContentValue(content: Record<string, unknown>, key: string, fallback = ''): string {
   const value = content[key];
   return typeof value === 'string' ? value : fallback;
@@ -687,13 +754,17 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ activeSection, onBack }) 
 
       const draftItems = items.filter((item) => item.title.trim());
       const keptItemIds = new Set<number>();
+      const existingItemsById = new Map<number, AdmissionItem>((section.items ?? []).map((item) => [item.id, item]));
 
       for (const [index, item] of draftItems.entries()) {
         const payload = buildItemPayload(item, index);
 
         if (item.id) {
           keptItemIds.add(item.id);
-          await admissionsApi.updateItem(item.id, payload);
+          const existingItem = existingItemsById.get(item.id);
+          if (!existingItem || hasItemPayloadChanged(existingItem, payload)) {
+            await admissionsApi.updateItem(item.id, payload);
+          }
         } else {
           const created = await admissionsApi.createItem(section.slug, payload);
           keptItemIds.add(created.data.id);
