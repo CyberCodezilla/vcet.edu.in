@@ -161,13 +161,23 @@
         box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         pointer-events: none;
       }
+      @media (max-width: 639px) {
+        #scroll-top-btn {
+          bottom: 16px;
+          right: 16px;
+          width: 36px;
+          height: 36px;
+          background: rgba(26, 75, 124, 0.65); /* translucent */
+          backdrop-filter: blur(6px);
+        }
+      }
       #scroll-top-btn.visible {
         opacity: 1;
         transform: translateY(0);
         pointer-events: all;
       }
       #scroll-top-btn:hover {
-        background: #fdb813;
+        background: rgba(253, 184, 19, 0.9);
         color: #1a4b7c;
         box-shadow: 0 6px 28px rgba(253,184,19,0.4);
         transform: translateY(-2px);

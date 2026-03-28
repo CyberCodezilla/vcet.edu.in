@@ -21,7 +21,7 @@ const Brochure: React.FC = () => {
         breadcrumbs={[{ label: 'Brochure' }]}
       />
 
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-8 md:py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           {error && (
             <div className="mx-auto mb-10 max-w-3xl rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm font-medium text-amber-800">
@@ -29,11 +29,11 @@ const Brochure: React.FC = () => {
             </div>
           )}
 
-          <div className="max-w-3xl mx-auto text-center mb-14 reveal">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy mb-4">
+          <div className="max-w-3xl mx-auto text-center mb-8 md:mb-14 reveal">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-brand-navy mb-3 md:mb-4">
               {getSectionContentValue(section, 'heading', 'College Brochure')}
             </h2>
-            <p className="text-slate-500 text-lg leading-relaxed">
+            <p className="text-slate-500 text-base md:text-lg leading-relaxed">
               {getSectionContentValue(
                 section,
                 'intro',
@@ -60,30 +60,30 @@ const Brochure: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-8 md:p-10 text-center">
-                <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="p-5 md:p-8 lg:p-10 text-center">
+                <div className="flex items-center justify-center gap-3 mb-3 md:mb-4">
                   <div className="w-10 h-10 bg-gradient-to-br from-brand-blue to-brand-navy rounded-xl flex items-center justify-center">
                     <BookOpen className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className="text-xl font-display font-bold text-brand-navy">
+                  <h3 className="text-lg md:text-xl font-display font-bold text-brand-navy">
                     {brochureItem?.title || 'VCET College Brochure'}
                   </h3>
                 </div>
 
-                <p className="text-sm text-slate-400 leading-relaxed max-w-md mx-auto mb-8">
+                <p className="text-sm text-slate-400 leading-relaxed max-w-md mx-auto mb-6 md:mb-8">
                   {getSectionContentValue(
                     section,
                     'description',
-                    'Explore everything about Vidyavardhini&apos;s College of Engineering and Technology - our rich legacy, diverse programs, cutting-edge facilities, and vibrant campus life.',
+                    'Explore everything about Vidyavardhini\'s College of Engineering and Technology - our rich legacy, diverse programs, cutting-edge facilities, and vibrant campus life.',
                   )}
                 </p>
 
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
                   <a
                     href={brochureUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-brand-blue to-brand-navy text-white font-display font-bold rounded-xl shadow-lg hover:shadow-xl hover:from-brand-gold hover:to-yellow-600 transition-all duration-500 hover:-translate-y-0.5 group/btn"
+                    className="inline-flex items-center justify-center gap-3 px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-brand-blue to-brand-navy text-white font-display font-bold rounded-xl shadow-lg hover:shadow-xl hover:from-brand-gold hover:to-yellow-600 transition-all duration-500 hover:-translate-y-0.5 group/btn min-h-[44px]"
                   >
                     <BookOpen className="w-5 h-5" />
                     Open Brochure
@@ -92,7 +92,7 @@ const Brochure: React.FC = () => {
                   <a
                     href={brochureUrl}
                     download={brochureFileName}
-                    className="inline-flex items-center gap-3 px-8 py-4 bg-white text-brand-navy font-display font-bold rounded-xl border border-brand-blue/20 shadow-sm hover:border-brand-gold/40 hover:text-brand-blue hover:-translate-y-0.5 transition-all duration-500"
+                    className="inline-flex items-center justify-center gap-3 px-6 md:px-8 py-3 md:py-4 bg-white text-brand-navy font-display font-bold rounded-xl border border-brand-blue/20 shadow-sm hover:border-brand-gold/40 hover:text-brand-blue hover:-translate-y-0.5 transition-all duration-500 min-h-[44px]"
                   >
                     <Download className="w-5 h-5" />
                     Download PDF

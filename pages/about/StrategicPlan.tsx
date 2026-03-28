@@ -53,22 +53,22 @@ const StrategicPlan: React.FC = () => {
         ]}
       />
 
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-8 md:py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mx-auto">
             {/* Section Header */}
-            <div className="reveal text-center mb-14">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-10 h-0.5 bg-brand-gold" />
+            <div className="reveal text-center mb-8 md:mb-14">
+              <div className="flex items-center justify-center gap-3 mb-3 md:mb-4">
+                <div className="w-8 md:w-10 h-0.5 bg-brand-gold" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">
                   Documents
                 </span>
-                <div className="w-10 h-0.5 bg-brand-gold" />
+                <div className="w-8 md:w-10 h-0.5 bg-brand-gold" />
               </div>
-              <h2 className="text-2xl md:text-3xl font-display font-bold text-brand-navy">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-brand-navy">
                 Download Strategic Plans
               </h2>
-              <p className="text-slate-500 mt-3 max-w-xl mx-auto">
+              <p className="text-slate-500 mt-2 md:mt-3 max-w-xl mx-auto text-sm md:text-base">
                 Access VCET's strategic plans outlining our vision, goals, and roadmap for academic excellence
               </p>
             </div>

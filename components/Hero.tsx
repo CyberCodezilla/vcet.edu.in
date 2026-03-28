@@ -903,15 +903,15 @@ const Hero: React.FC = () => {
         </div>
       )}
 
-      {/* Mobile admission drawer */}
+      {/* Mobile admission/events/notices modal */}
       {mobileAdmissionOpen && (
-        <div className="lg:hidden fixed inset-0 z-[9997] bg-black/70 backdrop-blur-sm" onClick={() => setMobileAdmissionOpen(false)}>
+        <div className="lg:hidden fixed inset-0 z-[9997] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm" onClick={() => setMobileAdmissionOpen(false)}>
           <div
-            className="absolute left-0 right-0 bottom-0 max-h-[76dvh] rounded-t-2xl border-t border-white/20 bg-[#0f1e38] shadow-2xl"
+            className="relative w-full max-w-md max-h-[85vh] flex flex-col rounded-2xl border border-white/20 bg-[#0f1e38] shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-              <h3 className="text-sm font-extrabold uppercase tracking-wider text-white">
+            <div className="flex shrink-0 items-center justify-between px-5 py-4 border-b border-white/10 bg-[#0a1526]">
+              <h3 className="text-sm font-extrabold uppercase tracking-widest text-[#F4B400]">
                 {mobilePanel === "admission"
                   ? "Admission Enquiry"
                   : mobilePanel === "notices"
@@ -920,13 +920,13 @@ const Hero: React.FC = () => {
               </h3>
               <button
                 onClick={() => setMobileAdmissionOpen(false)}
-                className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center"
+                className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center transition-colors hover:bg-rose-500/80 hover:border-transparent"
                 aria-label="Close admission form"
               >
                 <X className="w-4 h-4 text-white" />
               </button>
             </div>
-            <div className="px-4 py-3 overflow-y-auto max-h-[calc(76dvh-56px)]">
+            <div className="px-5 py-4 overflow-y-auto">
               {mobilePanel === "admission" ? (
                 <AdmissionForm />
               ) : mobilePanel === "notices" ? (

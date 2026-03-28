@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Shield, Award, Globe, CheckCircle2, Hash } from 'lucide-react';
@@ -169,13 +169,13 @@ const ResearchPatents: React.FC = () => {
             {[
               { icon: Hash,        value: '13',  label: 'Patents Listed' },
               { icon: Shield,      value: '10',  label: 'Indian Patents' },
-              { icon: Globe,       value: '2',   label: 'International Patents' },
-              { icon: Award,       value: '8',   label: 'Departments Involved' },
+              { icon: Globe,       value: '2',   label: 'International' },
+              { icon: Award,       value: '8',   label: 'Depts. Involved' },
             ].map((s, i) => (
-              <div key={s.label} className="reveal py-8 px-6 text-center" style={{ transitionDelay: `${i * 0.06}s` }}>
-                <s.icon className="w-5 h-5 text-[#fdb813] mx-auto mb-2" />
-                <p className="text-3xl font-display font-bold text-white tracking-tight">{s.value}</p>
-                <p className="text-white/60 text-[14px] uppercase tracking-[0.15em] mt-1">{s.label}</p>
+              <div key={s.label} className="reveal py-5 md:py-8 px-3 md:px-6 text-center" style={{ transitionDelay: `${i * 0.06}s` }}>
+                <s.icon className="w-4 h-4 md:w-5 md:h-5 text-[#fdb813] mx-auto mb-2" />
+                <p className="text-2xl md:text-3xl font-display font-bold text-white tracking-tight">{s.value}</p>
+                <p className="text-white/60 text-[11px] md:text-[14px] uppercase tracking-[0.15em] mt-1">{s.label}</p>
               </div>
             ))}
           </div>
@@ -183,33 +183,33 @@ const ResearchPatents: React.FC = () => {
       </section>
 
       {/* â”€â”€ Patent Table â”€â”€ */}
-      <section className="py-20 bg-[#F7F9FC]">
+      <section className="py-10 md:py-20 bg-[#F7F9FC]">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1400px]">
 
           {/* Section heading */}
-          <div className="reveal mb-10">
-            <span className="text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Intellectual Property</span>
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-[#1a4b7c] mt-4 tracking-tight">Patent Portfolio</h2>
+          <div className="reveal mb-8 md:mb-10">
+            <span className="text-[13px] md:text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Intellectual Property</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-[#1a4b7c] mt-3 md:mt-4 tracking-tight">Patent Portfolio</h2>
           </div>
 
-          {/* Legend + Year Filter â€” same row */}
-          <div className="reveal flex flex-wrap items-center justify-between gap-5 mb-8">
+          {/* Legend + Year Filter — same row */}
+          <div className="reveal flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 md:mb-8">
             {/* Office legend */}
-            <div className="flex flex-wrap items-center gap-5">
+            <div className="flex flex-wrap items-center gap-3 md:gap-5">
               {Object.entries(officeAccent).map(([office, style]) => (
                 <div key={office} className="flex items-center gap-2">
                   <div className="w-3 h-3 flex-shrink-0" style={{ backgroundColor: style.bar }} />
-                  <span className="text-[13px] text-[#374151] font-medium">{office}</span>
+                  <span className="text-[12px] md:text-[13px] text-[#374151] font-medium">{office}</span>
                 </div>
               ))}
             </div>
-            {/* Year filter */}
-            <div className="flex items-center gap-0 border border-[#E5E7EB] flex-shrink-0">
+            {/* Year filter — scrollable on mobile */}
+            <div className="flex items-center gap-0 border border-[#E5E7EB] flex-shrink-0 overflow-x-auto">
               {years.map(y => (
                 <button
                   key={y}
                   onClick={() => setActiveYear(y)}
-                  className={`px-4 py-2 text-[14px] font-bold uppercase tracking-[0.1em] border-r border-[#E5E7EB] last:border-r-0 transition-colors duration-200 ${
+                  className={`px-3 md:px-4 py-2 text-[13px] md:text-[14px] font-bold uppercase tracking-[0.1em] border-r border-[#E5E7EB] last:border-r-0 transition-colors duration-200 whitespace-nowrap min-h-[44px] ${
                     activeYear === y ? 'bg-[#1a4b7c] text-white' : 'bg-white text-[#374151] hover:bg-[#F7F9FC]'
                   }`}
                 >

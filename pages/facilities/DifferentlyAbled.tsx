@@ -28,7 +28,7 @@ const DifferentlyAbled: React.FC = () => {
       />
 
       {/* Image Placeholder Gallery */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-8 md:py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto text-center mb-12 reveal">
             <div className="bg-brand-blue border-2 border-brand-blue border-l-[10px] border-l-brand-gold px-6 py-5 md:py-6 shadow-[0_16px_34px_rgba(234,179,8,0.58)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(234,179,8,0.72)]">

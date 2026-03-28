@@ -55,7 +55,7 @@ const ContactUs: React.FC = () => {
       />
 
       {/* Contact Info + Form */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-8 md:py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -180,7 +180,7 @@ const ContactUs: React.FC = () => {
       </section>
 
       {/* Map */}
-      <section className="py-16 md:py-24 bg-brand-light">
+      <section className="py-8 md:py-16 lg:py-24 bg-brand-light">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-14 reveal">

@@ -143,7 +143,7 @@ const StatCard: React.FC<{ icon: any; value: number; suffix: string; label: stri
 ───────────────────────────────────────────── */
 const SectionHeading: React.FC<{ title: string; subtitle?: string }> = ({ title, subtitle }) => (
   <div className="mb-10">
-    <h2 className="text-3xl md:text-4xl font-extrabold text-[#1a2b4b] mb-3 tracking-tight">{title}</h2>
+    <h2 className="text-xl md:text-3xl lg:text-4xl font-extrabold text-[#1a2b4b] mb-3 tracking-tight">{title}</h2>
     {subtitle && <p className="text-[#64748b] text-base mb-4">{subtitle}</p>}
     <div className="flex gap-1.5 items-center">
       <div className="h-1 w-10 bg-[#ffb100] rounded-full" />
@@ -536,28 +536,28 @@ const VMEA: React.FC = () => {
       <StatsBanner />
 
       {/* Main Content */}
-      <section className="py-16 md:py-24 bg-[#f8fafc]">
+      <section className="py-8 md:py-16 lg:py-24 bg-[#f8fafc]">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 lg:gap-10">
 
             {/* Sidebar Nav */}
             <aside className="lg:col-span-1">
-              <div className="sticky top-28 space-y-4">
+              <div className="sticky top-20 lg:top-28 space-y-4">
                 {/* Tab navigation */}
-                <nav className="bg-white border border-slate-200 shadow-sm overflow-hidden">
+                <nav className="bg-white border border-slate-200 shadow-sm">
                   {/* Nav header */}
-                  <div className="px-5 py-4 border-b border-slate-100 bg-[#1a2b4b]/3">
+                  <div className="px-4 md:px-5 py-3 md:py-4 border-b border-slate-100 bg-[#1a2b4b]/3">
                     <p className="text-[10px] font-black uppercase tracking-[0.25em] text-[#1a2b4b]/50">Navigation</p>
                   </div>
                   {/* Nav items */}
-                  <div className="p-2 space-y-1">
+                  <div className="flex lg:flex-col overflow-x-auto lg:overflow-x-visible gap-0 lg:p-2 lg:space-y-1 no-scrollbar">
                     {tabs.map((tab) => {
                       const isActive = activeTab === tab.id;
                       return (
                         <button
                           key={tab.id}
                           onClick={() => handleTabChange(tab.id)}
-                          className={`w-full text-left flex items-center gap-3.5 px-4 py-3.5 transition-all duration-250 group relative ${isActive
+                          className={`w-full lg:w-auto flex-shrink-0 text-left flex items-center gap-1.5 lg:gap-3.5 px-2.5 py-2 lg:py-3.5 transition-all duration-250 group relative min-h-[40px] ${isActive
                               ? 'bg-[#1a2b4b] text-white shadow-md'
                               : 'text-[#475569] hover:bg-slate-50 hover:text-[#1a2b4b]'
                             }`}

@@ -35,9 +35,9 @@ const AboutVCET: React.FC = () => {
         ]}
       />
 
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-8 md:py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 lg:items-start lg:gap-16">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start lg:gap-16">
 
             <div className="space-y-8 lg:col-span-2">
               <div id="history" className="info-card reveal">
@@ -49,8 +49,8 @@ const AboutVCET: React.FC = () => {
 
                 </div>
                 <div className="info-card-body">
-                  <h2 className="mb-3 text-2xl font-display font-bold leading-tight text-brand-navy md:text-3xl">Legacy Rooted in Knowledge</h2>
-                  <p className="text-xl leading-relaxed text-slate-700 md:text-2xl">
+                  <h2 className="mb-3 text-xl sm:text-2xl font-display font-bold leading-tight text-brand-navy md:text-3xl">Legacy Rooted in Knowledge</h2>
+                  <p className="text-base leading-relaxed text-slate-700 md:text-xl">
                     Vidyavardhini means a Body committed to enhancement of Knowledge. Vidyavardhini
                     was established as a registered society in 1970 by late <span className="font-semibold text-brand-blue">Padmashri H. G. alias
                     Bhausaheb Vartak</span> for the noble cause of education in rural areas.
@@ -108,7 +108,7 @@ const AboutVCET: React.FC = () => {
             </div>
 
             <div className="space-y-8">
-              <div id="mission-vision" className="reveal rounded-2xl bg-gradient-to-br from-brand-blue to-brand-navy p-8 text-white shadow-lg shadow-brand-blue/25" style={{ transitionDelay: '0.1s' }}>
+              <div id="mission-vision" className="reveal rounded-2xl bg-gradient-to-br from-brand-blue to-brand-navy p-5 md:p-8 text-white shadow-lg shadow-brand-blue/25" style={{ transitionDelay: '0.1s' }}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
                     <Eye className="w-5 h-5 text-brand-gold" />
@@ -121,7 +121,7 @@ const AboutVCET: React.FC = () => {
                 </p>
               </div>
 
-              <div className="reveal rounded-2xl border border-brand-blue/10 bg-brand-light p-8" style={{ transitionDelay: '0.16s' }}>
+              <div className="reveal rounded-2xl border border-brand-blue/10 bg-brand-light p-5 md:p-8" style={{ transitionDelay: '0.16s' }}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-brand-blue/10 rounded-xl flex items-center justify-center">
                     <Target className="w-5 h-5 text-brand-blue" />
@@ -138,7 +138,7 @@ const AboutVCET: React.FC = () => {
                 </ul>
               </div>
 
-              <div id="accreditations" className="reveal rounded-2xl border border-gray-100 bg-white p-8 shadow-sm" style={{ transitionDelay: '0.22s' }}>
+              <div id="accreditations" className="reveal rounded-2xl border border-gray-100 bg-white p-5 md:p-8 shadow-sm" style={{ transitionDelay: '0.22s' }}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-brand-gold/10 rounded-xl flex items-center justify-center">
                     <Award className="w-5 h-5 text-brand-gold" />

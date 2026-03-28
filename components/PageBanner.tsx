@@ -49,21 +49,21 @@ const PageBanner: React.FC<PageBannerProps> = ({ title, subtitle, breadcrumbs })
           }} />
         </div>
 
-        <div className="container mx-auto px-4 sm:px-6 relative z-10 py-16 md:py-24">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10 py-8 md:py-16 lg:py-24">
           {/* Title */}
           <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-0.5 bg-brand-gold" />
+            <div className="flex items-center gap-3 mb-3 md:mb-4">
+              <div className="w-8 md:w-10 h-0.5 bg-brand-gold" />
               <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">
                 {breadcrumbs?.[0]?.label || 'VCET'}
               </span>
             </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white tracking-tight leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white tracking-tight leading-tight">
               {title}
             </h1>
             {subtitle && (
               <p
-                className="mt-4 max-w-2xl text-sm md:text-base text-white/75 leading-relaxed"
+                className="mt-3 md:mt-4 max-w-2xl text-sm md:text-base text-white/75 leading-relaxed"
                 style={{ fontFamily: '"Times New Roman", Times, serif' }}
               >
                 {subtitle}
