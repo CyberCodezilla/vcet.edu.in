@@ -123,6 +123,24 @@ export const mmsHomeContent = {
       ],
     },
     {
+      id: 'first-year-syllabus',
+      title: 'First Year Syllabus',
+      subtitle: 'Official University of Mumbai curriculum',
+      fieldType: 'pdf-doc',
+      items: [
+        { id: 'fy-pdf', label: 'First Year Syllabus', url: 'https://vcet.edu.in/mms/FY.pdf' }
+      ],
+    },
+    {
+      id: 'second-year-syllabus',
+      title: 'Second Year Syllabus',
+      subtitle: 'Official University of Mumbai curriculum',
+      fieldType: 'pdf-doc',
+      items: [
+        { id: 'sy-pdf', label: 'Second Year Syllabus', url: 'https://vcet.edu.in/mms/SY_syllabus.pdf' }
+      ],
+    },
+    {
       id: 'internships',
       title: "Summer Internship's",
       subtitle: 'Image tab data',
@@ -190,8 +208,8 @@ export const mmsHomeContent = {
       subtitle: 'Document links for syllabus and circulars',
       fieldType: 'pdf-doc',
       items: [
-        { id: 'd1', label: 'First Year Syllabus', url: '/Images/mms/syllabus/FY.pdf' },
-        { id: 'd2', label: 'Second Year Syllabus', url: '/Images/mms/syllabus/SY_syllabus.pdf' },
+        { id: 'd0', label: 'First Year Syllabus', description: 'Download the official First Year MMS syllabus (University of Mumbai curriculum).', url: 'https://vcet.edu.in/mms/FY.pdf' },
+        { id: 'd1', label: 'Second Year Syllabus', description: 'Download the official First Year MMS syllabus (University of Mumbai curriculum).', url: 'https://vcet.edu.in/mms/SY_syllabus.pdf' },
       ],
     },
   ] as MmsContentSection[],

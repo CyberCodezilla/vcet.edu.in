@@ -31,10 +31,10 @@ const navItems: NavItem[] = [
   { label: "STUDENT'S LIFE", href: '/mms/students-life' },
   {
     label: 'SYLLABUS',
-    href: '/Images/mms/syllabus/MMS_firstyear_Syllabus.pdf',
+    href: 'https://vcet.edu.in/mms/FY.pdf',
     subLinks: [
-      { label: 'First Year', href: '/Images/mms/syllabus/MMS_firstyear_Syllabus.pdf', newTab: true },
-      { label: 'Second Year', href: '/Images/mms/syllabus/MMS_secondyear_Syllabus.pdf', newTab: true },
+      { label: 'First Year', href: 'https://vcet.edu.in/mms/FY.pdf', newTab: true },
+      { label: 'Second Year', href: 'https://vcet.edu.in/mms/SY_syllabus.pdf', newTab: true },
     ],
   },
   { label: 'FACILITIES', href: '/mms/facilities' },
