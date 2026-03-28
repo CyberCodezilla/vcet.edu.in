@@ -39,7 +39,7 @@ interface DocItem extends AdmissionDocument {
 const DocumentListManager: React.FC<{
   items: DocItem[];
   onChange: (items: DocItem[]) => void;
-  type: 'fees' | 'documents' | 'cutoffs';
+  type: 'fees' | 'documents' | 'cutoffs' | 'scholarships';
 }> = ({ items, onChange, type }) => {
   const addItem = () => {
     onChange([...(items || []), { title: '', description: '', year: '2024-25', category: 'UG - FIRST YEAR', fileUrl: null, fileName: null }]);
@@ -73,15 +73,18 @@ const DocumentListManager: React.FC<{
             </button>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="md:col-span-1">
-                <label className={labelBase}>Document Title</label>
+              <div className={type === 'scholarships' ? "md:col-span-2" : "md:col-span-1"}>
+                <label className={labelBase}>
+                  {type === 'scholarships' ? 'Scholarship Name' : 'Document Title'}
+                </label>
                 <input 
                   value={item.title} 
                   onChange={e => updateItem(idx, { title: e.target.value })}
                   className={inputBase}
-                  placeholder="e.g. F.E. (First Year Engineering) 2024-25"
+                  placeholder={type === 'scholarships' ? "e.g. Post Matric Scholarship for OBC" : "e.g. F.E. (First Year Engineering) 2024-25"}
                 />
               </div>
+              {type !== 'scholarships' && (
               <div className="md:col-span-1 text-right">
                  <label className={labelBase}>{type === 'documents' ? 'Category' : 'Academic Year'}</label>
                  {type === 'documents' ? (
@@ -107,6 +110,8 @@ const DocumentListManager: React.FC<{
                    </select>
                  )}
               </div>
+              )}
+              {type !== 'scholarships' && (
               <div className="md:col-span-2">
                 <label className={labelBase}>{type === 'cutoffs' ? 'Subtitle (e.g. Engineering Department)' : 'Short Description'}</label>
                 <input 
@@ -116,6 +121,7 @@ const DocumentListManager: React.FC<{
                   placeholder={type === 'cutoffs' ? "e.g. Engineering Department" : "Briefly explain what this document is for..."}
                 />
               </div>
+              )}
               <div className="md:col-span-2">
                 <label className={labelBase}>PDF Document</label>
                 <div className="relative overflow-hidden bg-white border-2 border-dashed border-slate-200 rounded-2xl p-4 transition-all hover:border-[#2563EB]">
@@ -225,7 +231,8 @@ interface AdmissionFormProps {
 const AdmissionForm: React.FC<AdmissionFormProps> = ({ activeSection, onBack }) => {
   const [data, setData] = useState<AdmissionData | null>(null);
   const [payload, setPayload] = useState<AdmissionPayload>({
-    courses: { ug: [], pg: [], management: [] }
+    courses: { ug: [], pg: [], management: [] },
+    scholarships: []
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -240,6 +247,7 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ activeSection, onBack }) 
           feesStructure: Array.isArray(res.data?.feesStructure) ? res.data.feesStructure : [],
           documentsRequired: Array.isArray(res.data?.documentsRequired) ? res.data.documentsRequired : [],
           cutOffs: Array.isArray(res.data?.cutOffs) ? res.data.cutOffs : [],
+          scholarships: Array.isArray(res.data?.scholarships) ? res.data.scholarships : [],
         });
       })
       .finally(() => setLoading(false));
@@ -294,7 +302,8 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ activeSection, onBack }) 
                                       activeSection === 'fees' ? 'Fees' : 
                                       activeSection === 'documents' ? 'Documents' : 
                                       activeSection === 'cutoffs' ? 'Cutoffs' : 
-                                      activeSection === 'brochure' ? 'Brochure' : 'Section'}` : 'Admission Module'}
+                                      activeSection === 'brochure' ? 'Brochure' : 
+                                      activeSection === 'scholarships' ? 'Scholarships' : 'Section'}` : 'Admission Module'}
             </h1>
             <p className="text-slate-500 text-sm mt-1">
               {activeSection ? `Manage your admission ${activeSection} details here.` : 'Manage intake, fees, and academic brochures.'}
@@ -359,6 +368,17 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ activeSection, onBack }) 
               type="cutoffs" 
               items={payload.cutOffs || []} 
               onChange={items => setPayload(prev => ({ ...prev, cutOffs: items }))} 
+            />
+          </SectionCard>
+        )}
+
+        {/* Scholarships List */}
+        {(!activeSection || activeSection === 'scholarships') && (
+          <SectionCard title="Scholarships & Financial Aid" icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}>
+            <DocumentListManager 
+              type="scholarships" 
+              items={payload.scholarships || []} 
+              onChange={items => setPayload(prev => ({ ...prev, scholarships: items }))} 
             />
           </SectionCard>
         )}

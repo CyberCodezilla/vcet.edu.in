@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { SITE_PAGE_TABS } from './sitePagesConfig';
 import AdmissionForm from '../admission/AdmissionForm';
 import AcademicsForm from '../academics/AcademicsForm';
+import ExamsForm from '../exams/ExamsForm';
 
 const homeEditables = [
   {
@@ -54,6 +55,11 @@ const admissionEditables = [
     description: 'Update the official college brochure and other admission assets.',
     links: [{ label: 'Edit Brochure', section: 'brochure' }],
   },
+  {
+    title: 'Scholarships',
+    description: 'Manage institutional and government scholarship details and application forms.',
+    links: [{ label: 'Edit Scholarships', section: 'scholarships' }],
+  },
 ];
 
 const academicsEditables = [
@@ -66,6 +72,35 @@ const academicsEditables = [
     title: 'Program Booklets',
     description: 'Update institutional booklets for various degree programs and syllabus.',
     links: [{ label: 'Edit Booklets', section: 'booklets' }],
+  },
+];
+
+const examEditables = [
+  {
+    title: 'University Materials',
+    description: 'Manage institutional syllabus records and program structures.',
+    links: [{ label: 'Edit Syllabus', section: 'syllabus' }],
+  },
+  {
+    title: 'Exam Logistics',
+    description: 'Update examination schedules and yearly timetables.',
+    links: [{ label: 'Edit Timetables', section: 'timetable' }],
+  },
+  {
+    title: 'Academic Resources',
+    description: 'Manage previous years question papers and sample mock tests.',
+    links: [
+      { label: 'Edit Question Papers', section: 'questionPapers' },
+      { label: 'Edit Sample Papers', section: 'samplePapers' },
+    ],
+  },
+  {
+    title: 'Results & Exam Notices',
+    description: 'Manage university results and important examination related notices.',
+    links: [
+      { label: 'Edit Results', section: 'results' },
+      { label: 'Edit Exam Notices', section: 'notices' },
+    ],
   },
 ];
 
@@ -98,6 +133,10 @@ const SitePages: React.FC = () => {
 
   if (activeTab.key === 'academics' && activeSection) {
     return <AcademicsForm activeSection={activeSection} onBack={() => setActiveSection(null)} />;
+  }
+
+  if (activeTab.key === 'exam' && activeSection) {
+    return <ExamsForm activeSection={activeSection} onBack={() => setActiveSection(null)} />;
   }
 
   // Handle Hub/Direct Views
@@ -149,6 +188,36 @@ const SitePages: React.FC = () => {
                     key={link.section}
                     onClick={() => setActiveSection(link.section)}
                     className="inline-flex items-center px-3.5 py-2 rounded-xl bg-[#2563EB] text-white text-xs font-semibold hover:bg-blue-700 transition-colors"
+                  >
+                    {link.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab.key === 'exam') {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Exams & Examination Cell</h1>
+          <p className="text-sm text-slate-500 mt-1 font-medium">Manage all examination records, materials, and internal resources here.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {examEditables.map((item) => (
+            <div key={item.title} className="bg-white border border-slate-200/60 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all">
+              <h2 className="text-lg font-bold text-slate-900 tracking-tight">{item.title}</h2>
+              <p className="text-xs text-slate-500 mt-2 font-medium leading-relaxed">{item.description}</p>
+              <div className="flex flex-wrap gap-2 mt-5">
+                {item.links.map((link) => (
+                  <button
+                    key={link.section}
+                    onClick={() => setActiveSection(link.section)}
+                    className="inline-flex items-center px-4 py-2.5 rounded-xl bg-[#2563EB] text-white text-[11px] uppercase tracking-wider font-extrabold hover:bg-blue-700 transition-all shadow-sm"
                   >
                     {link.label}
                   </button>
