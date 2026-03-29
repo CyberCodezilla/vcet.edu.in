@@ -669,4 +669,29 @@
   .naac-content__container {
     padding: 24px;
   }
+
+  .naac-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .naac-extended-table,
+  .naac-dvv-table,
+  .naac-metric-table,
+  .naac-qif-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .naac-extended-table th,
+  .naac-extended-table td,
+  .naac-dvv-table th,
+  .naac-dvv-table td,
+  .naac-metric-table th,
+  .naac-metric-table td,
+  .naac-qif-table th,
+  .naac-qif-table td {
+    white-space: nowrap;
+  }
 }

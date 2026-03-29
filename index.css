@@ -189,3 +189,20 @@ canvas {
     padding-bottom: 0.4rem !important;
   }
 }
+
+/* ─── Global Mobile Table Visibility ───────────────────────────── */
+@media (max-width: 768px) {
+  table {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table th,
+  table td {
+    white-space: nowrap !important;
+    vertical-align: middle;
+  }
+}

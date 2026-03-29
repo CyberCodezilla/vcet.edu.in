@@ -1,5 +1,6 @@
 import React from 'react';
 import { ImageIcon } from 'lucide-react';
+import { useMmsImageHolder } from '../../../hooks/mms/useMmsImageHolder';
 
 interface FacilitiesSectionCardProps {
   title: string;
@@ -23,17 +24,22 @@ export function FacilitiesSectionCard({ title, subtitle, children }: FacilitiesS
 interface FacilitiesImageHolderProps {
   label: string;
   size?: 'default' | 'large';
-  src?: string;
 }
 
-export function FacilitiesImageHolder({ label, size = 'default', src }: FacilitiesImageHolderProps) {
+export function FacilitiesImageHolder({ label, size = 'default' }: FacilitiesImageHolderProps) {
   const minHeightClass = size === 'large' ? 'min-h-[280px] sm:min-h-[320px]' : 'min-h-[200px]';
+  const imageUrl = useMmsImageHolder('facilities', label);
 
   return (
     <article className="group relative overflow-hidden rounded-none border border-brand-blue/20 bg-gradient-to-br from-slate-50 to-brand-light/35 p-[3px] shadow-[0_16px_28px_-20px_rgba(11,61,145,0.6)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_36px_-20px_rgba(11,61,145,0.65)]">
-      <div className="rounded-none border border-brand-blue/15 bg-white p-4 h-full">
-        {src ? (
-          <img src={src} alt={label} className={`w-full ${minHeightClass} object-cover`} />
+      <div className="rounded-none border border-brand-blue/15 bg-white p-4">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={label}
+            className={`block w-full rounded-none object-cover ${minHeightClass}`}
+            referrerPolicy="no-referrer"
+          />
         ) : (
           <div className={`flex ${minHeightClass} items-center justify-center rounded-none border-2 border-dashed border-brand-blue/30 bg-gradient-to-br from-brand-light/30 to-slate-100 text-center`}>
             <div className="space-y-2 px-4">

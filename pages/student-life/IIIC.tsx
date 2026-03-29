@@ -93,10 +93,10 @@ const IIIC: React.FC = () => {
         ]}
       />
 
-      <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 px-6 lg:px-12 py-12">
+      <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 px-6 lg:px-12 py-12 bg-[#F7F9FC]">
         {/* Sticky Sidebar */}
         <aside className="w-full lg:w-[320px] flex-shrink-0">
-          <div className="lg:sticky lg:top-28 bg-white rounded-xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] overflow-hidden border border-slate-200">
+          <div className="lg:sticky lg:top-28 bg-white border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB] overflow-hidden">
             <nav className="flex flex-col py-2">
               {sidebarLinks.map((link) => {
                 const isActive = activeId === link.id;
@@ -106,8 +106,8 @@ const IIIC: React.FC = () => {
                     onClick={() => setActiveId(link.id)}
                     className={`px-6 py-4 text-[15px] text-left transition-all flex items-center justify-between group ${
                         isActive
-                          ? 'bg-[#183a68] text-[#f2a900] font-semibold'
-                          : 'text-[#183a68] font-medium hover:bg-slate-50'
+                          ? 'bg-[#1a4b7c] text-[#fdb813] font-semibold'
+                          : 'text-[#1a4b7c] font-medium hover:bg-slate-50'
                     }`}
                   >
                     <span className="flex items-center gap-4">
@@ -129,13 +129,13 @@ const IIIC: React.FC = () => {
           
           {/* About Tab */}
           {activeId === 'about' && (
-            <section className="reveal bg-white rounded-2xl p-8 lg:p-12 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-100">
+            <section className="reveal bg-white p-8 lg:p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB]">
               <div className="space-y-6 text-[#5b6574] leading-relaxed text-justify md:text-left text-[15px]">
                 <p>
                   In today&apos;s world, Engineering Institutions need to interact with the corresponding Industries for improving the quality of the Engineers by understanding their expectations. VCET has started Industry Institute Interaction Cell with this objective to have more Companies involved and our students will get benefit from the MOU&apos;s done with these companies. We facilitate students for interacting with the Company by organizing events and activities. We want to help students to improve their knowledge and skills and for getting them job in good Companies. This III Cell tries to provide internship, Industrial visit, Guest Lectures &amp; workshops for the students under MOU signed with the industries.
                 </p>
                 <div className="mt-8">
-                  <h3 className="text-xl font-bold text-[#183a68] mb-4">Objectives</h3>
+                  <h3 className="text-xl font-bold text-[#1a4b7c] mb-4">Objectives</h3>
                   <ol className="list-decimal pl-5 space-y-3">
                     <li>To bridge the gap between Industry and Institute.</li>
                     <li>To establish convergence with industrial and research organizations from various fields through MOUs as a form of interaction.</li>
@@ -149,9 +149,9 @@ const IIIC: React.FC = () => {
 
           {/* Roles Tab */}
           {activeId === 'roles' && (
-            <section className="reveal bg-white rounded-2xl p-8 lg:p-12 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-100">
+            <section className="reveal bg-white p-8 lg:p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB]">
               <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
-                <h3 className="text-2xl font-bold text-[#183a68] border-b border-slate-100 pb-3 mb-6">Roles of Industry-Institute Interaction Cell</h3>
+                <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Roles of Industry-Institute Interaction Cell</h3>
                 <ul className="list-disc pl-5 space-y-3">
                   <li>To give industrial exposure to Faculty members and students, thus enabling them to tune their knowledge to cope with the industrial culture.</li>
                   <li>Continuing Education and Training for Faculty.</li>
@@ -174,9 +174,9 @@ const IIIC: React.FC = () => {
 
           {/* Events Tab */}
           {activeId === 'events' && (
-            <section className="reveal bg-white rounded-2xl p-8 lg:p-12 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-100">
+            <section className="reveal bg-white p-8 lg:p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB]">
               <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
-                <h3 className="text-2xl font-bold text-[#183a68] border-b border-slate-100 pb-3 mb-6">Events</h3>
+                <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Events</h3>
                 <p>
                   Successfully completed Internship Program organized by IIIC, VCET and IETE, Mumbai centre. Students from VJTI, DBIT, Datta Meghe COE, Atharva COE, VIVA IT along with VCET participated.
                 </p>
@@ -186,11 +186,11 @@ const IIIC: React.FC = () => {
 
           {/* Placeholders for other tabs */}
           {activeId !== 'about' && activeId !== 'roles' && activeId !== 'events' && (
-            <section className="reveal bg-white rounded-2xl p-12 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-100 flex flex-col items-center justify-center text-center min-h-[400px]">
+            <section className="reveal bg-white p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB] flex flex-col items-center justify-center text-center min-h-[400px]">
               <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center mb-6">
-                <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-[#183a68]`} />
+                <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-[#1a4b7c]`} />
               </div>
-              <h3 className="text-xl font-bold text-[#183a68] mb-2">{activeLink?.label}</h3>
+              <h3 className="text-xl font-bold text-[#1a4b7c] mb-2">{activeLink?.label}</h3>
               <p className="text-slate-500">Content for this section is coming soon.</p>
             </section>
           )}
@@ -202,3 +202,4 @@ const IIIC: React.FC = () => {
 };
 
 export default IIIC;
+

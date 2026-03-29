@@ -87,7 +87,7 @@ const About: React.FC = () => {
             
             <div className="group relative h-[380px] w-full overflow-hidden rounded-2xl border border-brand-blue/10 bg-brand-light sm:h-[480px] md:h-[520px]">
               <img 
-                src="/Images/About/vcet_campus.jpg" 
+                src="/Images/vcet_home_new.jpg" 
                 alt="VCET Campus" 
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
@@ -96,28 +96,28 @@ const About: React.FC = () => {
           </div>
 
           <div className="space-y-6 reveal" style={{transitionDelay: '0.2s'}}>
-            <div className="group rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:border-brand-blue/20 hover:shadow-md">
+            <div className="group md:-mt-2 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:border-brand-blue/20 hover:shadow-md">
               <div className="flex justify-between items-start mb-5">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-blue/8 transition-colors duration-300 group-hover:bg-brand-blue">
                   <Target className="h-6 w-6 text-brand-blue transition-colors group-hover:text-white" />
                 </div>
                 <span className="text-xs font-bold text-brand-gold/40 uppercase tracking-widest">01</span>
               </div>
-              <h3 className="mb-3 text-xl font-bold text-brand-navy">Our Mission</h3>
-              <p className="text-sm leading-relaxed text-slate-600">
+              <h3 className="mb-3 text-xl md:text-2xl font-bold text-brand-navy">Our Mission</h3>
+              <p className="text-sm md:text-base leading-relaxed text-slate-600">
                 To provide a dynamic learning environment that fosters innovation, critical thinking, and ethical leadership in engineering and technology.
               </p>
             </div>
 
-            <div className="group rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:border-brand-blue/20 hover:shadow-md">
+            <div className="group md:-mt-1 rounded-2xl border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:border-brand-blue/20 hover:shadow-md">
               <div className="flex justify-between items-start mb-5">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-gold/10 transition-colors duration-300 group-hover:bg-brand-gold">
                   <Eye className="h-6 w-6 text-brand-gold transition-colors group-hover:text-white" />
                 </div>
                 <span className="text-xs font-bold text-brand-gold/40 uppercase tracking-widest">02</span>
               </div>
-              <h3 className="mb-3 text-xl font-bold text-brand-navy">Our Vision</h3>
-              <p className="text-sm leading-relaxed text-slate-600">
+              <h3 className="mb-3 text-xl md:text-2xl font-bold text-brand-navy">Our Vision</h3>
+              <p className="text-sm md:text-base leading-relaxed text-slate-600">
                 To be a globally recognized centre of excellence, shaping the future through sustainable engineering practices and impactful research.
               </p>
             </div>
@@ -129,7 +129,7 @@ const About: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-3 md:gap-4 sm:grid-cols-3">
               {[
                 { icon: MapPin, title: 'Prime Location', desc: '2-minute walk from Vasai Road (W).' },
                 { icon: ShieldCheck, title: 'Trusted Institution', desc: 'Established reputation in engineering education.' },
@@ -137,11 +137,11 @@ const About: React.FC = () => {
               ].map((item) => (
                 <article
                   key={item.title}
-                  className="rounded-xl border border-brand-blue/10 bg-white px-4 py-4 shadow-sm transition-all duration-300 hover:border-brand-blue/25 hover:shadow-md"
+                  className="rounded-xl border border-brand-blue/10 bg-white px-4 py-4 md:px-5 md:py-5 shadow-sm transition-all duration-300 hover:border-brand-blue/25 hover:shadow-md"
                 >
-                  <item.icon className="mb-2 h-4 w-4 text-brand-blue" />
-                  <h3 className="text-sm font-semibold text-brand-navy">{item.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-slate-600">{item.desc}</p>
+                  <item.icon className="mb-2 md:mb-3 h-4 w-4 md:h-5 md:w-5 text-brand-blue" />
+                  <h3 className="text-sm md:text-lg font-semibold text-brand-navy">{item.title}</h3>
+                  <p className="mt-1 md:mt-2 text-xs md:text-base leading-relaxed text-slate-600">{item.desc}</p>
                 </article>
               ))}
             </div>

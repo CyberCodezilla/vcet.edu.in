@@ -18,7 +18,7 @@ const fallbackGalleryItems: FallbackGalleryItem[] = [
   {
     title: 'AICTE IDEA Lab',
     subtitle: 'Innovation & Design',
-    src: '/Images/gallery/aicte_idea_lab.png',
+    src: '/Images/gallery/aicte_lab_new.jpg',
   },
   {
     title: 'Center of Excellence',
@@ -33,7 +33,7 @@ const fallbackGalleryItems: FallbackGalleryItem[] = [
   {
     title: 'Texas Instruments Lab',
     subtitle: 'Embedded Systems',
-    src: '/Images/gallery/texas_instruments_lab.png',
+    src: '/Images/gallery/texas_lab_new.jpg',
   },
   {
     title: 'Robotics Lab',

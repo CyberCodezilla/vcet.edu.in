@@ -694,6 +694,13 @@ const DeptComputerEngg: React.FC = () => {
                     <h4 className="text-lg font-bold text-brand-navy">Committee Details</h4>
                     <p className="text-sm text-slate-600 mt-1">Staff Incharge: Mr. Vikrant Agaskar | vikrant.agaskar@vcet.edu.in | 9822836508</p>
                   </div>
+                  <div className="px-4 pt-5 pb-2 flex justify-center">
+                    <div className="w-full max-w-[340px] rounded-2xl border-2 border-dashed border-slate-300 bg-white px-4 py-12 text-center">
+                      <i className="ph ph-image text-4xl text-slate-400" />
+                      <p className="mt-3 text-sm font-semibold text-slate-500">Staff Image Placeholder</p>
+                      <p className="mt-1 text-xs text-slate-400">Add image later in this area</p>
+                    </div>
+                  </div>
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>

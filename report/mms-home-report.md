@@ -1,127 +1,182 @@
-# MMS Home Page – Editable Information Report
+# MMS Home Page - Backend API Handoff Report
 
-### 1. Banner & Slider
-**Editable Content**
-- Hero Title, Subtitle, and Images
+## 1. Purpose
+This document is prepared for backend implementation so MMS Home image/content blocks can be served by APIs with exact frontend-compatible keys.
 
-**Character Limits**
-- Title: max 60 chars
-- Subtitle: max 120 chars
+## 2. Frontend Sources
+- UI page: pages/mms/MMSHome.tsx
+- Content source currently used: pages/mms/mmsHomeContent.ts
+- Endpoint map: services/mms/endpoints.ts
 
-**Item Limits**
-- Slider Images: 5–8 items
+## 3. Recommended Endpoint Plan
 
-**Reason**
-Maintains clean layout and prevents text wrapping in the header.
+### A) Full Home Content Endpoint
+- Method: GET
+- Path: /api/mms/home
+- Purpose: Serve full home page content (hero, notices, admission, internships, events, videos, documents)
 
----
+Recommended response shape:
 
-### 2. Notices & Notifications
-**Editable Content**
-- Labels, Content, and Notification Titles
+```json
+{
+  "heroSlides": [
+    { "id": "hero-1", "title": "...", "subtitle": "...", "imageUrl": "https://..." }
+  ],
+  "notices": {
+    "id": "mms-notices",
+    "title": "Notices",
+    "items": [
+      { "id": "n1", "label": "Admissions", "content": "..." }
+    ]
+  },
+  "latestNotifications": {
+    "id": "mms-latest-notifications",
+    "title": "Latest Notifications",
+    "items": [
+      { "id": "ln1", "title": "...", "link": "..." }
+    ]
+  },
+  "sections": [
+    {
+      "id": "admission",
+      "items": [
+        {
+          "heading": "...",
+          "body": "...",
+          "ctaText": "Apply Now",
+          "ctaPath": "/mms/admission",
+          "imageUrl": "https://..."
+        }
+      ]
+    },
+    {
+      "id": "internships",
+      "items": [
+        { "id": "i1", "imageUrl": "https://...", "alt": "Internship Logo 1" }
+      ]
+    },
+    {
+      "id": "events",
+      "items": [
+        { "id": "e1", "imageUrl": "https://...", "title": "MMS Event Showcase 1" }
+      ]
+    },
+    {
+      "id": "experiential-videos",
+      "items": [
+        { "id": "v1", "title": "Role Play Session", "poster": "https://..." }
+      ]
+    },
+    {
+      "id": "pdf-docs",
+      "items": [
+        {
+          "id": "d1",
+          "label": "First Year Syllabus",
+          "description": "...",
+          "url": "https://..."
+        }
+      ]
+    }
+  ]
+}
+```
 
-**Character Limits**
-- Label: max 15 chars
-- Content: max 80 chars
-- Notification Title: max 100 chars
+### B) Optional Dedicated Image Endpoint
+- Method: GET
+- Path: /api/mms/home/images
+- Purpose: If backend wants image-only management
+- Note: This endpoint is already reserved in frontend endpoint map.
 
-**Item Limits**
-- Items: 3–6 per section
+Recommended response shape:
 
-**Reason**
-Fits the compact grid layout of the notice board.
+```json
+{
+  "items": [
+    {
+      "id": "home-hero-1",
+      "key": "hero-1",
+      "label": "MMS Hero Banner 1",
+      "imageUrl": "https://...",
+      "alt": "MMS campus hero"
+    }
+  ]
+}
+```
 
----
+## 4. Frontend-Required Image Keys
 
-### 3. Admission Section
-**Editable Content**
-- Heading, Body Text, CTA Text, and Image
+### Hero Slider
+- Field: heroSlides[].imageUrl
+- Count: 5 to 8
 
-**Character Limits**
-- Heading: max 50 chars
-- Body Text: max 180 chars
-- CTA Text: max 20 chars
+### Admission Banner
+- Field: sections[id=admission].items[0].imageUrl
+- Count: 1
 
-**Item Limits**
-- 1 featured entry
+### Summer Internship Logos
+- Field: sections[id=internships].items[].imageUrl
+- Count: 3
 
-**Reason**
-Ensures high-impact visibility without vertical stretching.
+### Event Cards
+- Field: sections[id=events].items[].imageUrl
+- Count: 3
 
----
+### Experiential Video Posters
+- Field: sections[id=experiential-videos].items[].poster
+- Count: 1 to 3
 
-### 4. Summer Internships
-**Editable Content**
-- Section Title and Company Logos
+## 5. Editable Limits (Frontend Layout Safe)
+- Hero title: max 60 chars
+- Hero subtitle: max 120 chars
+- Notice label: max 15 chars
+- Notice content: max 80 chars
+- Notification title: max 100 chars
+- Admission heading: max 50 chars
+- Admission body: max 180 chars
+- Admission CTA text: max 20 chars
+- Internship section title: max 40 chars
+- Event title: max 50 chars
+- Video title: max 45 chars
+- Document label: max 40 chars
 
-**Character Limits**
-- Title: max 40 chars
+## 6. Implementation Notes for Backend
+- Prefer imageUrl field name for direct compatibility.
+- If returning image_url, frontend can still handle it only in image-holder hook paths; for home content prefer imageUrl.
+- Return absolute URLs if possible. Relative paths should be valid under site origin.
+- Keep stable ids for each item so admin updates are deterministic.
 
-**Item Limits**
-- Logos: 3 items
+## 7. Suggested API Points (CRUD)
 
-**Reason**
-Maintains a balanced 3-column logo grid.
+### Public Read
+- GET /api/mms/home
+- GET /api/mms/home/images
 
----
+### Admin Write (recommended)
+- POST /api/admin/mms/home/images
+  - Create new image holder record
+- PATCH /api/admin/mms/home/images/:id
+  - Update label/key/imageUrl/alt
+- DELETE /api/admin/mms/home/images/:id
+  - Remove holder image
+- PATCH /api/admin/mms/home
+  - Update non-image blocks (hero text, notices, notifications, CTA text)
 
-### 5. Our Events
-**Editable Content**
-- Event Titles and Highlight Images
+### Minimal request payload examples
 
-**Character Limits**
-- Title: max 50 chars
+```json
+{
+  "label": "MMS Hero Banner 1",
+  "key": "hero-1",
+  "imageUrl": "https://cdn.example.com/mms/hero-1.jpg",
+  "alt": "MMS campus hero"
+}
+```
 
-**Item Limits**
-- Events: 3 items
-
-**Reason**
-Ensures card height consistency in the grid.
-
----
-
-### 6. Testimonials
-**Editable Content**
-- Name, Role/Batch, and Quote
-
-**Character Limits**
-- Name: max 30 chars
-- Role: max 25 chars
-- Quote: 350–550 chars
-
-**Item Limits**
-- Testimonials: 3–5 items
-
-**Reason**
-Prevents card misalignment in the 3-column layout.
-
----
-
-### 7. Learning Videos
-**Editable Content**
-- Video Titles and Poster Images
-
-**Character Limits**
-- Title: max 45 chars
-
-**Item Limits**
-- Videos: 1–3 items
-
-**Reason**
-Focuses on premium content without excessive page length.
-
----
-
-### 8. PDF / Documents
-**Editable Content**
-- Document Labels and PDF URLs
-- *Note: PDF file (main document content – edited separately and replaced)*
-
-**Character Limits**
-- Label: max 40 chars
-
-**Item Limits**
-- Documents: 3–10 items
-
-**Reason**
-Organizes files in a clean 2-column list.
+```json
+{
+  "heroSlides": [
+    { "id": "hero-1", "title": "...", "subtitle": "..." }
+  ]
+}
+```

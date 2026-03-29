@@ -1,5 +1,6 @@
 import React from 'react';
 import { ImageIcon } from 'lucide-react';
+import { useMmsImageHolder } from '../../../hooks/mms/useMmsImageHolder';
 
 interface ExperientialSectionCardProps {
   title: string;
@@ -19,24 +20,30 @@ export function ExperientialSectionCard({ title, children }: ExperientialSection
 
 interface ExperientialImageHolderProps {
   label: string;
-  imageSrc?: string;
 }
 
-export function ExperientialImageHolder({ label, imageSrc }: ExperientialImageHolderProps) {
+export function ExperientialImageHolder({ label }: ExperientialImageHolderProps) {
+  const imageUrl = useMmsImageHolder('experiential', label);
+
   return (
     <article className="group relative overflow-hidden rounded-none border border-brand-blue/25 bg-gradient-to-br from-slate-50 to-brand-light/45 p-[3px] shadow-[0_18px_30px_-24px_rgba(11,61,145,0.65)]">
       <div className="rounded-none border border-brand-blue/20 bg-white p-4 sm:p-5">
-        <div className="flex h-[280px] w-full items-center justify-center overflow-hidden rounded-none border-2 border-dashed border-brand-blue/30 bg-gradient-to-br from-brand-light/35 to-slate-100 text-center">
-          {imageSrc ? (
-            <img src={imageSrc} alt={label} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          ) : (
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={label}
+            className="block min-h-[220px] w-full rounded-none object-cover"
+            referrerPolicy="no-referrer"
+          />
+        ) : (
+          <div className="flex min-h-[220px] items-center justify-center rounded-none border-2 border-dashed border-brand-blue/30 bg-gradient-to-br from-brand-light/35 to-slate-100 text-center">
             <div className="space-y-2 px-4">
               <ImageIcon className="mx-auto h-9 w-9 text-brand-blue/65" />
               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-gold">Image Holder</p>
               <p className="text-sm font-semibold text-brand-navy">{label}</p>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-brand-gold via-yellow-300 to-brand-gold/70" />
       <div className="pointer-events-none absolute right-0 top-0 h-8 w-8 border-r-[3px] border-t-[3px] border-brand-gold/90" />

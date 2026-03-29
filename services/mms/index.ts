@@ -16,6 +16,15 @@ import type {
   MmsPlacementsData,
 } from './types';
 
+export interface MmsImageHolderItem {
+  id?: string;
+  key?: string;
+  label?: string;
+  imageUrl?: string | null;
+  image_url?: string | null;
+  alt?: string | null;
+}
+
 async function getWithFallback<T>(endpoint: MmsEndpointKey, fallback: T): Promise<T> {
   try {
     return await get<T>(MMS_ENDPOINTS[endpoint]);
@@ -42,6 +51,39 @@ export function getMmsPlacements(): Promise<MmsPlacementsData> {
 
 export function getMmsFaqs(): Promise<MmsFaqItem[]> {
   return getWithFallback('faqs', fallbackFaqs);
+}
+
+type MmsImageEndpointKey =
+  | 'homeImages'
+  | 'aboutImages'
+  | 'facilitiesImages'
+  | 'experientialImages'
+  | 'trainingImages'
+  | 'placementImages'
+  | 'studentsLifeImages';
+
+function normalizeImageHolderPayload(payload: unknown): MmsImageHolderItem[] {
+  if (Array.isArray(payload)) {
+    return payload as MmsImageHolderItem[];
+  }
+
+  if (payload && typeof payload === 'object') {
+    const maybeItems = (payload as { items?: unknown }).items;
+    if (Array.isArray(maybeItems)) {
+      return maybeItems as MmsImageHolderItem[];
+    }
+  }
+
+  return [];
+}
+
+export async function getMmsImageHolders(endpoint: MmsImageEndpointKey): Promise<MmsImageHolderItem[]> {
+  try {
+    const response = await get<unknown>(MMS_ENDPOINTS[endpoint]);
+    return normalizeImageHolderPayload(response);
+  } catch {
+    return [];
+  }
 }
 
 export async function submitMmsEnquiry(payload: MmsEnquiryPayload): Promise<{ message: string }> {

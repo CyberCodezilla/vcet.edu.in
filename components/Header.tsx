@@ -58,7 +58,7 @@ const menuGroups: MenuGroup[] = [
       { label: 'Brochure', href: '/brochure' },
       { label: 'Documents Required', href: '/documents-required' },
       {
-        label: 'Cut Off 24-25',
+        label: 'Cut Off 25-26',
         href: '/cut-off',
         subItems: [
           { label: 'F.E. (First Year Engineering) 2025-26', href: 'https://vcet.edu.in/wp-content/uploads/2026/02/F.E-CUT-OFF-25-26-New.pdf' },
@@ -983,7 +983,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 mr-0.5">
             <img
-              src="/Images/VCET%20logo.jpeg"
+              src="/Images/VCET logo.jpeg"
               alt="VCET Logo"
               className="h-12 md:h-14 w-auto rounded-sm"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}

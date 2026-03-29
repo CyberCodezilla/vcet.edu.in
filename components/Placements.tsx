@@ -251,28 +251,6 @@ const Placements: React.FC = () => {
                   className={`absolute bottom-10 flex items-end ${isMobile ? 'gap-3 px-2 pl-4' : 'gap-8 px-2 pl-12'}`}
                   style={{ height: `${CHART_H}px`, paddingTop: '40px' }}
                 >
-                  {/* COVID zone backdrop — spans behind the 3 COVID bars */}
-                  {(() => {
-                    if (covidIndices.length === 0) return null;
-
-                    const barW = isMobile ? 38 : 60;
-                    const gap = isMobile ? 12 : 32;
-                    const plOffset = isMobile ? 16 : 48;
-                    const left = plOffset + covidStartIdx * (barW + gap) - (isMobile ? 8 : 16);
-                    const width = covidIndices.length * barW + (covidIndices.length - 1) * gap + (isMobile ? 16 : 32);
-
-                    return (
-                      <div
-                        className="absolute top-0 bottom-0 rounded-xl pointer-events-none"
-                        style={{
-                          left: `${left}px`,
-                          width: `${width}px`,
-                          background: 'linear-gradient(180deg, rgba(34,211,238,0.06) 0%, rgba(34,211,238,0.03) 100%)',
-                          border: '1px solid rgba(34,211,238,0.12)',
-                        }}
-                      />
-                    );
-                  })()}
                 {placementData.map((item, index) => {
                     const barH = maxCount > 0 ? (item.count / maxCount) * CHART_H * 0.92 : 0;
                     const isPeak = index === maxIdx;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const splashImages = [
-  { src: '/Images/Packages/HIGEST%20Package%20banner.jpg', label: 'Highest Package' },
+  { src: '/Images/Packages/HIGEST Package banner.jpg', label: 'Highest Package' },
   { src: '/Images/Packages/AICTE-Pamphlet_page-0001.jpg', label: 'AICTE Pamphlet' },
 ];
 

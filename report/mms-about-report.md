@@ -1,82 +1,131 @@
-# MMS About Sections – Editable Information Report
+# MMS About Section - Backend API Handoff Report
 
-### 1. About MMS
-**Editable Content**
-- Description Text and Section Images
+## 1. Purpose
+This file defines API points and exact key/label contract for all About-section image holders so backend can wire data quickly.
 
-**Character Limits**
-- Description Text: 500–1200 chars (fits the large text block in the 2-column layout)
+## 2. Frontend Sources
+- pages/mms/about/MMSAbout.tsx
+- pages/mms/about/MMSPrincipalsDesk.tsx
+- pages/mms/about/MMSHODsDesk.tsx
+- pages/mms/about/MMSFaculty.tsx
+- hooks/mms/useMmsImageHolder.ts
 
-**Item Limits**
-- Images: 1 (Primary vertical banner)
+## 3. Endpoint Plan
 
-**Reason**
-Maintains the proportional balance between the sticky image sidebar and the scrollable description.
+### About Content
+- Method: GET
+- Path: /api/mms/about
+- Purpose: Main About data (intro text, metadata, optional structured content)
 
----
+### About Images
+- Method: GET
+- Path: /api/mms/about/images
+- Purpose: Serve image holders used by About, Principal, and HOD pages
 
-### 2. Principal’s Desk
-**Editable Content**
-- Principal’s Message and Photo
+Recommended response shape:
 
-**Character Limits**
-- Message: 800–1500 chars (standard length for official desk messages)
+```json
+{
+  "items": [
+    {
+      "id": "about-1",
+      "key": "mms-about-visual-img4-jpeg",
+      "label": "MMS About Visual (img4.jpeg)",
+      "imageUrl": "https://...",
+      "alt": "MMS About Visual"
+    },
+    {
+      "id": "principal-photo",
+      "key": "principal-photo",
+      "label": "Principal Photo",
+      "imageUrl": "https://...",
+      "alt": "Principal Photo"
+    },
+    {
+      "id": "hod-photo",
+      "key": "hod-photo",
+      "label": "HOD Photo",
+      "imageUrl": "https://...",
+      "alt": "HOD Photo"
+    }
+  ]
+}
+```
 
-**Item Limits**
-- Images: 1
+## 4. Exact Label/Key Matching Rules (Important)
+Frontend hook matches by normalized label or key.
 
-**Reason**
-Ensures the message is comprehensive while fitting the premium dark-blue banner design.
+Required labels to support:
+- MMS About Visual (img4.jpeg)
+- Principal Photo
+- HOD Photo
 
----
+Recommended keys:
+- mms-about-visual-img4-jpeg
+- principal-photo
+- hod-photo
 
-### 3. HOD’s Desk
-**Editable Content**
-- HOD’s Message and Photo
+## 5. Faculty Section Note
+- Current faculty card UI uses initials avatar, not photo rendering.
+- Endpoint available for faculty data: /api/mms/about/faculty
+- If backend sends image fields now, keep them as imageUrl for future use.
 
-**Character Limits**
-- Message: 800–1500 chars (standard length for official desk messages)
+Recommended faculty item shape:
 
-**Item Limits**
-- Images: 1
+```json
+{
+  "id": "f1",
+  "name": "Dr. ...",
+  "designation": "Assistant Professor",
+  "email": "name@vcet.edu.in",
+  "imageUrl": "https://..."
+}
+```
 
-**Reason**
-Maintains visual symmetry with the Principal's Desk section.
+## 6. Editable Limits (Frontend Safe)
+- About description text: 500 to 1200 chars
+- Principal message: 800 to 1500 chars
+- HOD message: 800 to 1500 chars
+- Faculty name: max 40 chars
+- Faculty designation: max 60 chars
+- DAB Name: max 40 chars
+- DAB Designation: max 60 chars
+- DAB Organization: max 70 chars
+- DAB Role: max 30 chars
 
----
+## 7. Implementation Notes for Backend
+- Return imageUrl for easiest compatibility.
+- Stable ids are recommended for audit and admin editing.
+- For storage paths, return full URL or resolvable path from domain origin.
 
-### 4. MMS Faculty
-**Editable Content**
-- Faculty Name, Designation, and Photo
+## 8. Suggested API Points (CRUD)
 
-**Character Limits**
-- Name: max 40 chars
-- Designation: max 60 chars (to prevent excessive multi-line wrapping in grid cards)
+### Public Read
+- GET /api/mms/about
+- GET /api/mms/about/images
+- GET /api/mms/about/faculty
 
-**Item Limits**
-- Faculty Members: 5–15
+### Admin Write (recommended)
+- PATCH /api/admin/mms/about
+  - Update intro content
+- PATCH /api/admin/mms/about/principals-desk
+  - Update principal message block
+- PATCH /api/admin/mms/about/hods-desk
+  - Update HOD message block
+- POST /api/admin/mms/about/images
+- PATCH /api/admin/mms/about/images/:id
+- DELETE /api/admin/mms/about/images/:id
+- POST /api/admin/mms/about/faculty
+- PATCH /api/admin/mms/about/faculty/:id
+- DELETE /api/admin/mms/about/faculty/:id
 
-**Reason**
-Prevents vertical misalignment and overcrowding in the 3-column faculty grid.
+Minimal image payload:
 
----
-
-### 5. Departmental Advisory Board (DAB)
-**Editable Content (Table Columns)**
-- Sr. No.
-- Name
-- Designation
-- Organization
-- Role in DAB
-
-**Character Limits**
-- Name: max 40 chars
-- Designation: max 60 chars
-- Organization: max 70 chars
-- Role in DAB: max 30 chars (to fit the stylized pill/tag format)
-
-**Item Limits**
-- Total Members: 5–12
-
-**Reason**
-Ensures the table columns remain aligned and the "Role" tags fit within their color-coded badges without overlapping.
+```json
+{
+  "label": "Principal Photo",
+  "key": "principal-photo",
+  "imageUrl": "https://cdn.example.com/mms/principal.jpg",
+  "alt": "Principal Photo"
+}
+```

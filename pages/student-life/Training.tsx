@@ -1,7 +1,7 @@
 import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
-import { BookOpen, Users, Monitor, Briefcase, Target, Award, Lightbulb, Wrench } from 'lucide-react';
+import { BookOpen, Users, Monitor, Briefcase, Target, Award, Lightbulb, Wrench, Check } from 'lucide-react';
 
 const trainingPrograms = [
   {
@@ -62,6 +62,32 @@ const sidebarLinks = [
   { id: 'gallery',   label: 'Gallery', icon: 'ph-image' },
 ];
 
+const StyledPointList: React.FC<{ items: string[]; ordered?: boolean }> = ({ items, ordered = false }) => (
+  <div className="border-2 border-[#adb9c6] overflow-hidden bg-white shadow-none">
+    <table className="w-full border-separate border-spacing-0">
+      <tbody>
+        {items.map((item, index) => (
+          <tr
+            key={index}
+            className={`group transition-all duration-200 hover:bg-[#fff6dc] hover:shadow-[0_8px_18px_rgba(0,0,0,0.12)] ${
+              index % 2 === 0 ? 'bg-white' : 'bg-[#d7e5f2]'
+            }`}
+          >
+            <td className="px-4 md:px-5 py-4 border-b border-[#d4dbe3] transition-all duration-200 group-hover:py-[18px]">
+              <div className="flex items-start gap-[14px] transition-transform duration-200 group-hover:translate-x-0.5">
+                <span className="mt-0.5 inline-flex w-9 h-9 rounded-lg bg-[#fff7df] border border-[#ffe3a7] items-center justify-center text-[#1a4b7c] flex-shrink-0">
+                  {ordered ? <span className="text-sm font-extrabold">{index + 1}</span> : <Check className="w-4 h-4" strokeWidth={2.5} />}
+                </span>
+                <p className="text-base md:text-lg leading-[1.7] text-[#333333]">{item}</p>
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
 const Training: React.FC = () => {
   const [activeId, setActiveId] = React.useState('training');
   const activeLink = sidebarLinks.find(l => l.id === activeId);
@@ -93,10 +119,10 @@ const Training: React.FC = () => {
         ]}
       />
 
-      <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 px-6 lg:px-12 py-12">
+      <div className="flex flex-col lg:flex-row gap-10 lg:gap-14 px-6 lg:px-12 py-12 bg-[#F7F9FC]">
         {/* Sticky Sidebar */}
         <aside className="w-full lg:w-[320px] flex-shrink-0">
-          <div className="lg:sticky lg:top-28 bg-white rounded-xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] overflow-hidden border border-slate-200">
+          <div className="lg:sticky lg:top-28 bg-white border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB] overflow-hidden">
             <nav className="flex flex-col py-2">
               {sidebarLinks.map((link) => {
                 const isActive = activeId === link.id;
@@ -106,8 +132,8 @@ const Training: React.FC = () => {
                     onClick={() => setActiveId(link.id)}
                     className={`px-6 py-4 text-[15px] text-left transition-all flex items-center justify-between group ${
                         isActive
-                          ? 'bg-[#183a68] text-[#f2a900] font-semibold'
-                          : 'text-[#183a68] font-medium hover:bg-slate-50'
+                          ? 'bg-[#1a4b7c] text-[#fdb813] font-semibold'
+                          : 'text-[#1a4b7c] font-medium hover:bg-slate-50'
                     }`}
                   >
                     <span className="flex items-center gap-4">
@@ -129,21 +155,23 @@ const Training: React.FC = () => {
           
           {/* Training Tab */}
           {activeId === 'training' && (
-            <section className="reveal bg-white rounded-2xl p-8 lg:p-12 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-100">
+            <section className="reveal bg-white p-8 lg:p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB]">
               <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
-                <h3 className="text-2xl font-bold text-[#183a68] border-b border-slate-100 pb-3 mb-6">Training</h3>
+                <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Training</h3>
                 <p>
                   To gear-up the students for facing the recruitment process successfully, an extensive pre-placement training on aptitude, group discussions, interviews and presentation is offered to the students. The various measures taken in line with this are:
                 </p>
                 <div className="mt-8">
-                  <ul className="list-disc pl-5 space-y-3">
-                    <li>Scheduling of pre-placement training programs in conjunction with academic schedule</li>
-                    <li>Conducting Aptitude Development training sessions right from the third year of UG program</li>
-                    <li>Collaborating with leading training agencies like IMS, Campus credential, Career Launcher for conduction of Aptitude Development training &amp; Soft skills development to provide high-quality training by seasoned trainers experienced in corporate education.</li>
-                    <li>Conducting technical and domain specific training sessions</li>
-                    <li>Orientation of students on core companies opportunities and preparations required for placements.</li>
-                    <li>Identification of students&apos; soft skills and Aptitude development/training needs and provide additional sessions either through external/internal resources.</li>
-                  </ul>
+                  <StyledPointList
+                    items={[
+                      'Scheduling of pre-placement training programs in conjunction with academic schedule',
+                      'Conducting Aptitude Development training sessions right from the third year of UG program',
+                      'Collaborating with leading training agencies like IMS, Campus credential, Career Launcher for conduction of Aptitude Development training & Soft skills development to provide high-quality training by seasoned trainers experienced in corporate education.',
+                      'Conducting technical and domain specific training sessions',
+                      'Orientation of students on core companies opportunities and preparations required for placements.',
+                      "Identification of students' soft skills and Aptitude development/training needs and provide additional sessions either through external/internal resources.",
+                    ]}
+                  />
                 </div>
               </div>
             </section>
@@ -151,14 +179,14 @@ const Training: React.FC = () => {
 
           {/* Events Tab */}
           {activeId === 'events' && (
-            <section className="reveal bg-white rounded-2xl p-8 lg:p-12 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-100">
+            <section className="reveal bg-white p-8 lg:p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB]">
               <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
-                <h3 className="text-2xl font-bold text-[#183a68] border-b border-slate-100 pb-3 mb-6">Events</h3>
+                <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Events</h3>
                 
                 <div className="overflow-x-auto mt-6">
                   <table className="w-full text-left border-collapse min-w-[600px]">
                     <thead>
-                      <tr className="bg-slate-50 text-[#183a68] border-b border-slate-200">
+                      <tr className="bg-slate-50 text-[#1a4b7c] border-b border-slate-200">
                         <th className="p-4 font-semibold w-16">SR.</th>
                         <th className="p-4 font-semibold w-1/4">Name of the Event</th>
                         <th className="p-4 font-semibold w-1/2">Company Name / Resource Person</th>
@@ -361,20 +389,22 @@ const Training: React.FC = () => {
 
           {/* Career Guidance Tab */}
           {activeId === 'career' && (
-            <section className="reveal bg-white rounded-2xl p-8 lg:p-12 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-100">
+            <section className="reveal bg-white p-8 lg:p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB]">
               <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
-                <h3 className="text-2xl font-bold text-[#183a68] border-b border-slate-100 pb-3 mb-6">Career Guidance</h3>
+                <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Career Guidance</h3>
                 <p>
                   In line with objectiveof helping in placing students in competitively good companies, apropos initiatives are taken to counsel the students with respect to career guidance and higher education. Some of them are:
                 </p>
                 <div className="mt-8">
-                  <ul className="list-disc pl-5 space-y-3">
-                    <li>Seminars on Higher Studies</li>
-                    <li>Talks on Career Guidance</li>
-                    <li>Motivational lectures by Alumni, Entrepreneurs, Industry guests and Faculty.</li>
-                    <li>Provision of books, magazines, periodicals on Competitive/Civil service/GATE/GRE/TOEFL etc. exams in the library</li>
-                    <li>Subscription of newspapers related to career opportunities such as Rojgar Samachar</li>
-                  </ul>
+                  <StyledPointList
+                    items={[
+                      'Seminars on Higher Studies',
+                      'Talks on Career Guidance',
+                      'Motivational lectures by Alumni, Entrepreneurs, Industry guests and Faculty.',
+                      'Provision of books, magazines, periodicals on Competitive/Civil service/GATE/GRE/TOEFL etc. exams in the library',
+                      'Subscription of newspapers related to career opportunities such as Rojgar Samachar',
+                    ]}
+                  />
                 </div>
 
                 {/* Seminars Table */}
@@ -382,9 +412,9 @@ const Training: React.FC = () => {
                   <table className="w-full border-collapse min-w-[800px] border border-slate-200">
                     <thead>
                       <tr className="bg-[#0b1b3d]">
-                        <th className="p-4 font-semibold w-16 text-center border border-slate-300 text-[#f2a900]">SR.</th>
-                        <th className="p-4 font-semibold w-1/4 text-center border border-slate-300 text-[#f2a900]">Event</th>
-                        <th className="p-4 font-semibold text-center border border-slate-300 text-[#f2a900]" colSpan={2}>Resource Person</th>
+                        <th className="p-4 font-semibold w-16 text-center border border-slate-300 text-[#fdb813]">SR.</th>
+                        <th className="p-4 font-semibold w-1/4 text-center border border-slate-300 text-[#fdb813]">Event</th>
+                        <th className="p-4 font-semibold text-center border border-slate-300 text-[#fdb813]" colSpan={2}>Resource Person</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200">
@@ -392,13 +422,13 @@ const Training: React.FC = () => {
                       {/* Row 1 */}
                       <tr className="hover:bg-slate-50/50 transition-colors">
                         <td className="p-4 align-middle text-center font-medium text-slate-700 border border-slate-200">1</td>
-                        <td className="p-4 align-middle text-[#183a68] border border-slate-200">
+                        <td className="p-4 align-middle text-[#1a4b7c] border border-slate-200">
                           Seminar on &quot;Recruitment Process&quot;
                         </td>
                         <td className="p-6 align-middle border-y border-slate-200 border-l border-slate-200 border-r-0">
-                          <h4 className="font-bold text-[#183a68] mb-1">Mr. Swapnil Karvir</h4>
+                          <h4 className="font-bold text-[#1a4b7c] mb-1">Mr. Swapnil Karvir</h4>
                           <p className="text-sm mb-1 text-slate-600">CEO, S S Dies Works Experience of 10 Years in Product Management and Service Delivery across Banking, Telecom and Manufacturing</p>
-                          <p className="text-sm font-medium text-[#f2a900]">Experience &ndash; 15 Years</p>
+                          <p className="text-sm font-medium text-[#fdb813]">Experience &ndash; 15 Years</p>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
                           <div className="w-full aspect-square bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
@@ -411,13 +441,13 @@ const Training: React.FC = () => {
                       {/* Row 2 */}
                       <tr className="hover:bg-slate-50/50 transition-colors">
                         <td className="p-4 align-middle text-center font-medium text-slate-700 border border-slate-200">2</td>
-                        <td className="p-4 align-middle text-[#183a68] border border-slate-200">
+                        <td className="p-4 align-middle text-[#1a4b7c] border border-slate-200">
                           Seminar on &quot;Career in Finance Management&quot;
                         </td>
                         <td className="p-6 align-middle border-y border-slate-200 border-l border-slate-200 border-r-0">
-                          <h4 className="font-bold text-[#183a68] mb-1">Ms. Aishwarya Mohol</h4>
+                          <h4 className="font-bold text-[#1a4b7c] mb-1">Ms. Aishwarya Mohol</h4>
                           <p className="text-sm mb-1 text-slate-600">Treasury Deputy Manager in Forex at Axis Bank Mumbai</p>
-                          <p className="text-sm font-medium text-[#f2a900]">Experience &ndash; 10 Years</p>
+                          <p className="text-sm font-medium text-[#fdb813]">Experience &ndash; 10 Years</p>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
                           <div className="w-full aspect-square bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
@@ -430,11 +460,11 @@ const Training: React.FC = () => {
                       {/* Row 3 */}
                       <tr className="hover:bg-slate-50/50 transition-colors">
                         <td className="p-4 align-middle text-center font-medium text-slate-700 border border-slate-200">3</td>
-                        <td className="p-4 align-middle text-[#183a68] border border-slate-200">
+                        <td className="p-4 align-middle text-[#1a4b7c] border border-slate-200">
                           Seminar on AI and Machine Learning
                         </td>
                         <td className="p-6 align-middle border-y border-slate-200 border-l border-slate-200 border-r-0">
-                          <h4 className="font-bold text-[#183a68] mb-1">Mr. Hemant Tendolkar</h4>
+                          <h4 className="font-bold text-[#1a4b7c] mb-1">Mr. Hemant Tendolkar</h4>
                           <p className="text-sm mb-1 text-slate-600">Oracle ERP (Oracle Financials) + Siebel CRM + MDM (UCM &ndash; Customer Master). Customer Experience: Social, Mobile, IoT and AI in CRM-CX, Voice Assistants (Alexa, Google) + Chatbots (FB, Twitter, Telegram etc.) for CRM-CX! Specialties: Technical / Integration Architect</p>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
@@ -448,13 +478,13 @@ const Training: React.FC = () => {
                       {/* Row 4 */}
                       <tr className="hover:bg-slate-50/50 transition-colors">
                         <td className="p-4 align-middle text-center font-medium text-slate-700 border border-slate-200">4</td>
-                        <td className="p-4 align-middle text-[#183a68] border border-slate-200">
+                        <td className="p-4 align-middle text-[#1a4b7c] border border-slate-200">
                           Seminar on Higher Education
                         </td>
                         <td className="p-6 align-middle border-y border-slate-200 border-l border-slate-200 border-r-0">
-                          <h4 className="font-bold text-[#183a68] mb-1">Dr Ben Baliga.</h4>
+                          <h4 className="font-bold text-[#1a4b7c] mb-1">Dr Ben Baliga.</h4>
                           <p className="text-sm mb-1 text-slate-600">Treasury Deputy Manager in Forex at Axis Bank Mumbai</p>
-                          <p className="text-sm font-medium text-[#f2a900]">Experience &ndash; 22 Years</p>
+                          <p className="text-sm font-medium text-[#fdb813]">Experience &ndash; 22 Years</p>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
                           <div className="w-full aspect-square bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
@@ -467,13 +497,13 @@ const Training: React.FC = () => {
                       {/* Row 5 */}
                       <tr className="hover:bg-slate-50/50 transition-colors">
                         <td className="p-4 align-middle text-center font-medium text-slate-700 border border-slate-200">5</td>
-                        <td className="p-4 align-middle text-[#183a68] border border-slate-200">
+                        <td className="p-4 align-middle text-[#1a4b7c] border border-slate-200">
                           Seminar on Machine Learning
                         </td>
                         <td className="p-6 align-middle border-y border-slate-200 border-l border-slate-200 border-r-0">
-                          <h4 className="font-bold text-[#183a68] mb-1">Mr. Gejo Sreenivasan</h4>
+                          <h4 className="font-bold text-[#1a4b7c] mb-1">Mr. Gejo Sreenivasan</h4>
                           <p className="text-sm mb-1 text-slate-600">Director, Career Launcher, Mumbai.</p>
-                          <p className="text-sm font-medium text-[#f2a900]">Experience &ndash; 20 Years<span className="text-slate-600 font-normal"> in Education space. Specialties &ndash; Test-Prep &ndash; Up-Skilling &ndash; Product Management &ndash; All-things-Quant &ndash; eMarketing &amp; SE</span></p>
+                          <p className="text-sm font-medium text-[#fdb813]">Experience &ndash; 20 Years<span className="text-slate-600 font-normal"> in Education space. Specialties &ndash; Test-Prep &ndash; Up-Skilling &ndash; Product Management &ndash; All-things-Quant &ndash; eMarketing &amp; SE</span></p>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
                           <div className="w-full aspect-square bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
@@ -486,12 +516,12 @@ const Training: React.FC = () => {
                       {/* Row 6 */}
                       <tr className="hover:bg-slate-50/50 transition-colors">
                         <td className="p-4 align-middle text-center font-medium text-slate-700 border border-slate-200">6</td>
-                        <td className="p-4 align-middle text-[#183a68] border border-slate-200">
+                        <td className="p-4 align-middle text-[#1a4b7c] border border-slate-200">
                           Seminar on higher studies
                         </td>
                         <td className="p-6 align-middle border-y border-slate-200 border-l border-slate-200 border-r-0">
-                          <h4 className="font-bold text-[#183a68] mb-1">Mr. Bhupesh Daheria</h4>
-                          <p className="text-sm mb-1 text-slate-600">EdTech Futurist | Educator | CEO, Aegis School of Data Science, <span className="text-[#f2a900] font-medium">Experience &ndash; 24 Years</span> &amp; managing trustee of Aegis Knowledge Trust</p>
+                          <h4 className="font-bold text-[#1a4b7c] mb-1">Mr. Bhupesh Daheria</h4>
+                          <p className="text-sm mb-1 text-slate-600">EdTech Futurist | Educator | CEO, Aegis School of Data Science, <span className="text-[#fdb813] font-medium">Experience &ndash; 24 Years</span> &amp; managing trustee of Aegis Knowledge Trust</p>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
                           <div className="w-full aspect-square bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
@@ -504,11 +534,11 @@ const Training: React.FC = () => {
                       {/* Row 7 */}
                       <tr className="hover:bg-slate-50/50 transition-colors">
                         <td className="p-4 align-middle text-center font-medium text-slate-700 border border-slate-200">7</td>
-                        <td className="p-4 align-middle text-[#183a68] border border-slate-200">
+                        <td className="p-4 align-middle text-[#1a4b7c] border border-slate-200">
                           Shaping Young Minds Programs
                         </td>
                         <td className="p-6 align-middle border-y border-slate-200 border-l border-slate-200 border-r-0">
-                          <h4 className="font-bold text-[#183a68]">Tarapur Management Association</h4>
+                          <h4 className="font-bold text-[#1a4b7c]">Tarapur Management Association</h4>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
                           <div className="w-full h-24 bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
@@ -521,7 +551,7 @@ const Training: React.FC = () => {
                       {/* Row 8 */}
                       <tr className="hover:bg-slate-50/50 transition-colors">
                         <td className="p-4 align-middle text-center font-medium text-slate-700 border border-slate-200">8</td>
-                        <td className="p-4 align-middle text-[#183a68] border border-slate-200">
+                        <td className="p-4 align-middle text-[#1a4b7c] border border-slate-200">
                           Seminar on Career Guidance
                         </td>
                         <td className="p-6 align-middle border-y border-slate-200 border-l border-slate-200 border-r-0">
@@ -545,23 +575,26 @@ const Training: React.FC = () => {
 
           {/* Internship Tab */}
           {activeId === 'internship' && (
-            <section className="reveal bg-white rounded-2xl p-8 lg:p-12 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-100">
+            <section className="reveal bg-white p-8 lg:p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB]">
               <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
-                <h3 className="text-2xl font-bold text-[#183a68] border-b border-slate-100 pb-3 mb-6">Internship</h3>
+                <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Internship</h3>
                 <p>
                   Gaining from course books, lectures and other investigation material doesn&apos;t get the job done for all encompassing learning. Down to earth and hands-on learning is fundamental for better comprehension of work forms. Industry internships are sorted out to uncover the students for industry condition which upgrades the down to earth comprehension of the ideas. The students are urged to take up internship programs during their semester break. Training and Placement cell give their guidelines, recommendations, scope and contact subtleties of industries. They additionally help the students by interacting with the industry persons, give them recommendation letters and other fundamental backings.
                 </p>
                 <div className="mt-8">
-                  <h4 className="text-lg font-bold text-[#183a68] mb-4">Procedure:</h4>
-                  <ol className="list-decimal pl-5 space-y-3">
-                    <li>At first Training and Placement cell issue a letter for summer/winter internship for each student.</li>
-                    <li>Students submit this letter to individual organization/industry from where they need to seek training as an intern.</li>
-                    <li>After completion of training, industry gives a certificate or assessment letter.</li>
-                    <li>Students submit Xerox copy of their training certificate issued by industry to training and placement cell.</li>
-                    <li>Students submit feedback and training report for the completed internship.</li>
-                  </ol>
+                  <h4 className="text-lg font-bold text-[#1a4b7c] mb-4">Procedure:</h4>
+                  <StyledPointList
+                    ordered
+                    items={[
+                      'At first Training and Placement cell issue a letter for summer/winter internship for each student.',
+                      'Students submit this letter to individual organization/industry from where they need to seek training as an intern.',
+                      'After completion of training, industry gives a certificate or assessment letter.',
+                      'Students submit Xerox copy of their training certificate issued by industry to training and placement cell.',
+                      'Students submit feedback and training report for the completed internship.',
+                    ]}
+                  />
                 </div>
-                <p className="mt-6 pt-4 font-semibold text-[#183a68]">
+                <p className="mt-6 pt-4 font-semibold text-[#1a4b7c]">
                   Some of the industries where students regularly go for Internships are:
                 </p>
               </div>
@@ -570,11 +603,11 @@ const Training: React.FC = () => {
 
           {/* Placeholders for other tabs */}
           {activeId !== 'training' && activeId !== 'events' && activeId !== 'career' && activeId !== 'internship' && (
-            <section className="reveal bg-white rounded-2xl p-12 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-100 flex flex-col items-center justify-center text-center min-h-[400px]">
+            <section className="reveal bg-white p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB] flex flex-col items-center justify-center text-center min-h-[400px]">
               <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center mb-6">
-                <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-[#183a68]`} />
+                <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-[#1a4b7c]`} />
               </div>
-              <h3 className="text-xl font-bold text-[#183a68] mb-2">{activeLink?.label}</h3>
+              <h3 className="text-xl font-bold text-[#1a4b7c] mb-2">{activeLink?.label}</h3>
               <p className="text-slate-500">Content for this section is coming soon.</p>
             </section>
           )}
@@ -586,3 +619,4 @@ const Training: React.FC = () => {
 };
 
 export default Training;
+

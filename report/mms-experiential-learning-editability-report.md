@@ -1,79 +1,105 @@
-# MMS (MBA) Experiential Learning - Editable Information Report
+# MMS Experiential Learning - Backend API Handoff Report
 
+## 1. Purpose
+Backend API points and exact image-holder mapping for all MMS Experiential Learning pages.
 
-## Role Play
+## 2. Frontend Sources
+- pages/mms/experiential-learning/MMSExperientialRolePlay.tsx
+- pages/mms/experiential-learning/MMSExperientialGroupDiscussion.tsx
+- pages/mms/experiential-learning/MMSExperientialEntrepreneurialDrive.tsx
+- pages/mms/experiential-learning/MMSExperientialFinancialLiteracy.tsx
+- pages/mms/experiential-learning/MMSExperientialNesco.tsx
+- pages/mms/experiential-learning/MMSExperientialModelMaking.tsx
+- pages/mms/experiential-learning/ExperientialLearningShared.tsx
 
+## 3. Endpoint Plan
 
-- Editable Content:
-  - Activity image items (label, image)
-- Character Limits:
-  - Image label max 35 characters
-- Item Limits:
-  - Images max 2
-- Reason:
-  - Prevents content crowding and keeps card balance
+### Experiential Main Endpoint
+- Method: GET
+- Path: /api/mms/experiential-learning
 
----
+### Experiential Images Endpoint
+- Method: GET
+- Path: /api/mms/experiential-learning/images
 
-## Group Discussion
+Recommended response shape:
 
-- Editable Content:
-  - Activity image items (label, image)
-- Character Limits:
-  - Image label max 35 characters
-- Item Limits:
-  - Images max 2
-- Reason:
-  - Maintains readability and consistent gallery spacing
+```json
+{
+  "items": [
+    {
+      "id": "exp-1",
+      "key": "role-play-session-01",
+      "label": "Role Play Session 01",
+      "imageUrl": "https://...",
+      "alt": "Role Play Session 01"
+    }
+  ]
+}
+```
 
----
+## 4. Required Holder Labels/Keys
 
-## Entrepreneurial Drive
+### Role Play
+- Role Play Session 01
+- Role Play Session 02
 
-- Editable Content:
-  - Activity image items (label, image)
-- Character Limits:
-  - Image label max 35 characters
-- Item Limits:
-  - Images max 2
-- Reason:
-  - Keeps section concise and visually aligned
+### Group Discussion
+- Group Discussion 01
+- Group Discussion 02
 
----
+### Entrepreneurial Drive
+- Entrepreneurial Activity 01
+- Entrepreneurial Activity 02
 
-## Financial Literacy Program
+### Financial Literacy Program
+- Financial Literacy Program 01
+- Financial Literacy Program 02
 
-- Editable Content:
-  - Activity image items (label, image)
-- Character Limits:
-  - Image label max 40 characters
-- Item Limits:
-  - Images max 2
-- Reason:
-  - Avoids long text blocks and supports faster reading
+### NESCO Bombay Exhibition Centre
+- NESCO Visit 01
+- NESCO Visit 02
 
----
+### 3D Model Making
+- 3D Model Presentation 01
+- 3D Model Presentation 02
+- 3D Model Presentation 03
+- 3D Model Presentation 04
 
-## NESCO Bombay Exhibition Centre
+Recommended key format:
+- Use slug version of label (lowercase, hyphen separated)
+- Example: role-play-session-01
 
-- Editable Content:
-  - Visit image items (label, image)
-- Character Limits:
-  - Image label max 35 characters
-- Item Limits:
-  - Images max 2
-- Reason:
-  - Controls long narrative content and preserves layout clarity
+## 5. Layout Limits
+- Most sections: max 2 images
+- 3D Model Making: max 4 images
+- Label safe range: 35 to 40 chars
 
----
+## 6. Backend Notes
+- imageUrl is preferred field for frontend compatibility.
+- Use stable ids per holder entry.
+- Optional image_url can be included, but imageUrl is recommended.
 
-## 3D Model Making
+## 7. Suggested API Points (CRUD)
 
-- Editable Content:
-  - Presentation image items (label, image)
-- Character Limits:
-  - Image label max 40 characters
-- Item Limits:
-  - Images max 4
-- Reason:
-  - Matches grid capacity and prevents overflow
+### Public Read
+- GET /api/mms/experiential-learning
+- GET /api/mms/experiential-learning/images
+
+### Admin Write (recommended)
+- PATCH /api/admin/mms/experiential-learning
+  - Update section text/metadata
+- POST /api/admin/mms/experiential-learning/images
+- PATCH /api/admin/mms/experiential-learning/images/:id
+- DELETE /api/admin/mms/experiential-learning/images/:id
+
+Minimal image payload:
+
+```json
+{
+  "label": "Role Play Session 01",
+  "key": "role-play-session-01",
+  "imageUrl": "https://cdn.example.com/mms/experiential/role-play-01.jpg",
+  "alt": "Role Play Session 01"
+}
+```

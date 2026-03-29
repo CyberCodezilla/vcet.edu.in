@@ -5,67 +5,67 @@ type Recruiter = { name: string; logo: string; url: string };
 
 const recruiters: Recruiter[] = [
   { name: "Accenture",           logo: "/Images/recriters/Accenture-Logo-PNG-Vector-EPS-Free-Download.jpeg", url: "https://www.accenture.com" },
-  { name: "Arcon",               logo: "/Images/recriters/arcon-logo.png",        url: "https://www.arconnet.com" },
-  { name: "Bristlecone",         logo: "/Images/recriters/bristlecone-logo.png",   url: "https://www.bristlecone.com" },
-  { name: "BuiltIO",             logo: "/Images/recriters/builtio-300x72-1.png",   url: "https://www.softwareag.com" },
-  { name: "Capgemini",           logo: "/Images/recriters/Capgemini-300x67-1.png", url: "https://www.capgemini.com" },
-  { name: "Coca-Cola",           logo: "/Images/recriters/coca-300x99-1.png",      url: "https://www.coca-colacompany.com" },
-  { name: "Cognizant",           logo: "/Images/recriters/cognizant-logo.png",     url: "https://www.cognizant.com" },
+  { name: "Arcon",               logo: "/Images/Main%20Page/recruiters/arcon-logo.png",        url: "https://www.arconnet.com" },
+  { name: "Bristlecone",         logo: "/Images/Main%20Page/recruiters/bristlecone-logo.png",   url: "https://www.bristlecone.com" },
+  { name: "BuiltIO",             logo: "/Images/Main%20Page/recruiters/builtio-300x72-1.png",   url: "https://www.softwareag.com" },
+  { name: "Capgemini",           logo: "/Images/Main%20Page/recruiters/Capgemini-300x67-1.png", url: "https://www.capgemini.com" },
+  { name: "Coca-Cola",           logo: "/Images/Main%20Page/recruiters/coca-300x99-1.png",      url: "https://www.coca-colacompany.com" },
+  { name: "Cognizant",           logo: "/Images/Main%20Page/recruiters/cognizant-logo.png",     url: "https://www.cognizant.com" },
   { name: "Godrej Infotech",     logo: "/Images/recriters/godrej-infotech.jpeg",   url: "https://www.godrejinfotech.com" },
   { name: "Hexaware",            logo: "/Images/recriters/hexaware-logo.jpeg",     url: "https://www.hexaware.com" },
-  { name: "IBM",                 logo: "/Images/recriters/IBM-logo.png",           url: "https://www.ibm.com" },
-  { name: "Infosys",             logo: "/Images/recriters/infosys-300x116-1.png",  url: "https://www.infosys.com" },
+  { name: "IBM",                 logo: "/Images/Main%20Page/recruiters/IBM-logo.png",           url: "https://www.ibm.com" },
+  { name: "Infosys",             logo: "/Images/Main%20Page/recruiters/infosys-300x116-1.png",  url: "https://www.infosys.com" },
   { name: "Interactive Brokers", logo: "/Images/recriters/interactive-brokers.jpeg",url: "https://www.interactivebrokers.com" },
-  { name: "Johnson Controls",    logo: "/Images/recriters/Johnson-logo.png",       url: "https://www.johnsoncontrols.com" },
-  { name: "L&T",                 logo: "/Images/recriters/lt-300x81-1.jpg",        url: "https://www.larsentoubro.com" },
-  { name: "LTIMindtree",         logo: "/Images/recriters/lti-logo.png",           url: "https://www.ltimindtree.com" },
-  { name: "Mahindra",            logo: "/Images/recriters/mahindra-300x85-1.png",  url: "https://www.mahindra.com" },
+  { name: "Johnson Controls",    logo: "/Images/Main%20Page/recruiters/Johnson-logo.png",       url: "https://www.johnsoncontrols.com" },
+  { name: "L&T",                 logo: "/Images/Main%20Page/recruiters/lt-300x81-1.jpg",        url: "https://www.larsentoubro.com" },
+  { name: "LTIMindtree",         logo: "/Images/Main%20Page/recruiters/lti-logo.png",           url: "https://www.ltimindtree.com" },
+  { name: "Mahindra",            logo: "/Images/Main%20Page/recruiters/mahindra-300x85-1.png",  url: "https://www.mahindra.com" },
   { name: "Neebal Technologies", logo: "/Images/recriters/neebal-technologoes.jpeg",url: "https://www.neebal.com" },
-  { name: "Persistent Systems",  logo: "/Images/recriters/logo-rgb-black-e1751968833241.png", url: "https://www.persistent.com" },
-  { name: "Schneider Electric",  logo: "/Images/recriters/schneider-logo.png",     url: "https://www.se.com" },
-  { name: "Tata Power",          logo: "/Images/recriters/Tata-Power.png",         url: "https://www.tatapower.com" },
-  { name: "Technimant",          logo: "/Images/recriters/Technimant-logo.png",    url: "https://www.technimant.com" },
-  { name: "Verdantis",           logo: "/Images/recriters/verdantis-300x77-1.png", url: "https://www.verdantis.com" },
-  { name: "Vistaar",             logo: "/Images/recriters/Vistaar-logo-1.png",     url: "https://www.vfrpl.in" },
-  { name: "Vodafone",            logo: "/Images/recriters/VODAPHONE.jpg",          url: "https://www.vodafone.com" },
-  { name: "Wipro",               logo: "/Images/recriters/wipro-logo.png",         url: "https://www.wipro.com" },
-  { name: "Zensoft",             logo: "/Images/recriters/Zensoft-logo.jpg",       url: "https://www.zensoft.io" },
-  { name: "Zeus Learning",       logo: "/Images/recriters/Zeus-Learning-logo.png", url: "https://www.zeuslearning.com" },
+  { name: "Persistent Systems",  logo: "/Images/Main%20Page/recruiters/logo-rgb-black-e1751968833241.png", url: "https://www.persistent.com" },
+  { name: "Schneider Electric",  logo: "/Images/Main%20Page/recruiters/schneider-logo.png",     url: "https://www.se.com" },
+  { name: "Tata Power",          logo: "/Images/Main%20Page/recruiters/Tata-Power.png",         url: "https://www.tatapower.com" },
+  { name: "Technimant",          logo: "/Images/Main%20Page/recruiters/Technimant-logo.png",    url: "https://www.technimant.com" },
+  { name: "Verdantis",           logo: "/Images/Main%20Page/recruiters/verdantis-300x77-1.png", url: "https://www.verdantis.com" },
+  { name: "Vistaar",             logo: "/Images/Main%20Page/recruiters/Vistaar-logo-1.png",     url: "https://www.vfrpl.in" },
+  { name: "Vodafone",            logo: "/Images/Main%20Page/recruiters/VODAPHONE.jpg",          url: "https://www.vodafone.com" },
+  { name: "Wipro",               logo: "/Images/Main%20Page/recruiters/wipro-logo.png",         url: "https://www.wipro.com" },
+  { name: "Zensoft",             logo: "/Images/Main%20Page/recruiters/Zensoft-logo.jpg",       url: "https://www.zensoft.io" },
+  { name: "Zeus Learning",       logo: "/Images/Main%20Page/recruiters/Zeus-Learning-logo.png", url: "https://www.zeuslearning.com" },
 ];
 
 // Row 1 — Top / best-known companies
 const rowOne: Recruiter[] = [
   { name: "Accenture",           logo: "/Images/recriters/Accenture-Logo-PNG-Vector-EPS-Free-Download.jpeg", url: "https://www.accenture.com" },
-  { name: "Capgemini",           logo: "/Images/recriters/Capgemini-300x67-1.png", url: "https://www.capgemini.com" },
-  { name: "Coca-Cola",           logo: "/Images/recriters/coca-300x99-1.png",      url: "https://www.coca-colacompany.com" },
-  { name: "Cognizant",           logo: "/Images/recriters/cognizant-logo.png",     url: "https://www.cognizant.com" },
-  { name: "IBM",                 logo: "/Images/recriters/IBM-logo.png",           url: "https://www.ibm.com" },
-  { name: "Infosys",             logo: "/Images/recriters/infosys-300x116-1.png",  url: "https://www.infosys.com" },
-  { name: "L&T",                 logo: "/Images/recriters/lt-300x81-1.jpg",        url: "https://www.larsentoubro.com" },
-  { name: "LTIMindtree",         logo: "/Images/recriters/lti-logo.png",           url: "https://www.ltimindtree.com" },
-  { name: "Mahindra",            logo: "/Images/recriters/mahindra-300x85-1.png",  url: "https://www.mahindra.com" },
-  { name: "Schneider Electric",  logo: "/Images/recriters/schneider-logo.png",     url: "https://www.se.com" },
-  { name: "Tata Power",          logo: "/Images/recriters/Tata-Power.png",         url: "https://www.tatapower.com" },
-  { name: "Vodafone",            logo: "/Images/recriters/VODAPHONE.jpg",          url: "https://www.vodafone.com" },
-  { name: "Wipro",               logo: "/Images/recriters/wipro-logo.png",         url: "https://www.wipro.com" },
-  { name: "Persistent Systems",  logo: "/Images/recriters/logo-rgb-black-e1751968833241.png", url: "https://www.persistent.com" },
+  { name: "Capgemini",           logo: "/Images/Main%20Page/recruiters/Capgemini-300x67-1.png", url: "https://www.capgemini.com" },
+  { name: "Coca-Cola",           logo: "/Images/Main%20Page/recruiters/coca-300x99-1.png",      url: "https://www.coca-colacompany.com" },
+  { name: "Cognizant",           logo: "/Images/Main%20Page/recruiters/cognizant-logo.png",     url: "https://www.cognizant.com" },
+  { name: "IBM",                 logo: "/Images/Main%20Page/recruiters/IBM-logo.png",           url: "https://www.ibm.com" },
+  { name: "Infosys",             logo: "/Images/Main%20Page/recruiters/infosys-300x116-1.png",  url: "https://www.infosys.com" },
+  { name: "L&T",                 logo: "/Images/Main%20Page/recruiters/lt-300x81-1.jpg",        url: "https://www.larsentoubro.com" },
+  { name: "LTIMindtree",         logo: "/Images/Main%20Page/recruiters/lti-logo.png",           url: "https://www.ltimindtree.com" },
+  { name: "Mahindra",            logo: "/Images/Main%20Page/recruiters/mahindra-300x85-1.png",  url: "https://www.mahindra.com" },
+  { name: "Schneider Electric",  logo: "/Images/Main%20Page/recruiters/schneider-logo.png",     url: "https://www.se.com" },
+  { name: "Tata Power",          logo: "/Images/Main%20Page/recruiters/Tata-Power.png",         url: "https://www.tatapower.com" },
+  { name: "Vodafone",            logo: "/Images/Main%20Page/recruiters/VODAPHONE.jpg",          url: "https://www.vodafone.com" },
+  { name: "Wipro",               logo: "/Images/Main%20Page/recruiters/wipro-logo.png",         url: "https://www.wipro.com" },
+  { name: "Persistent Systems",  logo: "/Images/Main%20Page/recruiters/logo-rgb-black-e1751968833241.png", url: "https://www.persistent.com" },
 ];
 
 // Row 2 — Remaining partners
 const rowTwo: Recruiter[] = [
-  { name: "Arcon",               logo: "/Images/recriters/arcon-logo.png",         url: "https://www.arconnet.com" },
-  { name: "Bristlecone",         logo: "/Images/recriters/bristlecone-logo.png",   url: "https://www.bristlecone.com" },
-  { name: "BuiltIO",             logo: "/Images/recriters/builtio-300x72-1.png",   url: "https://www.softwareag.com" },
+  { name: "Arcon",               logo: "/Images/Main%20Page/recruiters/arcon-logo.png",         url: "https://www.arconnet.com" },
+  { name: "Bristlecone",         logo: "/Images/Main%20Page/recruiters/bristlecone-logo.png",   url: "https://www.bristlecone.com" },
+  { name: "BuiltIO",             logo: "/Images/Main%20Page/recruiters/builtio-300x72-1.png",   url: "https://www.softwareag.com" },
   { name: "Godrej Infotech",     logo: "/Images/recriters/godrej-infotech.jpeg",   url: "https://www.godrejinfotech.com" },
   { name: "Hexaware",            logo: "/Images/recriters/hexaware-logo.jpeg",     url: "https://www.hexaware.com" },
   { name: "Interactive Brokers", logo: "/Images/recriters/interactive-brokers.jpeg",url: "https://www.interactivebrokers.com" },
-  { name: "Johnson Controls",    logo: "/Images/recriters/Johnson-logo.png",       url: "https://www.johnsoncontrols.com" },
+  { name: "Johnson Controls",    logo: "/Images/Main%20Page/recruiters/Johnson-logo.png",       url: "https://www.johnsoncontrols.com" },
   { name: "Neebal Technologies", logo: "/Images/recriters/neebal-technologoes.jpeg",url: "https://www.neebal.com" },
-  { name: "Technimant",          logo: "/Images/recriters/Technimant-logo.png",    url: "https://www.technimant.com" },
-  { name: "Verdantis",           logo: "/Images/recriters/verdantis-300x77-1.png", url: "https://www.verdantis.com" },
-  { name: "Vistaar",             logo: "/Images/recriters/Vistaar-logo-1.png",     url: "https://www.vfrpl.in" },
-  { name: "Zensoft",             logo: "/Images/recriters/Zensoft-logo.jpg",       url: "https://www.zensoft.io" },
-  { name: "Zeus Learning",       logo: "/Images/recriters/Zeus-Learning-logo.png", url: "https://www.zeuslearning.com" },
+  { name: "Technimant",          logo: "/Images/Main%20Page/recruiters/Technimant-logo.png",    url: "https://www.technimant.com" },
+  { name: "Verdantis",           logo: "/Images/Main%20Page/recruiters/verdantis-300x77-1.png", url: "https://www.verdantis.com" },
+  { name: "Vistaar",             logo: "/Images/Main%20Page/recruiters/Vistaar-logo-1.png",     url: "https://www.vfrpl.in" },
+  { name: "Zensoft",             logo: "/Images/Main%20Page/recruiters/Zensoft-logo.jpg",       url: "https://www.zensoft.io" },
+  { name: "Zeus Learning",       logo: "/Images/Main%20Page/recruiters/Zeus-Learning-logo.png", url: "https://www.zeuslearning.com" },
 ];
 
 // -- BentoBox ------------------------------------------------------------------
@@ -451,7 +451,7 @@ const Recruiters: React.FC = () => {
 
         {/* 2 — Highest Package */}
         <BentoBox
-          className="p-5 sm:p-6 md:p-8 justify-between min-h-[220px] border"
+          className="p-5 sm:p-6 md:p-8 justify-between min-h-[220px] md:min-h-[320px] md:row-span-2 border"
           style={{
             background: "rgba(255,255,255,0.55)",
             backdropFilter: "blur(20px)",
@@ -470,27 +470,6 @@ const Recruiters: React.FC = () => {
             <p className="text-sm mt-2" style={{ color: "#64748B" }}>Best offer &middot; 2024-25 batch</p>
           </div>
           <Bar pct="90%" gold />
-        </BentoBox>
-
-        {/* 3 — Placement Rate */}
-        <BentoBox
-          className="p-5 sm:p-6 md:p-8 justify-between border"
-          style={{
-            background: "rgba(255,255,255,0.55)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            borderColor: "rgba(11,61,145,0.15)",
-            boxShadow: "0 8px 32px rgba(11,61,145,0.08), inset 0 1px 0 rgba(255,255,255,0.8)",
-          }}
-        >
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#64748B" }}>
-              Placement Rate
-            </p>
-            <h3 className="text-5xl font-extrabold leading-none" style={{ color: "#0B3D91" }}>95%</h3>
-            <p className="text-sm mt-2" style={{ color: "#64748B" }}>Students placed annually</p>
-          </div>
-          <Bar pct="95%" />
         </BentoBox>
 
         {/* 4 — Average Package */}

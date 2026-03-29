@@ -27,7 +27,7 @@ const TopBanner: React.FC = () => {
             <div className="flex flex-col lg:flex-row items-center text-center lg:text-left gap-3 lg:gap-5 flex-shrink-0 max-w-full">
               <div className="flex-shrink-0">
                 <img
-                  src="/Images/VCET%20logo.jpeg"
+                  src="/Images/VCET logo.jpeg"
                   alt="VCET Logo"
                   className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain drop-shadow-sm"
                   onError={(e) => {
@@ -63,7 +63,7 @@ const TopBanner: React.FC = () => {
                 }}
               />
               <img
-                src="/Images/LOGO/NBA%20logo.webp"
+                src="/Images/LOGO/NBA logo.webp"
                 alt="NBA Accredited"
                 className="h-10 sm:h-14 lg:h-20 w-auto object-contain drop-shadow-sm"
                 onError={(e) => {

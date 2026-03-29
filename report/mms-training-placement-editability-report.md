@@ -1,188 +1,225 @@
-# MMS (MBA) Training and Placement - Editable Information Report
+# MMS Training and Placement - Backend API Handoff Report
 
-## Training
+## 1. Purpose
+Backend API points and exact image/data contract for MMS Training and Placement pages so implementation can be done without frontend guesswork.
 
-- Editable Content:
-  - Training points list
-- Character Limits:
-  - Each point max 170 characters
-- Item Limits:
-  - Points max 5
-- Reason:
-  - Keeps list readable and avoids long scrolling
+## 2. Frontend Sources
+- Training pages:
+  - pages/mms/training-placement/MMSTraining.tsx
+  - pages/mms/training-placement/MMSTrainingEvents.tsx
+  - pages/mms/training-placement/MMSTrainingCareerGuidance.tsx
+  - pages/mms/training-placement/MMSTrainingInternship.tsx
+  - pages/mms/training-placement/MMSTrainingGallery.tsx
+- Placement pages:
+  - pages/mms/training-placement/MMSPlacement.tsx
+  - pages/mms/training-placement/MMSPlacementSoftSkillTraining.tsx
+  - pages/mms/training-placement/MMSPlacementPsycometricTest.tsx
+  - pages/mms/training-placement/MMSPlacementCell.tsx
+  - pages/mms/training-placement/MMSPlacementGallery.tsx
+  - pages/mms/training-placement/MMSPlacementRecruiters.tsx
+  - pages/mms/training-placement/MMSPlacementStudentsPlacements.tsx
+- Shared holders:
+  - pages/mms/training-placement/MMSPlacementShared.tsx
 
----
+## 3. Endpoint Plan
 
-## Events
+### A) Training Content Endpoint
+- Method: GET
+- Path: /api/mms/training-placement/training
+- Purpose: training text blocks, tables, lists
 
-- Editable Content:
-  - Event rows (Sr. No., event name, company/resource person details, conduction date)
-  - Event image for each row
-- Character Limits:
-  - Event name max 60 characters
-  - Resource person/company details max 350 characters
-  - Date text max 15 characters
-- Item Limits:
-  - Rows max 3
-- Reason:
-  - Prevents table overflow and keeps horizontal table usable
+### B) Training Images Endpoint
+- Method: GET
+- Path: /api/mms/training-placement/training/images
+- Purpose: training image holders (events/career/galleries)
 
----
+### C) Placement Content Endpoint
+- Method: GET
+- Path: /api/mms/training-placement/placement
+- Purpose: placement objectives, placement cell text, table rows
 
-## Career Guidance
+### D) Placement Images Endpoint
+- Method: GET
+- Path: /api/mms/training-placement/placement/images
+- Purpose: placement image holders (soft skill, psychometric, cell photos, galleries, recruiters)
 
-- Editable Content:
-  - Guidance points list
-  - Seminar/event rows (Sr. No., event, resource person details, image)
-- Character Limits:
-  - Guidance point max 100 characters
-  - Event title max 50 characters
-  - Resource person profile max 180 characters
-- Item Limits:
-  - Guidance points max 4
-  - Rows max 8
-- Reason:
-  - Balances list and table content for quick reading
+Recommended image endpoint response shape:
 
----
+```json
+{
+  "items": [
+    {
+      "id": "pl-1",
+      "key": "soft-skill-session-01",
+      "label": "Soft Skill Session 01",
+      "imageUrl": "https://...",
+      "alt": "Soft Skill Session 01"
+    }
+  ]
+}
+```
 
-## Internship (Training)
+## 4. Required Image Holder Labels/Keys
 
-- Editable Content:
-  - Internship procedure steps
-- Character Limits:
-  - Each step max 120 characters
-- Item Limits:
-  - Steps max 5
-- Reason:
-  - Maintains clear process flow and numbering
+### Training Events
+Current UI uses inline holders in event rows.
+Recommended labels:
+- Training Event 01
+- Training Event 02
+- Training Event 03
 
----
+Recommended keys:
+- training-event-01
+- training-event-02
+- training-event-03
 
-## Training Gallery
+### Career Guidance (Resource Person Images)
+Recommended labels:
+- Career Guidance 01
+- Career Guidance 02
+- Career Guidance 03
+- Career Guidance 04
+- Career Guidance 05
+- Career Guidance 06
+- Career Guidance 07
+- Career Guidance 08
 
-- Editable Content:
-  - Gallery image items (label, image)
-- Character Limits:
-  - Image label max 19 characters
-- Item Limits:
-  - Images max 4
-- Reason:
-  - Keeps gallery compact and balanced
+Recommended keys:
+- career-guidance-01 to career-guidance-08
 
----
+### Training Gallery
+Required labels:
+- Training Gallery 01
+- Training Gallery 02
+- Training Gallery 03
+- Training Gallery 04
 
-## Placement Objective
+### Placement Cell
+Required labels:
+- Placement Cell Member 1
+- Placement Cell Member 2
 
-- Editable Content:
-  - Objective points list
-- Character Limits:
-  - Each objective max 160 characters
-- Item Limits:
-  - Objectives max 7
-- Reason:
-  - Keeps objective block structured and scannable
+### Soft Skill Training
+Required labels:
+- Soft Skill Session 01
+- Soft Skill Session 02
 
----
+### Psychometric Test
+Required labels:
+- Psycometric Test 01
+- Psycometric Test 02
 
-## Placement Cell
+### Placement Gallery
+Required labels:
+- Placement Gallery 01
+- Placement Gallery 02
+- Placement Gallery 03
+- Placement Gallery 04
+- Placement Gallery 05
+- Placement Gallery 06
+- Placement Gallery 07
+- Placement Gallery 08
 
-- Editable Content:
-  - Member items (image, name, role, email, phone, extension)
-- Character Limits:
-  - Name max 30 characters
-  - Role max 40 characters
-  - Email max 30 characters
-  - Phone max 25 characters
-  - Extension max 30 characters
-- Item Limits:
-  - Members max 2
-- Reason:
-  - Preserves card readability and prevents content crowding
+### Recruiters
+Required label:
+- Our Recruiters Banner
 
----
+## 5. Optional Structured Content Payloads
 
-## Soft Skill Training
+### Training Event row shape
+```json
+{
+  "id": "te-1",
+  "srNo": 1,
+  "eventName": "AMCAT Test",
+  "resourcePersonDetails": "...",
+  "dateText": "Since 2019",
+  "imageLabel": "Training Event 01"
+}
+```
 
-- Editable Content:
-  - Program description text
-  - Session image items (label, image)
-- Character Limits:
-  - Paragraph max 1100 characters
-  - Image label max 21 characters
-- Item Limits:
-  - Paragraphs max 3
-  - Images max 2
-- Reason:
-  - Keeps long narrative readable with clean visual support
+### Placement Cell member shape
+```json
+{
+  "id": "pc-1",
+  "name": "Mr. ...",
+  "role": "Placement Manager",
+  "email": "placements@vcet.edu.in",
+  "phone": "...",
+  "extension": "...",
+  "imageLabel": "Placement Cell Member 1"
+}
+```
 
----
+### Student placement row shape
+```json
+{
+  "id": "sp-1",
+  "srNo": 1,
+  "studentName": "...",
+  "specialization": "HR",
+  "company": "...",
+  "imageUrl": "https://..."
+}
+```
 
-## Psychometric Test
+## 6. Frontend Layout Limits
+- Training points: max 5
+- Training event rows: max 3
+- Career guidance points: max 4
+- Career guidance rows: max 8
+- Internship procedure steps: max 5
+- Training gallery images: max 4
+- Placement objective points: max 7
+- Placement cell members: max 2
+- Soft skill images: max 2
+- Psychometric images: max 2
+- Student placement rows: max 6
+- Recruiters banner images: max 1
+- Placement gallery images: max 8
 
-- Editable Content:
-  - Test description text
-  - Session image items (label, image)
-- Character Limits:
-  - Paragraph max 1300 characters
-  - Image label max 19 characters
-- Item Limits:
-  - Paragraphs max 1
-  - Images max 2
-- Reason:
-  - Avoids dense text block and supports clear section flow
+## 7. Backend Notes
+- Prefer imageUrl field for direct compatibility.
+- Keep labels stable because frontend holder lookup uses normalized label/key matching.
+- Use stable ids for all list/table items for deterministic updates.
+- For training/events and career tables, backend can gradually shift from static rows to API rows while preserving current UI layout.
 
----
+## 8. Suggested API Points (CRUD)
 
-## OJT and Summer Internship List
+### Public Read
+- GET /api/mms/training-placement/training
+- GET /api/mms/training-placement/training/images
+- GET /api/mms/training-placement/placement
+- GET /api/mms/training-placement/placement/images
 
-- Editable Content:
-  - Student internship rows (Sr. No., student name, specialization, company)
-- Character Limits:
-  - Student name max 50 characters
-  - Specialization max 15 characters
-  - Company max 45 characters
-- Item Limits:
-  - Rows max 45
-- Reason:
-  - Protects table alignment and truncation behavior
+### Admin Write (recommended)
+- PATCH /api/admin/mms/training-placement/training
+- PATCH /api/admin/mms/training-placement/placement
+- POST /api/admin/mms/training-placement/training/images
+- PATCH /api/admin/mms/training-placement/training/images/:id
+- DELETE /api/admin/mms/training-placement/training/images/:id
+- POST /api/admin/mms/training-placement/placement/images
+- PATCH /api/admin/mms/training-placement/placement/images/:id
+- DELETE /api/admin/mms/training-placement/placement/images/:id
 
----
+### Optional table/list CRUD (if admin needs row-level editing)
+- POST /api/admin/mms/training-placement/training/events
+- PATCH /api/admin/mms/training-placement/training/events/:id
+- DELETE /api/admin/mms/training-placement/training/events/:id
+- POST /api/admin/mms/training-placement/training/career-guidance/events
+- PATCH /api/admin/mms/training-placement/training/career-guidance/events/:id
+- DELETE /api/admin/mms/training-placement/training/career-guidance/events/:id
+- POST /api/admin/mms/training-placement/placement/students
+- PATCH /api/admin/mms/training-placement/placement/students/:id
+- DELETE /api/admin/mms/training-placement/placement/students/:id
 
-## Student Placements
+Minimal image payload:
 
-- Editable Content:
-  - Placement rows (Sr. No., student name, specialization, company, student image)
-- Character Limits:
-  - Student name max 25 characters
-  - Specialization max 15 characters
-  - Company max 40 characters
-- Item Limits:
-  - Rows max 6
-- Reason:
-  - Keeps placement table neat and easy to scan
-
----
-
-## Our Recruiters
-
-- Editable Content:
-  - Recruiters banner/image (single media item)
-  - Optional banner label
-- Item Limits:
-  - Banner images max 1
-- Reason:
-  - Maintains focused recruiter showcase without clutter
-
----
-
-## Placement Gallery
-
-- Editable Content:
-  - Gallery image items (label, image)
-- Character Limits:
-  - Image label max 35 characters
-- Item Limits:
-  - Images max 8
-- Reason:
-  - Matches gallery grid capacity and keeps visual consistency
+```json
+{
+  "label": "Placement Gallery 01",
+  "key": "placement-gallery-01",
+  "imageUrl": "https://cdn.example.com/mms/placement/gallery-01.jpg",
+  "alt": "Placement Gallery 01"
+}
+```

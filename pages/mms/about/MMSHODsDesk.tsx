@@ -2,8 +2,11 @@ import React from 'react';
 import MMSLayout from '../../../components/mms/MMSLayout';
 import { Quote } from 'lucide-react';
 import { hodDeskContent } from './mmsAboutData';
+import { useMmsImageHolder } from '../../../hooks/mms/useMmsImageHolder';
 
 export default function MMSHODsDesk() {
+  const hodImageUrl = useMmsImageHolder('about', 'HOD Photo');
+
   return (
     <MMSLayout title="HOD's Desk">
       <section className="relative rounded-3xl border border-slate-100 bg-white p-6 shadow-sm md:p-10">
@@ -22,9 +25,21 @@ export default function MMSHODsDesk() {
             <aside className="mx-auto mb-6 w-full max-w-[320px] lg:float-left lg:mb-4 lg:mr-8 lg:w-[320px] lg:max-w-none">
             <div className="rounded-3xl bg-gradient-to-br from-yellow-300 via-brand-gold to-yellow-500 p-[2.5px] shadow-[0_0_34px_6px_rgba(253,184,19,0.34)]">
               <div className="overflow-hidden rounded-[22px] bg-white">
-                <div className="flex h-[290px] w-full items-center justify-center bg-brand-light">
-                  <img src="/images/Departments/MMS(MBA)/About/HOD_s Desk/HOD_photo.png" alt="HOD Photo" className="h-full w-full object-cover object-top" />
-                </div>
+                {hodImageUrl ? (
+                  <img
+                    src={hodImageUrl}
+                    alt="HOD Photo"
+                    className="block h-[290px] w-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="flex h-[290px] w-full items-center justify-center bg-brand-light">
+                    <div className="text-center">
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-blue/70">Profile Holder</p>
+                      <p className="mt-2 text-sm font-semibold text-brand-navy">HOD Photo</p>
+                    </div>
+                  </div>
+                )}
                 <div className="bg-gradient-to-b from-white to-amber-50/40 px-5 py-4 text-center">
                   <h3 className="text-2xl font-display font-extrabold text-brand-navy">Dr. Shital Nishank Patil</h3>
                   <div className="mt-2 inline-flex items-center rounded-full bg-gradient-to-r from-yellow-300 via-brand-gold to-yellow-400 px-4 py-1.5">
