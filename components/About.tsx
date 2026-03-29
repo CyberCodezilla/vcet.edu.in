@@ -87,7 +87,7 @@ const About: React.FC = () => {
             
             <div className="group relative h-[380px] w-full overflow-hidden rounded-2xl border border-brand-blue/10 bg-brand-light sm:h-[480px] md:h-[520px]">
               <img 
-                src="/Images/About/vcet_campus.jpg" 
+                src="/Images/About Us/about_vcet.png" 
                 alt="VCET Campus" 
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />

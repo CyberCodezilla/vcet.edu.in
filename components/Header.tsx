@@ -981,7 +981,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 mr-0.5">
             <img
-              src="/Images/VCET%20logo.jpeg"
+              src="/Images/VCET logo.jpeg"
               alt="VCET Logo"
               className="h-12 md:h-14 w-auto rounded-sm"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
