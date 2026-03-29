@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
-import { useAdmissionSection } from '../../hooks/useAdmissionSection';
-import { getSectionHeadingValue, groupCourseItems } from './admissionSectionUtils';
 import { 
   GraduationCap, 
   BookOpen, 
@@ -12,7 +10,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 
-const fallbackUgCourses = [
+const ugCourses = [
   { course: 'Computer Engineering', intake: 180 },
   { course: 'Computer Science and Engineering (Data Science)', intake: 180 },
   { course: 'Information Technology', intake: 60 },
@@ -22,12 +20,12 @@ const fallbackUgCourses = [
   { course: 'Civil Engineering', intake: 60 },
 ];
 
-const fallbackPgCourses = [
+const pgCourses = [
   { course: 'M.E. Civil (Structural Engineering)', intake: 24 },
   { course: 'M.E. (Computer Engineering)', intake: 24 },
 ];
 
-const fallbackMgmtCourses = [
+const mgmtCourses = [
   { course: 'Master Of Management Studies (MMS)', intake: 120 },
 ];
 
@@ -41,7 +39,7 @@ interface SidebarItemProps {
 const SidebarItem: React.FC<SidebarItemProps> = ({ icon: Icon, title, active, onClick }) => (
   <div 
     onClick={onClick}
-    className={`group flex items-center justify-between px-6 py-4 cursor-pointer transition-all duration-300 ${
+    className={`group flex items-center justify-between px-4 md:px-6 py-3 md:py-4 cursor-pointer transition-all duration-300 min-h-[44px] ${
       active 
       ? 'bg-[#1e4e85] text-white shadow-md' 
       : 'bg-white text-slate-600 hover:bg-slate-50 hover:text-[#1e4e85]'
@@ -118,12 +116,6 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, startIndex = 1 }) =>
 
 const CoursesIntake: React.FC = () => {
   const [activeTab, setActiveTab] = useState('all');
-  const { section, error } = useAdmissionSection('courses-intake');
-
-  const groupedCourses = section ? groupCourseItems(section.items) : null;
-  const ugCourses = groupedCourses?.ug.map((item) => ({ course: item.title, intake: item.intake ?? 0 })) ?? fallbackUgCourses;
-  const pgCourses = groupedCourses?.pg.map((item) => ({ course: item.title, intake: item.intake ?? 0 })) ?? fallbackPgCourses;
-  const mgmtCourses = groupedCourses?.management.map((item) => ({ course: item.title, intake: item.intake ?? 0 })) ?? fallbackMgmtCourses;
 
   const totalUG = ugCourses.reduce((sum, c) => sum + c.intake, 0);
   const totalPG = pgCourses.reduce((sum, c) => sum + c.intake, 0);
@@ -133,12 +125,12 @@ const CoursesIntake: React.FC = () => {
   return (
     <PageLayout>
       <PageBanner
-        title={section?.title || 'Courses and Intake'}
+        title="Courses and Intake"
         breadcrumbs={[{ label: 'Courses and Intake' }]}
       />
 
-      <div className="bg-[#eff3f8] min-h-screen font-sans py-12 px-6 lg:px-12">
-        <div className="max-w-[1600px] mx-auto flex flex-col lg:flex-row gap-12 items-start">
+      <div className="bg-[#eff3f8] min-h-screen font-sans py-6 md:py-12 px-4 sm:px-6 lg:px-12">
+        <div className="max-w-[1600px] mx-auto flex flex-col lg:flex-row gap-6 md:gap-12 items-start">
           
           {/* Sidebar Navigation */}
           <aside className="w-full lg:w-[420px] lg:sticky lg:top-32 shrink-0">
@@ -175,19 +167,11 @@ const CoursesIntake: React.FC = () => {
 
           {/* Main Column - Program Tables */}
           <main className="flex-1 w-full">
-            {error && (
-              <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm font-medium text-amber-800">
-                Showing the last bundled admission data because the live admission API could not be loaded.
-              </div>
-            )}
-
             <div className="space-y-12">
               {(activeTab === 'all' || activeTab === 'ug') && (
                 <section>
                   <div className="flex items-center gap-4 mb-6">
-                    <h4 className="text-2xl font-black text-[#1e4e85] uppercase tracking-tight">
-                      {getSectionHeadingValue(section, 'ug', 'Under Graduate Program')}
-                    </h4>
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-black text-[#1e4e85] uppercase tracking-tight">Under Graduate Program</h4>
                     <div className="h-px bg-slate-200 flex-1"></div>
                   </div>
                   <CourseTable courses={ugCourses} startIndex={1} />
@@ -197,9 +181,7 @@ const CoursesIntake: React.FC = () => {
               {(activeTab === 'all' || activeTab === 'pg') && (
                 <section>
                   <div className="flex items-center gap-4 mb-6">
-                    <h4 className="text-2xl font-black text-[#1e4e85] uppercase tracking-tight">
-                      {getSectionHeadingValue(section, 'pg', 'Post Graduate Program')}
-                    </h4>
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-black text-[#1e4e85] uppercase tracking-tight">Post Graduate Program</h4>
                     <div className="h-px bg-slate-200 flex-1"></div>
                   </div>
                   <CourseTable courses={pgCourses} startIndex={ugCourses.length + 1} />
@@ -209,9 +191,7 @@ const CoursesIntake: React.FC = () => {
               {(activeTab === 'all' || activeTab === 'mgmt') && (
                 <section>
                   <div className="flex items-center gap-4 mb-6">
-                    <h4 className="text-2xl font-black text-[#1e4e85] uppercase tracking-tight">
-                      {getSectionHeadingValue(section, 'mgmt', 'Management Program')}
-                    </h4>
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-black text-[#1e4e85] uppercase tracking-tight">Management Program</h4>
                     <div className="h-px bg-slate-200 flex-1"></div>
                   </div>
                   <CourseTable courses={mgmtCourses} startIndex={ugCourses.length + pgCourses.length + 1} />

@@ -207,13 +207,13 @@ const ResearchIIC: React.FC = () => {
       />
 
       <section className="sticky top-[72px] z-20 bg-white/95 backdrop-blur-sm border-b border-[#E4EAF2]">
-        <div className="container mx-auto px-4 sm:px-6 max-w-[1200px] py-3">
-          <div className="flex flex-wrap gap-2.5">
+        <div className="container mx-auto px-4 sm:px-6 max-w-[1200px] py-2 md:py-3">
+          <div className="flex gap-2 overflow-x-auto whitespace-nowrap snap-x snap-mandatory pb-1 no-scrollbar">
             {sectionTabs.map((tab) => (
               <a
                 key={tab.label}
                 href={tab.href}
-                className={`group inline-flex items-center gap-2 px-3.5 py-2 rounded-none border text-[12px] font-bold uppercase tracking-[0.08em] transition-colors ${
+                className={`group inline-flex items-center gap-2 px-3 md:px-3.5 py-2 rounded-none border text-[11px] md:text-[12px] font-bold uppercase tracking-[0.08em] transition-colors flex-shrink-0 snap-start min-h-[44px] ${
                   activeSection === tab.id
                     ? 'border-[#D4A017] bg-[#F4C84C] text-[#173C61] shadow-[0_0_0_1px_#D4A017_inset]'
                     : 'border-[#D7E1EC] bg-[#F8FBFF] text-[#1A4B7C] hover:bg-[#1A4B7C] hover:text-white'
@@ -233,10 +233,10 @@ const ResearchIIC: React.FC = () => {
             <span className="inline-block text-[12px] font-bold uppercase tracking-[0.2em] text-[#fdb813] border-b border-[#fdb813]/60 pb-1 mb-4">
               About
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#1A4B7C] tracking-tight">Institution's Innovation Council (IIC)</h2>
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold text-[#1A4B7C] tracking-tight">Institution's Innovation Council (IIC)</h2>
           </div>
 
-          <div className="reveal bg-[#F8FAFC] border border-[#E2E8F0] p-5 md:p-7 leading-[1.85] text-[#374151] text-[15px] md:text-[16px]">
+          <div className="reveal bg-[#F8FAFC] border border-[#E2E8F0] p-4 md:p-7 leading-[1.85] text-[#374151] text-[14px] md:text-[16px]">
             In today's rapidly evolving world, the ability to innovate and transform ideas into tangible solutions is crucial. Recognizing this imperative, Vidyavardhini's College of Engineering and Technology Vasai is proud to introduce its Innovation, Startup, and Intellectual Property Rights (IPR) Cell under umbrella of Institution's Innovation Council (IIC) in accordance with the guidelines of the Ministry of Education Innovation Cell that was established in year 2020. This initiative is designed to empower our students, faculty, and researchers to explore their entrepreneurial potential while protecting their innovative creations.
           </div>
 
@@ -286,7 +286,7 @@ const ResearchIIC: React.FC = () => {
             <span className="inline-block text-[12px] font-bold uppercase tracking-[0.2em] text-[#fdb813] border-b border-[#fdb813]/60 pb-1 mb-4">
               Vision & Mission
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#1A4B7C] tracking-tight">Strategic Direction of IIC</h2>
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold text-[#1A4B7C] tracking-tight">Strategic Direction of IIC</h2>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -336,7 +336,7 @@ const ResearchIIC: React.FC = () => {
             <span className="inline-block text-[12px] font-bold uppercase tracking-[0.2em] text-[#fdb813] border-b border-[#fdb813]/60 pb-1 mb-4">
               Achievements
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#1A4B7C] tracking-tight">Achievements !</h2>
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold text-[#1A4B7C] tracking-tight">Achievements !</h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
@@ -361,7 +361,7 @@ const ResearchIIC: React.FC = () => {
             <span className="inline-block text-[12px] font-bold uppercase tracking-[0.2em] text-[#fdb813] border-b border-[#fdb813]/60 pb-1 mb-4">
               Gallery
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#1A4B7C] tracking-tight">IIC Events Visual Stream</h2>
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold text-[#1A4B7C] tracking-tight">IIC Events Visual Stream</h2>
           </div>
 
           <div className="relative">
@@ -389,7 +389,7 @@ const ResearchIIC: React.FC = () => {
             <span className="inline-block text-[12px] font-bold uppercase tracking-[0.2em] text-[#fdb813] border-b border-[#fdb813]/60 pb-1 mb-4">
               Team
             </span>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#1A4B7C] tracking-tight">IIC Committee Structure</h2>
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold text-[#1A4B7C] tracking-tight">IIC Committee Structure</h2>
           </div>
 
           <div className="space-y-6">

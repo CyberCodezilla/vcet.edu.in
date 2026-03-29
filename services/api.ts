@@ -1,5 +1,12 @@
-const API_BASE = (import.meta.env.VITE_API_BASE_URL as string) ?? 'http://localhost:8000';
-const API_ORIGIN = API_BASE.replace(/\/api$/, '').replace(/\/$/, '');
+function resolveApiOrigin(): string {
+    const envBase = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim();
+    const browserOrigin = typeof window !== 'undefined' ? window.location.origin : '';
+    const raw = envBase || browserOrigin || 'http://localhost:8000';
+    return raw.replace(/\/api\/?$/i, '').replace(/\/$/, '');
+}
+
+const API_ORIGIN = resolveApiOrigin();
+const API_BASE = API_ORIGIN;
 
 interface ApiError {
     status: number;

@@ -7,6 +7,8 @@ import AcademicsForm from '../academics/AcademicsForm';
 import ExamsForm from '../exams/ExamsForm';
 import CommitteesForm from '../committees/CommitteesForm';
 import ResearchForm from '../research/ResearchForm';
+import FacilitiesForm from '../facilities/FacilitiesForm';
+import AboutUsForm from '../about/AboutUsForm';
 
 const homeEditables = [
   {
@@ -133,6 +135,27 @@ const researchEditables = [
   { slug: 'downloads', title: 'Downloads', description: 'Research-related downloadable forms.' },
 ];
 
+const facilitiesEditables = [
+  { slug: 'central-computing', title: 'Central Computing', description: 'Institutional computing infrastructure, staff, and labs.' },
+  { slug: 'counselling-cell', title: 'Counselling Cell', description: 'Student counselling, mentors, and general records.' },
+  { slug: 'differently-abled', title: 'Differently Abled Facilities', description: 'Facilities for differently abled individuals.' },
+  { slug: 'health-facilities', title: 'Health Facilities', description: 'Campus health and medical facilities.' },
+  { slug: 'ladies-common-room', title: 'Ladies Common Room', description: 'Rest and recreation activities for female students.' },
+  { slug: 'library', title: 'Library (VCET Library Page)', description: 'Library rules, memberships, contact info, and statistics.' },
+  { slug: 'sports-gymkhana', title: 'Sports & Gymkhana', description: 'Sports facilities, event records, and operational rules.' }
+];
+
+const aboutEditables = [
+  { slug: 'overview', title: 'Institute Overview', description: 'Institutional history, accreditation, and quick facts.' },
+  { slug: 'president-desk', title: 'President\'s Desk', description: 'Leadership message and profile of the President.' },
+  { slug: 'principal-desk', title: 'Principal\'s Desk', description: 'Leadership message and profile of the Principal.' },
+  { slug: 'governing-council', title: 'Governing Council', description: 'Institutional board members and governance structure.' },
+  { slug: 'org-structure', title: 'Organizational Structure', description: 'Institutional hierarchy and reporting lines.' },
+  { slug: 'administration', title: 'Administration', description: 'Key administrative officers and contacts.' },
+  { slug: 'strategic-plan', title: 'Strategic Plan', description: 'Institutional strategic planning and development documents.' },
+  { slug: 'code-of-conduct', title: 'Code of Conduct', description: 'Rules and professional ethics for stakeholders.' },
+];
+
 const SitePages: React.FC = () => {
   const { pageKey = 'home' } = useParams<{ pageKey: string }>();
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -177,6 +200,14 @@ const SitePages: React.FC = () => {
 
   if (activeTab.key === 'research' && activeSection) {
     return <ResearchForm slug={activeSection} onBack={() => setActiveSection(null)} />;
+  }
+
+  if (activeTab.key === 'facilities' && activeSection) {
+    return <FacilitiesForm slug={activeSection} onBack={() => setActiveSection(null)} />;
+  }
+
+  if (activeTab.key === 'about-us' && activeSection) {
+    return <AboutUsForm slug={activeSection} onBack={() => setActiveSection(null)} />;
   }
 
   // Handle Hub/Direct Views
@@ -313,6 +344,60 @@ const SitePages: React.FC = () => {
                 <button
                   onClick={() => setActiveSection(item.slug)}
                   className="inline-flex items-center px-3.5 py-2 rounded-xl bg-[#2563EB] text-white text-xs font-semibold hover:bg-blue-700 transition-colors"
+                >
+                  Edit Section
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab.key === 'facilities') {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Facilities Page Editor</h1>
+          <p className="text-sm text-slate-500 mt-1">Manage institutional facilities, central computing, library, and sports.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {facilitiesEditables.map((item) => (
+            <div key={item.slug} className="bg-white border border-slate-200/60 rounded-2xl p-5 shadow-sm">
+              <h2 className="text-lg font-semibold text-slate-900">{item.title}</h2>
+              <p className="text-sm text-slate-500 mt-2">{item.description}</p>
+              <div className="flex flex-wrap gap-2 mt-4">
+                <button
+                  onClick={() => setActiveSection(item.slug)}
+                  className="inline-flex items-center px-3.5 py-2 rounded-xl bg-[#2563EB] text-white text-xs font-semibold hover:bg-blue-700 transition-colors"
+                >
+                  Edit Section
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab.key === 'about-us') {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">About Us Page Editor</h1>
+          <p className="text-sm text-slate-500 mt-1 font-medium">Manage institutional overview, leadership messages, and governance details.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {aboutEditables.map((item) => (
+            <div key={item.slug} className="bg-white border border-slate-200/60 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all">
+              <h2 className="text-lg font-bold text-slate-900 tracking-tight">{item.title}</h2>
+              <p className="text-xs text-slate-500 mt-2 font-medium leading-relaxed">{item.description}</p>
+              <div className="flex flex-wrap gap-2 mt-5">
+                <button
+                  onClick={() => setActiveSection(item.slug)}
+                  className="inline-flex items-center px-4 py-2.5 rounded-xl bg-[#2563EB] text-white text-[11px] uppercase tracking-wider font-extrabold hover:bg-blue-700 transition-all shadow-sm"
                 >
                   Edit Section
                 </button>

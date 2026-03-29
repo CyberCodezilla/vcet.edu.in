@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ExamPDFPage, { PDFGroup } from './ExamPDFPage';
+import { pagesApi } from '../../../admin/api/pagesApi';
+import { ExamData } from '../../../admin/types';
 
-const questionPaperGroups: PDFGroup[] = [
+const defaultQuestionPaperGroups: PDFGroup[] = [
   {
     groupName: 'May 2021',
     subTitle: 'SE IV Semester, TE VI Semester & BE VIII Semester',
@@ -40,10 +42,48 @@ const questionPaperGroups: PDFGroup[] = [
 ];
 
 const ExamQuestionPaper: React.FC = () => {
-  return (
-    <ExamPDFPage
-      title="University Question Papers"
-      subtitle="Access previous years' university examination question papers."
+  const [questionPaperGroups, setQuestionPaperGroups] = useState<PDFGroup[]>(defaultQuestionPaperGroups);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    pagesApi.exam.get()
+      .then((res: any) => {
+        const data = res?.data || res;
+        if (data && data.questionPapers && data.questionPapers.length > 0) {
+          const baseUrl = (import.meta.env.VITE_API_URL as string || 'http://127.0.0.1:8000').replace(/\/+$/, '');
+          const uploadedPdfs = data.questionPapers.map(doc => ({
+            name: doc.title,
+            url: doc.fileUrl ? `${baseUrl}${doc.fileUrl}` : ''
+          })).filter(doc => doc.url !== '');
+
+          if (uploadedPdfs.length > 0) {
+             setQuestionPaperGroups([
+               {
+                 groupName: 'Latest Uploads',
+                 pdfs: uploadedPdfs
+               },
+               ...defaultQuestionPaperGroups
+             ]);
+          }
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch exam data', err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-brand-blue border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
+  return (    <ExamPDFPage
+      title="University Question Papers"      subtitle="Access previous years' university examination question papers."
       breadcrumbLabel="Question Papers"
       groups={questionPaperGroups}
     />

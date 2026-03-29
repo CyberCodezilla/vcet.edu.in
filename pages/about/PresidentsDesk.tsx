@@ -14,7 +14,7 @@ const PresidentsDesk: React.FC = () => {
         ]}
       />
 
-      <section className="relative py-16 md:py-24 bg-white overflow-hidden">
+      <section className="relative py-8 md:py-16 lg:py-24 bg-white overflow-hidden">
         {/* Decorative background */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 right-0 w-2/3 h-full bg-[radial-gradient(ellipse_at_top_right,rgba(212,168,67,0.06),transparent_60%)]" />
@@ -33,7 +33,7 @@ const PresidentsDesk: React.FC = () => {
           <div className="max-w-5xl mx-auto">
 
             {/* Eyebrow */}
-            <div className="reveal flex items-center gap-3 mb-10">
+            <div className="reveal flex items-center gap-3 mb-6 md:mb-10">
               <div className="w-8 h-0.5 bg-brand-gold" />
               <span className="text-xs font-bold uppercase tracking-[0.24em] text-brand-gold">
                 Message from the President

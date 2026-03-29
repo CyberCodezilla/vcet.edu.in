@@ -25,7 +25,7 @@ const DeanAcademics: React.FC = () => {
         ]}
       />
 
-      <section className="relative overflow-hidden bg-white py-16 md:py-24">
+      <section className="relative overflow-hidden bg-white py-8 md:py-16 lg:py-24">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 right-0 h-full w-2/3 bg-[radial-gradient(ellipse_at_top_right,rgba(212,168,67,0.06),transparent_60%)]" />
           <div className="absolute bottom-0 left-0 h-2/3 w-2/3 bg-[radial-gradient(ellipse_at_bottom_left,rgba(27,58,92,0.05),transparent_60%)]" />
@@ -41,8 +41,8 @@ const DeanAcademics: React.FC = () => {
 
         <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-6xl xl:max-w-7xl">
-            <div className="reveal flow-root rounded-[28px] border border-brand-blue/10 bg-white/95 p-6 shadow-[0_30px_80px_-55px_rgba(15,23,42,0.45)] backdrop-blur md:p-8 lg:p-10">
-              <div className="group mb-8 w-full lg:float-left lg:mb-6 lg:mr-8 lg:w-80">
+            <div className="reveal flow-root rounded-[28px] border border-brand-blue/10 bg-white/95 p-4 md:p-8 lg:p-10 shadow-[0_30px_80px_-55px_rgba(15,23,42,0.45)] backdrop-blur">
+              <div className="group mb-6 w-full lg:float-left lg:mb-6 lg:mr-8 lg:w-80 mx-auto sm:w-72">
                 <div className="rounded-3xl bg-gradient-to-br from-yellow-300 via-brand-gold to-yellow-500 p-[2.5px] shadow-[0_0_40px_6px_rgba(253,184,19,0.25)] transition-transform duration-500 hover:-translate-y-1">
                   <div className="overflow-hidden rounded-[22px] bg-white">
                     <div className="relative h-[360px] overflow-hidden bg-brand-light">

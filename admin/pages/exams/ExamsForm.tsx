@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { pagesApi } from '../../api/pagesApi';
-import { ExamData, ExamPayload, AdmissionDocument as DocItem } from '../../types';
+import { ExamData, ExamPayload, AdmissionDocument as DocItem, SyllabusSection, ResultSection } from '../../types';
 
 const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => (
   <div className="bg-white border border-slate-200/60 rounded-[2.5rem] overflow-hidden shadow-sm transition-all hover:shadow-md">
@@ -18,6 +18,18 @@ const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: Re
 
 const inputBase = "w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all";
 const labelBase = "block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 ml-1";
+
+export const DEPARTMENTS = [
+  "Artificial Intelligence and Data Science",
+  "Computer Engineering",
+  "Information Technology",
+  "Mechanical Engineering",
+  "Civil Engineering",
+  "Electronics and Telecommunication Engineering",
+  "Instrumentation Engineering",
+  "Computer Science and Engineering (Data Science)",
+  "Applied Science and Humanities (First Year)"
+];
 
 const DocumentListManager: React.FC<{
   items: DocItem[];
@@ -117,6 +129,151 @@ const DocumentListManager: React.FC<{
   );
 };
 
+const SyllabusSectionManager: React.FC<{
+  sections: SyllabusSection[];
+  onChange: (sections: SyllabusSection[]) => void;
+}> = ({ sections, onChange }) => {
+  const addSection = () => {
+    onChange([...(sections || []), { department: '', documents: [] }]);
+  };
+
+  const removeSection = (idx: number) => {
+    onChange(sections.filter((_, i) => i !== idx));
+  };
+
+  const updateSection = (idx: number, updates: Partial<SyllabusSection>) => {
+    const newSections = [...sections];
+    newSections[idx] = { ...newSections[idx], ...updates };
+    onChange(newSections);
+  };
+
+  return (
+    <div className="space-y-10">
+      {Array.isArray(sections) && sections.map((section, idx) => (
+        <div key={idx} className="bg-slate-50/50 border border-slate-200 rounded-[2.5rem] p-8 space-y-6 relative group">
+          <button 
+            type="button" 
+            onClick={() => removeSection(idx)}
+            className="absolute top-6 right-6 w-10 h-10 bg-white text-red-500 rounded-2xl flex items-center justify-center shadow-sm hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 z-10"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+
+          <div className="max-w-2xl">
+            <label className={labelBase}>Department Name</label>
+            <select 
+              value={section.department} 
+              onChange={e => updateSection(idx, { department: e.target.value })}
+              className={inputBase}
+            >
+              <option value="">Select Department</option>
+              {DEPARTMENTS.map(dept => (
+                <option key={dept} value={dept}>{dept}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="pt-4">
+             <label className={labelBase + " mb-4"}>Departmental Documents</label>
+             <DocumentListManager 
+               type="syllabus" 
+               items={section.documents || []} 
+               onChange={docs => updateSection(idx, { documents: docs })} 
+             />
+          </div>
+        </div>
+      ))}
+
+      <button
+        type="button"
+        onClick={addSection}
+        className="w-full py-6 border-2 border-dashed border-slate-200 rounded-[2.5rem] text-slate-400 text-sm font-bold hover:border-[#2563EB] hover:text-[#2563EB] hover:bg-blue-50/50 transition-all flex items-center justify-center gap-2"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+        Add New Department Section
+      </button>
+    </div>
+  );
+};
+
+const ResultSectionManager: React.FC<{
+  sections: ResultSection[];
+  onChange: (sections: ResultSection[]) => void;
+}> = ({ sections, onChange }) => {
+  const addSection = () => {
+    onChange([...(sections || []), { title: '', department: '', documents: [] }]);
+  };
+
+  const removeSection = (idx: number) => {
+    onChange(sections.filter((_, i) => i !== idx));
+  };
+
+  const updateSection = (idx: number, updates: Partial<ResultSection>) => {
+    const newSections = [...sections];
+    newSections[idx] = { ...newSections[idx], ...updates };
+    onChange(newSections);
+  };
+
+  return (
+    <div className="space-y-10">
+      {Array.isArray(sections) && sections.map((section, idx) => (
+        <div key={idx} className="bg-slate-50/50 border border-slate-200 rounded-[2.5rem] p-8 space-y-6 relative group">
+          <button 
+            type="button" 
+            onClick={() => removeSection(idx)}
+            className="absolute top-6 right-6 w-10 h-10 bg-white text-red-500 rounded-2xl flex items-center justify-center shadow-sm hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 z-10"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className={labelBase}>Exam Month & Year</label>
+              <input 
+                value={section.title} 
+                onChange={e => updateSection(idx, { title: e.target.value })}
+                className={inputBase}
+                placeholder="e.g. December 2021"
+              />
+            </div>
+            <div>
+              <label className={labelBase}>Department Name</label>
+              <select 
+                value={section.department} 
+                onChange={e => updateSection(idx, { department: e.target.value })}
+                className={inputBase}
+              >
+                <option value="">Select Department</option>
+                {DEPARTMENTS.map(dept => (
+                  <option key={dept} value={dept}>{dept}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="pt-4">
+             <label className={labelBase + " mb-4"}>Result Documents</label>
+             <DocumentListManager 
+               type="results" 
+               items={section.documents || []} 
+               onChange={docs => updateSection(idx, { documents: docs })} 
+             />
+          </div>
+        </div>
+      ))}
+
+      <button
+        type="button"
+        onClick={addSection}
+        className="w-full py-6 border-2 border-dashed border-slate-200 rounded-[2.5rem] text-slate-400 text-sm font-bold hover:border-[#2563EB] hover:text-[#2563EB] hover:bg-blue-50/50 transition-all flex items-center justify-center gap-2"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+        Add New Result Section (Period/Dept)
+      </button>
+    </div>
+  );
+};
+
 interface ExamFormProps {
   activeSection?: string;
   onBack?: () => void;
@@ -211,11 +368,10 @@ const ExamsForm: React.FC<ExamFormProps> = ({ activeSection, onBack }) => {
       <div className="space-y-8 pb-20">
         {/* Syllabus */}
         {(!activeSection || activeSection === 'syllabus') && (
-          <SectionCard title="University Syllabus" icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.168.477 4.253 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>}>
-            <DocumentListManager 
-              type="syllabus" 
-              items={payload.syllabus || []} 
-              onChange={items => setPayload(prev => ({ ...prev, syllabus: items }))} 
+          <SectionCard title="University Syllabus (Grouped by Dept)" icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.168.477 4.253 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>}>
+            <SyllabusSectionManager 
+              sections={payload.syllabus || []} 
+              onChange={sections => setPayload(prev => ({ ...prev, syllabus: sections }))} 
             />
           </SectionCard>
         )}
@@ -255,11 +411,10 @@ const ExamsForm: React.FC<ExamFormProps> = ({ activeSection, onBack }) => {
 
         {/* Results */}
         {(!activeSection || activeSection === 'results') && (
-          <SectionCard title="University Results" icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>}>
-            <DocumentListManager 
-              type="results" 
-              items={payload.results || []} 
-              onChange={items => setPayload(prev => ({ ...prev, results: items }))} 
+          <SectionCard title="University Results (Grouped by Period/Dept)" icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>}>
+            <ResultSectionManager 
+              sections={payload.results || []} 
+              onChange={sections => setPayload(prev => ({ ...prev, results: sections }))} 
             />
           </SectionCard>
         )}

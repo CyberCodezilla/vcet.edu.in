@@ -23,6 +23,7 @@ const Footer: React.FC = () => {
                 { label: 'FRA FEE PROPOSAL 2025-26-ME', href: 'https://vcet.edu.in/wp-content/uploads/2025/05/FRA-FEE-PROPOSAL-2025-26-ME.pdf', external: true },
                 { label: 'FRA FEE PROPOSAL 2025-26-MBA', href: 'https://vcet.edu.in/wp-content/uploads/2025/05/FRA-FEE-PROPOSAL-2025-26-MBA.pdf', external: true },
                 { label: 'Fee Approved By FRA for 25-26', href: 'https://vcet.edu.in/wp-content/uploads/2025/10/FRA-Fee-2025-26-17.7.25.pdf', external: true },
+                { label: 'Audited Statement', href: '/audited-statement', external: false },
                 { label: 'EOA 1994 to 2024', href: 'https://vcet.edu.in/wp-content/uploads/2026/03/EOA-1994-2024.pdf', external: true },
                 { label: 'EOA Report 25-26', href: 'https://vcet.edu.in/wp-content/uploads/2025/06/EOA-Report-2025-2026.pdf', external: true },
                 { label: 'Certificate – Medium of Instruction', href: 'https://vcet.edu.in/wp-content/uploads/2026/03/Medium-of-Instruction-Cert.pdf', external: true },

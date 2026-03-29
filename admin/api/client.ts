@@ -1,10 +1,13 @@
-// Base URL from env — set VITE_API_URL=http://localhost:8000 in .env.local (no /api suffix)
-// The /api prefix is appended here so all path arguments stay short (e.g. '/notices')
-const API_BASE =
-  (
-    (import.meta.env.VITE_API_URL as string | undefined) ??
-    "https://vcet.edu.in"
-  ).replace(/\/$/, "") + "/api";
+// Base URL from env — keep WITHOUT '/api' suffix; '/api' is appended below.
+// We also sanitize accidental '/api' endings to prevent '/api/api/*' 404s in deployments.
+function resolveApiOrigin(): string {
+  const envBase = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
+  const browserOrigin = typeof window !== "undefined" ? window.location.origin : "";
+  const raw = envBase || browserOrigin || "https://vcet.edu.in";
+  return raw.replace(/\/api\/?$/i, "").replace(/\/$/, "");
+}
+
+const API_BASE = `${resolveApiOrigin()}/api`;
 
 const API_ORIGIN = API_BASE.replace(/\/api$/, "");
 const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
@@ -95,6 +98,16 @@ function extractErrorMessage(status: number, json: unknown): string {
   return payload?.message ?? `HTTP ${status}`;
 }
 
+function parseJsonSafely(text: string): unknown {
+  if (!text) return {};
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return {};
+  }
+}
+
 async function request<T>(
   path: string,
   options: RequestInit = {},
@@ -117,7 +130,7 @@ async function request<T>(
   });
 
   const text = await res.text();
-  const json = text ? JSON.parse(text) : {};
+  const json = parseJsonSafely(text);
 
   if (!res.ok) {
     if (res.status === 419 && retryOnCsrf) {
@@ -156,7 +169,7 @@ async function requestForm<T>(
   });
 
   const text = await res.text();
-  const json = text ? JSON.parse(text) : {};
+  const json = parseJsonSafely(text);
 
   if (!res.ok) {
     if (res.status === 419 && retryOnCsrf) {

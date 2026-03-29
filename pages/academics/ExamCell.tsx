@@ -66,10 +66,10 @@ const ExamCell: React.FC = () => {
       />
 
       {/* Overview */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-8 md:py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
               <div className="reveal">
                 <div className="bg-brand-light rounded-2xl aspect-[4/3] flex items-center justify-center border border-brand-blue/10">
                   <span className="text-sm font-semibold text-brand-blue/40 tracking-wide">
@@ -105,10 +105,10 @@ const ExamCell: React.FC = () => {
       </section>
 
       {/* Functions */}
-      <section className="py-16 md:py-24 bg-brand-light">
+      <section className="py-8 md:py-16 lg:py-24 bg-brand-light">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-14 reveal">
+            <div className="text-center mb-8 md:mb-14 reveal">
               <div className="flex items-center justify-center gap-3 mb-4">
                 <div className="w-8 h-0.5 bg-brand-gold" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">Functions</span>
@@ -139,10 +139,10 @@ const ExamCell: React.FC = () => {
       </section>
 
       {/* Downloads */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-8 md:py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-14 reveal">
+            <div className="text-center mb-8 md:mb-14 reveal">
               <div className="flex items-center justify-center gap-3 mb-4">
                 <div className="w-8 h-0.5 bg-brand-gold" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">Downloads</span>
@@ -178,10 +178,10 @@ const ExamCell: React.FC = () => {
       </section>
 
       {/* Important Links */}
-      <section className="py-16 md:py-24 bg-brand-light">
+      <section className="py-8 md:py-16 lg:py-24 bg-brand-light">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-14 reveal">
+            <div className="text-center mb-8 md:mb-14 reveal">
               <div className="flex items-center justify-center gap-3 mb-4">
                 <div className="w-8 h-0.5 bg-brand-gold" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">Quick Links</span>

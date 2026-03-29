@@ -5,6 +5,8 @@ import type {
   ExamData, ExamPayload,
   CommitteeData, CommitteePayload,
   ResearchData, ResearchPayload,
+  FacilityData, FacilityPayload,
+  AboutData, AboutPayload,
   ItemResponse 
 } from '../types';
 import { 
@@ -13,8 +15,12 @@ import {
   createExamCrud,
   createCommitteeCrud,
   createResearchCrud,
+  createFacilityCrud,
+  createAboutCrud,
   mockCommittees,
-  mockResearch
+  mockResearch,
+  mockFacilities,
+  mockAbout
 } from './mockStore';
 
 const USE_MOCK = import.meta.env.VITE_MOCK_AUTH === 'true';
@@ -132,6 +138,36 @@ export const pagesApi = {
       buildFormData(formData, payload);
       
       return client.requestForm<ItemResponse<ResearchData>>(`/pages/research/${slug}`, formData);
+    }
+  },
+
+  facilities: {
+    get: (slug: string) => USE_MOCK
+      ? mockFacilities.get(slug)
+      : client.request<ItemResponse<FacilityData>>(`/pages/facilities/${slug}`),
+    
+    update: (slug: string, payload: FacilityPayload) => {
+      if (USE_MOCK) return mockFacilities.update(slug, payload);
+      
+      const formData = new FormData();
+      buildFormData(formData, payload);
+      
+      return client.requestForm<ItemResponse<FacilityData>>(`/pages/facilities/${slug}`, formData);
+    }
+  },
+
+  about: {
+    get: (slug: string) => USE_MOCK
+      ? mockAbout.get(slug)
+      : client.request<ItemResponse<AboutData>>(`/pages/about/${slug}`),
+    
+    update: (slug: string, payload: AboutPayload) => {
+      if (USE_MOCK) return mockAbout.update(slug, payload);
+      
+      const formData = new FormData();
+      buildFormData(formData, payload);
+      
+      return client.requestForm<ItemResponse<AboutData>>(`/pages/about/${slug}`, formData);
     }
   }
 };

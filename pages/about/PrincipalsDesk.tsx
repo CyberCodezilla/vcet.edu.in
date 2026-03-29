@@ -21,8 +21,7 @@ const PrincipalsDesk: React.FC = () => {
         ]}
       />
 
-      {/* ── Profile + Message ── */}
-      <section className="relative py-16 md:py-24 bg-white overflow-hidden">
+      <section className="relative py-8 md:py-16 lg:py-24 bg-white overflow-hidden">
         {/* Decorative background */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 right-0 w-2/3 h-full bg-[radial-gradient(ellipse_at_top_right,rgba(212,168,67,0.06),transparent_60%)]" />
@@ -41,18 +40,18 @@ const PrincipalsDesk: React.FC = () => {
           <div className="max-w-5xl mx-auto">
 
             {/* Eyebrow */}
-            <div className="reveal flex items-center gap-3 mb-8">
+            <div className="reveal flex items-center gap-3 mb-6 md:mb-8">
               <div className="w-8 h-0.5 bg-brand-gold" />
               <span className="text-xs font-bold uppercase tracking-[0.24em] text-brand-gold">
                 Message from the Principal
               </span>
             </div>
 
-            {/* Float wrapper — card floats left, prose wraps around it */}
-            <div className="reveal clearfix">
+            {/* Mobile-first layout: flex-col on mobile, float-left card on lg */}
+            <div className="reveal flex flex-col lg:block">
 
-              {/* ── Profile Card — floated left ── */}
-              <div className="float-left mr-8 mb-6 w-72 flex-shrink-0">
+              {/* ── Profile Card ── */}
+              <div className="w-full sm:w-72 lg:float-left lg:mr-8 mb-6 flex-shrink-0 mx-auto">
                 {/* Gold outer glow border */}
                 <div className="rounded-3xl p-[2.5px] bg-gradient-to-br from-yellow-300 via-brand-gold to-yellow-500 shadow-[0_0_40px_6px_rgba(253,184,19,0.4)]">
                   <div className="bg-white rounded-[22px] overflow-hidden">

@@ -43,18 +43,18 @@ const Publications: React.FC = () => {
       {/* ══════════════════════════════════════════════════
           Section 1 — Books Published (Horizontal Bar Chart)
           ══════════════════════════════════════════════════ */}
-      <section className="py-20 bg-[#F7F9FC]">
+      <section className="py-10 md:py-20 bg-[#F7F9FC]">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
-          <div className="reveal mb-10">
-            <span className="text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Books &amp; Chapters</span>
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-[#1a4b7c] mt-4 tracking-tight">
+          <div className="reveal mb-8 md:mb-10">
+            <span className="text-[13px] md:text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Books &amp; Chapters</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-[#1a4b7c] mt-3 md:mt-4 tracking-tight">
               Number of Books Published
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8">
             {/* Chart */}
-            <div className="lg:col-span-3 border border-[#E5E7EB] bg-white">
+            <div className="lg:col-span-3 border border-[#E5E7EB] bg-white overflow-x-auto">
               <div className="flex items-center gap-3 px-6 py-4 border-b border-[#E5E7EB]">
                 <BookOpen className="w-5 h-5 text-[#1a4b7c]" />
                 <span className="text-[14px] font-bold uppercase tracking-[0.15em] text-[#374151]">Books Published per Academic Year</span>
@@ -132,26 +132,26 @@ const Publications: React.FC = () => {
           </div>
 
           {/* Books Published PDF Button */}
-          <div className="reveal mt-10 border border-[#E5E7EB] bg-white">
+          <div className="reveal mt-8 md:mt-10 border border-[#E5E7EB] bg-white">
             <a
               href="https://vcet.edu.in/wp-content/uploads/2024/06/BOOKS-PUBLISHED1.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-5 px-6 py-5 group hover:bg-[#F7F9FC] transition-colors duration-200"
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 px-4 sm:px-6 py-4 sm:py-5 group hover:bg-[#F7F9FC] transition-colors duration-200"
             >
-              <div className="w-14 h-14 flex items-center justify-center bg-[#1a4b7c] text-white flex-shrink-0">
-                <FileText className="w-6 h-6" />
+              <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center bg-[#1a4b7c] text-white flex-shrink-0">
+                <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-[17px] font-display font-bold text-[#1a4b7c] group-hover:text-[#3a6fa8] transition-colors">
+                <h3 className="text-[15px] sm:text-[17px] font-display font-bold text-[#1a4b7c] group-hover:text-[#3a6fa8] transition-colors">
                   Books &amp; Chapters Published
                 </h3>
-                <p className="text-[14px] text-[#374151] mt-1 leading-relaxed">
+                <p className="text-[13px] sm:text-[14px] text-[#374151] mt-1 leading-relaxed">
                   View the complete list of books and book chapters published by VCET faculty members across various academic years.
                 </p>
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0 px-4 py-2 border border-[#1a4b7c] text-[#1a4b7c] group-hover:bg-[#1a4b7c] group-hover:text-white transition-colors duration-200">
-                <span className="text-[14px] font-bold uppercase tracking-[0.15em]">View PDF</span>
+              <div className="flex items-center gap-2 flex-shrink-0 px-3 sm:px-4 py-2 border border-[#1a4b7c] text-[#1a4b7c] group-hover:bg-[#1a4b7c] group-hover:text-white transition-colors duration-200 min-h-[44px]">
+                <span className="text-[13px] sm:text-[14px] font-bold uppercase tracking-[0.15em]">View PDF</span>
                 <ExternalLink className="w-4 h-4" />
               </div>
             </a>
@@ -162,44 +162,44 @@ const Publications: React.FC = () => {
       {/* ══════════════════════════════════════════════════
           Section 2 — Journal vs Conference Papers (Grouped Vertical Bars)
           ══════════════════════════════════════════════════ */}
-      <section className="py-20 bg-white border-t border-[#E5E7EB]">
+      <section className="py-10 md:py-20 bg-white border-t border-[#E5E7EB]">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
           {/* Conference Publications PDF Button */}
-          <div className="reveal mb-10 border border-[#E5E7EB] bg-white">
+          <div className="reveal mb-8 md:mb-10 border border-[#E5E7EB] bg-white">
             <a
               href="https://vcet.edu.in/wp-content/uploads/2024/04/CONFERENCE-PUBLICATIONS-R1.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-5 px-6 py-5 group hover:bg-[#F7F9FC] transition-colors duration-200"
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 px-4 sm:px-6 py-4 sm:py-5 group hover:bg-[#F7F9FC] transition-colors duration-200"
             >
-              <div className="w-14 h-14 flex items-center justify-center bg-[#1a4b7c] text-white flex-shrink-0">
-                <FileText className="w-6 h-6" />
+              <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center bg-[#1a4b7c] text-white flex-shrink-0">
+                <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-[17px] font-display font-bold text-[#1a4b7c] group-hover:text-[#3a6fa8] transition-colors">
+                <h3 className="text-[15px] sm:text-[17px] font-display font-bold text-[#1a4b7c] group-hover:text-[#3a6fa8] transition-colors">
                   Conference Publications
                 </h3>
-                <p className="text-[14px] text-[#374151] mt-1 leading-relaxed">
+                <p className="text-[13px] sm:text-[14px] text-[#374151] mt-1 leading-relaxed">
                   View the complete list of conference publications by VCET faculty and students, including paper titles, authors, conference names, and indexing details.
                 </p>
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0 px-4 py-2 border border-[#1a4b7c] text-[#1a4b7c] group-hover:bg-[#1a4b7c] group-hover:text-white transition-colors duration-200">
-                <span className="text-[14px] font-bold uppercase tracking-[0.15em]">View PDF</span>
+              <div className="flex items-center gap-2 flex-shrink-0 px-3 sm:px-4 py-2 border border-[#1a4b7c] text-[#1a4b7c] group-hover:bg-[#1a4b7c] group-hover:text-white transition-colors duration-200 min-h-[44px]">
+                <span className="text-[13px] sm:text-[14px] font-bold uppercase tracking-[0.15em]">View PDF</span>
                 <ExternalLink className="w-4 h-4" />
               </div>
             </a>
           </div>
 
-          <div className="reveal mb-10">
-            <span className="text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Research Papers</span>
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-[#1a4b7c] mt-4 tracking-tight">
+          <div className="reveal mb-8 md:mb-10">
+            <span className="text-[13px] md:text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Research Papers</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-[#1a4b7c] mt-3 md:mt-4 tracking-tight">
               Refered Journal Paper Publication
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8">
             {/* Chart */}
-            <div className="lg:col-span-3 border border-[#E5E7EB] bg-white">
+            <div className="lg:col-span-3 border border-[#E5E7EB] bg-white overflow-x-auto">
               {/* Header + Legend */}
               <div className="flex flex-wrap items-center justify-between gap-4 px-6 py-4 border-b border-[#E5E7EB]">
                 <div className="flex items-center gap-3">
@@ -311,26 +311,26 @@ const Publications: React.FC = () => {
           </div>
 
           {/* Journal Publications PDF Button */}
-          <div className="reveal mt-10 border border-[#E5E7EB] bg-white">
+          <div className="reveal mt-8 md:mt-10 border border-[#E5E7EB] bg-white">
             <a
               href="https://vcet.edu.in/wp-content/uploads/2024/04/JOURNAL-PAPER-PUBLICATION.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-5 px-6 py-5 group hover:bg-[#F7F9FC] transition-colors duration-200"
+              className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 px-4 sm:px-6 py-4 sm:py-5 group hover:bg-[#F7F9FC] transition-colors duration-200"
             >
-              <div className="w-14 h-14 flex items-center justify-center bg-[#1a4b7c] text-white flex-shrink-0">
-                <FileText className="w-6 h-6" />
+              <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center bg-[#1a4b7c] text-white flex-shrink-0">
+                <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-[17px] font-display font-bold text-[#1a4b7c] group-hover:text-[#3a6fa8] transition-colors">
+                <h3 className="text-[15px] sm:text-[17px] font-display font-bold text-[#1a4b7c] group-hover:text-[#3a6fa8] transition-colors">
                   Journal Publications
                 </h3>
-                <p className="text-[14px] text-[#374151] mt-1 leading-relaxed">
+                <p className="text-[13px] sm:text-[14px] text-[#374151] mt-1 leading-relaxed">
                   View the complete list of referred journal papers published by VCET faculty and students, including precise indexing and publication details.
                 </p>
               </div>
-              <div className="flex items-center gap-2 flex-shrink-0 px-4 py-2 border border-[#1a4b7c] text-[#1a4b7c] group-hover:bg-[#1a4b7c] group-hover:text-white transition-colors duration-200">
-                <span className="text-[14px] font-bold uppercase tracking-[0.15em]">View PDF</span>
+              <div className="flex items-center gap-2 flex-shrink-0 px-3 sm:px-4 py-2 border border-[#1a4b7c] text-[#1a4b7c] group-hover:bg-[#1a4b7c] group-hover:text-white transition-colors duration-200 min-h-[44px]">
+                <span className="text-[13px] sm:text-[14px] font-bold uppercase tracking-[0.15em]">View PDF</span>
                 <ExternalLink className="w-4 h-4" />
               </div>
             </a>

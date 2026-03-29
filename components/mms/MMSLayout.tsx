@@ -125,6 +125,17 @@ export default function MMSLayout({ title, children }: MMSLayoutProps) {
     }
   }, []);
 
+  useEffect(() => {
+    if (showPosterPopup) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showPosterPopup]);
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-white text-slate-800">
       <div className="relative z-[100]">
@@ -137,9 +148,10 @@ export default function MMSLayout({ title, children }: MMSLayoutProps) {
       <main className="mx-auto w-full max-w-[1360px] px-3 py-5 sm:px-5 sm:py-7 lg:px-7">
         <div className={`flex flex-col gap-5 sm:gap-6 ${activeMenu ? 'lg:flex-row lg:items-start lg:gap-7 xl:gap-8' : ''}`}>
           {activeMenu ? (
-            <aside className="hidden lg:block lg:w-[250px] lg:flex-shrink-0 xl:w-[280px]">
-              <nav className="overflow-hidden rounded-none border border-brand-navy/30 bg-white shadow-[0_14px_34px_-22px_rgba(11,61,145,0.45)]">
-                <div className="p-3">
+            <>
+              {/* Mobile horizontal nav */}
+              <div className="block lg:hidden w-full overflow-x-auto no-scrollbar border border-brand-navy/20 bg-white shadow-sm">
+                <div className="flex gap-0 min-w-max">
                   {activeMenu.items.map((item) => {
                     const hashIndex = item.href.indexOf('#');
                     const baseHref = hashIndex >= 0 ? item.href.slice(0, hashIndex) : item.href;
@@ -152,10 +164,10 @@ export default function MMSLayout({ title, children }: MMSLayoutProps) {
                       <Link
                         key={item.href}
                         to={item.href}
-                        className={`mb-1.5 block rounded-none px-4 py-3.5 text-[17px] font-semibold transition ${
+                        className={`flex-shrink-0 px-4 py-3 text-sm font-semibold whitespace-nowrap transition min-h-[44px] flex items-center ${
                           isActive
                             ? 'bg-brand-navy text-white'
-                            : 'text-brand-navy hover:bg-brand-navylight hover:text-brand-navy'
+                            : 'text-brand-navy hover:bg-brand-navylight'
                         }`}
                       >
                         {item.label}
@@ -163,8 +175,38 @@ export default function MMSLayout({ title, children }: MMSLayoutProps) {
                     );
                   })}
                 </div>
-              </nav>
-            </aside>
+              </div>
+
+              {/* Desktop sidebar */}
+              <aside className="hidden lg:block lg:w-[250px] lg:flex-shrink-0 xl:w-[280px]">
+                <nav className="overflow-hidden rounded-none border border-brand-navy/30 bg-white shadow-[0_14px_34px_-22px_rgba(11,61,145,0.45)]">
+                  <div className="p-3">
+                    {activeMenu.items.map((item) => {
+                      const hashIndex = item.href.indexOf('#');
+                      const baseHref = hashIndex >= 0 ? item.href.slice(0, hashIndex) : item.href;
+                      const itemHash = hashIndex >= 0 ? item.href.slice(hashIndex) : '';
+                      const isDefaultSection = itemHash === '#eligibility-criteria' && pathname === baseHref && !hash;
+                      const isActive = itemHash
+                        ? pathname === baseHref && (hash === itemHash || isDefaultSection)
+                        : pathname === item.href;
+                      return (
+                        <Link
+                          key={item.href}
+                          to={item.href}
+                          className={`mb-1.5 block rounded-none px-4 py-3.5 text-[17px] font-semibold transition ${
+                            isActive
+                              ? 'bg-brand-navy text-white'
+                              : 'text-brand-navy hover:bg-brand-navylight hover:text-brand-navy'
+                          }`}
+                        >
+                          {item.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </nav>
+              </aside>
+            </>
           ) : null}
 
           <div
@@ -172,7 +214,7 @@ export default function MMSLayout({ title, children }: MMSLayoutProps) {
             className="mms-page-transition min-w-0 w-full flex-1 text-base leading-7 text-slate-700 sm:text-[17px] sm:leading-8 lg:pl-1 xl:pl-2"
           >
             {title ? (
-              <h2 className="mb-4 text-3xl font-display font-bold leading-[1.2] tracking-[-0.01em] text-brand-navy sm:text-4xl lg:text-5xl">
+              <h2 className="mb-4 text-2xl font-display font-bold leading-[1.2] tracking-[-0.01em] text-brand-navy sm:text-3xl lg:text-5xl">
                 {title}
               </h2>
             ) : null}
@@ -225,7 +267,7 @@ export default function MMSLayout({ title, children }: MMSLayoutProps) {
               className="absolute right-2 top-2 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/70 text-2xl leading-none text-white transition hover:bg-black"
               aria-label="Close poster"
             >
-              x
+              &times;
             </button>
             <img
               src={MMS_IMAGES.banner}

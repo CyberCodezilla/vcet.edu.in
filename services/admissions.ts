@@ -29,6 +29,48 @@ function sortSections(sections: AdmissionSection[]): AdmissionSection[] {
   return [...sections].sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
 }
 
+function toSlugToken(value: string): string {
+  return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+function toCompactToken(value: string): string {
+  return value.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function getSlugCandidates(slug: string): string[] {
+  const explicitAliases: Record<string, string[]> = {
+    'fees-structure': ['fees', 'fee-structure', 'fees-structures'],
+    'documents-required': ['documents', 'required-documents', 'document-required'],
+    'cut-off': ['cutoff', 'cut-offs', 'cutoffs'],
+    'courses-and-intake': ['courses-intake', 'intake'],
+  };
+
+  return [slug, ...(explicitAliases[slug] ?? [])].filter(Boolean);
+}
+
+function findSectionBySlug(
+  sections: AdmissionSection[],
+  slug: string,
+): AdmissionSection | undefined {
+  const candidates = getSlugCandidates(slug);
+  const slugTokens = new Set(candidates.map(toSlugToken));
+  const compactTokens = new Set(candidates.map(toCompactToken));
+
+  return sections.find((section) => {
+    const sectionSlug = section.slug ?? '';
+    const sectionToken = toSlugToken(sectionSlug);
+    const sectionCompact = toCompactToken(sectionSlug);
+    return slugTokens.has(sectionToken) || compactTokens.has(sectionCompact);
+  });
+}
+
+function isNotFoundError(error: unknown): boolean {
+  return typeof error === 'object'
+    && error !== null
+    && 'status' in error
+    && (error as { status?: number }).status === 404;
+}
+
 export const admissionsService = {
   list: async (): Promise<AdmissionSection[]> => {
     const sections = USE_PUBLIC_MOCK
@@ -42,8 +84,10 @@ export const admissionsService = {
 
   getBySlug: async (slug: string): Promise<AdmissionSection> => {
     if (USE_PUBLIC_MOCK) {
-      const section = readMockCollection<AdmissionSection>('vcet_mock_admission_sections', MOCK_ADMISSION_SECTIONS)
-        .find((item) => item.slug === slug);
+      const section = findSectionBySlug(
+        readMockCollection<AdmissionSection>('vcet_mock_admission_sections', MOCK_ADMISSION_SECTIONS),
+        slug,
+      );
 
       if (!section) {
         throw new Error(`Admission section "${slug}" not found`);
@@ -52,7 +96,21 @@ export const admissionsService = {
       return normalizeSection(section);
     }
 
-    return normalizeSection(await get<AdmissionSection>(`/admissions/${slug}`));
+    try {
+      return normalizeSection(await get<AdmissionSection>(`/admissions/${slug}`));
+    } catch (error) {
+      if (!isNotFoundError(error)) {
+        throw error;
+      }
+
+      const sections = await admissionsService.list();
+      const fallbackSection = findSectionBySlug(sections, slug);
+
+      if (!fallbackSection) {
+        throw new Error(`Admission section "${slug}" not found`);
+      }
+
+      return fallbackSection;
+    }
   },
 };
-

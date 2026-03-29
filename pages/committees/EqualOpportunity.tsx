@@ -59,7 +59,7 @@ const EqualOpportunity: React.FC = () => {
       />
 
       {/* About */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-8 md:py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mx-auto">
             <div className="reveal">
@@ -89,7 +89,7 @@ const EqualOpportunity: React.FC = () => {
       </section>
 
       {/* Objectives */}
-      <section className="py-16 md:py-24 bg-brand-light">
+      <section className="py-8 md:py-16 lg:py-24 bg-brand-light">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-14 reveal">
@@ -123,7 +123,7 @@ const EqualOpportunity: React.FC = () => {
       </section>
 
       {/* Activities */}
-      <section className="py-16 md:py-24 bg-white">
+      <section className="py-8 md:py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-14 reveal">

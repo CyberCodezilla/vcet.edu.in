@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // -- Data (all logos from /public/Images/recriters/) ---------------------------
 type Recruiter = { name: string; logo: string; url: string };
@@ -188,13 +188,30 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
     el.style.transform = `translateX(${-posRef.current}px)`;
   };
 
+  const lastTapTimeRef = useRef<number>(0);
+
   const onPointerUp = () => {
     const wasClick = !wasDragRef.current;
     draggingRef.current = false;
     scheduleResume();
+    
     // If it was a click (not a drag), fire the click handler
     if (wasClick && clickTargetRef.current && onItemClick) {
-      onItemClick(clickTargetRef.current);
+      const isMobile = window.innerWidth < 768;
+      if (isMobile) {
+        const now = Date.now();
+        if (now - lastTapTimeRef.current < 400) {
+          // Double hit verified
+          onItemClick(clickTargetRef.current);
+          lastTapTimeRef.current = 0;
+        } else {
+          // First hit on mobile - wait for second
+          lastTapTimeRef.current = now;
+        }
+      } else {
+        // Single click always works on desktop
+        onItemClick(clickTargetRef.current);
+      }
     }
     clickTargetRef.current = null;
   };

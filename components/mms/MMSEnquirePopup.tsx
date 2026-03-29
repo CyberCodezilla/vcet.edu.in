@@ -67,6 +67,17 @@ export default function MMSEnquirePopup() {
   const { submit, submitting, success, error } = useMmsEnquiry();
 
   useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
+
+  useEffect(() => {
     const timer = setTimeout(async () => {
       if (stateName.trim().length < 2) {
         setStateSuggestions([]);
@@ -174,16 +185,16 @@ export default function MMSEnquirePopup() {
           className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-brand-gold"
           style={{ transform: 'rotate(180deg)' }}
         >
-          Enquire Now
+          Enquire!
         </span>
       </button>
 
       <button
         type="button"
-        className="fixed bottom-6 right-4 z-50 rounded-full border border-brand-gold/60 bg-brand-navy px-4 py-2 text-sm font-bold text-brand-gold shadow-lg md:hidden"
+        className="fixed bottom-4 right-[60px] z-45 flex items-center justify-center rounded-full border border-brand-gold/40 bg-brand-navy/65 backdrop-blur-md px-3 py-1.5 min-h-[36px] text-xs font-bold text-brand-gold shadow-md md:hidden transition-all duration-200"
         onClick={() => setOpen(true)}
       >
-        Enquire Now
+        Enquire!
       </button>
 
       {open && (
@@ -197,7 +208,7 @@ export default function MMSEnquirePopup() {
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-brand-gold/60 bg-brand-navy text-xl font-bold leading-none text-brand-gold transition hover:bg-[#14406f]"
                 aria-label="Close enquiry form"
               >
-                x
+                &times;
               </button>
             </div>
 
@@ -368,7 +379,7 @@ export default function MMSEnquirePopup() {
                   type="checkbox"
                   checked={consent}
                   onChange={(e) => setConsent(e.target.checked)}
-                  className="mt-1 h-4 w-4 rounded border-brand-blue/30 text-brand-blue focus:ring-brand-gold/40"
+                  className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded border border-slate-300 accent-[#0a2c57] focus:ring-brand-gold/40"
                 />
                 <span className="text-sm text-slate-700">
                   I agree to be contacted by the VCET MMS admissions team via phone or email regarding this enquiry. <span className="text-rose-600">*</span>

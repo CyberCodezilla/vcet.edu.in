@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ExamPDFPage, { PDFGroup } from './ExamPDFPage';
+import { pagesApi } from '../../../admin/api/pagesApi';
+import { ExamData } from '../../../admin/types';
 
-const syllabusGroups: PDFGroup[] = [
+const defaultSyllabusGroups: PDFGroup[] = [
   {
     groupName: 'Artificial Intelligence and Data Science',
     pdfs: [
@@ -68,6 +70,60 @@ const syllabusGroups: PDFGroup[] = [
 ];
 
 const ExamSyllabus: React.FC = () => {
+  const [syllabusGroups, setSyllabusGroups] = useState<PDFGroup[]>(defaultSyllabusGroups);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    pagesApi.exam.get()
+      .then((res: any) => {
+        const data = res?.data || res;
+        if (data && data.syllabus && data.syllabus.length > 0) {
+          const baseUrl = (import.meta.env.VITE_API_URL as string || 'http://127.0.0.1:8000').replace(/\/+$/, '');
+          
+          const newGroups: PDFGroup[] = data.syllabus.map(section => ({
+            groupName: section.department,
+            pdfs: (section.documents || [])
+              .map(doc => ({
+                name: doc.title || '',
+                url: doc.fileUrl ? `${baseUrl}${doc.fileUrl}` : ''
+              }))
+              .filter(doc => doc.url !== '')
+          })).filter(group => group.pdfs.length > 0);
+
+          if (newGroups.length > 0) {
+            const mergedGroups = [...defaultSyllabusGroups];
+            newGroups.forEach(newGroup => {
+              const existingIndex = mergedGroups.findIndex(
+                g => g.groupName.trim().toLowerCase() === newGroup.groupName.trim().toLowerCase()
+              );
+              if (existingIndex !== -1) {
+                mergedGroups[existingIndex] = {
+                  ...mergedGroups[existingIndex],
+                  pdfs: [...newGroup.pdfs, ...mergedGroups[existingIndex].pdfs]
+                };
+              } else {
+                mergedGroups.unshift(newGroup);
+              }
+            });
+            setSyllabusGroups(mergedGroups);
+          }
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch exam data', err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-brand-blue border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
     <ExamPDFPage
       title="University Syllabus"

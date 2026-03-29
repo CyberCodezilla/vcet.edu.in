@@ -1138,7 +1138,7 @@ const Header: React.FC = () => {
                 id="site-search"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full bg-transparent border-b-2 border-white/20 text-2xl md:text-4xl lg:text-5xl font-bold text-white py-4 pr-20 focus:outline-none focus:border-brand-gold transition-colors placeholder:text-white/10"
+                className="w-full bg-transparent border-b-2 border-white/20 text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-white py-3 md:py-4 pr-16 md:pr-20 focus:outline-none focus:border-brand-gold transition-colors placeholder:text-white/10"
                 placeholder="Search..."
                 autoComplete="off"
               />

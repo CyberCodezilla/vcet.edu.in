@@ -38,11 +38,11 @@ export default function GoverningCouncil() {
         />
 
         {/* Body */}
-        <div className="max-w-5xl mx-auto px-6 md:px-12 py-16">
-          <div className="space-y-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-12 py-8 md:py-16">
+          <div className="space-y-10 md:space-y-16">
 
             {/* Chairman featured card */}
-            <div className="flex flex-col md:flex-row items-center gap-8 bg-[#f8fafc] p-8 md:p-12 rounded-tr-[4rem] rounded-bl-[4rem] border border-gray-100 shadow-sm">
+            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 bg-[#f8fafc] p-6 md:p-12 rounded-tr-[2rem] md:rounded-tr-[4rem] rounded-bl-[2rem] md:rounded-bl-[4rem] border border-gray-100 shadow-sm">
               {/* Photo with Crown badge */}
               <div className="relative shrink-0">
                 <div className="w-40 h-40 md:w-52 md:h-52 rounded-full overflow-hidden border-4 border-[#fdb813] shadow-lg bg-gray-200 flex items-center justify-center">
@@ -59,7 +59,7 @@ export default function GoverningCouncil() {
                 <p className="text-xs font-bold tracking-[0.25em] uppercase text-[#fdb813] mb-2">
                   {chairman.role}
                 </p>
-                <h2 className="font-display text-3xl md:text-4xl font-bold text-[#1a4b7c] mb-3">
+                <h2 className="font-display text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#1a4b7c] mb-3">
                   {chairman.name}
                 </h2>
                 <p className="text-slate-500 italic leading-relaxed text-lg">

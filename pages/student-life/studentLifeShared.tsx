@@ -156,7 +156,7 @@ export const IntroSection: React.FC<IntroSectionProps> = ({
   imagePlaceholderLabel,
 }) => {
   return (
-    <section id={id} className="py-16 md:py-24 bg-white scroll-mt-32 md:scroll-mt-40">
+    <section id={id} className="py-8 md:py-16 lg:py-24 bg-white scroll-mt-32 md:scroll-mt-40">
       <div className="container mx-auto px-4 sm:px-6">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-start">
           <div className="reveal">
@@ -266,7 +266,7 @@ export const ContentSection: React.FC<ContentSectionProps> = ({
     backgroundClassName.includes('brand-dark') || backgroundClassName.includes('brand-blue');
 
   return (
-    <section id={id} className={`py-16 md:py-24 scroll-mt-32 md:scroll-mt-40 ${backgroundClassName}`}>
+    <section id={id} className={`py-8 md:py-16 lg:py-24 scroll-mt-32 md:scroll-mt-40 ${backgroundClassName}`}>
       <div className="container mx-auto px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="reveal">

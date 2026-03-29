@@ -18,6 +18,7 @@ const C = {
 const H = 'Playfair Display, Georgia, serif';
 const T = 'Cambria, Georgia, serif';
 const SF = 'Inter, system-ui, sans-serif';
+const COMMON_SPORT_ICON = 'M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z';
 
 /* ─── Data ────────────────────────────────────────────────────── */
 const sportsList = [
@@ -379,7 +380,7 @@ const SportsGymkhana: React.FC = () => (
                     {/* Icon container */}
                     <div className="w-9 h-9 rounded-none flex items-center justify-center shrink-0 transition-all duration-300 group-hover:rotate-6 shadow-sm" style={{ background: `${C.navy}0f`, border: `1px solid ${C.navy}20` }}>
                       <svg className="w-4 h-4 text-[#0B2C4A] transition-colors duration-300 group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d={sport.icon} />
+                        <path strokeLinecap="round" strokeLinejoin="round" d={COMMON_SPORT_ICON} />
                       </svg>
                     </div>
                     <span className="text-[15px] font-semibold leading-snug text-[#1a1a2e] transition-colors duration-300 group-hover:text-white" style={{ fontFamily: SF }}>{sport.name}</span>

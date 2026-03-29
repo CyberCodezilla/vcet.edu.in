@@ -74,14 +74,14 @@ const ResearchIntro: React.FC = () => {
       />
 
       {/* ── Introduction ── */}
-      <section className="py-20 md:py-28 bg-white border-b border-[#E5E7EB]">
+      <section className="py-10 md:py-20 lg:py-28 bg-white border-b border-[#E5E7EB]">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 md:gap-16 items-start">
             <div className="reveal lg:col-span-3">
-              <span className="inline-block text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1 mb-6">
+              <span className="inline-block text-[13px] md:text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1 mb-4 md:mb-6">
                 Research at VCET
               </span>
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-[#1a4b7c] leading-[1.15] mb-6 tracking-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-[#1a4b7c] leading-[1.15] mb-4 md:mb-6 tracking-tight">
                 Research &amp; Development
               </h2>
               <div className="w-16 h-[3px] bg-[#1a4b7c] mb-6" />
@@ -96,7 +96,7 @@ const ResearchIntro: React.FC = () => {
               </p>
               <a
                 href="/funded-research"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#1a4b7c] text-white text-[17px] font-semibold hover:bg-[#3a6fa8] transition-colors duration-300"
+                className="inline-flex items-center gap-2 px-5 md:px-6 py-3 bg-[#1a4b7c] text-white text-[15px] md:text-[17px] font-semibold hover:bg-[#3a6fa8] transition-colors duration-300 min-h-[44px]"
               >
                 Explore Our Research
                 <ArrowRight className="w-4 h-4" />
@@ -139,14 +139,14 @@ const ResearchIntro: React.FC = () => {
       </section>
 
       {/* ── R&D Hub-and-Spoke Diagram ── */}
-      <section className="py-20 bg-[#F7F9FC]">
+      <section className="py-10 md:py-20 bg-[#F7F9FC]">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
-          <div className="reveal mb-14">
-            <span className="text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">R&D Office</span>
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-[#1a4b7c] mt-4 tracking-tight">
+          <div className="reveal mb-8 md:mb-14">
+            <span className="text-[13px] md:text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">R&D Office</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-[#1a4b7c] mt-3 md:mt-4 tracking-tight">
               Institute Research &amp; Development Office
             </h2>
-            <p className="text-[17px] text-[#6B7280] mt-3 max-w-2xl leading-relaxed">
+            <p className="text-[15px] md:text-[17px] text-[#6B7280] mt-3 max-w-2xl leading-relaxed">
               The R&D Office uses a hub-and-spoke model where the central office supports various academic and professional activities.
             </p>
           </div>
@@ -182,11 +182,11 @@ const ResearchIntro: React.FC = () => {
       </section>
 
       {/* ── Objectives ── */}
-      <section className="py-20 bg-white border-b border-[#E5E7EB]">
+      <section className="py-10 md:py-20 bg-white border-b border-[#E5E7EB]">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
-          <div className="reveal mb-12">
-            <span className="text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Goals</span>
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-[#1a4b7c] mt-4 tracking-tight">
+          <div className="reveal mb-8 md:mb-12">
+            <span className="text-[13px] md:text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Goals</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-[#1a4b7c] mt-3 md:mt-4 tracking-tight">
               Objectives
             </h2>
           </div>
@@ -211,14 +211,14 @@ const ResearchIntro: React.FC = () => {
 
 
       {/* ── Ph.D. Charts ── */}
-      <section className="py-20 bg-white border-b border-[#E5E7EB]">
+      <section className="py-10 md:py-20 bg-white border-b border-[#E5E7EB]">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
 
             {/* Ph.D. Pursuing */}
             <div className="reveal">
-              <span className="text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Doctoral Research</span>
-              <h3 className="text-4xl md:text-5xl font-display font-bold text-[#1a4b7c] mt-4 tracking-tight">
+              <span className="text-[13px] md:text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Doctoral Research</span>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-[#1a4b7c] mt-3 md:mt-4 tracking-tight">
                 Faculty Pursuing Ph.D.
               </h3>
               <p className="text-[17px] text-[#6B7280] mt-2 mb-6">
@@ -245,8 +245,8 @@ const ResearchIntro: React.FC = () => {
 
             {/* Ph.D. Holders */}
             <div className="reveal" style={{ transitionDelay: '0.1s' }}>
-              <span className="text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Doctorate Strength</span>
-              <h3 className="text-4xl md:text-5xl font-display font-bold text-[#1a4b7c] mt-4 tracking-tight">
+              <span className="text-[13px] md:text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Doctorate Strength</span>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-[#1a4b7c] mt-3 md:mt-4 tracking-tight">
                 Faculty with Ph.D.
               </h3>
               <p className="text-[17px] text-[#6B7280] mt-2 mb-6">
@@ -275,11 +275,11 @@ const ResearchIntro: React.FC = () => {
       </section>
 
       {/* ── Quick Links — Index tabs ── */}
-      <section className="py-20 bg-[#F7F9FC] border-t border-[#E5E7EB]">
+      <section className="py-10 md:py-20 bg-[#F7F9FC] border-t border-[#E5E7EB]">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
-          <div className="reveal mb-12">
-            <span className="text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Navigate</span>
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-[#1a4b7c] mt-4 tracking-tight">
+          <div className="reveal mb-8 md:mb-12">
+            <span className="text-[13px] md:text-[14px] font-bold uppercase tracking-[0.3em] text-[#fdb813] border-b-2 border-[#fdb813] pb-1">Navigate</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold text-[#1a4b7c] mt-3 md:mt-4 tracking-tight">
               Explore Research Sections
             </h2>
           </div>

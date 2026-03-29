@@ -129,19 +129,19 @@ const ConsultancyProjects: React.FC = () => {
 
 
       {/* ── Revenue Trends + Insights Sidebar ─────────────────────────────────── */}
-      <section className="py-16 bg-brand-light">
+      <section className="py-8 md:py-16 bg-brand-light">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
             {/* Section header */}
-            <div className="reveal text-center mb-12">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-10 h-0.5 bg-brand-gold" />
+            <div className="reveal text-center mb-8 md:mb-12">
+              <div className="flex items-center justify-center gap-3 mb-3 md:mb-4">
+                <div className="w-8 md:w-10 h-0.5 bg-brand-gold" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">
                   Data Visualization
                 </span>
-                <div className="w-10 h-0.5 bg-brand-gold" />
+                <div className="w-8 md:w-10 h-0.5 bg-brand-gold" />
               </div>
-              <h2 className="text-2xl md:text-3xl font-display font-bold text-brand-navy mb-3">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-brand-navy mb-2 md:mb-3">
                 Consultancy Revenue Trends
               </h2>
               <p className="text-slate-500 max-w-xl mx-auto text-sm">
@@ -152,7 +152,7 @@ const ConsultancyProjects: React.FC = () => {
             <div className="flex flex-col gap-8">
 
               {/* ── Vertical Bar Chart (full width) ───────────────────────── */}
-              <div className="reveal bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+              <div className="reveal bg-white rounded-2xl p-3 sm:p-6 border border-gray-100 shadow-sm overflow-x-auto">
                 <svg
                   viewBox={`0 0 ${CW} ${CH}`}
                   className="w-full h-auto"
@@ -269,26 +269,26 @@ const ConsultancyProjects: React.FC = () => {
               </div>
 
               {/* ── PDF Download Button ─────────────────────────────────── */}
-              <div className="reveal mt-10 border border-[#E5E7EB] bg-white w-full">
+              <div className="reveal mt-8 md:mt-10 border border-[#E5E7EB] bg-white w-full">
                 <a
                   href="https://vcet.edu.in/wp-content/uploads/2024/06/CONSULTANCY-PROJECTS-revised.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-5 px-6 py-5 group hover:bg-[#F7F9FC] transition-colors duration-200"
+                  className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5 px-4 sm:px-6 py-4 sm:py-5 group hover:bg-[#F7F9FC] transition-colors duration-200"
                 >
-                  <div className="w-14 h-14 flex items-center justify-center bg-[#1a4b7c] text-white flex-shrink-0">
-                    <FileText className="w-6 h-6" />
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center bg-[#1a4b7c] text-white flex-shrink-0">
+                    <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                   <div className="flex-1 min-w-0 text-left">
-                    <h3 className="text-[17px] font-display font-bold text-[#1a4b7c] group-hover:text-[#3a6fa8] transition-colors">
+                    <h3 className="text-[15px] sm:text-[17px] font-display font-bold text-[#1a4b7c] group-hover:text-[#3a6fa8] transition-colors">
                       Consultancy Projects Report
                     </h3>
-                    <p className="text-[14px] text-[#374151] mt-1 leading-relaxed">
+                    <p className="text-[13px] sm:text-[14px] text-[#374151] mt-1 leading-relaxed">
                       View the detailed record of consultancy projects, revenue trends, and industry collaborations executed by VCET faculty.
                     </p>
                   </div>
-                  <div className="flex items-center gap-2 flex-shrink-0 px-4 py-2 border border-[#1a4b7c] text-[#1a4b7c] group-hover:bg-[#1a4b7c] group-hover:text-white transition-colors duration-200">
-                    <span className="text-[14px] font-bold uppercase tracking-[0.15em]">View PDF</span>
+                  <div className="flex items-center gap-2 flex-shrink-0 px-3 sm:px-4 py-2 border border-[#1a4b7c] text-[#1a4b7c] group-hover:bg-[#1a4b7c] group-hover:text-white transition-colors duration-200 min-h-[44px]">
+                    <span className="text-[13px] sm:text-[14px] font-bold uppercase tracking-[0.15em]">View PDF</span>
                     <ExternalLink className="w-4 h-4" />
                   </div>
                 </a>
@@ -299,19 +299,19 @@ const ConsultancyProjects: React.FC = () => {
       </section>
 
       {/* ── Consultancy Portfolio Grid ─────────────────────────────────────────── */}
-      <section className="py-16 bg-white">
+      <section className="py-8 md:py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
             {/* Section header */}
-            <div className="reveal text-center mb-12">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="w-10 h-0.5 bg-brand-gold" />
+            <div className="reveal text-center mb-8 md:mb-12">
+              <div className="flex items-center justify-center gap-3 mb-3 md:mb-4">
+                <div className="w-8 md:w-10 h-0.5 bg-brand-gold" />
                 <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">
                   Industry Partners
                 </span>
-                <div className="w-10 h-0.5 bg-brand-gold" />
+                <div className="w-8 md:w-10 h-0.5 bg-brand-gold" />
               </div>
-              <h2 className="text-2xl md:text-3xl font-display font-bold text-brand-navy mb-3">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-brand-navy mb-2 md:mb-3">
                 Consultancy Portfolio
               </h2>
               <p className="text-slate-500 max-w-xl mx-auto text-sm">

@@ -54,7 +54,7 @@ const DocumentsRequired: React.FC = () => {
 
 
         {/* ── Table Section ── */}
-        <section className="py-20 px-6 bg-[#FBFBFB]">
+        <section className="py-10 md:py-20 px-4 sm:px-6 bg-[#FBFBFB]">
           <div className="max-w-[1200px] mx-auto">
             {error && (
               <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm font-medium text-amber-800">
