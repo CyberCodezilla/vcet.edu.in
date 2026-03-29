@@ -326,9 +326,8 @@ const packageImages = [
 ];
 
 const fallbackBannerSlides = [
-  { src: "/Images/Banner/bruse-banner.png", alt: "Bruse Banner" },
-  { src: "/Images/Banner/yearly-banner.png", alt: "Yearly Banner" },
-];
+    { src: "/Images/Banner/Bruse%20Banner.png", alt: "Bruse Banner" },
+    { src: "/Images/Banner/Yearly%20banner.png", alt: "Yearly Banner" },
 
 const Hero: React.FC = () => {
   const [panelOpen, setPanelOpen] = useState(false);
