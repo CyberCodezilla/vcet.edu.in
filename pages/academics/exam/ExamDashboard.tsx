@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../../components/PageLayout';
 import PageBanner from '../../../components/PageBanner';
@@ -11,7 +11,6 @@ import {
   BarChart, 
   UserCheck, 
   Bell,
-  Search,
   ArrowRight
 } from 'lucide-react';
 
@@ -75,13 +74,6 @@ const categories = [
 ];
 
 const ExamDashboard: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const filteredCategories = categories.filter(category => 
-    category.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    category.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   return (
     <PageLayout>
       <PageBanner
@@ -101,24 +93,10 @@ const ExamDashboard: React.FC = () => {
             <div className="w-16 h-1 bg-brand-gold mt-4 rounded-full" />
           </div>
 
-          {/* Search bar */}
-          <div className="mb-12 max-w-xl reveal" style={{ transitionDelay: '0.1s' }}>
-            <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-brand-blue transition-colors duration-300" />
-              <input
-                type="text"
-                placeholder="Search categories (e.g., Syllabus, Timetable, Result...)"
-                className="w-full pl-12 pr-4 py-4 rounded-2xl border border-slate-200 bg-white focus:outline-none focus:ring-4 focus:ring-brand-blue/5 focus:border-brand-blue transition-all duration-300 shadow-sm"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-          </div>
-
           {/* Categories Grid */}
-          {filteredCategories.length > 0 ? (
+          {categories.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredCategories.map((category, idx) => (
+              {categories.map((category, idx) => (
                 <Link
                   key={idx}
                   to={category.to}
@@ -140,12 +118,7 @@ const ExamDashboard: React.FC = () => {
                 </Link>
               ))}
             </div>
-          ) : (
-            <div className="text-center py-20 reveal">
-              <Search className="w-12 h-12 text-slate-200 mx-auto mb-4" />
-              <p className="text-slate-500">No categories found matching your search.</p>
-            </div>
-          )}
+          ) : null}
         </div>
       </main>
     </PageLayout>

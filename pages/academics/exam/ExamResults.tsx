@@ -75,9 +75,23 @@ const defaultResultGroups: PDFGroup[] = [
   },
   {
     groupName: 'May 2021',
-    pdfs: [
-      { name: 'Civil Engineering Sem IV (May 2021)', url: '/pdfs/exam/466_VCET_CIVIL_Rev2019_Sem-IV-C-SCHEME.pdf' }
-    ]
+    departments: [
+      'Civil Engineering',
+      'Computer Engineering',
+      'Electronics and Telecommunication Engineering',
+      'Instrumentation Engineering',
+      'Information Technology',
+      'Mechanical Engineering'
+    ],
+    pdfs: []
+  },
+  {
+    groupName: 'May 2020',
+    pdfs: []
+  },
+  {
+    groupName: 'May 2019',
+    pdfs: []
   }
 ];
 
