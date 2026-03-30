@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
-import { Shield, Award, Globe, CheckCircle2, Hash } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 /* â”€â”€ Real Patent Data â”€â”€ */
 const patents = [
@@ -161,26 +161,6 @@ const ResearchPatents: React.FC = () => {
           { label: 'Patents' },
         ]}
       />
-
-      {/* â”€â”€ Stats Banner â”€â”€ */}
-      <section className="bg-[#1a4b7c]">
-        <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
-            {[
-              { icon: Hash,        value: '13',  label: 'Patents Listed' },
-              { icon: Shield,      value: '10',  label: 'Indian Patents' },
-              { icon: Globe,       value: '2',   label: 'International' },
-              { icon: Award,       value: '8',   label: 'Depts. Involved' },
-            ].map((s, i) => (
-              <div key={s.label} className="reveal py-5 md:py-8 px-3 md:px-6 text-center" style={{ transitionDelay: `${i * 0.06}s` }}>
-                <s.icon className="w-4 h-4 md:w-5 md:h-5 text-[#fdb813] mx-auto mb-2" />
-                <p className="text-2xl md:text-3xl font-display font-bold text-white tracking-tight">{s.value}</p>
-                <p className="text-white/60 text-[11px] md:text-[14px] uppercase tracking-[0.15em] mt-1">{s.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* â”€â”€ Patent Table â”€â”€ */}
       <section className="py-10 md:py-20 bg-[#F7F9FC]">

@@ -302,18 +302,20 @@ const TeachingLearning: React.FC = () => {
                   and Continuous Improvement.
                 </p>
 
-                {/* Simplified Visual Element */}
+                {/* Diagram Image Holder */}
                 <div className="mt-12">
-                  <div className="bg-slate-50 p-12 rounded-3xl border border-slate-100 flex flex-col items-center justify-center min-h-[360px] shadow-inner text-center">
-                    <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-slate-100">
-                      <ImageIcon className="text-[#002147]/30 w-8 h-8" />
+                  <div className="bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-100 shadow-inner">
+                    <div className="aspect-[16/9] w-full border-2 border-dashed border-[#002147]/20 bg-white rounded-2xl flex flex-col items-center justify-center text-center px-6">
+                      <div className="w-14 h-14 bg-[#002147]/5 rounded-xl border border-[#002147]/15 flex items-center justify-center mb-4">
+                        <ImageIcon className="text-[#002147]/35 w-7 h-7" />
+                      </div>
+                      <p className="text-[#002147] font-bold uppercase tracking-[0.2em] text-[10px] mb-1">
+                        OBE Framework Diagram - Image Holder
+                      </p>
+                      <p className="text-slate-400 text-xs">
+                        Recommended image ratio: 16:9
+                      </p>
                     </div>
-                    <p className="text-[#002147] font-bold uppercase tracking-[0.25em] text-[10px] mb-2">
-                      OBE Framework Diagram
-                    </p>
-                    <p className="text-slate-400 text-xs max-w-sm mx-auto">
-                      A detailed visual mapping of Program Educational Objectives (PEOs) to specific course outcomes, highlighting the continuous feedback loop for academic quality.
-                    </p>
                   </div>
                 </div>
               </div>
