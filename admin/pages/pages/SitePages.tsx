@@ -166,6 +166,106 @@ const aboutEditables = [
   { slug: 'code-of-conduct', title: 'Code of Conduct', description: 'Rules and professional ethics for stakeholders.' },
 ];
 
+const studentCareerEditables = [
+  // Keeping this empty or reverting it if there was nothing originally here
+];
+
+const mmsEditables = [
+  {
+    title: 'About',
+    description: 'Manage the MMS department overview, vision, mission, program highlights, and general information.',
+    links: [
+      { label: 'About MMS', to: '/admin/pages/mms/about/overview/edit' },
+      { label: "Principal's Desk", to: '/admin/pages/mms/about/principal/edit' },
+      { label: "HOD's Desk", to: '/admin/pages/mms/about/hod/edit' },
+      { label: 'MMS Faculty', to: '/admin/pages/mms/about/faculty/edit' },
+      { label: 'DAB', to: '/admin/pages/mms/about/dab/edit' },
+    ],
+  },
+  {
+    title: 'Admission Details',
+    description: 'Manage admission eligibility, entrance exams, scholarship programs, required documents, fee structure, and admission PDF resources.',
+    links: [
+      { label: 'Admission Info', to: '/admin/pages/mms/admission/edit' },
+      { label: 'Scholarship', to: '/admin/pages/mms/scholarship/edit' },
+      { label: 'Documents Required', to: '/admin/pages/mms/documents/edit' },
+      { label: 'Fee Structure', to: '/admin/pages/mms/fees/edit' },
+    ],
+  },
+  {
+    title: 'Experiential Learning',
+    description: 'Manage experiential learning activities including role play, group discussions, entrepreneurial drives, financial literacy programs, and 3D model making.',
+    links: [
+      { label: 'Role Play', to: '/admin/pages/mms/experiential-learning/role-play/edit' },
+      { label: 'Group Discussion', to: '/admin/pages/mms/experiential-learning/group-discussion/edit' },
+      { label: 'Entrepreneurial Drive', to: '/admin/pages/mms/experiential-learning/entrepreneurial-drive/edit' },
+      { label: 'Financial Literacy', to: '/admin/pages/mms/experiential-learning/financial-literacy/edit' },
+      { label: 'NESCO Visit', to: '/admin/pages/mms/experiential-learning/nesco-visit/edit' },
+      { label: '3D Model Making', to: '/admin/pages/mms/experiential-learning/model-making/edit' },
+    ],
+  },
+  {
+    title: 'Training & Placements',
+    description: 'Manage placement objectives, events, training modules, placement galleries, and recruiter list for MMS.',
+    links: [
+      { label: 'Training', to: '/admin/pages/mms/training/edit' },
+      { label: 'Placement Info', to: '/admin/pages/mms/placement-info/edit' },
+      { label: 'OJT & Internships', to: '/admin/pages/mms/ojt-internships/edit' },
+      { label: 'Student Placements', to: '/admin/pages/mms/student-placements/edit' },
+    ],
+  },
+  {
+    title: "Student's Life",
+    description: 'Manage student activities, cultural events, sports, clubs, and campus life content for MMS students.',
+    links: [
+      { label: 'Overview', to: '/admin/pages/mms/students-life/overview/edit' },
+      { label: 'V-Ecstatic (Fest)', to: '/admin/pages/mms/students-life/v-ecstatic/edit' },
+      { label: 'DLLE', to: '/admin/pages/mms/students-life/dlle/edit' },
+      { label: 'Book Review', to: '/admin/pages/mms/students-life/book-review/edit' },
+      { label: 'Add-On Courses', to: '/admin/pages/mms/students-life/add-on-courses/edit' },
+      { label: 'Industry Sessions', to: '/admin/pages/mms/students-life/industry-sessions/edit' },
+      { label: 'Events & Activities', to: '/admin/pages/mms/students-life/events/edit' },
+      { label: 'Rankers & Achievements', to: '/admin/pages/mms/students-life/rankers/edit' },
+      { label: 'PDF Resources', to: '/admin/pages/mms/students-life/pdfs/edit' },
+    ],
+  },
+  {
+    title: 'Syllabus',
+    description: 'Manage MMS syllabus documents, semester-wise course structure, and curriculum downloads.',
+    links: [
+      { label: 'First Year', to: '/admin/pages/mms/syllabus/first-year/edit' },
+      { label: 'Second Year', to: '/admin/pages/mms/syllabus/second-year/edit' },
+    ],
+  },
+  {
+    title: 'Facilities',
+    description: 'Manage MMS department facilities including classrooms, labs, library, computer center, and infrastructure details.',
+    links: [
+      { label: 'Computer Labs', to: '/admin/pages/mms/facilities/computer-labs/edit' },
+      { label: 'Library', to: '/admin/pages/mms/facilities/library/edit' },
+      { label: 'Seminar Hall', to: '/admin/pages/mms/facilities/seminar-hall/edit' },
+      { label: 'Classroom', to: '/admin/pages/mms/facilities/classroom/edit' },
+      { label: 'Gymkhana', to: '/admin/pages/mms/facilities/gymkhana/edit' },
+    ],
+  },
+  {
+    title: "FAQ's (Information Hub)",
+    description: 'Manage frequently asked questions, course structure, specializations, intake, and general program information.',
+    links: [
+      { label: 'FAQ List', to: '/admin/pages/mms/faqs/main-list/edit' },
+      { label: 'Course Structure', to: '/admin/pages/mms/faqs/course-structure/edit' },
+      { label: 'Specializations', to: '/admin/pages/mms/faqs/specializations/edit' },
+      { label: 'Key Features (USP)', to: '/admin/pages/mms/faqs/key-features/edit' },
+      { label: 'Intake & Seats', to: '/admin/pages/mms/faqs/intake-seats/edit' },
+      { label: 'Course Timings', to: '/admin/pages/mms/faqs/timings/edit' },
+      { label: 'Fee Structure Info', to: '/admin/pages/mms/faqs/fees/edit' },
+      { label: 'Scholarship Details', to: '/admin/pages/mms/faqs/scholarship/edit' },
+      { label: 'Admission Steps', to: '/admin/pages/mms/faqs/admission/edit' },
+      { label: 'PDF Resources', to: '/admin/pages/mms/faqs/pdfs/edit' },
+    ],
+  },
+];
+
 const SitePages: React.FC = () => {
   const { pageKey = 'home' } = useParams<{ pageKey: string }>();
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -449,6 +549,67 @@ const SitePages: React.FC = () => {
       </div>
     );
   }
+
+  if (activeTab.key === 'student-career') {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Student & Career Module</h1>
+          <p className="text-sm text-slate-500 mt-1 font-medium">Manage student career services, training programs, and placement statistics.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {studentCareerEditables.map((item) => (
+            <div key={item.title} className="bg-white border border-slate-200/60 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all">
+              <h2 className="text-lg font-bold text-slate-900 tracking-tight">{item.title}</h2>
+              <p className="text-xs text-slate-500 mt-2 font-medium leading-relaxed">{item.description}</p>
+              <div className="flex flex-wrap gap-2 mt-5">
+                {item.links?.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className="inline-flex items-center px-4 py-2.5 rounded-xl bg-[#2563EB] text-white text-[11px] uppercase tracking-wider font-extrabold hover:bg-blue-700 transition-all shadow-sm"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (activeTab.key === 'mms') {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">MMS Module</h1>
+          <p className="text-sm text-slate-500 mt-1 font-medium">Manage MMS department content, training, and placement statistics.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {mmsEditables.map((item) => (
+            <div key={item.title} className="bg-white border border-slate-200/60 rounded-3xl p-6 shadow-sm hover:shadow-md transition-all">
+              <h2 className="text-lg font-bold text-slate-900 tracking-tight">{item.title}</h2>
+              <p className="text-xs text-slate-500 mt-2 font-medium leading-relaxed">{item.description}</p>
+              <div className="flex flex-wrap gap-2 mt-5">
+                {item.links.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className="inline-flex items-center px-4 py-2.5 rounded-xl bg-[#2563EB] text-white text-[11px] uppercase tracking-wider font-extrabold hover:bg-blue-700 transition-all shadow-sm"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
 
   if (activeTab.key !== 'home') {
     return (

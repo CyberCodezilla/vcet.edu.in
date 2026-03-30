@@ -769,3 +769,219 @@ export interface AboutData {
 }
 
 export type AboutPayload = Partial<AboutData>;
+
+// ── Training & Placement ────────────────────────────────────────────────────────
+
+export interface TrainingPoint { point: string; }
+export interface TrainingEvent { srNo: string; eventName: string; resourcePerson: string; conductionDate: string; image?: string | File | null; }
+export interface CareerGuidanceSeminar { title: string; resourceDetails: string; image?: string | File | null; }
+export interface InternshipStep { step: string; }
+export interface GalleryItem { label: string; image?: string | File | null; }
+export interface PlacementObjective { objective: string; }
+export interface PlacementCellMember { name: string; role: string; email: string; phone: string; extension: string; image?: string | File | null; }
+export interface InternshipRecord { srNo: string; studentName: string; specialization: string; company: string; }
+export interface StudentPlacementRecord { srNo: string; studentName: string; specialization: string; company: string; image?: string | File | null; }
+export interface RecruiterBanner { label?: string; image?: string | File | null; }
+
+export interface TrainingPlacementData {
+  id: string;
+  trainingPoints: TrainingPoint[];
+  events: TrainingEvent[];
+  careerGuidance: { guidancePoints: { point: string }[]; seminars: CareerGuidanceSeminar[]; };
+  internshipSteps: InternshipStep[];
+  trainingGallery: GalleryItem[];
+  placementObjectives: PlacementObjective[];
+  placementCellMembers: PlacementCellMember[];
+  softSkillTraining: { paragraphs: { text: string }[]; images: GalleryItem[]; };
+  psychometricTest: { paragraph: string; images: GalleryItem[]; };
+  internshipList: InternshipRecord[];
+  studentPlacements: StudentPlacementRecord[];
+  recruitersBanner: RecruiterBanner;
+  placementGallery: GalleryItem[];
+  updatedAt?: string;
+}
+export type TrainingPlacementPayload = Partial<TrainingPlacementData>;
+
+// ── MMS Experiential Learning ───────────────────────────────────────────────────
+
+export interface MMSExperientialLearningData {
+  id: string;
+  rolePlay: GalleryItem[];
+  groupDiscussion: GalleryItem[];
+  entrepreneurialDrive: GalleryItem[];
+  financialLiteracy: GalleryItem[];
+  nescoVisit: GalleryItem[];
+  modelMaking: GalleryItem[];
+  updatedAt?: string;
+}
+export type MMSExperientialLearningPayload = Partial<MMSExperientialLearningData>;
+
+// ── MMS About ───────────────────────────────────────────────────────────────────
+
+export interface MMSAboutData {
+  id: string;
+  aboutMMS: { description: string; image: string | File | null; };
+  principalDesk: { message: string; photo: string | File | null; };
+  hodDesk: { message: string; photo: string | File | null; };
+  faculty: { name: string; designation: string; photo: string | File | null; }[];
+  dabMembers: { srNo: number; name: string; designation: string; organization: string; role: string; }[];
+  updatedAt?: string;
+}
+export type MMSAboutPayload = Partial<MMSAboutData>;
+
+// ── MMS Admission Details ───────────────────────────────────────────────────────
+
+export interface MMSAdmissionData {
+  id: string;
+  eligibilityCriteria: { generalPercentage: string; reservedPercentage: string; degreeRequirement: string; entranceExams: { exam: string; }[]; };
+  entranceExamination: { primaryExam: string; alternativeExams: { exam: string; }[]; };
+  eligibilityCertificates: { certificate: string; }[];
+  universityLinks: { link: string; url: string; }[];
+  documentsRequired: { document: string; }[];
+  feeSummary: { description: string; reference: string; };
+  admissionPdf: { label: string; url: string; }[];
+  updatedAt?: string;
+}
+export type MMSAdmissionPayload = Partial<MMSAdmissionData>;
+
+// ── MMS Scholarship ─────────────────────────────────────────────────────────────
+
+export interface MMSScholarshipData {
+  id: string;
+  overview: { name: string; category: string; description: string }[];
+  minority: { communities: string; purpose: string };
+  ebc: { schemeName: string; grDates: string; category: string }[];
+  categoryBased: { name: string; category: string; authority: string }[];
+  portal: { name: string; url: string };
+  pdf: { fileUrl: string | File | null; label: string }[];
+  updatedAt?: string;
+}
+export type MMSScholarshipPayload = Partial<MMSScholarshipData>;
+
+// ── MMS Documents Required ──────────────────────────────────────────────────────
+
+export interface MMSDocumentsData {
+  id: string;
+  overview: { requirement: string; copies: string }[];
+  admissionDocs: string[];
+  academicDocs: string[];
+  personalDocs: string[];
+  categoryDocs: string[];
+  specialDocs: string[];
+  additionalDocs: string;
+  checklistPdf: { fileUrl: string | File | null; label: string }[];
+  updatedAt?: string;
+}
+export type MMSDocumentsPayload = Partial<MMSDocumentsData>;
+
+// ── MMS Fee Structure ───────────────────────────────────────────────────────────
+
+export interface MMSFeesData {
+  id: string;
+  overview: { categoryName: string; studentType: string; amount: string }[];
+  categoryDetails: {
+    openFees: string;
+    obcFeesMale: string;
+    obcFeesFemale: string;
+    sbcFees: string;
+    scstFees: string;
+  };
+  concessionReq: { documents: string; formReq: string; portalLink: string };
+  offlinePayment: { mode: string; payeeName: string; location: string }[];
+  onlinePayment: { accountName: string; bankName: string; accountNumber: string; accountType: string; ifsc: string }[];
+  transactionReq: { utrReq: string; mentionOnForm: string };
+  feePdf: { fileUrl: string | File | null; label: string }[];
+  updatedAt?: string;
+}
+export type MMSFeesPayload = Partial<MMSFeesData>;
+
+// ── MMS Student's Life ──────────────────────────────────────────────────────────
+
+export interface MMSStudentsLifeData {
+  id: string;
+  overview: {
+    description: string;
+    highlights: { text: string }[];
+  };
+  vEcstatic: {
+    description: string;
+    activities: { text: string }[];
+    images: GalleryItem[];
+  };
+  dlle: {
+    description: string;
+    projects: { text: string }[];
+    outcomes: { text: string }[];
+    images: GalleryItem[];
+  };
+  bookReview: {
+    description: string;
+    benefits: { text: string }[];
+    images: GalleryItem[];
+  };
+  addOnCourses: {
+    description: string;
+    topics: { text: string }[];
+    objectives: { text: string }[];
+    images: GalleryItem[];
+  };
+  industrySessions: {
+    description: string;
+    learningPoints: { text: string }[];
+    sessions: GalleryItem[];
+  };
+  events: {
+    name: string;
+    description: string;
+    outcome: string;
+    images: GalleryItem[];
+  }[];
+  rankers: {
+    name: string;
+    rank: string;
+    year: string;
+    image: string | File | null;
+  }[];
+  pdfs: {
+    title: string;
+    url: string;
+  }[];
+  updatedAt?: string;
+}
+export type MMSStudentsLifePayload = Partial<MMSStudentsLifeData>;
+
+// ── MMS Syllabus / Facilities / FAQ (Legacy but referenced) ────────────────────
+export interface MMSSyllabusData {
+  id: string;
+  firstYearPdf: { label: string; url: string | File | null };
+  secondYearPdf: { label: string; url: string | File | null };
+  updatedAt?: string;
+}
+export type MMSSyllabusPayload = Partial<MMSSyllabusData>;
+
+export interface MMSFacilitiesData {
+  id: string;
+  computerLabs: GalleryItem[];
+  library: GalleryItem[];
+  seminarHall: GalleryItem[];
+  classrooms: GalleryItem[];
+  gymkhana: GalleryItem[];
+  updatedAt?: string;
+}
+export type MMSFacilitiesPayload = Partial<MMSFacilitiesData>;
+
+export interface MMSFaqData {
+  id: string;
+  mainList: { id: string; question: string; answer: string }[];
+  courseStructure: { duration: string; description: string };
+  specializations: { text: string }[];
+  keyFeatures: { text: string }[];
+  intakeSeats: { title: string; value: string }[];
+  timings: { days: string; hours: string; notes: string };
+  feeAmount: { amount: string; yearLabel: string };
+  scholarshipPoints: { text: string }[];
+  admissionSteps: { text: string }[];
+  resourcePdfs: { title: string; url: string }[];
+  updatedAt?: string;
+}
+export type MMSFaqPayload = Partial<MMSFaqData>;
