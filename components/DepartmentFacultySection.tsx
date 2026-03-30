@@ -93,7 +93,7 @@ const DepartmentFacultySection: React.FC<DepartmentFacultySectionProps> = ({ dep
         <div className="flex items-center divide-x divide-slate-200">
           {[
             { icon: 'ph-users-three',    value: `${faculty.length}`, label: 'Members' },
-            { icon: 'ph-graduation-cap', value: `${faculty.filter(f => f.qualifications?.degrees?.some(d => d.toLowerCase().includes('ph.d') || d.toLowerCase().includes('doctor'))).length}`, label: 'PhD' },
+            { icon: 'ph-graduation-cap', value: `${faculty.filter(f => f.qualifications?.degrees?.some(d => d && typeof d === 'string' && (d.toLowerCase().includes('ph.d') || d.toLowerCase().includes('doctor')))).length}`, label: 'PhD' },
             { icon: 'ph-trophy',         value: `${faculty.reduce((s, f) => s + (f.experience?.teachingYears || 0), 0)}+`, label: 'Yrs Exp.' },
           ].map(stat => (
             <div key={stat.label} className="flex items-center gap-2.5 px-5">

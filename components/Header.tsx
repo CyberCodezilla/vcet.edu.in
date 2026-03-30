@@ -120,7 +120,6 @@ const menuGroups: MenuGroup[] = [
       { label: 'Swayam - NPTEL', href: 'https://nptel.ac.in/' },
       {
         label: 'Honours / Minor Degree Program',
-        href: '/honours-minor',
         subItems: [
           { label: 'Booklet Part 1', href: 'https://vcet.edu.in/wp-content/uploads/2022/08/Honours-Minor-Degree-Program-_Booklet_Part-1-Final.pdf' },
           { label: 'Booklet Part 2', href: 'https://vcet.edu.in/wp-content/uploads/2022/08/Honours-Minor-Degree-Program-Booklet-_Part-2_Detailed-Syllabus-Final.pdf' },

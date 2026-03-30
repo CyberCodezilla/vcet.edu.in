@@ -24,6 +24,8 @@ export function PlacementSectionCard({ title, subtitle, children }: PlacementSec
 interface PlacementImageHolderProps {
   label: string;
   size?: 'default' | 'large';
+  src?: string;
+  imageSrc?: string;
 }
 
 export function PlacementImageHolder({ label, size = 'default' }: PlacementImageHolderProps) {

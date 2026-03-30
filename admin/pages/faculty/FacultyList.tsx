@@ -64,11 +64,14 @@ const FacultyList: React.FC = () => {
   };
 
   const filteredItems = items.filter((item) => {
-    const matchesSearch = !search || 
-      item.basicInfo.fullName.toLowerCase().includes(search.toLowerCase()) || 
-      item.basicInfo.department.toLowerCase().includes(search.toLowerCase());
-    const matchesDept = deptFilter === 'all' || item.basicInfo.department === deptFilter;
-    return matchesSearch && matchesDept;
+    const searchLower = search.toLowerCase();
+    const fullName = item.basicInfo?.fullName || '';
+    const departmentStr = item.basicInfo?.department || '';
+    
+    const matchesSearch = !search ||
+      fullName.toLowerCase().includes(searchLower) ||
+      departmentStr.toLowerCase().includes(searchLower);
+    const matchesDept = deptFilter === 'all' || departmentStr === deptFilter;
   });
 
   return (

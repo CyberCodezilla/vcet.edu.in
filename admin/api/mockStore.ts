@@ -13,6 +13,7 @@ import type {
   ResearchData, ResearchPayload,
   FacilityData, FacilityPayload,
   AboutData, AboutPayload,
+
   AdmissionSection, AdmissionItem,
   ListResponse, ItemResponse, DeleteResponse,
 } from '../types';

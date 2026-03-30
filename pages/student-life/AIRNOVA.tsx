@@ -306,13 +306,13 @@ const CompetitionPanel: React.FC = () => {
                             <tr>
                                 <td className="p-4 border-r border-slate-200">
                                     <div className="flex flex-col items-center">
-                                        <img src="https://via.placeholder.com/200x120/a9a9a9/ffffff?text=Vaayuvaidya+Model" alt="Vaayuvaidya" className="w-[80%] rounded-md object-cover mb-2" />
+                                        <img src="\images\StudentLife\CO-Curricular-activities\Student_clubs\Airnova\About_competion\Vaayuvaidya.png" alt="Vaayuvaidya" className="w-[80%] rounded-md object-cover mb-2" />
                                         <span className="text-sm text-[#475569] mt-2 block">Vaayuvaidya</span>
                                     </div>
                                 </td>
                                 <td className="p-4 border-r border-slate-200">
                                     <div className="flex flex-col items-center">
-                                        <img src="https://via.placeholder.com/200x120/333333/ffffff?text=Dhairya+Model" alt="Dhairya" className="w-[60%] rounded-md object-cover mb-2" />
+                                        <img src="\images\StudentLife\CO-Curricular-activities\Student_clubs\Airnova\About_competion\Dhairya.png" alt="Dhairya" className="w-[60%] rounded-md object-cover mb-2" />
                                         <span className="text-sm text-[#475569] mt-2 block">Dhairya</span>
                                     </div>
                                 </td>
@@ -358,7 +358,7 @@ const TeamPanel: React.FC = () => {
                         <div className="absolute inset-0 bg-[#082b64]/5 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500" />
                         <div className="relative w-48 h-56 rounded-2xl overflow-hidden border-4 border-white shadow-xl bg-slate-100 flex items-center justify-center">
                             <img
-                                src="https://via.placeholder.com/200x200/cccccc/ffffff?text=Vishwas+Palve"
+                                src="\images\StudentLife\CO-Curricular-activities\Student_clubs\Airnova\Team\Vishwas_palve.jpg"
                                 alt="Prof. Vishwas Palve"
                                 className="w-full h-full object-cover"
                             />

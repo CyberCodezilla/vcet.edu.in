@@ -31,12 +31,24 @@ const feesData = [
   {
     title: 'M.E. Fee Structure',
     description: 'Masters of Engineering program fee details.',
+    link: 'https://vcet.edu.in/wp-content/uploads/2025/08/Marthi-English-M.E-2025-26.pdf',
+    year: '2025-26'
+  },
+  {
+    title: 'M.E. Admission Fee Structure & Documents Required',
+    description: 'Masters of Engineering program CAP documents and fee structure.',
     link: 'https://vcet.edu.in/wp-content/uploads/2025/08/FIRST-YEAR-M.-E.-ADMISSION-2025-2026-CAP-DOCUMENTS-FEE-STRUCTURE.pdf',
     year: '2025-26'
   },
   {
-    title: 'MMS Fee Structure',
+    title: 'Master of management studies MMS',
     description: 'Master of Management Studies program fee details.',
+    link: 'https://vcet.edu.in/wp-content/uploads/2025/08/Marthi-English-MMS-2025-26.pdf',
+    year: '2025-26'
+  },
+  {
+    title: 'MMS Admission Fee Structure & Documents Required',
+    description: 'Master of Management Studies program CAP documents and fee structure.',
     link: 'https://vcet.edu.in/wp-content/uploads/2025/08/FIRST-YEAR-M.M.S-ADMISSION-2025-2026-CAP-DOCUMENTS-FEE-STRUCTURE.pdf',
     year: '2025-26'
   },

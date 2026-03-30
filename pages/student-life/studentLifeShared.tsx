@@ -170,11 +170,10 @@ export const IntroSection: React.FC<IntroSectionProps> = ({
                 <img
                   src={image}
                   alt={imageAlt}
-                  className={`h-full w-full aspect-[4/3] ${
-                    imageFit === 'contain'
+                  className={`h-full w-full aspect-[4/3] ${imageFit === 'contain'
                       ? 'object-contain bg-white p-4 sm:p-6'
                       : 'object-cover'
-                  }`}
+                    }`}
                   loading="lazy"
                 />
               )}
@@ -473,10 +472,10 @@ export const ProfileHighlight: React.FC<ProfileHighlightProps> = ({
 
 export const DataTable: React.FC<DataTableProps> = ({ columns, rows }) => {
   return (
-    <div className="reveal overflow-hidden rounded-[24px] border border-brand-blue/10 bg-white shadow-sm">
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-slate-200">
-          <thead className="bg-brand-navy">
+    <div className="reveal overflow-hidden rounded-[24px] border border-brand-blue/10 bg-white shadow-sm w-full">
+      <div className="overflow-x-auto w-full">
+        <table className="w-full table-auto divide-y divide-slate-200 border-collapse">
+          <thead className="bg-brand-navy w-full">
             <tr>
               {columns.map((column) => (
                 <th

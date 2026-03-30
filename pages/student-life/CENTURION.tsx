@@ -296,7 +296,7 @@ const TeamPanel: React.FC = () => {
             <div className="absolute inset-0 bg-[#082b64]/5 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500" />
             <div className="relative w-48 h-56 rounded-2xl overflow-hidden border-4 border-white shadow-xl bg-slate-100">
               <img
-                src="https://vcet.edu.in/public/images/Team/Kamlesh-Bachkar.jpg"
+                src="\images\StudentLife\CO-Curricular-activities\Student_clubs\CENTURION\team\Mr_Kamlesh_Bachkar.jpg"
                 alt="Mr. Kamlesh Bachkar"
                 className="w-full h-full object-cover"
               />
@@ -432,13 +432,32 @@ const ContactPanel: React.FC = () => {
 const SponsorsPanel: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref as React.RefObject<Element>);
+  const sponsors = [
+    'Ace.png',
+    'Dalmia.png',
+    'Galaxy_coating.png',
+    'HT.png',
+    'Kiran.png',
+    'mark.png',
+    'mbm_engineering.png',
+    'om_vir.png',
+    'Sigma_multitech.png',
+    'subAero.png',
+    'the_thermocol.png',
+    'turning_tech.png',
+    'union_bank.png'
+  ];
   return (
     <div ref={ref} className={`p-8 lg:p-12 space-y-10 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
       <SectionHeading title="Our Sponsors" />
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
-          <div key={i} className="aspect-square rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-[10px] text-[#94a3b8] italic">
-            Sponsor {i}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        {sponsors.map((sponsor, i) => (
+          <div key={i} className="aspect-square rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center overflow-hidden">
+            <img
+              src={`/images/StudentLife/CO-Curricular-activities/Student_clubs/CENTURION/sponsors/${sponsor}`}
+              alt={`Sponsor ${i + 1}`}
+              className="w-full h-full object-contain p-2"
+            />
           </div>
         ))}
       </div>

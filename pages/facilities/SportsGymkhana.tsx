@@ -46,12 +46,12 @@ const competitionsList = [
 ];
 
 const competitionImages = [
-  'public/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement1.jpg',
-  'public/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement2.jpg',
-  'public/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement3.jpg',
-  'public/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement4.jpg',
-  'public/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement5-e1752912401447.jpg',
-  'public/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement6.jpg',
+  '/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement1.jpg',
+  '/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement2.jpg',
+  '/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement3.jpg',
+  '/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement4.jpg',
+  '/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement5-e1752912401447.jpg',
+  '/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement6.jpg',
 ];
 
 const studentAchievements = [

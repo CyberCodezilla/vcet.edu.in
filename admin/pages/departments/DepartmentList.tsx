@@ -88,9 +88,12 @@ const DepartmentList: React.FC = () => {
   };
 
   const filteredItems = items.filter((item) => {
-    return !search || 
-           item.name.toLowerCase().includes(search.toLowerCase()) || 
-           item.slug.toLowerCase().includes(search.toLowerCase());
+    const searchLower = search.toLowerCase();
+    const itemName = item.name || '';
+    const itemSlug = item.slug || '';
+    return !search ||
+           itemName.toLowerCase().includes(searchLower) ||
+           itemSlug.toLowerCase().includes(searchLower);
   });
 
   const activeCount = items.filter(i => i.is_active).length;

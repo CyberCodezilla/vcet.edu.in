@@ -20,6 +20,8 @@ export function ExperientialSectionCard({ title, children }: ExperientialSection
 
 interface ExperientialImageHolderProps {
   label: string;
+  src?: string;
+  imageSrc?: string;
 }
 
 export function ExperientialImageHolder({ label }: ExperientialImageHolderProps) {

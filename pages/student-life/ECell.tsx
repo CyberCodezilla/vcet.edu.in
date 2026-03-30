@@ -375,9 +375,7 @@ const ECell: React.FC = () => {
                   <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Faculty In Charge</h3>
                   
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 bg-slate-50 p-6 rounded-xl border border-slate-100">
-                    <div className="w-20 h-20 rounded-full bg-brand-navylight flex flex-shrink-0 items-center justify-center text-[#1a4b7c]">
-                      <i className="ph ph-user text-4xl"></i>
-                    </div>
+                    <img src="/images/Trainging & Placement/e-cell/ecell-cordinator.jpg" alt="E-Cell Coordinator" className="w-20 h-20 rounded-full object-cover flex-shrink-0 border border-slate-200" />
                     <div>
                       <h4 className="text-xl font-bold text-[#1a4b7c] mb-1">Mr. Vikrant Agaskar</h4>
                       <p className="flex items-center gap-2 mb-1">
@@ -420,8 +418,25 @@ const ECell: React.FC = () => {
             </section>
           )}
 
+          {/* Gallery Tab */}
+          {activeId === 'gallery' && (
+            <section className="reveal bg-white p-8 lg:p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB]">
+              <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
+                <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Gallery</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                  {[1, 2, 3, 4, 5, 6].map((idx) => (
+                    <div key={idx} className="aspect-[4/3] bg-slate-100 rounded-xl border border-slate-200 flex flex-col items-center justify-center text-slate-400 overflow-hidden hover:shadow-md transition-shadow">
+                      <i className="ph ph-image text-4xl mb-3" />
+                      <span className="text-sm font-medium">Image Placeholder {idx}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
           {/* Placeholders for other tabs */}
-          {activeId !== 'about' && activeId !== 'events' && activeId !== 'coordinator' && (
+          {activeId !== 'about' && activeId !== 'events' && activeId !== 'coordinator' && activeId !== 'gallery' && (
             <section className="reveal bg-white p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB] flex flex-col items-center justify-center text-center min-h-[400px]">
               <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center mb-6">
                 <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-[#1a4b7c]`} />

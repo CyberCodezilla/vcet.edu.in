@@ -259,6 +259,20 @@ const FacultyForm = lazy(() => import('./admin/pages/faculty/FacultyForm'));
 const DepartmentLanding = lazy(() => import('./admin/pages/departments/DepartmentLanding'));
 const DepartmentList = lazy(() => import('./admin/pages/departments/DepartmentList'));
 const DepartmentForm = lazy(() => import('./admin/pages/departments/DepartmentForm'));
+const MMSAdmissionForm = lazy(() => import('./admin/pages/mms/MMSAdmissionForm'));
+const MMSScholarshipForm = lazy(() => import('./admin/pages/mms/MMSScholarshipForm'));
+const MMSDocumentsForm = lazy(() => import('./admin/pages/mms/MMSDocumentsForm'));
+const MMSFeesForm = lazy(() => import('./admin/pages/mms/MMSFeesForm'));
+const MMSTrainingForm = lazy(() => import('./admin/pages/mms/MMSTrainingForm'));
+const MMSPlacementInfoForm = lazy(() => import('./admin/pages/mms/MMSPlacementInfoForm'));
+const MMSOjtInternshipForm = lazy(() => import('./admin/pages/mms/MMSOjtInternshipForm'));
+const MMSStudentPlacementsForm = lazy(() => import('./admin/pages/mms/MMSStudentPlacementsForm'));
+const MMSExperientialLearningForm = lazy(() => import('./admin/pages/mms/MMSExperientialLearningForm'));
+const MMSAboutForm = lazy(() => import('./admin/pages/mms/MMSAboutForm'));
+const MMSStudentsLifeForm = lazy(() => import('./admin/pages/mms/MMSStudentsLifeForm'));
+const MMSSyllabusForm = lazy(() => import('./admin/pages/mms/MMSSyllabusForm'));
+const MMSFacilitiesForm = lazy(() => import('./admin/pages/mms/MMSFacilitiesForm'));
+const MMSFaqsForm = lazy(() => import('./admin/pages/mms/MMSFaqsForm'));
 
 /* ── Loading Spinner ── */
 const PageLoader = () => (
@@ -476,116 +490,132 @@ function App() {
               <Route path="faculty" element={<GermanClubFaculty />} />
             </Route>
 
-            {/* MMS mini-site */}
-            <Route path="/mms" element={<MMSHome />} />
-            <Route path="/mms/about" element={<MMSAbout />} />
-            <Route path="/mms/about/principals-desk" element={<MMSPrincipalsDesk />} />
-            <Route path="/mms/about/hods-desk" element={<MMSHODsDesk />} />
-            <Route path="/mms/about/faculty" element={<MMSFaculty />} />
-            <Route path="/mms/about/vision-mission" element={<MMSVisionMission />} />
-            <Route path="/mms/about/dab" element={<MMSDAB />} />
-            <Route path="/mms/about/program-outcomes" element={<MMSProgramOutcomes />} />
-            <Route path="/mms/admission" element={<MMSAdmission />} />
-            <Route path="/mms/admission/scholarship" element={<MMSScholarship />} />
-            <Route path="/mms/admission/documents-required" element={<MMSDocumentsRequired />} />
-            <Route path="/mms/admission/fees-structure" element={<MMSFeesStructure />} />
-            <Route path="/mms/admission-details" element={<MMSAdmission />} />
-            <Route path="/mms/admission-details/scholarship" element={<MMSScholarship />} />
-            <Route path="/mms/admission-details/documents-required" element={<MMSDocumentsRequired />} />
-            <Route path="/mms/admission-details/fees-structure" element={<MMSFeesStructure />} />
-            <Route path="/mms/experiential-learning" element={<MMSExperientialLearning />} />
-            <Route path="/mms/experiential-learning/role-play" element={<MMSExperientialRolePlay />} />
-            <Route path="/mms/experiential-learning/group-discussion" element={<MMSExperientialGroupDiscussion />} />
-            <Route path="/mms/experiential-learning/entrepreneurial-drive" element={<MMSExperientialEntrepreneurialDrive />} />
-            <Route path="/mms/experiential-learning/financial-literacy-program" element={<MMSExperientialFinancialLiteracy />} />
-            <Route path="/mms/experiential-learning/nesco-bombay-exhibition-centre" element={<MMSExperientialNesco />} />
-            <Route path="/mms/experiential-learning/3d-model-making-presentation" element={<MMSExperientialModelMaking />} />
-            <Route path="/mms/training-placement/training" element={<MMSTraining />} />
-            <Route path="/mms/training-placement/training/events" element={<MMSTrainingEvents />} />
-            <Route path="/mms/training-placement/training/career-guidance" element={<MMSTrainingCareerGuidance />} />
-            <Route path="/mms/training-placement/training/internship" element={<MMSTrainingInternship />} />
-            <Route path="/mms/training-placement/training/gallery" element={<MMSTrainingGallery />} />
-            <Route path="/mms/training-placement/placement" element={<MMSPlacement />} />
-            <Route path="/mms/training-placement/placement/soft-skill-training" element={<MMSPlacementSoftSkillTraining />} />
-            <Route path="/mms/training-placement/placement/psycometric-test" element={<MMSPlacementPsycometricTest />} />
-            <Route path="/mms/training-placement/placement/psychometric-test" element={<MMSPlacementPsycometricTest />} />
-            <Route path="/mms/training-placement/placement/placement-cell" element={<MMSPlacementCell />} />
-            <Route path="/mms/training-placement/placement/gallery" element={<MMSPlacementGallery />} />
-            <Route path="/mms/training-placement/placement/our-recruiters" element={<MMSPlacementRecruiters />} />
-            <Route path="/mms/training-placement/placement/students-placements" element={<MMSPlacementStudentsPlacements />} />
-            <Route path="/mms/training-placement/placement/internships" element={<MMSPlacementInternships />} />
-            <Route path="/mms/students-life" element={<MMSStudentsLife />} />
-            <Route path="/mms/students-life/v-ecstatic" element={<MMSStudentsLifeVEcstatic />} />
-            <Route path="/mms/students-life/dlle" element={<MMSStudentsLifeDLLE />} />
-            <Route path="/mms/students-life/book-review" element={<MMSStudentsLifeBookReview />} />
-            <Route path="/mms/students-life/about-add-on-courses" element={<MMSStudentsLifeAboutAddOnCourses />} />
-            <Route path="/mms/students-life/add-on-courses-powerbi" element={<MMSStudentsLifePowerBi />} />
-            <Route path="/mms/students-life/add-on-courses-advance-excel" element={<MMSStudentsLifeAdavanceExcel />} />
-            <Route path="/mms/students-life/add-on-courses-adavance-excel" element={<MMSStudentsLifeAdavanceExcel />} />
-            <Route path="/mms/students-life/industry-expert-sessions" element={<MMSStudentsLifeIndustryExpertSessions />} />
-            <Route path="/mms/students-life/nsim-training" element={<MMSStudentsLifeNSIMTraining />} />
-            <Route path="/mms/students-life/oscillations" element={<MMSStudentsLifeOscillations />} />
-            <Route path="/mms/students-life/ideathon-1-0" element={<MMSStudentsLifeIdeathon />} />
-            <Route path="/mms/students-life/rankers" element={<MMSStudentsLifeRankers />} />
-            <Route path="/mms/facilities" element={<MMSFacilities />} />
-            <Route path="/mms/facilities/library" element={<MMSFacilitiesLibrary />} />
-            <Route path="/mms/facilities/seminar-hall" element={<MMSFacilitiesSeminarHall />} />
-            <Route path="/mms/facilities/classroom" element={<MMSFacilitiesClassroom />} />
-            <Route path="/mms/facilities/gymkhana" element={<MMSFacilitiesGymkhana />} />
-            <Route path="/mms/faqs" element={<MMSFAQs />} />
+          {/* MMS mini-site */}
+          <Route path="/mms" element={<MMSHome />} />
+          <Route path="/mms/about" element={<MMSAbout />} />
+          <Route path="/mms/about/principals-desk" element={<MMSPrincipalsDesk />} />
+          <Route path="/mms/about/hods-desk" element={<MMSHODsDesk />} />
+          <Route path="/mms/about/faculty" element={<MMSFaculty />} />
+          <Route path="/mms/about/vision-mission" element={<MMSVisionMission />} />
+          <Route path="/mms/about/dab" element={<MMSDAB />} />
+          <Route path="/mms/about/program-outcomes" element={<MMSProgramOutcomes />} />
+          <Route path="/mms/admission" element={<MMSAdmission />} />
+          <Route path="/mms/admission/scholarship" element={<MMSScholarship />} />
+          <Route path="/mms/admission/documents-required" element={<MMSDocumentsRequired />} />
+          <Route path="/mms/admission/fees-structure" element={<MMSFeesStructure />} />
+          <Route path="/mms/admission-details" element={<MMSAdmission />} />
+          <Route path="/mms/admission-details/scholarship" element={<MMSScholarship />} />
+          <Route path="/mms/admission-details/documents-required" element={<MMSDocumentsRequired />} />
+          <Route path="/mms/admission-details/fees-structure" element={<MMSFeesStructure />} />
+          <Route path="/mms/experiential-learning" element={<MMSExperientialLearning />} />
+          <Route path="/mms/experiential-learning/role-play" element={<MMSExperientialRolePlay />} />
+          <Route path="/mms/experiential-learning/group-discussion" element={<MMSExperientialGroupDiscussion />} />
+          <Route path="/mms/experiential-learning/entrepreneurial-drive" element={<MMSExperientialEntrepreneurialDrive />} />
+          <Route path="/mms/experiential-learning/financial-literacy-program" element={<MMSExperientialFinancialLiteracy />} />
+          <Route path="/mms/experiential-learning/nesco-bombay-exhibition-centre" element={<MMSExperientialNesco />} />
+          <Route path="/mms/experiential-learning/3d-model-making-presentation" element={<MMSExperientialModelMaking />} />
+          <Route path="/mms/training-placement/training" element={<MMSTraining />} />
+          <Route path="/mms/training-placement/training/events" element={<MMSTrainingEvents />} />
+          <Route path="/mms/training-placement/training/career-guidance" element={<MMSTrainingCareerGuidance />} />
+          <Route path="/mms/training-placement/training/internship" element={<MMSTrainingInternship />} />
+          <Route path="/mms/training-placement/training/gallery" element={<MMSTrainingGallery />} />
+          <Route path="/mms/training-placement/placement" element={<MMSPlacement />} />
+          <Route path="/mms/training-placement/placement/soft-skill-training" element={<MMSPlacementSoftSkillTraining />} />
+          <Route path="/mms/training-placement/placement/psycometric-test" element={<MMSPlacementPsycometricTest />} />
+          <Route path="/mms/training-placement/placement/psychometric-test" element={<MMSPlacementPsycometricTest />} />
+          <Route path="/mms/training-placement/placement/placement-cell" element={<MMSPlacementCell />} />
+          <Route path="/mms/training-placement/placement/gallery" element={<MMSPlacementGallery />} />
+          <Route path="/mms/training-placement/placement/our-recruiters" element={<MMSPlacementRecruiters />} />
+          <Route path="/mms/training-placement/placement/students-placements" element={<MMSPlacementStudentsPlacements />} />
+          <Route path="/mms/training-placement/placement/internships" element={<MMSPlacementInternships />} />
+          <Route path="/mms/students-life" element={<MMSStudentsLife />} />
+          <Route path="/mms/students-life/v-ecstatic" element={<MMSStudentsLifeVEcstatic />} />
+          <Route path="/mms/students-life/dlle" element={<MMSStudentsLifeDLLE />} />
+          <Route path="/mms/students-life/book-review" element={<MMSStudentsLifeBookReview />} />
+          <Route path="/mms/students-life/about-add-on-courses" element={<MMSStudentsLifeAboutAddOnCourses />} />
+          <Route path="/mms/students-life/add-on-courses-powerbi" element={<MMSStudentsLifePowerBi />} />
+          <Route path="/mms/students-life/add-on-courses-advance-excel" element={<MMSStudentsLifeAdavanceExcel />} />
+          <Route path="/mms/students-life/add-on-courses-adavance-excel" element={<MMSStudentsLifeAdavanceExcel />} />
+          <Route path="/mms/students-life/industry-expert-sessions" element={<MMSStudentsLifeIndustryExpertSessions />} />
+          <Route path="/mms/students-life/nsim-training" element={<MMSStudentsLifeNSIMTraining />} />
+          <Route path="/mms/students-life/oscillations" element={<MMSStudentsLifeOscillations />} />
+          <Route path="/mms/students-life/ideathon-1-0" element={<MMSStudentsLifeIdeathon />} />
+          <Route path="/mms/students-life/rankers" element={<MMSStudentsLifeRankers />} />
+          <Route path="/mms/facilities" element={<MMSFacilities />} />
+          <Route path="/mms/facilities/library" element={<MMSFacilitiesLibrary />} />
+          <Route path="/mms/facilities/seminar-hall" element={<MMSFacilitiesSeminarHall />} />
+          <Route path="/mms/facilities/classroom" element={<MMSFacilitiesClassroom />} />
+          <Route path="/mms/facilities/gymkhana" element={<MMSFacilitiesGymkhana />} />
+          <Route path="/mms/faqs" element={<MMSFAQs />} />
 
-            {/* ─── Admin Panel ─── */}
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/dashboard" element={<Navigate to="/admin" replace />} />
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute>
-                  <AdminLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<AdminDashboard />} />
-              <Route path="notices" element={<NoticesList />} />
-              <Route path="notices/new" element={<NoticeForm />} />
-              <Route path="notices/:id/edit" element={<NoticeForm />} />
-              <Route path="events" element={<EventsList />} />
-              <Route path="events/new" element={<EventForm />} />
-              <Route path="events/:id/edit" element={<EventForm />} />
-              <Route path="placements" element={<PlacementsList />} />
-              <Route path="placements/new" element={<PlacementForm />} />
-              <Route path="placements/:id/edit" element={<PlacementForm />} />
-              <Route path="home/placement-stats" element={<PlacementStats />} />
-              <Route path="hero-slides" element={<HeroSlidesList />} />
-              <Route path="hero-slides/new" element={<HeroSlideForm />} />
-              <Route path="hero-slides/:id/edit" element={<HeroSlideForm />} />
-              <Route path="galleries" element={<GalleryList />} />
-              <Route path="galleries/new" element={<GalleryForm />} />
-              <Route path="galleries/:id/edit" element={<GalleryForm />} />
-              <Route path="news-ticker" element={<NewsTickerList />} />
-              <Route path="news-ticker/new" element={<NewsTickerForm />} />
-              <Route path="news-ticker/:id/edit" element={<NewsTickerForm />} />
-              <Route path="achievements" element={<AchievementsList />} />
-              <Route path="achievements/new" element={<AchievementsForm />} />
-              <Route path="achievements/:id/edit" element={<AchievementsForm />} />
-              <Route path="testimonials" element={<TestimonialsList />} />
-              <Route path="testimonials/new" element={<TestimonialsForm />} />
-              <Route path="testimonials/:id/edit" element={<TestimonialsForm />} />
-              <Route path="gallery" element={<GalleryPage />} />
-              <Route path="placement-partners" element={<PlacementPartnersList />} />
-              <Route path="placement-partners/new" element={<PlacementPartnersForm />} />
-              <Route path="placement-partners/:id/edit" element={<PlacementPartnersForm />} />
-              <Route path="enquiries" element={<EnquiriesList />} />
-              <Route path="pages" element={<Navigate to="home" replace />} />
-              <Route path="pages/departments" element={<DepartmentLanding />} />
-              <Route path="pages/departments/list" element={<DepartmentList />} />
-              <Route path="pages/departments/list/create" element={<DepartmentForm />} />
-              <Route path="pages/departments/list/:slug/edit" element={<DepartmentForm />} />
-              <Route path="pages/faculty" element={<FacultyList />} />
-              <Route path="pages/faculty/create" element={<FacultyForm />} />
-              <Route path="pages/faculty/:id/edit" element={<FacultyForm />} />
-              <Route path="pages/:pageKey" element={<SitePages />} />
-            </Route>
+          {/* ─── Admin Panel ─── */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={<Navigate to="/admin" replace />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<AdminDashboard />} />
+            <Route path="notices" element={<NoticesList />} />
+            <Route path="notices/new" element={<NoticeForm />} />
+            <Route path="notices/:id/edit" element={<NoticeForm />} />
+            <Route path="events" element={<EventsList />} />
+            <Route path="events/new" element={<EventForm />} />
+            <Route path="events/:id/edit" element={<EventForm />} />
+            <Route path="placements" element={<PlacementsList />} />
+            <Route path="placements/new" element={<PlacementForm />} />
+            <Route path="placements/:id/edit" element={<PlacementForm />} />
+            <Route path="home/placement-stats" element={<PlacementStats />} />
+            <Route path="hero-slides" element={<HeroSlidesList />} />
+            <Route path="hero-slides/new" element={<HeroSlideForm />} />
+            <Route path="hero-slides/:id/edit" element={<HeroSlideForm />} />
+            <Route path="galleries" element={<GalleryList />} />
+            <Route path="galleries/new" element={<GalleryForm />} />
+            <Route path="galleries/:id/edit" element={<GalleryForm />} />
+            <Route path="news-ticker" element={<NewsTickerList />} />
+            <Route path="news-ticker/new" element={<NewsTickerForm />} />
+            <Route path="news-ticker/:id/edit" element={<NewsTickerForm />} />
+            <Route path="achievements" element={<AchievementsList />} />
+            <Route path="achievements/new" element={<AchievementsForm />} />
+            <Route path="achievements/:id/edit" element={<AchievementsForm />} />
+            <Route path="testimonials" element={<TestimonialsList />} />
+            <Route path="testimonials/new" element={<TestimonialsForm />} />
+            <Route path="testimonials/:id/edit" element={<TestimonialsForm />} />
+            <Route path="gallery" element={<GalleryPage />} />
+            <Route path="placement-partners" element={<PlacementPartnersList />} />
+            <Route path="placement-partners/new" element={<PlacementPartnersForm />} />
+            <Route path="placement-partners/:id/edit" element={<PlacementPartnersForm />} />
+            <Route path="enquiries" element={<EnquiriesList />} />
+            <Route path="pages" element={<Navigate to="home" replace />} />
+            <Route path="pages/departments" element={<DepartmentLanding />} />
+            <Route path="pages/departments/list" element={<DepartmentList />} />
+            <Route path="pages/departments/list/create" element={<DepartmentForm />} />
+            <Route path="pages/departments/list/:slug/edit" element={<DepartmentForm />} />
+            <Route path="pages/faculty" element={<FacultyList />} />
+            <Route path="pages/faculty/create" element={<FacultyForm />} />
+            <Route path="pages/faculty/:id/edit" element={<FacultyForm />} />
+            {/* ── MMS ── */}
+            <Route path="pages/mms/training-placement/edit" element={<MMSTrainingForm />} />
+            <Route path="pages/mms/training/edit" element={<MMSTrainingForm />} />
+            <Route path="pages/mms/placement-info/edit" element={<MMSPlacementInfoForm />} />
+            <Route path="pages/mms/ojt-internships/edit" element={<MMSOjtInternshipForm />} />
+            <Route path="pages/mms/student-placements/edit" element={<MMSStudentPlacementsForm />} />
+            <Route path="pages/mms/admission/edit" element={<MMSAdmissionForm />} />
+            <Route path="pages/mms/scholarship/edit" element={<MMSScholarshipForm />} />
+            <Route path="pages/mms/documents/edit" element={<MMSDocumentsForm />} />
+            <Route path="pages/mms/fees/edit" element={<MMSFeesForm />} />
+            <Route path="pages/mms/experiential-learning/:section/edit" element={<MMSExperientialLearningForm />} />
+            <Route path="pages/mms/about/:section/edit" element={<MMSAboutForm />} />
+            <Route path="pages/mms/students-life/:section/edit" element={<MMSStudentsLifeForm />} />
+            <Route path="pages/mms/syllabus/:section/edit" element={<MMSSyllabusForm />} />
+            <Route path="pages/mms/facilities/:section/edit" element={<MMSFacilitiesForm />} />
+            <Route path="pages/mms/faqs/:section/edit" element={<MMSFaqsForm />} />
+            <Route path="pages/:pageKey" element={<SitePages />} />
+          </Route>
           </Routes>
         </Suspense>
       </BrowserRouter>

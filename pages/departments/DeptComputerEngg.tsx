@@ -655,20 +655,20 @@ const DeptComputerEngg: React.FC = () => {
               { newsletter: 'Bramheti Patil', wall: 'Vaishnavi Gaikwad', emag: 'Akhila Anilkumar' },
               { newsletter: 'Swara Gharat', wall: 'Aditya Bhandare', emag: 'Hrushikesh Shetty' },
               { newsletter: 'Dhruv Save', wall: 'Paarth Baradia', emag: 'Rohit Redekar' },
-              { newsletter: 'Amey Chaudhari', wall: 'Prathmesh Ingawale', emag: '' },
-              { newsletter: 'Srushti Gawande', wall: 'Mohit Raje', emag: '' },
-              { newsletter: 'Karan Sankhe', wall: 'Vaishnavi Gaikwad', emag: '' },
-              { newsletter: 'Vrusharth Nirmal', wall: 'Pratima Bombe', emag: '' },
-              { newsletter: 'Kshitij Vyas', wall: 'Paarth Baradia', emag: '' },
-              { newsletter: 'Arya Raul', wall: 'Aditya Bhandare', emag: '' },
-              { newsletter: 'Atharva Chavan', wall: '', emag: '' },
-              { newsletter: 'Kunj Vadhia', wall: '', emag: '' },
-              { newsletter: 'Ankita Yadav', wall: '', emag: '' },
-              { newsletter: 'Kartik Rathod', wall: '', emag: '' },
-              { newsletter: 'Sanket Bauskar', wall: '', emag: '' },
-              { newsletter: 'Aditya Shete', wall: '', emag: '' },
-              { newsletter: 'Yash Mohadikar', wall: '', emag: '' },
-              { newsletter: 'Aakansha Chaudhari', wall: '', emag: '' },
+              { newsletter: '', wall: 'Amey Chaudhari', emag: 'Prathmesh Ingawale' },
+              { newsletter: '', wall: 'Srushti Gawande', emag: 'Mohit Raje' },
+              { newsletter: '', wall: 'Karan Sankhe', emag: 'Vaishnavi Gaikwad' },
+              { newsletter: '', wall: 'Vrusharth Nirmal', emag: 'Pratima Bombe' },
+              { newsletter: '', wall: 'Kshitij Vyas', emag: 'Paarth Baradia' },
+              { newsletter: '', wall: 'Arya Raul', emag: 'Aditya Bhandare' },
+              { newsletter: '', wall: 'Atharva Chavan', emag: '' },
+              { newsletter: '', wall: 'Kunj Vadhia', emag: '' },
+              { newsletter: '', wall: 'Ankita Yadav', emag: '' },
+              { newsletter: '', wall: 'Kartik Rathod', emag: '' },
+              { newsletter: '', wall: 'Sanket Bauskar', emag: '' },
+              { newsletter: '', wall: 'Aditya Shete', emag: '' },
+              { newsletter: '', wall: 'Yash Mohadikar', emag: '' },
+              { newsletter: '', wall: 'Aakansha Chaudhari', emag: '' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-8">
@@ -689,17 +689,9 @@ const DeptComputerEngg: React.FC = () => {
                   <h4 className="text-lg font-bold text-brand-navy mb-3">E-Magazine</h4>
                   <div className="space-y-2">{emagLinks.map((item) => <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>{item.label}</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>)}</div>
                 </div>
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mt-8">
                   <div className="px-4 py-3 border-b border-slate-100 bg-brand-navylight/40">
-                    <h4 className="text-lg font-bold text-brand-navy">Committee Details</h4>
-                    <p className="text-sm text-slate-600 mt-1">Staff Incharge: Mr. Vikrant Agaskar | vikrant.agaskar@vcet.edu.in | 9822836508</p>
-                  </div>
-                  <div className="px-4 pt-5 pb-2 flex justify-center">
-                    <div className="w-full max-w-[340px] rounded-2xl border-2 border-dashed border-slate-300 bg-white px-4 py-12 text-center">
-                      <i className="ph ph-image text-4xl text-slate-400" />
-                      <p className="mt-3 text-sm font-semibold text-slate-500">Staff Image Placeholder</p>
-                      <p className="mt-1 text-xs text-slate-400">Add image later in this area</p>
-                    </div>
+                    <h4 className="text-lg font-bold text-brand-blue uppercase">Student Committee:</h4>
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
@@ -713,9 +705,9 @@ const DeptComputerEngg: React.FC = () => {
                       <tbody>
                         {committeeRows.map((row, idx) => (
                           <tr key={`${row.newsletter}-${idx}`} className={`border-t border-slate-100 ${idx % 2 === 1 ? 'bg-slate-50/60' : 'bg-white'}`}>
-                            <td className="px-4 py-3 text-slate-600">{row.newsletter || '-'}</td>
-                            <td className="px-4 py-3 text-slate-600">{row.wall || '-'}</td>
-                            <td className="px-4 py-3 text-slate-600">{row.emag || '-'}</td>
+                            <td className="px-4 py-3 text-slate-600">{row.newsletter}</td>
+                            <td className="px-4 py-3 text-slate-600">{row.wall}</td>
+                            <td className="px-4 py-3 text-slate-600">{row.emag}</td>
                           </tr>
                         ))}
                       </tbody>

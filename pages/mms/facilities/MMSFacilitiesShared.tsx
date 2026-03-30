@@ -24,6 +24,8 @@ export function FacilitiesSectionCard({ title, subtitle, children }: FacilitiesS
 interface FacilitiesImageHolderProps {
   label: string;
   size?: 'default' | 'large';
+  src?: string;
+  imageSrc?: string;
 }
 
 export function FacilitiesImageHolder({ label, size = 'default' }: FacilitiesImageHolderProps) {

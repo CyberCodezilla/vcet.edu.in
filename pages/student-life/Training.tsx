@@ -200,10 +200,7 @@ const Training: React.FC = () => {
                         <td className="p-4 align-top font-medium text-slate-500">1</td>
                         <td className="p-4 align-top font-semibold text-brand-navy">
                           Aptitude Training
-                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal">Image Placeholder</span>
-                          </div>
+                          <img src="/Images/Trainging & Placement/Training/training-events1.png" alt="Aptitude Training" className="mt-4 w-32 h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                         <td className="p-4 align-top space-y-3">
                           <p>
@@ -223,10 +220,7 @@ const Training: React.FC = () => {
                         <td className="p-4 align-top font-medium text-slate-500">2</td>
                         <td className="p-4 align-top font-semibold text-brand-navy">
                           AMCAT Test
-                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal">Image Placeholder</span>
-                          </div>
+                          <img src="/images/Trainging & Placement/Training/training-events2.png" alt="AMCAT Test" className="mt-4 w-32 h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                         <td className="p-4 align-top space-y-3">
                           <p>
@@ -246,10 +240,8 @@ const Training: React.FC = () => {
                         <td className="p-4 align-top font-medium text-slate-500">3</td>
                         <td className="p-4 align-top font-semibold text-brand-navy">
                           Aptitude Test Series
-                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal">Image Placeholder</span>
-                          </div>
+                                  <img src="/images/Trainging & Placement/Training/training-events3.jpg" alt="Aptitude Test Series" className="mt-4 w-32 h-24 object-cover rounded-lg border border-slate-200" />
+
                         </td>
                         <td className="p-4 align-top space-y-3">
                           <p>
@@ -269,10 +261,7 @@ const Training: React.FC = () => {
                         <td className="p-4 align-top font-medium text-slate-500">4</td>
                         <td className="p-4 align-top font-semibold text-brand-navy">
                           MaTPO Aptitude Idol-2019
-                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal">Image Placeholder</span>
-                          </div>
+                           <img src="/images/Trainging & Placement/Training/training-events4.png" alt="MaTPO Aptitude Idol-2019" className="mt-4 w-32 h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                         <td className="p-4 align-top space-y-3">
                           <p>
@@ -292,10 +281,8 @@ const Training: React.FC = () => {
                         <td className="p-4 align-top font-medium text-slate-500">5</td>
                         <td className="p-4 align-top font-semibold text-brand-navy">
                           Refresher Course on Technical interview Preparation.
-                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal">Image Placeholder</span>
-                          </div>
+                             <img src="/images/Trainging & Placement/Training/training-events5.png" alt="Refresher Course on Technical interview Preparation" className="mt-4 w-32 h-24 object-cover rounded-lg border border-slate-200" />
+
                         </td>
                         <td className="p-4 align-top space-y-3">
                           <p>
@@ -315,10 +302,7 @@ const Training: React.FC = () => {
                         <td className="p-4 align-top font-medium text-slate-500">6</td>
                         <td className="p-4 align-top font-semibold text-brand-navy">
                           Aptitude Training by Campus Credentials
-                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal">Image Placeholder</span>
-                          </div>
+                            <img src="/images/Trainging & Placement/Training/training-events6.png" alt="Aptitude Training by Campus Credentials" className="mt-4 w-32 h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                         <td className="p-4 align-top space-y-3">
                           <p>
@@ -338,10 +322,7 @@ const Training: React.FC = () => {
                         <td className="p-4 align-top font-medium text-slate-500">7</td>
                         <td className="p-4 align-top font-semibold text-brand-navy">
                           Mock Interview
-                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal">Image Placeholder</span>
-                          </div>
+                           <img src="/images/Trainging & Placement/Training/training-events7.png" alt="Mock Interview" className="mt-4 w-32 h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                         <td className="p-4 align-top space-y-3">
                           <p>
@@ -361,10 +342,7 @@ const Training: React.FC = () => {
                         <td className="p-4 align-top font-medium text-slate-500">8</td>
                         <td className="p-4 align-top font-semibold text-brand-navy">
                           IMS
-                          <div className="mt-4 w-full h-32 bg-slate-100 rounded-lg border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal">Image Placeholder</span>
-                          </div>
+                         <img src="/images/Trainging & Placement/Training/training-events8.png" alt="IMS" className="mt-4 w-32 h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                         <td className="p-4 align-top space-y-3">
                           <p>
@@ -431,10 +409,7 @@ const Training: React.FC = () => {
                           <p className="text-sm font-medium text-[#fdb813]">Experience &ndash; 15 Years</p>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
-                          <div className="w-full aspect-square bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal text-center">Image Placeholder</span>
-                          </div>
+                          <img src="/images/Trainging & Placement/Training/careerguidance-mrswapnilkarvir.jpg" alt="Mr Swapnil Karvir" className="w-full h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                       </tr>
 
@@ -450,10 +425,7 @@ const Training: React.FC = () => {
                           <p className="text-sm font-medium text-[#fdb813]">Experience &ndash; 10 Years</p>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
-                          <div className="w-full aspect-square bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal text-center">Image Placeholder</span>
-                          </div>
+                          <img src="/images/Trainging & Placement/Training/Aishwarya-Mohol.jpg" alt="Aishwarya Mohol" className="w-full h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                       </tr>
 
@@ -468,10 +440,7 @@ const Training: React.FC = () => {
                           <p className="text-sm mb-1 text-slate-600">Oracle ERP (Oracle Financials) + Siebel CRM + MDM (UCM &ndash; Customer Master). Customer Experience: Social, Mobile, IoT and AI in CRM-CX, Voice Assistants (Alexa, Google) + Chatbots (FB, Twitter, Telegram etc.) for CRM-CX! Specialties: Technical / Integration Architect</p>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
-                          <div className="w-full aspect-square bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal text-center">Image Placeholder</span>
-                          </div>
+                          <img src="/images/Trainging & Placement/Training/careerguidanceHemant-Tendolkar.jpg" alt="Hemant Tendolkar" className="w-full h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                       </tr>
 
@@ -487,10 +456,7 @@ const Training: React.FC = () => {
                           <p className="text-sm font-medium text-[#fdb813]">Experience &ndash; 22 Years</p>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
-                          <div className="w-full aspect-square bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal text-center">Image Placeholder</span>
-                          </div>
+                          <img src="/images/Trainging & Placement/Training/careerguidanceDr-Ben-Baliga.jpg" alt="Dr Ben Baliga" className="w-full h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                       </tr>
 
@@ -506,10 +472,7 @@ const Training: React.FC = () => {
                           <p className="text-sm font-medium text-[#fdb813]">Experience &ndash; 20 Years<span className="text-slate-600 font-normal"> in Education space. Specialties &ndash; Test-Prep &ndash; Up-Skilling &ndash; Product Management &ndash; All-things-Quant &ndash; eMarketing &amp; SE</span></p>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
-                          <div className="w-full aspect-square bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal text-center">Image Placeholder</span>
-                          </div>
+                          <img src="/images/Trainging & Placement/Training/careerguidanceGejo-Srineevasan.jpg" alt="Gejo Sreenivasan" className="w-full h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                       </tr>
 
@@ -524,10 +487,7 @@ const Training: React.FC = () => {
                           <p className="text-sm mb-1 text-slate-600">EdTech Futurist | Educator | CEO, Aegis School of Data Science, <span className="text-[#fdb813] font-medium">Experience &ndash; 24 Years</span> &amp; managing trustee of Aegis Knowledge Trust</p>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
-                          <div className="w-full aspect-square bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal text-center">Image Placeholder</span>
-                          </div>
+                          <img src="/images/Trainging & Placement/Training/Bhupesh-Daheria.jpg" alt="Bhupesh Daheria" className="w-full h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                       </tr>
 
@@ -541,10 +501,7 @@ const Training: React.FC = () => {
                           <h4 className="font-bold text-[#1a4b7c]">Tarapur Management Association</h4>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
-                          <div className="w-full h-24 bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal text-center">Image Placeholder</span>
-                          </div>
+                          <img src="/images/Trainging & Placement/Training/careerguidanceTarapur-Mgmt-Association.jpg" alt="Tarapur Management Association" className="w-full h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                       </tr>
 
@@ -558,10 +515,7 @@ const Training: React.FC = () => {
                           <p className="text-sm text-slate-600">Campus Credential is a training institute and has established itself as Forerunner in Competitive Exam training</p>
                         </td>
                         <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
-                          <div className="w-full h-24 bg-slate-100 border border-slate-200 flex flex-col items-center justify-center text-slate-400">
-                            <i className="ph ph-image text-3xl mb-2"></i>
-                            <span className="text-xs font-normal text-center">Image Placeholder</span>
-                          </div>
+                          <img src="/images/Trainging & Placement/Training/careerguidanceCampusCredentials-logo.png" alt="Campus Credentials Logo" className="w-full h-24 object-cover rounded-lg border border-slate-200" />
                         </td>
                       </tr>
 
@@ -597,12 +551,33 @@ const Training: React.FC = () => {
                 <p className="mt-6 pt-4 font-semibold text-[#1a4b7c]">
                   Some of the industries where students regularly go for Internships are:
                 </p>
+                <div className="mt-8">
+                  <img src="/images/Trainging & Placement/Training/internship.png" alt="Industries for Internships" className="w-full max-w-4xl mx-auto rounded-xl border border-slate-200 shadow-lg" />
+                </div>
+                
+              </div>
+            </section>
+          )}
+
+          {/* Gallery Tab */}
+          {activeId === 'gallery' && (
+            <section className="reveal bg-white p-8 lg:p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB]">
+              <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
+                <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Gallery</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                  {[1, 2, 3, 4, 5, 6].map((idx) => (
+                    <div key={idx} className="aspect-[4/3] bg-slate-100 rounded-xl border border-slate-200 flex flex-col items-center justify-center text-slate-400 overflow-hidden hover:shadow-md transition-shadow">
+                      <i className="ph ph-image text-4xl mb-3" />
+                      <span className="text-sm font-medium">Image Placeholder {idx}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </section>
           )}
 
           {/* Placeholders for other tabs */}
-          {activeId !== 'training' && activeId !== 'events' && activeId !== 'career' && activeId !== 'internship' && (
+          {activeId !== 'training' && activeId !== 'events' && activeId !== 'career' && activeId !== 'internship' && activeId !== 'gallery' && (
             <section className="reveal bg-white p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB] flex flex-col items-center justify-center text-center min-h-[400px]">
               <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center mb-6">
                 <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-[#1a4b7c]`} />

@@ -294,8 +294,8 @@ const TeamPanel: React.FC = () => {
                         <div className="relative w-48 h-56 rounded-2xl overflow-hidden border-4 border-white shadow-xl bg-slate-100 flex items-center justify-center text-slate-400">
                             {/* Image Placeholder logic: if we had the actual image path, we'd use it here */}
                             <img
-                                src="https://via.placeholder.com/400x500/f1f5f9/64748b?text=Mr.+Rishabh+Melwanki"
-                                alt="Mr. Rishabh Melwanki"
+                                src="\images\StudentLife\CO-Curricular-activities\Student_clubs\EMECHTO\Mr.-RISHABH-Melwanki.jpg"
+                                alt="Mr.Rishabh Melwanki"
                                 className="w-full h-full object-cover"
                             />
                         </div>
