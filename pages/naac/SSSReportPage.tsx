@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PageLayout from "../../components/PageLayout";
 import PageBanner from "../../components/PageBanner";
+import { sssReportsService, type DynamicSssReport } from "../../services/sssReports";
 
 const sssReports = [
   {
@@ -26,8 +27,37 @@ const sssReports = [
 ];
 
 const SSSReport: React.FC = () => {
-  const leftColumn = sssReports.slice(0, 3);
-  const rightColumn = sssReports.slice(3);
+  const [dynamicReports, setDynamicReports] = useState<DynamicSssReport[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    const load = async () => {
+      try {
+        const reports = await sssReportsService.list();
+        if (!isMounted) return;
+        setDynamicReports(reports);
+      } catch {
+        if (!isMounted) return;
+        setDynamicReports([]);
+      }
+    };
+
+    load();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const combinedReports = [
+    ...sssReports,
+    ...dynamicReports.map((item) => ({
+      label: item.title,
+      href: item.pdf_url || "#",
+    })),
+  ];
+  const mid = Math.ceil(combinedReports.length / 2);
+  const leftColumn = combinedReports.slice(0, mid);
+  const rightColumn = combinedReports.slice(mid);
 
   return (
     <PageLayout>
@@ -71,6 +101,7 @@ const SSSReport: React.FC = () => {
               ))}
             </div>
           </div>
+
         </div>
       </main>
 

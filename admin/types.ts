@@ -715,6 +715,60 @@ export interface AcademicsPayload {
   academicCalendars?: (AdmissionDocument & { file?: File | null })[];
 }
 
+/* ── SSS Report Uploads ─────────────────────────────────────────────────────── */
+
+export interface SssReportUpload {
+  id: number;
+  title: string;
+  pdf_name: string;
+  pdf_mime_type: string | null;
+  pdf_size: number | null;
+  pdf_url: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface SssReportUploadPayload {
+  title: string;
+  pdf?: File | null;
+}
+
+/* ── Best Practice Uploads ─────────────────────────────────────────────────── */
+
+export interface BestPracticeUpload {
+  id: number;
+  title: string;
+  pdf_name: string;
+  pdf_mime_type: string | null;
+  pdf_size: number | null;
+  pdf_url: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BestPracticeUploadPayload {
+  title: string;
+  pdf?: File | null;
+}
+
+/* ── NAAC Score Uploads ────────────────────────────────────────────────────── */
+
+export interface NaacScoreUpload {
+  id: number;
+  title: string;
+  pdf_name: string;
+  pdf_mime_type: string | null;
+  pdf_size: number | null;
+  pdf_url: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface NaacScoreUploadPayload {
+  title: string;
+  pdf?: File | null;
+}
+
 /* ── Facilities Module ─────────────────────────────────────────────────────── */
 
 export interface FacilityData {

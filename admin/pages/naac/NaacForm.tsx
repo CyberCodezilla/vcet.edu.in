@@ -1,4 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { sssReportUploadsApi } from '../../api/sssReportUploads';
+import { bestPracticeUploadsApi } from '../../api/bestPracticeUploads';
+import { naacScoreUploadsApi } from '../../api/naacScoreUploads';
+import type { BestPracticeUpload, NaacScoreUpload, SssReportUpload } from '../../types';
 
 /* ── Toast ─────────────────────────────────────────────────────────────────── */
 const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () => void }> = ({ message, type, onClose }) => {
@@ -322,60 +326,338 @@ const SimplePdfManager: React.FC<{
   );
 };
 
-/* ── Main Form ──────────────────────────────────────────────────────────────── */
-interface NaacFormProps { slug: string; onBack: () => void; }
-
-const SLUG_NAMES: Record<string, string> = {
-  'sss':            'Student Satisfaction Survey (SSS)',
-  'sss-report':     'SSS Report',
-  'ssr-cycle-1':    'SSR Cycle 1',
-  'ssr-cycle-2':    'SSR Cycle 2',
-  'best-practices': 'Best Practices & Institutional Distinctiveness',
-  'naac-score':     'NAAC Accreditation Score',
+type SSSUploadFormItem = {
+  id?: number;
+  title: string;
+  fileName: string | null;
+  fileUrl: string | null;
+  file?: File;
+  isNew?: boolean;
 };
+
+const SSSPdfUploadManager: React.FC<{ items: SSSUploadFormItem[]; onChange: (val: SSSUploadFormItem[]) => void }> = ({ items, onChange }) => {
+  const add = () =>
+    onChange([
+      ...(items || []),
+      { title: 'SSS REPORT 2021-22', fileName: null, fileUrl: null, file: undefined },
+    ]);
+
+  const upd = (i: number, u: any) => {
+    const n = [...(items || [])];
+    n[i] = { ...n[i], ...u };
+    onChange(n);
+  };
+
+  const del = (i: number) => onChange((items || []).filter((_: SSSUploadFormItem, idx: number) => idx !== i));
+
+  const openPreview = (item: SSSUploadFormItem) => {
+    const href = item?.file ? URL.createObjectURL(item.file) : item?.fileUrl;
+    if (!href) return;
+    window.open(href, '_blank', 'noopener,noreferrer');
+    if (item?.file) setTimeout(() => URL.revokeObjectURL(href), 2000);
+  };
+
+  return (
+    <div className="space-y-4">
+      {(items || []).map((item, idx) => (
+        <div key={idx} className="p-5 bg-slate-50 border border-slate-100 rounded-3xl space-y-4">
+          <div>
+            <label className={labelBase}>Title</label>
+            <input
+              value={item.title || ''}
+              onChange={e => upd(idx, { title: e.target.value })}
+              className={inputBase}
+              placeholder="SSS REPORT 2021-22"
+            />
+          </div>
+
+          <div>
+            <label className={labelBase}>Upload PDF</label>
+            <input
+              type="file"
+              accept="application/pdf"
+              onChange={e => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                upd(idx, { file, fileName: file.name });
+              }}
+              className={`${inputBase} file:mr-4 file:rounded-xl file:border-0 file:bg-slate-200 file:px-4 file:py-2 file:text-xs file:font-black file:text-slate-700`}
+            />
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => openPreview(item)}
+              disabled={!item?.file && !item?.fileUrl}
+              className="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-black uppercase tracking-wider disabled:opacity-50"
+            >
+              Preview PDF
+            </button>
+
+            {(item?.fileName || item?.fileUrl) && (
+              <span className="text-xs font-bold text-slate-500 truncate max-w-full">
+                {item.fileName || item.fileUrl}
+              </span>
+            )}
+
+            <button
+              type="button"
+              onClick={() => del(idx)}
+              className="px-4 py-2 rounded-xl bg-red-50 text-red-600 text-xs font-black uppercase tracking-wider hover:bg-red-100"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      ))}
+
+      <button
+        type="button"
+        onClick={add}
+        className="w-full py-4 border-2 border-dashed border-slate-200 rounded-3xl text-sm font-bold text-slate-400 hover:border-blue-500 hover:text-blue-500 transition-all flex items-center justify-center gap-2"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M12 4v16m8-8H4" /></svg>
+        Add New Item
+      </button>
+    </div>
+  );
+};
+
+/* ── Main Form ── */
+interface NaacFormProps {
+  slug: string;
+  onBack: () => void;
+}
 
 const NaacForm: React.FC<NaacFormProps> = ({ slug, onBack }) => {
   const [payload, setPayload] = useState<any>({});
-  const [loading, setLoading]  = useState(true);
-  const [saving, setSaving]    = useState(false);
-  const [toast, setToast]      = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const [sssOriginalIds, setSssOriginalIds] = useState<number[]>([]);
+  const [bestPracticeOriginalIds, setBestPracticeOriginalIds] = useState<number[]>([]);
+  const [naacScoreOriginalIds, setNaacScoreOriginalIds] = useState<number[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
-  useEffect(() => { setTimeout(() => setLoading(false), 400); }, [slug]);
+  useEffect(() => {
+    let isMounted = true;
+    const load = async () => {
+      setLoading(true);
+      if (slug !== 'sss-report' && slug !== 'best-practices' && slug !== 'naac-score') {
+        if (isMounted) setLoading(false);
+        return;
+      }
+
+      try {
+        if (slug === 'sss-report') {
+          const response = await sssReportUploadsApi.list();
+          if (!isMounted) return;
+          const items = response.data.map((item: SssReportUpload) => ({
+            id: item.id,
+            title: item.title,
+            fileName: item.pdf_name,
+            fileUrl: item.pdf_url,
+            isNew: false,
+          }));
+          setPayload((prev: any) => ({ ...prev, sssUploads: items }));
+          setSssOriginalIds(items.map((item) => item.id).filter((id): id is number => typeof id === 'number'));
+        } else if (slug === 'best-practices') {
+          const response = await bestPracticeUploadsApi.list();
+          if (!isMounted) return;
+          const items = response.data.map((item: BestPracticeUpload) => ({
+            id: item.id,
+            title: item.title,
+            fileName: item.pdf_name,
+            fileUrl: item.pdf_url,
+            isNew: false,
+          }));
+          setPayload((prev: any) => ({ ...prev, bestPracticeUploads: items }));
+          setBestPracticeOriginalIds(items.map((item) => item.id).filter((id): id is number => typeof id === 'number'));
+        } else {
+          const response = await naacScoreUploadsApi.list();
+          if (!isMounted) return;
+          const items = response.data.map((item: NaacScoreUpload) => ({
+            id: item.id,
+            title: item.title,
+            fileName: item.pdf_name,
+            fileUrl: item.pdf_url,
+            isNew: false,
+          }));
+          setPayload((prev: any) => ({ ...prev, naacScoreUploads: items }));
+          setNaacScoreOriginalIds(items.map((item) => item.id).filter((id): id is number => typeof id === 'number'));
+        }
+      } catch (error) {
+        if (!isMounted) return;
+        setToast({
+          message: error instanceof Error
+            ? error.message
+            : slug === 'sss-report'
+              ? 'Failed to load SSS reports'
+              : slug === 'best-practices'
+                ? 'Failed to load Best Practice uploads'
+                : 'Failed to load NAAC Score uploads',
+          type: 'error',
+        });
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    load();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [slug]);
 
   const handleSubmit = async () => {
+    if (slug !== 'sss-report' && slug !== 'best-practices' && slug !== 'naac-score') {
+      setSaving(true);
+      setTimeout(() => {
+        setSaving(false);
+        setToast({ message: 'Saved successfully', type: 'success' });
+      }, 800);
+      return;
+    }
+
+    const mode: 'sss' | 'best-practices' | 'naac-score' =
+      slug === 'sss-report' ? 'sss' : slug === 'best-practices' ? 'best-practices' : 'naac-score';
+    const currentItems: SSSUploadFormItem[] =
+      mode === 'sss'
+        ? (payload.sssUploads || [])
+        : mode === 'best-practices'
+          ? (payload.bestPracticeUploads || [])
+          : (payload.naacScoreUploads || []);
+
+    for (const item of currentItems) {
+      if (!item.title?.trim()) {
+        setToast({
+          message: `Each ${
+            mode === 'sss' ? 'SSS' : mode === 'best-practices' ? 'Best Practice' : 'NAAC Score'
+          } item must have a title.`,
+          type: 'error',
+        });
+        return;
+      }
+      if (!item.id && !item.file) {
+        setToast({ message: `Upload PDF required for "${item.title}".`, type: 'error' });
+        return;
+      }
+    }
+
     setSaving(true);
-    setTimeout(() => { setSaving(false); setToast({ message: 'Saved successfully', type: 'success' }); }, 800);
+    try {
+      const currentIds = currentItems.map((item) => item.id).filter((id): id is number => typeof id === 'number');
+      const originalIds =
+        mode === 'sss' ? sssOriginalIds : mode === 'best-practices' ? bestPracticeOriginalIds : naacScoreOriginalIds;
+      const removedIds = originalIds.filter((id) => !currentIds.includes(id));
+
+      for (const id of removedIds) {
+        if (mode === 'sss') {
+          await sssReportUploadsApi.delete(id);
+        } else if (mode === 'best-practices') {
+          await bestPracticeUploadsApi.delete(id);
+        } else {
+          await naacScoreUploadsApi.delete(id);
+        }
+      }
+
+      const savedItems: SSSUploadFormItem[] = [];
+
+      for (const item of currentItems) {
+        if (item.id) {
+          const updated = mode === 'sss'
+            ? await sssReportUploadsApi.update(item.id, {
+                title: item.title.trim(),
+                pdf: item.file ?? null,
+              })
+            : mode === 'best-practices'
+              ? await bestPracticeUploadsApi.update(item.id, {
+                  title: item.title.trim(),
+                  pdf: item.file ?? null,
+                })
+              : await naacScoreUploadsApi.update(item.id, {
+                  title: item.title.trim(),
+                  pdf: item.file ?? null,
+                });
+          savedItems.push({
+            id: updated.data.id,
+            title: updated.data.title,
+            fileName: updated.data.pdf_name,
+            fileUrl: updated.data.pdf_url,
+            isNew: false,
+          });
+        } else {
+          const created = mode === 'sss'
+            ? await sssReportUploadsApi.create({
+                title: item.title.trim(),
+                pdf: item.file ?? null,
+              })
+            : mode === 'best-practices'
+              ? await bestPracticeUploadsApi.create({
+                  title: item.title.trim(),
+                  pdf: item.file ?? null,
+                })
+              : await naacScoreUploadsApi.create({
+                  title: item.title.trim(),
+                  pdf: item.file ?? null,
+                });
+          savedItems.push({
+            id: created.data.id,
+            title: created.data.title,
+            fileName: created.data.pdf_name,
+            fileUrl: created.data.pdf_url,
+            isNew: false,
+          });
+        }
+      }
+
+      if (mode === 'sss') {
+        setPayload((prev: any) => ({ ...prev, sssUploads: savedItems }));
+        setSssOriginalIds(savedItems.map((item) => item.id).filter((id): id is number => typeof id === 'number'));
+      } else if (mode === 'best-practices') {
+        setPayload((prev: any) => ({ ...prev, bestPracticeUploads: savedItems }));
+        setBestPracticeOriginalIds(savedItems.map((item) => item.id).filter((id): id is number => typeof id === 'number'));
+      } else {
+        setPayload((prev: any) => ({ ...prev, naacScoreUploads: savedItems }));
+        setNaacScoreOriginalIds(savedItems.map((item) => item.id).filter((id): id is number => typeof id === 'number'));
+      }
+      setToast({
+        message: `${
+          mode === 'sss' ? 'SSS report' : mode === 'best-practices' ? 'Best Practice' : 'NAAC Score'
+        } uploads saved successfully`,
+        type: 'success',
+      });
+    } catch (error) {
+      setToast({
+        message: error instanceof Error
+          ? error.message
+          : mode === 'sss'
+            ? 'Failed to save SSS uploads'
+            : mode === 'best-practices'
+              ? 'Failed to save Best Practice uploads'
+              : 'Failed to save NAAC Score uploads',
+        type: 'error',
+      });
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (loading) return <div className="p-12 text-center text-slate-400 font-bold animate-pulse">LOADING...</div>;
 
   const renderContent = () => {
     switch (slug) {
-
-      /* ─── SSS: Only Google Form link ─── */
-      case 'sss':
-        return (
-          <SectionCard title="Google Form Link" icon="🔗">
-            <p className="text-xs text-slate-500 font-semibold mb-2">When the SSS Google Form link changes, update it here. Maximum 1 link.</p>
-            <label className={labelBase}>Google Form URL (Max 250 chars)</label>
-            <input maxLength={250} value={payload.formUrl || ''} onChange={e => setPayload({ ...payload, formUrl: e.target.value })} className={inputBase} placeholder="https://docs.google.com/forms/..." />
-          </SectionCard>
-        );
-
-      /* ─── SSS Report: Year + PDF upload per row ─── */
       case 'sss-report':
         return (
-          <SectionCard title="Year-wise SSS Reports" icon="📑">
-            <p className="text-xs text-slate-500 font-semibold mb-2">Add one report per academic year. Maximum 10 reports.</p>
-            <TableWithPdfManager
-              items={payload.reports}
-              addLabel="Add Report"
-              textFields={[
-                { key: 'year', label: 'Academic Year', placeholder: 'e.g. 2022-23', maxLength: 20 },
-              ]}
-              onChange={val => setPayload({ ...payload, reports: val })}
-            />
-          </SectionCard>
+          <div className="space-y-8">
+            <SectionCard title="SSS Report Upload" icon="📄">
+              <SSSPdfUploadManager
+                items={payload.sssUploads || []}
+                onChange={val => setPayload({ ...payload, sssUploads: val })}
+              />
+            </SectionCard>
+          </div>
         );
 
       /* ─── SSR Cycle 1: Title + PDF per row ─── */
@@ -466,14 +748,10 @@ const NaacForm: React.FC<NaacFormProps> = ({ slug, onBack }) => {
       case 'best-practices':
         return (
           <div className="space-y-8">
-            <SectionCard title="Best Practices & Institutional Distinctiveness" icon="✨">
-              <SimplePdfManager
-                items={payload.practices}
-                addLabel="Add Document"
-                extraFields={[
-                  { key: 'title', label: 'Title', placeholder: 'Enter Title...', maxLength: 100 },
-                ]}
-                onChange={val => setPayload({ ...payload, practices: val })}
+            <SectionCard title="Best Practices & Institutional Distinctiveness Upload" icon="📄">
+              <SSSPdfUploadManager
+                items={payload.bestPracticeUploads || []}
+                onChange={val => setPayload({ ...payload, bestPracticeUploads: val })}
               />
             </SectionCard>
           </div>
@@ -482,17 +760,14 @@ const NaacForm: React.FC<NaacFormProps> = ({ slug, onBack }) => {
       /* ─── NAAC Accreditation Score: Single PDF upload ─── */
       case 'naac-score':
         return (
-          <SectionCard title="NAAC Accreditation Score — PDF" icon="💯">
-            <p className="text-xs text-slate-500 font-semibold mb-4">
-              Upload the official NAAC accreditation certificate PDF. Maximum 1 PDF file.
-            </p>
-            <label className={labelBase}>Accreditation Certificate PDF (Max 250 chars)</label>
-            <PdfUploadButton
-              value={payload.certPdfFile}
-              onChange={v => setPayload({ ...payload, certPdfFile: v })}
-              label="Upload Accreditation Certificate PDF"
-            />
-          </SectionCard>
+          <div className="space-y-8">
+            <SectionCard title="NAAC Score Upload" icon="📄">
+              <SSSPdfUploadManager
+                items={payload.naacScoreUploads || []}
+                onChange={val => setPayload({ ...payload, naacScoreUploads: val })}
+              />
+            </SectionCard>
+          </div>
         );
 
       default:

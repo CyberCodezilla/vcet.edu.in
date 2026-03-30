@@ -1,7 +1,8 @@
 function resolveApiOrigin(): string {
-    const envBase = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim();
+    const envBase = (import.meta.env.VITE_API_URL as string | undefined)?.trim()
+        || (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim();
     const browserOrigin = typeof window !== 'undefined' ? window.location.origin : '';
-    const raw = envBase || browserOrigin || 'http://localhost:8000';
+    const raw = envBase || browserOrigin || 'https://vcet.edu.in';
     return raw.replace(/\/api\/?$/i, '').replace(/\/$/, '');
 }
 
@@ -34,6 +35,7 @@ export async function post<T>(path: string, body: unknown): Promise<T> {
 
 export async function get<T>(path: string): Promise<T> {
     const response = await fetch(`${API_BASE}/api${path}`, {
+        cache: 'no-store',
         headers: { Accept: 'application/json' },
     });
 

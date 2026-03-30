@@ -147,7 +147,6 @@ const facilitiesEditables = [
 ];
 
 const naacEditables = [
-  { slug: 'sss', title: 'Student Satisfaction Survey (SSS)', description: 'Survey overview, link, participation details, and handling.' },
   { slug: 'sss-report', title: 'SSS Report', description: 'Year-wise SSS reports and overarching document collection.' },
   { slug: 'ssr-cycle-1', title: 'SSR Cycle 1', description: 'Basic details, QIF, Extended Profile, DVV standard verifications.' },
   { slug: 'ssr-cycle-2', title: 'SSR Cycle 2', description: 'Basic details, QIF, Extended Profile, DVV standard verifications.' },

@@ -2,9 +2,12 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Search, ChevronDown, ChevronRight } from 'lucide-react';
 import { academicsService, type AcademicDocument } from '../services/academics';
+import { naacScoresService, type DynamicNaacScoreUpload } from '../services/naacScores';
 
 const CAREER_AT_VCET_PDF_URL =
   'https://drive.google.com/file/d/1grwZ4_QIjC23c4HHFCM4xPJuFywsWtgw/view?usp=sharing';
+const SSS_GOOGLE_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLSeR3qTw2AO0xsDYkuzJ8dnrJyi4EGuYJAupBqLqlS2cQPLlYg/viewform';
 
 /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    TYPE DEFINITIONS
@@ -243,7 +246,7 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'NAAC',
     dropdown: [
-      { label: 'SSS', href: '/sss' },
+      { label: 'SSS', href: SSS_GOOGLE_FORM_URL },
       { label: 'SSS Report', href: '/sss-report' },
       { label: 'SSR Cycle 1', href: '/ssr-cycle-1' },
       {
@@ -253,7 +256,13 @@ const menuGroups: MenuGroup[] = [
         ],
       },
       { label: 'Best Practices & Institutional Distinctiveness', href: '/best-practices' },
-      { label: 'NAAC Accreditation Score', href: '/naac-score' },
+      {
+        label: 'NAAC Accreditation Score',
+        href: '/naac-score',
+        subItems: [
+          { label: 'NAAC Score Update (Test)', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/Naac-Certificate.pdf' },
+        ],
+      },
     ],
   },
 
@@ -305,6 +314,35 @@ function withLiveAcademicsDropdown(
           };
         }
         return item;
+      }),
+    };
+  });
+}
+
+function toNaacScoreSubItems(items: DynamicNaacScoreUpload[]): SubItem[] {
+  return items
+    .filter((item) => !!item.title && !!item.pdf_url)
+    .map((item) => ({
+      label: item.title,
+      href: item.pdf_url || undefined,
+    }));
+}
+
+function withLiveNaacScoreDropdown(groups: MenuGroup[], naacScoreDocs: DynamicNaacScoreUpload[]): MenuGroup[] {
+  const dynamicItems = toNaacScoreSubItems(naacScoreDocs);
+  if (dynamicItems.length === 0) return groups;
+
+  return groups.map((group) => {
+    if (group.label !== 'NAAC' || !group.dropdown) return group;
+
+    return {
+      ...group,
+      dropdown: group.dropdown.map((item) => {
+        if (item.label !== 'NAAC Accreditation Score') return item;
+        return {
+          ...item,
+          subItems: dynamicItems,
+        };
       }),
     };
   });
@@ -393,7 +431,7 @@ const keywordMap: Record<string, string[]> = {
   '/internal-complaint': ['icc', 'internal complaint', 'harassment'],
   '/equal-opportunity': ['equal opportunity', 'obc', 'minority'],
   '/sedg-cell': ['sedg', 'disadvantaged', 'economically weaker'],
-  '/sss': ['sss', 'student satisfaction survey'],
+  [SSS_GOOGLE_FORM_URL]: ['sss', 'student satisfaction survey', 'google form'],
   '/sss-report': ['sss report', 'satisfaction report'],
   '/ssr-cycle-1': ['ssr', 'self study report', 'cycle 1', 'naac ssr'],
   '/ssr-cycle-2': ['ssr cycle 2', 'naac cycle 2'],
@@ -885,6 +923,7 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const [liveCalendars, setLiveCalendars] = useState<AcademicDocument[]>([]);
   const [liveBooklets, setLiveBooklets] = useState<AcademicDocument[]>([]);
+  const [liveNaacScoreDocs, setLiveNaacScoreDocs] = useState<DynamicNaacScoreUpload[]>([]);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -909,9 +948,19 @@ const Header: React.FC = () => {
       });
   }, []);
 
+  useEffect(() => {
+    naacScoresService
+      .list()
+      .then((items) => setLiveNaacScoreDocs(Array.isArray(items) ? items : []))
+      .catch(() => setLiveNaacScoreDocs([]));
+  }, []);
+
   const navMenuGroups = useMemo(
-    () => withLiveAcademicsDropdown(menuGroups, liveCalendars, liveBooklets),
-    [liveCalendars, liveBooklets],
+    () => withLiveNaacScoreDropdown(
+      withLiveAcademicsDropdown(menuGroups, liveCalendars, liveBooklets),
+      liveNaacScoreDocs,
+    ),
+    [liveCalendars, liveBooklets, liveNaacScoreDocs],
   );
 
   const searchIndex = useMemo(() => buildSearchIndex(navMenuGroups), [navMenuGroups]);
@@ -1414,3 +1463,4 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+
