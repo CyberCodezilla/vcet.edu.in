@@ -19,7 +19,7 @@ export interface AuthUserResponse {
 }
 
 // Enabled mock auth for admin login without a backend server
-const USE_MOCK = true;
+const USE_MOCK = false;
 
 const MOCK_USER: User = {
   id: 1,
