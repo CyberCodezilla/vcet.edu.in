@@ -6,6 +6,7 @@ import type { MMSStudentsLifeData } from '../../../admin/types';
 
 export default function MMSStudentsLifeBookReview() {
   const [data, setData] = useState<MMSStudentsLifeData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,10 +15,26 @@ export default function MMSStudentsLifeBookReview() {
         setData(response.data);
       } catch (err) {
         console.error('Failed to fetch students life data:', err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, []);
+
+  if (loading) {
+    return (
+      <MMSLayout title="Loading...">
+        <div className="flex justify-center items-center min-h-[50vh]">
+          <div className="animate-pulse flex flex-col items-center gap-4">
+            <div className="w-12 h-12 rounded-full border-4 border-slate-200 border-t-brand-blue animate-spin"></div>
+            <div className="text-slate-400 font-medium tracking-widest uppercase text-sm">Loading Content...</div>
+          </div>
+        </div>
+      </MMSLayout>
+    );
+  }
+
 
   const defaultImages = [
     { id: 'def-1', label: "Book Review Session 01", src: "/images/Departments/MMS(MBA)/Students life/mms-studentlife-bookreview-1.jpg" },
