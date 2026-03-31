@@ -38,7 +38,7 @@ export default function MMSFacilities() {
           : (typeof rawImage === 'string' ? rawImage : null);
         
         return {
-          label: item.label || `${title} ${idx + 1}`,
+          label: item.label || `Image ${idx + 1}`,
           src: imageStr ? resolveApiUrl(imageStr) : defaultImages[idx % defaultImages.length]?.src || ''
         };
       });
