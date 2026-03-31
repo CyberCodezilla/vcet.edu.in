@@ -241,6 +241,8 @@ const mmsEditables = [
       { label: 'DLLE', to: '/admin/pages/mms/students-life/dlle/edit' },
       { label: 'Book Review', to: '/admin/pages/mms/students-life/book-review/edit' },
       { label: 'Add-On Courses', to: '/admin/pages/mms/students-life/add-on-courses/edit' },
+        { label: 'Add-On Courses on Powerbi', to: '/admin/pages/mms/students-life/add-on-courses-powerbi/edit' },
+        { label: 'ADD ON COURSES ON ADVANCE EXCEL', to: '/admin/pages/mms/students-life/advance-excel/edit' },
       { label: 'Industry Sessions', to: '/admin/pages/mms/students-life/industry-sessions/edit' },
       { label: 'Ideation', to: '/admin/pages/mms/students-life/ideation/edit' },
       { label: 'Oscillations', to: '/admin/pages/mms/students-life/oscillations/edit' },
@@ -713,3 +715,5 @@ const SitePages: React.FC = () => {
 };
 
 export default SitePages;
+
+
