@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { ChevronRight, Image as ImageIcon } from 'lucide-react';
+import { academicsService, ObeData } from '../../services/academics';
 
 const flowPhases = [
   {
@@ -59,7 +60,35 @@ const flowPhases = [
   },
 ];
 
+// Fallback data in case API fails
+const fallbackObe: ObeData = {
+  title: 'Outcome Based Education Framework',
+  description: 'Our OBE model centers on defined Graduate Attributes (POs). Inputs from stakeholders drive the Vision, Mission, and Objectives, which trickle down to Course Outcomes and Continuous Improvement.',
+  imageUrl: null,
+};
+
 const TeachingLearning: React.FC = () => {
+  const [obe, setObe] = useState<ObeData>(fallbackObe);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchObeData = async () => {
+      try {
+        const data = await academicsService.get();
+        if (data.obe) {
+          setObe(data.obe);
+        }
+      } catch (error) {
+        console.error('Failed to fetch OBE data:', error);
+        // Keep fallback data
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchObeData();
+  }, []);
+
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1,
@@ -216,28 +245,36 @@ const TeachingLearning: React.FC = () => {
               <div className="max-w-5xl">
                 <h3 className="text-2xl md:text-4xl font-bold text-[#002147] mb-6 flex items-center gap-4 group">
                   <ChevronRight className="text-[#C5A022] w-7 h-7 mt-1 group-hover:translate-x-1 transition-transform" />
-                  Outcome Based Education Framework
+                  {obe.title || 'Outcome Based Education Framework'}
                 </h3>
                 <p className="text-slate-600 text-lg md:text-xl leading-relaxed mb-12">
-                  Our OBE model centers on defined Graduate Attributes (POs). Inputs from
-                  stakeholders drive the Vision, Mission, and Objectives, which trickle down to
-                  Course Outcomes and Continuous Improvement.
+                  {obe.description || 'Our OBE model centers on defined Graduate Attributes (POs). Inputs from stakeholders drive the Vision, Mission, and Objectives, which trickle down to Course Outcomes and Continuous Improvement.'}
                 </p>
 
-                {/* Diagram Image Holder */}
+                {/* Diagram Image */}
                 <div className="mt-12">
                   <div className="bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-100 shadow-inner">
-                    <div className="aspect-[16/9] w-full border-2 border-dashed border-[#002147]/20 bg-white rounded-2xl flex flex-col items-center justify-center text-center px-6">
-                      <div className="w-14 h-14 bg-[#002147]/5 rounded-xl border border-[#002147]/15 flex items-center justify-center mb-4">
-                        <ImageIcon className="text-[#002147]/35 w-7 h-7" />
+                    {loading ? (
+                      <div className="aspect-[16/9] w-full bg-slate-200 rounded-2xl animate-pulse" />
+                    ) : obe.imageUrl ? (
+                      <img
+                        src={obe.imageUrl}
+                        alt={obe.title || 'OBE Framework Diagram'}
+                        className="w-full rounded-2xl"
+                      />
+                    ) : (
+                      <div className="aspect-[16/9] w-full border-2 border-dashed border-[#002147]/20 bg-white rounded-2xl flex flex-col items-center justify-center text-center px-6">
+                        <div className="w-14 h-14 bg-[#002147]/5 rounded-xl border border-[#002147]/15 flex items-center justify-center mb-4">
+                          <ImageIcon className="text-[#002147]/35 w-7 h-7" />
+                        </div>
+                        <p className="text-[#002147] font-bold uppercase tracking-[0.2em] text-[10px] mb-1">
+                          OBE Framework Diagram - Image Holder
+                        </p>
+                        <p className="text-slate-400 text-xs">
+                          Recommended image ratio: 16:9
+                        </p>
                       </div>
-                      <p className="text-[#002147] font-bold uppercase tracking-[0.2em] text-[10px] mb-1">
-                        OBE Framework Diagram - Image Holder
-                      </p>
-                      <p className="text-slate-400 text-xs">
-                        Recommended image ratio: 16:9
-                      </p>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>

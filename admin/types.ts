@@ -734,12 +734,14 @@ export interface AcademicsPayload {
     message: string;
     imageUrl: string | null;
     image?: File | null;
+    deleteImage?: boolean;
   };
   obe?: {
     title: string;
     description: string;
     imageUrl: string | null;
     image?: File | null;
+    deleteImage?: boolean;
   };
 }
 
