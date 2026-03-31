@@ -11,6 +11,8 @@ const emptyForm: MMSStudentsLifePayload = {
   dlle: { description: '', projects: [], outcomes: [], images: [] },
   bookReview: { description: '', benefits: [], images: [] },
   addOnCourses: { description: '', topics: [], objectives: [], images: [] },
+  advanceExcel: { description: '', objectives: [], images: [] },
+  powerBi: { description: '', objectives: [], images: [] },
   industrySessions: { description: '', learningPoints: [], sessions: [] },
   ideation: { description: '', images: [] },
   oscillations: { description: '', images: [] },
@@ -241,7 +243,27 @@ const MMSStudentsLifeForm: React.FC = () => {
           </div>
         </>
       )}
+        {section === 'add-on-courses-powerbi' && (
+          <>
+            {renderSectionHeader('Add-On Courses on Powerbi', 'SKILL DEVELOPMENT CMS')}
+            <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
+              {renderTextArea('Description', form.powerBi?.description || '', 200, 300, (v) => setForm({ ...form, powerBi: { ...form.powerBi!, description: v } }))}
+              {renderListEditor('Objectives', form.powerBi?.objectives || [], 5, 80, (l) => setForm({ ...form, powerBi: { ...form.powerBi!, objectives: l } }))}
+              {renderGalleryEditor('Highlights/Images', form.powerBi?.images || [], 5, 35, (g) => setForm({ ...form, powerBi: { ...form.powerBi!, images: g } }))}
+            </div>
+          </>
+        )}
 
+        {section === 'advance-excel' && (
+          <>
+            {renderSectionHeader('ADD ON COURSES ON ADVANCE EXCEL', 'SKILL DEVELOPMENT CMS')}
+            <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
+              {renderTextArea('Description', form.advanceExcel?.description || '', 200, 300, (v) => setForm({ ...form, advanceExcel: { ...form.advanceExcel!, description: v } }))}
+              {renderListEditor('Objectives', form.advanceExcel?.objectives || [], 5, 80, (l) => setForm({ ...form, advanceExcel: { ...form.advanceExcel!, objectives: l } }))}
+              {renderGalleryEditor('Training Images', form.advanceExcel?.images || [], 5, 35, (g) => setForm({ ...form, advanceExcel: { ...form.advanceExcel!, images: g } }))}
+            </div>
+          </>
+        )}
       {section === 'industry-sessions' && (
         <>
           {renderSectionHeader('Industry Sessions', 'EXPERT LECTURES / VISITS CMS')}
@@ -354,4 +376,7 @@ const MMSStudentsLifeForm: React.FC = () => {
 };
 
 export default MMSStudentsLifeForm;
+
+
+
 
