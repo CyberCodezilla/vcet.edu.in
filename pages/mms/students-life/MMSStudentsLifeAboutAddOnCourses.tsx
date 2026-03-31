@@ -1,14 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import MMSLayout from '../../../components/mms/MMSLayout';
 import { StudentsLifeImageHolder, StudentsLifeSectionCard } from './MMSStudentsLifeShared';
-
-const addOnCourseTopics = [
-  { topic: 'Communication Skills', src: '/images/Departments/MMS(MBA)/Students life/mms-studentlife-aboutaddoncourses-1.jpg' },
-  { topic: 'Excel proficiency', src: '/images/Departments/MMS(MBA)/Students life/mms-studentlife-aboutaddoncourses-2.jpg' },
-  { topic: 'Campus Recruitment Training', src: '/images/Departments/MMS(MBA)/Students life/mms-studentlife-aboutaddoncourses-3.jpg' },
-];
+import { get, resolveApiUrl } from '../../../services/api';
+import type { MMSStudentsLifeData } from '../../../admin/types';
 
 export default function MMSStudentsLifeAboutAddOnCourses() {
+  const [data, setData] = useState<MMSStudentsLifeData | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await get<{ data: MMSStudentsLifeData }>('/pages/mms-students-life');
+        setData(response.data);
+      } catch (err) {
+        console.error('Failed to fetch students life data:', err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const defaultTopics = [
+    { id: 'def-1', topic: 'Communication Skills', src: '/images/Departments/MMS(MBA)/Students life/mms-studentlife-aboutaddoncourses-1.jpg' },
+    { id: 'def-2', topic: 'Excel proficiency', src: '/images/Departments/MMS(MBA)/Students life/mms-studentlife-aboutaddoncourses-2.jpg' },
+    { id: 'def-3', topic: 'Campus Recruitment Training', src: '/images/Departments/MMS(MBA)/Students life/mms-studentlife-aboutaddoncourses-3.jpg' },
+  ];
+
+  const backendImages = (data?.addOnCourses?.images || []).map((img, i) => ({
+    id: `dyn-${i}`,
+    topic: img.label || `Course Activity ${i + 1}`,
+    src: resolveApiUrl(img.image),
+  })).filter(img => img.src);
+
+  const allTopics = [...defaultTopics, ...backendImages];
+
   return (
     <MMSLayout title="Add-on Courses">
       <StudentsLifeSectionCard
@@ -27,8 +51,8 @@ export default function MMSStudentsLifeAboutAddOnCourses() {
         </p>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {addOnCourseTopics.map(({ topic, src }) => (
-            <article key={topic} className="space-y-3">
+          {allTopics.map(({ id, topic, src }) => (
+            <article key={id} className="space-y-3">
               <StudentsLifeImageHolder label={topic} src={src} />
               <p className="border-l-2 border-brand-gold pl-3 text-sm font-semibold uppercase tracking-[0.08em] text-brand-navy">{topic}</p>
             </article>
