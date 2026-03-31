@@ -233,6 +233,7 @@ const MMSStudentsLifeForm: React.FC = () => {
               {renderListEditor('Topics Covered', form.addOnCourses?.topics || [], 6, 50, (l) => setForm({ ...form, addOnCourses: { ...form.addOnCourses!, topics: l } }))}
               {renderListEditor('Objectives', form.addOnCourses?.objectives || [], 5, 80, (l) => setForm({ ...form, addOnCourses: { ...form.addOnCourses!, objectives: l } }))}
             </div>
+            {renderGalleryEditor('Course Images', form.addOnCourses?.images || [], 4, 35, (g) => setForm({ ...form, addOnCourses: { ...form.addOnCourses!, images: g } }))}
           </div>
         </>
       )}
