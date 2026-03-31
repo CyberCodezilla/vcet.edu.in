@@ -52,6 +52,7 @@ function RankersTable({ title, rows }: { title: string; rows: Array<{ name: stri
 
 export default function MMSStudentsLifeRankers() {
   const [data, setData] = useState<MMSStudentsLifeData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,10 +61,26 @@ export default function MMSStudentsLifeRankers() {
         setData(response.data);
       } catch (err) {
         console.error('Failed to fetch students life data:', err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, []);
+
+  if (loading) {
+    return (
+      <MMSLayout title="Loading...">
+        <div className="flex justify-center items-center min-h-[50vh]">
+          <div className="animate-pulse flex flex-col items-center gap-4">
+            <div className="w-12 h-12 rounded-full border-4 border-slate-200 border-t-brand-blue animate-spin"></div>
+            <div className="text-slate-400 font-medium tracking-widest uppercase text-sm">Loading Content...</div>
+          </div>
+        </div>
+      </MMSLayout>
+    );
+  }
+
 
   const dynamicRankers = data?.rankers || [];
 
