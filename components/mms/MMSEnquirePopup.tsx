@@ -198,7 +198,7 @@ export default function MMSEnquirePopup() {
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-[60] flex items-start justify-center bg-slate-950/70 p-2 pt-5 backdrop-blur-sm sm:items-center sm:p-4 sm:pt-4">
+        <div className="fixed inset-0 z-[2147483647] flex items-start justify-center bg-slate-950/70 p-2 pt-5 backdrop-blur-sm sm:items-center sm:p-4 sm:pt-4">
           <div className="max-h-[94vh] w-full max-w-[760px] overflow-y-auto rounded-2xl border border-brand-gold/45 bg-gradient-to-br from-[#071d39] via-[#0b2f58] to-[#0d4888] p-4 shadow-[0_26px_80px_-30px_rgba(0,0,0,0.9)] sm:p-6">
             <div className="mb-5 flex items-start justify-between">
               <h3 className="text-4xl font-display font-bold leading-none text-brand-gold sm:text-5xl">Enquire Now</h3>
