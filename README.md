@@ -587,7 +587,7 @@ This project is built by an amazing team of developers committed to creating a w
 | # | Contributor | GitHub |
 |---|-------------|--------|
 | 1 | **frag2win**/**shubham pawar** | [@frag2win](https://github.com/frag2win) |
-| 2 | **Sahil2802-coder** | [@Sahil2802-coder](https://github.com/Sahil2802-coder) |
+| 2 | **CyberCodezilla** | [@CyberCodezilla](https://github.com/CyberCodezilla)|
 | 3 | **yashhh-23** | [@yashhh-23](https://github.com/yashhh-23) |
 | 4 | **RedRex101** | [@RedRex101](https://github.com/RedRex101) |
 | 5 | **ivory-26** | [@ivory-26](https://github.com/ivory-26) |
