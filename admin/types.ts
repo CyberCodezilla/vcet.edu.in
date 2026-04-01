@@ -734,12 +734,14 @@ export interface AcademicsPayload {
     message: string;
     imageUrl: string | null;
     image?: File | null;
+    deleteImage?: boolean;
   };
   obe?: {
     title: string;
     description: string;
     imageUrl: string | null;
     image?: File | null;
+    deleteImage?: boolean;
   };
 }
 
@@ -1003,29 +1005,36 @@ export interface MMSStudentsLifeData {
     images: GalleryItem[];
   };
   addOnCourses: {
-    description: string;
-    topics: { text: string }[];
-    objectives: { text: string }[];
-    images: GalleryItem[];
-  };
+      description: string;
+      topics: { text: string }[];
+      objectives: { text: string }[];
+      images: GalleryItem[];
+    };
+    advanceExcel: {
+      description: string;
+      objectives: { text: string }[];
+      images: GalleryItem[];
+    };
+    powerBi: {
+      description: string;
+      objectives: { text: string }[];
+      images: GalleryItem[];
+    };
   industrySessions: {
     description: string;
     learningPoints: { text: string }[];
     sessions: GalleryItem[];
   };
-  events: {
-    name: string;
-    description: string;
-    outcome: string;
-    images: GalleryItem[];
-  }[];
+  ideation: { description: string; images: GalleryItem[]; };
+    oscillations: { description: string; images: GalleryItem[]; };
+    nsimTraining: { description: string; images: GalleryItem[]; };
   rankers: {
     name: string;
     rank: string;
-    year: string;
-    image: string | File | null;
+    semester: string;
   }[];
-  pdfs: {
+  customEvents: { id: string; name: string; slug: string; description: string; images: GalleryItem[]; }[];
+    pdfs: {
     title: string;
     url: string;
   }[];
@@ -1092,3 +1101,26 @@ export interface CommitteeReport {
   url?: string;
   date?: string;
 }
+
+export interface Newsletter {
+  id: number;
+  title: string;
+  description: string;
+  departmentId: string | number;
+  image: string | null;
+  pdf: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface NewsletterPayload {
+  title: string;
+  description: string;
+  departmentId: string | number;
+  image?: File | null;
+  pdf?: File | null;
+}
+
+
+
+

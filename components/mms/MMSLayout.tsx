@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { get } from '../../services/api';
 import TopBanner from '../TopBanner';
 import Header from '../Header';
 import Footer from '../Footer';
@@ -113,7 +114,28 @@ const sectionMenus: SectionMenu[] = [
 
 export default function MMSLayout({ title, children }: MMSLayoutProps) {
   const { pathname, hash } = useLocation();
-  const activeMenu = sectionMenus.find((menu) => menu.match(pathname));
+
+  const [customEventsMenu, setCustomEventsMenu] = useState<{label: string, href: string}[]>([]);
+  useEffect(() => {
+    if (pathname.startsWith('/mms/students-life')) {
+      get('/pages/mms-students-life').then(res => {
+        const evs = (res.data)?.customEvents || [];
+        setCustomEventsMenu(evs.map((e) => ({ label: e.name, href: `/mms/students-life/event/${e.slug}` })));
+      }).catch(e => console.warn(e));
+    }
+  }, [pathname]);
+
+  const baseActiveMenu = sectionMenus.find((menu) => menu.match(pathname));
+  const activeMenu = React.useMemo(() => {
+    if (!baseActiveMenu) return null;
+    if (baseActiveMenu.title === "Student's Life" && customEventsMenu.length > 0) {
+      // prevent duplicates
+      const newItems = customEventsMenu.filter(cItem => !baseActiveMenu.items.some(i => i.href === cItem.href));
+      return { ...baseActiveMenu, items: [...baseActiveMenu.items, ...newItems] };
+    }
+    return baseActiveMenu;
+  }, [baseActiveMenu, customEventsMenu]);
+
   const showExperientialDescriptor = pathname.startsWith('/mms/experiential-learning');
   const [showPosterPopup, setShowPosterPopup] = useState(false);
 

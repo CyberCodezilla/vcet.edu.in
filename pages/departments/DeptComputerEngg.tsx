@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
+import NewsletterSection from '../../components/NewsletterSection';
 
 /* ── Sidebar navigation links ─────────────────────────────── */
 const sidebarLinks = [
@@ -630,93 +631,9 @@ const DeptComputerEngg: React.FC = () => {
           )}
 
           {/* ════ NEWSLETTER & MAGAZINE ═══════════════════════ */}
-          {activeId === 'newsletter' && (() => {
-            const newsletterLinks = [
-              { label: 'BYTE Odd Sem 2025-26', url: 'https://vcet.edu.in/wp-content/uploads/2025/09/byte.pdf' },
-              { label: 'BYTE Even Sem 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/final-Byte-2024-25-even-sem.pdf' },
-              { label: 'BYTE Odd Sem 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/BYTE-odd-sem-24-25.pdf' },
-              { label: 'BYTE Odd Sem 2023', url: 'https://vcet.edu.in/wp-content/uploads/2023/11/BYTE-ODD-SEM-2023-1.pdf' },
-              { label: 'BYTE Even Sem 2023', url: 'https://vcet.edu.in/wp-content/uploads/2023/05/News-Letter-Even-Sem-2023.pdf' },
-            ];
-            const wallLinks = [
-              { label: 'Wall Magazine Odd Sem 2025-26', url: 'https://vcet.edu.in/wp-content/uploads/2025/09/VIDYAVARDHINIS-COLLEGE-OF-ENGINEERING-AND-TECHNOLOGY.pdf' },
-              { label: 'Wall Magazine Even Sem 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Wall-2025-even-sem.pdf' },
-              { label: 'Wall Magazine Odd Sem 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Wall-1.pdf' },
-            ];
-            const emagLinks = [
-              { label: 'BYTE E-Magazine Vol I & II', url: 'https://3xlhoob70lrkdyk1voigzw.on.drv.tw/www.bytemagvcet.com/' },
-              { label: 'BYTE E-Magazine Vol III (2021)', url: 'https://3xlhoob70lrkdyk1voigzw.on.drv.tw/www.bytemag2021.com/#p=13' },
-              { label: 'BYTE E-Magazine Vol IV (2022)', url: 'https://bnaunugymx9uazml2zwtvq.on.drv.tw/www.emagzine.com/mobile/' },
-              { label: 'BYTE E-Magazine Vol V (2023)', url: 'https://byte-2023.vercel.app/' },
-              { label: 'BYTE E-Magazine Vol VI (2024)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/E-Mgazine-2024.pdf' },
-            ];
-            const committeeRows = [
-              { newsletter: 'Sahil Kulabkar', wall: 'Aditya Lawate', emag: 'Polomi Adak' },
-              { newsletter: 'Bramheti Patil', wall: 'Vaishnavi Gaikwad', emag: 'Akhila Anilkumar' },
-              { newsletter: 'Swara Gharat', wall: 'Aditya Bhandare', emag: 'Hrushikesh Shetty' },
-              { newsletter: 'Dhruv Save', wall: 'Paarth Baradia', emag: 'Rohit Redekar' },
-              { newsletter: '', wall: 'Amey Chaudhari', emag: 'Prathmesh Ingawale' },
-              { newsletter: '', wall: 'Srushti Gawande', emag: 'Mohit Raje' },
-              { newsletter: '', wall: 'Karan Sankhe', emag: 'Vaishnavi Gaikwad' },
-              { newsletter: '', wall: 'Vrusharth Nirmal', emag: 'Pratima Bombe' },
-              { newsletter: '', wall: 'Kshitij Vyas', emag: 'Paarth Baradia' },
-              { newsletter: '', wall: 'Arya Raul', emag: 'Aditya Bhandare' },
-              { newsletter: '', wall: 'Atharva Chavan', emag: '' },
-              { newsletter: '', wall: 'Kunj Vadhia', emag: '' },
-              { newsletter: '', wall: 'Ankita Yadav', emag: '' },
-              { newsletter: '', wall: 'Kartik Rathod', emag: '' },
-              { newsletter: '', wall: 'Sanket Bauskar', emag: '' },
-              { newsletter: '', wall: 'Aditya Shete', emag: '' },
-              { newsletter: '', wall: 'Yash Mohadikar', emag: '' },
-              { newsletter: '', wall: 'Aakansha Chaudhari', emag: '' },
-            ];
-            return (
-              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-8">
-                <div className="flex items-center gap-3">
-                  <span className="w-8 h-px bg-brand-gold" />
-                  <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Computer Engineering</span>
-                </div>
-                <h3 className="text-2xl font-bold text-brand-navy relative inline-block">Newsletter &amp; Magazine<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                <div>
-                  <h4 className="text-lg font-bold text-brand-navy mb-3">Newsletter</h4>
-                  <div className="space-y-2">{newsletterLinks.map((item) => <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>{item.label}</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>)}</div>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold text-brand-navy mb-3">Wall Magazine</h4>
-                  <div className="space-y-2">{wallLinks.map((item) => <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>{item.label}</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>)}</div>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold text-brand-navy mb-3">E-Magazine</h4>
-                  <div className="space-y-2">{emagLinks.map((item) => <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>{item.label}</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>)}</div>
-                </div>
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mt-8">
-                  <div className="px-4 py-3 border-b border-slate-100 bg-brand-navylight/40">
-                    <h4 className="text-lg font-bold text-brand-blue uppercase">Student Committee:</h4>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="bg-brand-navy text-white">
-                          <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest">Newsletter</th>
-                          <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest">Wall-Magazine</th>
-                          <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest">E-Magazine</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {committeeRows.map((row, idx) => (
-                          <tr key={`${row.newsletter}-${idx}`} className={`border-t border-slate-100 ${idx % 2 === 1 ? 'bg-slate-50/60' : 'bg-white'}`}>
-                            <td className="px-4 py-3 text-slate-600">{row.newsletter}</td>
-                            <td className="px-4 py-3 text-slate-600">{row.wall}</td>
-                            <td className="px-4 py-3 text-slate-600">{row.emag}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </section>
-            );
-          })()}
+          {activeId === 'newsletter' && (
+            <NewsletterSection departmentName="Computer Engineering" departmentId="2" />
+          )}
 
           {/* ════ FALLBACK ═════════════════════════════════════ */}
           {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'paqic' && activeId !== 'infrastructure' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'patent' && activeId !== 'teaching-learning' && activeId !== 'mou' && activeId !== 'time-table' && activeId !== 'newsletter' && (

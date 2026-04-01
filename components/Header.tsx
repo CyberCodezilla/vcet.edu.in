@@ -201,7 +201,7 @@ const menuGroups: MenuGroup[] = [
           { label: 'ISHRAE', href: '/ishrae' },
           { label: 'VMEA', href: '/vmea' },
           { label: 'Hackathon', href: '/hackathon' },
-          { label: 'NSDC', href: '/nsdc' },
+          { label: 'NSDC', href: 'https://vcet-nsdc.vercel.app/' },
           { label: 'IGBC', href: '/igbc' },
         ],
       },

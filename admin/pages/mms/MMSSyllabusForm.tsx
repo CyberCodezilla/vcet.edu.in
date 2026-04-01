@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, FileText, CheckCircle, AlertTriangle, Upload, Eye } from 'lucide-react';
+import { ArrowLeft, FileText, CheckCircle, AlertTriangle, Upload, Eye, Trash2 } from 'lucide-react';
 import type { MMSSyllabusPayload } from '../../types';
 import { mmsSyllabusApi } from '../../api/mmsSyllabusApi';
 
@@ -136,11 +136,22 @@ const MMSSyllabusForm: React.FC = () => {
                 />
              </div>
 
-             {pdfData.url && !(pdfData.url instanceof File) && (
-                <a href={pdfData.url as string} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white rounded-xl text-xs font-bold hover:bg-slate-700 transition-all shadow-lg shadow-slate-200">
-                  <Eye className="w-4 h-4" /> View Current Document
-                </a>
-             )}
+             <div className="flex gap-4 justify-center mt-4">
+               {pdfData.url && !(pdfData.url instanceof File) && (
+                  <a href={pdfData.url as string} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white rounded-xl text-xs font-bold hover:bg-slate-700 transition-all shadow-lg shadow-slate-200">
+                    <Eye className="w-4 h-4" /> View Current Document
+                  </a>
+               )}
+               {pdfData.url && (
+                  <button 
+                    type="button"
+                    onClick={() => setForm({ ...form, [config.key]: { ...pdfData, url: null } })}
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-red-50 text-red-600 rounded-xl text-xs font-bold hover:bg-red-100 transition-all shadow-sm"
+                  >
+                    <Trash2 className="w-4 h-4" /> Remove Document
+                  </button>
+               )}
+             </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,22 @@
+[
+  {
+    "title": "NewsLetter",
+    "description": "First Newsletter Of Our Department.",
+    "departmentId": "5",
+    "updatedAt": "2026-03-31T07:54:03.384Z",
+    "id": 1774943643384,
+    "createdAt": "2026-03-31T07:54:03.384Z",
+    "image": "/uploads/images/1774943643386_Screenshot 2026-03-28 175034.png",
+    "pdf": "/uploads/pdfs/1774943643393__NEWSLETTER 2025 (1).pdf"
+  },
+  {
+    "title": "NewsLetter",
+    "description": "First Newsletter Of Our Department.",
+    "departmentId": "2",
+    "updatedAt": "2026-03-31T08:04:01.387Z",
+    "id": 1774944241387,
+    "createdAt": "2026-03-31T08:04:01.387Z",
+    "image": "/uploads/images/1774944241391_Screenshot 2026-03-28 175034.png",
+    "pdf": "/uploads/pdfs/1774944241398__NEWSLETTER 2025 (1).pdf"
+  }
+]

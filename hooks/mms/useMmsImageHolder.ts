@@ -50,9 +50,9 @@ function extractUrl(item: MmsImageHolderItem | null): string | null {
   return resolveApiUrl(item.imageUrl ?? item.image_url ?? null);
 }
 
-export function useMmsImageHolder(scope: MmsImageScope, holderLabel: string): string | null {
+export function useMmsImageHolder(scope: MmsImageScope, holderLabel: string, skip = false): string | null {
   const endpoint = resolveScope(scope);
-  const fetcher = useCallback(() => getMmsImageHolders(endpoint), [endpoint]);
+  const fetcher = useCallback(() => skip ? Promise.resolve([]) : getMmsImageHolders(endpoint), [endpoint, skip]);
   const { data } = useMmsResource(fetcher);
 
   return useMemo(() => {

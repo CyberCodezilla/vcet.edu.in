@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ChevronDown, ChevronUp, Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle, ArrowLeft, FileText, User, Star } from 'lucide-react';
 import type { MMSStudentsLifePayload, GalleryItem } from '../../types';
 import { mmsStudentsLifeApi } from '../../api/mmsStudentsLifeApi';
+import { resolveApiUrl } from '../../../services/api';
 
 const emptyForm: MMSStudentsLifePayload = {
   overview: { description: '', highlights: [] },
@@ -10,9 +11,14 @@ const emptyForm: MMSStudentsLifePayload = {
   dlle: { description: '', projects: [], outcomes: [], images: [] },
   bookReview: { description: '', benefits: [], images: [] },
   addOnCourses: { description: '', topics: [], objectives: [], images: [] },
+  advanceExcel: { description: '', objectives: [], images: [] },
+  powerBi: { description: '', objectives: [], images: [] },
   industrySessions: { description: '', learningPoints: [], sessions: [] },
-  events: [],
+  ideation: { description: '', images: [] },
+  oscillations: { description: '', images: [] },
+  nsimTraining: { description: '', images: [] },
   rankers: [],
+  customEvents: [],
   pdfs: []
 };
 
@@ -156,7 +162,7 @@ const MMSStudentsLifeForm: React.FC = () => {
                  if (file) { const newItems = [...items]; newItems[i].image = file; onChange(newItems); }
                }}/>
                {item.image ? (
-                 <img src={typeof item.image === 'string' ? item.image : URL.createObjectURL(item.image)} className="w-full h-full object-cover" alt="" />
+                 <img src={typeof item.image === 'string' ? item.image : (item.image instanceof File || item.image instanceof Blob ? URL.createObjectURL(item.image) : ((item.image as any)?.url ? (resolveApiUrl((item.image as any).url) || '') : ''))} className="w-full h-full object-cover" alt="" />
                ) : (
                 <ImageIcon className="w-6 h-6 text-slate-300" />
                )}
@@ -233,10 +239,31 @@ const MMSStudentsLifeForm: React.FC = () => {
               {renderListEditor('Topics Covered', form.addOnCourses?.topics || [], 6, 50, (l) => setForm({ ...form, addOnCourses: { ...form.addOnCourses!, topics: l } }))}
               {renderListEditor('Objectives', form.addOnCourses?.objectives || [], 5, 80, (l) => setForm({ ...form, addOnCourses: { ...form.addOnCourses!, objectives: l } }))}
             </div>
+            {renderGalleryEditor('Course Images', form.addOnCourses?.images || [], 4, 35, (g) => setForm({ ...form, addOnCourses: { ...form.addOnCourses!, images: g } }))}
           </div>
         </>
       )}
+        {section === 'add-on-courses-powerbi' && (
+          <>
+            {renderSectionHeader('Add-On Courses on Powerbi', 'SKILL DEVELOPMENT CMS')}
+            <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
+              {renderTextArea('Description', form.powerBi?.description || '', 200, 300, (v) => setForm({ ...form, powerBi: { ...form.powerBi!, description: v } }))}
+              {renderListEditor('Objectives', form.powerBi?.objectives || [], 5, 80, (l) => setForm({ ...form, powerBi: { ...form.powerBi!, objectives: l } }))}
+              {renderGalleryEditor('Highlights/Images', form.powerBi?.images || [], 5, 35, (g) => setForm({ ...form, powerBi: { ...form.powerBi!, images: g } }))}
+            </div>
+          </>
+        )}
 
+        {section === 'advance-excel' && (
+          <>
+            {renderSectionHeader('ADD ON COURSES ON ADVANCE EXCEL', 'SKILL DEVELOPMENT CMS')}
+            <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
+              {renderTextArea('Description', form.advanceExcel?.description || '', 200, 300, (v) => setForm({ ...form, advanceExcel: { ...form.advanceExcel!, description: v } }))}
+              {renderListEditor('Objectives', form.advanceExcel?.objectives || [], 5, 80, (l) => setForm({ ...form, advanceExcel: { ...form.advanceExcel!, objectives: l } }))}
+              {renderGalleryEditor('Training Images', form.advanceExcel?.images || [], 5, 35, (g) => setForm({ ...form, advanceExcel: { ...form.advanceExcel!, images: g } }))}
+            </div>
+          </>
+        )}
       {section === 'industry-sessions' && (
         <>
           {renderSectionHeader('Industry Sessions', 'EXPERT LECTURES / VISITS CMS')}
@@ -248,67 +275,59 @@ const MMSStudentsLifeForm: React.FC = () => {
         </>
       )}
 
-      {section === 'events' && (
-        <>
-          {renderSectionHeader('Events & Activities', 'IDEATHON / OSCILLATIONS / ETC')}
-          <div className="space-y-6">
-            {form.events?.map((ev, i) => (
-              <div key={i} className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl animate-fade-in group">
-                 <div className="flex justify-between items-center mb-6">
-                    <input className="text-xl font-black text-slate-800 outline-none border-b-2 border-transparent focus:border-blue-500 pb-1" value={ev.name} onChange={e => { const n = [...form.events!]; n[i].name = e.target.value; setForm({...form, events: n}); }} placeholder="Event Name..."/>
-                    <button type="button" onClick={() => setForm({...form, events: form.events!.filter((_,idx) => idx !== i)})} className="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition-colors"><Trash2 className="w-5 h-5"/></button>
-                 </div>
-                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div className="space-y-6">
-                       {renderTextArea('Description', ev.description, 120, 200, (v) => { const n = [...form.events!]; n[i].description = v; setForm({...form, events: n}); })}
-                       {renderTextArea('Outcome', ev.outcome, 50, 160, (v) => { const n = [...form.events!]; n[i].outcome = v; setForm({...form, events: n}); })}
-                    </div>
-                    {renderGalleryEditor('Event Gallery', ev.images || [], 3, 35, (g) => { const n = [...form.events!]; n[i].images = g; setForm({...form, events: n}); })}
-                 </div>
-              </div>
-            ))}
-            {(form.events?.length || 0) < 6 && (
-              <button type="button" onClick={() => setForm({...form, events: [...(form.events || []), { name: '', description: '', outcome: '', images: [] }]})} className="w-full py-8 bg-white border-4 border-dashed border-slate-100 rounded-[2.5rem] flex flex-col items-center justify-center gap-3 text-slate-300 hover:border-blue-200 hover:text-blue-500 hover:bg-blue-50/50 transition-all group">
-                <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center group-hover:bg-blue-100 transition-colors"><Plus className="w-6 h-6"/></div>
-                <span className="text-sm font-black uppercase tracking-widest">Add New Event Activity</span>
-              </button>
-            )}
-          </div>
-        </>
-      )}
+      {section === 'ideation' && (
+          <>
+            {renderSectionHeader('Ideation', 'STUDENT INNOVATION')}
+            <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
+              {renderTextArea('Description', form.ideation?.description || '', 120, 200, (v) => setForm({...form, ideation: { ...form.ideation, description: v, images: form.ideation?.images || [] }} as any))}
+              {renderGalleryEditor('Ideation Gallery', form.ideation?.images || [], 5, 45, (g) => setForm({...form, ideation: { ...form.ideation, images: g, description: form.ideation?.description || '' }} as any))}
+            </div>
+          </>
+        )}
 
-      {section === 'rankers' && (
+        {section === 'oscillations' && (
+          <>
+            {renderSectionHeader('Oscillations', 'ANNUAL FESTIVAL')}
+            <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
+              {renderTextArea('Description', form.oscillations?.description || '', 120, 200, (v) => setForm({...form, oscillations: { ...form.oscillations, description: v, images: form.oscillations?.images || [] }} as any))}
+              {renderGalleryEditor('Oscillations Gallery', form.oscillations?.images || [], 8, 45, (g) => setForm({...form, oscillations: { ...form.oscillations, images: g, description: form.oscillations?.description || '' }} as any))}     
+            </div>
+          </>
+        )}
+
+        {section === 'nsimTraining' && (
+          <>
+            {renderSectionHeader('NSIM Training', 'SKILL DEVELOPMENT')}
+            <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
+              {renderTextArea('Description', form.nsimTraining?.description || '', 120, 200, (v) => setForm({...form, nsimTraining: { ...form.nsimTraining, description: v, images: form.nsimTraining?.images || [] }} as any))}
+              {renderGalleryEditor('Training Gallery', form.nsimTraining?.images || [], 5, 45, (g) => setForm({...form, nsimTraining: { ...form.nsimTraining, images: g, description: form.nsimTraining?.description || '' }} as any))}
+            </div>
+          </>
+        )}
+
+      {section === 'custom-events' && (
         <>
-          {renderSectionHeader('Rankers & Achievements', 'TOP PERFORMER SHOWCASE')}
-          <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl animate-fade-in">
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {form.rankers?.map((ranker, i) => (
-                  <div key={i} className="relative bg-slate-50 rounded-3xl p-6 border border-slate-200 space-y-4 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all">
-                     <button type="button" onClick={() => setForm({...form, rankers: form.rankers!.filter((_,idx) => idx !== i)})} className="absolute -top-3 -right-3 w-8 h-8 bg-white border border-red-100 rounded-full text-red-500 flex items-center justify-center shadow-lg hover:bg-red-50 transition-colors"><Trash2 className="w-4 h-4"/></button>
-                     <div className="w-24 h-24 rounded-full border-4 border-white shadow-md mx-auto relative overflow-hidden bg-white">
-                        <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={async (e) => {
-                          const file = e.target.files?.[0];
-                          if (file) { const n = [...form.rankers!]; n[i].image = file; setForm({...form, rankers: n}); }
-                        }}/>
-                        {ranker.image ? (
-                          <img src={typeof ranker.image === 'string' ? ranker.image : URL.createObjectURL(ranker.image)} className="w-full h-full object-cover" alt="" />
-                        ) : (
-                          <User className="w-10 h-10 text-slate-300 m-auto mt-6" />
-                        )}
-                     </div>
-                     <div className="space-y-3">
-                        <input className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-xs font-black text-slate-800 text-center uppercase tracking-tight" placeholder="Student Name..." value={ranker.name} maxLength={50} onChange={e => { const n = [...form.rankers!]; n[i].name = e.target.value; setForm({...form, rankers: n}); }}/>
-                        <input className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2 text-xs font-bold text-blue-600 text-center shadow-inner shadow-blue-50" placeholder="Rank/Achievement..." value={ranker.rank} maxLength={100} onChange={e => { const n = [...form.rankers!]; n[i].rank = e.target.value; setForm({...form, rankers: n}); }}/>
-                        <input className="w-full bg-slate-100/50 border-none rounded-xl px-4 py-2 text-[10px] font-black text-slate-400 text-center" placeholder="Year (e.g. 2023-24)..." value={ranker.year} onChange={e => { const n = [...form.rankers!]; n[i].year = e.target.value; setForm({...form, rankers: n}); }}/>
-                     </div>
+          {renderSectionHeader('Custom Events', 'DYNAMIC EVENTS')}
+          <div className="bg-white rounded-[2.5rem] p-10 border border-slate-200 shadow-xl animate-fade-in relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-2 h-full bg-blue-500" />
+            <div className="space-y-12">
+              {form.customEvents?.map((ev, i) => (
+                <div key={i} className="bg-slate-50 border border-slate-200 p-6 rounded-3xl relative">
+                  <button type="button" onClick={() => { const n = [...form.customEvents!]; n.splice(i, 1); setForm({...form, customEvents: n}) }} className="absolute -top-4 -right-4 w-10 h-10 bg-red-50 text-red-500 flex items-center justify-center rounded-2xl hover:bg-red-500 hover:text-white transition-all shadow-md z-10"><Trash2 className="w-5 h-5"/></button>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <input className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700" placeholder="Event Name (e.g. Activity 1)" value={ev.name} onChange={e => { const n = [...form.customEvents!]; n[i].name = e.target.value; n[i].slug = e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''); setForm({...form, customEvents: n}); }}/>
+                    <input className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-400 cursor-not-allowed" placeholder="URL Slug (auto-generated)" value={ev.slug} readOnly />
                   </div>
-                ))}
-                {(form.rankers?.length || 0) < 10 && (
-                  <button type="button" onClick={() => setForm({...form, rankers: [...(form.rankers || []), { name: '', rank: '', year: '', image: null }]})} className="min-h-[16rem] bg-white border-2 border-dashed border-slate-100 rounded-[2rem] flex flex-col items-center justify-center gap-3 text-slate-300 hover:border-blue-200 hover:text-blue-500 transition-all font-black text-xs uppercase tracking-widest">
-                     <Star className="w-8 h-8 opacity-30" /> Add Ranker
-                  </button>
-                )}
-             </div>
+                  {renderTextArea(`Description for ${ev.name || 'Event'}`, ev.description || '', 10, 800, (v) => { const n = [...form.customEvents!]; n[i].description = v; setForm({...form, customEvents: n}); })}
+                  <div className="mt-6">
+                    {renderGalleryEditor(`Gallery for ${ev.name || 'Event'}`, ev.images || [], 10, 45, (g) => { const n = [...form.customEvents!]; n[i].images = g; setForm({...form, customEvents: n}); })}
+                  </div>
+                </div>
+              ))}
+              <div className="pt-4">
+                <button type="button" onClick={() => setForm({...form, customEvents: [...(form.customEvents || []), { id: Date.now().toString(), name: '', slug: '', description: '', images: [] }]})} className="w-full py-6 bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl flex items-center justify-center gap-2 text-slate-400 font-bold text-xs hover:border-blue-400 hover:text-blue-500 transition-all uppercase tracking-widest"><Plus className="w-5 h-5"/> Add New Dynamic Event</button>
+              </div>
+            </div>
           </div>
         </>
       )}
@@ -357,3 +376,7 @@ const MMSStudentsLifeForm: React.FC = () => {
 };
 
 export default MMSStudentsLifeForm;
+
+
+
+

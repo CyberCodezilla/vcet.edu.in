@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MMSLayout from '../../../components/mms/MMSLayout';
 import { PlacementDataTableCard } from './MMSPlacementShared';
+import { get } from '../../../services/api';
+import type { TrainingPlacementData } from '../../../admin/types';
 
 type InternshipRow = {
   srNo: number;
@@ -9,7 +11,7 @@ type InternshipRow = {
   company: string;
 };
 
-const internshipRows: InternshipRow[] = [
+const defaultInternshipRows: InternshipRow[] = [
   { srNo: 1, studentName: 'AKSARI ASANIN KITMA SAHEB', specialization: 'Finance', company: 'ASHIVERA ACADEMY' },
   { srNo: 2, studentName: 'BHABOWAI NCHA AJAY', specialization: 'Finance', company: 'SAMCO SECURITIES LIMITED' },
   { srNo: 3, studentName: 'BORKAR MOSHKADA DEEPAK', specialization: 'Finance', company: 'FIDUCIARY CAPITAL' },
@@ -58,6 +60,52 @@ const internshipRows: InternshipRow[] = [
 ];
 
 export default function MMSPlacementInternships() {
+  const [data, setData] = useState<TrainingPlacementData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 30;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await get<{ data: TrainingPlacementData }>('/pages/mms-training-placement');
+        setData(response.data);
+      } catch (err) {
+        console.error('Failed to fetch training placement data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+     <MMSLayout title="List of Students placed For OJT and Summer Internship">
+      <PlacementDataTableCard title="List of Students placed For OJT and Summer Internship">
+         <div className="py-20 text-center text-slate-500 animate-pulse">Loading Internship Records...</div>
+      </PlacementDataTableCard>
+     </MMSLayout>
+    );
+  }
+
+  const backendRows = (data?.internshipList || []).map(row => ({
+    studentName: row.studentName,
+    specialization: row.specialization,
+    company: row.company,
+  }));
+
+  const internshipRows = [...defaultInternshipRows, ...backendRows].map((row, idx) => ({
+    ...row,
+    srNo: idx + 1,
+  }));
+
+  const totalPages = Math.ceil(internshipRows.length / rowsPerPage);
+  const paginatedRows = internshipRows.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
+  );
+
   return (
     <MMSLayout title="List of Students placed For OJT and Summer Internship">
       <PlacementDataTableCard title="List of Students placed For OJT and Summer Internship">
@@ -72,7 +120,7 @@ export default function MMSPlacementInternships() {
               </tr>
             </thead>
             <tbody>
-              {internshipRows.map((row, index) => (
+              {paginatedRows.map((row, index) => (
                 <tr key={`${row.srNo}-${row.studentName}-${index}`} className={index % 2 === 0 ? 'bg-white' : 'bg-brand-light/18'}>
                   <td className="border border-slate-700/80 px-2 py-2 text-[11px] text-slate-900 sm:text-xs">{row.srNo}</td>
                   <td className="border border-slate-700/80 px-2 py-2 text-[11px] text-slate-900 sm:text-xs">
@@ -89,6 +137,63 @@ export default function MMSPlacementInternships() {
             </tbody>
           </table>
         </div>
+
+        {totalPages > 1 && (
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-3 py-1.5 text-sm font-medium text-white bg-[#0d4888] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#0a325f] transition-colors"
+            >
+              Previous
+            </button>
+            
+            <div className="flex gap-1.5 px-2 text-sm max-w-full overflow-x-auto py-1">
+              {[...Array(totalPages)].map((_, i) => {
+                // Show reasonable number of page buttons to avoid overwhelming the UI
+                const pageNum = i + 1;
+                // Show first, last, and +-2 from current
+                if (
+                  pageNum === 1 || 
+                  pageNum === totalPages || 
+                  (pageNum >= currentPage - 2 && pageNum <= currentPage + 2)
+                ) {
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentPage(pageNum)}
+                      className={`w-8 h-8 flex items-center justify-center rounded text-sm font-medium transition-colors ${
+                        currentPage === pageNum 
+                          ? 'bg-brand-gold text-[#0d4888] shadow-sm' 
+                          : 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-50'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                }
+                
+                // Show ellipsis for gaps
+                if (
+                  (pageNum === 2 && currentPage > 4) ||
+                  (pageNum === totalPages - 1 && currentPage < totalPages - 3)
+                ) {
+                  return <span key={i} className="flex items-end text-slate-400">...</span>;
+                }
+                
+                return null;
+              })}
+            </div>
+
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="px-3 py-1.5 text-sm font-medium text-white bg-[#0d4888] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#0a325f] transition-colors"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </PlacementDataTableCard>
     </MMSLayout>
   );

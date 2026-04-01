@@ -110,14 +110,14 @@ export const pagesApi = {
       }
 
       if (payload.dean) {
-        const { image, ...deanData } = payload.dean;
-        formData.append('dean', JSON.stringify(deanData));
+        const { image, deleteImage, ...deanData } = payload.dean;
+        formData.append('dean', JSON.stringify({ ...deanData, deleteImage: deleteImage || false }));
         if (image) formData.append('deanImage', image);
       }
 
       if (payload.obe) {
-        const { image, ...obeData } = payload.obe;
-        formData.append('obe', JSON.stringify(obeData));
+        const { image, deleteImage, ...obeData } = payload.obe;
+        formData.append('obe', JSON.stringify({ ...obeData, deleteImage: deleteImage || false }));
         if (image) formData.append('obeImage', image);
       }
 

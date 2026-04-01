@@ -114,21 +114,21 @@ const MMSScholarshipForm: React.FC = () => {
                      <input className="admin-input-small" value={item.name} onChange={e => handleTextChange(e.target.value, 100, val => {
                        const c = [...form.overview!]; c[i].name = val; setForm({...form, overview: c});
                      })}/>
-                     <span className="absolute right-2 top-8 text-[10px] text-slate-400">{item.name.length}/100</span>
+                     <span className="absolute right-2 top-8 text-[10px] text-slate-400">{item.name?.length || 0}/100</span>
                    </div>
                    <div className="relative">
                      <label className="admin-label">Category (Max 50)</label>
                      <input className="admin-input-small" value={item.category} onChange={e => handleTextChange(e.target.value, 50, val => {
                        const c = [...form.overview!]; c[i].category = val; setForm({...form, overview: c});
                      })}/>
-                     <span className="absolute right-2 top-8 text-[10px] text-slate-400">{item.category.length}/50</span>
+                     <span className="absolute right-2 top-8 text-[10px] text-slate-400">{item.category?.length || 0}/50</span>
                    </div>
                    <div className="md:col-span-2 relative">
                      <label className="admin-label">Description (Max 150)</label>
                      <input className="admin-input-small" value={item.description} onChange={e => handleTextChange(e.target.value, 150, val => {
                        const c = [...form.overview!]; c[i].description = val; setForm({...form, overview: c});
                      })}/>
-                     <span className="absolute right-2 top-8 text-[10px] text-slate-400">{item.description.length}/150</span>
+                     <span className="absolute right-2 top-8 text-[10px] text-slate-400">{item.description?.length || 0}/150</span>
                    </div>
                  </div>
               </div>

@@ -28,9 +28,10 @@ interface FacilitiesImageHolderProps {
   imageSrc?: string;
 }
 
-export function FacilitiesImageHolder({ label, size = 'default' }: FacilitiesImageHolderProps) {
+export function FacilitiesImageHolder(props: FacilitiesImageHolderProps) {
+  const { label, size = 'default' } = props;
   const minHeightClass = size === 'large' ? 'min-h-[280px] sm:min-h-[320px]' : 'min-h-[200px]';
-  const imageUrl = useMmsImageHolder('facilities', label);
+  const imageUrl = props.src || props.imageSrc;
 
   return (
     <article className="group relative overflow-hidden rounded-none border border-brand-blue/20 bg-gradient-to-br from-slate-50 to-brand-light/35 p-[3px] shadow-[0_16px_28px_-20px_rgba(11,61,145,0.6)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_36px_-20px_rgba(11,61,145,0.65)]">

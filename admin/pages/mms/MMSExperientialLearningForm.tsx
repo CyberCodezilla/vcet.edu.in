@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ChevronDown, ChevronUp, Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle, ArrowLeft } from 'lucide-react';
 import type { MMSExperientialLearningPayload, GalleryItem } from '../../types';
 import { mmsExperientialLearningApi } from '../../api/mmsExperientialLearning';
+import { resolveApiUrl } from '../../../services/api';
 
 const emptyForm: MMSExperientialLearningPayload = {
   rolePlay: [],
@@ -155,7 +156,7 @@ const MMSExperientialLearningForm: React.FC = () => {
                     }}
                   />
                   {item.image ? (
-                    <img src={typeof item.image === 'string' ? item.image : URL.createObjectURL(item.image)} alt="" className="w-full h-full object-cover" />
+                    <img src={typeof item.image === 'string' ? item.image : (item.image instanceof File || item.image instanceof Blob ? URL.createObjectURL(item.image) : ((item.image as any)?.url ? (resolveApiUrl((item.image as any).url) || '') : ''))} alt="" className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center gap-2">
                        <ImageIcon className="w-8 h-8 text-slate-300 group-hover:text-blue-500 transition-colors" />

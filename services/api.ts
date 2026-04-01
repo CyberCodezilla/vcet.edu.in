@@ -48,8 +48,19 @@ export async function get<T>(path: string): Promise<T> {
     return data as T;
 }
 
-export function resolveApiUrl(path: string | null | undefined): string | null {
+export function resolveApiUrl(path: any): string | null {
     if (!path) return null;
-    if (/^https?:\/\//i.test(path) || path.startsWith('blob:')) return path;
-    return `${API_ORIGIN}${path.startsWith('/') ? path : `/${path}`}`;
+    
+    let resolvedPath = path;
+    if (typeof path === 'object' && path !== null && 'url' in path) {
+        resolvedPath = path.url;
+    }
+
+    if (typeof resolvedPath !== 'string') return null;
+    if (/^https?:\/\//i.test(resolvedPath) || resolvedPath.startsWith('blob:') || resolvedPath.startsWith('data:')) return resolvedPath;
+    // Local frontend assets shouldn't be prefixed with API_ORIGIN
+    if (/^\/?(images|Images|pdfs|Pdfs)\//.test(resolvedPath)) {
+        return resolvedPath.startsWith("/") ? resolvedPath : `/${resolvedPath}`;
+    }
+    return `${API_BASE}${resolvedPath.startsWith('/') ? '' : '/'}${resolvedPath}`;
 }

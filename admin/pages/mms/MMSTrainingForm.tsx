@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle } from 'lucide-react';
 import type { TrainingPlacementPayload } from '../../types';
 import { trainingPlacementApi } from '../../api/trainingPlacement';
+import { resolveApiUrl } from '../../../services/api';
 
 const MMSTrainingForm: React.FC = () => {
   const [form, setForm] = useState<TrainingPlacementPayload>({
@@ -25,6 +26,7 @@ const MMSTrainingForm: React.FC = () => {
       if (res.data) {
         setForm(prev => ({
           ...prev,
+          ...res.data,
           trainingPoints: res.data.trainingPoints || [],
           events: res.data.events || [],
           careerGuidance: res.data.careerGuidance || { guidancePoints: [], seminars: [] },
@@ -163,7 +165,9 @@ const MMSTrainingForm: React.FC = () => {
                   </div>
                   <div className="md:col-span-2">
                     <label className="admin-label mb-2">Event Image</label>
-                    <ImageUploader onFileSelect={() => { }} />
+                      <ImageUploader onFileSelect={(f) => {
+                        const c = [...form.events!]; c[i] = { ...c[i], image: f }; setForm({ ...form, events: c });
+                      }} value={ev.image} />
                   </div>
                 </div>
               </div>
@@ -238,7 +242,11 @@ const MMSTrainingForm: React.FC = () => {
                       </div>
                       <div>
                         <label className="admin-label mb-2">Seminar Image</label>
-                        <ImageUploader onFileSelect={() => { }} />
+                          <ImageUploader onFileSelect={(f) => {
+                            const c = { ...form.careerGuidance! };
+                            const sems = [...c.seminars]; sems[i] = { ...sems[i], image: f };
+                            setForm({ ...form, careerGuidance: { ...c, seminars: sems } });
+                          }} value={sem.image} />
                       </div>
                     </div>
                   </div>
@@ -318,32 +326,51 @@ const SectionCard = ({ icon, title, children }: any) => (
   </div>
 );
 
-const ImageUploader = ({ onFileSelect }: { onFileSelect: (f: File) => void }) => (
-  <div className="relative group rounded-xl border-2 border-dashed border-slate-200 p-4 bg-slate-50 hover:bg-slate-100 transition-colors flex flex-col items-center justify-center min-h-[80px] text-center cursor-pointer">
-    <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={(e) => { if (e.target.files?.[0]) onFileSelect(e.target.files[0]); }} />
-    <ImageIcon className="w-5 h-5 text-slate-400 group-hover:text-blue-500 mb-1" />
-    <p className="text-[10px] text-slate-500 font-semibold">Click to Upload</p>
-  </div>
-);
+const ImageUploader = ({ value, onFileSelect }: { value?: any; onFileSelect: (f: File) => void }) => {
+  const imageUrl = value instanceof File ? URL.createObjectURL(value) : (value && typeof value === 'object' && 'url' in value ? resolveApiUrl((value as any).url) : resolveApiUrl(value as string));
+  return (
+    <div className="relative group rounded-xl border-2 border-dashed border-slate-200 p-4 bg-slate-50 hover:bg-slate-100 transition-colors flex flex-col items-center justify-center min-h-[120px] text-center cursor-pointer overflow-hidden">
+      <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={(e) => { if (e.target.files?.[0]) onFileSelect(e.target.files[0]); }} />
+      {imageUrl ? (
+        <img src={imageUrl} alt="preview" className="absolute inset-0 w-full h-full object-cover" />
+      ) : (
+        <>
+          <ImageIcon className="w-5 h-5 text-slate-400 group-hover:text-blue-500 mb-1" />
+          <p className="text-[10px] text-slate-500 font-semibold">Click to Upload</p>
+        </>
+      )}
+    </div>
+  );
+};
 
 const GalleryEditor = ({ items, max, labelLimit, onChange }: { items: any[]; max: number; labelLimit: number; onChange: (items: any[]) => void }) => (
   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-    {items.map((item, i) => (
+    {items.map((item, i) => {
+      const imgUrl = item.image instanceof File ? URL.createObjectURL(item.image) : (item.image && typeof item.image === 'object' && 'url' in item.image ? resolveApiUrl((item.image as any).url) : resolveApiUrl(item.image as string));
+      return (
       <div key={i} className="p-3 bg-slate-50 border border-slate-200 rounded-lg relative space-y-2">
         <button type="button" onClick={() => onChange(items.filter((_, idx) => idx !== i))} className="absolute top-1 right-1 bg-white border border-red-100 rounded text-red-500 z-10 p-0.5"><Trash2 className="w-3 h-3" /></button>
-        <div className="relative group rounded-lg border border-dashed border-slate-300 bg-white h-20 flex items-center justify-center cursor-pointer">
-          <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-          <ImageIcon className="w-5 h-5 text-slate-400" />
+        <div className="relative group rounded-lg border border-dashed border-slate-300 bg-white h-24 flex items-center justify-center cursor-pointer overflow-hidden">
+          <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+            if (e.target.files?.[0]) {
+               const c = [...items]; c[i] = { ...c[i], image: e.target.files[0] }; onChange(c);
+            }
+          }} />
+          {imgUrl ? (
+            <img src={imgUrl} alt="gallery preview" className="absolute inset-0 w-full h-full object-cover" />
+          ) : (
+            <ImageIcon className="w-5 h-5 text-slate-400 group-hover:text-blue-500 mb-1" />
+          )}
         </div>
-        <input className="admin-input-small text-center" placeholder={`Label (Max ${labelLimit})`} value={item.label} onChange={e => {
+        <input className="admin-input-small text-center" placeholder={`Label (Max ${labelLimit})`} value={item.label || ''} onChange={e => {
           if (e.target.value.length <= labelLimit) {
             const c = [...items]; c[i] = { ...c[i], label: e.target.value }; onChange(c);
           }
         }} />
       </div>
-    ))}
+    )})}
     {items.length < max && (
-      <button type="button" onClick={() => onChange([...items, { label: '' }])} className="btn-add min-h-[7rem]">
+      <button type="button" onClick={() => onChange([...items, { label: '', image: null }])} className="btn-add min-h-[7rem]">
         <Plus className="w-5 h-5 mx-auto mb-1" /> Add Image
       </button>
     )}

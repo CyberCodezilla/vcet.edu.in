@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ImageIcon } from 'lucide-react';
 import { useMmsImageHolder } from '../../../hooks/mms/useMmsImageHolder';
 
@@ -24,31 +24,53 @@ interface ExperientialImageHolderProps {
   imageSrc?: string;
 }
 
-export function ExperientialImageHolder({ label }: ExperientialImageHolderProps) {
-  const imageUrl = useMmsImageHolder('experiential', label);
+export function ExperientialImageHolder({ label, imageSrc }: ExperientialImageHolderProps) {
+  const hookImageUrl = useMmsImageHolder('experiential', label, !!imageSrc);
+  const imageUrl = imageSrc || hookImageUrl;
+  const [isLoaded, setIsLoaded] = useState(false);
 
   return (
     <article className="group relative overflow-hidden rounded-none border border-brand-blue/25 bg-gradient-to-br from-slate-50 to-brand-light/45 p-[3px] shadow-[0_18px_30px_-24px_rgba(11,61,145,0.65)]">
-      <div className="rounded-none border border-brand-blue/20 bg-white p-4 sm:p-5">
+      <div className="relative rounded-none border border-brand-blue/20 bg-white p-4 sm:p-5">
         {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={label}
-            className="block min-h-[220px] w-full rounded-none object-cover"
-            referrerPolicy="no-referrer"
-          />
+          <>
+            {!isLoaded && (
+              <div className="absolute inset-x-4 inset-y-4 sm:inset-x-5 sm:inset-y-5 flex items-center justify-center bg-slate-100 animate-pulse">
+                <ImageIcon className="h-8 w-8 text-brand-blue/20" />
+              </div>
+            )}
+            <img
+              src={imageUrl}
+              alt={label}
+              onLoad={() => setIsLoaded(true)}
+              className={`block min-h-[220px] w-full rounded-none object-cover transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+              referrerPolicy="no-referrer"
+            />
+          </>
         ) : (
           <div className="flex min-h-[220px] items-center justify-center rounded-none border-2 border-dashed border-brand-blue/30 bg-gradient-to-br from-brand-light/35 to-slate-100 text-center">
             <div className="space-y-2 px-4">
-              <ImageIcon className="mx-auto h-9 w-9 text-brand-blue/65" />
+              <ImageIcon className="mx-auto h-9 w-9 text-brand-blue/65" />      
               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-gold">Image Holder</p>
-              <p className="text-sm font-semibold text-brand-navy">{label}</p>
+              <p className="text-sm font-semibold text-brand-navy">{label}</p>  
             </div>
           </div>
         )}
       </div>
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-brand-gold via-yellow-300 to-brand-gold/70" />
       <div className="pointer-events-none absolute right-0 top-0 h-8 w-8 border-r-[3px] border-t-[3px] border-brand-gold/90" />
+    </article>
+  );
+}
+
+export function ExperientialSkeletonHolder() {
+  return (
+    <article className="group relative overflow-hidden rounded-none border border-brand-blue/25 bg-gradient-to-br from-slate-50 to-brand-light/45 p-[3px] shadow-[0_18px_30px_-24px_rgba(11,61,145,0.65)] animate-pulse">
+      <div className="rounded-none border border-brand-blue/20 bg-slate-100 p-4 sm:p-5 flex min-h-[260px] items-center justify-center">
+        <ImageIcon className="h-9 w-9 text-brand-blue/20" />
+      </div>
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-brand-gold via-yellow-300 to-brand-gold/70 opacity-30" />
+      <div className="pointer-events-none absolute right-0 top-0 h-8 w-8 border-r-[3px] border-t-[3px] border-brand-gold/30" />
     </article>
   );
 }

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Image as ImageIcon, Plus, Trash2, CheckCircle, AlertTriangle } from 'lucide-react';
 import type { MMSFacilitiesPayload, GalleryItem } from '../../types';
 import { mmsFacilitiesApi } from '../../api/mmsFacilitiesApi';
+import { resolveApiUrl } from '../../api/client';
 
 const emptyForm: MMSFacilitiesPayload = {
   computerLabs: [],
@@ -114,10 +115,10 @@ const MMSFacilitiesForm: React.FC = () => {
         <div className="p-8 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
           <div>
             <h3 className="text-xl font-bold text-slate-800">Gallery Items</h3>
-            <p className="text-sm text-slate-500 font-medium mt-1">Manage images for this facility. Max {config.max} images.</p>
+            <p className="text-sm text-slate-500 font-medium mt-1">Manage images for this facility. </p>
           </div>
           <div className="px-4 py-2 bg-white rounded-xl border border-slate-200 text-sm font-bold text-slate-600 shadow-sm">
-            {items.length} / {config.max} Slots Used
+            {items.length} Images Added
           </div>
         </div>
 
@@ -151,7 +152,7 @@ const MMSFacilitiesForm: React.FC = () => {
                     }}
                   />
                   {item.image ? (
-                    <img src={typeof item.image === 'string' ? item.image : URL.createObjectURL(item.image)} alt="" className="w-full h-full object-cover" />
+                    <img src={typeof item.image === 'string' ? item.image : (item.image instanceof File || item.image instanceof Blob ? URL.createObjectURL(item.image) : ((item.image as any)?.url ? (resolveApiUrl((item.image as any).url) || '') : ''))} alt="" className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center gap-2">
                        <ImageIcon className="w-8 h-8 text-slate-200 group-hover:text-blue-500 transition-colors" />
@@ -182,7 +183,7 @@ const MMSFacilitiesForm: React.FC = () => {
               </div>
             ))}
 
-            {items.length < config.max && (
+            {true && (
               <button 
                 type="button" 
                 onClick={() => {

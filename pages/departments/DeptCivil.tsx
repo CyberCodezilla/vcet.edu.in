@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
+import NewsletterSection from '../../components/NewsletterSection';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -611,60 +612,9 @@ const DeptCivil: React.FC = () => {
           )}
 
           {/* ════ NEWSLETTER & MAGAZINE ══════════════════════════ */}
-          {activeId === 'newsletter' && (() => {
-            const newsletters = [
-              { label: 'NEWS LETTER ODD SEM 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2023/12/CIVIL-TODAY-Dec-23.pdf' },
-              { label: 'NEWS LETTER EVEN SEM 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2023/12/Civil_Vikrant-May-2022_.pdf' },
-              { label: 'NEWS LETTER ODD SEM 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2023/12/DEC-22-CIVIL-Today.pdf' },
-              { label: 'NEWS LETTER EVEN SEM 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2023/12/Civil_Viren_May-2021.pdf' },
-              { label: 'NEWS LETTER ODD SEM 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2023/12/Civil_dec2021_PUJA-KADAM-1.pdf' },
-              { label: 'NEWS LETTER EVEN SEM 2020-21', url: 'https://vcet.edu.in/wp-content/uploads/2023/12/Newsletter-Civil_May-20_Aishwarya.pdf' },
-              { label: 'NEWS LETTER ODD SEM 2020-21', url: 'https://vcet.edu.in/wp-content/uploads/2023/12/Civil_Dec-2020_jaydeep.pdf' },
-              { label: 'NEWS LETTER EVEN SEM 2019-20', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/Newsletter-Civil_AY-2019-20-Even-sem.pdf' },
-              { label: 'NEWS LETTER ODD SEM 2019-20', url: 'https://vcet.edu.in/wp-content/uploads/2023/12/CivilToday_Dec-2019_Nikhil.pdf' },
-            ];
-            return (
-              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-6">
-                <div className="flex items-center gap-3"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Civil Engineering</span></div>
-                <h3 className="text-2xl font-bold text-brand-navy relative inline-block">News Letter &amp; Magazine<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                <div>
-                  <h4 className="text-lg font-bold text-brand-navy mb-3">Newsletter</h4>
-                  <div className="space-y-2">
-                    {newsletters.map((item) => (
-                      <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
-                        <span>{item.label}</span><i className="ph ph-arrow-up-right text-brand-gold" />
-                      </a>
-                    ))}
-                  </div>
-                </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 md:p-6">
-                  <h4 className="text-lg font-bold text-brand-navy relative inline-block">
-                    Committee Details
-                    {' '}
-                    <span className="absolute -bottom-2 left-0 h-1 w-10 rounded-full bg-brand-gold" />
-                  </h4>
-                  <p className="mt-5 text-base font-semibold text-brand-navy">Staff Incharge</p>
-
-                  <div className="mt-6 flex justify-center">
-                    <div className="w-full max-w-[340px] rounded-2xl border-2 border-dashed border-slate-300 bg-white px-4 py-12 text-center">
-                      <i className="ph ph-image text-4xl text-slate-400" />
-                      <p className="mt-3 text-sm font-semibold text-slate-500">Staff Image Placeholder</p>
-                      <p className="mt-1 text-xs text-slate-400">Add image later in this area</p>
-                    </div>
-                  </div>
-
-                  <div className="mt-5 text-center">
-                    <p className="text-2xl font-bold text-brand-navy">Dr. Viren Chandanshive</p>
-                    <p className="mt-2 text-sm text-slate-600">Civil Engineering</p>
-                    <p className="mt-3 text-sm text-slate-700">
-                      <i className="ph ph-envelope mr-2 text-brand-gold align-middle" />
-                      <span className="align-middle">viren.chandanshive@vcet.edu.in</span>
-                    </p>
-                  </div>
-                </div>
-              </section>
-            );
-          })()}
+          {activeId === 'newsletter' && (
+            <NewsletterSection departmentName="Civil Engineering" departmentId="8" />
+          )}
 
           {/* ════ VCET-ADT CELL ══════════════════════════════════ */}
           {activeId === 'vcet-adt-cell' && (() => {

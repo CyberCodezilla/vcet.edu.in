@@ -1,229 +1,221 @@
 import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
+import { Github, Linkedin, Globe, Code2, Users } from 'lucide-react';
 
-/* ── Data ── */
+interface DevProfile {
+  name: string;
+  githubUser: string;
+  githubUrl: string;
+  linkedinUrl: string;
+  portfolioUrl: string;
+  role: string;
+}
 
-const professors = [
+const coreTeam: DevProfile[] = [
+  {
+    name: 'Shubham Pawar',
+    githubUser: 'frag2win',
+    githubUrl: 'https://github.com/frag2win',
+    linkedinUrl: '#',
+    portfolioUrl: '#',
+    role: 'Lead Developer'
+  },
+  {
+    name: 'ivory-26',
+    githubUser: 'ivory-26',
+    githubUrl: 'https://github.com/ivory-26',
+    linkedinUrl: '#',
+    portfolioUrl: '#',
+    role: 'Backend Developer'
+  },
+  {
+    name: 'CyberCodezilla',
+    githubUser: 'CyberCodezilla',
+    githubUrl: 'https://github.com/CyberCodezilla',
+    linkedinUrl: '#',
+    portfolioUrl: '#',
+    role: 'Frontend Developer'
+   
+  },
+  {
+    name: 'yashhh-23',
+    githubUser: 'yashhh-23',
+    githubUrl: 'https://github.com/yashhh-23',
+    linkedinUrl: '#',
+    portfolioUrl: '#',
+    role: 'Frontend Developer'
+  },
+  {
+    name: 'RedRex101',
+    githubUser: 'RedRex101',
+    githubUrl: 'https://github.com/RedRex101',
+    linkedinUrl: '#',
+    portfolioUrl: '#',
+    role: 'Frontend Developer'
+  }
+];
+
+const fellowship: DevProfile[] = [
+  { name: 'Sahil2802-coder', githubUser: 'Sahil2802-coder', githubUrl: 'https://github.com/Sahil2802-coder', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'sawantshreya008', githubUser: 'sawantshreya008', githubUrl: 'https://github.com/sawantshreya008', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'sumritasawant101-droid', githubUser: 'sumritasawant101-droid', githubUrl: 'https://github.com/sumritasawant101-droid', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'dakshata2405956201-svg', githubUser: 'dakshata2405956201-svg', githubUrl: 'https://github.com/dakshata2405956201-svg', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'shweta1909patil-maker', githubUser: 'shweta1909patil-maker', githubUrl: 'https://github.com/shweta1909patil-maker', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'Sumit Vishwakarma', githubUser: 'Sumitc0de', githubUrl: 'https://github.com/Sumitc0de', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'antarikshsingh', githubUser: 'antarikshsingh', githubUrl: 'https://github.com/antarikshsingh', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'PratikRaval24', githubUser: 'PratikRavale24', githubUrl: 'https://github.com/PratikRavale24', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'Pranish Harish Shetty', githubUser: 'pranishshetty', githubUrl: 'https://share.google/b5ZkgP5lON5wfUw4y', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'Rehan Pinjari', githubUser: 'rehanw1', githubUrl: 'https://github.com/rehanw1', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'Pritiyadav', githubUser: 'Pritiyadav6', githubUrl: 'https://github.com/Pritiyadav6', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+];
+
+const mentors = [
   {
     name: 'Dr. Yogesh Pingle',
-    title: 'Deputy HOD & Assistant Professor, CSE(DS)',
-    description:
-      'Website In-Charge, VCET',
+    roles: ['Deputy HOD & Assistant Professor, CSE(DS)', 'Website In-Charge, VCET'],
+    imageUrl: 'https://ui-avatars.com/api/?name=Dr+Yogesh+Pingle&background=0D8ABC&color=fff&size=150'
   },
   {
     name: 'Mr. Nitin Shingane',
-    title: 'System Programmer, VCET',
-    description:
-      '',
+    roles: ['System Administrator, VCET'],
+    imageUrl: 'https://ui-avatars.com/api/?name=Mr+Nitin+Shingane&background=0D8ABC&color=fff&size=150'
   },
   {
     name: 'Mr. Ashish Gosavi',
-    title: 'Technical Expert',
-    description:
-      '',
-  },
+    roles: ['Technical Expert'],
+    imageUrl: 'https://ui-avatars.com/api/?name=Mr+Ashish+Gosavi&background=0D8ABC&color=fff&size=150'
+  }
 ];
 
-const developers = [
-  {
-    name: 'Yash Sanil',
-    qualification: 'B.E. Computer Science & Engineering(Data Science)',
-    role: 'Lead Developer',
-  },
-  {
-    name: 'Yash Dedhia',
-    qualification: 'B.E. Computer Science & Engineering(Data Science)',
-    role: 'UI Architect',
-  },
-  {
-    name: 'Sahil Karpe',
-    qualification: 'B.E. Computer Science & Engineering(Data Science)',
-    role: 'Systems Engineer',
-  },
-  {
-    name: 'Shubham Pawar',
-    qualification: 'B.E. Computer Science & Engineering(Data Science)',
-    role: 'Full Stack Developer',
-  },
-  {
-    name: 'Sahil Rane',
-    qualification: 'B.E. Computer Science & Engineering(Data Science)',
-    role: 'Data Science Lead',
-  },
-];
+const DevCard: React.FC<{ profile: DevProfile }> = ({ profile }) => (
+  <div className="group relative flex flex-col items-center bg-white rounded-3xl p-6 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#2563EB]/20 transition-all duration-300">
+    <div className="relative w-24 h-24 mb-4">
+      <div className="absolute inset-0 bg-[#2563EB]/10 rounded-full blur group-hover:bg-[#2563EB]/20 transition-all" />
+      <img
+        src={`https://github.com/${profile.githubUser}.png?size=150`}
+        alt={profile.name}
+        className="relative w-full h-full object-cover rounded-full border-2 border-white shadow-md relative z-10 bg-white"
+        loading="lazy"
+        onError={(e) => {
+          (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.name)}&background=0D8ABC&color=fff`;
+        }}
+      />
+    </div>
 
-const students = [
-  { name: 'Shreya Sawant', role: 'Front-end Apprentice' },
-  { name: 'Sumrita Sawant', role: 'Back-end Apprentice' },
-  { name: 'Dakshata Salgaonkar', role: 'UI Research' },
-  { name: 'Shweta Patil', role: 'QA Engineering' },
-  { name: 'Sumit Vishwakarma', role: 'API Design' },
-  { name: 'Antariksh Singh', role: 'Database Modeling' },
-  { name: 'Pratik Ravale', role: 'DevOps Intern' },
-  { name: 'Pranish Shetty', role: 'Security Analyst' },
-  { name: 'Rehan Pinjari', role: 'Mobile Systems' },
-  { name: 'Priti', role: 'Documentation' },
-];
+    <h3 className="text-lg font-bold text-slate-800 text-center">{profile.name}</h3>
+    <p className="text-sm text-[#2563EB] font-semibold mb-4 text-center">{profile.role}</p>
 
-/* ── Component ── */
+    <div className="flex items-center gap-3 mt-auto pt-4 border-t border-slate-100 w-full justify-center">
+      <a href={profile.githubUrl} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full text-slate-400 hover:bg-slate-50 hover:text-slate-900 transition-colors" title="GitHub Profile">
+        <Github className="w-5 h-5" />
+      </a>
+      <a href={profile.linkedinUrl} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full text-slate-400 hover:bg-[#0A66C2]/10 hover:text-[#0A66C2] transition-colors" title="LinkedIn Profile">
+        <Linkedin className="w-5 h-5" />
+      </a>
+      <a href={profile.portfolioUrl} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full text-slate-400 hover:bg-amber-500/10 hover:text-amber-500 transition-colors" title="Portfolio Website">
+        <Globe className="w-5 h-5" />
+      </a>
+    </div>
+  </div>
+);
+
+const MentorCard: React.FC<{ profile: typeof mentors[0] }> = ({ profile }) => (
+  <div className="group relative flex flex-col items-center bg-white rounded-3xl p-6 shadow-sm border border-slate-100 hover:shadow-xl hover:border-[#2563EB]/20 transition-all duration-300 h-full">
+    <div className="relative w-24 h-24 mb-4">
+      <div className="absolute inset-0 bg-[#2563EB]/10 rounded-full blur group-hover:bg-[#2563EB]/20 transition-all" />
+      <img
+        src={profile.imageUrl}
+        alt={profile.name}
+        className="relative w-full h-full object-cover rounded-full border-2 border-white shadow-md relative z-10 bg-white"
+        loading="lazy"
+      />
+    </div>
+
+    <h3 className="text-lg font-bold text-slate-800 text-center mb-2">{profile.name}</h3>
+    {profile.roles.map((role, idx) => (
+      <p key={idx} className="text-sm text-[#2563EB] font-medium text-center">{role}</p>
+    ))}
+  </div>
+);
 
 const Developers: React.FC = () => {
   return (
     <PageLayout>
       <PageBanner
-        title="Website Developers"
-        subtitle="Meet the visionaries, developers, and student fellows behind the VCET digital experience."
+        title="VCET Dev Team"
         breadcrumbs={[
-          { label: 'Committees', href: '/developers' },
-          { label: 'Website Developers' },
+          { label: 'Home', path: '/' },
+          { label: 'Developers' }
         ]}
       />
 
-      <section className="bg-[radial-gradient(1200px_500px_at_10%_0%,rgba(26,75,124,0.09),transparent),radial-gradient(900px_400px_at_90%_10%,rgba(253,184,19,0.08),transparent),#f5f7fa] py-10 md:py-14">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-6xl mx-auto space-y-12 md:space-y-16">
-
-            {/* ── Tier 1: Professors ── */}
-            <div>
-              <div className="text-center mb-10">
-                <span className="inline-block text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold mb-2">
-                  Our Technical Visionaries
-                </span>
-                <h2 className="font-display text-3xl md:text-4xl text-[#1a4b7c] font-bold">
-                  Faculty Mentors
-                </h2>
-                <div className="w-16 h-1.5 rounded-full bg-brand-gold mx-auto mt-4" />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {professors.map((prof, i) => (
-                  <div
-                    key={i}
-                    className="reveal group bg-white border border-[#8ea2b8]/40 shadow-[0_8px_24px_rgba(26,75,124,0.10)] overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_34px_rgba(253,184,19,0.22),0_6px_14px_rgba(0,0,0,0.08)]"
-                    style={{ transitionDelay: `${i * 0.06}s` }}
-                  >
-                    {/* Compact square placeholder */}
-                    <div className="flex items-center justify-center bg-gradient-to-br from-[#e8eef6] to-[#d0dcea] h-44">
-                      <div className="flex flex-col items-center gap-2">
-                        <div className="w-20 h-20 rounded-full bg-[#1a4b7c]/10 border-2 border-[#1a4b7c]/20 flex items-center justify-center">
-                          <svg className="w-10 h-10 text-[#1a4b7c]/40" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
-                          </svg>
-                        </div>
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#1a4b7c]/40">Photo</span>
-                      </div>
-                    </div>
-                    <div className="p-6 md:p-8 text-center">
-                      <h3 className="font-display text-xl md:text-2xl text-[#1a4b7c] font-bold mb-1">
-                        {prof.name}
-                      </h3>
-                      <p className="text-xs font-bold uppercase tracking-wider text-brand-gold mb-3">
-                        {prof.title}
-                      </p>
-                      <p className="text-[#333] text-sm leading-relaxed">
-                        {prof.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── Tier 2: Core Developers ── */}
-            <div
-              className="reveal bg-gradient-to-br from-white to-[#f8fbff] border-2 border-[#8ea2b8] shadow-[0_14px_28px_rgba(26,75,124,0.18),0_4px_10px_rgba(0,0,0,0.06)] p-6 md:p-10 transition-all duration-500"
-              style={{ transitionDelay: '0.06s' }}
-            >
-              <div className="text-center mb-8">
-                <div className="w-16 h-1.5 rounded-full bg-brand-gold mx-auto mb-4" />
-                <h2 className="font-display text-3xl md:text-4xl text-[#1a4b7c] font-bold">
-                  Core Development Team
-                </h2>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
-                {developers.map((dev, i) => (
-                  <div
-                    key={i}
-                    className={`reveal group bg-white border border-[#8ea2b8]/30 p-6 md:p-8 text-center shadow-[0_4px_12px_rgba(0,0,0,0.05)] transition-all duration-400 hover:-translate-y-1 hover:shadow-[0_10px_22px_rgba(253,184,19,0.20)] ${
-                      i === 4 ? 'col-span-2 sm:col-span-1 lg:col-span-1' : ''
-                    }`}
-                    style={{ transitionDelay: `${i * 0.05}s` }}
-                  >
-                    {/* Large circular placeholder */}
-                    <div className="w-32 h-32 rounded-full mx-auto mb-5 border-2 border-brand-gold ring-4 ring-brand-gold/15 bg-gradient-to-br from-[#e8eef6] to-[#d0dcea] flex items-center justify-center">
-                      <svg className="w-16 h-16 text-[#1a4b7c]/35" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
-                      </svg>
-                    </div>
-                    <h4 className="font-display text-base md:text-lg text-[#1a4b7c] font-bold leading-tight">
-                      {dev.name}
-                    </h4>
-                    <p className="text-[11px] text-[#555] mt-1 mb-3 leading-snug">
-                      {dev.qualification}
-                    </p>
-                    <span className="inline-block text-[10px] font-extrabold uppercase tracking-wider bg-[#143759] text-brand-gold px-3 py-1 rounded-full">
-                      {dev.role}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── Tier 3: Student Fellowship ── */}
-            <div
-              className="reveal bg-white border-2 border-[#7f96ad] shadow-[0_16px_32px_rgba(253,184,19,0.18),0_4px_10px_rgba(0,0,0,0.06)] p-6 md:p-10 transition-all duration-500"
-              style={{ transitionDelay: '0.12s' }}
-            >
-              <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-14">
-                {/* Left description */}
-                <div className="lg:w-1/3">
-                  <div className="w-16 h-1.5 rounded-full bg-brand-gold mb-4" />
-                  <h2 className="font-display text-2xl md:text-3xl text-[#1a4b7c] font-bold mb-4">
-                    The Student Fellowship
-                  </h2>
-                  <p className="text-[#333] text-sm leading-relaxed mb-6">
-                    Each year, ten exceptional students are selected to apprentice within the
-                    team. These developers represent the next generation of academic technical
-                    leadership.
-                  </p>
-                  <span className="inline-flex items-center text-[#1a4b7c] font-bold text-sm group cursor-pointer">
-                    <span className="border-b-2 border-brand-gold pb-0.5 transition-all group-hover:pr-3">
-                      View Fellowship Program
-                    </span>
-                    <span className="ml-2 text-brand-gold transition-transform group-hover:translate-x-1">→</span>
-                  </span>
-                </div>
-
-                {/* Right grid of names */}
-                <div className="lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-y-1 gap-x-10">
-                  {students.map((student, i) => (
-                    <div
-                      key={i}
-                      className="reveal flex items-center gap-4 py-3.5 border-b border-[#8ea2b8]/20 transition-colors duration-300 hover:bg-[#fdb813]/5"
-                      style={{ transitionDelay: `${Math.min(i * 0.03, 0.25)}s` }}
-                    >
-                      <span className="font-display text-brand-gold text-xl font-bold w-8 flex-shrink-0">
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                      <div>
-                        <p className="font-bold text-[#1a4b7c] text-sm md:text-base leading-tight">
-                          {student.name}
-                        </p>
-                        <p className="text-[10px] uppercase font-bold tracking-wider text-[#555] mt-0.5">
-                          {student.role}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
+      <section className="py-16 md:py-24 bg-slate-50/50">
+        <div className="container mx-auto px-4 max-w-7xl animate-fade-in">
+          
+          <div className="text-center mb-16">
+            <h2 className="text-sm font-bold text-amber-500 tracking-[0.2em] uppercase mb-2">Guidance & Support</h2>
+            <h3 className="text-3xl md:text-5xl font-display font-bold text-[#111827] flex items-center justify-center gap-4">
+              <Users className="w-8 h-8 md:w-10 md:h-10 text-[#2563EB]" />
+              Mentors
+            </h3>
+            <p className="mt-4 max-w-2xl mx-auto text-slate-600">
+              The project was guided and supported by our faculty, ensuring alignment with institutional goals.
+            </p>
           </div>
+
+          <div className="flex flex-wrap gap-6 mb-24 justify-center">
+             {mentors.map((mentor, i) => (
+               <div key={i} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]">
+                 <MentorCard profile={mentor} />
+               </div>
+             ))}
+          </div>
+
+          <div className="text-center mb-16">
+            <h2 className="text-sm font-bold text-amber-500 tracking-[0.2em] uppercase mb-2">The architects</h2>
+            <h3 className="text-3xl md:text-5xl font-display font-bold text-[#111827] flex items-center justify-center gap-4">
+              <Code2 className="w-8 h-8 md:w-10 md:h-10 text-[#2563EB]" />
+              Core Development Team
+            </h3>
+            <p className="mt-4 max-w-2xl mx-auto text-slate-600">
+              The driving force and vision behind the complete redevelopment of the VCET digital presence.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-6 mb-24 justify-center">
+             {coreTeam.map((dev, i) => (
+               <div key={i} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)]">
+                 <DevCard profile={dev} />
+               </div>
+             ))}
+          </div>
+
+          <div className="text-center mb-16">
+            <h2 className="text-sm font-bold text-amber-500 tracking-[0.2em] uppercase mb-2">Contributors</h2>
+            <h3 className="text-3xl md:text-5xl font-display font-bold text-[#111827] flex items-center justify-center gap-4">
+              <Users className="w-8 h-8 md:w-10 md:h-10 text-[#2563EB]" />
+               These are Devlophers how collaborated with the lead team
+            </h3>
+            <p className="mt-4 max-w-2xl mx-auto text-slate-600">
+              A dedicated team of students who collaborated to build features, manage data, and bring the platform to life.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {fellowship.map((dev, i) => <DevCard key={i} profile={dev} />)}
+          </div>
+
         </div>
       </section>
+      
+      <style>{`
+        @keyframes fade-in { 
+          from { opacity: 0; transform: translateY(15px); } 
+          to { opacity: 1; transform: translateY(0); } 
+        }
+        .animate-fade-in { animation: fade-in 0.6s ease-out forwards; }
+      `}</style>
     </PageLayout>
   );
 };

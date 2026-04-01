@@ -55,8 +55,7 @@ const Footer: React.FC = () => {
                 { label: 'Online Grievance Form', href: '#', external: false },
                 { label: 'AICTE Feedback', href: '#', external: false },
                 { label: 'VCET HR policy', href: 'https://vcet.edu.in/NAAC/VCET_HR_POLICY.pdf', external: true },
-                { label: 'Institute Research Policy', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/Institute-Research-Policy.pdf', external: true },
-              ].map((item) => (
+                { label: 'Institute Research Policy', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/Institute-Research-Policy.pdf', external: true },                { label: 'Development Team', href: '/developers', external: false },              ].map((item) => (
                 <li key={item.label}>
                   <a 
                     href={item.href} 

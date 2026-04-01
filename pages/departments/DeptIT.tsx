@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
+import NewsletterSection from '../../components/NewsletterSection';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -728,106 +729,9 @@ const DeptIT: React.FC = () => {
           })()}
 
           {/* ════ NEWSLETTER & MAGAZINE ═══════════════════════════ */}
-          {activeId === 'newsletter' && (() => {
-            const newsletterLinks = [
-              { label: 'NEWSLETTER 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/newsletter-final.pdf' },
-              { label: 'NEWSLETTER 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/NewsletterFinal23-24.pdf' },
-              { label: 'NEWSLETTER 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/ITECH-22-23-NEWSLETTER.pdf' },
-              { label: 'NEWSLETTER 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/ITECH-21-22-NEWSLETTER.pdf' },
-              { label: 'NEWSLETTER 2020-21', url: 'https://vcet.edu.in/wp-content/uploads/2021/12/news-letter-2021-converted.pdf' },
-              { label: 'NEWSLETTER 2019-20', url: 'https://vcet.edu.in/wp-content/uploads/2021/12/NewsLetter-2020.pdf' },
-              { label: 'NEWSLETTER 2018-19', url: 'https://vcet.edu.in/wp-content/uploads/2021/12/NewsLetter2019.pdf' },
-              { label: 'NEWSLETTER 2017-18', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/NewsLetter2018.pdf' },
-              { label: 'NEWSLETTER 2016-17', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/NewsLetter2017.pdf' },
-              { label: 'NEWSLETTER 2015-16', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/NewsLetter2016.pdf' },
-              { label: 'NEWSLETTER 2014-15', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/NewsLetter2015.pdf' },
-              { label: 'NEWSLETTER 2013-14', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/NewsLetter2014.pdf' },
-              { label: 'NEWSLETTER 2012-13', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/NewsLetter2013.pdf' },
-              { label: 'NEWSLETTER 2011-12', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/NewsLetter2012.pdf' },
-              { label: 'NEWSLETTER 2010-11', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/NewsLetter2011.pdf' },
-              { label: 'NEWSLETTER 2009-10', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/NewsLetter2010.pdf' },
-            ];
-            const magazineLinks = [
-              { label: 'MAGAZINE 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/ITECH-MAGAZINE-2025-Version-4.pdf' },
-              { label: 'MAGAZINE 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/ITECH-MAGAZINE-2025-Version-4.pdf' },
-              { label: 'MAGAZINE 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/ITECH-22-23-MAGAZINE-FINAL.pdf' },
-              { label: 'MAGAZINE 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/ITECH-21-22-MAGAZINE-FINAL.pdf' },
-              { label: 'MAGAZINE 2020-21', url: 'https://vcet.edu.in/wp-content/uploads/2021/12/LOGIN-2021-12th-Edition-1.pdf' },
-              { label: 'MAGAZINE 2019-20', url: 'https://vcet.edu.in/wp-content/uploads/2021/12/login-2020.pdf' },
-              { label: 'MAGAZINE 2018-19', url: 'https://vcet.edu.in/wp-content/uploads/2021/12/login2019.pdf' },
-              { label: 'MAGAZINE 2017-18', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/itech2018.pdf' },
-              { label: 'MAGAZINE 2016-17', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/itech2017.pdf' },
-              { label: 'MAGAZINE 2015-16', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/itech2016.pdf' },
-              { label: 'MAGAZINE 2014-15', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/itech2015.pdf' },
-              { label: 'MAGAZINE 2013-14', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/itech2014.pdf' },
-              { label: 'MAGAZINE 2012-13', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/itech2013.pdf' },
-              { label: 'MAGAZINE 2011-12', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/itech2012.pdf' },
-              { label: 'MAGAZINE 2010-11', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/2011.pdf' },
-              { label: 'MAGAZINE 2009-10', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/2010.pdf' },
-            ];
-            const committee = [
-              { post: 'Chairman', name: 'Prathamesh Anil Karambe' },
-              { post: 'Chief editor', name: 'Smita Verma, Revathi Nair, Gaurav Gawde' },
-              { post: 'Newsletter Head', name: 'Khushboo Memon' },
-              { post: 'Graphics head', name: 'Tarun Parmar' },
-              { post: 'Treasurer', name: 'Ravikant Sharma, Shreyash Mhashilakar' },
-              { post: 'Graphics Team', name: 'Mohit Mathkar, Shraddha Pawar, Isha Vartak, Vedang Koli' },
-              { post: 'Editing Team', name: 'Kinjal Patel, Raj Kotadia, Krithika Suvarna, Yash Ajgaokar, Kunal Bhoyar, Dishant Patil, Niketan Patil, Parshva Vora' },
-              { post: 'Website Team', name: 'Deepchand Dubey, Yash Meghani, Shashank Kamble, Kritesh Suthar, Rahul Gandhi, Shweta Sawant' },
-            ];
-            return (
-              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-8">
-                <div className="flex items-center gap-3">
-                  <span className="w-8 h-px bg-brand-gold" />
-                  <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Information Technology</span>
-                </div>
-                <h3 className="text-2xl font-bold text-brand-navy relative inline-block">Newsletter &amp; Magazine<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                <div className="space-y-4 text-slate-600 leading-7">
-                  <p>ITECH is the Departmental committee which provides an opportunity to the budding engineers of VCET to enhance their knowledge about the advancement in technology.</p>
-                  <p>This committee has also released the departmental NEWSLETTER which includes news articles related to advance technical scenario in the global markets.</p>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold text-brand-navy mb-3">Newsletter</h4>
-                  <div className="space-y-2">{newsletterLinks.map((item) => <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>{item.label}</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>)}</div>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold text-brand-navy mb-3">Magazine</h4>
-                  <div className="space-y-2">{magazineLinks.map((item) => <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>{item.label}</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>)}</div>
-                </div>
-                <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                  <div className="px-4 py-3 border-b border-slate-100 bg-brand-navylight/40">
-                    <h4 className="text-lg font-bold text-brand-navy">Committee Details</h4>
-                    <p className="text-sm text-slate-600 mt-1">Staff Incharge: Prof. Bharati Gondhalekar | bharati.gondhalekar@vcet.edu.in | 9423365470</p>
-                  </div>
-                  <div className="px-4 pt-5 pb-2 flex justify-center">
-                    <div className="w-full max-w-[340px] rounded-2xl border-2 border-dashed border-slate-300 bg-white px-4 py-12 text-center">
-                      <i className="ph ph-image text-4xl text-slate-400" />
-                      <p className="mt-3 text-sm font-semibold text-slate-500">Staff Image Placeholder</p>
-                      <p className="mt-1 text-xs text-slate-400">Add image later in this area</p>
-                    </div>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="bg-brand-navy text-white">
-                          <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest">Post</th>
-                          <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest">Name</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {committee.map((row, idx) => (
-                          <tr key={`${row.post}-${idx}`} className={`border-t border-slate-100 ${idx % 2 === 1 ? 'bg-slate-50/60' : 'bg-white'}`}>
-                            <td className="px-4 py-3 text-slate-700 font-semibold">{row.post}</td>
-                            <td className="px-4 py-3 text-slate-600">{row.name}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </section>
-            );
-          })()}
+          {activeId === 'newsletter' && (
+            <NewsletterSection departmentName="Information Technology" departmentId="1" />
+          )}
 
           {/* ════ YOUTUBE ══════════════════════════════════════════ */}
           {activeId === 'youtube' && (

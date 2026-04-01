@@ -35,7 +35,6 @@ const OrganizationalStructure = lazy(() => import('./pages/about/OrganizationalS
 const Administration = lazy(() => import('./pages/about/Administration'));
 const StrategicPlan = lazy(() => import('./pages/about/StrategicPlan'));
 const CodeOfConduct = lazy(() => import('./pages/about/CodeOfConduct'));
-
 // pages/admissions
 const CoursesIntake = lazy(() => import('./pages/admissions/CoursesIntake'));
 const FeesStructure = lazy(() => import('./pages/admissions/FeesStructure'));
@@ -210,6 +209,7 @@ const MMSStudentsLifeIndustryExpertSessions = lazy(() => import('./pages/mms/stu
 const MMSStudentsLifeNSIMTraining = lazy(() => import('./pages/mms/students-life/MMSStudentsLifeNSIMTraining'));
 const MMSStudentsLifeOscillations = lazy(() => import('./pages/mms/students-life/MMSStudentsLifeOscillations'));
 const MMSStudentsLifeIdeathon = lazy(() => import('./pages/mms/students-life/MMSStudentsLifeIdeathon'));
+const MMSStudentsLifeCustomEvent = lazy(() => import('./pages/mms/students-life/MMSStudentsLifeCustomEvent'));
 const MMSStudentsLifeRankers = lazy(() => import('./pages/mms/students-life/MMSStudentsLifeRankers'));
 const MMSFacilities = lazy(() => import('./pages/mms/facilities/MMSFacilities'));
 const MMSFacilitiesLibrary = lazy(() => import('./pages/mms/facilities/MMSFacilitiesLibrary'));
@@ -259,6 +259,7 @@ const FacultyForm = lazy(() => import('./admin/pages/faculty/FacultyForm'));
 const DepartmentLanding = lazy(() => import('./admin/pages/departments/DepartmentLanding'));
 const DepartmentList = lazy(() => import('./admin/pages/departments/DepartmentList'));
 const DepartmentForm = lazy(() => import('./admin/pages/departments/DepartmentForm'));
+const DepartmentNewsletter = lazy(() => import('./admin/pages/departments/newsletter/DepartmentNewsletter'));
 const MMSAdmissionForm = lazy(() => import('./admin/pages/mms/MMSAdmissionForm'));
 const MMSScholarshipForm = lazy(() => import('./admin/pages/mms/MMSScholarshipForm'));
 const MMSDocumentsForm = lazy(() => import('./admin/pages/mms/MMSDocumentsForm'));
@@ -352,10 +353,7 @@ function App() {
             <Route path="/organizational-structure" element={<OrganizationalStructure />} />
             <Route path="/administration" element={<Administration />} />
             <Route path="/strategic-plan" element={<StrategicPlan />} />
-            <Route path="/code-of-conduct" element={<CodeOfConduct />} />
-
-            {/* Admission */}
-            <Route path="/courses-and-intake" element={<CoursesIntake />} />
+              <Route path="/code-of-conduct" element={<CodeOfConduct />} />
             <Route path="/fees-structure" element={<FeesStructure />} />
             <Route path="/scholarships" element={<Scholarships />} />
             <Route path="/brochure" element={<Brochure />} />
@@ -540,7 +538,10 @@ function App() {
           <Route path="/mms/students-life/industry-expert-sessions" element={<MMSStudentsLifeIndustryExpertSessions />} />
           <Route path="/mms/students-life/nsim-training" element={<MMSStudentsLifeNSIMTraining />} />
           <Route path="/mms/students-life/oscillations" element={<MMSStudentsLifeOscillations />} />
-          <Route path="/mms/students-life/ideathon-1-0" element={<MMSStudentsLifeIdeathon />} />
+          <Route path="/mms/students-life/ideathon-1-0"
+element={<MMSStudentsLifeIdeathon />} />
+            <Route path="/mms/students-life/event/:slug"
+element={<MMSStudentsLifeCustomEvent />} />
           <Route path="/mms/students-life/rankers" element={<MMSStudentsLifeRankers />} />
           <Route path="/mms/facilities" element={<MMSFacilities />} />
           <Route path="/mms/facilities/library" element={<MMSFacilitiesLibrary />} />
@@ -596,6 +597,7 @@ function App() {
             <Route path="pages/departments/list" element={<DepartmentList />} />
             <Route path="pages/departments/list/create" element={<DepartmentForm />} />
             <Route path="pages/departments/list/:slug/edit" element={<DepartmentForm />} />
+            <Route path="pages/departments/newsletter" element={<DepartmentNewsletter />} />
             <Route path="pages/faculty" element={<FacultyList />} />
             <Route path="pages/faculty/create" element={<FacultyForm />} />
             <Route path="pages/faculty/:id/edit" element={<FacultyForm />} />
@@ -614,7 +616,7 @@ function App() {
             <Route path="pages/mms/students-life/:section/edit" element={<MMSStudentsLifeForm />} />
             <Route path="pages/mms/syllabus/:section/edit" element={<MMSSyllabusForm />} />
             <Route path="pages/mms/facilities/:section/edit" element={<MMSFacilitiesForm />} />
-            <Route path="pages/mms/faqs/:section/edit" element={<MMSFaqsForm />} />
+              <Route path="pages/mms/faqs/edit" element={<MMSFaqsForm />} />
             <Route path="pages/:pageKey" element={<SitePages />} />
           </Route>
           </Routes>
@@ -625,3 +627,4 @@ function App() {
 }
 
 export default App;
+

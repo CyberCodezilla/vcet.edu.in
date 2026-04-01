@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MMSLayout from '../../../components/mms/MMSLayout';
 import { PlacementSectionCard } from './MMSPlacementShared';
+import { get } from '../../../services/api';
+import type { TrainingPlacementData } from '../../../admin/types';
 
-const objectivePoints = [
+const defaultObjectivePoints = [
   'To provide necessary support for implementing the mandate of providing excellent career opportunities for the students.',
   'To plan and execute tasks like student skills development, soft skills training and career guidance.',
   'To plan and implement campus interview process.',
@@ -13,6 +15,37 @@ const objectivePoints = [
 ];
 
 export default function MMSPlacement() {
+  const [data, setData] = useState<TrainingPlacementData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await get<{ data: TrainingPlacementData }>('/pages/mms-training-placement');
+        setData(response.data);
+      } catch (err) {
+        console.error('Failed to fetch training placement data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <MMSLayout title="Objective">
+        <PlacementSectionCard title="Placement Objective" subtitle="Career-focused roadmap designed to improve placement outcomes and industry readiness">
+           <div className="py-20 text-center text-slate-500 animate-pulse">Loading Objective Details...</div>
+        </PlacementSectionCard>
+      </MMSLayout>
+    );
+  }
+
+  const objectivePoints = data?.placementObjectives && data.placementObjectives.length > 0 
+    ? data.placementObjectives.map(o => o.objective)
+    : defaultObjectivePoints;
+
   return (
     <MMSLayout title="Objective">
       <PlacementSectionCard
@@ -22,7 +55,7 @@ export default function MMSPlacement() {
         <div className="space-y-4">
           {objectivePoints.map((point, index) => (
             <article
-              key={point}
+              key={index}
               className="rounded-none border border-brand-blue/18 bg-gradient-to-r from-white to-brand-light/28 px-4 py-4 shadow-[0_10px_22px_-20px_rgba(11,61,145,0.8)] sm:px-5"
             >
               <div className="flex items-start gap-3">

@@ -705,35 +705,70 @@ export const MOCK_DEPARTMENTS: Department[] = [
     is_active: true,
     created_at: now(),
     updated_at: now(),
-    content: {
-      dabMembers: [
-        { name: 'Dr. John Doe', designation: 'Professor', organization: 'IIT Bombay' },
-        { name: 'Mr. Jane Smith', designation: 'Senior Engineer', organization: 'TCS' }
-      ],
-      faculty: [1, 2],
-      toppers: [
-        { name: 'Aarav Patel', year: '2023-24', cgpa: '9.8' },
-        { name: 'Riya Gupta', year: '2022-23', cgpa: '9.7' }
-      ],
-      newsletter: [
-        { title: 'Jan 2024 Edition', link: 'https://vcet.edu.in/newsletter-2024.pdf' }
-      ],
-      patents: [
-        { title: 'AI-based Traffic Management System', description: 'Smart traffic light control using computer vision.', pdf: '' }
-      ],
-      mous: [
-        { organization: 'Microsoft', description: 'Collaboration for student training in Azure Cloud services.', pdf: '' }
-      ],
-      syllabus: [
-        { title: 'Semester 3 - C-Scheme', pdf: '' }
-      ],
-      timetable: [
-        { class: 'SE', pdf: '' }
-      ],
-      facultyAchievements: [],
-      studentAchievements: [],
-      activities: []
-    }
+    content: { dabMembers: [], faculty: [], toppers: [], newsletter: [], patents: [], mous: [], syllabus: [], timetable: [], facultyAchievements: [], studentAchievements: [], activities: [] }
+  },
+  {
+    id: 2,
+    name: 'Computer Engineering',
+    slug: 'computer-engineering',
+    is_active: true,
+    created_at: now(),
+    updated_at: now(),
+    content: { dabMembers: [], faculty: [], toppers: [], newsletter: [], patents: [], mous: [], syllabus: [], timetable: [], facultyAchievements: [], studentAchievements: [], activities: [] }
+  },
+  {
+    id: 3,
+    name: 'Mechanical Engineering',
+    slug: 'mechanical-engineering',
+    is_active: true,
+    created_at: now(),
+    updated_at: now(),
+    content: { dabMembers: [], faculty: [], toppers: [], newsletter: [], patents: [], mous: [], syllabus: [], timetable: [], facultyAchievements: [], studentAchievements: [], activities: [] }
+  },
+  {
+    id: 4,
+    name: 'Artificial Intelligence and Data Science',
+    slug: 'artificial-intelligence-and-data-science',
+    is_active: true,
+    created_at: now(),
+    updated_at: now(),
+    content: { dabMembers: [], faculty: [], toppers: [], newsletter: [], patents: [], mous: [], syllabus: [], timetable: [], facultyAchievements: [], studentAchievements: [], activities: [] }
+  },
+  {
+    id: 5,
+    name: 'Computer Science and Engineering (Data Science)',
+    slug: 'computer-science-and-engineering-data-science',
+    is_active: true,
+    created_at: now(),
+    updated_at: now(),
+    content: { dabMembers: [], faculty: [], toppers: [], newsletter: [], patents: [], mous: [], syllabus: [], timetable: [], facultyAchievements: [], studentAchievements: [], activities: [] }
+  },
+  {
+    id: 6,
+    name: 'First Year Engineering',
+    slug: 'first-year-engineering',
+    is_active: true,
+    created_at: now(),
+    updated_at: now(),
+    content: { dabMembers: [], faculty: [], toppers: [], newsletter: [], patents: [], mous: [], syllabus: [], timetable: [], facultyAchievements: [], studentAchievements: [], activities: [] }
+  },
+  {
+    id: 7,
+    name: 'Electronics and Telecommunication Engineering',
+    slug: 'electronics-and-telecommunication-engineering',
+    is_active: true,
+    created_at: now(),
+    updated_at: now(),
+    content: { dabMembers: [], faculty: [], toppers: [], newsletter: [], patents: [], mous: [], syllabus: [], timetable: [], facultyAchievements: [], studentAchievements: [], activities: [] }
+  },
+  {
+    id: 8,
+    name: 'Civil Engineering',
+    slug: 'civil-engineering',
+    is_active: true,
+    created_at: now(),
+    updated_at: now(),
+    content: { dabMembers: [], faculty: [], toppers: [], newsletter: [], patents: [], mous: [], syllabus: [], timetable: [], facultyAchievements: [], studentAchievements: [], activities: [] }
   }
 ];
 

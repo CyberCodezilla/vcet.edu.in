@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { pagesApi } from '../../api/pagesApi';
+import { resolveApiUrl } from '../../api/client';
 import type { AcademicsData, AcademicsPayload, AdmissionDocument } from '../../types';
 
 /* ── Toast Component ────────────────────────────────────────────────────────── */
@@ -37,9 +38,20 @@ const ImageUpload: React.FC<{
   label: string;
   imageUrl: string | null;
   onFileSelect: (file: File) => void;
+  onDelete?: () => void;
   aspectRatio?: string;
-}> = ({ label, imageUrl, onFileSelect, aspectRatio = 'aspect-square' }) => {
-  const [preview, setPreview] = useState<string | null>(imageUrl);
+}> = ({ label, imageUrl, onFileSelect, onDelete, aspectRatio = 'aspect-square' }) => {
+  const [preview, setPreview] = useState<string | null>(null);
+
+  // Sync preview with imageUrl prop when it changes (e.g., from API fetch)
+  useEffect(() => {
+    // Don't override if we have a local blob preview (user just selected a file)
+    if (preview?.startsWith('blob:')) return;
+    
+    // Resolve API URLs to full URLs
+    const resolved = resolveApiUrl(imageUrl);
+    setPreview(resolved);
+  }, [imageUrl]);
   
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -47,6 +59,13 @@ const ImageUpload: React.FC<{
       onFileSelect(file);
       setPreview(URL.createObjectURL(file));
     }
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setPreview(null);
+    onDelete?.();
   };
 
   return (
@@ -68,9 +87,23 @@ const ImageUpload: React.FC<{
           className="absolute inset-0 opacity-0 cursor-pointer z-10" 
         />
         {preview && (
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <span className="text-white text-xs font-bold uppercase tracking-widest">Change Image</span>
-          </div>
+          <>
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <span className="text-white text-xs font-bold uppercase tracking-widest">Change Image</span>
+            </div>
+            {onDelete && (
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="absolute top-3 right-3 z-20 w-10 h-10 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center transition-all shadow-lg opacity-0 group-hover:opacity-100"
+                title="Delete Image"
+              >
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            )}
+          </>
         )}
       </div>
     </div>
@@ -292,7 +325,8 @@ const AcademicsForm: React.FC<AcademicsFormProps> = ({ activeSection, onBack }) 
                 <ImageUpload 
                   label="Dean's Profile Picture"
                   imageUrl={payload.dean?.imageUrl || null}
-                  onFileSelect={file => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, image: file } }))}
+                  onFileSelect={file => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, image: file, deleteImage: false } }))}
+                  onDelete={() => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, image: undefined, imageUrl: null, deleteImage: true } }))}
                 />
               </div>
               <div className="space-y-6">
@@ -372,7 +406,8 @@ const AcademicsForm: React.FC<AcademicsFormProps> = ({ activeSection, onBack }) 
                   label="OBE Framework Diagram (16:9 recommended)"
                   aspectRatio="aspect-video"
                   imageUrl={payload.obe?.imageUrl || null}
-                  onFileSelect={file => setPayload(prev => ({ ...prev, obe: { ...prev.obe!, image: file } }))}
+                  onFileSelect={file => setPayload(prev => ({ ...prev, obe: { ...prev.obe!, image: file, deleteImage: false } }))}
+                  onDelete={() => setPayload(prev => ({ ...prev, obe: { ...prev.obe!, image: undefined, imageUrl: null, deleteImage: true } }))}
                 />
             </div>
           </SectionCard>

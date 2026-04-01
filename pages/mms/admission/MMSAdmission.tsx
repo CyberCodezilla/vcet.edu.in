@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MMSLayout from '../../../components/mms/MMSLayout';
+import { get, resolveApiUrl } from '../../../services/api';
 
 const criteriaPoints = [
   'The candidate should possess minimum 50% marks in aggregate or equivalent CGPA (45% in case of backward class categories and persons with disability belonging to Maharashtra State only) in any Bachelor\'s degree awarded by a recognized University.',
@@ -19,6 +20,35 @@ const resources = [
 ];
 
 export default function MMSAdmission() {
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    get('/pages/mms-admission')
+      .then((res: any) => {
+        if (res.data && !Array.isArray(res.data)) {
+          setData(res.data);
+        }
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const hasData = data && Object.keys(data).length > 0;
+
+  const dynamicCriteriaPoints = hasData && data.eligibilityCriteria && data.entranceExamination ? [
+    `The candidate should possess minimum ${data.eligibilityCriteria.generalPercentage || '50%'} marks in aggregate or equivalent CGPA (${data.eligibilityCriteria.reservedPercentage || '45%'} in case of backward class categories and persons with disability belonging to Maharashtra State only) in any ${data.eligibilityCriteria.degreeRequirement || "Bachelor's degree awarded by a recognized University"}.`,
+    `Candidate should have appeared for ${data.entranceExamination.primaryExam || 'MAH-MBA/MMS-CET'} (first preference) or ${data.entranceExamination.alternativeExams?.map((e: any) => e.exam).filter(Boolean).join('/') || 'CMAT/CAT/MAT/ATMA/XAT/GMAT'} of the respective year of admission.`
+  ] : criteriaPoints;
+
+  const dynamicCertificatePoints = hasData && data.eligibilityCertificates && data.eligibilityCertificates.length > 0 
+    ? data.eligibilityCertificates.map((c: any) => c.certificate) 
+    : certificatePoints;
+
+  const dynamicResources = hasData && data.universityLinks && data.universityLinks.length > 0 
+    ? data.universityLinks.map((l: any) => l.url) 
+    : resources;
+
   return (
     <MMSLayout title="Eligibility Criteria">
       <div className="space-y-6">
@@ -28,13 +58,18 @@ export default function MMSAdmission() {
         </div>
 
         <section>
+          {loading ? (
+             <div className="flex h-64 w-full items-center justify-center border border-slate-200 bg-white p-6 shadow-sm">
+               <p className="text-sm font-bold uppercase tracking-widest text-brand-navy/50">Loading admission criteria...</p>
+             </div>
+          ) : (
           <article className="space-y-10 border border-slate-200 bg-white p-6 shadow-sm md:p-8">
             <section id="eligibility-criteria" className="space-y-5 scroll-mt-40">
               <h2 className="text-2xl font-display font-bold text-[#0d2d56] md:text-3xl">Eligibility Criteria</h2>
               <div className="h-px bg-gradient-to-r from-brand-gold via-brand-navylight to-transparent" />
               <ol className="space-y-4">
-                {criteriaPoints.map((point, index) => (
-                  <li key={point} className="border border-slate-200 bg-slate-50 p-4 text-[17px] leading-8 text-slate-700">
+                {dynamicCriteriaPoints.map((point, index) => (
+                  <li key={index} className="border border-slate-200 bg-slate-50 p-4 text-[17px] leading-8 text-slate-700">
                     <span className="mr-2 font-bold text-[#0d2d56]">{index + 1}.</span>
                     {point}
                   </li>
@@ -46,8 +81,8 @@ export default function MMSAdmission() {
               <h2 className="text-2xl font-display font-bold text-[#0d2d56] md:text-3xl">Eligibility Certificates / Affidavits</h2>
               <div className="h-px bg-gradient-to-r from-brand-gold via-brand-navylight to-transparent" />
               <ol className="space-y-4">
-                {certificatePoints.map((point, index) => (
-                  <li key={point} className="border border-slate-200 bg-slate-50 p-4 text-[17px] leading-8 text-slate-700">
+                {dynamicCertificatePoints.map((point: string, index: number) => (
+                  <li key={index} className="border border-slate-200 bg-slate-50 p-4 text-[17px] leading-8 text-slate-700">
                     <span className="mr-2 font-bold text-[#0d2d56]">{index + 1}.</span>
                     {point}
                   </li>
@@ -55,9 +90,9 @@ export default function MMSAdmission() {
               </ol>
 
               <div className="grid gap-3 pt-1">
-                {resources.map((url, index) => (
+                {dynamicResources.map((url: string, index: number) => (
                   <a
-                    key={url}
+                    key={index}
                     href={url}
                     target="_blank"
                     rel="noreferrer"
@@ -83,6 +118,7 @@ export default function MMSAdmission() {
               </p>
             </section>
           </article>
+          )}
         </section>
       </div>
     </MMSLayout>

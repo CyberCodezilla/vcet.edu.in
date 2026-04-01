@@ -81,16 +81,7 @@ const academicsEditables = [
     description: 'Update institutional booklets for various degree programs and syllabus.',
     links: [{ label: 'Edit Booklets', section: 'booklets' }],
   },
-  {
-    title: 'Dean Academics',
-    description: "Manage the Dean's profile, qualifications, and welcome message.",
-    links: [{ label: 'Edit Dean Profile', section: 'dean' }],
-  },
-  {
-    title: 'Outcome Based Education',
-    description: 'Update the OBE framework title, description, and diagram.',
-    links: [{ label: 'Edit OBE Framework', section: 'obe' }],
-  },
+  
 ];
 
 
@@ -275,10 +266,15 @@ const mmsEditables = [
       { label: 'DLLE', to: '/admin/pages/mms/students-life/dlle/edit' },
       { label: 'Book Review', to: '/admin/pages/mms/students-life/book-review/edit' },
       { label: 'Add-On Courses', to: '/admin/pages/mms/students-life/add-on-courses/edit' },
+        { label: 'Add-On Courses on Powerbi', to: '/admin/pages/mms/students-life/add-on-courses-powerbi/edit' },
+        { label: 'ADD ON COURSES ON ADVANCE EXCEL', to: '/admin/pages/mms/students-life/advance-excel/edit' },
       { label: 'Industry Sessions', to: '/admin/pages/mms/students-life/industry-sessions/edit' },
-      { label: 'Events & Activities', to: '/admin/pages/mms/students-life/events/edit' },
+      { label: 'Ideation', to: '/admin/pages/mms/students-life/ideation/edit' },
+      { label: 'Oscillations', to: '/admin/pages/mms/students-life/oscillations/edit' },
+      { label: 'NSIM Training', to: '/admin/pages/mms/students-life/nsimTraining/edit' },
       { label: 'Rankers & Achievements', to: '/admin/pages/mms/students-life/rankers/edit' },
       { label: 'PDF Resources', to: '/admin/pages/mms/students-life/pdfs/edit' },
+      { label: 'Custom Events Builder', to: '/admin/pages/mms/students-life/custom-events/edit' },
     ],
   },
   {
@@ -302,18 +298,9 @@ const mmsEditables = [
   },
   {
     title: "FAQ's (Information Hub)",
-    description: 'Manage frequently asked questions, course structure, specializations, intake, and general program information.',
+    description: 'Manage frequently asked questions and their answers.',
     links: [
-      { label: 'FAQ List', to: '/admin/pages/mms/faqs/main-list/edit' },
-      { label: 'Course Structure', to: '/admin/pages/mms/faqs/course-structure/edit' },
-      { label: 'Specializations', to: '/admin/pages/mms/faqs/specializations/edit' },
-      { label: 'Key Features (USP)', to: '/admin/pages/mms/faqs/key-features/edit' },
-      { label: 'Intake & Seats', to: '/admin/pages/mms/faqs/intake-seats/edit' },
-      { label: 'Course Timings', to: '/admin/pages/mms/faqs/timings/edit' },
-      { label: 'Fee Structure Info', to: '/admin/pages/mms/faqs/fees/edit' },
-      { label: 'Scholarship Details', to: '/admin/pages/mms/faqs/scholarship/edit' },
-      { label: 'Admission Steps', to: '/admin/pages/mms/faqs/admission/edit' },
-      { label: 'PDF Resources', to: '/admin/pages/mms/faqs/pdfs/edit' },
+      { label: 'Manage FAQs', to: '/admin/pages/mms/faqs/edit' },
     ],
   },
 ];

@@ -83,17 +83,17 @@ const MMSDocumentsForm: React.FC = () => {
         {list.map((item, i) => (
           <div key={i} className="flex gap-2 items-start">
             <div className="flex-1 relative">
-              <input className="admin-input-small w-full" value={item} placeholder={placeholder} onChange={e => handleTextChange(e.target.value, charLimit, val => {
+              <input className="admin-input-small w-full" value={item || ''} placeholder={placeholder} onChange={e => handleTextChange(e.target.value, charLimit, val => {
                 const c = [...list]; c[i] = val; setForm({...form, [key]: c});
               })}/>
-              <span className="absolute right-2 top-2 text-[10px] text-slate-400">{item.length}/{charLimit}</span>
+              <span className="absolute right-2 top-2 text-[10px] text-slate-400">{item?.length || 0}/{charLimit}</span>
             </div>
             <button type="button" onClick={() => {
                const c = [...list]; c.splice(i, 1); setForm({...form, [key]: c});
             }} className="p-2 text-red-500 hover:bg-red-50 rounded-lg"><Trash2 className="w-4 h-4" /></button>
           </div>
         ))}
-        {list.length < maxLimit && (
+        {(list?.length || 0) < maxLimit && (
           <button type="button" onClick={() => {
              const c = [...list]; c.push(''); setForm({...form, [key]: c});
           }} className="btn-add">

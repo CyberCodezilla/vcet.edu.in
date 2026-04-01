@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
+import NewsletterSection from '../../components/NewsletterSection';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -480,7 +481,11 @@ const DeptFE: React.FC = () => {
           })()}
 
           {/* ════ OTHER SECTIONS (placeholder) ════════════════════ */}
-          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'mou' && activeId !== 'patent' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'infrastructure' && activeId !== 'time-table' && activeId !== 'teaching-learning' && activeId !== 'induction' && activeId !== 'annual-reports' && activeId !== 'toppers' && activeId !== 'syllabus' && (
+          {activeId === 'newsletter' && (
+            <NewsletterSection departmentName="First Year Engineering" departmentId="6" />
+          )}
+
+          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'mou' && activeId !== 'patent' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'infrastructure' && activeId !== 'time-table' && activeId !== 'teaching-learning' && activeId !== 'induction' && activeId !== 'annual-reports' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'newsletter' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
                 <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-brand-navy`} />
@@ -497,3 +502,4 @@ const DeptFE: React.FC = () => {
 };
 
 export default DeptFE;
+

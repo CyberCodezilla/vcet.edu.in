@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
+import NewsletterSection from '../../components/NewsletterSection';
 import { departmentApi } from '../../admin/api/departments';
 import type { Department } from '../../admin/types';
 import { resolveApiUrl } from '../../admin/api/client';
@@ -482,31 +483,9 @@ const DeptAIDS: React.FC = () => {
           )}
 
           {/* ════ MAGAZINE / NEWSLETTER ═══════════════════════════ */}
-          {activeId === 'newsletter' && (() => {
-            const staticLinks = [
-              { label: 'NEWSLETTER (EVEN SEM 2025)', url: 'https://vcet.edu.in/wp-content/uploads/2025/08/Newsletter-Even-2025.pdf' },
-              { label: 'NEWSLETTER (ODD SEM 2024)', url: 'https://vcet.edu.in/wp-content/uploads/2025/08/Newsletter-Odd-2024.pdf' },
-              { label: 'NEWSLETTER (EVEN SEM 2024)', url: 'https://vcet.edu.in/wp-content/uploads/2024/06/Add-a-subheading_20240403_153124_0000.pdf' },
-            ];
-            const links = department?.content?.newsletter?.length ? department.content.newsletter.map(n => ({ label: n.title, url: resolveApiUrl(n.link) || '#' })) : staticLinks;
-            return (
-              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="w-8 h-px bg-brand-gold" />
-                  <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">AI &amp; Data Science</span>
-                </div>
-                <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Magazine / Newsletter<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                <div className="space-y-3">
-                  {links.map((item, idx) => (
-                    <a key={idx} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
-                      <span>{item.label || `Newsletter ${idx + 1}`}</span>
-                      <i className="ph ph-arrow-up-right text-brand-gold" />
-                    </a>
-                  ))}
-                </div>
-              </section>
-            );
-          })()}
+          {activeId === 'newsletter' && (
+            <NewsletterSection departmentName="Artificial Intelligence and Data Science" departmentId="4" />
+          )}
 
           {/* ════ FALLBACK ════════════════════════════════════════ */}
           {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'student-achievements' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'patent' && activeId !== 'teaching-learning' && activeId !== 'mou' && activeId !== 'newsletter' && (

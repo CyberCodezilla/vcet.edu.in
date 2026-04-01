@@ -69,11 +69,9 @@ const MMSAboutForm: React.FC = () => {
     const hodLen = form.hodDesk?.message?.length || 0;
     if (hodLen < 0) validationError = `HOD's Message must be at least 800 characters (Currently ${hodLen}).`;
 
-    const facLen = form.faculty?.length || 0;
-    if (facLen < 0) validationError = `At least 5 faculty members are required.`;
+    
 
-    const dabLen = form.dabMembers?.length || 0;
-    if (dabLen < 0) validationError = `At least 5 DAB members are required.`;
+    
 
     if (validationError) {
        setError(validationError);
@@ -159,15 +157,12 @@ const MMSAboutForm: React.FC = () => {
                <label className="admin-label">Description Text <span className="text-slate-400 normal-case">({form.aboutMMS?.description?.length || 0}/1200)</span></label>
                <textarea 
                   className="admin-input-small h-48 resize-none" 
-                  placeholder="Enter detailed description here... (Minimum 500 characters)" 
-                  value={form.aboutMMS?.description || ''} 
+                  placeholder="Enter detailed description here... (max 1200 chars)"
+                  value={form.aboutMMS?.description || ''}
                   onChange={e => handleTextChange(e.target.value, 1200, val => {
                     setForm({...form, aboutMMS: {...form.aboutMMS!, description: val}});
                   })}
                />
-               {(form.aboutMMS?.description?.length || 0) > 0 && (form.aboutMMS?.description?.length || 0) < 500 && (
-                 <p className="text-[10px] text-red-500 mt-1 font-bold">Minimum 500 characters required.</p>
-               )}
             </div>
           </div>
         </SectionCard>
@@ -188,15 +183,12 @@ const MMSAboutForm: React.FC = () => {
                <label className="admin-label">Message <span className="text-slate-400 normal-case">({form.principalDesk?.message?.length || 0}/1500)</span></label>
                <textarea 
                   className="admin-input-small h-48 resize-none" 
-                  placeholder="Principal's message... (800 - 1500 chars)" 
-                  value={form.principalDesk?.message || ''} 
+                  placeholder="Principal's message... (max 1500 chars)"
+                  value={form.principalDesk?.message || ''}
                   onChange={e => handleTextChange(e.target.value, 1500, val => {
                     setForm({...form, principalDesk: {...form.principalDesk!, message: val}});
                   })}
                />
-               {(form.principalDesk?.message?.length || 0) > 0 && (form.principalDesk?.message?.length || 0) < 800 && (
-                 <p className="text-[10px] text-red-500 mt-1 font-bold">Minimum 800 characters required.</p>
-               )}
             </div>
           </div>
         </SectionCard>
@@ -217,15 +209,12 @@ const MMSAboutForm: React.FC = () => {
                <label className="admin-label">Message <span className="text-slate-400 normal-case">({form.hodDesk?.message?.length || 0}/1500)</span></label>
                <textarea 
                   className="admin-input-small h-48 resize-none" 
-                  placeholder="HOD's message... (800 - 1500 chars)" 
-                  value={form.hodDesk?.message || ''} 
+                  placeholder="HOD's message... (max 1500 chars)" 
+                  value={form.hodDesk?.message || ''}
                   onChange={e => handleTextChange(e.target.value, 1500, val => {
                     setForm({...form, hodDesk: {...form.hodDesk!, message: val}});
                   })}
                />
-               {(form.hodDesk?.message?.length || 0) > 0 && (form.hodDesk?.message?.length || 0) < 800 && (
-                 <p className="text-[10px] text-red-500 mt-1 font-bold">Minimum 800 characters required.</p>
-               )}
             </div>
           </div>
         </SectionCard>
@@ -233,12 +222,12 @@ const MMSAboutForm: React.FC = () => {
 
         {/* SECTION 4: MMS FACULTY */}
         {section === 'faculty' && (
-        <SectionCard title={`MMS FACULTY (${form.faculty?.length || 0}/15)`} icon="👥">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Add faculty members. Minimum 5, Maximum 15.</p>
+        <SectionCard title={`MMS FACULTY (${form.faculty?.length || 0})`} icon="👥">
+          <p className="text-xs text-slate-500 mb-4 font-medium">Add faculty members.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {form.faculty?.map((member, i) => (
               <div key={i} className="flex gap-4 p-4 border border-slate-200 rounded-xl bg-slate-50 relative">
-                {(form.faculty!.length > 5) && (
+                {true && (
                    <button type="button" onClick={() => {
                      const c = [...form.faculty!]; c.splice(i, 1); setForm({...form, faculty: c});
                    }} className="absolute top-2 right-2 text-red-500 p-1 hover:bg-red-50 rounded"><Trash2 className="w-4 h-4"/></button>
@@ -273,7 +262,7 @@ const MMSAboutForm: React.FC = () => {
                 </div>
               </div>
             ))}
-            {(form.faculty?.length || 0) < 15 && (
+            {true && (
               <button type="button" onClick={() => setForm({...form, faculty: [...(form.faculty||[]), {name: '', designation: '', email: '', photo: null}]})} className="btn-add min-h-[120px]">
                 <Plus className="w-5 h-5 mx-auto mb-1" /> Add Faculty Member
               </button>
@@ -284,8 +273,8 @@ const MMSAboutForm: React.FC = () => {
 
         {/* SECTION 5: DEPARTMENTAL ADVISORY BOARD */}
         {section === 'dab' && (
-        <SectionCard title={`DEPARTMENTAL ADVISORY BOARD (DAB) (${form.dabMembers?.length || 0}/12)`} icon="👔">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Add members of the DAB. Minimum 5, Maximum 12.</p>
+        <SectionCard title={`DEPARTMENTAL ADVISORY BOARD (DAB) ()`} icon="👔">
+          <p className="text-xs text-slate-500 mb-4 font-medium">Add members of the DAB.</p>
           <div className="space-y-3">
              {form.dabMembers?.map((member, i) => (
                 <div key={i} className="flex gap-2 p-3 bg-white border border-slate-200 rounded-xl relative">
@@ -319,7 +308,7 @@ const MMSAboutForm: React.FC = () => {
                       </div>
                    </div>
                    
-                   {(form.dabMembers!.length > 5) && (
+                   {true && (
                      <button type="button" onClick={() => {
                         const c = [...form.dabMembers!]; c.splice(i, 1); setForm({...form, dabMembers: c});
                      }} className="text-red-500 hover:bg-red-50 p-2 rounded-lg flex items-center justify-center shrink-0">
@@ -328,7 +317,7 @@ const MMSAboutForm: React.FC = () => {
                    )}
                 </div>
              ))}
-             {(form.dabMembers?.length || 0) < 12 && (
+             {true && (
               <button type="button" onClick={() => setForm({...form, dabMembers: [...(form.dabMembers||[]), {srNo: (form.dabMembers?.length || 0)+1, name: '', designation: '', organization: '', role: ''}]})} className="btn-add">
                 <Plus className="w-4 h-4" /> Add Row
               </button>
@@ -375,17 +364,17 @@ const ImageUploader = ({ image, onChange, compact = false }: { image: any, onCha
       return () => URL.revokeObjectURL(u);
     } else if (typeof image === 'string') {
         setPreview(resolveApiUrl(image));
-    } else {
-      setPreview(null);
-    }
-  }, [image]);
+      } else if (image && typeof image === 'object' && image.url) {
+        setPreview(resolveApiUrl(image.url));      } else {
+        setPreview(null);
+      }
+    }, [image]);
 
-  return (
-    <div className={`relative rounded-xl border-2 border-dashed ${preview ? 'border-blue-300' : 'border-slate-300'} bg-slate-50 overflow-hidden flex items-center justify-center hover:bg-slate-100 transition-colors cursor-pointer group ${compact ? 'h-24' : 'h-48'}`}>
-      <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
-        if (e.target.files && e.target.files.length > 0) onChange(e.target.files[0]);
-      }} />
-      {preview ? (
+    return (
+      <div className={`relative rounded-xl border-2 border-dashed ${preview ? 'border-blue-300' : 'border-slate-300'} bg-slate-50 overflow-hidden flex items-center justify-center hover:bg-slate-100 transition-colors cursor-pointer group ${compact ? 'h-24' : 'h-48'}`}>
+        <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+          if (e.target.files && e.target.files.length > 0) onChange(e.target.files[0]);
+        }} />      {preview ? (
         <img src={preview} alt="preview" className="w-full h-full object-cover" />
       ) : (
         <div className="text-center p-4">

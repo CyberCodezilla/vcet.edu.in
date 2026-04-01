@@ -1,6 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { useEffect } from 'react';
+import { get, resolveApiUrl } from '../../services/api';
+import type { MMSSyllabusData } from '../../admin/types';
 
 interface SubLink {
   label: string;
@@ -47,6 +50,39 @@ const isExternal = (href: string) => href.startsWith('http') || href.endsWith('.
 export default function MMSHeader() {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [dynamicNavItems, setDynamicNavItems] = useState<NavItem[]>(navItems);
+
+  useEffect(() => {
+    get<{ data: MMSSyllabusData }>('/pages/mms-syllabus')
+      .then((response) => {
+        if (response?.data) {
+          setDynamicNavItems((prev) =>
+            prev.map((item) => {
+              if (item.label === 'SYLLABUS') {
+                return {
+                  ...item,
+                  href: response.data.firstYearPdf?.url ? resolveApiUrl(response.data.firstYearPdf.url) : item.href,
+                  subLinks: [
+                    {
+                      label: 'First Year',
+                      href: response.data.firstYearPdf?.url ? resolveApiUrl(response.data.firstYearPdf.url) : 'https://vcet.edu.in/mms/FY.pdf',
+                      newTab: true,
+                    },
+                    {
+                      label: 'Second Year',
+                      href: response.data.secondYearPdf?.url ? resolveApiUrl(response.data.secondYearPdf.url) : 'https://vcet.edu.in/mms/SY_syllabus.pdf',
+                      newTab: true,
+                    },
+                  ],
+                };
+              }
+              return item;
+            })
+          );
+        }
+      })
+      .catch((error) => console.error('Failed to load MMS syllabus data:', error));
+  }, []);
 
   const activePath = useMemo(() => location.pathname, [location.pathname]);
 
@@ -75,7 +111,7 @@ export default function MMSHeader() {
 
           {/* Nav Links (collapsible on mobile) */}
           <div className={`${isMobileMenuOpen ? 'flex' : 'hidden'} md:flex flex-col md:flex-row md:flex-wrap md:items-center gap-1.5 md:gap-1 w-full pt-2 pb-1 md:pt-0 md:pb-0`}>
-            {navItems.map((item) => {
+            {dynamicNavItems.map((item) => {
             const isActive = !isExternal(item.href) && (activePath === item.href || (item.activeMatchPrefix ? activePath.startsWith(item.activeMatchPrefix) : false));
 
             if (item.subLinks?.length) {

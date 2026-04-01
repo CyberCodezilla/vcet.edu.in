@@ -1,11 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MMSLayout from '../../../components/mms/MMSLayout';
 import { Quote } from 'lucide-react';
-import { principalDeskContent, principalSignature } from './mmsAboutData';
-import { useMmsImageHolder } from '../../../hooks/mms/useMmsImageHolder';
+import { principalSignature } from './mmsAboutData';
+import { get, resolveApiUrl } from '../../../services/api';
+
+interface MMSAboutData {
+  data: {
+    principalDesk: { message: string; photo: string | null; };
+  };
+}
 
 export default function MMSPrincipalsDesk() {
-  const principalImageUrl = useMmsImageHolder('about', 'Principal Photo');
+  const [data, setData] = useState<MMSAboutData['data'] | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    get<MMSAboutData>('/pages/mms-about')
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.error('Failed to load Principal Desk data:', err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  const rawImage = data?.principalDesk?.photo;
+  const imageStr: string | null = rawImage && typeof rawImage === 'object' && 'url' in rawImage 
+    ? (rawImage as any).url 
+    : (typeof rawImage === 'string' ? rawImage : null);
+  const principalImageUrl = imageStr ? resolveApiUrl(imageStr) : null;
+  const descriptionParagraphs = data?.principalDesk?.message?.split('\n').filter((p: string) => p.trim().length > 0) || [];
 
   return (
     <MMSLayout title="Principal's Desk">
@@ -22,10 +49,16 @@ export default function MMSPrincipalsDesk() {
           </div>
 
           <div className="min-w-0 text-justify text-[18px] leading-[2] text-slate-700">
-            <aside className="mx-auto mb-6 w-full max-w-[320px] lg:float-left lg:mb-4 lg:mr-8 lg:w-[320px] lg:max-w-none">
+            <aside className="mx-auto mb-6 w-full max-w-[320px] lg:float-left lg:mb-4 lg:mr-8 lg:w-[320px] lg:max-w-none"> 
             <div className="rounded-3xl bg-gradient-to-br from-yellow-300 via-brand-gold to-yellow-500 p-[2.5px] shadow-[0_0_38px_6px_rgba(253,184,19,0.36)]">
               <div className="overflow-hidden rounded-[22px] bg-white">
-                {principalImageUrl ? (
+                {loading ? (
+                  <div className="flex h-[290px] w-full items-center justify-center bg-brand-light">
+                    <div className="text-center">
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-blue/70">Loading...</p>
+                    </div>
+                  </div>
+                ) : principalImageUrl ? (
                   <img
                     src={principalImageUrl}
                     alt="Principal Photo"
@@ -53,13 +86,19 @@ export default function MMSPrincipalsDesk() {
           </aside>
 
             <div className="space-y-4">
-              {principalDeskContent.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+              {loading ? (
+                <p>Loading principal\'s desk message...</p>
+              ) : descriptionParagraphs.length > 0 ? (
+                descriptionParagraphs.map((paragraph: string, index: number) => (
+                  <p key={index}>{paragraph}</p>
+                ))
+              ) : (
+                <p>No message available.</p>
+              )}
             </div>
 
             <div className="clear-both mt-6 rounded-2xl border border-brand-gold/20 bg-brand-light/45 px-6 py-5">
-              {principalSignature.map((line, index) => (
+              {principalSignature.map((line: string, index: number) => (
                 <p key={line} className={index === 1 ? 'text-lg font-bold text-brand-navy' : 'text-sm text-slate-700'}>
                   {line}
                 </p>

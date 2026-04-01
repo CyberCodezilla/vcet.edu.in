@@ -12,6 +12,11 @@ const departmentEditables = [
     description: 'Manage faculty profiles across all departments. Assign roles, qualifications, and keep information up to date.',
     links: [{ label: 'Manage Faculty', to: '/admin/pages/faculty' }],
   },
+  {
+    title: 'Newsletters',
+    description: 'Manage department-specific newsletters and magazines, upload PDFs, and set custom visual thumbnails.',
+    links: [{ label: 'Manage Newsletters', to: '/admin/pages/departments/newsletter' }],
+  },
 ];
 
 const DepartmentLanding: React.FC = () => {

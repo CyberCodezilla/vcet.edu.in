@@ -145,11 +145,11 @@ const MMSAdmissionForm: React.FC = () => {
                 {form.eligibilityCriteria?.entranceExams?.map((exam, i) => (
                    <div key={i} className="flex gap-2">
                      <div className="flex-1 relative">
-                       <input className="admin-input-small w-full" placeholder="Exam Name" value={exam.exam} onChange={e => handleTextChange(e.target.value, 100, val => {
+                       <input className="admin-input-small w-full" placeholder="Exam Name" value={exam.exam || ''} onChange={e => handleTextChange(e.target.value, 100, val => {
                          const c = [...form.eligibilityCriteria!.entranceExams]; c[i].exam = val;
                          setForm({...form, eligibilityCriteria: {...form.eligibilityCriteria!, entranceExams: c}});
                        })}/>
-                       <span className="absolute right-2 top-2 text-[10px] text-slate-400">{exam.exam.length}/100</span>
+                       <span className="absolute right-2 top-2 text-[10px] text-slate-400">{exam.exam?.length || 0}/100</span>
                      </div>
                      <button type="button" onClick={() => {
                         const c = [...form.eligibilityCriteria!.entranceExams]; c.splice(i, 1);
@@ -184,11 +184,11 @@ const MMSAdmissionForm: React.FC = () => {
                 {form.entranceExamination?.alternativeExams?.map((exam, i) => (
                    <div key={i} className="flex gap-2">
                      <div className="flex-1 relative">
-                       <input className="admin-input-small w-full" placeholder="Exam Name" value={exam.exam} onChange={e => handleTextChange(e.target.value, 100, val => {
+                       <input className="admin-input-small w-full" placeholder="Exam Name" value={exam.exam || ''} onChange={e => handleTextChange(e.target.value, 100, val => {
                          const c = [...form.entranceExamination!.alternativeExams]; c[i].exam = val;
                          setForm({...form, entranceExamination: {...form.entranceExamination!, alternativeExams: c}});
                        })}/>
-                       <span className="absolute right-2 top-2 text-[10px] text-slate-400">{exam.exam.length}/100</span>
+                       <span className="absolute right-2 top-2 text-[10px] text-slate-400">{exam.exam?.length || 0}/100</span>
                      </div>
                      <button type="button" onClick={() => {
                         const c = [...form.entranceExamination!.alternativeExams]; c.splice(i, 1);
@@ -214,10 +214,10 @@ const MMSAdmissionForm: React.FC = () => {
              {form.eligibilityCertificates?.map((cert, i) => (
                <div key={i} className="flex gap-2 items-start">
                  <div className="flex-1 relative">
-                   <input className="admin-input-small w-full" value={cert.certificate} placeholder="Requirement details (Max 100)" onChange={e => handleTextChange(e.target.value, 100, val => {
+                   <input className="admin-input-small w-full" value={cert.certificate || ''} placeholder="Requirement details (Max 100)" onChange={e => handleTextChange(e.target.value, 100, val => {
                      const c = [...form.eligibilityCertificates!]; c[i].certificate = val; setForm({...form, eligibilityCertificates: c});
                    })}/>
-                   <span className="absolute right-2 top-2 text-[10px] text-slate-400">{cert.certificate.length}/100</span>
+                   <span className="absolute right-2 top-2 text-[10px] text-slate-400">{cert.certificate?.length || 0}/100</span>
                  </div>
                  <button type="button" onClick={() => {
                     const c = [...form.eligibilityCertificates!]; c.splice(i, 1); setForm({...form, eligibilityCertificates: c});
@@ -239,14 +239,14 @@ const MMSAdmissionForm: React.FC = () => {
                <div key={i} className="flex gap-2 items-start p-3 bg-slate-50 rounded-lg border border-slate-200">
                  <div className="flex-1 space-y-2">
                    <div className="relative">
-                     <label className="admin-label">Link Label / Title <span className="text-slate-400 normal-case">({item.link.length}/100)</span></label>
-                     <input className="admin-input-small w-full" placeholder="e.g. CET Cell Portal" value={item.link} onChange={e => handleTextChange(e.target.value, 100, val => {
+                     <label className="admin-label">Link Label / Title <span className="text-slate-400 normal-case">({item.link?.length || 0}/100)</span></label>
+                     <input className="admin-input-small w-full" placeholder="e.g. CET Cell Portal" value={item.link || ''} onChange={e => handleTextChange(e.target.value, 100, val => {
                        const c = [...form.universityLinks!]; c[i].link = val; setForm({...form, universityLinks: c});
                      })}/>
                    </div>
                    <div className="relative">
-                     <label className="admin-label">URL <span className="text-slate-400 normal-case">({item.url.length}/150)</span></label>
-                     <input className="admin-input-small w-full" placeholder="https://" value={item.url} onChange={e => handleTextChange(e.target.value, 150, val => {
+                     <label className="admin-label">URL <span className="text-slate-400 normal-case">({item.url?.length || 0}/150)</span></label>
+                     <input className="admin-input-small w-full" placeholder="https://" value={item.url || ''} onChange={e => handleTextChange(e.target.value, 150, val => {
                        const c = [...form.universityLinks!]; c[i].url = val; setForm({...form, universityLinks: c});
                      })}/>
                    </div>
@@ -271,10 +271,10 @@ const MMSAdmissionForm: React.FC = () => {
              {form.documentsRequired?.map((doc, i) => (
                <div key={i} className="flex gap-2 items-start">
                  <div className="flex-1 relative">
-                   <input className="admin-input-small w-full" value={doc.document} placeholder="Document Item (Max 200)" onChange={e => handleTextChange(e.target.value, 200, val => {
+                   <input className="admin-input-small w-full" value={doc.document || ''} placeholder="Document Item (Max 200)" onChange={e => handleTextChange(e.target.value, 200, val => {
                      const c = [...form.documentsRequired!]; c[i].document = val; setForm({...form, documentsRequired: c});
                    })}/>
-                   <span className="absolute right-2 top-2 text-[10px] text-slate-400">{doc.document.length}/200</span>
+                   <span className="absolute right-2 top-2 text-[10px] text-slate-400">{doc.document?.length || 0}/200</span>
                  </div>
                  <button type="button" onClick={() => {
                     const c = [...form.documentsRequired!]; c.splice(i, 1); setForm({...form, documentsRequired: c});

@@ -210,7 +210,7 @@ const AdminDashboard: React.FC = () => {
       </div>
 
       {/* ── Recent data panels ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Notices */}
         <div className="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-sm">
           <div className="flex items-center justify-between mb-5">
@@ -304,6 +304,36 @@ const AdminDashboard: React.FC = () => {
               ))}
             </ul>
           )}
+        </div>
+
+        {/* Newsletters */}
+        <div className="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-[#0F172A] font-semibold flex items-center gap-2">
+                <span className="text-lg">📰</span> Newsletters
+              </h2>
+              <Link to="/admin/pages/departments/newsletter" className="text-[#2563EB] text-xs font-semibold hover:underline underline-offset-4">Manage</Link>
+            </div>
+            
+            <div className="text-center py-6 mt-4">
+              <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-indigo-400" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                </svg>
+              </div>
+              <p className="text-slate-700 font-semibold text-sm">Department Magazines</p>
+              <p className="text-slate-400 text-xs mt-1 max-w-[200px] mx-auto">Publish, manage, and showcase monthly department newsletters.</p>
+            </div>
+          </div>
+          
+          <Link
+            to="/admin/pages/departments/newsletter"
+            className="mt-6 w-full py-2.5 bg-[#1e293b] hover:bg-[#0f172a] text-white text-xs font-bold rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+          >
+            Access Newsletter System
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+          </Link>
         </div>
       </div>
 

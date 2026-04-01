@@ -14,7 +14,7 @@ export const trainingPlacementApi = {
     // If the payload has File objects inside deeply nested arrays (e.g. events[0].image),
     // we need to send it as FormData.
     const formData = new FormData();
-    formData.append('_method', 'PUT');
+    // formData.append('_method', 'PUT'); // Removed to match backend POST route
 
     // Basic recursive append for nested objects and arrays
     const appendFormData = (data: any, parentKey: string) => {
