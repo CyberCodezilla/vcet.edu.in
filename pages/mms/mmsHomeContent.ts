@@ -197,9 +197,9 @@ export const mmsHomeContent = {
       subtitle: 'Video poster holders until video links are managed in admin',
       fieldType: 'image',
       items: [
-        { id: 'v1', title: 'Role Play Session', poster: '' },
-        { id: 'v2', title: 'Industry Interaction', poster: '' },
-        { id: 'v3', title: 'Financial Literacy Program', poster: '' },
+        { id: 'v1', title: 'Role Play Session', poster: '', videoUrl: '' },
+        { id: 'v2', title: 'Industry Interaction', poster: '', videoUrl: '' },
+        { id: 'v3', title: 'Financial Literacy Program', poster: '', videoUrl: '' },
       ],
     },
     {

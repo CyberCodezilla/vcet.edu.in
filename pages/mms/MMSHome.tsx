@@ -43,6 +43,16 @@ export default function MMSHome() {
     </div>
   );
 
+  const getVideoSource = (video: Record<string, unknown>): string => {
+    const candidates = [video.videoUrl, video.videoFileUrl, video.fileUrl, video.url];
+    for (const candidate of candidates) {
+      if (typeof candidate === 'string' && candidate.trim()) {
+        return candidate.trim();
+      }
+    }
+    return '';
+  };
+
   return (
     <MMSLayout>
       <div className="space-y-12 md:space-y-16">
@@ -254,19 +264,41 @@ export default function MMSHome() {
           <div className="grid gap-4 md:grid-cols-3">
             {videosSection?.items.map((video) => (
               <article key={(video.id as string) || (video.title as string)} className="overflow-hidden rounded-xl border border-brand-blue/10 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
-                {(video.poster as string) ? (
-                  <img
-                    src={video.poster as string}
-                    alt={video.title as string}
-                    className="block h-auto w-full"
-                    referrerPolicy="no-referrer"
-                  />
-                ) : (
-                  <Holder label="Video Poster Holder" />
-                )}
+                {(() => {
+                  const source = getVideoSource(video as Record<string, unknown>);
+                  const poster = (video.poster as string) || '';
+
+                  if (source) {
+                    return (
+                      <video
+                        controls
+                        preload="metadata"
+                        className="block h-auto w-full bg-black"
+                        poster={poster || undefined}
+                        playsInline
+                      >
+                        <source src={source} />
+                        Your browser does not support the video tag.
+                      </video>
+                    );
+                  }
+
+                  if (poster) {
+                    return (
+                      <img
+                        src={poster}
+                        alt={video.title as string}
+                        className="block h-auto w-full"
+                        referrerPolicy="no-referrer"
+                      />
+                    );
+                  }
+
+                  return <Holder label="Video Holder" />;
+                })()}
                 <div className="p-4">
                   <h3 className="text-base font-semibold text-brand-blue">{video.title as string}</h3>
-                  <p className="mt-1 text-xs text-slate-500">Video slot ready for embed integration.</p>
+                  <p className="mt-1 text-xs text-slate-500">Video source can be attached from backend using URL or uploaded file path.</p>
                 </div>
               </article>
             )) || null}
