@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
             <h3 className="text-xs font-bold uppercase tracking-[0.15em] mb-5 text-brand-gold">Menu</h3>
             <ul className="space-y-2.5">
               {[
-                { label: 'Home', href: 'https://vcet.edu.in/', external: true },
+                { label: 'Home', href: '/', external: false },
                 { label: 'Mandatory Disclosure', href: 'https://vcet.edu.in/wp-content/uploads/2026/01/Mandatory-Disclosure-as-On-December-2025-FINAL.pdf', external: true },
                 { label: 'German Language Club', href: '/german-language-club', external: false },
                 { label: 'FRA FEE PROPOSAL 2025-26 – ENGG', href: 'https://vcet.edu.in/wp-content/uploads/2025/05/FRA-FEE-PROPOSAL-2025-26-ENGG.pdf', external: true },
