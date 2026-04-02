@@ -14,6 +14,7 @@ export const SITE_PAGE_TABS: SitePageTab[] = [
   { key: 'facilities', label: 'Facilities', path: '/admin/pages/facilities' },
   { key: 'mms', label: 'MMS', path: '/admin/pages/mms' },
   { key: 'student-career', label: 'Student & Career', path: '/admin/pages/student-career' },
+  { key: 'committees', label: 'Committees', path: '/admin/pages/committees' },
   { key: 'exam', label: 'Exams', path: '/admin/pages/exam' },
   { key: 'naac', label: 'NAAC', path: '/admin/pages/naac' },
   { key: 'training-placement', label: 'Training & Placement', path: '/admin/pages/training-placement' },

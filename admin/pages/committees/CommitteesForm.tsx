@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { pagesApi } from '../../api/pagesApi';
 import { CommitteeData, CommitteePayload, CommitteeMember, CommitteeReport } from '../../types';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 /* ── UI Components ────────────────────────────────────────────────────────── */
 const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => (
@@ -327,8 +328,7 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
       .finally(() => setLoading(false));
   }, [slug]);
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const saveChanges = async () => {
     setSaving(true);
     try {
       await pagesApi.committees.update(slug, payload);
@@ -339,6 +339,11 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await saveChanges();
   };
 
   if (loading) return (
@@ -352,33 +357,14 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
 
   return (
     <form onSubmit={handleSave} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      {/* Header */}
-      <div className="bg-white border border-slate-200/60 rounded-[2.5rem] p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 backdrop-blur-xl bg-white/70 sticky top-0 z-40">
-        <div className="flex items-center gap-5">
-            <button 
-              type="button"
-              onClick={onBack}
-              className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-[#2563EB] hover:text-white hover:border-[#2563EB] transition-all shadow-sm"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-            </button>
-            <div>
-              <h1 className="text-3xl font-black text-slate-900 tracking-tight leading-none uppercase">
-                {data?.name}
-              </h1>
-              <p className="text-slate-500 text-sm mt-2 font-medium">Manage professional committee data and records.</p>
-            </div>
-        </div>
-        <div className="flex items-center gap-3">
-           <button 
-             type="submit" 
-             disabled={saving}
-             className="px-8 py-3.5 rounded-2xl bg-[#2563EB] text-white text-sm font-black uppercase tracking-wider hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 disabled:opacity-50 flex items-center gap-2"
-           >
-             {saving ? 'Syncing...' : 'Save Changes'}
-           </button>
-        </div>
-      </div>
+      <PageEditorHeader
+        title={data?.name || 'Committee Editor'}
+        description="Manage professional committee data and records."
+        onSave={saveChanges}
+        isSaving={saving}
+        showBackButton
+        onBack={onBack}
+      />
 
       <div className="space-y-10 pb-20">
         {/* CDC Responsibilities */}

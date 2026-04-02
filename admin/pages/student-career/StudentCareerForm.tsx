@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 /* ── Toast ─────────────────────────────────────────────────────────────────── */
 const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () => void }> = ({ message, type, onClose }) => {
@@ -156,27 +157,6 @@ const TableManager: React.FC<{
 
 /* ── Main Form Component ─────────────────────────────────────────────────────── */
 interface StudentCareerFormProps { slug: string; onBack: () => void; }
-
-const SLUG_GROUPS: Record<string, string> = {
-  'cultural-committee': 'EXTRACURRICULAR / STUDENT COUNCIL',
-  'sports-committee': 'EXTRACURRICULAR / STUDENT COUNCIL',
-  'literati': 'EXTRACURRICULAR / STUDENT COUNCIL',
-  'nss': 'EXTRACURRICULAR / STUDENT COUNCIL',
-  'ebsb': 'EXTRACURRICULAR / STUDENT COUNCIL',
-  'ieee': 'CO-CURRICULAR / TECHNICAL BODY',
-  'csi': 'CO-CURRICULAR / TECHNICAL BODY',
-  'iete': 'CO-CURRICULAR / TECHNICAL BODY',
-  'ishrae': 'CO-CURRICULAR / TECHNICAL BODY',
-  'vmea': 'CO-CURRICULAR / TECHNICAL BODY',
-  'hackathon-events': 'CO-CURRICULAR / TECHNICAL BODY',
-  'nsdc': 'CO-CURRICULAR / SKILL DEVELOPMENT',
-  'igbc': 'CO-CURRICULAR / TECHNICAL BODY',
-  'student-clubs': 'CO-CURRICULAR / STUDENT CLUBS',
-  'centurion': 'CO-CURRICULAR / STUDENT CLUBS',
-  'airnova': 'CO-CURRICULAR / STUDENT CLUBS',
-  'emechto': 'CO-CURRICULAR / STUDENT CLUBS',
-  'external-projects': 'CO-CURRICULAR / STUDENT CLUBS',
-};
 
 const SLUG_NAMES: Record<string, string> = {
   'cultural-committee': 'Cultural Committee',
@@ -965,29 +945,17 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
     <div className="max-w-5xl mx-auto space-y-12 pb-24 relative selection:bg-blue-100 selection:text-blue-900">
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sticky top-0 bg-[#f8fafc]/95 backdrop-blur-xl z-30 py-6 -my-6 border-b border-slate-100 px-2 lg:px-4 rounded-b-3xl shadow-sm">
-        <div className="flex items-center gap-6">
-          <button onClick={onBack} className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-slate-50 active:scale-95 transition-all shadow-sm group">
-            <svg className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" /></svg>
-          </button>
-          <div>
-            <div className="flex items-center gap-3 mb-1">
-              <span className="px-3 py-1 rounded-full bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest">{SLUG_GROUPS[slug] || 'MODULE'}</span>
-              {slug === 'student-clubs' && <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-[9px] font-black uppercase tracking-widest">{activeClub}</span>}
-            </div>
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight leading-none uppercase">{SLUG_NAMES[slug] || slug.replace(/-/g, ' ')}</h1>
-          </div>
-        </div>
-        <button onClick={save} disabled={saving} className="h-14 px-10 bg-[#2563EB] text-white rounded-[1.25rem] font-black text-sm uppercase tracking-[0.1em] shadow-xl shadow-blue-500/25 hover:bg-blue-700 hover:-translate-y-0.5 active:translate-y-0.5 transition-all disabled:opacity-50 flex items-center justify-center gap-3">
-          {saving ? <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" /> : <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>}
-          {saving ? 'Synchronizing...' : 'Save Configuration'}
-        </button>
-      </div>
+      <PageEditorHeader
+        title={SLUG_NAMES[slug] || slug.replace(/-/g, ' ')}
+        description="Manage student clubs, activities, teams, and career-related content."
+        onSave={save}
+        isSaving={saving}
+        showBackButton
+        onBack={onBack}
+      />
 
-      <div className="space-y-12 pt-6 relative border-l-2 border-slate-100 ml-6 pl-10">
-        <div className="absolute top-0 -left-[1.25rem] w-8 h-8 rounded-full bg-[#f8fafc] border-2 border-slate-200 flex items-center justify-center text-slate-400 font-bold text-xs">...</div>
+      <div className="space-y-12 pt-6">
         {renderFormContent()}
-        <div className="absolute bottom-0 -left-[1.25rem] w-8 h-8 rounded-full bg-[#f8fafc] border-2 border-slate-200 flex items-center justify-center text-slate-400 font-bold text-xs ring-8 ring-[#f8fafc]">✓</div>
       </div>
 
       <p className="text-center text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mt-12 pb-12">Authorized Content Management Interface — VCET ADMIN</p>

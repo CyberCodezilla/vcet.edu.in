@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { admissionsApi } from '../../api/admissions';
 import type { AdmissionItem, AdmissionItemPayload, AdmissionSection, AdmissionSectionPayload } from '../../types';
 import { GripVertical } from 'lucide-react';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 type SectionKey = 'intake' | 'fees' | 'documents' | 'cutoffs' | 'brochure';
 
@@ -666,9 +667,7 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ activeSection, onBack }) 
     </button>
   );
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
+  const saveChanges = async () => {
     if (!section || !form) {
       setToast({ message: 'Section data is still loading.', type: 'error' });
       return;
@@ -713,6 +712,11 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ activeSection, onBack }) 
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    await saveChanges();
   };
 
   const renderSectionMeta = () => {
@@ -1129,22 +1133,17 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ activeSection, onBack }) 
     <div className="mx-auto max-w-5xl space-y-8 pb-12">
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex items-start gap-4">
-          {onBack && (
-            <button onClick={onBack} className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:bg-slate-50">
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" /></svg>
-            </button>
-          )}
-          <div>
-            <h1 className="text-3xl font-extrabold text-slate-900">{config.label}</h1>
-            <p className="mt-1 max-w-2xl text-sm text-slate-500">{config.helperText}</p>
-          </div>
-        </div>
-        <div className="text-right text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
-          <div>Slug: {config.slug}</div>
-          <div className="mt-1">Records: {items.length}</div>
-        </div>
+      <PageEditorHeader
+        title={config.label}
+        description={config.helperText}
+        onSave={saveChanges}
+        isSaving={saving}
+        showBackButton={!!onBack}
+        onBack={onBack}
+      />
+      <div className="rounded-2xl border border-slate-200/70 bg-white px-4 py-3 text-right text-xs font-bold uppercase tracking-[0.2em] text-slate-400 shadow-sm">
+        <div>Slug: {config.slug}</div>
+        <div className="mt-1">Records: {items.length}</div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">

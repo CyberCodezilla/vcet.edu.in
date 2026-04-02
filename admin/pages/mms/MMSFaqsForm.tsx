@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft, Plus, Trash2, CheckCircle, HelpCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Plus, Trash2, CheckCircle, HelpCircle } from 'lucide-react';
 import type { MMSFaqPayload } from '../../types';
 import { mmsFaqsApi } from '../../api/mmsFaqsApi';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const defaultFaqsRaw = [
   { id: 'faq-1', question: 'What is the course structure for the MMS program?', answer: 'The MMS program is structured into four semesters, divided into two semesters per year, as per University of Mumbai guidelines. The first year includes common subjects for all students, and the second year offers specialization options.' },
@@ -25,6 +26,7 @@ const emptyForm: MMSFaqPayload = {
 };
 
 const MMSFaqsForm: React.FC = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState<MMSFaqPayload>(emptyForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -58,8 +60,8 @@ const MMSFaqsForm: React.FC = () => {
     }
   };
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSave = async (e?: React.FormEvent) => {
+    e?.preventDefault();
     setSaving(true);
     setError('');
     setSuccessMsg('');
@@ -108,25 +110,17 @@ const MMSFaqsForm: React.FC = () => {
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-12 animate-fade-in relative pt-6 text-slate-800">
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-4">
-          <Link to="/admin/pages/mms" className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 transition-colors shadow-sm">
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center shadow-lg shadow-slate-200">
-              <HelpCircle className="w-6 h-6"/>
-            </div>
-            <div>
-              <h1 className="text-3xl font-extrabold text-[#111827]">Manage FAQs</h1>
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">QUESTIONS & ANSWERS</p>
-            </div>
-          </div>
-        </div>
-        <button onClick={handleSave} disabled={saving} className="px-8 py-3.5 bg-[#2563EB] text-white rounded-2xl font-black text-sm uppercase tracking-wider shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-all disabled:opacity-50 flex items-center gap-2">
-          {saving ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : 'Save Changes'}
-        </button>
-      </div>
+      <PageEditorHeader
+        title="Manage FAQs"
+        description="Questions & Answers"
+        onSave={() => {
+          void handleSave();
+        }}
+        isSaving={saving}
+        showBackButton
+        onBack={() => navigate('/admin/pages/mms')}
+        className="mb-8"
+      />
 
       {error && (
         <div className="bg-red-50 text-red-500 p-4 rounded-xl border border-red-200">

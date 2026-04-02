@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { pagesApi } from '../../api/pagesApi';
 import type { AboutData, AboutPayload } from '../../types';
 import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 /* ── Toast Component ────────────────────────────────────────────────────────── */
 const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () => void }> = ({ message, type, onClose }) => {
@@ -443,21 +444,14 @@ const AboutUsForm: React.FC<AboutUsFormProps> = ({ slug, onBack }) => {
     <div className="max-w-4xl mx-auto space-y-8 pb-12 animate-fade-in relative">
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
       
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button onClick={onBack} className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 transition-colors shadow-sm">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" /></svg>
-          </button>
-          <div>
-            <h1 className="text-3xl font-extrabold text-[#111827]">{data?.name}</h1>
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">ABOUT US EDITOR</p>
-          </div>
-        </div>
-        <button onClick={handleSubmit} disabled={saving} className="px-8 py-3.5 bg-[#2563EB] text-white rounded-2xl font-black text-sm uppercase tracking-wider shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-all disabled:opacity-50 flex items-center gap-2">
-          {saving && <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />}
-          {saving ? 'Saving...' : 'Save Changes'}
-        </button>
-      </div>
+      <PageEditorHeader
+        title={data?.name || 'About Us Editor'}
+        description="Manage institutional overview, leadership messages, and governance details."
+        onSave={handleSubmit}
+        isSaving={saving}
+        showBackButton
+        onBack={onBack}
+      />
 
       <div className="space-y-6">
          {renderContent()}

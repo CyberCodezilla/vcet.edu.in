@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { pagesApi } from '../../api/pagesApi';
 import type { ResearchData } from '../../types';
 import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () => void }> = ({ message, type, onClose }) => {
   useEffect(() => {
@@ -960,21 +961,14 @@ const ResearchForm: React.FC<ResearchFormProps> = ({ slug, onBack }) => {
     <div className="max-w-6xl mx-auto space-y-8 pb-12 animate-fade-in relative">
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <button onClick={onBack} className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 transition-colors shadow-sm">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" /></svg>
-          </button>
-          <div>
-            <h1 className="text-3xl font-extrabold text-[#111827]">{data?.name}</h1>
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Research Editor (Report-Aligned)</p>
-          </div>
-        </div>
-        <button onClick={handleSubmit} disabled={saving} className="px-8 py-3.5 bg-[#2563EB] text-white rounded-2xl font-black text-sm uppercase tracking-wider shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-all disabled:opacity-50 flex items-center gap-2">
-          {saving && <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />}
-          {saving ? 'Saving...' : 'Save Changes'}
-        </button>
-      </div>
+      <PageEditorHeader
+        title={data?.name || 'Research Page Editor'}
+        description="Manage institutional research, publications, patents, and innovation cell content."
+        onSave={handleSubmit}
+        isSaving={saving}
+        showBackButton
+        onBack={onBack}
+      />
 
       {exactErrors.length > 0 && (
         <div className="p-4 rounded-2xl border border-red-200 bg-red-50 text-red-700 text-xs font-bold uppercase tracking-wider">

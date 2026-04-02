@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { pagesApi } from '../../api/pagesApi';
 import { ExamData, ExamPayload, AdmissionDocument as DocItem, SyllabusSection, ResultSection } from '../../types';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => (
   <div className="bg-white border border-slate-200/60 rounded-[2.5rem] overflow-hidden shadow-sm transition-all hover:shadow-md">
@@ -308,8 +309,7 @@ const ExamsForm: React.FC<ExamFormProps> = ({ activeSection, onBack }) => {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const saveChanges = async () => {
     setSaving(true);
     try {
       await pagesApi.exam.update(payload);
@@ -322,6 +322,11 @@ const ExamsForm: React.FC<ExamFormProps> = ({ activeSection, onBack }) => {
     }
   };
 
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await saveChanges();
+  };
+
   if (loading) return (
     <div className="flex items-center justify-center h-64 bg-white border border-slate-200/60 rounded-3xl animate-pulse">
       <div className="flex flex-col items-center gap-3">
@@ -332,38 +337,15 @@ const ExamsForm: React.FC<ExamFormProps> = ({ activeSection, onBack }) => {
   );
 
   return (
-    <form onSubmit={handleSave} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      {/* Header */}
-      <div className="bg-white border border-slate-200/60 rounded-[2.5rem] p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 backdrop-blur-xl bg-white/80">
-        <div className="flex items-center gap-5">
-            <button 
-              type="button"
-              onClick={onBack}
-              className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400 hover:bg-[#2563EB] hover:text-white transition-all shadow-sm"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-            </button>
-            <div>
-              <h1 className="text-3xl font-black text-slate-900 tracking-tight">
-                Exam Section Editor
-              </h1>
-              <p className="text-slate-500 text-sm mt-1 font-medium">
-                Manage {activeSection ? activeSection.replace(/([A-Z])/g, ' $1').toLowerCase() : 'all examination'} related documents.
-              </p>
-            </div>
-        </div>
-        <div className="flex items-center gap-3">
-           <button 
-             type="submit" 
-             disabled={saving}
-             className="px-8 py-3.5 rounded-2xl bg-[#2563EB] text-white text-sm font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 disabled:opacity-50 flex items-center gap-2"
-           >
-             {saving ? (
-               <><div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div> Saving...</>
-             ) : 'Update Section'}
-           </button>
-        </div>
-      </div>
+    <form onSubmit={handleSave} className="mx-auto max-w-6xl space-y-8 px-4 pb-12 animate-in fade-in slide-in-from-bottom-4 duration-700 sm:px-6 lg:px-8">
+      <PageEditorHeader
+        title="Exam Section Editor"
+        description={`Manage ${activeSection ? activeSection.replace(/([A-Z])/g, ' $1').toLowerCase() : 'all examination'} related documents.`}
+        onSave={saveChanges}
+        isSaving={saving}
+        showBackButton
+        onBack={onBack}
+      />
 
       <div className="space-y-8 pb-20">
         {/* Syllabus */}
