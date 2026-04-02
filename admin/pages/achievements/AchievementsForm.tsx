@@ -121,15 +121,15 @@ const AchievementsForm: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="sm:col-span-2">
               <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Achievement Title <span className="text-red-400">*</span></label>
-              <input name="title" value={form.title} onChange={handleChange} placeholder="e.g., First Prize in Smart India Hackathon" required className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
+              <input id="achievementsform-1" aria-label="achievementsform field" name="title" value={form.title} onChange={handleChange} placeholder="e.g., First Prize in Smart India Hackathon" required className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
             </div>
             <div>
               <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Award / Rank <span className="text-red-400">*</span></label>
-              <input name="value" value={form.value} onChange={handleChange} placeholder="e.g., 1st Rank or ₹1,00,000" required className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
+              <input id="achievementsform-2" aria-label="achievementsform field" name="value" value={form.value} onChange={handleChange} placeholder="e.g., 1st Rank or ₹1,00,000" required className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
             </div>
             <div>
               <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Icon / Emoji</label>
-              <input name="icon" value={form.icon ?? ''} onChange={handleChange} placeholder="🏆" className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
+              <input id="achievementsform-3" aria-label="achievementsform field" name="icon" value={form.icon ?? ''} onChange={handleChange} placeholder="🏆" className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
             </div>
           </div>
 
@@ -137,11 +137,11 @@ const AchievementsForm: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-slate-50">
             <div>
               <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Participant Name</label>
-              <input name="participant_name" value={form.participant_name ?? ''} onChange={handleChange} placeholder="e.g., John Doe" className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
+              <input id="achievementsform-4" aria-label="achievementsform field" name="participant_name" value={form.participant_name ?? ''} onChange={handleChange} placeholder="e.g., John Doe" className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
             </div>
             <div>
               <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Participant Role</label>
-              <input name="participant_role" value={form.participant_role ?? ''} onChange={handleChange} placeholder="e.g., Final Year IT" className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
+              <input id="achievementsform-5" aria-label="achievementsform field" name="participant_role" value={form.participant_role ?? ''} onChange={handleChange} placeholder="e.g., Final Year IT" className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
             </div>
           </div>
 
@@ -149,11 +149,11 @@ const AchievementsForm: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Date Achieved</label>
-              <input type="date" name="date" value={form.date ?? ''} onChange={handleChange} className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
+              <input id="achievementsform-6" aria-label="achievementsform field" type="date" name="date" value={form.date ?? ''} onChange={handleChange} className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
             </div>
             <div>
               <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Category</label>
-              <select name="category" value={form.category ?? 'Academic'} onChange={handleChange} className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none flex">
+              <select id="achievementsform-select-1" aria-label="achievementsform select field" name="category" value={form.category ?? 'Academic'} onChange={handleChange} className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none flex">
                 <option value="Academic">Academic</option>
                 <option value="Sports">Sports</option>
                 <option value="Research">Research</option>
@@ -169,25 +169,25 @@ const AchievementsForm: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Document Name</label>
-                <input name="document_name" value={form.document_name ?? ''} onChange={handleChange} placeholder="e.g., certificate.pdf" className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
+                <input id="achievementsform-7" aria-label="achievementsform field" name="document_name" value={form.document_name ?? ''} onChange={handleChange} placeholder="e.g., certificate.pdf" className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
               </div>
               <div>
                 <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Document URL</label>
-                <input name="document_url" value={form.document_url ?? ''} onChange={handleChange} placeholder="https://drive.google.com/..." className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
+                <input id="achievementsform-8" aria-label="achievementsform field" name="document_url" value={form.document_url ?? ''} onChange={handleChange} placeholder="https://drive.google.com/..." className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
               </div>
             </div>
           </div>
 
           <div>
             <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Short Description</label>
-            <textarea name="description" value={form.description ?? ''} onChange={handleChange} rows={3} placeholder="Provide more context about the achievement..." className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none resize-none" />
+            <textarea id="achievementsform-textarea-2" aria-label="achievementsform textarea field" name="description" value={form.description ?? ''} onChange={handleChange} rows={3} placeholder="Provide more context about the achievement..." className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none resize-none" />
           </div>
 
           {/* Visibility & Toggle */}
           <div className="flex flex-wrap gap-8 pt-4">
             <label className="flex items-center gap-3 cursor-pointer group">
               <div className={`relative flex items-center w-12 h-6.5 rounded-full transition-all duration-300 ${form.is_active ? 'bg-[#1e293b] shadow-[0_0_12px_rgba(30,41,59,0.2)]' : 'bg-slate-200'}`}>
-                <input type="checkbox" name="is_active" checked={form.is_active ?? true} onChange={handleChange} className="sr-only" />
+                <input id="achievementsform-9" aria-label="achievementsform field" type="checkbox" name="is_active" checked={form.is_active ?? true} onChange={handleChange} className="sr-only" />
                 <span className={`w-5 h-5 rounded-full bg-white shadow-md transform transition-transform duration-300 ${form.is_active ? 'translate-x-6' : 'translate-x-1'}`} />
               </div>
               <div className="flex flex-col">
@@ -198,7 +198,7 @@ const AchievementsForm: React.FC = () => {
             
             <div className="flex flex-col">
                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Sort Priority</label>
-               <input type="number" name="sort_order" value={form.sort_order ?? 0} onChange={handleChange} min={0} className="w-24 bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-xl px-4 py-2 text-sm font-bold transition-all outline-none" />
+               <input id="achievementsform-10" aria-label="achievementsform field" type="number" name="sort_order" value={form.sort_order ?? 0} onChange={handleChange} min={0} className="w-24 bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-xl px-4 py-2 text-sm font-bold transition-all outline-none" />
             </div>
           </div>
         </div>

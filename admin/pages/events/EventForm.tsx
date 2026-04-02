@@ -184,17 +184,17 @@ const EventForm: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Event Title *</label>
-              <input name="title" value={form.title} onChange={handleChange} placeholder="e.g., Annual Tech Symposium 2024" required className="admin-input" />
+              <input id="eventform-1" aria-label="eventform field" name="title" value={form.title} onChange={handleChange} placeholder="e.g., Annual Tech Symposium 2024" required className="admin-input" />
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Organizing Body</label>
-              <input name="organizer" value={form.organizer ?? ''} onChange={handleChange} placeholder="e.g., Organized by IT Department" className="admin-input" />
+              <input id="eventform-2" aria-label="eventform field" name="organizer" value={form.organizer ?? ''} onChange={handleChange} placeholder="e.g., Organized by IT Department" className="admin-input" />
             </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Category</label>
-              <select name="category" value={form.category ?? ''} onChange={handleChange} className="admin-input appearance-none">
+              <select id="eventform-select-1" aria-label="eventform select field" name="category" value={form.category ?? ''} onChange={handleChange} className="admin-input appearance-none">
                 {CATEGORIES.map((c) => (
                   <option key={c} value={c}>{c}</option>
                 ))}
@@ -204,7 +204,7 @@ const EventForm: React.FC = () => {
 
           <div>
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Event Description</label>
-            <textarea name="description" value={form.description ?? ''} onChange={handleChange} rows={4} placeholder="Briefly describe the event highlights..." className="admin-input resize-none" />
+            <textarea id="eventform-textarea-2" aria-label="eventform textarea field" name="description" value={form.description ?? ''} onChange={handleChange} rows={4} placeholder="Briefly describe the event highlights..." className="admin-input resize-none" />
           </div>
         </div>
 
@@ -214,15 +214,15 @@ const EventForm: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Event Date *</label>
-              <input type="date" name="date" value={form.date} onChange={handleChange} required className="admin-input" />
+              <input id="eventform-3" aria-label="eventform field" type="date" name="date" value={form.date} onChange={handleChange} required className="admin-input" />
             </div>
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Time Slot</label>
-              <input type="text" name="time" value={form.time ?? ''} onChange={handleChange} placeholder="e.g., 09:00 AM - 05:00 PM" className="admin-input" />
+              <input id="eventform-4" aria-label="eventform field" type="text" name="time" value={form.time ?? ''} onChange={handleChange} placeholder="e.g., 09:00 AM - 05:00 PM" className="admin-input" />
             </div>
             <div className="sm:col-span-2">
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Venue / Location</label>
-              <input name="venue" value={form.venue ?? ''} onChange={handleChange} placeholder="e.g., Main Auditorium, Block A" className="admin-input" />
+              <input id="eventform-5" aria-label="eventform field" name="venue" value={form.venue ?? ''} onChange={handleChange} placeholder="e.g., Main Auditorium, Block A" className="admin-input" />
             </div>
           </div>
         </div>
@@ -234,11 +234,11 @@ const EventForm: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Expiry Date</label>
-              <input type="date" name="expiry_date" value={form.expiry_date ?? ''} onChange={handleChange} className="admin-input" />
+              <input id="eventform-6" aria-label="eventform field" type="date" name="expiry_date" value={form.expiry_date ?? ''} onChange={handleChange} className="admin-input" />
             </div>
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Expiry Time</label>
-              <input type="time" name="expiry_time" value={form.expiry_time ?? ''} onChange={handleChange} className="admin-input" />
+              <input id="eventform-7" aria-label="eventform field" type="time" name="expiry_time" value={form.expiry_time ?? ''} onChange={handleChange} className="admin-input" />
             </div>
           </div>
         </div>
@@ -252,7 +252,7 @@ const EventForm: React.FC = () => {
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Event Poster (Image)</label>
               <div className="relative group">
-                <input
+                <input id="eventform-8" name="eventform-8" aria-label="eventform field"
                   type="file"
                   accept="image/*"
                   onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
@@ -271,7 +271,7 @@ const EventForm: React.FC = () => {
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Brochure/Attachment (PDF)</label>
               <div className="relative group">
-                <input
+                <input id="eventform-9" name="eventform-9" aria-label="eventform field"
                   type="file"
                   accept=".pdf,application/pdf"
                   onChange={handlePdfChange}
@@ -340,7 +340,7 @@ const EventForm: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">External Link URL</label>
-              <input 
+              <input id="eventform-10" aria-label="eventform field" 
                 type="url" 
                 name="external_link" 
                 value={form.external_link ?? ''} 
@@ -352,7 +352,7 @@ const EventForm: React.FC = () => {
 
             <div>
               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Link Label</label>
-              <input 
+              <input id="eventform-11" aria-label="eventform field" 
                 type="text" 
                 name="external_link_label" 
                 value={form.external_link_label ?? ''} 
@@ -368,7 +368,7 @@ const EventForm: React.FC = () => {
         <div className="flex flex-wrap gap-8 pt-4">
           <label className="flex items-center gap-3.5 cursor-pointer group select-none">
             <div className={`relative flex items-center w-12 h-6.5 rounded-full transition-all duration-300 ${form.is_active ? 'bg-[#2563EB]' : 'bg-slate-200'}`}>
-              <input type="checkbox" name="is_active" checked={form.is_active} onChange={handleChange} className="sr-only" />
+              <input id="eventform-12" aria-label="eventform field" type="checkbox" name="is_active" checked={form.is_active} onChange={handleChange} className="sr-only" />
               <span className={`w-4.5 h-4.5 rounded-full bg-white shadow-md transform transition-transform duration-300 ${form.is_active ? 'translate-x-6.5' : 'translate-x-1'}`} />
             </div>
             <div>
@@ -379,7 +379,7 @@ const EventForm: React.FC = () => {
 
           <label className="flex items-center gap-3.5 cursor-pointer group select-none">
             <div className={`relative flex items-center w-12 h-6.5 rounded-full transition-all duration-300 ${form.is_featured ? 'bg-amber-400' : 'bg-slate-200'}`}>
-              <input type="checkbox" name="is_featured" checked={form.is_featured} onChange={handleChange} className="sr-only" />
+              <input id="eventform-13" aria-label="eventform field" type="checkbox" name="is_featured" checked={form.is_featured} onChange={handleChange} className="sr-only" />
               <span className={`w-4.5 h-4.5 rounded-full bg-white shadow-md transform transition-transform duration-300 ${form.is_featured ? 'translate-x-6.5' : 'translate-x-1'}`} />
             </div>
             <div>

@@ -73,7 +73,7 @@ const LimitedInput: React.FC<{
     <div className="relative">
       <label className={labelBase}>{label}</label>
       {type === 'text' ? (
-        <input
+        <input id="researchform-1" name="researchform-1" aria-label="researchform field"
           value={value || ''}
           maxLength={max}
           onChange={e => onChange(e.target.value)}
@@ -81,7 +81,7 @@ const LimitedInput: React.FC<{
           placeholder={placeholder}
         />
       ) : (
-        <textarea
+        <textarea id="researchform-textarea-2" name="researchform-textarea-2" aria-label="researchform textarea field"
           value={value || ''}
           maxLength={max}
           onChange={e => onChange(e.target.value)}
@@ -156,7 +156,7 @@ const LinkListManager: React.FC<{
               <div className="space-y-2">
                 <label className={labelBase}>Upload PDF</label>
                 <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <input
+                  <input id="researchform-2" name="researchform-2" aria-label="researchform field"
                     type="file"
                     accept="application/pdf"
                     className="text-sm font-semibold text-slate-600 file:mr-3 file:rounded-xl file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:bg-blue-700"
@@ -244,7 +244,7 @@ const PhDManager: React.FC<{ title: string; items: any[]; onChange: (v: any[]) =
           </div>
           <div className="col-span-3">
             <label className={labelBase}>Count</label>
-            <input
+            <input id="researchform-3" name="researchform-3" aria-label="researchform field"
               type="number"
               min={0}
               value={item.count ?? 0}
@@ -305,7 +305,7 @@ const TableManager: React.FC<{
                 {f.type === 'select' ? (
                   <div>
                     <label className={labelBase}>{f.label}</label>
-                    <select value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={inputBase}>
+                    <select id="researchform-select-1" name="researchform-select-1" aria-label="researchform select field" value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={inputBase}>
                       {(f.options || []).map(opt => <option key={opt} value={opt}>{opt || 'Blank'}</option>)}
                     </select>
                   </div>
@@ -314,7 +314,7 @@ const TableManager: React.FC<{
                     <label className={labelBase}>{f.label}</label>
                     <div className="rounded-2xl border border-slate-200 bg-white p-3 space-y-3">
                       <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
-                        <input
+                        <input id="researchform-4" name="researchform-4" aria-label="researchform field"
                           type="file"
                           accept="image/*"
                           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
@@ -353,7 +353,7 @@ const TableManager: React.FC<{
                   <div>
                     <label className={labelBase}>{f.label}</label>
                     <div className="rounded-2xl border border-slate-200 bg-white p-3 space-y-3">
-                      <input
+                      <input id="researchform-5" name="researchform-5" aria-label="researchform field"
                         type="file"
                         accept="application/pdf"
                         className="text-sm font-semibold text-slate-600 file:mr-3 file:rounded-xl file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:bg-blue-700"
@@ -769,7 +769,7 @@ const ResearchForm: React.FC<ResearchFormProps> = ({ slug, onBack }) => {
                       <label className={labelBase}>Partner Image</label>
                       <div className="rounded-2xl border border-slate-200 bg-white p-3 space-y-3">
                         <div className="relative aspect-video rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
-                          <input
+                          <input id="researchform-6" name="researchform-6" aria-label="researchform field"
                             type="file"
                             accept="image/*"
                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"

@@ -117,7 +117,7 @@ const HeroSlidesList: React.FC = () => {
       {/* Search & Actions */}
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
         <div className="relative w-full sm:max-w-md">
-          <input
+          <input id="heroslideslist-1" name="heroslideslist-1" aria-label="heroslideslist field"
             type="text"
             placeholder="Search slides..."
             value={searchTerm}

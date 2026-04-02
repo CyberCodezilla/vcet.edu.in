@@ -104,7 +104,7 @@ const NewsTickerList: React.FC = () => {
       {/* Search & Actions */}
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
         <div className="relative w-full sm:max-w-md">
-          <input
+          <input id="newstickerlist-1" name="newstickerlist-1" aria-label="newstickerlist field"
             type="text"
             placeholder="Search news ticker..."
             value={searchTerm}

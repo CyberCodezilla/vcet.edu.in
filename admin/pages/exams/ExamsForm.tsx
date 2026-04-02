@@ -71,7 +71,7 @@ const DocumentListManager: React.FC<{
             <div className="grid grid-cols-1 gap-4">
               <div>
                 <label className={labelBase}>File Title / Label</label>
-                <input 
+                <input id="examsform-1" name="examsform-1" aria-label="examsform field" 
                   value={item.title} 
                   onChange={e => updateItem(idx, { title: e.target.value })}
                   className={inputBase}
@@ -81,7 +81,7 @@ const DocumentListManager: React.FC<{
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                  <div className="md:col-span-1">
                     <label className={labelBase}>Academic Year / Semester</label>
-                    <input 
+                    <input id="examsform-2" name="examsform-2" aria-label="examsform field" 
                       value={item.year} 
                       onChange={e => updateItem(idx, { year: e.target.value })}
                       className={inputBase}
@@ -91,7 +91,7 @@ const DocumentListManager: React.FC<{
                  <div className="md:col-span-1">
                     <label className={labelBase}>PDF Document</label>
                     <div className="relative overflow-hidden bg-white border-2 border-dashed border-slate-200 rounded-2xl p-4 transition-all hover:border-[#2563EB]">
-                      <input 
+                      <input id="examsform-3" name="examsform-3" aria-label="examsform field" 
                         type="file" 
                         accept="application/pdf"
                         onChange={e => updateItem(idx, { file: e.target.files?.[0] || null })}
@@ -162,7 +162,7 @@ const SyllabusSectionManager: React.FC<{
 
           <div className="max-w-2xl">
             <label className={labelBase}>Department Name</label>
-            <select 
+            <select id="examsform-select-1" name="examsform-select-1" aria-label="examsform select field" 
               value={section.department} 
               onChange={e => updateSection(idx, { department: e.target.value })}
               className={inputBase}
@@ -230,7 +230,7 @@ const ResultSectionManager: React.FC<{
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className={labelBase}>Exam Month & Year</label>
-              <input 
+              <input id="examsform-4" name="examsform-4" aria-label="examsform field" 
                 value={section.title} 
                 onChange={e => updateSection(idx, { title: e.target.value })}
                 className={inputBase}
@@ -239,7 +239,7 @@ const ResultSectionManager: React.FC<{
             </div>
             <div>
               <label className={labelBase}>Department Name</label>
-              <select 
+              <select id="examsform-select-2" name="examsform-select-2" aria-label="examsform select field" 
                 value={section.department} 
                 onChange={e => updateSection(idx, { department: e.target.value })}
                 className={inputBase}

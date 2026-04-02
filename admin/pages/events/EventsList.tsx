@@ -199,7 +199,7 @@ const EventsList: React.FC = () => {
         {/* Toolbar */}
         <div className="p-4 border-b border-slate-100 flex flex-col sm:flex-row gap-4 items-center justify-between bg-slate-50/50">
           <div className="relative w-full sm:max-w-xs">
-            <input
+            <input id="eventslist-1" name="eventslist-1" aria-label="eventslist field"
               type="text"
               placeholder="Search by title or organizer..."
               value={searchTerm}

@@ -273,7 +273,7 @@ const NoticeForm: React.FC = () => {
           {/* Title */}
           <div className="md:col-span-2">
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Notice Title *</label>
-            <input
+            <input id="noticeform-1" name="noticeform-1" aria-label="noticeform field"
               type="text"
               value={form.title}
               onChange={(e) => set('title', e.target.value)}
@@ -286,7 +286,7 @@ const NoticeForm: React.FC = () => {
           {/* Type */}
           <div>
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Type</label>
-            <select
+            <select id="noticeform-select-1" name="noticeform-select-1" aria-label="noticeform select field"
               value={form.type}
               onChange={(e) => set('type', e.target.value as NonNullable<NoticePayload['type']>)}
               className="admin-input appearance-none"
@@ -302,7 +302,7 @@ const NoticeForm: React.FC = () => {
           {/* Scheduled Deactivation */}
           <div>
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Deactivates At</label>
-            <input
+            <input id="noticeform-2" name="noticeform-2" aria-label="noticeform field"
               type="datetime-local"
               value={form.deactivates_at}
               onChange={(e) => set('deactivates_at', e.target.value)}
@@ -315,7 +315,7 @@ const NoticeForm: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">External Link</label>
-            <input
+            <input id="noticeform-3" name="noticeform-3" aria-label="noticeform field"
               type="url"
               value={form.link_url}
               onChange={(e) => set('link_url', e.target.value)}
@@ -325,7 +325,7 @@ const NoticeForm: React.FC = () => {
           </div>
           <div>
             <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2.5">Link Label</label>
-            <input
+            <input id="noticeform-4" name="noticeform-4" aria-label="noticeform field"
               type="text"
               value={form.link_label}
               onChange={(e) => set('link_label', e.target.value)}
@@ -343,7 +343,7 @@ const NoticeForm: React.FC = () => {
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
             </div>
             
-            <input
+            <input name="noticeform-5" aria-label="noticeform field"
               type="file"
               accept=".pdf,application/pdf"
               id="file-upload"

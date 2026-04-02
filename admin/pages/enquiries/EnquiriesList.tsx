@@ -85,7 +85,7 @@ const EnquiriesList: React.FC = () => {
       {/* Search & Actions */}
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
         <div className="relative w-full sm:max-w-md">
-          <input
+          <input id="enquirieslist-1" name="enquirieslist-1" aria-label="enquirieslist field"
             type="text"
             placeholder="Search by name, email or course..."
             value={searchTerm}

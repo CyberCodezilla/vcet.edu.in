@@ -84,7 +84,7 @@ const HeroSlideForm: React.FC = () => {
           <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 space-y-8">
             <div className="space-y-2">
               <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Slide Title</label>
-              <input
+              <input id="heroslideform-1" aria-label="heroslideform field"
                 name="title"
                 value={form.title}
                 onChange={handleChange}
@@ -96,7 +96,7 @@ const HeroSlideForm: React.FC = () => {
 
             <div className="space-y-2">
               <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Subtitle Text</label>
-              <textarea
+              <textarea id="heroslideform-textarea-1" aria-label="heroslideform textarea field"
                 name="subtitle"
                 value={form.subtitle ?? ''}
                 onChange={handleChange}
@@ -109,7 +109,7 @@ const HeroSlideForm: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Button Text</label>
-                <input
+                <input id="heroslideform-2" aria-label="heroslideform field"
                   name="button_text"
                   value={form.button_text ?? ''}
                   onChange={handleChange}
@@ -119,7 +119,7 @@ const HeroSlideForm: React.FC = () => {
               </div>
               <div className="space-y-2">
                 <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Button Link</label>
-                <input
+                <input id="heroslideform-3" aria-label="heroslideform field"
                   name="button_link"
                   value={form.button_link ?? ''}
                   onChange={handleChange}
@@ -132,7 +132,7 @@ const HeroSlideForm: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Sort Order</label>
-                <input
+                <input id="heroslideform-4" aria-label="heroslideform field"
                   type="number"
                   name="sort_order"
                   value={form.sort_order ?? 0}
@@ -144,7 +144,7 @@ const HeroSlideForm: React.FC = () => {
               <div className="flex items-end pb-4">
                 <label className="flex items-center gap-3 cursor-pointer group">
                   <div className={`relative w-12 h-6 rounded-full transition-all duration-300 ${form.is_active ? 'bg-emerald-500' : 'bg-slate-200'}`}>
-                    <input
+                    <input id="heroslideform-5" aria-label="heroslideform field"
                       type="checkbox"
                       name="is_active"
                       checked={form.is_active}

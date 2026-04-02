@@ -84,7 +84,7 @@ const NewsTickerForm: React.FC = () => {
           <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 space-y-8">
             <div className="space-y-2">
               <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Ticker Message</label>
-              <textarea
+              <textarea id="newstickerform-textarea-1" aria-label="newstickerform textarea field"
                 name="text"
                 value={form.text}
                 onChange={handleChange}
@@ -97,7 +97,7 @@ const NewsTickerForm: React.FC = () => {
 
             <div className="space-y-2">
               <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Internal Link (Optional)</label>
-              <input
+              <input id="newstickerform-1" aria-label="newstickerform field"
                 name="link"
                 value={form.link ?? ''}
                 onChange={handleChange}
@@ -109,7 +109,7 @@ const NewsTickerForm: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Sort Order</label>
-                <input
+                <input id="newstickerform-2" aria-label="newstickerform field"
                   type="number"
                   name="sort_order"
                   value={form.sort_order ?? 0}
@@ -121,7 +121,7 @@ const NewsTickerForm: React.FC = () => {
               <div className="flex items-end pb-4">
                 <label className="flex items-center gap-3 cursor-pointer group">
                   <div className={`relative w-12 h-6 rounded-full transition-all duration-300 ${form.is_active ? 'bg-emerald-500' : 'bg-slate-200'}`}>
-                    <input
+                    <input id="newstickerform-3" aria-label="newstickerform field"
                       type="checkbox"
                       name="is_active"
                       checked={form.is_active}

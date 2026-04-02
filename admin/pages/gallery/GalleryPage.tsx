@@ -62,11 +62,11 @@ const GalleryPage: React.FC = () => {
         <form onSubmit={handleUpload} className="flex flex-wrap items-end gap-4">
           <div className="flex-1 min-w-48">
             <label className="block text-xs text-slate-500 uppercase tracking-wider mb-2 font-medium">Image *</label>
-            <input ref={fileRef} type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-medium file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer transition-colors" />
+            <input id="gallerypage-1" name="gallerypage-1" aria-label="gallerypage field" ref={fileRef} type="file" accept="image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-medium file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer transition-colors" />
           </div>
           <div className="flex-1 min-w-48">
              <label className="block text-xs text-slate-500 uppercase tracking-wider mb-2 font-medium">Caption (optional)</label>
-            <input value={caption} onChange={(e) => setCaption(e.target.value)} className="ai" placeholder="Describe the photo" />
+            <input id="gallerypage-2" name="gallerypage-2" aria-label="gallerypage field" value={caption} onChange={(e) => setCaption(e.target.value)} className="ai" placeholder="Describe the photo" />
           </div>
           <button type="submit" disabled={uploading || !file} className="bg-[#1e293b] hover:bg-[#334155] disabled:opacity-50 text-white font-medium px-6 py-2.5 rounded-xl text-sm transition-colors shadow-sm shrink-0 mb-1 lg:mb-0">
             {uploading ? 'Uploading…' : 'Upload Image'}

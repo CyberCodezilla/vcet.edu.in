@@ -42,7 +42,7 @@ const PdfUploadButton: React.FC<{
   const ref = useRef<HTMLInputElement>(null);
   return (
     <div className="flex items-center gap-3 flex-wrap">
-      <input
+      <input id="naacform-1" name="naacform-1" aria-label="naacform field"
         ref={ref}
         type="file"
         accept=".pdf"
@@ -140,7 +140,7 @@ const NestedCategoryManager: React.FC<{
           <div className="flex items-center gap-3 p-5 bg-white border-b border-slate-100">
             <div className="flex-grow">
               <label className={labelBase}>{categoryTitle}</label>
-              <input
+              <input id="naacform-2" name="naacform-2" aria-label="naacform field"
                 value={cat.categoryLabel}
                 onChange={e => updCategory(ci, { categoryLabel: e.target.value })}
                 className={inputBase}
@@ -165,7 +165,7 @@ const NestedCategoryManager: React.FC<{
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className={labelBase}>{idLabel}</label>
-                      <input
+                      <input id="naacform-3" name="naacform-3" aria-label="naacform field"
                         value={entry.entryId || entry.extendedId || entry.subCriteria || ''}
                         onChange={e => updEntry(ci, ei, { entryId: e.target.value })}
                         maxLength={50}
@@ -175,7 +175,7 @@ const NestedCategoryManager: React.FC<{
                     </div>
                     <div>
                       <label className={labelBase}>{descLabel}</label>
-                      <input
+                      <input id="naacform-4" name="naacform-4" aria-label="naacform field"
                         value={entry.description || entry.criteriaHeading || ''}
                         onChange={e => updEntry(ci, ei, { description: e.target.value })}
                         maxLength={200}
@@ -252,8 +252,8 @@ const TableWithPdfManager: React.FC<{
                 <div key={f.key} className={f.isTextarea ? 'col-span-1 md:col-span-2 lg:col-span-3' : ''}>
                   <label className={labelBase}>{f.label}</label>
                   {f.isTextarea
-                    ? <textarea maxLength={f.maxLength} value={item[f.key]} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs h-20 resize-none`} placeholder={f.placeholder} />
-                    : <input maxLength={f.maxLength} value={item[f.key]} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs`} placeholder={f.placeholder} />
+                    ? <textarea id="naacform-textarea-1" name="naacform-textarea-1" aria-label="naacform textarea field" maxLength={f.maxLength} value={item[f.key]} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs h-20 resize-none`} placeholder={f.placeholder} />
+                    : <input id="naacform-5" name="naacform-5" aria-label="naacform field" maxLength={f.maxLength} value={item[f.key]} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs`} placeholder={f.placeholder} />
                   }
                 </div>
               ))}
@@ -306,7 +306,7 @@ const SimplePdfManager: React.FC<{
             {extraFields.map(f => (
               <div key={f.key}>
                 <label className={labelBase}>{f.label}</label>
-                <input maxLength={f.maxLength} value={item[f.key]} onChange={e => upd(idx, { [f.key]: e.target.value })} className={inputBase} placeholder={f.placeholder} />
+                <input id="naacform-6" name="naacform-6" aria-label="naacform field" maxLength={f.maxLength} value={item[f.key]} onChange={e => upd(idx, { [f.key]: e.target.value })} className={inputBase} placeholder={f.placeholder} />
               </div>
             ))}
             <div>
@@ -364,7 +364,7 @@ const SSSPdfUploadManager: React.FC<{ items: SSSUploadFormItem[]; onChange: (val
         <div key={idx} className="p-5 bg-slate-50 border border-slate-100 rounded-3xl space-y-4">
           <div>
             <label className={labelBase}>Title</label>
-            <input
+            <input id="naacform-7" name="naacform-7" aria-label="naacform field"
               value={item.title || ''}
               onChange={e => upd(idx, { title: e.target.value })}
               className={inputBase}
@@ -374,7 +374,7 @@ const SSSPdfUploadManager: React.FC<{ items: SSSUploadFormItem[]; onChange: (val
 
           <div>
             <label className={labelBase}>Upload PDF</label>
-            <input
+            <input id="naacform-8" name="naacform-8" aria-label="naacform field"
               type="file"
               accept="application/pdf"
               onChange={e => {

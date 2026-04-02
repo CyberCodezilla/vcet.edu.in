@@ -117,7 +117,7 @@ const GalleryList: React.FC = () => {
       {/* Search & Actions */}
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
         <div className="relative w-full sm:max-w-md">
-          <input
+          <input id="gallerylist-1" name="gallerylist-1" aria-label="gallerylist field"
             type="text"
             placeholder="Search galleries..."
             value={searchTerm}

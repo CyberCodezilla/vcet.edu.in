@@ -56,9 +56,9 @@ const LimitedInput: React.FC<{ value: string; onChange: (v: string) => void; max
   <div className="relative">
     <label className={labelBase}>{label}</label>
     {type === 'text' ? (
-      <input value={value || ''} onChange={e => { if (e.target.value.length <= max) onChange(e.target.value) }} className={`${inputBase} p-4`} placeholder={placeholder} />
+      <input id="facilitiesform-1" name="facilitiesform-1" aria-label="facilitiesform field" value={value || ''} onChange={e => { if (e.target.value.length <= max) onChange(e.target.value) }} className={`${inputBase} p-4`} placeholder={placeholder} />
     ) : (
-      <textarea value={value || ''} onChange={e => { if (e.target.value.length <= max) onChange(e.target.value) }} className={`${inputBase} p-4 min-h-[100px] resize-y`} placeholder={placeholder} />
+      <textarea id="facilitiesform-textarea-1" name="facilitiesform-textarea-1" aria-label="facilitiesform textarea field" value={value || ''} onChange={e => { if (e.target.value.length <= max) onChange(e.target.value) }} className={`${inputBase} p-4 min-h-[100px] resize-y`} placeholder={placeholder} />
     )}
     <div className={`absolute bottom-3 right-4 text-[10px] font-bold ${value?.length >= max ? 'text-red-500' : 'text-slate-400'}`}>
       {value?.length || 0} / {max}
@@ -146,7 +146,7 @@ const ImageUploadInput: React.FC<{
     <div className="space-y-3">
       <label className={labelBase}>{label}</label>
       <div className="rounded-2xl border border-slate-200 bg-white p-4">
-        <input
+        <input id="facilitiesform-2" name="facilitiesform-2" aria-label="facilitiesform field"
           type="file"
           accept="image/*"
           className="text-sm font-semibold text-slate-600 file:mr-3 file:rounded-xl file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:bg-blue-700"

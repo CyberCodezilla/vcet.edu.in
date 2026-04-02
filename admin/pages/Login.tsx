@@ -110,7 +110,7 @@ const AdminLogin: React.FC = () => {
                     <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <input
+                <input id="login-1" name="login-1" aria-label="login field"
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -146,7 +146,7 @@ const AdminLogin: React.FC = () => {
                     <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
                 </div>
-                <input
+                <input id="login-2" name="login-2" aria-label="login field"
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -208,7 +208,7 @@ const AdminLogin: React.FC = () => {
             <div className="flex items-center ml-1">
               <label className="flex items-center gap-3 cursor-pointer group">
                 <div className="relative flex items-center justify-center">
-                  <input
+                  <input id="login-3" name="login-3" aria-label="login field"
                     type="checkbox"
                     checked={remember}
                     onChange={(e) => setRemember(e.target.checked)}
