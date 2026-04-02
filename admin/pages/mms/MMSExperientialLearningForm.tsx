@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { ChevronDown, ChevronUp, Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle, ArrowLeft } from 'lucide-react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ChevronDown, ChevronUp, Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle } from 'lucide-react';
 import type { MMSExperientialLearningPayload, GalleryItem } from '../../types';
 import { mmsExperientialLearningApi } from '../../api/mmsExperientialLearning';
 import { resolveApiUrl } from '../../../services/api';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const emptyForm: MMSExperientialLearningPayload = {
   rolePlay: [],
@@ -15,6 +16,7 @@ const emptyForm: MMSExperientialLearningPayload = {
 };
 
 const MMSExperientialLearningForm: React.FC = () => {
+  const navigate = useNavigate();
   const { section } = useParams<{ section: string }>();
   const [form, setForm] = useState<MMSExperientialLearningPayload>(emptyForm);
   const [loading, setLoading] = useState(true);
@@ -39,8 +41,8 @@ const MMSExperientialLearningForm: React.FC = () => {
     }
   };
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSave = async (e?: React.FormEvent) => {
+    e?.preventDefault();
     setSaving(true);
     setError('');
     setSuccessMsg('');
@@ -77,7 +79,7 @@ const MMSExperientialLearningForm: React.FC = () => {
       <div className="p-10 text-center">
         <AlertTriangle className="w-8 h-8 text-red-500 mx-auto mb-4" />
         <h2 className="text-xl font-bold">Invalid Section</h2>
-        <Link to="/admin/pages/mms" className="text-blue-500 hover:underline mt-4 inline-block">Back to MMS Hub</Link>
+        <button type="button" onClick={() => navigate('/admin/pages/mms')} className="text-blue-500 hover:underline mt-4 inline-block">Back to MMS Hub</button>
       </div>
     );
   }
@@ -86,21 +88,16 @@ const MMSExperientialLearningForm: React.FC = () => {
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-12 animate-fade-in relative pt-6">
-      {/* HEADER */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link to="/admin/pages/mms" className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 transition-colors shadow-sm">
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-          <div>
-            <h1 className="text-3xl font-extrabold text-[#111827]">{config.title}</h1>
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">EXPERIENTIAL LEARNING EDITOR</p>
-          </div>
-        </div>
-        <button onClick={handleSave} disabled={saving} className="px-8 py-3.5 bg-[#2563EB] text-white rounded-2xl font-black text-sm uppercase tracking-wider shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-all disabled:opacity-50 flex items-center gap-2">
-          {saving ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : 'Save Changes'}
-        </button>
-      </div>
+      <PageEditorHeader
+        title={config.title}
+        description="Experiential Learning Editor"
+        onSave={() => {
+          void handleSave();
+        }}
+        isSaving={saving}
+        showBackButton
+        onBack={() => navigate('/admin/pages/mms')}
+      />
 
       {/* MESSAGES */}
       {error && (

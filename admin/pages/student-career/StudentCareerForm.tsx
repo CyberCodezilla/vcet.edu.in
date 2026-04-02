@@ -954,10 +954,8 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
         onBack={onBack}
       />
 
-      <div className="space-y-12 pt-6 relative border-l-2 border-slate-100 ml-6 pl-10">
-        <div className="absolute top-0 -left-[1.25rem] w-8 h-8 rounded-full bg-[#f8fafc] border-2 border-slate-200 flex items-center justify-center text-slate-400 font-bold text-xs">...</div>
+      <div className="space-y-12 pt-6">
         {renderFormContent()}
-        <div className="absolute bottom-0 -left-[1.25rem] w-8 h-8 rounded-full bg-[#f8fafc] border-2 border-slate-200 flex items-center justify-center text-slate-400 font-bold text-xs ring-8 ring-[#f8fafc]">✓</div>
       </div>
 
       <p className="text-center text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mt-12 pb-12">Authorized Content Management Interface — VCET ADMIN</p>

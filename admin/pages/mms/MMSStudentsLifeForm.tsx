@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { ChevronDown, ChevronUp, Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle, ArrowLeft, FileText, User, Star } from 'lucide-react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ChevronDown, ChevronUp, Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle, FileText, User, Star } from 'lucide-react';
 import type { MMSStudentsLifePayload, GalleryItem } from '../../types';
 import { mmsStudentsLifeApi } from '../../api/mmsStudentsLifeApi';
 import { resolveApiUrl } from '../../../services/api';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const emptyForm: MMSStudentsLifePayload = {
   overview: { description: '', highlights: [] },
@@ -23,6 +24,7 @@ const emptyForm: MMSStudentsLifePayload = {
 };
 
 const MMSStudentsLifeForm: React.FC = () => {
+  const navigate = useNavigate();
   const { section } = useParams<{ section: string }>();
   const [form, setForm] = useState<MMSStudentsLifePayload>(emptyForm);
   const [loading, setLoading] = useState(true);
@@ -47,8 +49,8 @@ const MMSStudentsLifeForm: React.FC = () => {
     }
   };
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSave = async (e?: React.FormEvent) => {
+    e?.preventDefault();
     setSaving(true);
     setError('');
     setSuccessMsg('');
@@ -69,20 +71,17 @@ const MMSStudentsLifeForm: React.FC = () => {
   }
 
   const renderSectionHeader = (title: string, subtitle: string) => (
-    <div className="flex items-center justify-between mb-8">
-      <div className="flex items-center gap-4">
-        <Link to="/admin/pages/mms" className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 transition-colors shadow-sm">
-          <ArrowLeft className="w-5 h-5" />
-        </Link>
-        <div>
-          <h1 className="text-3xl font-extrabold text-[#111827]">{title}</h1>
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">{subtitle}</p>
-        </div>
-      </div>
-      <button onClick={handleSave} disabled={saving} className="px-8 py-3.5 bg-[#2563EB] text-white rounded-2xl font-black text-sm uppercase tracking-wider shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-all disabled:opacity-50 flex items-center gap-2">
-        {saving ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : 'Save Changes'}
-      </button>
-    </div>
+    <PageEditorHeader
+      title={title}
+      description={subtitle}
+      onSave={() => {
+        void handleSave();
+      }}
+      isSaving={saving}
+      showBackButton
+      onBack={() => navigate('/admin/pages/mms')}
+      className="mb-8"
+    />
   );
 
   const renderTextArea = (label: string, value: string, min: number, max: number, onChange: (v: string) => void) => (
