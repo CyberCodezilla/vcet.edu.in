@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { facultyApi } from '../admin/api/faculty';
 import type { Faculty } from '../admin/types';
 import PageLayout from '../components/PageLayout';
+import fallbackFacultyData from '../components/fallbackFaculty.json';
 import './departments/csds/FacultyProfile.css';
 
 const getInitials = (name: string) => {
@@ -10,6 +11,17 @@ const getInitials = (name: string) => {
   const parts = cleanName.split(' ').filter(Boolean);
   return (parts[0]?.[0] || '') + (parts[1]?.[0] || parts[0]?.[1] || '').toUpperCase();
 };
+
+const FALLBACK_FACULTY = (
+  Array.isArray(fallbackFacultyData)
+    ? fallbackFacultyData
+    : ((fallbackFacultyData as unknown) as { data?: Faculty[] })?.data
+) as Faculty[];
+
+const findFallbackFaculty = (id: string): Faculty | null =>
+  FALLBACK_FACULTY.find(
+    (faculty) => String(faculty?.id) === String(id) || faculty?.slug === id,
+  ) || null;
 
 const ImageWithFallback: React.FC<{ url?: string; name: string; altText: string }> = ({ url, name, altText }) => {
   const [error, setError] = useState(false);
@@ -40,12 +52,17 @@ const FacultyProfile: React.FC = () => {
         if (r && r.data) {
           setFaculty(r.data);
         } else {
+          const fallbackFaculty = findFallbackFaculty(id);
+          if (fallbackFaculty) {
+            setFaculty(fallbackFaculty);
+            return;
+          }
           throw new Error("Empty data from backend");
         }
       })
       .catch((e) => {
         console.warn("Failed to fetch faculty profile from backend API", e);
-        setFaculty(null);
+        setFaculty(findFallbackFaculty(id));
       })
       .finally(() => setLoading(false));
   }, [id]);

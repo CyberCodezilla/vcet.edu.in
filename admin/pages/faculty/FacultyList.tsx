@@ -21,7 +21,7 @@ const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () 
 const DEPARTMENTS = [
   'Computer Engineering',
   'Information Technology',
-  'Electronics & Telecommunication',
+  'Electronics & Telecommunication Engineering',
   'Mechanical Engineering',
   'Civil Engineering',
   'Artificial Intelligence & Data Science',

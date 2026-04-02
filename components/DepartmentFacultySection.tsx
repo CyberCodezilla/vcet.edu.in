@@ -2,10 +2,67 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { facultyApi } from '../admin/api/faculty';
 import type { Faculty } from '../admin/types';
+import fallbackFacultyData from './fallbackFaculty.json';
 
 interface DepartmentFacultySectionProps {
   departmentName: string;
 }
+
+const FALLBACK_FACULTY = (
+  Array.isArray(fallbackFacultyData)
+    ? fallbackFacultyData
+    : ((fallbackFacultyData as unknown) as { data?: Faculty[] })?.data
+) as Faculty[];
+
+const DEPARTMENT_ALIASES: Record<string, string> = {
+  aids: 'artificial intelligence and data science',
+  'artificial intelligence and data science': 'artificial intelligence and data science',
+  civil: 'civil engineering',
+  'civil engineering': 'civil engineering',
+  computerengg: 'computer engineering',
+  'computer engineering': 'computer engineering',
+  csds: 'computer science and data science',
+  'computer science and data science': 'computer science and data science',
+  'computer science and engineering data science': 'computer science and data science',
+  entc: 'electronics and telecommunication engineering',
+  'electronics and telecommunication': 'electronics and telecommunication engineering',
+  'electronics and telecommunication engineering': 'electronics and telecommunication engineering',
+  fe: 'first year engineering',
+  'first year engineering': 'first year engineering',
+  it: 'information technology',
+  'information technology': 'information technology',
+  mech: 'mechanical engineering',
+  'mechanical engineering': 'mechanical engineering',
+};
+
+const normalizeDepartmentName = (value: string): string => {
+  const normalized = value
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/[().]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return DEPARTMENT_ALIASES[normalized] || normalized;
+};
+
+const isFacultyActive = (faculty: Faculty): boolean => {
+  const basicInfoActive = faculty?.basicInfo?.isActive;
+  const rootActive = (faculty as Faculty & { is_active?: boolean }).is_active;
+
+  if (typeof basicInfoActive === 'boolean') return basicInfoActive;
+  if (typeof rootActive === 'boolean') return rootActive;
+  return true;
+};
+
+const filterFacultyByDepartment = (allFaculty: Faculty[], departmentName: string): Faculty[] => {
+  const target = normalizeDepartmentName(departmentName);
+
+  return allFaculty.filter((faculty) => {
+    const facultyDepartment = normalizeDepartmentName(faculty?.basicInfo?.department || '');
+    return facultyDepartment === target && isFacultyActive(faculty);
+  });
+};
 
 const getInitials = (name: string) => {
   const cleanName = name.replace(/^(Dr\.|Mr\.|Ms\.|Mrs\.|Prof\.)\s*/i, '').trim();
@@ -43,12 +100,20 @@ const DepartmentFacultySection: React.FC<DepartmentFacultySectionProps> = ({ dep
     facultyApi.publicList()
       .then(r => {
         const all = Array.isArray(r.data) ? r.data : [];
-        const filtered = all.filter(f => f?.basicInfo?.department === departmentName);
-        setFaculty(filtered);
+        const filtered = filterFacultyByDepartment(all, departmentName);
+
+        if (filtered.length > 0) {
+          setFaculty(filtered);
+          return;
+        }
+
+        const fallbackFiltered = filterFacultyByDepartment(FALLBACK_FACULTY, departmentName);
+        setFaculty(fallbackFiltered);
       })
       .catch((e) => {
         console.warn('Failed to fetch faculty from backend API', e);
-        setFaculty([]);
+        const fallbackFiltered = filterFacultyByDepartment(FALLBACK_FACULTY, departmentName);
+        setFaculty(fallbackFiltered);
       })
       .finally(() => setLoading(false));
   }, [departmentName]);
