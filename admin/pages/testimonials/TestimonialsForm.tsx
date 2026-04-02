@@ -86,7 +86,7 @@ const TestimonialsForm: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Person's Name</label>
-                <input
+                <input id="testimonialsform-1" aria-label="testimonialsform field"
                   name="name"
                   value={form.name}
                   onChange={handleChange}
@@ -97,7 +97,7 @@ const TestimonialsForm: React.FC = () => {
               </div>
               <div className="space-y-2">
                 <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Role / Batch</label>
-                <input
+                <input id="testimonialsform-2" aria-label="testimonialsform field"
                   name="role"
                   value={form.role ?? ''}
                   onChange={handleChange}
@@ -109,7 +109,7 @@ const TestimonialsForm: React.FC = () => {
 
             <div className="space-y-2">
               <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Testimonial Quote</label>
-              <textarea
+              <textarea id="testimonialsform-textarea-2" aria-label="testimonialsform textarea field"
                 name="text"
                 value={form.text}
                 onChange={handleChange}
@@ -123,7 +123,7 @@ const TestimonialsForm: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Star Rating</label>
-                <select
+                <select id="testimonialsform-select-1" aria-label="testimonialsform select field"
                   name="rating"
                   value={form.rating ?? 5}
                   onChange={handleChange}
@@ -135,7 +135,7 @@ const TestimonialsForm: React.FC = () => {
               <div className="flex items-end pb-4">
                 <label className="flex items-center gap-3 cursor-pointer group">
                   <div className={`relative w-12 h-6 rounded-full transition-all duration-300 ${form.is_active ? 'bg-emerald-500' : 'bg-slate-200'}`}>
-                    <input
+                    <input id="testimonialsform-3" aria-label="testimonialsform field"
                       type="checkbox"
                       name="is_active"
                       checked={form.is_active}

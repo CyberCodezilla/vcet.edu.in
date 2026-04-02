@@ -174,7 +174,7 @@ const PlacementStats: React.FC = () => {
           <div className="flex flex-wrap gap-3 items-end">
             <div className="flex flex-col gap-1">
               <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">Year Label</label>
-              <input
+              <input id="placementstats-1" name="placementstats-1" aria-label="placementstats field"
                 type="text"
                 placeholder="e.g. 2026-27"
                 value={form.year}
@@ -184,7 +184,7 @@ const PlacementStats: React.FC = () => {
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">Total Students</label>
-              <input
+              <input id="placementstats-2" name="placementstats-2" aria-label="placementstats field"
                 type="number"
                 min="0"
                 placeholder="e.g. 250"
@@ -194,7 +194,7 @@ const PlacementStats: React.FC = () => {
               />
             </div>
             <label className="flex items-center gap-2 cursor-pointer select-none pb-3">
-              <input
+              <input id="placementstats-3" name="placementstats-3" aria-label="placementstats field"
                 type="checkbox"
                 checked={form.is_covid}
                 onChange={(e) => setForm({ ...form, is_covid: e.target.checked })}
@@ -203,7 +203,7 @@ const PlacementStats: React.FC = () => {
               <span className="text-xs font-bold text-slate-600">Covid year</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer select-none pb-3">
-              <input
+              <input id="placementstats-4" name="placementstats-4" aria-label="placementstats field"
                 type="checkbox"
                 checked={form.is_ongoing}
                 onChange={(e) => setForm({ ...form, is_ongoing: e.target.checked })}

@@ -113,7 +113,7 @@ const PlacementForm: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="md:col-span-2">
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Company Name *</label>
-                <input
+                <input id="placementform-1" aria-label="placementform field"
                   name="company"
                   value={form.company}
                   onChange={handleChange}
@@ -125,7 +125,7 @@ const PlacementForm: React.FC = () => {
 
               <div>
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Package (LPA) *</label>
-                <input
+                <input id="placementform-2" aria-label="placementform field"
                   type="number"
                   name="package_lpa"
                   value={form.package_lpa}
@@ -139,7 +139,7 @@ const PlacementForm: React.FC = () => {
 
               <div>
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Students Placed *</label>
-                <input
+                <input id="placementform-3" aria-label="placementform field"
                   type="number"
                   name="student_count"
                   value={form.student_count}
@@ -152,7 +152,7 @@ const PlacementForm: React.FC = () => {
 
               <div>
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Academic Year *</label>
-                <select 
+                <select id="placementform-select-1" aria-label="placementform select field" 
                   name="year" 
                   value={form.year} 
                   onChange={handleChange}
@@ -167,7 +167,7 @@ const PlacementForm: React.FC = () => {
               <div className="flex items-end pb-2">
                 <label className="flex items-center gap-3 cursor-pointer group">
                   <div className={`relative flex items-center w-12 h-7 rounded-full transition-all duration-300 ${form.is_active ? 'bg-[#1e293b] shadow-lg shadow-slate-200' : 'bg-slate-200'}`}>
-                    <input type="checkbox" name="is_active" checked={form.is_active ?? true} onChange={handleChange} className="sr-only" />
+                    <input id="placementform-4" aria-label="placementform field" type="checkbox" name="is_active" checked={form.is_active ?? true} onChange={handleChange} className="sr-only" />
                     <span className={`w-5 h-5 rounded-full bg-white shadow-sm transform transition-transform duration-300 ${form.is_active ? 'translate-x-6' : 'translate-x-1'}`} />
                   </div>
                   <span className="text-xs font-black text-slate-600 uppercase tracking-widest group-hover:text-slate-900 transition-colors">Toggle Visibility</span>
@@ -177,7 +177,7 @@ const PlacementForm: React.FC = () => {
               <div className="md:col-span-2">
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Company Logo</label>
                 <div className="relative group">
-                  <input
+                  <input id="placementform-5" name="placementform-5" aria-label="placementform field"
                     type="file"
                     accept="image/*"
                     onChange={(e) => setLogoFile(e.target.files?.[0] ?? null)}

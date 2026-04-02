@@ -103,7 +103,7 @@ const PlacementPartnersList: React.FC = () => {
       {/* Search & Actions */}
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
         <div className="relative w-full sm:max-w-md">
-          <input
+          <input id="placementpartnerslist-1" name="placementpartnerslist-1" aria-label="placementpartnerslist field"
             type="text"
             placeholder="Search partners by name..."
             value={searchTerm}

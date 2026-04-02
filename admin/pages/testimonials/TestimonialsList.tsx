@@ -106,7 +106,7 @@ const TestimonialsList: React.FC = () => {
       {/* Search & Actions */}
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
         <div className="relative w-full sm:max-w-md">
-          <input
+          <input id="testimonialslist-1" name="testimonialslist-1" aria-label="testimonialslist field"
             type="text"
             placeholder="Search testimonials..."
             value={searchTerm}

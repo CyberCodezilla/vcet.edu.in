@@ -55,7 +55,7 @@ const MediaUploadButton: React.FC<{
 
   return (
     <div className="space-y-3">
-      <input ref={ref} type="file" accept={accept} className="hidden" onChange={handleChange} />
+      <input id="studentcareerform-1" name="studentcareerform-1" aria-label="studentcareerform field" ref={ref} type="file" accept={accept} className="hidden" onChange={handleChange} />
       <div className="flex items-center gap-3 flex-wrap">
         <button
           type="button"
@@ -124,8 +124,8 @@ const TableManager: React.FC<{
                 <div key={f.key} className={f.isTextarea ? 'col-span-1 md:col-span-2 lg:col-span-3' : ''}>
                   <label className={labelBase}>{f.label}</label>
                   {f.isTextarea
-                    ? <textarea maxLength={f.maxLength} value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs h-20 resize-none`} placeholder={f.placeholder} />
-                    : <input maxLength={f.maxLength} value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs`} placeholder={f.placeholder} />
+                    ? <textarea id="studentcareerform-textarea-1" name="studentcareerform-textarea-1" aria-label="studentcareerform textarea field" maxLength={f.maxLength} value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs h-20 resize-none`} placeholder={f.placeholder} />
+                    : <input id="studentcareerform-2" name="studentcareerform-2" aria-label="studentcareerform field" maxLength={f.maxLength} value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs`} placeholder={f.placeholder} />
                   }
                 </div>
               ))}
@@ -211,7 +211,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
           <div className="space-y-8">
             <SectionCard title="1. Hero / Overview" icon="🎭">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div><label className={labelBase}>Instagram Link</label><input value={payload.hInsta || ''} onChange={e => setPayload({...payload, hInsta: e.target.value})} className={inputBase} placeholder="URL" /></div>
+                <div><label className={labelBase}>Instagram Link</label><input id="studentcareerform-3" name="studentcareerform-3" aria-label="studentcareerform field" value={payload.hInsta || ''} onChange={e => setPayload({...payload, hInsta: e.target.value})} className={inputBase} placeholder="URL" /></div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div>
@@ -260,7 +260,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
             <SectionCard title="5. Cultural Team" icon="👥">
               <div>
                 <label className={labelBase}>Academic Year</label>
-                <input
+                <input id="studentcareerform-4" name="studentcareerform-4" aria-label="studentcareerform field"
                   maxLength={20}
                   value={payload.teamYear || ''}
                   onChange={e => setPayload({...payload, teamYear: e.target.value})}
@@ -286,7 +286,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
           <div className="space-y-8">
             <SectionCard title="1. Hero / Overview" icon="🏆">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div><label className={labelBase}>Instagram Link</label><input value={payload.hInsta || ''} onChange={e => setPayload({...payload, hInsta: e.target.value})} className={inputBase} placeholder="URL" /></div>
+                <div><label className={labelBase}>Instagram Link</label><input id="studentcareerform-5" name="studentcareerform-5" aria-label="studentcareerform field" value={payload.hInsta || ''} onChange={e => setPayload({...payload, hInsta: e.target.value})} className={inputBase} placeholder="URL" /></div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div><label className={labelBase}>Hero Background Image</label><MediaUploadButton value={payload.hImg} previewUrl={payload.hImg_preview} onChange={(v,p) => setPayload({...payload, hImg: v, hImg_preview: p})} accept="image/*" /></div>
@@ -315,12 +315,12 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
             <SectionCard title="4. Team (Committee Members)" icon="👥">
               <div className="mb-6 pb-6 border-b border-slate-100">
                 <label className={labelBase}>Sports Student PDF Card Title</label>
-                <input value={payload.pdfTitle || ''} onChange={e => setPayload({...payload, pdfTitle: e.target.value})} className={inputBase} placeholder="e.g. Sports Student Committee" />
+                <input id="studentcareerform-6" name="studentcareerform-6" aria-label="studentcareerform field" value={payload.pdfTitle || ''} onChange={e => setPayload({...payload, pdfTitle: e.target.value})} className={inputBase} placeholder="e.g. Sports Student Committee" />
                 <div className="mt-4"><MediaUploadButton value={payload.pdfFile} previewUrl={payload.pdfFile_preview} onChange={(v,p) => setPayload({...payload, pdfFile: v, pdfFile_preview: p})} accept=".pdf" label="Upload Special PDF" /></div>
               </div>
               <div className="mb-4">
                 <label className={labelBase}>Academic Year</label>
-                <input
+                <input id="studentcareerform-7" name="studentcareerform-7" aria-label="studentcareerform field"
                   maxLength={20}
                   value={payload.teamYear || ''}
                   onChange={e => setPayload({...payload, teamYear: e.target.value})}
@@ -345,7 +345,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
           <div className="space-y-8">
           <SectionCard title="1. Intro Links" icon="✍️">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div><label className={labelBase}>Instagram Link</label><input value={payload.hInsta || ''} onChange={e => setPayload({...payload, hInsta: e.target.value})} className={inputBase} /></div>
+              <div><label className={labelBase}>Instagram Link</label><input id="studentcareerform-8" name="studentcareerform-8" aria-label="studentcareerform field" value={payload.hInsta || ''} onChange={e => setPayload({...payload, hInsta: e.target.value})} className={inputBase} /></div>
             </div>
             </SectionCard>
             <SectionCard title="2. Literary Events" icon="📖">
@@ -360,15 +360,15 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div><MediaUploadButton value={payload.cImg} previewUrl={payload.cImg_preview} onChange={(v,p) => setPayload({...payload, cImg: v, cImg_preview: p})} label="Upload Staff Photo" /></div>
                 <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-                 <input maxLength={60} value={payload.cName || ''} onChange={e => setPayload({...payload, cName: e.target.value})} className={inputBase} placeholder="Staff Name" />
-                 <input maxLength={80} value={payload.cDept || ''} onChange={e => setPayload({...payload, cDept: e.target.value})} className={inputBase} placeholder="Department" />
-                 <input value={payload.cMail || ''} onChange={e => setPayload({...payload, cMail: e.target.value})} className={inputBase} placeholder="Email" />
+                 <input id="studentcareerform-9" name="studentcareerform-9" aria-label="studentcareerform field" maxLength={60} value={payload.cName || ''} onChange={e => setPayload({...payload, cName: e.target.value})} className={inputBase} placeholder="Staff Name" />
+                 <input id="studentcareerform-10" name="studentcareerform-10" aria-label="studentcareerform field" maxLength={80} value={payload.cDept || ''} onChange={e => setPayload({...payload, cDept: e.target.value})} className={inputBase} placeholder="Department" />
+                 <input id="studentcareerform-11" name="studentcareerform-11" aria-label="studentcareerform field" value={payload.cMail || ''} onChange={e => setPayload({...payload, cMail: e.target.value})} className={inputBase} placeholder="Email" />
                 </div>
               </div>
             </div>
                <div>
                  <label className={labelBase}>Academic Year</label>
-                 <input
+                 <input id="studentcareerform-12" name="studentcareerform-12" aria-label="studentcareerform field"
                    maxLength={20}
                    value={payload.teamYear || ''}
                    onChange={e => setPayload({...payload, teamYear: e.target.value})}
@@ -396,8 +396,8 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
           <div className="space-y-8">
             <SectionCard title="1. NSS Events & Social" icon="❤️">
                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div><label className={labelBase}>Instagram Link Label</label><input maxLength={100} value={payload.instaLab || ''} onChange={e => setPayload({...payload, instaLab: e.target.value})} className={inputBase} /></div>
-                <div><label className={labelBase}>Instagram URL</label><input value={payload.instaUrl || ''} onChange={e => setPayload({...payload, instaUrl: e.target.value})} className={inputBase} /></div>
+                <div><label className={labelBase}>Instagram Link Label</label><input id="studentcareerform-13" name="studentcareerform-13" aria-label="studentcareerform field" maxLength={100} value={payload.instaLab || ''} onChange={e => setPayload({...payload, instaLab: e.target.value})} className={inputBase} /></div>
+                <div><label className={labelBase}>Instagram URL</label><input id="studentcareerform-14" name="studentcareerform-14" aria-label="studentcareerform field" value={payload.instaUrl || ''} onChange={e => setPayload({...payload, instaUrl: e.target.value})} className={inputBase} /></div>
               </div>
               <TableManager items={payload.events || []} maxItems={24} addLabel="Add Service Event" onChange={v => setPayload({...payload, events: v})} textFields={[{ key: 'title', label: 'Title', maxLength: 50 }, { key: 'desc', label: 'Description', maxLength: 400, isTextarea: true }]} />
             </SectionCard>
@@ -411,11 +411,11 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div className="lg:col-span-1"><MediaUploadButton value={payload.cImg} previewUrl={payload.cImg_preview} onChange={(v,p) => setPayload({...payload, cImg: v, cImg_preview: p})} label="Coord. Photo" /></div>
                         <div className="lg:col-span-2 space-y-4">
-                           <input maxLength={60} value={payload.cName || ''} onChange={e => setPayload({...payload, cName: e.target.value})} className={inputBase} placeholder="Coordinator Name" />
-                          <input maxLength={80} value={payload.cDept || ''} onChange={e => setPayload({...payload, cDept: e.target.value})} className={inputBase} placeholder="Department" />
+                           <input id="studentcareerform-15" name="studentcareerform-15" aria-label="studentcareerform field" maxLength={60} value={payload.cName || ''} onChange={e => setPayload({...payload, cName: e.target.value})} className={inputBase} placeholder="Coordinator Name" />
+                          <input id="studentcareerform-16" name="studentcareerform-16" aria-label="studentcareerform field" maxLength={80} value={payload.cDept || ''} onChange={e => setPayload({...payload, cDept: e.target.value})} className={inputBase} placeholder="Department" />
                            <div className="grid grid-cols-2 gap-4">
-                              <input value={payload.cMail || ''} onChange={e => setPayload({...payload, cMail: e.target.value})} className={inputBase} placeholder="Email" />
-                              <input value={payload.cPhone || ''} onChange={e => setPayload({...payload, cPhone: e.target.value})} className={inputBase} placeholder="Phone" />
+                              <input id="studentcareerform-17" name="studentcareerform-17" aria-label="studentcareerform field" value={payload.cMail || ''} onChange={e => setPayload({...payload, cMail: e.target.value})} className={inputBase} placeholder="Email" />
+                              <input id="studentcareerform-18" name="studentcareerform-18" aria-label="studentcareerform field" value={payload.cPhone || ''} onChange={e => setPayload({...payload, cPhone: e.target.value})} className={inputBase} placeholder="Phone" />
                            </div>
                         </div>
                      </div>
@@ -428,7 +428,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                      <h4 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-4 ml-1">C. Student Core Committee (2-Column Table)</h4>
                     <div className="mb-4">
                       <label className={labelBase}>Academic Year</label>
-                      <input
+                      <input id="studentcareerform-19" name="studentcareerform-19" aria-label="studentcareerform field"
                        maxLength={20}
                        value={payload.teamYear || ''}
                        onChange={e => setPayload({...payload, teamYear: e.target.value})}
@@ -469,11 +469,11 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                         <div className="lg:col-span-1"><MediaUploadButton value={payload.cImg} previewUrl={payload.cImg_preview} onChange={(v,p) => setPayload({...payload, cImg: v, cImg_preview: p})} label="Upload Photo" /></div>
                         <div className="lg:col-span-2 space-y-4">
                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <div><label className={labelBase}>Member Name</label><input maxLength={60} value={payload.cName || ''} onChange={e => setPayload({...payload, cName: e.target.value})} className={inputBase} /></div>
-                      <div><label className={labelBase}>Department</label><input maxLength={60} value={payload.cDept || ''} onChange={e => setPayload({...payload, cDept: e.target.value})} className={inputBase} /></div>
+                              <div><label className={labelBase}>Member Name</label><input id="studentcareerform-20" name="studentcareerform-20" aria-label="studentcareerform field" maxLength={60} value={payload.cName || ''} onChange={e => setPayload({...payload, cName: e.target.value})} className={inputBase} /></div>
+                      <div><label className={labelBase}>Department</label><input id="studentcareerform-21" name="studentcareerform-21" aria-label="studentcareerform field" maxLength={60} value={payload.cDept || ''} onChange={e => setPayload({...payload, cDept: e.target.value})} className={inputBase} /></div>
                            </div>
                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <div><label className={labelBase}>Email ID</label><input value={payload.cMail || ''} onChange={e => setPayload({...payload, cMail: e.target.value})} className={inputBase} /></div>
+                              <div><label className={labelBase}>Email ID</label><input id="studentcareerform-22" name="studentcareerform-22" aria-label="studentcareerform field" value={payload.cMail || ''} onChange={e => setPayload({...payload, cMail: e.target.value})} className={inputBase} /></div>
                            </div>
                         </div>
                      </div>
@@ -613,17 +613,17 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                       <div className="lg:col-span-1"><MediaUploadButton value={payload.cImg} previewUrl={payload.cImg_preview} onChange={(v,p) => setPayload({...payload, cImg: v, cImg_preview: p})} label="Profile Photo" /></div>
                       <div className="lg:col-span-2 space-y-4">
                         <div className="grid grid-cols-2 gap-4">
-                           <input maxLength={60} value={payload.cName || ''} onChange={e => setPayload({...payload, cName: e.target.value})} className={inputBase} placeholder="Full Name" />
-                           <input maxLength={50} value={payload.cPos || ''} onChange={e => setPayload({...payload, cPos: e.target.value})} className={inputBase} placeholder="Post (e.g. Branch Counselor)" />
+                           <input id="studentcareerform-23" name="studentcareerform-23" aria-label="studentcareerform field" maxLength={60} value={payload.cName || ''} onChange={e => setPayload({...payload, cName: e.target.value})} className={inputBase} placeholder="Full Name" />
+                           <input id="studentcareerform-24" name="studentcareerform-24" aria-label="studentcareerform field" maxLength={50} value={payload.cPos || ''} onChange={e => setPayload({...payload, cPos: e.target.value})} className={inputBase} placeholder="Post (e.g. Branch Counselor)" />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
-                           <input value={payload.cMail || ''} onChange={e => setPayload({...payload, cMail: e.target.value})} className={inputBase} placeholder="Email" />
-                           <input value={payload.cPhone || ''} onChange={e => setPayload({...payload, cPhone: e.target.value})} className={inputBase} placeholder="Contact No" />
+                           <input id="studentcareerform-25" name="studentcareerform-25" aria-label="studentcareerform field" value={payload.cMail || ''} onChange={e => setPayload({...payload, cMail: e.target.value})} className={inputBase} placeholder="Email" />
+                           <input id="studentcareerform-26" name="studentcareerform-26" aria-label="studentcareerform field" value={payload.cPhone || ''} onChange={e => setPayload({...payload, cPhone: e.target.value})} className={inputBase} placeholder="Contact No" />
                         </div>
                         {slug === 'igbc' && (
                           <div className="grid grid-cols-2 gap-4">
-                            <input maxLength={30} value={payload.cTitle || ''} onChange={e => setPayload({...payload, cTitle: e.target.value})} className={inputBase} placeholder="Title (e.g. Faculty Incharge)" />
-                            <input maxLength={4} value={payload.cInitials || ''} onChange={e => setPayload({...payload, cInitials: e.target.value})} className={inputBase} placeholder="Initials" />
+                            <input id="studentcareerform-27" name="studentcareerform-27" aria-label="studentcareerform field" maxLength={30} value={payload.cTitle || ''} onChange={e => setPayload({...payload, cTitle: e.target.value})} className={inputBase} placeholder="Title (e.g. Faculty Incharge)" />
+                            <input id="studentcareerform-28" name="studentcareerform-28" aria-label="studentcareerform field" maxLength={4} value={payload.cInitials || ''} onChange={e => setPayload({...payload, cInitials: e.target.value})} className={inputBase} placeholder="Initials" />
                           </div>
                         )}
                       </div>
@@ -669,21 +669,21 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                       <div>
                         <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Committee Year Labels</h4>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <input
+                          <input id="studentcareerform-29" name="studentcareerform-29" aria-label="studentcareerform field"
                             maxLength={20}
                             value={payload.teamCoreYear || ''}
                             onChange={e => setPayload({...payload, teamCoreYear: e.target.value})}
                             className={inputBase}
                             placeholder="Core Committee Year (e.g. 2024-25)"
                           />
-                          <input
+                          <input id="studentcareerform-30" name="studentcareerform-30" aria-label="studentcareerform field"
                             maxLength={20}
                             value={payload.team2024Year || ''}
                             onChange={e => setPayload({...payload, team2024Year: e.target.value})}
                             className={inputBase}
                             placeholder="Members Group 1 Year"
                           />
-                          <input
+                          <input id="studentcareerform-31" name="studentcareerform-31" aria-label="studentcareerform field"
                             maxLength={20}
                             value={payload.team2021Year || ''}
                             onChange={e => setPayload({...payload, team2021Year: e.target.value})}
@@ -724,8 +724,8 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                 <SectionCard title="Standalone Project Links" icon="🔗">
                   <p className="text-xs text-slate-500 font-semibold mb-4">Provide the external website link for Project Ethan / Solecthon.</p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                     <div><label className={labelBase}>Ethan Website URL</label><input value={payload.ethanUrl || ''} onChange={e => setPayload({...payload, ethanUrl: e.target.value})} className={inputBase} placeholder="https://..." /></div>
-                     <div><label className={labelBase}>Solecthon Website URL</label><input value={payload.solecthonUrl || ''} onChange={e => setPayload({...payload, solecthonUrl: e.target.value})} className={inputBase} placeholder="https://..." /></div>
+                     <div><label className={labelBase}>Ethan Website URL</label><input id="studentcareerform-32" name="studentcareerform-32" aria-label="studentcareerform field" value={payload.ethanUrl || ''} onChange={e => setPayload({...payload, ethanUrl: e.target.value})} className={inputBase} placeholder="https://..." /></div>
+                     <div><label className={labelBase}>Solecthon Website URL</label><input id="studentcareerform-33" name="studentcareerform-33" aria-label="studentcareerform field" value={payload.solecthonUrl || ''} onChange={e => setPayload({...payload, solecthonUrl: e.target.value})} className={inputBase} placeholder="https://..." /></div>
                   </div>
                 </SectionCard>
              )}
@@ -790,7 +790,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                                 <TableManager items={payload.logos || []} maxItems={30} addLabel="Add Sponsor Logo" onChange={v => setPayload({...payload, logos: v})} textFields={[]} mediaField={{key:'img', label:'Logo'}} />
                                 <div>
                                   <label className={labelBase}>Sponsors Description</label>
-                                  <textarea
+                                  <textarea id="studentcareerform-textarea-2" name="studentcareerform-textarea-2" aria-label="studentcareerform textarea field"
                                     value={payload.sponsorText || ''}
                                     onChange={e => setPayload({...payload, sponsorText: e.target.value})}
                                     className={`${inputBase} h-28 resize-none`}
@@ -805,7 +805,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                                 <TableManager items={payload.logos || []} maxItems={30} addLabel="Add Sponsor Logo" onChange={v => setPayload({...payload, logos: v})} textFields={[]} mediaField={{key:'img', label:'Logo'}} />
                                 <div>
                                   <label className={labelBase}>Sponsors Description</label>
-                                  <textarea
+                                  <textarea id="studentcareerform-textarea-3" name="studentcareerform-textarea-3" aria-label="studentcareerform textarea field"
                                     value={payload.sponsorText || ''}
                                     onChange={e => setPayload({...payload, sponsorText: e.target.value})}
                                     className={`${inputBase} h-28 resize-none`}
@@ -820,7 +820,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                                 <TableManager items={payload.logos || []} maxItems={30} addLabel="Add Sponsor Logo" onChange={v => setPayload({...payload, logos: v})} textFields={[]} mediaField={{key:'img', label:'Logo'}} />
                                 <div>
                                   <label className={labelBase}>Sponsors Description</label>
-                                  <textarea
+                                  <textarea id="studentcareerform-textarea-4" name="studentcareerform-textarea-4" aria-label="studentcareerform textarea field"
                                     value={payload.sponsorText || ''}
                                     onChange={e => setPayload({...payload, sponsorText: e.target.value})}
                                     className={`${inputBase} h-28 resize-none`}
@@ -830,7 +830,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                                 </div>
                                 <div>
                                   <label className={labelBase}>Sponsorship Amount</label>
-                                  <input
+                                  <input id="studentcareerform-34" name="studentcareerform-34" aria-label="studentcareerform field"
                                     value={payload.sponsorAmount || ''}
                                     onChange={e => setPayload({...payload, sponsorAmount: e.target.value})}
                                     className={inputBase}
@@ -868,12 +868,12 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                            <div className="grow space-y-4">
                               <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Faculty Advisor / In-Charge</h4>
                               <div className="grid grid-cols-2 gap-4">
-                                 <input maxLength={60} value={payload.fName || ''} onChange={e => setPayload({...payload, fName: e.target.value})} className={inputBase} placeholder="Full Name" />
-                                 <input maxLength={80} value={payload.fDesig || ''} onChange={e => setPayload({...payload, fDesig: e.target.value})} className={inputBase} placeholder="Official Designation" />
+                                 <input id="studentcareerform-35" name="studentcareerform-35" aria-label="studentcareerform field" maxLength={60} value={payload.fName || ''} onChange={e => setPayload({...payload, fName: e.target.value})} className={inputBase} placeholder="Full Name" />
+                                 <input id="studentcareerform-36" name="studentcareerform-36" aria-label="studentcareerform field" maxLength={80} value={payload.fDesig || ''} onChange={e => setPayload({...payload, fDesig: e.target.value})} className={inputBase} placeholder="Official Designation" />
                               </div>
                               <div className="grid grid-cols-2 gap-4">
-                                 <input value={payload.fMail || ''} onChange={e => setPayload({...payload, fMail: e.target.value})} className={inputBase} placeholder="Official Email ID" />
-                                 <input value={payload.fPhone || ''} onChange={e => setPayload({...payload, fPhone: e.target.value})} className={inputBase} placeholder="Phone Contact" />
+                                 <input id="studentcareerform-37" name="studentcareerform-37" aria-label="studentcareerform field" value={payload.fMail || ''} onChange={e => setPayload({...payload, fMail: e.target.value})} className={inputBase} placeholder="Official Email ID" />
+                                 <input id="studentcareerform-38" name="studentcareerform-38" aria-label="studentcareerform field" value={payload.fPhone || ''} onChange={e => setPayload({...payload, fPhone: e.target.value})} className={inputBase} placeholder="Phone Contact" />
                               </div>
                            </div>
                         </div>
@@ -893,14 +893,14 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                           <div className="space-y-8">
                             <div>
                               <label className={labelBase}>Team Group 1 Academic Year</label>
-                              <input maxLength={20} value={payload.teamYear1 || ''} onChange={e => setPayload({...payload, teamYear1: e.target.value})} className={inputBase} placeholder="e.g. 2023-24" />
+                              <input id="studentcareerform-39" name="studentcareerform-39" aria-label="studentcareerform field" maxLength={20} value={payload.teamYear1 || ''} onChange={e => setPayload({...payload, teamYear1: e.target.value})} className={inputBase} placeholder="e.g. 2023-24" />
                               <div className="mt-4">
                                 <TableManager items={payload.team1 || []} maxItems={60} addLabel="Add Team 1 Member" onChange={v => setPayload({...payload, team1: v})} textFields={[{key:'name', label:'NAME', maxLength:60}, {key:'branch', label:'BRANCH-YEAR', maxLength:60}, {key:'post', label:'POST', maxLength:80}]} />
                               </div>
                             </div>
                             <div>
                               <label className={labelBase}>Team Group 2 Academic Year</label>
-                              <input maxLength={20} value={payload.teamYear2 || ''} onChange={e => setPayload({...payload, teamYear2: e.target.value})} className={inputBase} placeholder="e.g. 2019-20" />
+                              <input id="studentcareerform-40" name="studentcareerform-40" aria-label="studentcareerform field" maxLength={20} value={payload.teamYear2 || ''} onChange={e => setPayload({...payload, teamYear2: e.target.value})} className={inputBase} placeholder="e.g. 2019-20" />
                               <div className="mt-4">
                                 <TableManager items={payload.team2 || []} maxItems={60} addLabel="Add Team 2 Member" onChange={v => setPayload({...payload, team2: v})} textFields={[{key:'name', label:'NAME', maxLength:60}, {key:'branch', label:'BRANCH', maxLength:60}, {key:'post', label:'POST', maxLength:80}]} />
                               </div>
@@ -919,11 +919,11 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                          <div className="bg-slate-50/50 p-7 rounded-[2rem] border border-slate-100 space-y-4">
                             <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Official Engagement Links</h4>
                             <div className="space-y-4">
-                               <div><label className="text-[9px] text-slate-500 font-bold block mb-1">EMAIL</label><input value={payload.email || ''} onChange={e => setPayload({...payload, email: e.target.value})} className={inputBase} placeholder="team@vcet.edu.in" /></div>
-                               <div><label className="text-[9px] text-slate-500 font-bold block mb-1">INSTAGRAM URL</label><input value={payload.insta || ''} onChange={e => setPayload({...payload, insta: e.target.value})} className={inputBase} placeholder="https://instagram.com/..." /></div>
-                               {slug === 'airnova' && <div><label className="text-[9px] text-slate-500 font-bold block mb-1">LINKEDIN URL</label><input value={payload.linkedin || ''} onChange={e => setPayload({...payload, linkedin: e.target.value})} className={inputBase} placeholder="https://linkedin.com/..." /></div>}
-                               {slug === 'centurion' && <div><label className="text-[9px] text-slate-500 font-bold block mb-1">FACEBOOK</label><input value={payload.facebook || ''} onChange={e => setPayload({...payload, facebook: e.target.value})} className={inputBase} placeholder="Facebook page/link" /></div>}
-                               {slug === 'emechto' && <div><label className="text-[9px] text-slate-500 font-bold block mb-1">YOUTUBE URL</label><input value={payload.youtube || ''} onChange={e => setPayload({...payload, youtube: e.target.value})} className={inputBase} placeholder="https://youtube.com/..." /></div>}
+                               <div><label className="text-[9px] text-slate-500 font-bold block mb-1">EMAIL</label><input id="studentcareerform-41" name="studentcareerform-41" aria-label="studentcareerform field" value={payload.email || ''} onChange={e => setPayload({...payload, email: e.target.value})} className={inputBase} placeholder="team@vcet.edu.in" /></div>
+                               <div><label className="text-[9px] text-slate-500 font-bold block mb-1">INSTAGRAM URL</label><input id="studentcareerform-42" name="studentcareerform-42" aria-label="studentcareerform field" value={payload.insta || ''} onChange={e => setPayload({...payload, insta: e.target.value})} className={inputBase} placeholder="https://instagram.com/..." /></div>
+                               {slug === 'airnova' && <div><label className="text-[9px] text-slate-500 font-bold block mb-1">LINKEDIN URL</label><input id="studentcareerform-43" name="studentcareerform-43" aria-label="studentcareerform field" value={payload.linkedin || ''} onChange={e => setPayload({...payload, linkedin: e.target.value})} className={inputBase} placeholder="https://linkedin.com/..." /></div>}
+                               {slug === 'centurion' && <div><label className="text-[9px] text-slate-500 font-bold block mb-1">FACEBOOK</label><input id="studentcareerform-44" name="studentcareerform-44" aria-label="studentcareerform field" value={payload.facebook || ''} onChange={e => setPayload({...payload, facebook: e.target.value})} className={inputBase} placeholder="Facebook page/link" /></div>}
+                               {slug === 'emechto' && <div><label className="text-[9px] text-slate-500 font-bold block mb-1">YOUTUBE URL</label><input id="studentcareerform-45" name="studentcareerform-45" aria-label="studentcareerform field" value={payload.youtube || ''} onChange={e => setPayload({...payload, youtube: e.target.value})} className={inputBase} placeholder="https://youtube.com/..." /></div>}
                             </div>
                          </div>
                       </div>

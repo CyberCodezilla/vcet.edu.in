@@ -87,7 +87,7 @@ const TrainingPlacementForm: React.FC = () => {
     const defaultText = existingImage ? 'Change Image' : 'Click to Upload';
     return (
       <div className="relative group rounded-xl border-2 border-dashed border-slate-200 p-4 bg-slate-50 hover:bg-slate-100 transition-colors flex flex-col items-center justify-center min-h-[100px] text-center">
-        <input 
+        <input id="trainingplacementform-1" name="trainingplacementform-1" aria-label="trainingplacementform field" 
           type="file" 
           accept="image/*"
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
@@ -142,7 +142,7 @@ const TrainingPlacementForm: React.FC = () => {
             {form.trainingPoints?.map((pt, i) => (
               <div key={i} className="flex gap-2 items-start">
                 <div className="flex-1">
-                  <input
+                  <input id="trainingplacementform-2" name="trainingplacementform-2" aria-label="trainingplacementform field"
                     type="text"
                     value={pt.point}
                     onChange={(e) => handleTextChange(e.target.value, 170, (val) => {
@@ -178,25 +178,25 @@ const TrainingPlacementForm: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                   <div>
                     <label className="admin-label">Sr. No (Optional)</label>
-                    <input className="admin-input-small" value={ev.srNo} onChange={e => {
+                    <input id="trainingplacementform-3" name="trainingplacementform-3" aria-label="trainingplacementform field" className="admin-input-small" value={ev.srNo} onChange={e => {
                       const c = [...form.events!]; c[i].srNo = e.target.value; setForm({...form, events: c});
                     }}/>
                   </div>
                   <div>
                     <label className="admin-label">Date</label>
-                    <input className="admin-input-small" placeholder="Max 15 chars" value={ev.conductionDate} onChange={e => handleTextChange(e.target.value, 15, val => {
+                    <input id="trainingplacementform-4" name="trainingplacementform-4" aria-label="trainingplacementform field" className="admin-input-small" placeholder="Max 15 chars" value={ev.conductionDate} onChange={e => handleTextChange(e.target.value, 15, val => {
                       const c = [...form.events!]; c[i].conductionDate = val; setForm({...form, events: c});
                     })}/>
                   </div>
                   <div className="md:col-span-2">
                     <label className="admin-label">Event Name ({ev.eventName.length}/60)</label>
-                    <input className="admin-input-small" value={ev.eventName} onChange={e => handleTextChange(e.target.value, 60, val => {
+                    <input id="trainingplacementform-5" name="trainingplacementform-5" aria-label="trainingplacementform field" className="admin-input-small" value={ev.eventName} onChange={e => handleTextChange(e.target.value, 60, val => {
                       const c = [...form.events!]; c[i].eventName = val; setForm({...form, events: c});
                     })}/>
                   </div>
                   <div className="md:col-span-2">
                     <label className="admin-label">Resource Person / Details ({ev.resourcePerson.length}/350)</label>
-                    <textarea className="admin-input-small resize-none" rows={3} value={ev.resourcePerson} onChange={e => handleTextChange(e.target.value, 350, val => {
+                    <textarea id="trainingplacementform-textarea-1" name="trainingplacementform-textarea-1" aria-label="trainingplacementform textarea field" className="admin-input-small resize-none" rows={3} value={ev.resourcePerson} onChange={e => handleTextChange(e.target.value, 350, val => {
                       const c = [...form.events!]; c[i].resourcePerson = val; setForm({...form, events: c});
                     })}/>
                   </div>
@@ -224,7 +224,7 @@ const TrainingPlacementForm: React.FC = () => {
               <div className="space-y-2">
                 {form.careerGuidance?.guidancePoints?.map((pt, i) => (
                    <div key={i} className="flex gap-2">
-                     <input className="admin-input-small flex-1" value={pt.point} placeholder="Point description" onChange={e => handleTextChange(e.target.value, 100, val => {
+                     <input id="trainingplacementform-6" name="trainingplacementform-6" aria-label="trainingplacementform field" className="admin-input-small flex-1" value={pt.point} placeholder="Point description" onChange={e => handleTextChange(e.target.value, 100, val => {
                        const c = {...form.careerGuidance!}; c.guidancePoints[i].point = val; setForm({...form, careerGuidance: c});
                      })}/>
                      <button type="button" onClick={() => {
@@ -250,10 +250,10 @@ const TrainingPlacementForm: React.FC = () => {
                       const c = {...form.careerGuidance!}; c.seminars.splice(i, 1); setForm({...form, careerGuidance: c});
                     }} className="absolute top-2 right-2 text-red-500"><Trash2 className="w-3 h-3"/></button>
                     <div className="space-y-2">
-                      <input className="admin-input-small" placeholder="Title (Max 50 chars)" value={sem.title} onChange={e => handleTextChange(e.target.value, 50, val => {
+                      <input id="trainingplacementform-7" name="trainingplacementform-7" aria-label="trainingplacementform field" className="admin-input-small" placeholder="Title (Max 50 chars)" value={sem.title} onChange={e => handleTextChange(e.target.value, 50, val => {
                         const c = {...form.careerGuidance!}; c.seminars[i].title = val; setForm({...form, careerGuidance: c});
                       })}/>
-                      <input className="admin-input-small" placeholder="Resource Details (Max 180 chars)" value={sem.resourceDetails} onChange={e => handleTextChange(e.target.value, 180, val => {
+                      <input id="trainingplacementform-8" name="trainingplacementform-8" aria-label="trainingplacementform field" className="admin-input-small" placeholder="Resource Details (Max 180 chars)" value={sem.resourceDetails} onChange={e => handleTextChange(e.target.value, 180, val => {
                         const c = {...form.careerGuidance!}; c.seminars[i].resourceDetails = val; setForm({...form, careerGuidance: c});
                       })}/>
                       <FileUploader label="Seminar Image" onFileSelect={()=>{}} />
@@ -277,7 +277,7 @@ const TrainingPlacementForm: React.FC = () => {
              {form.internshipSteps?.map((step, i) => (
                <div key={i} className="flex gap-2 items-center">
                  <span className="font-bold text-slate-400 w-6">{i + 1}.</span>
-                 <input className="admin-input-small flex-1" value={step.step} placeholder="Max 120 chars" onChange={e => handleTextChange(e.target.value, 120, val => {
+                 <input id="trainingplacementform-9" name="trainingplacementform-9" aria-label="trainingplacementform field" className="admin-input-small flex-1" value={step.step} placeholder="Max 120 chars" onChange={e => handleTextChange(e.target.value, 120, val => {
                    const c = [...form.internshipSteps!]; c[i].step = val; setForm({...form, internshipSteps: c});
                  })}/>
                  <button type="button" onClick={() => {
@@ -307,7 +307,7 @@ const TrainingPlacementForm: React.FC = () => {
           <div className="space-y-3">
              {form.placementObjectives?.map((obj, i) => (
                <div key={i} className="flex gap-2">
-                 <textarea className="admin-input-small flex-1 resize-none" rows={2} value={obj.objective} placeholder="Max 160 chars" onChange={e => handleTextChange(e.target.value, 160, val => {
+                 <textarea id="trainingplacementform-textarea-2" name="trainingplacementform-textarea-2" aria-label="trainingplacementform textarea field" className="admin-input-small flex-1 resize-none" rows={2} value={obj.objective} placeholder="Max 160 chars" onChange={e => handleTextChange(e.target.value, 160, val => {
                    const c = [...form.placementObjectives!]; c[i].objective = val; setForm({...form, placementObjectives: c});
                  })}/>
                  <button type="button" onClick={() => {
@@ -334,20 +334,20 @@ const TrainingPlacementForm: React.FC = () => {
                  
                  <FileUploader label="Member Photo" onFileSelect={()=>{}} />
                  
-                 <input className="admin-input-small" placeholder="Name (Max 30) *" value={mem.name} onChange={e => handleTextChange(e.target.value, 30, val => {
+                 <input id="trainingplacementform-10" name="trainingplacementform-10" aria-label="trainingplacementform field" className="admin-input-small" placeholder="Name (Max 30) *" value={mem.name} onChange={e => handleTextChange(e.target.value, 30, val => {
                    const c = [...form.placementCellMembers!]; c[i].name = val; setForm({...form, placementCellMembers: c});
                  })}/>
-                 <input className="admin-input-small" placeholder="Role (Max 40) *" value={mem.role} onChange={e => handleTextChange(e.target.value, 40, val => {
+                 <input id="trainingplacementform-11" name="trainingplacementform-11" aria-label="trainingplacementform field" className="admin-input-small" placeholder="Role (Max 40) *" value={mem.role} onChange={e => handleTextChange(e.target.value, 40, val => {
                    const c = [...form.placementCellMembers!]; c[i].role = val; setForm({...form, placementCellMembers: c});
                  })}/>
-                 <input className="admin-input-small" placeholder="Email (Max 30) *" value={mem.email} onChange={e => handleTextChange(e.target.value, 30, val => {
+                 <input id="trainingplacementform-12" name="trainingplacementform-12" aria-label="trainingplacementform field" className="admin-input-small" placeholder="Email (Max 30) *" value={mem.email} onChange={e => handleTextChange(e.target.value, 30, val => {
                    const c = [...form.placementCellMembers!]; c[i].email = val; setForm({...form, placementCellMembers: c});
                  })}/>
                  <div className="flex gap-2">
-                    <input className="admin-input-small flex-[2]" placeholder="Phone (Max 25) *" value={mem.phone} onChange={e => handleTextChange(e.target.value, 25, val => {
+                    <input id="trainingplacementform-13" name="trainingplacementform-13" aria-label="trainingplacementform field" className="admin-input-small flex-[2]" placeholder="Phone (Max 25) *" value={mem.phone} onChange={e => handleTextChange(e.target.value, 25, val => {
                       const c = [...form.placementCellMembers!]; c[i].phone = val; setForm({...form, placementCellMembers: c});
                     })}/>
-                    <input className="admin-input-small flex-1" placeholder="Ext (Max 30)" value={mem.extension} onChange={e => handleTextChange(e.target.value, 30, val => {
+                    <input id="trainingplacementform-14" name="trainingplacementform-14" aria-label="trainingplacementform field" className="admin-input-small flex-1" placeholder="Ext (Max 30)" value={mem.extension} onChange={e => handleTextChange(e.target.value, 30, val => {
                       const c = [...form.placementCellMembers!]; c[i].extension = val; setForm({...form, placementCellMembers: c});
                     })}/>
                  </div>
@@ -368,7 +368,7 @@ const TrainingPlacementForm: React.FC = () => {
               <h4 className="admin-label">Paragraphs (Max 3, 1100 chars)</h4>
               {form.softSkillTraining?.paragraphs?.map((p, i) => (
                 <div key={i} className="flex gap-2">
-                  <textarea className="admin-input-small flex-1 resize-none" rows={3} value={p.text} onChange={e => handleTextChange(e.target.value, 1100, val => {
+                  <textarea id="trainingplacementform-textarea-3" name="trainingplacementform-textarea-3" aria-label="trainingplacementform textarea field" className="admin-input-small flex-1 resize-none" rows={3} value={p.text} onChange={e => handleTextChange(e.target.value, 1100, val => {
                     const c = {...form.softSkillTraining!}; c.paragraphs[i].text = val; setForm({...form, softSkillTraining: c});
                   })}/>
                   <button type="button" onClick={() => {
@@ -394,7 +394,7 @@ const TrainingPlacementForm: React.FC = () => {
         <SectionCard id="psychometricTest" title="9. Psychometric Test" active={activeSection} onToggle={toggleSection}>
           <div className="space-y-4">
              <h4 className="admin-label">Description (Max 1300 chars)</h4>
-             <textarea className="admin-input-small resize-none" rows={5} value={form.psychometricTest?.paragraph || ''} onChange={e => handleTextChange(e.target.value, 1300, val => {
+             <textarea id="trainingplacementform-textarea-4" name="trainingplacementform-textarea-4" aria-label="trainingplacementform textarea field" className="admin-input-small resize-none" rows={5} value={form.psychometricTest?.paragraph || ''} onChange={e => handleTextChange(e.target.value, 1300, val => {
                  setForm({...form, psychometricTest: {...form.psychometricTest!, paragraph: val}});
              })}/>
              <h4 className="admin-label mt-4">Session Images (Max 2, Label 19 chars)</h4>
@@ -420,16 +420,16 @@ const TrainingPlacementForm: React.FC = () => {
                <tbody className="divide-y divide-slate-100">
                  {form.internshipList?.map((item, i) => (
                    <tr key={i}>
-                     <td className="p-2"><input className="admin-input-small w-12" value={item.srNo} onChange={e => {
+                     <td className="p-2"><input id="trainingplacementform-15" name="trainingplacementform-15" aria-label="trainingplacementform field" className="admin-input-small w-12" value={item.srNo} onChange={e => {
                         const c = [...form.internshipList!]; c[i].srNo = e.target.value; setForm({...form, internshipList: c});
                      }}/></td>
-                     <td className="p-2"><input className="admin-input-small w-full" value={item.studentName} onChange={e => handleTextChange(e.target.value, 50, val => {
+                     <td className="p-2"><input id="trainingplacementform-16" name="trainingplacementform-16" aria-label="trainingplacementform field" className="admin-input-small w-full" value={item.studentName} onChange={e => handleTextChange(e.target.value, 50, val => {
                         const c = [...form.internshipList!]; c[i].studentName = val; setForm({...form, internshipList: c});
                      })}/></td>
-                     <td className="p-2"><input className="admin-input-small w-full" value={item.specialization} onChange={e => handleTextChange(e.target.value, 15, val => {
+                     <td className="p-2"><input id="trainingplacementform-17" name="trainingplacementform-17" aria-label="trainingplacementform field" className="admin-input-small w-full" value={item.specialization} onChange={e => handleTextChange(e.target.value, 15, val => {
                         const c = [...form.internshipList!]; c[i].specialization = val; setForm({...form, internshipList: c});
                      })}/></td>
-                     <td className="p-2"><input className="admin-input-small w-full" value={item.company} onChange={e => handleTextChange(e.target.value, 45, val => {
+                     <td className="p-2"><input id="trainingplacementform-18" name="trainingplacementform-18" aria-label="trainingplacementform field" className="admin-input-small w-full" value={item.company} onChange={e => handleTextChange(e.target.value, 45, val => {
                         const c = [...form.internshipList!]; c[i].company = val; setForm({...form, internshipList: c});
                      })}/></td>
                      <td className="p-2"><button type="button" onClick={() => {
@@ -460,16 +460,16 @@ const TrainingPlacementForm: React.FC = () => {
                      <FileUploader label="Student Image" onFileSelect={()=>{}} />
                    </div>
                  </div>
-                 <input className="admin-input-small w-full" placeholder="Sr No" value={item.srNo} onChange={e => {
+                 <input id="trainingplacementform-19" name="trainingplacementform-19" aria-label="trainingplacementform field" className="admin-input-small w-full" placeholder="Sr No" value={item.srNo} onChange={e => {
                     const c = [...form.studentPlacements!]; c[i].srNo = e.target.value; setForm({...form, studentPlacements: c});
                  }}/>
-                 <input className="admin-input-small w-full" placeholder="Name (Max 25)" value={item.studentName} onChange={e => handleTextChange(e.target.value, 25, val => {
+                 <input id="trainingplacementform-20" name="trainingplacementform-20" aria-label="trainingplacementform field" className="admin-input-small w-full" placeholder="Name (Max 25)" value={item.studentName} onChange={e => handleTextChange(e.target.value, 25, val => {
                     const c = [...form.studentPlacements!]; c[i].studentName = val; setForm({...form, studentPlacements: c});
                  })}/>
-                 <input className="admin-input-small w-full" placeholder="Spec (Max 15)" value={item.specialization} onChange={e => handleTextChange(e.target.value, 15, val => {
+                 <input id="trainingplacementform-21" name="trainingplacementform-21" aria-label="trainingplacementform field" className="admin-input-small w-full" placeholder="Spec (Max 15)" value={item.specialization} onChange={e => handleTextChange(e.target.value, 15, val => {
                     const c = [...form.studentPlacements!]; c[i].specialization = val; setForm({...form, studentPlacements: c});
                  })}/>
-                 <input className="admin-input-small w-full" placeholder="Company (Max 40)" value={item.company} onChange={e => handleTextChange(e.target.value, 40, val => {
+                 <input id="trainingplacementform-22" name="trainingplacementform-22" aria-label="trainingplacementform field" className="admin-input-small w-full" placeholder="Company (Max 40)" value={item.company} onChange={e => handleTextChange(e.target.value, 40, val => {
                     const c = [...form.studentPlacements!]; c[i].company = val; setForm({...form, studentPlacements: c});
                  })}/>
                </div>
@@ -485,7 +485,7 @@ const TrainingPlacementForm: React.FC = () => {
         {/* SECTION 12: Our Recruiters */}
         <SectionCard id="recruitersBanner" title="12. Our Recruiters Banner" active={activeSection} onToggle={toggleSection}>
           <div className="max-w-md space-y-3">
-             <input className="admin-input-small w-full" placeholder="Optional Label" value={form.recruitersBanner?.label || ''} onChange={e => {
+             <input id="trainingplacementform-23" name="trainingplacementform-23" aria-label="trainingplacementform field" className="admin-input-small w-full" placeholder="Optional Label" value={form.recruitersBanner?.label || ''} onChange={e => {
                  setForm({...form, recruitersBanner: {...form.recruitersBanner, label: e.target.value}});
              }}/>
              <FileUploader label="Recruiters Banner" onFileSelect={()=>{}} />
@@ -546,10 +546,10 @@ const GalleryEditor = ({ items, max, labelLimit, onChange }: { items: any[], max
         <div key={i} className="p-3 bg-slate-50 border border-slate-200 rounded-lg relative space-y-2">
           <button type="button" onClick={() => onChange(items.filter((_, idx) => idx !== i))} className="absolute top-1 right-1 bg-white border border-red-100 rounded text-red-500 z-10 p-0.5"><Trash2 className="w-3 h-3"/></button>
           <div className="relative group rounded-lg border border-dashed border-slate-300 bg-white h-20 flex items-center justify-center">
-            <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+            <input id="trainingplacementform-24" name="trainingplacementform-24" aria-label="trainingplacementform field" type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
             <ImageIcon className="w-5 h-5 text-slate-400"/>
           </div>
-          <input className="admin-input-small text-center" placeholder={`Label (Max ${labelLimit})`} value={item.label} onChange={e => {
+          <input id="trainingplacementform-25" name="trainingplacementform-25" aria-label="trainingplacementform field" className="admin-input-small text-center" placeholder={`Label (Max ${labelLimit})`} value={item.label} onChange={e => {
              if (e.target.value.length <= labelLimit) {
                const c = [...items]; c[i].label = e.target.value; onChange(c);
              }

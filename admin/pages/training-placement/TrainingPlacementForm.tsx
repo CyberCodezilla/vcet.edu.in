@@ -55,7 +55,7 @@ const MediaUploadButton: React.FC<{
 
   return (
     <div className="space-y-3">
-      <input ref={ref} type="file" accept={accept} className="hidden" onChange={handleChange} />
+      <input id="trainingplacementform-1" name="trainingplacementform-1" aria-label="trainingplacementform field" ref={ref} type="file" accept={accept} className="hidden" onChange={handleChange} />
 
       <div className="flex items-center gap-3 flex-wrap">
         <button
@@ -151,8 +151,8 @@ const TableManager: React.FC<{
                 <div key={f.key} className={f.isTextarea ? 'col-span-1 md:col-span-2 lg:col-span-3' : ''}>
                   <label className={labelBase}>{f.label}</label>
                   {f.isTextarea
-                    ? <textarea maxLength={f.maxLength} value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs h-20 resize-none`} placeholder={f.placeholder} />
-                    : <input maxLength={f.maxLength} value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs`} placeholder={f.placeholder} />
+                    ? <textarea id="trainingplacementform-textarea-1" name="trainingplacementform-textarea-1" aria-label="trainingplacementform textarea field" maxLength={f.maxLength} value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs h-20 resize-none`} placeholder={f.placeholder} />
+                    : <input id="trainingplacementform-2" name="trainingplacementform-2" aria-label="trainingplacementform field" maxLength={f.maxLength} value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs`} placeholder={f.placeholder} />
                   }
                 </div>
               ))}
@@ -222,7 +222,7 @@ const NestedEventManager: React.FC<{ items: any[]; onChange: (val: any[]) => voi
           <div className="flex items-center gap-3 p-5 bg-white border-b border-slate-100">
             <div className="flex-grow">
               <label className={labelBase}>Academic Year</label>
-              <input value={yr.year || ''} onChange={e => updYear(yi, { year: e.target.value })} className={inputBase} placeholder="e.g. 2023-24" />
+              <input id="trainingplacementform-3" name="trainingplacementform-3" aria-label="trainingplacementform field" value={yr.year || ''} onChange={e => updYear(yi, { year: e.target.value })} className={inputBase} placeholder="e.g. 2023-24" />
             </div>
             <button onClick={() => delYear(yi)} className="mt-6 p-2 rounded-xl bg-red-50 text-red-400 hover:bg-red-500 hover:text-white transition-all"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
           </div>
@@ -232,13 +232,13 @@ const NestedEventManager: React.FC<{ items: any[]; onChange: (val: any[]) => voi
                  <button onClick={() => delEvent(yi, ei)} className="absolute top-4 right-4 p-2 bg-red-50 text-red-400 rounded-xl hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg></button>
                 <div className="flex-grow space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div><label className={labelBase}>Event Title</label><input maxLength={80} value={ev.title || ''} onChange={e => updEvent(yi, ei, { title: e.target.value })} className={`${inputBase} !py-2.5 !px-4 !rounded-xl !text-xs`} placeholder="e.g. E-Summit" /></div>
-                    <div><label className={labelBase}>Companies details</label><input value={ev.companies || ''} onChange={e => updEvent(yi, ei, { companies: e.target.value })} className={`${inputBase} !py-2.5 !px-4 !rounded-xl !text-xs`} placeholder="If any..." /></div>
+                    <div><label className={labelBase}>Event Title</label><input id="trainingplacementform-4" name="trainingplacementform-4" aria-label="trainingplacementform field" maxLength={80} value={ev.title || ''} onChange={e => updEvent(yi, ei, { title: e.target.value })} className={`${inputBase} !py-2.5 !px-4 !rounded-xl !text-xs`} placeholder="e.g. E-Summit" /></div>
+                    <div><label className={labelBase}>Companies details</label><input id="trainingplacementform-5" name="trainingplacementform-5" aria-label="trainingplacementform field" value={ev.companies || ''} onChange={e => updEvent(yi, ei, { companies: e.target.value })} className={`${inputBase} !py-2.5 !px-4 !rounded-xl !text-xs`} placeholder="If any..." /></div>
                   </div>
-                  <div><label className={labelBase}>Description</label><textarea maxLength={200} value={ev.desc || ''} onChange={e => updEvent(yi, ei, { desc: e.target.value })} className={`${inputBase} !py-2.5 !px-4 !rounded-xl !text-xs resize-none h-16`} placeholder="Short brief..." /></div>
+                  <div><label className={labelBase}>Description</label><textarea id="trainingplacementform-textarea-2" name="trainingplacementform-textarea-2" aria-label="trainingplacementform textarea field" maxLength={200} value={ev.desc || ''} onChange={e => updEvent(yi, ei, { desc: e.target.value })} className={`${inputBase} !py-2.5 !px-4 !rounded-xl !text-xs resize-none h-16`} placeholder="Short brief..." /></div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div><label className={labelBase}>Speakers/Guests</label><input value={ev.speakers || ''} onChange={e => updEvent(yi, ei, { speakers: e.target.value })} className={`${inputBase} !py-2.5 !px-4 !rounded-xl !text-xs`} placeholder="Names..." /></div>
-                    <div><label className={labelBase}>Participants count</label><input value={ev.participants || ''} onChange={e => updEvent(yi, ei, { participants: e.target.value })} className={`${inputBase} !py-2.5 !px-4 !rounded-xl !text-xs`} placeholder="e.g. 150+" /></div>
+                    <div><label className={labelBase}>Speakers/Guests</label><input id="trainingplacementform-6" name="trainingplacementform-6" aria-label="trainingplacementform field" value={ev.speakers || ''} onChange={e => updEvent(yi, ei, { speakers: e.target.value })} className={`${inputBase} !py-2.5 !px-4 !rounded-xl !text-xs`} placeholder="Names..." /></div>
+                    <div><label className={labelBase}>Participants count</label><input id="trainingplacementform-7" name="trainingplacementform-7" aria-label="trainingplacementform field" value={ev.participants || ''} onChange={e => updEvent(yi, ei, { participants: e.target.value })} className={`${inputBase} !py-2.5 !px-4 !rounded-xl !text-xs`} placeholder="e.g. 150+" /></div>
                   </div>
                 </div>
               </div>
@@ -380,7 +380,7 @@ const TrainingPlacementForm: React.FC<TrainingPlacementFormProps> = ({ slug, onB
                     <div className="flex flex-wrap gap-3 items-end">
                       <div className="flex flex-col gap-1">
                         <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">Academic Year</label>
-                        <input type="text" placeholder="e.g. 2023-24"
+                        <input id="trainingplacementform-8" name="trainingplacementform-8" aria-label="trainingplacementform field" type="text" placeholder="e.g. 2023-24"
                           value={payload._hsYear || ''}
                           onChange={e => setPayload({ ...payload, _hsYear: e.target.value })}
                           className="bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 rounded-xl px-4 py-3 text-sm outline-none w-36"
@@ -388,7 +388,7 @@ const TrainingPlacementForm: React.FC<TrainingPlacementFormProps> = ({ slug, onB
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">No. of Students</label>
-                        <input type="number" min="0" placeholder="e.g. 48"
+                        <input id="trainingplacementform-9" name="trainingplacementform-9" aria-label="trainingplacementform field" type="number" min="0" placeholder="e.g. 48"
                           value={payload._hsCount || ''}
                           onChange={e => setPayload({ ...payload, _hsCount: e.target.value })}
                           className="bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-blue-500 rounded-xl px-4 py-3 text-sm outline-none w-32"
@@ -459,7 +459,7 @@ const TrainingPlacementForm: React.FC<TrainingPlacementFormProps> = ({ slug, onB
                     <div className="flex flex-wrap gap-3 items-end">
                       <div className="flex flex-col gap-1">
                         <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">Academic Year</label>
-                        <input type="text" placeholder="e.g. 2023-24"
+                        <input id="trainingplacementform-10" name="trainingplacementform-10" aria-label="trainingplacementform field" type="text" placeholder="e.g. 2023-24"
                           value={payload._hpYear || ''}
                           onChange={e => setPayload({ ...payload, _hpYear: e.target.value })}
                           className="bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-amber-500 rounded-xl px-4 py-3 text-sm outline-none w-36"
@@ -467,7 +467,7 @@ const TrainingPlacementForm: React.FC<TrainingPlacementFormProps> = ({ slug, onB
                       </div>
                       <div className="flex flex-col gap-1">
                         <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">Package (LPA)</label>
-                        <input type="number" min="0" step="0.1" placeholder="e.g. 21"
+                        <input id="trainingplacementform-11" name="trainingplacementform-11" aria-label="trainingplacementform field" type="number" min="0" step="0.1" placeholder="e.g. 21"
                           value={payload._hpLpa || ''}
                           onChange={e => setPayload({ ...payload, _hpLpa: e.target.value })}
                           className="bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-amber-500 rounded-xl px-4 py-3 text-sm outline-none w-32"
@@ -599,15 +599,15 @@ const TrainingPlacementForm: React.FC<TrainingPlacementFormProps> = ({ slug, onB
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <label className={labelBase}>Name</label>
-                    <input maxLength={50} value={payload.inchargeName || ''} onChange={e => setPayload({...payload, inchargeName: e.target.value})} className={inputBase} placeholder="Max 50 chars" />
+                    <input id="trainingplacementform-12" name="trainingplacementform-12" aria-label="trainingplacementform field" maxLength={50} value={payload.inchargeName || ''} onChange={e => setPayload({...payload, inchargeName: e.target.value})} className={inputBase} placeholder="Max 50 chars" />
                   </div>
                    <div>
                     <label className={labelBase}>Email</label>
-                    <input value={payload.inchargeEmail || ''} onChange={e => setPayload({...payload, inchargeEmail: e.target.value})} className={inputBase} placeholder="email" />
+                    <input id="trainingplacementform-13" name="trainingplacementform-13" aria-label="trainingplacementform field" value={payload.inchargeEmail || ''} onChange={e => setPayload({...payload, inchargeEmail: e.target.value})} className={inputBase} placeholder="email" />
                   </div>
                    <div>
                     <label className={labelBase}>Phone</label>
-                    <input value={payload.inchargePhone || ''} onChange={e => setPayload({...payload, inchargePhone: e.target.value})} className={inputBase} placeholder="phone" />
+                    <input id="trainingplacementform-14" name="trainingplacementform-14" aria-label="trainingplacementform field" value={payload.inchargePhone || ''} onChange={e => setPayload({...payload, inchargePhone: e.target.value})} className={inputBase} placeholder="phone" />
                   </div>
                 </div>
 

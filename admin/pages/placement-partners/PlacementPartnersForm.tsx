@@ -83,7 +83,7 @@ const PlacementPartnersForm: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="md:col-span-2">
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Company Name *</label>
-                <input
+                <input id="placementpartnersform-1" aria-label="placementpartnersform field"
                   name="name"
                   value={form.name}
                   onChange={handleChange}
@@ -95,7 +95,7 @@ const PlacementPartnersForm: React.FC = () => {
 
               <div className="md:col-span-2">
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Website URL</label>
-                <input
+                <input id="placementpartnersform-2" aria-label="placementpartnersform field"
                   name="website"
                   value={form.website ?? ''}
                   onChange={handleChange}
@@ -106,7 +106,7 @@ const PlacementPartnersForm: React.FC = () => {
 
               <div>
                 <label className="block text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 ml-1">Sort Order</label>
-                <input
+                <input id="placementpartnersform-3" aria-label="placementpartnersform field"
                   type="number"
                   name="sort_order"
                   value={form.sort_order ?? 0}
@@ -119,7 +119,7 @@ const PlacementPartnersForm: React.FC = () => {
               <div className="flex items-end pb-2">
                 <label className="flex items-center gap-3 cursor-pointer group">
                   <div className={`relative flex items-center w-12 h-7 rounded-full transition-all duration-300 ${form.is_active ? 'bg-[#1e293b] shadow-lg shadow-slate-200' : 'bg-slate-200'}`}>
-                    <input type="checkbox" name="is_active" checked={form.is_active ?? true} onChange={handleChange} className="sr-only" />
+                    <input id="placementpartnersform-4" aria-label="placementpartnersform field" type="checkbox" name="is_active" checked={form.is_active ?? true} onChange={handleChange} className="sr-only" />
                     <span className={`w-5 h-5 rounded-full bg-white shadow-sm transform transition-transform duration-300 ${form.is_active ? 'translate-x-6' : 'translate-x-1'}`} />
                   </div>
                   <span className="text-xs font-black text-slate-600 uppercase tracking-widest group-hover:text-slate-900 transition-colors">Visible to Public</span>
