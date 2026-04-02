@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Search, ChevronDown, ChevronRight } from 'lucide-react';
 import { academicsService, type AcademicDocument } from '../services/academics';
 import { naacScoresService, type DynamicNaacScoreUpload } from '../services/naacScores';
+import { getResearchSection } from '../services/research';
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
 
 const CAREER_AT_VCET_PDF_URL =
   'https://drive.google.com/file/d/1grwZ4_QIjC23c4HHFCM4xPJuFywsWtgw/view?usp=sharing';
@@ -278,6 +280,36 @@ const menuGroups: MenuGroup[] = [
   },
 ];
 
+const RESEARCH_CONVENTION_FALLBACK = 'https://vcet.edu.in/wp-content/uploads/2024/06/RESEARCH-CONVENTION.pdf';
+const RESEARCH_POLICY_FALLBACK = 'https://vcet.edu.in/wp-content/uploads/2025/03/Institute-Research-Policy.pdf';
+
+const resolveResearchPdfHref = (section: any, fallback: string): string => {
+  const docs = Array.isArray(section?.documents) ? section.documents : [];
+  const first = docs[0] || {};
+  const raw = first?.fileUrl || first?.url || '';
+  const resolved = typeof raw === 'string' ? (resolveUploadedAssetUrl(raw) || raw) : '';
+  return resolved || fallback;
+};
+
+function withLiveResearchDropdown(groups: MenuGroup[], conventionHref: string, policyHref: string): MenuGroup[] {
+  return groups.map((group) => {
+    if (group.label !== 'Research' || !group.dropdown) return group;
+
+    return {
+      ...group,
+      dropdown: group.dropdown.map((item) => {
+        if (item.label === 'Research Conventions') {
+          return { ...item, href: conventionHref };
+        }
+        if (item.label === 'Research Policy') {
+          return { ...item, href: policyHref };
+        }
+        return item;
+      }),
+    };
+  });
+}
+
 function toAcademicsSubItems(items: AcademicDocument[]): SubItem[] {
   return items
     .filter((item) => !!item.fileUrl && !!item.title)
@@ -394,8 +426,8 @@ const keywordMap: Record<string, string[]> = {
   '/parents': ['parents'],
   '/consultancy-projects': ['consultancy', 'industry projects'],
   '/research-facility': ['research lab', 'equipment', 'facility'],
-  'https://vcet.edu.in/wp-content/uploads/2024/06/RESEARCH-CONVENTION.pdf': ['conventions', 'conferences'],
-  'https://drive.google.com/file/d/160Om5AFj-iAl3W6KObFGCwWHgs7nAWzh/view': ['research policy', 'guidelines'],
+  [RESEARCH_CONVENTION_FALLBACK]: ['conventions', 'conferences'],
+  [RESEARCH_POLICY_FALLBACK]: ['research policy', 'guidelines'],
   '/iic': ['iic', 'institution innovation council'],
   '/nirf': ['nirf', 'ranking', 'national ranking'],
   '/downloads': ['downloads', 'forms', 'documents'],
@@ -924,6 +956,8 @@ const Header: React.FC = () => {
   const [liveCalendars, setLiveCalendars] = useState<AcademicDocument[]>([]);
   const [liveBooklets, setLiveBooklets] = useState<AcademicDocument[]>([]);
   const [liveNaacScoreDocs, setLiveNaacScoreDocs] = useState<DynamicNaacScoreUpload[]>([]);
+  const [researchConventionHref, setResearchConventionHref] = useState(RESEARCH_CONVENTION_FALLBACK);
+  const [researchPolicyHref, setResearchPolicyHref] = useState(RESEARCH_POLICY_FALLBACK);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -955,12 +989,39 @@ const Header: React.FC = () => {
       .catch(() => setLiveNaacScoreDocs([]));
   }, []);
 
+  useEffect(() => {
+    let mounted = true;
+
+    Promise.all([
+      getResearchSection<any>('research-conventions'),
+      getResearchSection<any>('research-policy'),
+    ])
+      .then(([conventions, policy]) => {
+        if (!mounted) return;
+        setResearchConventionHref(resolveResearchPdfHref(conventions, RESEARCH_CONVENTION_FALLBACK));
+        setResearchPolicyHref(resolveResearchPdfHref(policy, RESEARCH_POLICY_FALLBACK));
+      })
+      .catch(() => {
+        if (!mounted) return;
+        setResearchConventionHref(RESEARCH_CONVENTION_FALLBACK);
+        setResearchPolicyHref(RESEARCH_POLICY_FALLBACK);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   const navMenuGroups = useMemo(
-    () => withLiveNaacScoreDropdown(
-      withLiveAcademicsDropdown(menuGroups, liveCalendars, liveBooklets),
-      liveNaacScoreDocs,
+    () => withLiveResearchDropdown(
+      withLiveNaacScoreDropdown(
+        withLiveAcademicsDropdown(menuGroups, liveCalendars, liveBooklets),
+        liveNaacScoreDocs,
+      ),
+      researchConventionHref,
+      researchPolicyHref,
     ),
-    [liveCalendars, liveBooklets, liveNaacScoreDocs],
+    [liveCalendars, liveBooklets, liveNaacScoreDocs, researchConventionHref, researchPolicyHref],
   );
 
   const searchIndex = useMemo(() => buildSearchIndex(navMenuGroups), [navMenuGroups]);

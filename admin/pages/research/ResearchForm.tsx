@@ -522,6 +522,17 @@ const normalizePayload = (slug: string, source: any) => {
     };
   }
 
+  if (slug === 'research-conventions' || slug === 'research-policy') {
+    return {
+      ...s,
+      documents: ensureArray(s.documents, []).map((d: any) => ({
+        title: d.title || d.label || '',
+        fileUrl: d.fileUrl || d.url || '',
+        fileName: d.fileName || '',
+      })),
+    };
+  }
+
   return s;
 };
 
@@ -944,12 +955,25 @@ const ResearchForm: React.FC<ResearchFormProps> = ({ slug, onBack }) => {
         );
       }
 
-      case 'conventions':
+      case 'research-conventions':
       case 'research-policy':
         return (
-          <div className="p-8 text-center text-amber-700 font-bold uppercase tracking-widest bg-amber-50 border border-amber-200 rounded-3xl">
-            Out of scope as per research editability report. This subsection is intentionally disabled.
-          </div>
+          <SectionCard
+            title={slug === 'research-conventions' ? 'Research Convention PDFs' : 'Research Policy PDFs'}
+            icon="📄"
+            subtitle="Manage and upload PDFs"
+          >
+            <TableManager
+              title="Documents"
+              items={payload.documents || []}
+              maxItems={12}
+              onChange={v => update('documents', v)}
+              fields={[
+                { key: 'title', label: 'Document Title', max: 90, placeholder: 'Enter title' },
+                { key: 'file', label: 'Upload PDF', max: 0, type: 'file-pdf' },
+              ]}
+            />
+          </SectionCard>
         );
 
       default:

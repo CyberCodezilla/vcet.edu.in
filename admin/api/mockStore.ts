@@ -965,7 +965,7 @@ let MOCK_RESEARCH: ResearchData[] = [
     facilities: [],
     fallbackFacility: { title: '', description: '', imageUrl: null },
   },
-  { id: '7', slug: 'conventions', name: 'Research Conventions', description: 'PDF-based convention records.', documents: [] },
+  { id: '7', slug: 'research-conventions', name: 'Research Conventions', description: 'PDF-based convention records.', documents: [] },
   { id: '8', slug: 'research-policy', name: 'Research Policy', description: 'Institutional policy documents.', documents: [] },
   {
     id: '9',
