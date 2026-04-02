@@ -33,13 +33,10 @@ const mockExam = createExamCrud();
 function buildFormData(formData: FormData, data: any, parentKey?: string) {
   if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
     if (Array.isArray(data)) {
-      if (data.length === 0 && parentKey) {
-        formData.append(parentKey, '');
-      } else {
-        data.forEach((value, index) => {
-          buildFormData(formData, value, parentKey ? `${parentKey}[${index}]` : index.toString());
-        });
-      }
+      if (data.length === 0) return;
+      data.forEach((value, index) => {
+        buildFormData(formData, value, parentKey ? `${parentKey}[${index}]` : index.toString());
+      });
     } else {
       Object.keys(data).forEach(key => {
         buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);

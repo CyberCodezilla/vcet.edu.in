@@ -1,6 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
+import { getFacilitiesSection } from '../../services/facilities';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 /* ═══════════════════════════════════════════════════════════════ */
 /* ─── Design Tokens ──────────────────────────────────────────── */
@@ -46,12 +48,12 @@ const competitionsList = [
 ];
 
 const competitionImages = [
-  '/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement1.jpg',
-  '/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement2.jpg',
-  '/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement3.jpg',
-  '/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement4.jpg',
-  '/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement5-e1752912401447.jpg',
-  '/images/Faculities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement6.jpg',
+  '/images/Facilities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement1.jpg',
+  '/images/Facilities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement2.jpg',
+  '/images/Facilities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement3.jpg',
+  '/images/Facilities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement4-768x1024.jpg',
+  '/images/Facilities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement5-300x215.jpg',
+  '/images/Facilities/Sports & Gymkhana/Sports & Gymkhana/Sports-Achievement6.jpg',
 ];
 
 const studentAchievements = [
@@ -71,6 +73,12 @@ const MEDAL: Record<string, { dot: string; glow: string; label: string }> = {
 const cricketResults = [['2023', 'VCET', 'University', 'Winner'], ['2022', 'VCET', 'Intercollegiate', 'Runner Up'], ['2021', 'VCET', 'District', 'Winner']];
 const footballResults = [['2023', 'VCET', 'University', 'Semi Finalist'], ['2022', 'VCET', 'Intercollegiate', 'Quarter Finalist'], ['2021', 'VCET', 'District', 'Winner']];
 const kabaddiResults = [['2023', 'VCET', 'University', 'Runner Up'], ['2022', 'VCET', 'Intercollegiate', 'Winner'], ['2021', 'VCET', 'District', 'Winner']];
+
+const LEVEL_BY_YEAR: Record<string, string> = {
+  '2023': 'University',
+  '2022': 'Intercollegiate',
+  '2021': 'District',
+};
 
 const RESULT_BADGE: Record<string, { bg: string; color: string }> = {
   'Winner': { bg: 'rgba(212,160,23,0.15)', color: '#b8860b' },
@@ -162,31 +170,6 @@ const GoldBar: React.FC<{ center?: boolean; delay?: number }> = ({ center = true
 };
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ─── Image Placeholder ──────────────────────────────────────── */
-/* ═══════════════════════════════════════════════════════════════ */
-const ImgPlaceholder: React.FC<{ caption?: string; className?: string }> = ({
-  caption = 'Image Placeholder', className = '',
-}) => (
-  <div className={`group relative overflow-hidden flex flex-col items-center justify-center cursor-pointer ${className}`}
-    style={{ borderRadius: '0px', background: `linear-gradient(135deg, #c5d8ef 0%, #a0bbdb 100%)`, boxShadow: '0 4px 20px rgba(11,44,74,0.12)' }}>
-    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-      style={{ background: `linear-gradient(135deg, rgba(11,44,74,0.7) 0%, rgba(15,58,95,0.4) 100%)` }} />
-    <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-400">
-      <p className="text-white text-sm font-semibold" style={{ fontFamily: SF }}>{caption}</p>
-    </div>
-    <div className="z-10 text-center px-4 group-hover:scale-90 transition-transform duration-400">
-      <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-md"
-        style={{ background: 'rgba(255,255,255,0.4)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.6)' }}>
-        <svg className="w-6 h-6" style={{ color: C.navy, opacity: 0.6 }} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v13.5A1.5 1.5 0 0 0 3.75 21Zm10.5-11.25h.008v.008h-.008V9.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-        </svg>
-      </div>
-      <p className="text-[13px] font-semibold" style={{ fontFamily: SF, color: C.navy, opacity: 0.5 }}>{caption}</p>
-    </div>
-  </div>
-);
-
-/* ═══════════════════════════════════════════════════════════════ */
 /* ─── Result Table ───────────────────────────────────────────── */
 /* ═══════════════════════════════════════════════════════════════ */
 const ResultTable: React.FC<{ title: string; rows: string[][]; fullCols?: boolean; delay?: number }> = ({
@@ -256,8 +239,140 @@ const ResultTable: React.FC<{ title: string; rows: string[][]; fullCols?: boolea
 /* ═══════════════════════════════════════════════════════════════ */
 /* ─── Page Component ─────────────────────────────────────────── */
 /* ═══════════════════════════════════════════════════════════════ */
-const SportsGymkhana: React.FC = () => (
-  <PageLayout>
+const SportsGymkhana: React.FC = () => {
+  const [apiData, setApiData] = useState<any>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getFacilitiesSection<any>('sports-gymkhana')
+      .then((res) => mounted && setApiData(res))
+      .catch(() => mounted && setApiData(null));
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const displaySports = useMemo(() => {
+    const rows = Array.isArray(apiData?.sports)
+      ? apiData.sports
+          .map((sport: any) => ({
+            name: String(sport?.name ?? '').trim(),
+            icon: String(sport?.icon ?? '').trim(),
+          }))
+          .filter((sport: any) => sport.name.length > 0)
+      : [];
+    return rows.length > 0 ? rows : sportsList;
+  }, [apiData]);
+
+  const displayAchievements = useMemo(() => {
+    const rows = Array.isArray(apiData?.achievements)
+      ? apiData.achievements
+          .map((entry: any, idx: number) => ({
+            text: String(entry ?? '').trim(),
+            medal: idx % 2 === 0 ? 'gold' : 'silver',
+          }))
+          .filter((entry: any) => entry.text.length > 0)
+      : [];
+    return rows.length > 0 ? rows : studentAchievements;
+  }, [apiData]);
+
+  const apiRows = useMemo(() => {
+    const rows = Array.isArray(apiData?.results)
+      ? apiData.results
+          .map((row: any) => ({
+            year: String(row?.year ?? '').trim(),
+            entry: String(row?.entry ?? '').trim(),
+            cricket: String(row?.cricket ?? '').trim(),
+            football: String(row?.football ?? '').trim(),
+            kabaddi: String(row?.kabaddi ?? '').trim(),
+          }))
+          .filter((row: any) => row.year.length > 0)
+      : [];
+    return rows;
+  }, [apiData]);
+
+  const getPositionBySport = (row: any, sport: 'cricket' | 'football' | 'kabaddi'): string => {
+    const explicit = String(row?.[sport] ?? '').trim();
+    if (explicit) return explicit;
+    const text = String(row?.entry ?? '').trim();
+    if (!text) return '';
+    const map: Record<'cricket' | 'football' | 'kabaddi', string[]> = {
+      cricket: ['cricket'],
+      football: ['football'],
+      kabaddi: ['kabaddi'],
+    };
+    const chunks = text.split('|').map((part) => part.trim()).filter(Boolean);
+    for (const chunk of chunks) {
+      const [lhsRaw, rhsRaw] = chunk.split(':');
+      if (!rhsRaw) continue;
+      const lhs = lhsRaw.trim().toLowerCase();
+      if (map[sport].some((token) => lhs.includes(token))) {
+        return rhsRaw.trim();
+      }
+    }
+    return text;
+  };
+
+  const displayCricketResults = useMemo(() => {
+    if (apiRows.length === 0) return cricketResults;
+    return apiRows.map((row: any) => [
+      row.year,
+      'VCET',
+      LEVEL_BY_YEAR[row.year] || 'University',
+      getPositionBySport(row, 'cricket'),
+    ]);
+  }, [apiRows]);
+
+  const displayFootballResults = useMemo(() => {
+    if (apiRows.length === 0) return footballResults;
+    return apiRows.map((row: any) => [
+      row.year,
+      'VCET',
+      LEVEL_BY_YEAR[row.year] || 'Intercollegiate',
+      getPositionBySport(row, 'football'),
+    ]);
+  }, [apiRows]);
+
+  const displayKabaddiResults = useMemo(() => {
+    if (apiRows.length === 0) return kabaddiResults;
+    return apiRows.map((row: any) => [
+      row.year,
+      'VCET',
+      LEVEL_BY_YEAR[row.year] || 'District',
+      getPositionBySport(row, 'kabaddi'),
+    ]);
+  }, [apiRows]);
+
+  const displayGallery = useMemo(() => {
+    const rows = Array.isArray(apiData?.gallery)
+      ? apiData.gallery
+          .map((item: any, idx: number) => ({
+            label: String(item?.label ?? '').trim() || `Image ${idx + 1}`,
+            imageUrl: resolveUploadedAssetUrl(item?.imageUrl ?? null),
+          }))
+          .filter((item: any) => !!item.imageUrl)
+      : [];
+    return rows;
+  }, [apiData]);
+
+  const displayFacilityImages = useMemo(() => {
+    const fromApi = displayGallery.slice(0, 2).map((item: any) => item.imageUrl);
+    if (fromApi.length === 2) return fromApi as string[];
+    const fallback = [
+      '/images/Facilities/Sports & Gymkhana/Sports & Gymkhana/gym_2.png',
+      '/images/Facilities/Sports & Gymkhana/Sports & Gymkhana/football.png',
+    ];
+    return fromApi.length > 0 ? [...fromApi, ...fallback].slice(0, 2) : fallback;
+  }, [displayGallery]);
+
+  const displayCompetitionImages = useMemo(() => {
+    const fromApi = displayGallery.slice(2, 8).map((item: any) => item.imageUrl);
+    if (fromApi.length >= 6) return fromApi.slice(0, 6) as string[];
+    return competitionImages;
+  }, [displayGallery]);
+
+  return (
+    <PageLayout>
     <PageBanner
       title="Sports & Gymkhana"
       breadcrumbs={[{ label: 'Sports & Gymkhana' }]}
@@ -368,7 +483,7 @@ const SportsGymkhana: React.FC = () => (
           <div className="lg:col-span-2">
             <SH title="Sports Facilities" tag="Activities" center={false} delay={0} />
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {sportsList.map((sport, idx) => (
+              {displaySports.map((sport, idx) => (
                 <Reveal key={idx} delay={idx * 40} dir="up">
                   <div className="group flex items-center gap-3 px-4 py-4 bg-white transition-all duration-300 cursor-default"
                     style={{ borderRadius: '0px', boxShadow: '0 2px 12px rgba(11,44,74,0.07)', border: '1px solid rgba(11,44,74,0.08)', borderLeft: `6px solid ${C.navy}` }}
@@ -410,8 +525,11 @@ const SportsGymkhana: React.FC = () => (
               <GoldBar center={false} delay={400} />
             </div>
             <div className="flex flex-col gap-5">
-              <ImgPlaceholder caption="Gymkhana Facility" className="h-52" />
-              <ImgPlaceholder caption="Sports Ground" className="h-52" />
+              {displayFacilityImages.map((image, index) => (
+                <div key={index} className="h-52 overflow-hidden border border-white/20">
+                  <img src={image} alt={index === 0 ? 'Gymkhana Facility' : 'Sports Ground'} className="h-full w-full object-cover" />
+                </div>
+              ))}
             </div>
           </Reveal>
         </div>
@@ -485,7 +603,7 @@ const SportsGymkhana: React.FC = () => (
                 </div>
                 <div className="flex-1 min-h-[145px] overflow-hidden" style={{ borderRadius: '0px' }}>
                   <img
-                    src={competitionImages[idx]}
+                    src={displayCompetitionImages[idx]}
                     alt={title}
                     className="w-full h-full object-cover"
                   />
@@ -508,7 +626,7 @@ const SportsGymkhana: React.FC = () => (
           {/* Central vertical line */}
           <div className="absolute left-[22px] md:left-1/2 top-0 bottom-0 w-[2px] md:-translate-x-px" style={{ background: `linear-gradient(to bottom, ${C.navy}, rgba(11,44,74,0.1))` }} />
 
-          {studentAchievements.map((ach, idx) => {
+          {displayAchievements.map((ach, idx) => {
             const m = MEDAL[ach.medal];
             const isRight = idx % 2 === 0;
             return (
@@ -544,10 +662,10 @@ const SportsGymkhana: React.FC = () => (
       <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
         <SH title="Sports Results" tag="Victories" delay={0} />
         <div className="space-y-8">
-          <ResultTable title="Cricket Results" rows={cricketResults} fullCols delay={0} />
+          <ResultTable title="Cricket Results" rows={displayCricketResults} fullCols delay={0} />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <ResultTable title="Football Results" rows={footballResults} delay={100} />
-            <ResultTable title="Kabaddi Results" rows={kabaddiResults} delay={180} />
+            <ResultTable title="Football Results" rows={displayFootballResults} delay={100} />
+            <ResultTable title="Kabaddi Results" rows={displayKabaddiResults} delay={180} />
           </div>
         </div>
       </div>
@@ -564,7 +682,8 @@ const SportsGymkhana: React.FC = () => (
         50%  { opacity: 0.6; transform: scale(1.15); }
       }
     `}</style>
-  </PageLayout>
-);
+    </PageLayout>
+  );
+};
 
 export default SportsGymkhana;

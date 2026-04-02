@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
+import { getFacilitiesSection } from '../../services/facilities';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const amenities = [
   {
@@ -44,6 +46,55 @@ const recreationPanels = [
 ];
 
 const LadiesCommonRoom: React.FC = () => {
+  const [apiData, setApiData] = useState<any>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getFacilitiesSection<any>('ladies-common-room')
+      .then((res) => mounted && setApiData(res))
+      .catch(() => mounted && setApiData(null));
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const general = useMemo(() => {
+    const source = apiData?.general ?? {};
+    return {
+      title: String(source?.title ?? '').trim() || 'Overview',
+      description:
+        String(source?.description ?? '').trim() ||
+        'A dedicated Ladies Common Room is available for girl students and lady faculty members in the institute. The room provides a comfortable and safe environment for relaxation, recreation, and informal discussions.',
+      imageUrl: resolveUploadedAssetUrl(source?.imageUrl ?? null),
+    };
+  }, [apiData]);
+
+  const activityPanels = useMemo(() => {
+    const rows = Array.isArray(apiData?.activities)
+      ? apiData.activities
+          .map((item: any) => ({
+            title: String(item?.name ?? '').trim(),
+            description: String(item?.description ?? '').trim(),
+            imageUrl: resolveUploadedAssetUrl(item?.imageUrl ?? null),
+          }))
+          .filter((item: any) => item.title.length > 0 && item.description.length > 0)
+      : [];
+    return rows.length > 0 ? rows : recreationPanels;
+  }, [apiData]);
+
+  const comfortItems = useMemo(() => {
+    const rows = Array.isArray(apiData?.activities)
+      ? apiData.activities
+          .map((item: any) => ({
+            title: String(item?.name ?? '').trim(),
+            description: String(item?.description ?? '').trim(),
+            imageUrl: resolveUploadedAssetUrl(item?.imageUrl ?? null),
+          }))
+          .filter((item: any) => item.title.length > 0 && item.description.length > 0)
+      : [];
+    return rows.length > 0 ? rows.slice(0, 4) : amenities;
+  }, [apiData]);
+
   return (
     <PageLayout>
       <style>
@@ -780,16 +831,14 @@ const LadiesCommonRoom: React.FC = () => {
                 <div className="intro-heading-stack">
                   <div className="pro-label">Introduction</div>
                   <h2 className="title-accent text-2xl md:text-3xl font-bold text-brand-navy">
-                    Overview
+                    {general.title}
                   </h2>
                 </div>
                 <p
                   className="text-[#333333] leading-relaxed text-base content-prose mb-3"
                   style={{ fontFamily: '"Merriweather", Georgia, serif' }}
                 >
-                  A dedicated Ladies Common Room is available for girl students and lady faculty members
-                  in the institute. The room provides a comfortable and safe environment for relaxation,
-                  recreation, and informal discussions.
+                  {general.description}
                 </p>
                 <p
                   className="text-[#333333] leading-relaxed text-base content-prose"
@@ -805,7 +854,7 @@ const LadiesCommonRoom: React.FC = () => {
                   <div>
                     <div className="aspect-[16/10] border border-[#fdb813]/50 bg-white/10 rounded-lg overflow-hidden">
                       <img
-                        src="/images/Faculities/Ladies Common Room/Ladies Common Room/Ladies Common Room/WhatsApp-Image-2021-12-07-at-3.07.24-PM.jpeg"
+                        src={general.imageUrl ?? '/images/Facilities/Ladies Common Room/Ladies Common Room/Ladies Common Room/WhatsApp-Image-2021-12-07-at-3.07.24-PM-300x206.jpeg'}
                         alt="Ladies Common Room"
                         className="object-cover w-full h-full"
                       />
@@ -898,7 +947,7 @@ const LadiesCommonRoom: React.FC = () => {
           </div>
 
           <div className="amenities-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-7xl mx-auto">
-            {amenities.map((amenity, idx) => (
+            {comfortItems.map((amenity, idx) => (
               <div
                 key={amenity.title}
                 className="group pro-card pro-card-soft-blue amenity-tab amenity-tab-shape p-4"
@@ -943,7 +992,7 @@ const LadiesCommonRoom: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-              {recreationPanels.map((panel) => {
+              {activityPanels.map((panel) => {
                 return (
                   <div
                     key={panel.title}

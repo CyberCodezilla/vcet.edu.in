@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
+import { getFacilitiesSection } from '../../services/facilities';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const firstRow = [
   'Ramp for Wheelchair',
@@ -17,7 +19,48 @@ const thirdRow = [
   'Lift 3',
 ];
 
+const placeholderRows = {
+  first: [null, null],
+  second: [null, null],
+  third: [null, null],
+} as const;
+
 const DifferentlyAbled: React.FC = () => {
+  const [apiData, setApiData] = useState<any>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getFacilitiesSection<any>('differently-abled')
+      .then((res) => mounted && setApiData(res))
+      .catch(() => mounted && setApiData(null));
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const displayRows = useMemo(() => {
+    const items = Array.isArray(apiData?.items)
+      ? apiData.items
+          .map((item: any) => ({
+            name: String(item?.name ?? '').trim(),
+            imageUrl: resolveUploadedAssetUrl(item?.imageUrl ?? null),
+          }))
+          .filter((item: any) => item.name.length > 0)
+      : [];
+    if (items.length >= 6) {
+      return {
+        first: items.slice(0, 2),
+        second: items.slice(2, 4),
+        third: items.slice(4, 6),
+      };
+    }
+    return {
+      first: firstRow.map((name, idx) => ({ name, imageUrl: placeholderRows.first[idx] })),
+      second: secondRow.map((name, idx) => ({ name, imageUrl: placeholderRows.second[idx] })),
+      third: thirdRow.map((name, idx) => ({ name, imageUrl: placeholderRows.third[idx] })),
+    };
+  }, [apiData]);
+
   return (
     <PageLayout>
       <PageBanner
@@ -41,13 +84,17 @@ const DifferentlyAbled: React.FC = () => {
           <div className="max-w-6xl mx-auto space-y-12">
             <div className="reveal border-2 border-[#8ea2b8] bg-brand-gold/20 p-6 md:p-8 shadow-[0_14px_30px_rgba(14,56,112,0.45)]">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {firstRow.map((tag, idx) => (
+              {displayRows.first.map((tag, idx) => (
                 <div key={idx}>
-                  <div className="aspect-[4/3] bg-[#eef2f7] border-2 border-black flex items-center justify-center">
-                    <span className="text-slate-400 text-xl font-semibold">Image Placeholder</span>
+                  <div className="aspect-[4/3] bg-[#eef2f7] border-2 border-black flex items-center justify-center overflow-hidden">
+                    {tag.imageUrl ? (
+                      <img src={tag.imageUrl} alt={tag.name} className="h-full w-full object-cover" />
+                    ) : (
+                      <span className="text-slate-400 text-xl font-semibold">Image Placeholder</span>
+                    )}
                   </div>
                   <p className="mt-3 text-center text-3xl font-display font-bold text-brand-blue underline underline-offset-4">
-                    {tag}
+                    {tag.name}
                   </p>
                 </div>
               ))}
@@ -56,12 +103,16 @@ const DifferentlyAbled: React.FC = () => {
 
             <div className="reveal border-2 border-[#8ea2b8] bg-brand-gold/20 p-6 md:p-8 shadow-[0_14px_30px_rgba(14,56,112,0.45)]">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {secondRow.map((tag, idx) => (
+                {displayRows.second.map((tag, idx) => (
                   <div key={idx}>
-                    <div className="aspect-[4/3] bg-[#eef2f7] border-2 border-black flex items-center justify-center">
-                      <span className="text-slate-400 text-xl font-semibold">Image Placeholder</span>
+                    <div className="aspect-[4/3] bg-[#eef2f7] border-2 border-black flex items-center justify-center overflow-hidden">
+                      {tag.imageUrl ? (
+                        <img src={tag.imageUrl} alt={tag.name} className="h-full w-full object-cover" />
+                      ) : (
+                        <span className="text-slate-400 text-xl font-semibold">Image Placeholder</span>
+                      )}
                     </div>
-                    <p className="sr-only">{tag}</p>
+                    <p className="sr-only">{tag.name}</p>
                   </div>
                 ))}
               </div>
@@ -72,12 +123,16 @@ const DifferentlyAbled: React.FC = () => {
 
             <div className="reveal border-2 border-[#8ea2b8] bg-brand-gold/20 p-6 md:p-8 shadow-[0_14px_30px_rgba(14,56,112,0.45)]">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {thirdRow.map((tag, idx) => (
+                {displayRows.third.map((tag, idx) => (
                   <div key={idx}>
-                    <div className="aspect-[4/3] bg-[#eef2f7] border-2 border-black flex items-center justify-center">
-                      <span className="text-slate-400 text-xl font-semibold">Image Placeholder</span>
+                    <div className="aspect-[4/3] bg-[#eef2f7] border-2 border-black flex items-center justify-center overflow-hidden">
+                      {tag.imageUrl ? (
+                        <img src={tag.imageUrl} alt={tag.name} className="h-full w-full object-cover" />
+                      ) : (
+                        <span className="text-slate-400 text-xl font-semibold">Image Placeholder</span>
+                      )}
                     </div>
-                    <p className="mt-3 text-center text-4xl font-display text-brand-blue">{tag}</p>
+                    <p className="mt-3 text-center text-4xl font-display text-brand-blue">{tag.name}</p>
                   </div>
                 ))}
               </div>

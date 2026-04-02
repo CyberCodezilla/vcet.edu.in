@@ -8,6 +8,8 @@ import {
 } from 'lucide-react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
+import { getFacilitiesSection } from '../../services/facilities';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 /* ═══════════════════════════════════════════════════════════════ */
 /* ─── Design Tokens (Sharp & Academic) ───────────────────────── */
@@ -80,9 +82,87 @@ const CountUp: React.FC<{ end: string; suffix?: string }> = ({ end, suffix = "" 
 
 const Library: React.FC = () => {
   const [activeTab, setActiveTab] = useState('Overview');
-  const tabs = ['Overview', 'Resources', 'E-Resources', 'Facilities', 'Membership', 'Committee', 'Rules', 'Gallery'];
+  const [apiData, setApiData] = useState<any>(null);
+  const tabKeys = ['Overview', 'Resources', 'E-Resources', 'Facilities', 'Membership', 'Committee', 'Rules', 'Gallery'] as const;
   const contentStartRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    let mounted = true;
+    getFacilitiesSection<any>('library')
+      .then((res) => mounted && setApiData(res))
+      .catch(() => mounted && setApiData(null));
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const librarySections = Array.isArray(apiData?.librarySections)
+    ? apiData.librarySections
+        .map((item: any) => ({
+          heading: String(item?.heading ?? '').trim(),
+          paragraph: String(item?.paragraph ?? '').trim(),
+        }))
+        .filter((item: any) => item.heading.length > 0 || item.paragraph.length > 0)
+    : [];
+
+  const statsRows = Array.isArray(apiData?.stats)
+    ? apiData.stats
+        .map((item: any) => ({
+          label: String(item?.label ?? '').trim(),
+          val: String(item?.value ?? '').trim(),
+        }))
+        .filter((item: any) => item.label.length > 0 && item.val.length > 0)
+    : [];
+
+  const facilitiesRows = Array.isArray(apiData?.facilitiesList)
+    ? apiData.facilitiesList.map((item: any) => String(item ?? '').trim()).filter(Boolean)
+    : [];
+
+  const membershipsRows = Array.isArray(apiData?.memberships)
+    ? apiData.memberships.map((item: any) => String(item ?? '').trim()).filter(Boolean)
+    : [];
+
+  const rulesRows = Array.isArray(apiData?.rules)
+    ? apiData.rules.map((item: any) => String(item ?? '').trim()).filter(Boolean)
+    : [];
+
+  const contact = {
+    phone: String(apiData?.contact?.phone ?? '').trim(),
+    email: String(apiData?.contact?.email ?? '').trim(),
+    address: String(apiData?.contact?.address ?? '').trim(),
+  };
+
+  const tabs = Array.isArray(apiData?.tabs)
+    ? apiData.tabs
+        .map((item: any) => String(item?.label ?? '').trim())
+        .filter(Boolean)
+        .slice(0, 10)
+    : [];
+
+  const displayTabs = tabKeys.map((key, idx) => ({
+    key,
+    label: tabs[idx] || key,
+  }));
+
+  const committeeRows = Array.isArray(apiData?.committee)
+    ? apiData.committee
+        .map((item: any) => ({
+          name: String(item?.name ?? '').trim(),
+          role: String(item?.role ?? '').trim(),
+          sub: String(item?.sub ?? '').trim(),
+        }))
+        .filter((item: any) => item.name.length > 0 && item.role.length > 0)
+    : [];
+
+  const galleryRows = Array.isArray(apiData?.gallery)
+    ? apiData.gallery
+        .map((item: any, idx: number) => ({
+          label: String(item?.label ?? '').trim() || `Library Gallery ${idx + 1}`,
+          imageUrl: resolveUploadedAssetUrl(item?.imageUrl ?? null),
+        }))
+        .filter((item: any) => !!item.imageUrl)
+    : [];
 
   // Scroll logic for tab navigation
   useEffect(() => {
@@ -118,32 +198,32 @@ const Library: React.FC = () => {
             </div>
             
             <div className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible no-scrollbar gap-2">
-              {tabs.map((tab) => (
+              {displayTabs.map((tab) => (
                 <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key)}
                   className={`relative px-6 py-4 text-[11px] font-extrabold uppercase tracking-[0.15em] transition-all duration-300 min-w-max lg:min-w-0 text-left group ${
-                    activeTab === tab ? 'text-brand-gold' : 'text-white/60 hover:text-white'
+                    activeTab === tab.key ? 'text-brand-gold' : 'text-white/60 hover:text-white'
                   }`}
                   style={{ fontFamily: C.body }}
                 >
                   <div 
                     className={`absolute inset-0 transition-all duration-500 z-0 ${
-                      activeTab === tab 
+                      activeTab === tab.key 
                         ? 'bg-white/10 opacity-100 border-l-4 border-l-brand-gold shadow-inner' 
                         : 'bg-white/0 opacity-0 group-hover:opacity-100 group-hover:bg-white/05 border-l-4 border-l-transparent group-hover:border-l-brand-gold/30'
                     }`}
                   />
-                  
-                  {activeTab === tab && (
+                   
+                  {activeTab === tab.key && (
                     <motion.div 
                       layoutId="libraryTabVerticalInd" 
                       className="absolute left-0 top-0 bottom-0 w-1 bg-brand-gold z-20" 
                       transition={T.spring}
                     />
                   )}
-                  
-                  <span className="relative z-10">{tab}</span>
+                   
+                  <span className="relative z-10">{tab.label}</span>
                 </button>
               ))}
             </div>
@@ -184,65 +264,38 @@ const Library: React.FC = () => {
                       />
                       
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
-                        {/* Reading Room Module */}
-                        <motion.div 
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          whileHover={{ y: -2 }}
-                          transition={{ 
-                             delay: 0.1,
-                             duration: 0.6,
-                             ease: [0.22, 1, 0.36, 1] 
-                          }}
-                          className="bg-white border border-slate-200 border-l-8 border-l-brand-navy shadow-sm relative overflow-hidden group"
-                        >
-                           <div className="p-8">
-                              <div className="mb-6">
-                                 <h3 className="text-2xl font-bold text-brand-navy uppercase tracking-tight" style={{ fontFamily: C.serif }}>Reading Room</h3>
-                                 <p className="text-[10px] font-bold text-brand-gold uppercase tracking-widest">Academic Study Space</p>
-                              </div>
+                        {librarySections.slice(0, 2).map((section, idx) => (
+                          <motion.div 
+                            key={idx}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            whileHover={{ y: -2 }}
+                            transition={{ 
+                               delay: 0.1 * (idx + 1),
+                               duration: 0.6,
+                               ease: [0.22, 1, 0.36, 1] 
+                            }}
+                            className={`bg-white border border-slate-200 border-l-8 ${idx === 0 ? 'border-l-brand-navy' : 'border-l-brand-gold'} shadow-sm relative overflow-hidden group`}
+                          >
+                             <div className="p-8">
+                                <div className="mb-6">
+                                   <h3 className="text-2xl font-bold text-brand-navy uppercase tracking-tight" style={{ fontFamily: C.serif }}>{section.heading}</h3>
+                                   <p className="text-[10px] font-bold text-brand-gold uppercase tracking-widest">{idx === 0 ? 'Academic Study Space' : 'Home Issue Counter'}</p>
+                                </div>
 
-                              <div className="space-y-4 border-t border-slate-100 pt-6">
-                                 <div className="flex justify-between items-center group/time">
-                                    <span className="text-lg font-bold text-slate-500 group-hover:text-brand-navy transition-colors" style={{ fontFamily: C.body }}>Monday – Saturday</span>
-                                    <span className="text-2xl font-bold text-brand-navy" style={{ fontFamily: C.serif }}>08:00 AM – 08:00 PM</span>
-                                 </div>
-                                 <div className="bg-slate-50 p-4 border-l-2 border-brand-gold italic text-sm text-slate-500">
-                                    Access to quiet study zones and digital repository connection.
-                                 </div>
-                              </div>
-                           </div>
-                        </motion.div>
-
-                        {/* Circulation Counter Module */}
-                        <motion.div 
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          whileHover={{ y: -2 }}
-                          transition={{ 
-                             delay: 0.2,
-                             duration: 0.6,
-                             ease: [0.22, 1, 0.36, 1] 
-                          }}
-                          className="bg-white border border-slate-200 border-l-8 border-l-brand-gold shadow-sm relative overflow-hidden group"
-                        >
-                           <div className="p-8">
-                              <div className="mb-6">
-                                 <h3 className="text-2xl font-bold text-brand-navy uppercase tracking-tight" style={{ fontFamily: C.serif }}>Circulation Desk</h3>
-                                 <p className="text-[10px] font-bold text-brand-gold uppercase tracking-widest">Home Issue Counter</p>
-                              </div>
-
-                              <div className="space-y-4 border-t border-slate-100 pt-6">
-                                 <div className="flex justify-between items-center group/time">
-                                    <span className="text-lg font-bold text-slate-500 group-hover:text-brand-navy transition-colors" style={{ fontFamily: C.body }}>Monday – Friday</span>
-                                    <span className="text-2xl font-bold text-brand-navy" style={{ fontFamily: C.serif }}>08:30 AM – 06:00 PM</span>
-                                 </div>
-                                 <div className="bg-slate-50 p-4 border-l-2 border-brand-navy italic text-sm text-slate-500">
-                                    Book returns, renewals, and new membership inquiries.
-                                 </div>
-                              </div>
-                           </div>
-                        </motion.div>
+                                <div className="space-y-4 border-t border-slate-100 pt-6">
+                                   <div className="flex flex-col gap-2 group/time">
+                                      <span className="text-lg font-bold text-brand-navy" style={{ fontFamily: C.serif }}>{section.paragraph}</span>
+                                   </div>
+                                   <div className={`bg-slate-50 p-4 border-l-2 ${idx === 0 ? 'border-brand-gold' : 'border-brand-navy'} italic text-sm text-slate-500`}>
+                                      {idx === 0 
+                                        ? 'Access to quiet study zones and digital repository connection.'
+                                        : 'Book returns, renewals, and new membership inquiries.'}
+                                   </div>
+                                </div>
+                             </div>
+                          </motion.div>
+                        ))}
                       </div>
 
                       {/* Operational Notice */}
@@ -275,12 +328,12 @@ const Library: React.FC = () => {
                       tag="Collection Summary" 
                     />
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 relative z-10">
-                       {[
-                         { label: "Total Library Books", val: "33979" },
-                         { label: "Reference Books", val: "12348" },
-                         { label: "E-books (Pearson)", val: "97" },
-                         { label: "E-Journals Portfolio", val: "275" },
-                       ].map((stat, i) => (
+                        {(statsRows.length > 0 ? statsRows : [
+                          { label: "Total Library Books", val: "33979" },
+                          { label: "Reference Books", val: "12348" },
+                          { label: "E-books (Pearson)", val: "97" },
+                          { label: "E-Journals Portfolio", val: "275" },
+                        ]).map((stat, i) => (
                          <motion.div 
                            key={i}
                            initial={{ opacity: 0, y: 15 }}
@@ -308,15 +361,22 @@ const Library: React.FC = () => {
                              <div className="w-[20%] text-[10px] font-extrabold uppercase tracking-[0.2em] text-right">Volume</div>
                           </div>
                           <div className="divide-y divide-brand-blue/05">
-                             {[
-                                { sr: "01", name: "Total no of Library Book", vendor: "Internal Archive", no: "33,979" },
-                                { sr: "02", name: "Total no of Reference books", vendor: "Scholarly Division", no: "12,348" },
-                                { sr: "03", name: "E-books for perpetual access", vendor: "Pearson Education", no: "97" },
-                                { sr: "04", name: "E-Journals Portfolio", vendor: "Science Direct", no: "275" },
-                                { sr: "05", name: "Printed Magazines and Journals", vendor: "Global Periodicals", no: "51" },
-                                { sr: "06", name: "Popular Academic Magazines", vendor: "Newsstand", no: "12" },
-                                { sr: "07", name: "Leading News Papers", vendor: "Multi-lingual", no: "12" },
-                             ].map((row, idx) => (
+                        {(statsRows.length > 0
+                          ? statsRows.map((item, idx) => ({
+                              sr: String(idx + 1).padStart(2, '0'),
+                              name: item.label,
+                              vendor: 'Library',
+                              no: item.val,
+                            }))
+                          : [
+                                 { sr: "01", name: "Total no of Library Book", vendor: "Internal Archive", no: "33,979" },
+                                 { sr: "02", name: "Total no of Reference books", vendor: "Scholarly Division", no: "12,348" },
+                                 { sr: "03", name: "E-books for perpetual access", vendor: "Pearson Education", no: "97" },
+                                 { sr: "04", name: "E-Journals Portfolio", vendor: "Science Direct", no: "275" },
+                                 { sr: "05", name: "Printed Magazines and Journals", vendor: "Global Periodicals", no: "51" },
+                                 { sr: "06", name: "Popular Academic Magazines", vendor: "Newsstand", no: "12" },
+                                 { sr: "07", name: "Leading News Papers", vendor: "Multi-lingual", no: "12" },
+                              ]).map((row, idx) => (
                                <motion.div 
                                  key={idx}
                                  initial={{ opacity: 0, x: -20 }}
@@ -416,17 +476,19 @@ const Library: React.FC = () => {
                   <div className="bg-white border border-slate-200 p-8 md:p-12 rounded-[2.5rem] shadow-sm relative overflow-hidden">
                                         <SectionTitle title="DELNET Resource Ecosystem" subtitle="Comprehensive access to global union catalogues, periodicals, and academic sound archives" />
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 relative z-10">
-                       {[
-                         { label: "Union Catalogue of books", val: "26661564" },
-                         { label: "Union list of current periodicals", val: "37847" },
-                         { label: "Union catalogue of Periodicals", val: "20235" },
-                         { label: "Databases of Periodicals Articles", val: "984809" },
-                         { label: "CD ROM databases", val: "61750" },
-                         { label: "Union list of Video Recording", val: "6000" },
-                         { label: "Union list of Sound Recording", val: "1025" },
-                         { label: "Database of Theses and Dissertations", val: "1025" },
-                         { label: "Data base of E-books", val: "1613" },
-                       ].map((item, i) => (
+                       {(facilitiesRows.length > 0
+                         ? facilitiesRows.map((label, idx) => ({ label, val: String(idx + 1) }))
+                         : [
+                          { label: "Union Catalogue of books", val: "26661564" },
+                          { label: "Union list of current periodicals", val: "37847" },
+                          { label: "Union catalogue of Periodicals", val: "20235" },
+                          { label: "Databases of Periodicals Articles", val: "984809" },
+                          { label: "CD ROM databases", val: "61750" },
+                          { label: "Union list of Video Recording", val: "6000" },
+                          { label: "Union list of Sound Recording", val: "1025" },
+                          { label: "Database of Theses and Dissertations", val: "1025" },
+                          { label: "Data base of E-books", val: "1613" },
+                        ]).map((item, i) => (
                          <motion.div 
                            key={i} 
                            initial={{ opacity: 0, y: 20 }}
@@ -462,12 +524,14 @@ const Library: React.FC = () => {
                    <div className="bg-white border border-slate-200 p-8 md:p-12 rounded-[2.5rem] shadow-sm relative overflow-hidden">
                                             <SectionTitle title="Library Institutional Memberships" subtitle="Official academic partnerships and knowledge networks" />
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-                         {[
-                           { title: "The Institute of Engineers (India), Kolkata", desc: "Lifetime Membership providing access to world-class engineering journals.", loc: "Kolkata" },
-                           { title: "DELNET (Developing Library Network)", desc: "Comprehensive Inter-Library loan and massive shared e-resources network.", loc: "New Delhi" },
-                           { title: "IIT Bombay, Mumbai", desc: "Direct resource sharing and knowledge exchange membership.", loc: "Mumbai" },
-                           { title: "National Digital Library", desc: "Massive open-source warehouse of digital resources and books.", loc: "National" },
-                         ].map((item, i) => (
+                          {(membershipsRows.length > 0
+                            ? membershipsRows.map((title) => ({ title, desc: 'Institutional membership', loc: 'Academic Network' }))
+                            : [
+                            { title: "The Institute of Engineers (India), Kolkata", desc: "Lifetime Membership providing access to world-class engineering journals.", loc: "Kolkata" },
+                            { title: "DELNET (Developing Library Network)", desc: "Comprehensive Inter-Library loan and massive shared e-resources network.", loc: "New Delhi" },
+                            { title: "IIT Bombay, Mumbai", desc: "Direct resource sharing and knowledge exchange membership.", loc: "Mumbai" },
+                            { title: "National Digital Library", desc: "Massive open-source warehouse of digital resources and books.", loc: "National" },
+                          ]).map((item, i) => (
                            <motion.div 
                              key={i} 
                              initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
@@ -512,16 +576,16 @@ const Library: React.FC = () => {
                         </motion.div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                           {[
+                           {(committeeRows.length > 0 ? committeeRows : [
                              { name: "Ms. Anagha Patil", role: "Member", sub: "AP. Information Technology" },
                              { name: "Ms. Priti Vairagi", role: "Member", sub: "AP. Mechanical Engineering" },
                              { name: "Mr. Arbaz Kazi", role: "Member", sub: "AP. Civil Engineering" },
                              { name: "Ms. Sejal Demello", role: "Member", sub: "AP. AI & DS" },
                              { name: "Ms. Krunali Vartak", role: "Member", sub: "AP. CSE DS" },
                              { name: "Ms. Akshaya Prabhu", role: "Member", sub: "AP. Computer Engineering" },
-                             { name: "Mr. Dinesh M. Jadhav", role: "Role", sub: "Librarian" },
-                           ].map((item, i) => (
-                             <motion.div 
+                             { name: "Mr. Dinesh M. Jadhav", role: "Librarian", sub: "Library Department" },
+                           ]).map((item, i) => (
+                              <motion.div 
                                key={i} 
                                initial={{ opacity: 0, scale: 0.95 }}
                                animate={{ opacity: 1, scale: 1 }}
@@ -531,10 +595,10 @@ const Library: React.FC = () => {
                              >
                                 <div className="absolute top-0 right-0 w-8 h-8 bg-brand-gold/10 scale-0 group-hover:scale-100 transition-transform origin-top-right duration-500" />
                                 <h4 className="text-lg font-bold text-brand-navy mb-1 group-hover:text-brand-gold transition-colors" style={{ fontFamily: C.serif }}>{item.name}</h4>
-                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">{item.role === 'Role' ? 'Librarian' : 'Committee Member'}</p>
-                                <p className="border-t border-slate-100 pt-4 text-xs font-bold text-slate-500 uppercase tracking-wider leading-relaxed">{item.sub}</p>
-                             </motion.div>
-                           ))}
+                                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">{item.role}</p>
+                                 <p className="border-t border-slate-100 pt-4 text-xs font-bold text-slate-500 uppercase tracking-wider leading-relaxed">{item.sub}</p>
+                              </motion.div>
+                            ))}
                         </div>
                       </div>
                    </div>
@@ -569,7 +633,7 @@ const Library: React.FC = () => {
                                      <h3 className="text-2xl font-bold text-brand-navy uppercase tracking-tight" style={{ fontFamily: C.serif }}>For Staff Members</h3>
                                  </div>
                                  <div className="space-y-4">
-                                    {[
+                                    {(rulesRows.length > 0 ? rulesRows : [
                                       "Maintain absolute silence in the premises.",
                                       "Mobiles must be kept on silent mode.",
                                       "Privileged access to books, magazines, and archives.",
@@ -581,7 +645,7 @@ const Library: React.FC = () => {
                                       "Handle all academic assets with extreme care.",
                                       "Standard return period is 4 working days.",
                                       "Mandatory entry in visitor register."
-                                    ].map((rule, idx) => (
+                                    ]).map((rule, idx) => (
                                       <motion.div 
                                         key={idx} 
                                         initial={{ opacity: 0, x: -10 }}
@@ -612,21 +676,21 @@ const Library: React.FC = () => {
                                      <h3 className="text-2xl font-bold text-white uppercase tracking-tight" style={{ fontFamily: C.serif }}>For Students</h3>
                                  </div>
                                  <div className="space-y-4">
-                                    {[
-                                       "Absolute silence in library premises",
-                                       "Mobiles must be kept on silent mode",
-                                       "Use of home-issue facility for books",
-                                       "Full digital library repository access",
-                                       "Standard weekly borrowing privileges",
-                                       "One-day reference access for archives",
-                                       "Ethical academic asset handling",
-                                       "Mandatory entry in library registries",
-                                       "SC/ST specific book bank portal",
-                                       "Replacement of lost/damaged materials",
-                                       "Digital activity and research logging",
-                                       "No personal laptops in digital zones",
-                                       "Report damaged pages immediately"
-                                    ].map((rule, idx) => (
+                                     {(rulesRows.length > 0 ? rulesRows : [
+                                        "Absolute silence in library premises",
+                                        "Mobiles must be kept on silent mode",
+                                        "Use of home-issue facility for books",
+                                        "Full digital library repository access",
+                                        "Standard weekly borrowing privileges",
+                                        "One-day reference access for archives",
+                                        "Ethical academic asset handling",
+                                        "Mandatory entry in library registries",
+                                        "SC/ST specific book bank portal",
+                                        "Replacement of lost/damaged materials",
+                                        "Digital activity and research logging",
+                                        "No personal laptops in digital zones",
+                                        "Report damaged pages immediately"
+                                    ]).map((rule, idx) => (
                                       <motion.div 
                                         key={idx} 
                                         initial={{ opacity: 0, x: 10 }}
@@ -691,7 +755,16 @@ const Library: React.FC = () => {
                            </div>
                         </motion.div>
                       </div>
-                   </div>
+                    </div>
+
+                    {(contact.phone || contact.email || contact.address) && (
+                      <div className="mt-10 bg-white border border-slate-200 p-6 rounded-xl">
+                        <h4 className="text-lg font-bold text-brand-navy mb-2">Library Contact</h4>
+                        {contact.phone && <p className="text-sm text-slate-700">Phone: {contact.phone}</p>}
+                        {contact.email && <p className="text-sm text-slate-700">Email: {contact.email}</p>}
+                        {contact.address && <p className="text-sm text-slate-700">Address: {contact.address}</p>}
+                      </div>
+                    )}
                 </div>
               )}
 
@@ -704,15 +777,18 @@ const Library: React.FC = () => {
                       <SectionTitle title="Library Photo Gallery" subtitle="Visual archives of our scholarly environment and academic infrastructure" />
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-                         {[1,2,3,4,5,6,7,8].map((n) => (
-                           <motion.div 
-                             key={n} 
-                             initial={{ opacity: 0, y: 30 }}
-                             animate={{ opacity: 1, y: 0 }}
-                             transition={{ delay: n * 0.1 }}
-                             whileHover={{ y: -3 }}
-                             className="group relative aspect-[16/10] bg-white overflow-hidden shadow-sm cursor-pointer border-[6px] border-white transition-all ring-1 ring-slate-200"
-                           >
+                         {(galleryRows.length > 0 ? galleryRows : Array.from({ length: 8 }).map((_, idx) => ({
+                            label: `Library Gallery ${idx + 1}`,
+                            imageUrl: null as string | null,
+                         }))).map((item, idx) => (
+                            <motion.div 
+                              key={idx} 
+                              initial={{ opacity: 0, y: 30 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: (idx + 1) * 0.1 }}
+                              whileHover={{ y: -3 }}
+                              className="group relative aspect-[16/10] bg-white overflow-hidden shadow-sm cursor-pointer border-[6px] border-white transition-all ring-1 ring-slate-200"
+                            >
                               <div className="absolute inset-0 bg-brand-navy/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center z-10 text-center p-8">
                                  <motion.div 
                                    initial={{ scale: 0.8, opacity: 0 }}
@@ -721,13 +797,16 @@ const Library: React.FC = () => {
                                  >
                                     <Search className="text-white" size={20} />
                                  </motion.div>
-                                 <p className="text-white text-xs font-bold tracking-[0.3em] uppercase transition-transform duration-500">Enlarge Archive Visual</p>
-                              </div>
-                              <div className="absolute inset-0 bg-slate-100 flex items-center justify-center transition-transform duration-700 group-hover:scale-105">
-                                 <ImageIcon className="text-brand-navy/10" size={64} />
-                                 {/* Mesh Pattern Overlay */}
-                                 <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: `radial-gradient(${C.navy} 1px, transparent 1px)`, backgroundSize: '24px 24px' }} />
-                              </div>
+                                  <p className="text-white text-xs font-bold tracking-[0.3em] uppercase transition-transform duration-500">{item.label}</p>
+                               </div>
+                               {item.imageUrl ? (
+                                 <img src={item.imageUrl} alt={item.label} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                               ) : (
+                                 <div className="absolute inset-0 bg-slate-100 flex items-center justify-center transition-transform duration-700 group-hover:scale-105">
+                                    <ImageIcon className="text-brand-navy/10" size={64} />
+                                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: `radial-gradient(${C.navy} 1px, transparent 1px)`, backgroundSize: '24px 24px' }} />
+                                 </div>
+                               )}
                               
                               {/* Prominent Corner Accents */}
                               <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-brand-gold scale-0 group-hover:scale-100 transition-all duration-300 z-20" />

@@ -1,8 +1,36 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
+import { getFacilitiesSection } from '../../services/facilities';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const HealthFacilities: React.FC = () => {
+  const [apiData, setApiData] = useState<any>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getFacilitiesSection<any>('health-facilities')
+      .then((res) => mounted && setApiData(res))
+      .catch(() => mounted && setApiData(null));
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const items = useMemo(() => {
+    const rows = Array.isArray(apiData?.items)
+      ? apiData.items
+          .map((item: any, index: number) => ({
+            name: String(item?.name ?? '').trim() || `Image ${index + 1}`,
+            description: String(item?.description ?? '').trim() || 'Health Facility',
+            imageUrl: resolveUploadedAssetUrl(item?.imageUrl ?? null),
+          }))
+          .filter((item: any) => item.name.length > 0)
+      : [];
+    if (rows.length > 0) return rows;
+    return [1, 2, 3, 4].map((n) => ({ name: `Image ${n}`, description: 'Health Facility', imageUrl: null }));
+  }, [apiData]);
+
   return (
     <PageLayout>
       <PageBanner
@@ -34,19 +62,25 @@ const HealthFacilities: React.FC = () => {
 
             <div className="reveal">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-10">
-                {[1, 2, 3, 4].map((item) => (
+                {items.map((item, index) => (
                   <div
-                    key={item}
+                    key={`${item.name}-${index}`}
                     className="relative aspect-[4/3] rounded-xl bg-white border border-[#f3e7c4] shadow-[0_4px_24px_rgba(212,168,67,0.08)] flex flex-col items-center justify-center transition-all duration-300 hover:shadow-lg hover:border-[#e5c76a] group"
                   >
-                    <div className="absolute top-5 left-5 flex items-center gap-2">
-                      <span className="inline-block h-2 w-2 rounded-full bg-[#e5c76a]" />
-                      <span className="text-xs font-semibold text-[#bfa13a] tracking-wider">Placeholder</span>
-                    </div>
-                    <span className="text-lg md:text-xl font-semibold text-[#244d82] mb-1 mt-2 group-hover:text-[#bfa13a] transition-colors duration-300">
-                      Image {item}
-                    </span>
-                    <span className="text-xs text-[#8a98b3]">Health Facility</span>
+                    {item.imageUrl ? (
+                      <img src={item.imageUrl} alt={item.name} className="absolute inset-0 h-full w-full object-cover rounded-xl" />
+                    ) : (
+                      <>
+                        <div className="absolute top-5 left-5 flex items-center gap-2">
+                          <span className="inline-block h-2 w-2 rounded-full bg-[#e5c76a]" />
+                          <span className="text-xs font-semibold text-[#bfa13a] tracking-wider">Placeholder</span>
+                        </div>
+                        <span className="text-lg md:text-xl font-semibold text-[#244d82] mb-1 mt-2 group-hover:text-[#bfa13a] transition-colors duration-300">
+                          {item.name}
+                        </span>
+                        <span className="text-xs text-[#8a98b3]">{item.description}</span>
+                      </>
+                    )}
                   </div>
                 ))}
               </div>

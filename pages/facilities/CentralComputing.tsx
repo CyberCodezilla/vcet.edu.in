@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
+import { getFacilitiesSection } from '../../services/facilities';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 import {
   Monitor,
   Server,
@@ -133,6 +135,62 @@ const servers = [
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
 const CentralComputing: React.FC = () => {
+  const [apiData, setApiData] = useState<any>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getFacilitiesSection<any>('central-computing')
+      .then((res) => mounted && setApiData(res))
+      .catch(() => mounted && setApiData(null));
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const displayStats = useMemo(() => {
+    const rows = Array.isArray(apiData?.stats)
+      ? apiData.stats
+          .map((item: any, index: number) => ({
+            icon: stats[index % stats.length]?.icon ?? Layers,
+            value: String(item?.value ?? '').trim(),
+            label: String(item?.label ?? '').trim(),
+          }))
+          .filter((item: any) => item.label.length > 0 && item.value.length > 0)
+      : [];
+    return rows.length > 0 ? rows : stats;
+  }, [apiData]);
+
+  const displayStaff = useMemo(() => {
+    const rows = Array.isArray(apiData?.staff)
+      ? apiData.staff
+          .map((item: any) => ({
+            role: String(item?.role ?? '').trim(),
+            name: String(item?.name ?? '').trim(),
+          }))
+          .filter((item: any) => item.role.length > 0 && item.name.length > 0)
+      : [];
+    return rows.length > 0 ? rows : staff;
+  }, [apiData]);
+
+  const displayLabs = useMemo(() => {
+    const rows = Array.isArray(apiData?.labs)
+      ? apiData.labs
+          .map((item: any, index: number) => ({
+            name: String(item?.name ?? '').trim() || `Lab ${index + 1}`,
+            total: Number.parseInt(String(item?.pcCount ?? '0'), 10) || 0,
+            image: resolveUploadedAssetUrl(item?.imageUrl ?? item?.image ?? null),
+            configs: [
+              {
+                heading: String(item?.specLine ?? '').trim() || 'Configuration',
+                specs: [String(item?.specs ?? '').trim()].filter(Boolean),
+              },
+            ],
+          }))
+          .filter((item: any) => item.name.length > 0)
+      : [];
+    return rows.length > 0 ? rows : labs;
+  }, [apiData]);
+
   return (
     <PageLayout>
       <PageBanner
@@ -154,7 +212,7 @@ const CentralComputing: React.FC = () => {
           <div className="max-w-6xl mx-auto">
             <div className="reveal max-w-5xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {stats.map((stat, idx) => (
+              {displayStats.map((stat, idx) => (
                 <div
                   key={idx}
                   className="relative overflow-hidden border border-white/15 bg-white/10 backdrop-blur-sm px-5 py-6 shadow-lg transition-transform duration-300 hover:-translate-y-1 h-full"
@@ -220,7 +278,7 @@ const CentralComputing: React.FC = () => {
               {/* Staff cards */}
               <div className="reveal">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {staff.map((member, idx) => (
+                  {displayStaff.map((member, idx) => (
                     <div
                       key={idx}
                       className="group relative bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-300 h-full min-h-[138px] flex flex-col justify-center"
@@ -265,7 +323,7 @@ const CentralComputing: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
-              {labs.map((lab, idx) => (
+              {displayLabs.map((lab, idx) => (
                 <div
                   key={idx}
                   className="reveal group relative bg-white rounded-3xl border border-brand-blue/10 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden"
@@ -277,7 +335,6 @@ const CentralComputing: React.FC = () => {
                   </div>
                   <div className="h-1 bg-gradient-to-r from-brand-blue via-brand-gold to-brand-blue" />
 
-                  {/* Lab image placeholder */}
                   <div
                     className="relative aspect-video flex items-center justify-center border-b border-brand-blue/10"
                     style={{
@@ -285,9 +342,11 @@ const CentralComputing: React.FC = () => {
                         'linear-gradient(135deg, rgba(26,75,124,0.08), rgba(253,184,19,0.07))',
                     }}
                   >
-                    <span className="text-sm font-semibold text-brand-blue/40 tracking-wide">
-                      {lab.image}
-                    </span>
+                    {lab.image ? (
+                      <img src={lab.image} alt={lab.name} className="absolute inset-0 h-full w-full object-cover" />
+                    ) : (
+                      <span className="text-sm font-semibold text-brand-blue/40 tracking-wide">Lab Image</span>
+                    )}
                     <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(to_bottom,white,transparent)]" />
                   </div>
 

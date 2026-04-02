@@ -838,22 +838,23 @@ export interface FacilityData {
   name: string;
   description: string;
   stats?: { label: string; value: string }[];
-  staff?: { name: string; role: string; desc?: string }[];
-  labs?: { name: string; pcCount: string; specs: string; image: string | null; specLine: string }[];
-  general?: { title: string; description: string };
+  staff?: { name: string; role: string; desc?: string; imageUrl?: string | File | null }[];
+  labs?: { name: string; pcCount: string; specs: string; image: string | File | null; imageUrl?: string | File | null; specLine: string }[];
+  general?: { title: string; description: string; imageUrl?: string | File | null };
   mentors?: { title: string; description: string }[];
-  items?: { name: string; description: string; icon?: string }[];
-  activities?: { name: string; description: string }[];
+  items?: { name: string; description: string; icon?: string; imageUrl?: string | File | null }[];
+  activities?: { name: string; description: string; imageUrl?: string | File | null }[];
   librarySections?: { heading: string; paragraph: string }[];
   facilitiesList?: string[];
   rules?: string[];
   memberships?: string[];
   tabs?: { label: string; content?: string }[];
+  committee?: { name: string; role: string; sub?: string }[];
   contact?: { phone: string; email: string; address: string };
-  gallery?: string[];
+  gallery?: { label?: string; imageUrl?: string | File | null }[];
   sports?: { name: string; icon: string }[];
   achievements?: string[];
-  results?: { year: string; entry: string }[];
+  results?: { year: string; entry?: string; cricket?: string; football?: string; kabaddi?: string }[];
 }
 
 export type FacilityPayload = Partial<FacilityData>;

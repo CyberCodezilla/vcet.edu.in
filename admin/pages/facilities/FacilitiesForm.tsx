@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { pagesApi } from '../../api/pagesApi';
 import type { FacilityData, FacilityPayload } from '../../types';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 /* ── Toast Component ────────────────────────────────────────────────────────── */
 const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () => void }> = ({ message, type, onClose }) => {
@@ -30,6 +31,22 @@ const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: Re
 
 const inputBase = 'w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#2563EB] rounded-2xl px-5 py-3/4 text-sm font-bold transition-all outline-none';
 const labelBase = 'block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1';
+const filePreviewCache = new WeakMap<File, string>();
+
+const getFilePreviewUrl = (file: File): string => {
+  const cached = filePreviewCache.get(file);
+  if (cached) return cached;
+  const url = URL.createObjectURL(file);
+  filePreviewCache.set(file, url);
+  return url;
+};
+
+const resolveImage = (value: any): string | null => {
+  if (!value) return null;
+  if (value instanceof File) return getFilePreviewUrl(value);
+  if (typeof value === 'string') return resolveUploadedAssetUrl(value) || value;
+  return null;
+};
 
 /* ── Reusable Managers ──────────────────────────────────────────────────────── */
 
@@ -118,6 +135,44 @@ const StringListManager: React.FC<{ items: string[]; maxItems: number; maxLength
   );
 };
 
+const ImageUploadInput: React.FC<{
+  label: string;
+  value: string | File | null | undefined;
+  onChange: (value: string | File | null) => void;
+}> = ({ label, value, onChange }) => {
+  const preview = resolveImage(value);
+  return (
+    <div className="space-y-3">
+      <label className={labelBase}>{label}</label>
+      <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <input
+          type="file"
+          accept="image/*"
+          className="text-sm font-semibold text-slate-600 file:mr-3 file:rounded-xl file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:bg-blue-700"
+          onChange={e => {
+            const file = e.target.files?.[0] || null;
+            if (file) onChange(file);
+          }}
+        />
+        {preview ? (
+          <div className="mt-4 space-y-2">
+            <img src={preview} alt={label} className="h-32 w-full rounded-xl border border-slate-200 object-cover" />
+            <button
+              type="button"
+              onClick={() => onChange(null)}
+              className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 text-xs font-black uppercase tracking-wider hover:bg-red-100"
+            >
+              Remove
+            </button>
+          </div>
+        ) : (
+          <p className="mt-3 text-xs text-slate-500">No image selected</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
 /* ── Main Form ─────────────────────────────────────────────────────────────── */
 interface FacilitiesFormProps {
   slug: string;
@@ -177,6 +232,20 @@ const FacilitiesForm: React.FC<FacilitiesFormProps> = ({ slug, onBack }) => {
                 { key: 'specs', label: 'Config Specs (CPU/RAM)', max: 80 },
                 { key: 'specLine', label: 'Short Subline', max: 120 }
               ]} />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {(payload.labs || []).map((lab: any, idx: number) => (
+                  <ImageUploadInput
+                    key={`lab-image-${idx}`}
+                    label={`Lab ${idx + 1} Image`}
+                    value={lab?.imageUrl ?? lab?.image ?? null}
+                    onChange={(next) => {
+                      const rows = [...(payload.labs || [])];
+                      rows[idx] = { ...rows[idx], imageUrl: next, image: next };
+                      updateProp('labs', rows);
+                    }}
+                  />
+                ))}
+              </div>
             </SectionCard>
           </div>
         );
@@ -194,6 +263,20 @@ const FacilitiesForm: React.FC<FacilitiesFormProps> = ({ slug, onBack }) => {
                 { key: 'role', label: 'Role', max: 40 },
                 { key: 'desc', label: 'Short Bio', max: 150, type: 'textarea' }
               ]} />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {(payload.staff || []).map((person: any, idx: number) => (
+                  <ImageUploadInput
+                    key={`staff-image-${idx}`}
+                    label={`Staff ${idx + 1} Image`}
+                    value={person?.imageUrl ?? null}
+                    onChange={(next) => {
+                      const rows = [...(payload.staff || [])];
+                      rows[idx] = { ...rows[idx], imageUrl: next };
+                      updateProp('staff', rows);
+                    }}
+                  />
+                ))}
+              </div>
             </SectionCard>
             <SectionCard title="Mentoring Modules" icon="🤝">
               <DynamicListManager items={payload.mentors} maxItems={8} onChange={v=>updateProp('mentors', v)} fields={[
@@ -216,6 +299,20 @@ const FacilitiesForm: React.FC<FacilitiesFormProps> = ({ slug, onBack }) => {
                 { key: 'name', label: 'Facility Name', max: 40 },
                 { key: 'description', label: 'Description', max: 150, type: 'textarea' }
               ]} />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {(payload.items || []).map((item: any, idx: number) => (
+                  <ImageUploadInput
+                    key={`item-image-${idx}`}
+                    label={`Item ${idx + 1} Image`}
+                    value={item?.imageUrl ?? null}
+                    onChange={(next) => {
+                      const rows = [...(payload.items || [])];
+                      rows[idx] = { ...rows[idx], imageUrl: next };
+                      updateProp('items', rows);
+                    }}
+                  />
+                ))}
+              </div>
            </SectionCard>
         );
 
@@ -224,13 +321,32 @@ const FacilitiesForm: React.FC<FacilitiesFormProps> = ({ slug, onBack }) => {
           <div className="space-y-8">
              <SectionCard title="Overview" icon="🌸">
                <LimitedInput label="Main Title" max={30} value={payload.general?.title} onChange={v=>updateGeneral('title', v)} />
-               <div className="mt-4"><LimitedInput label="Description" type="textarea" max={120} value={payload.general?.description} onChange={v=>updateGeneral('description', v)} /></div>
+                <div className="mt-4"><LimitedInput label="Description" type="textarea" max={120} value={payload.general?.description} onChange={v=>updateGeneral('description', v)} /></div>
+                <ImageUploadInput
+                  label="Overview Image"
+                  value={payload.general?.imageUrl ?? null}
+                  onChange={v=>updateGeneral('imageUrl', v)}
+                />
              </SectionCard>
              <SectionCard title="Indoor Activities" icon="🎯">
-               <DynamicListManager items={payload.activities} maxItems={6} onChange={v=>updateProp('activities', v)} fields={[
-                 { key: 'name', label: 'Activity Name', max: 30 },
-                 { key: 'description', label: 'Rules / Detail', max: 100 }
-               ]} />
+                <DynamicListManager items={payload.activities} maxItems={6} onChange={v=>updateProp('activities', v)} fields={[
+                  { key: 'name', label: 'Activity Name', max: 30 },
+                  { key: 'description', label: 'Rules / Detail', max: 100 }
+                ]} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {(payload.activities || []).map((item: any, idx: number) => (
+                    <ImageUploadInput
+                      key={`activity-image-${idx}`}
+                      label={`Activity ${idx + 1} Image`}
+                      value={item?.imageUrl ?? null}
+                      onChange={(next) => {
+                        const rows = [...(payload.activities || [])];
+                        rows[idx] = { ...rows[idx], imageUrl: next };
+                        updateProp('activities', rows);
+                      }}
+                    />
+                  ))}
+                </div>
              </SectionCard>
           </div>
         );
@@ -250,8 +366,8 @@ const FacilitiesForm: React.FC<FacilitiesFormProps> = ({ slug, onBack }) => {
                      { key: 'value', label: 'Numerical Value (1-6 digits)', max: 6 }
                   ]} />
                </SectionCard>
-               <SectionCard title="Rules & Arrays" icon="📜">
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <SectionCard title="Rules & Arrays" icon="📜">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                    <div className="p-6 border border-slate-200 rounded-3xl">
                      <h4 className="text-sm font-black mb-4 uppercase">Facilities List</h4>
                      <StringListManager items={payload.facilitiesList} maxItems={15} maxLength={100} onChange={v=>updateProp('facilitiesList', v)} />
@@ -260,21 +376,53 @@ const FacilitiesForm: React.FC<FacilitiesFormProps> = ({ slug, onBack }) => {
                      <h4 className="text-sm font-black mb-4 uppercase">Membership Types</h4>
                      <StringListManager items={payload.memberships} maxItems={10} maxLength={80} onChange={v=>updateProp('memberships', v)} />
                    </div>
-                   <div className="p-6 border border-slate-200 rounded-3xl md:col-span-2">
-                     <h4 className="text-sm font-black mb-4 uppercase">Rules & Regulations</h4>
-                     <StringListManager items={payload.rules} maxItems={25} maxLength={250} onChange={v=>updateProp('rules', v)} label="Rule" />
-                   </div>
-                 </div>
-               </SectionCard>
+                    <div className="p-6 border border-slate-200 rounded-3xl md:col-span-2">
+                      <h4 className="text-sm font-black mb-4 uppercase">Rules & Regulations</h4>
+                      <StringListManager items={payload.rules} maxItems={25} maxLength={120} onChange={v=>updateProp('rules', v)} label="Rule" />
+                    </div>
+                  </div>
+                </SectionCard>
+                <SectionCard title="Library Navigation Tabs" icon="🧭">
+                  <DynamicListManager items={payload.tabs || []} maxItems={10} onChange={v=>updateProp('tabs', v)} fields={[
+                    { key: 'label', label: 'Tab Label', max: 25 },
+                    { key: 'content', label: 'Short Description', max: 120, type: 'textarea' }
+                  ]} />
+                </SectionCard>
                <SectionCard title="Library Contact" icon="📞">
                   <div className="grid grid-cols-2 gap-4">
                      <LimitedInput label="Phone Number" max={15} value={payload.contact?.phone} onChange={v=>updateProp('contact', {...payload.contact, phone: v})} />
                      <LimitedInput label="Email" max={40} value={payload.contact?.email} onChange={v=>updateProp('contact', {...payload.contact, email: v})} />
                      <div className="col-span-2"><LimitedInput label="Address Block" type="textarea" max={250} value={payload.contact?.address} onChange={v=>updateProp('contact', {...payload.contact, address: v})} /></div>
                   </div>
-               </SectionCard>
-            </div>
-         );
+                </SectionCard>
+                <SectionCard title="Library Governance" icon="👥">
+                  <DynamicListManager items={payload.committee || []} maxItems={15} onChange={v=>updateProp('committee', v)} fields={[
+                    { key: 'name', label: 'Member Name', max: 50 },
+                    { key: 'role', label: 'Role', max: 60 },
+                    { key: 'sub', label: 'Department/Details', max: 80 }
+                  ]} />
+                </SectionCard>
+                <SectionCard title="Library Gallery" icon="🖼️">
+                  <DynamicListManager items={payload.gallery || []} maxItems={20} onChange={v=>updateProp('gallery', v)} fields={[
+                    { key: 'label', label: 'Image Label', max: 120 }
+                  ]} />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {(payload.gallery || []).map((item: any, idx: number) => (
+                      <ImageUploadInput
+                        key={`library-gallery-${idx}`}
+                        label={`Gallery ${idx + 1} Image`}
+                        value={item?.imageUrl ?? null}
+                        onChange={(next) => {
+                          const rows = [...(payload.gallery || [])];
+                          rows[idx] = { ...rows[idx], imageUrl: next };
+                          updateProp('gallery', rows);
+                        }}
+                      />
+                    ))}
+                  </div>
+                </SectionCard>
+             </div>
+          );
 
       case 'sports-gymkhana':
          return (
@@ -288,17 +436,38 @@ const FacilitiesForm: React.FC<FacilitiesFormProps> = ({ slug, onBack }) => {
                <SectionCard title="Top Achievements" icon="🏆">
                   <StringListManager items={payload.achievements} maxItems={10} maxLength={120} onChange={v=>updateProp('achievements', v)} label="Achievement" />
                </SectionCard>
-               <SectionCard title="Tournament Results" icon="🏅">
-                  <DynamicListManager items={payload.results} maxItems={5} onChange={v=>updateProp('results', v)} fields={[
-                     { key: 'year', label: 'Academic Year', max: 10 },
-                     { key: 'entry', label: 'Result Summary Text', max: 80 }
+                <SectionCard title="Tournament Results" icon="🏅">
+                   <DynamicListManager items={payload.results} maxItems={5} onChange={v=>updateProp('results', v)} fields={[
+                      { key: 'year', label: 'Academic Year', max: 10 },
+                      { key: 'cricket', label: 'Cricket Position', max: 40 },
+                      { key: 'football', label: 'Football Position', max: 40 },
+                      { key: 'kabaddi', label: 'Kabaddi Position', max: 40 }
+                   ]} />
+                </SectionCard>
+                <SectionCard title="Gymkhana Rules" icon="⚖️">
+                   <StringListManager items={payload.rules} maxItems={10} maxLength={200} onChange={v=>updateProp('rules', v)} label="Rule" />
+                </SectionCard>
+                <SectionCard title="Sports Gallery" icon="🖼️">
+                  <DynamicListManager items={payload.gallery || []} maxItems={8} onChange={v=>updateProp('gallery', v)} fields={[
+                    { key: 'label', label: 'Image Label', max: 120 }
                   ]} />
-               </SectionCard>
-               <SectionCard title="Gymkhana Rules" icon="⚖️">
-                  <StringListManager items={payload.rules} maxItems={10} maxLength={200} onChange={v=>updateProp('rules', v)} label="Rule" />
-               </SectionCard>
-            </div>
-         );
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {(payload.gallery || []).map((item: any, idx: number) => (
+                      <ImageUploadInput
+                        key={`sports-gallery-${idx}`}
+                        label={`Gallery ${idx + 1} Image`}
+                        value={item?.imageUrl ?? null}
+                        onChange={(next) => {
+                          const rows = [...(payload.gallery || [])];
+                          rows[idx] = { ...rows[idx], imageUrl: next };
+                          updateProp('gallery', rows);
+                        }}
+                      />
+                    ))}
+                  </div>
+                </SectionCard>
+             </div>
+          );
 
       default:
         return <div className="p-8 text-center text-slate-400 font-bold uppercase tracking-widest bg-slate-50 border border-slate-100 rounded-3xl">Module being refined...</div>;

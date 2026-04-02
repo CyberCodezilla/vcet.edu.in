@@ -2,7 +2,22 @@ function resolveApiOrigin(): string {
     const envBase = (import.meta.env.VITE_API_URL as string | undefined)?.trim()
         || (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim();
     const browserOrigin = typeof window !== 'undefined' ? window.location.origin : '';
-    const raw = envBase || browserOrigin || 'https://vcet.edu.in';
+    const sanitizedEnv = envBase ? envBase.replace(/\/api\/?$/i, '').replace(/\/$/, '') : '';
+    const currentHost = typeof window !== 'undefined' ? window.location.hostname : '';
+    const envHost = (() => {
+        if (!sanitizedEnv) return '';
+        try {
+            return new URL(sanitizedEnv).hostname;
+        } catch {
+            return '';
+        }
+    })();
+    const isEnvLocal = envHost === 'localhost' || envHost === '127.0.0.1';
+    const isCurrentLocal = currentHost === 'localhost' || currentHost === '127.0.0.1';
+    const shouldUseBrowserOrigin = !!browserOrigin && isEnvLocal && !isCurrentLocal;
+    const raw = shouldUseBrowserOrigin
+        ? browserOrigin
+        : (sanitizedEnv || browserOrigin || 'https://vcet.edu.in');
     return raw.replace(/\/api\/?$/i, '').replace(/\/$/, '');
 }
 
