@@ -112,17 +112,29 @@ const DeptFE: React.FC = () => {
 
               <div className="space-y-6 text-slate-600 leading-8 text-left">
                 <p>
-                  Established in June 1994 alongside the inception of the college, the First Year Engineering department offers an array of subjects including Engineering Physics, Engineering Chemistry, Engineering Mathematics, and Business Communication &amp; Ethics, and they collectively form the foundational pillars.
+                  Established in June 1994 alongside the inception of the college, the department, First Year Engineering offers an array of subjects including Engineering Physics, Engineering Chemistry, Engineering Mathematics, and Business Communication &amp; Ethics, and they collectively formed the foundational pillars.
                 </p>
                 <p>
-                  The Undergraduate Program (UG) offers various specializations including Computer Engineering with an approved intake of 180 students, Computer Science and Engineering (Data Science) with 180 students, Information Technology with 60 students, and Artificial Intelligence and Data Science with 120 students. Additionally, there are programs in Mechanical Engineering, Electronics and Telecommunication Engineering, and Civil Engineering, each with an approved intake of 60 students.
+                  The Undergraduate Program (UG) offers various specializations including Computer Engineering with an approved intake of 180 students, Computer Science and Engineering (Data Science) with 180 students, Information Technology with 60 students, and Artificial Intelligence and Data Science with 120 students. Additionally, there are programs in Mechanical Engineering, Electronics and Telecommunication Engineering, Civil Engineering, each with an approved intake of 60 students. This diverse array of courses caters to a broad spectrum of interests and career paths within the field of engineering, ensuring students have ample opportunities to pursue their academic and professional aspirations.
                 </p>
                 <p>
-                  Bolstered by dedicated faculty members, the department serves as a cornerstone for all engineering disciplines within the college. Faculty members actively engage in professional development through participation in refresher and orientation courses whenever feasible, and the department has hosted several seminars on diverse topics for both students and staff.
+                  Bolstered by dedicated faculty members, the department serves as a cornerstone for all engineering disciplines within the college. Faculty members actively engage in professional development through participation in refresher/orientation courses whenever feasible. Moreover, the department has hosted several seminars on diverse topics, catering to both students and staff.
                 </p>
                 <p>
                   Recognized for its pivotal role, the department is equipped with state-of-the-art laboratories and continues to spearhead various curricular and extracurricular initiatives. By nurturing a culture of innovation and collaboration, the department cultivates a strong foundation essential for the success of all engineering branches.
                 </p>
+                <div>
+                  <p className="font-bold text-brand-navy">OBJECTIVES</p>
+                  <p className="mt-2">
+                    The First Year department is dedicated to the holistic development of incoming engineering students, providing comprehensive guidance and support to ensure a smooth transition into college life. Our primary objective is to nurture students&apos; academic potential while instilling them with the confidence needed for a successful career in engineering. Through personalized counseling sessions and a supportive learning environment, we aim to enhance students&apos; cognitive abilities and problem-solving skills, empowering them to excel in their academic pursuits and professional endeavors. Our department is committed to fostering personal growth and professional development, ensuring that students emerge as well-rounded individuals equipped to tackle the challenges of the engineering profession.
+                  </p>
+                </div>
+                <div>
+                  <p className="font-bold text-brand-navy">INDUCTION PROGRAM</p>
+                  <p className="mt-2">
+                    VCET has been conducting the induction program for newcomers, aiming to assist new students in adjusting and feeling comfortable in their new academic environment. This initiative also serves to foster relationships among students and faculty, as well as to introduce newcomers to a broader sense of purpose and self-discovery. The event is meticulously organized by the First Year department in collaboration with senior students. It is designed to familiarize new entrants with the institution&apos;s environment and facilitate connections with its members. The student induction program engages with new students during their first week of college, ensuring that regular classes commence only after its completion. Participants are briefed on institutional policies, processes, practices, culture, and values, and are assigned mentor groups consisting of senior students and faculty members. Various activities are incorporated into the Induction Program, including sessions on universal human values, familiarization with the college and department, lectures and workshops by eminent individuals, creative practices, literary activities, language proficiency modules, feedback sessions, language and mathematics proficiency tests, introductions to professional chapters and clubs, and interactions with alumni.
+                  </p>
+                </div>
               </div>
             </section>
           )}

@@ -104,23 +104,23 @@ const DeptCSDS: React.FC = () => {
             <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="space-y-6 text-slate-600 leading-relaxed text-justify">
                 <p>
-                  The Computer Science &amp; Engineering (Data Science) Department is established in the year 2019.
-                  Having started with a four-year undergraduate program, B.E. (CSE&#8209;DS), the department is
-                  willing to start the Post Graduate Program, M.E. CSE&#8209;DS with specializations, shortly in
-                  coming days. Data Science is a field of Scientific theories where Unstructured, Raw data is taken
-                  and moulded into meaningful information by means of Programming, Business skills, and Analytics.
+                  The Computer Science &amp; Engineering ( Data Science)Department is established in the year 2019.
+                  Having started with a four-year undergraduate program, B. E. (CSE -DS), the department is willing
+                  to start the Post Graduate Program, M. E. CSE-DS with specializations, shortly in coming days.
+                  Data Science is a field of Scientific theories where Unstructured, Raw data is taken and moulded
+                  into meaningful information by means of Programming, Business skills, and Analytics.
                 </p>
                 <p>
                   Many Multinational Companies across the globe are using Digital methods to Rationalize their work
-                  and Maintaining their inventory. This technological advancement helps in various factors like Cost
-                  Saving, Resource Saving, and Time Saving. The concept of Data science consists of various
+                  and Maintaining their Inventory. This Technological advancement helps in various factors like Cost
+                  Saving, Resource Saving, and Time-Saving. The concept of Data science consists of various
                   components or sub building units that help to segregate or segment data using calculus and
                   algorithms, it's a time-saving process.
                 </p>
                 <p>
-                  The data can be either in structured form or unstructured form. The structured form data can be
+                  The data can be either in structured form or unstructured form, the structured form data can be
                   in form of a tabular form or Excel sheets, etc whereas the unstructured form of data can be
-                  Images, audios, videos, pdf files, etc. DML Data Manipulation Language is used to Manipulate and
+                  Images, audios, videos, pdf files, etc DML Data Manipulation Language is used to Manipulate and
                   Extract meaningful data out of junk. Until and unless the Data Scientists don't have a good
                   knowledge about statistics and Probability, they are not capable of segmenting data, it may lead
                   to the high possibility of misinterpreting data and reaching to the incorrect conclusions.
@@ -130,10 +130,88 @@ const DeptCSDS: React.FC = () => {
                   regression and Classification concepts help the Data scientists to predict the valuable insights
                   from all the Unstructured or structured form of Data available. The concept of Big Data helps to
                   extract the main information out of all the possible raw data available. Like we can separate oil
-                  from water, The Data Scientist uses various concepts and skills to extract data like JAVA, R,
+                  from water. The Data Scientist uses various concepts and skills to extract data like JAVA, R,
                   Apache Spark, Hadoop Etc.
                 </p>
-                <p>Thus, there are many more components of data science available and every component works on different algorithms.</p>
+                <p>
+                  Thus, there are many more components of data science available and every component works on
+                  different algorithms.
+                </p>
+
+                <div>
+                  <p className="font-semibold text-brand-navy mb-2">Skills Required for Data Science career:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-slate-600">
+                    <li>Programming Skills</li>
+                    <li>Statistics</li>
+                    <li>Machine Learning</li>
+                    <li>Multivariable Calculus &amp; Linear Algebra</li>
+                    <li>Data Wrangling</li>
+                    <li>Data Visualization &amp; Communication</li>
+                    <li>Software Engineering</li>
+                    <li>Data Intuition</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p className="font-semibold text-brand-navy mb-2">Some of the prominent data science roles are listed below :</p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Data Scientist</p>
+                  <p>
+                    A Data Scientist's primary job role is to extract consumable information from structured and
+                    unstructured data with computer programming tools and processes. Their job also includes creating
+                    methodology and blueprint to present information to stakeholders. They are also supposed to
+                    maintain databases.
+                  </p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Data Analyst</p>
+                  <p>
+                    A Data Analyst has the responsibility of analyzing the data, identifying trends, and creating a
+                    predictive model based on data studied. Another critical responsibility of a Data Analyst is to
+                    translate findings into reports, which can be understood by the management, and help them
+                    accurately visualize the possible outcome. They are also supposed to maintain databases and data
+                    systems.
+                  </p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Data Engineer</p>
+                  <p>
+                    Data Engineers are required to study data, develop data set processes, prepare the predictive
+                    model, and build algorithms through which stakeholders can easily consume raw data. It may include
+                    developing dashboards and reports that can be accessed and used by all stakeholders. Data Engineers
+                    need to have strong communication skills to be able to understand client's requirements and
+                    objectives. Analysts predict that the country will have more than 11 million job openings by 2026.
+                    In fact, since 2019, hiring in the data science industry has increased by 46%. Yet, around 93,000
+                    jobs in Data Science were vacant at the end of August 2020 in India.
+                  </p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Data Mining Engineer</p>
+                  <p>
+                    The job of a Data Mining Engineer is mainly extracting data from an extensive database and
+                    analyzing them. They are also responsible for building and maintaining software and digital
+                    infrastructure to study big chunks of data.
+                  </p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Data Architect</p>
+                  <p>
+                    Data Architect's role is to ensure that data used in creating a blueprint of a project is stable,
+                    secure, and available to all stakeholders at all times. The job role includes collating,
+                    organizing, centralizing, maintaining, and protecting a company or client's data.
+                  </p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Data Statistician</p>
+                  <p>
+                    This job role includes critical responsibilities such as extraction of data using statistical
+                    methodologies and analyzing, organizing, and contextualizing data and its subsets. A Data
+                    Statistician is supposed to conduct tests to determine the reliability and accuracy of data.
+                  </p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Project Manager</p>
+                  <p>
+                    Data mining, extraction, testing, analysis, and application for creating a blueprint is a wide
+                    field of work that requires management to optimize the resources being used on a project. A
+                    Project Manager's role is to oversee and guide the execution of the project. They act as a medium
+                    between the team and clients to communicate requirements and changes in the project.
+                  </p>
+                </div>
               </div>
             </section>
           )}
@@ -169,7 +247,7 @@ const DeptCSDS: React.FC = () => {
 
                     {/* quote */}
                     <blockquote className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-white leading-[1.3] italic mb-10 max-w-4xl">
-                      "To emerge as a center of excellence in Data Science, generating globally competent professionals to address complex computational challenges and contribute to societal growth."
+                      "To be a front-runner in future tech and data-driven innovation through an interdisciplinary excellence in Computer Science and Engineering with a focus on Data science."
                     </blockquote>
 
                     {/* decorative bottom rule */}
@@ -307,15 +385,14 @@ const DeptCSDS: React.FC = () => {
               { n: '01', text: 'An ability to apply knowledge of mathematics, science, and Engineering.' },
               { n: '02', text: 'An ability to design and conduct experiments, as well as to analyze and interpret data.' },
               { n: '03', text: 'An ability to design a system, component, or process to meet desired needs within realistic constraints.' },
-              { n: '04', text: 'An ability to design a system, component, or process to meet desired needs within realistic constraints.' },
-              { n: '05', text: 'An ability to use the techniques, skills, and modern engineering tools necessary for civil engineering practice.' },
-              { n: '06', text: 'Knowledge of contemporary issues.' },
-              { n: '07', text: 'The broad education necessary to understand the impact of engineering solutions in a global, economic, environmental and societal context.' },
-              { n: '08', text: 'An understanding of professional and ethical responsibility.' },
-              { n: '09', text: 'An ability to function in multidisciplinary teams.' },
-              { n: '10', text: 'An ability to communicate effectively.' },
-              { n: '11', text: 'Recognition of the need for, and an ability to engage in life-long learning.' },
-              { n: '12', text: "An understanding of engineering and management principles and apply these to one's own work, as a member and leader in a team, to manage projects." },
+              { n: '04', text: 'An ability to use the techniques, skills, and modern engineering tools necessary for civil engineering practice.' },
+              { n: '05', text: 'Knowledge of contemporary issues.' },
+              { n: '06', text: 'The broad education necessary to understand the impact of engineering solutions in a global, economic, environmental and societal context.' },
+              { n: '07', text: 'An understanding of professional and ethical responsibility.' },
+              { n: '08', text: 'An ability to function in multidisciplinary teams.' },
+              { n: '09', text: 'An ability to communicate effectively.' },
+              { n: '10', text: 'Recognition of the need for, and an ability to engage in life-long learning.' },
+              { n: '11', text: "An understanding of engineering and management principles and apply these to one's own work, as a member and leader in a team, to manage projects." },
             ];
             const psos = [
               { n: 'PSO1', text: 'To apply the knowledge of Data Science to analyze, design and implement application specific problems with modern AI tools.' },
@@ -339,7 +416,7 @@ const DeptCSDS: React.FC = () => {
                 <section className="reveal space-y-6">
                   {/* heading */}
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">12 Outcomes</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">11 Outcomes</p>
                     <h3 className="text-2xl font-display font-bold text-brand-navy leading-tight">Program Outcomes (POs)</h3>
                   </div>
 

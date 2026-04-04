@@ -111,7 +111,19 @@ const DeptIT: React.FC = () => {
           {activeId === 'about' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="space-y-6 text-slate-600 leading-8 text-left">
-                <p className="text-lg font-bold text-brand-navy">Dr. Thaksen Parvat, Professor &amp; Head Of Department, Dean IT Infrastructure</p>
+                <div className="mx-auto max-w-md text-center space-y-4">
+                  <div className="rounded-3xl border-2 border-dashed border-blue-200 bg-blue-50/40 px-6 py-12">
+                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm">
+                      <i className="ph ph-image text-2xl" />
+                    </div>
+                    <p className="text-base font-semibold text-slate-600">HOD Image Placeholder</p>
+                    <p className="text-sm text-slate-400">Add image later in this area</p>
+                  </div>
+                  <div>
+                    <p className="mt-4 text-2xl font-bold text-brand-navy">Dr. Thaksen Parvat</p>
+                    <p className="mt-1 text-sm font-semibold text-brand-gold">Professor &amp; Head Of Department, Dean IT Infrastructure</p>
+                  </div>
+                </div>
                 <p>
                   Established in 2000, the Department of Information Technology is amongst the premier Departments of VCET. Currently, it is running Under Graduate program, B.E in Information Technology with an intake of 60 seats. The Department is accredited by National Board of Accreditation (NBA) accredited from July 2022 to June 2025 and is affiliated to University of Mumbai.
                 </p>
@@ -265,18 +277,18 @@ const DeptIT: React.FC = () => {
           {/* ════ POs, PEOs & PSOs ═════════════════════════════════ */}
           {activeId === 'peo' && (() => {
             const pos = [
-              { n: '01', text: 'An ability to apply knowledge of mathematics, science, and engineering.' },
-              { n: '02', text: 'An ability to design and conduct experiments, as well as to analyze and interpret data.' },
-              { n: '03', text: 'An ability to design a system, component, or process to meet desired needs within realistic constraints.' },
-              { n: '04', text: 'An ability to identify, formulate, and solve engineering problems.' },
-              { n: '05', text: 'An ability to use the techniques, skills, and modern engineering tools necessary for engineering practice.' },
-              { n: '06', text: 'Knowledge of contemporary issues.' },
-              { n: '07', text: 'The broad education necessary to understand the impact of engineering solutions in a global, economic, environmental and societal context.' },
-              { n: '08', text: 'An understanding of professional and ethical responsibility.' },
-              { n: '09', text: 'An ability to function in multidisciplinary teams.' },
-              { n: '10', text: 'An ability to communicate effectively.' },
-              { n: '11', text: 'Recognition of the need for, and an ability to engage in life-long learning.' },
-              { n: '12', text: 'An understanding of engineering and management principles and the ability to apply these to manage projects in multidisciplinary environments.' },
+              { n: '01', text: 'Engineering knowledge: Apply the knowledge of mathematics, science, engineering fundamentals, and an engineering specialization to the solution of complex engineering problems.' },
+              { n: '02', text: 'Problem analysis: Identify, formulate, review research literature, and analyze complex engineering problems reaching substantiated conclusions using first principles of mathematics, natural sciences, and engineering sciences.' },
+              { n: '03', text: 'Design/development of solutions: Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for the public health and safety, and the cultural, societal, and environmental considerations.' },
+              { n: '04', text: 'Conduct investigations of complex problems: Use research-based knowledge and research methods including design of experiments, analysis and interpretation of data, and synthesis of the information to provide valid conclusions.' },
+              { n: '05', text: 'Modern tool usage: Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools including prediction and modeling to complex engineering activities with an understanding of the limitations.' },
+              { n: '06', text: 'The engineer and society: Apply reasoning informed by the contextual knowledge to assess societal, health, safety, legal and cultural issues and the consequent responsibilities relevant to the professional engineering practice.' },
+              { n: '07', text: 'Environment and sustainability: Understand the impact of the professional engineering solutions in societal and environmental contexts, and demonstrate the knowledge of, and need for sustainable development.' },
+              { n: '08', text: 'Ethics: Apply ethical principles and commit to professional ethics and responsibilities and norms of the engineering practice.' },
+              { n: '09', text: 'Individual and team work: Function effectively as an individual, and as a member or leader in diverse teams, and in multidisciplinary settings.' },
+              { n: '10', text: 'Communication: Communicate effectively on complex engineering activities with the engineering community and with society at large, such as, being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions.' },
+              { n: '11', text: 'Project management and finance: Demonstrate knowledge and understanding of the engineering and management principles and apply these to one’s own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.' },
+              { n: '12', text: 'Life-long learning: Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change.' },
             ];
             const psos = [
               { n: 'PSO1', text: 'Apply and implement IT solutions in allied fields of engineering to solve real word problems.' },
@@ -571,7 +583,6 @@ const DeptIT: React.FC = () => {
                   <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Information Technology</span>
                 </div>
                 <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Infrastructure<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                <p className="text-slate-600 leading-7">The department has laboratories which are well equipped with latest configuration machines, high speed internet, Wi-Fi and legal licensed software. Modern aids such as LCD, Educational CDs make classroom teaching more interesting.</p>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {labs.map((lab, idx) => (
@@ -622,19 +633,19 @@ const DeptIT: React.FC = () => {
               },
               {
                 year: '2022-23',
-                se: ['Dodiya Meet - 8.7 CGPI', 'Gharat Shruti - 8.66 CGPI', 'Abhishek Jani - 8.64 CGPI', 'Zaid Khan - 8.64 CGPI', 'Shash Harshi - 8.47 CGPI'],
-                te: ['Singh Shobit - 8.77 CGPI', 'Kolwankar Tejas - 9.27 CGPI', 'Malap Kedar - 8.53 CGPI', 'Jadhav Omkar - 8.52 CGPI', 'Vatsal Shah - 8.40 CGPI'],
-                be: ['Kadam Aaditi - 9.37 CGPI', 'Vedant Sankhe - 8.96 CGPI', 'Mulla Insha - 8.85 CGPI', 'Vartak Viditi - 8.76 CGPI'],
+                se: ['Dodiya Meet - 8.7 CGPI', 'Gharat Shruti - 8.6 CGPI', 'Maurya Akash - 8.48 CGPI', 'Shash Harshi - 8.47 CGPI', 'Gupta Sima - 8.41 CGPI'],
+                te: ['Singh Shobit - 8.77 CGPI', 'Abhishek Jani - 8.64 CGPI, Zaid Khan - 8.64 CGPI', 'Malap Kedar - 8.53 CGPI', 'Jadhav Omkar - 8.52 CGPI', 'Vatsal Shah - 8.40 CGPI'],
+                be: ['Kadam Aaditi - 9.37 CGPI', 'Kolwankar Tejas - 9.27 CGPI', 'Vedant Sankhe - 8.96 CGPI', 'Mulla Insha - 8.85 CGPI', 'Vartak Viditi - 8.76 CGPI'],
               },
               {
                 year: '2021-22',
-                se: ['Shah Vatsal - 9.3 CGPI', 'Madhavani Soham - 9.16 CGPI', 'Jani Abhishek - 9.16 CGPI', 'Dalvi Anish - 9.090 CGPI', 'Borase Dipak - 9.085 CGPI'],
-                te: ['Kolwankar Tejas - 9.40 CGPI', 'Malap Kedar - 9.20 CGPI', 'Hegde Akshay - 8.80 CGPI', 'Jain Yogesh - 8.75 CGPI', 'Bhalala Vaibhav - 8.73 CGPI'],
-                be: ['Kadam Aaditi - 9.40 CGPI', 'Churihar Mohd Asim - 9.04 CGPI', 'Jadhav Granthali - 9.05 CGPI', 'Deorukhkar Jayesh - 8.96 CGPI', 'Pandya Harsh - 8.91 CGPI'],
+                se: ['Shah Vtsal - 9.3 CGPI', 'Malap Kedar - 9.20 CGPI', 'Jani Abhishek - 9.16 CGPI', 'Dalvi Ansh - 9.090 CGPI', 'Borase Dipak - 9.085 CGPI'],
+                te: ['Kolwankar Tejas - 9.40 CGPI, Kadam Aaditi - 9.40 CGPI', 'Churihar Mohd Asim - 9.04 CGPI', 'Hegde Akhay - 8.80 CGPI', 'Jain Yogesh - 8.75 CGPI', 'Bhalala Vaibhav - 8.73 CGPI'],
+                be: ['Madhavani Soham - 9.16 CGPI', 'Jadhav Granthali - 9.05 CGPI', 'Deorukhkar Jayesh - 8.96 CGPI', 'Pandya Harsh - 8.91 CGPI', 'Bari Ruchi - 8.81 CGPI'],
               },
               {
                 year: '2020-21',
-                se: ['Kolvankar Tejas - 9.83 CGPI', 'Sankhe Vedant - 9.70 CGPI', 'Kadam Aditi - 9.68 CGPI', 'Modak Isha - 9.52 CGPI', 'Vartak Viditi - 9.52 CGPI'],
+                se: ['Kolvankar Tejas - 9.83 CGPI', 'Sankhe Vedant - 9.70 CGPI', 'Kadam Aditi - 9.68 CGPI', 'Modak Isha - 9.52 CGPI, Vartak Viditi - 9.52 CGPI', 'Shah Devansh - 9.46 CGPI'],
                 te: ['Jadhav Granthali - 9.67 CGPI', 'Gupta Sweta - 9.66 CGPI', 'Yewale Hardik - 9.64 CGPI', 'Singh Sweety - 9.60 CGPI', 'Shirke Shivani - 9.52 CGPI'],
                 be: ['Bandgar Saloni - 9.58 CGPI', 'Singh Vivek - 9.18 CGPI', 'Suthar Kirtesh - 8.97 CGPI', 'Shenoy Ritika - 8.94 CGPI', 'Sawant Shweta - 8.93 CGPI'],
               },

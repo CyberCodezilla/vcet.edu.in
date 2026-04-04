@@ -501,9 +501,9 @@ const DeptCivil: React.FC = () => {
           {/* ════ TOPPERS ════════════════════════════════════════ */}
           {activeId === 'toppers' && (() => {
             const toppers = {
-              SE: ['Ghule Amey : 9.44 SGPI', 'Solanki Pratham : 9.13 SGPI', 'Jagtap Apurva : 8.77 SGPI'],
-              TE: ['Medge Jeevan : 9.39 CGPI', 'Shetty Deeksha : 8.74 CGPI', 'Ghelani Jeet : 8.52 CGPI'],
-              BE: ['Dhanawade Pooja : 9.84 CGPI', 'Sankhe Manali : 9.53 CGPI', 'Nazreen Khatoon : 9.21 CGPI'],
+              SE: ['1. Ghule Amey : 9.44 SGPI', '2. Solanki Pratham : 9.13 SGPI', '3. Jagtap Apurva : 8.77 SGPI'],
+              TE: ['1. Medge Jeevan : 9.39 CGPI', '2. Shetty Deeksha : 8.74 CGPI', '3. Ghelani Jeet : 8.52 CGPI'],
+              BE: ['1. Dhanawade Pooja : 9.84 CGPI', '2. Sankhe Manali : 9.53 CGPI, Ansari Mohammed Faraz', '3. Nazreen Khatoon : 9.21 CGPI, Salunkhe Roshani'],
             };
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
