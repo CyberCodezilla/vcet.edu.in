@@ -22,7 +22,7 @@ const coreTeam: DevProfile[] = [
     role: 'Lead Developer'
   },
   {
-    name: 'ivory-26',
+    name: 'Sahil Karpe',
     githubUser: 'ivory-26',
     githubUrl: 'https://github.com/ivory-26',
     linkedinUrl: '#',
@@ -30,7 +30,7 @@ const coreTeam: DevProfile[] = [
     role: 'Backend Developer'
   },
   {
-    name: 'CyberCodezilla',
+    name: 'Sahil Rane',
     githubUser: 'CyberCodezilla',
     githubUrl: 'https://github.com/CyberCodezilla',
     linkedinUrl: '#',
@@ -39,7 +39,7 @@ const coreTeam: DevProfile[] = [
    
   },
   {
-    name: 'yashhh-23',
+    name: 'Yash Dedhia',
     githubUser: 'yashhh-23',
     githubUrl: 'https://github.com/yashhh-23',
     linkedinUrl: '#',
@@ -47,7 +47,7 @@ const coreTeam: DevProfile[] = [
     role: 'Frontend Developer'
   },
   {
-    name: 'RedRex101',
+    name: 'Yash Sanil',
     githubUser: 'RedRex101',
     githubUrl: 'https://github.com/RedRex101',
     linkedinUrl: '#',

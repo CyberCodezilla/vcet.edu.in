@@ -215,8 +215,8 @@ Organize workshops, training sessions, hackathons, and internships to strengthen
 
           {activeId === 'tender' && (() => {
             const tenderLinks = [
-              { label: 'Idea Lab Tender Notice 1', url: 'https://vcet.edu.in/wp-content/uploads/2025/09/Tender-Notice.pdf' },
-              { label: 'Idea Lab Tender Notice 2', url: 'https://vcet.edu.in/wp-content/uploads/2025/09/Idea-Lab-Tender.pdf' }
+              { label: 'Idea Lab Tender Notice 1', url: '/pdfs/homepage/Aicte-Idea-VCET/Tender/Tender-Notice.pdf' },
+              { label: 'Idea Lab Tender Notice 2', url: '/pdfs/homepage/Aicte-Idea-VCET/Tender/Idea-Lab-Tender.pdf' }
             ];
 
             return (

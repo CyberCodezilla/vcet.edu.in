@@ -198,7 +198,7 @@ const TexasInstrumentsLab: React.FC = () => {
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <a
-                    href="https://vcet.edu.in/wp-content/uploads/2024/04/Summary.pdf"
+                    href="/pdfs/homepage/TEXASInstruments/Activities/Summary.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors"
@@ -207,7 +207,7 @@ const TexasInstrumentsLab: React.FC = () => {
                     <i className="ph ph-arrow-square-out" />
                   </a>
                   <a
-                    href="https://vcet.edu.in/wp-content/uploads/2024/04/2023-24.pdf"
+                    href="/pdfs/homepage/TEXASInstruments/Activities/2023-24.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors"
@@ -216,7 +216,7 @@ const TexasInstrumentsLab: React.FC = () => {
                     <i className="ph ph-arrow-square-out" />
                   </a>
                   <a
-                    href="https://vcet.edu.in/wp-content/uploads/2024/04/2022-23.pdf"
+                    href="/pdfs/homepage/TEXASInstruments/Activities/2022-23.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors"
@@ -225,7 +225,7 @@ const TexasInstrumentsLab: React.FC = () => {
                     <i className="ph ph-arrow-square-out" />
                   </a>
                   <a
-                    href="https://vcet.edu.in/wp-content/uploads/2024/04/2021-22.pdf"
+                    href="/pdfs/homepage/TEXASInstruments/Activities/2021-22.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors"
@@ -234,7 +234,7 @@ const TexasInstrumentsLab: React.FC = () => {
                     <i className="ph ph-arrow-square-out" />
                   </a>
                   <a
-                    href="https://vcet.edu.in/wp-content/uploads/2024/04/2018-2021.pdf"
+                    href="/pdfs/homepage/TEXASInstruments/Activities/2018-2021.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors sm:col-span-2"

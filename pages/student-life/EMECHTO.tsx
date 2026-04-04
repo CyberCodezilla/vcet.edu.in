@@ -21,11 +21,13 @@ import {
     Youtube,
     Globe,
 } from 'lucide-react';
+import { getStudentCareerSection } from '../../services/studentCareer';
 
 /* ─────────────────────────────────────────────
    TYPES & DATA
 ───────────────────────────────────────────── */
 type TabId = 'about' | 'objective' | 'competition' | 'sponsors' | 'team' | 'contact' | 'gallery';
+type CompetitionItem = { title: string; desc: string; result: string };
 
 const tabs: { id: TabId; label: string; icon: any; desc: string }[] = [
     { id: 'about', label: 'About', icon: Info, desc: 'Our story & mission' },
@@ -69,6 +71,19 @@ const team2019_20 = [
     { sr: 7, name: 'Navneet Prajapati', branch: 'EXTC', post: 'Team member' },
     { sr: 8, name: 'Hiren Goti', branch: 'EXTC', post: 'Team member' },
     { sr: 9, name: 'Swapnesh Karle', branch: 'EXTC', post: 'Team member' },
+];
+
+const fallbackCompetitionItems: CompetitionItem[] = [
+    {
+        title: '2023-24 EMechto 2.0',
+        desc: 'Established in 2019, VCET EMECHTO participated in the LUMINOUS SIEP E-BIKE CHALLENGE 2024 organized by Imperial Society of Innovative Engineers (ISIEINDIA) at IES University Bhopal from January 24th to 28th.',
+        result: '15th Rank Overall | 1st Place: Business Plan & Cost | 3rd Place: Design',
+    },
+    {
+        title: '2019-20 EMechto 1.0',
+        desc: 'The Asian E-Bike Challenge 2019 was held at Raghu Educational Institutions, Visakhapatnam on 25th to 29th September 2019. Team Emechto had secured an All India Rank of 12 in the championship.',
+        result: '12th Rank Overall (AIR)',
+    },
 ];
 
 /* ─────────────────────────────────────────────
@@ -226,7 +241,7 @@ const ObjectivePanel: React.FC = () => {
     );
 };
 
-const CompetitionPanel: React.FC = () => {
+const CompetitionPanel: React.FC<{ items: CompetitionItem[] }> = ({ items }) => {
     const ref = useRef<HTMLDivElement>(null);
     const inView = useInView(ref as React.RefObject<Element>);
     return (
@@ -234,27 +249,23 @@ const CompetitionPanel: React.FC = () => {
             <SectionHeading title="About Competition" />
 
             <div className="space-y-10">
-                <div className="relative pl-8 border-l-2 border-[#ffb100]/30 space-y-4">
-                    <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#ffb100] border-4 border-white shadow-sm" />
-                    <h4 className="text-xl font-bold text-[#1a2b4b]">2023-24 EMechto 2.0</h4>
-                    <p className="text-[#475569] text-[15px] leading-relaxed">
-                        Established in 2019, VCET EMECHTO participated in the LUMINOUS SIEP E-BIKE CHALLENGE 2024 organized by Imperial Society of Innovative Engineers (ISIEINDIA) at IES University Bhopal from January 24th to 28th.
-                    </p>
-                    <div className="flex flex-wrap gap-3 mt-4">
-                        <div className="px-4 py-2 bg-[#eaf3ff] text-[#082b64] text-xs font-bold rounded-full">15th Rank Overall</div>
-                        <div className="px-4 py-2 bg-[#fffaeb] text-[#b45309] text-xs font-bold rounded-full">1st Place : Business Plan & Cost</div>
-                        <div className="px-4 py-2 bg-[#f0f9ff] text-[#0369a1] text-xs font-bold rounded-full">3rd Place : Design</div>
+                {items.map((item, index) => (
+                    <div
+                        key={`${item.title}-${index}`}
+                        className={`relative pl-8 space-y-4 ${index === 0 ? 'border-l-2 border-[#ffb100]/30' : 'border-l-2 border-slate-200/50'}`}
+                    >
+                        <div className={`absolute -left-[9px] top-0 w-4 h-4 rounded-full border-4 border-white shadow-sm ${index === 0 ? 'bg-[#ffb100]' : 'bg-slate-300'}`} />
+                        <h4 className="text-xl font-bold text-[#1a2b4b]">{item.title}</h4>
+                        {item.desc && (
+                            <p className="text-[#475569] text-[15px] leading-relaxed">{item.desc}</p>
+                        )}
+                        {item.result && (
+                            <div className="inline-block px-4 py-2 bg-slate-100 text-[#475569] text-xs font-bold rounded-full">
+                                {item.result}
+                            </div>
+                        )}
                     </div>
-                </div>
-
-                <div className="relative pl-8 border-l-2 border-slate-200/50 space-y-4">
-                    <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-300 border-4 border-white shadow-sm" />
-                    <h4 className="text-xl font-bold text-[#1a2b4b]">2019-20 EMechto 1.0</h4>
-                    <p className="text-[#475569] text-[15px] leading-relaxed">
-                        The Asian E-Bike Challenge 2019 was held at Raghu Educational Institutions, Visakhapatnam on 25th to 29th September 2019. Team Emechto had secured an All India Rank of 12 in the championship.
-                    </p>
-                    <div className="inline-block px-4 py-2 bg-slate-100 text-[#475569] text-xs font-bold rounded-full">12th Rank Overall (AIR)</div>
-                </div>
+                ))}
             </div>
         </div>
     );
@@ -453,6 +464,33 @@ const ContactPanel: React.FC = () => {
 ───────────────────────────────────────────── */
 const EmechtoPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<TabId>('about');
+    const [apiData, setApiData] = useState<Record<string, any> | null>(null);
+
+    useEffect(() => {
+        let mounted = true;
+        getStudentCareerSection<Record<string, any>>('emechto')
+            .then((res) => {
+                if (mounted) setApiData(res);
+            })
+            .catch(() => {
+                if (mounted) setApiData(null);
+            });
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
+
+    const apiCompetitionItems = Array.isArray(apiData?.results)
+        ? apiData.results
+            .map((item: Record<string, unknown>) => ({
+                title: String(item.title ?? ''),
+                desc: String(item.desc ?? ''),
+                result: String(item.result ?? ''),
+            }))
+            .filter((item: CompetitionItem) => item.title || item.desc || item.result)
+        : [];
+    const resolvedCompetitionItems = apiCompetitionItems.length > 0 ? apiCompetitionItems : fallbackCompetitionItems;
 
     const handleTabChange = (id: TabId) => {
         setActiveTab(id);
@@ -553,7 +591,7 @@ const EmechtoPage: React.FC = () => {
                         <div id="emechto-content" className="bg-white rounded-4xl border border-slate-100 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] overflow-hidden min-h-[600px]">
                             {activeTab === 'about' && <AboutPanel />}
                             {activeTab === 'objective' && <ObjectivePanel />}
-                            {activeTab === 'competition' && <CompetitionPanel />}
+                            {activeTab === 'competition' && <CompetitionPanel items={resolvedCompetitionItems} />}
                             {activeTab === 'sponsors' && <SponsorsPanel />}
                             {activeTab === 'team' && <TeamPanel />}
                             {activeTab === 'gallery' && <GalleryPanel />}

@@ -98,7 +98,7 @@ const PlacementsList: React.FC = () => {
             <span className="text-slate-900">Placements</span>
           </div>
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">
-            Campus <span className="text-[#1e293b]">Placements</span>
+            Our Hiring <span className="text-[#1e293b]">Partners</span>
           </h1>
         </div>
         <Link 

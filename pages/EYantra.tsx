@@ -155,7 +155,7 @@ const EYantra: React.FC = () => {
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <a
-                    href="https://vcet.edu.in/wp-content/uploads/2024/04/eYantra-Activities-23-24.pdf"
+                    href="/pdfs/homepage/e-yantra/events/eYantra-Activities-23-24.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors"
@@ -164,7 +164,7 @@ const EYantra: React.FC = () => {
                     <i className="ph ph-arrow-square-out" />
                   </a>
                   <a
-                    href="https://vcet.edu.in/wp-content/uploads/2024/04/eYantra-Activities-22-23.pdf"
+                    href="/pdfs/homepage/e-yantra/events/eYantra-Activities-22-23.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors"
@@ -173,7 +173,7 @@ const EYantra: React.FC = () => {
                     <i className="ph ph-arrow-square-out" />
                   </a>
                   <a
-                    href="https://vcet.edu.in/wp-content/uploads/2024/04/eYantra-Activities21-22.pdf"
+                    href="/pdfs/homepage/e-yantra/events/eYantra-Activities21-22.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors"
@@ -182,7 +182,7 @@ const EYantra: React.FC = () => {
                     <i className="ph ph-arrow-square-out" />
                   </a>
                   <a
-                    href="https://vcet.edu.in/wp-content/uploads/2024/04/eYantra-Activities-20-21.pdf"
+                    href="/pdfs/homepage/e-yantra/events/eYantra-Activities-20-21.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors"
@@ -191,7 +191,7 @@ const EYantra: React.FC = () => {
                     <i className="ph ph-arrow-square-out" />
                   </a>
                   <a
-                    href="https://vcet.edu.in/wp-content/uploads/2024/04/eYantra-Activities19-20.pdf"
+                    href="/pdfs/homepage/e-yantra/events/eYantra-Activities19-20.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-brand-navy hover:bg-brand-navylight transition-colors sm:col-span-2"

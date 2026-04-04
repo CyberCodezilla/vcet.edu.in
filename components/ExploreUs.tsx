@@ -1,13 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { GraduationCap, Monitor, PlayCircle } from 'lucide-react';
+import { get } from '../services/api';
 
-const quickAccessItems = [
+const defaultItems = [
   { id: 'video', title: 'Video', icon: PlayCircle, href: 'https://www.youtube.com/watch?v=8He2x-kDRkQ' },
   { id: 'erp', title: 'ERP Portal', icon: Monitor, href: 'https://erp.vcet.edu.in/login.htm' },
-  { id: 'convocation', title: 'Convocation', icon: GraduationCap },
+  { id: 'convocation', title: 'Convocation', icon: GraduationCap, href: null },
 ];
 
+const iconMap: Record<string, any> = {
+  PlayCircle,
+  Monitor,
+  GraduationCap
+};
+
 const ExploreUs: React.FC = () => {
+  const [quickAccessItems, setQuickAccessItems] = useState(defaultItems);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await get<any[]>('/explore-us');
+        if (response && response.length > 0) {
+          const fetchedItems = response.map((item: any) => ({
+            id: item.identifier,
+            title: item.title,
+            icon: iconMap[item.icon] || PlayCircle,
+            href: item.url
+          }));
+          setQuickAccessItems(fetchedItems);
+        }
+      } catch (error) {
+        console.error('Failed to load explore us items, using defaults', error);
+      }
+    };
+    fetchItems();
+  }, []);
+
   return (
     <section
       id="explore"

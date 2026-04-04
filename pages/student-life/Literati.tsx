@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import {
@@ -10,6 +10,8 @@ import {
   ProfileHighlight,
   ResourceGrid,
 } from './studentLifeShared';
+import { getStudentCareerSection } from '../../services/studentCareer';
+import { resolveApiUrl } from '../../services/api';
 
 const events = [
   {
@@ -120,6 +122,81 @@ const magazineLinks = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const Literati: React.FC = () => {
+  const [apiData, setApiData] = useState<Record<string, any> | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getStudentCareerSection<Record<string, any>>('literati')
+      .then((res) => {
+        if (mounted) setApiData(res);
+      })
+      .catch(() => {
+        if (mounted) setApiData(null);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const apiEvents = Array.isArray(apiData?.events)
+    ? apiData.events
+      .map((event: Record<string, unknown>) => ({
+        title: String(event.title ?? ''),
+        description: String(event.desc ?? ''),
+      }))
+      .filter((event: { title: string; description: string }) => event.title || event.description)
+    : [];
+  const resolvedEvents = apiEvents.length > 0 ? apiEvents : events;
+
+  const apiGallery = Array.isArray(apiData?.gallery)
+    ? apiData.gallery
+      .map((item: Record<string, unknown>, index: number) => {
+        const raw = String(item.img ?? item.imageUrl ?? item.image ?? '');
+        const src = resolveApiUrl(raw) || raw;
+        if (!src) return null;
+        return {
+          src,
+          alt: `Literati gallery image ${index + 1}`,
+        };
+      })
+      .filter((item): item is { src: string; alt: string } => !!item)
+    : [];
+  const resolvedGallery = apiGallery.length > 0 ? apiGallery : gallery;
+
+  const apiTeamRows = Array.isArray(apiData?.team)
+    ? apiData.team
+      .map((member: Record<string, unknown>) => [String(member.pos ?? ''), String(member.name ?? '')])
+      .filter((row: string[]) => row[0] || row[1])
+    : [];
+  const resolvedTeamRows = apiTeamRows.length > 0 ? apiTeamRows : teamRows;
+  const teamYear = typeof apiData?.teamYear === 'string' && apiData.teamYear.trim() ? apiData.teamYear : '2025-26';
+
+  const cImgRaw = String(apiData?.cImg ?? '');
+  const cImg = resolveApiUrl(cImgRaw) || cImgRaw || '/images/student-life/literati/staff-incharge.jpg';
+  const cName = String(apiData?.cName ?? 'Dr. Swati Varma');
+  const cDept = String(apiData?.cDept ?? 'Computer Engineering');
+  const cMail = String(apiData?.cMail ?? 'swati.saigaonkar@vcet.edu.in');
+
+  const apiMagazines = Array.isArray(apiData?.magazines)
+    ? apiData.magazines
+      .map((item: Record<string, unknown>, index: number) => {
+        const title = String(item.title ?? '').trim() || `VISTA ${index + 1}`;
+        const rawPdf = String(item.pdf ?? item.link ?? '');
+        const href = resolveApiUrl(rawPdf) || rawPdf;
+        if (!href) return null;
+        return {
+          title,
+          href,
+          description: 'Official magazine link published on the Literati page.',
+          icon: 'file' as const,
+        };
+      })
+      .filter((item): item is { title: string; href: string; description: string; icon: 'file' } => !!item)
+    : [];
+  const resolvedMagazines = apiMagazines.length > 0 ? apiMagazines : magazineLinks;
+  const instagramUrl = String(apiData?.hInsta || 'https://www.instagram.com/literativcet?igsh=Ym9sZzU1NjI3eGZ4');
+
   return (
     <PageLayout>
       <PageBanner
@@ -145,7 +222,7 @@ const Literati: React.FC = () => {
         links={[
           {
             label: 'Literati Instagram',
-            href: 'https://www.instagram.com/literativcet?igsh=Ym9sZzU1NjI3eGZ4',
+            href: instagramUrl,
             icon: 'instagram',
           },
         ]}
@@ -175,7 +252,7 @@ const Literati: React.FC = () => {
         subtitle="Official Literati events and activities from the VCET website."
         backgroundClassName="bg-white"
       >
-        <EventGrid items={events} />
+        <EventGrid items={resolvedEvents} />
       </ContentSection>
 
       <ContentSection
@@ -184,7 +261,7 @@ const Literati: React.FC = () => {
         subtitle="Official VCET Literati gallery images."
         backgroundClassName="bg-brand-light"
       >
-        <GalleryGrid items={gallery} />
+        <GalleryGrid items={resolvedGallery} />
       </ContentSection>
 
       <ContentSection
@@ -196,20 +273,20 @@ const Literati: React.FC = () => {
         <div className="space-y-8">
           <ProfileHighlight
             title="Staff Incharge :"
-            image="/images/student-life/literati/staff-incharge.jpg"
+            image={cImg}
             imageAlt="Dr. Swati Varma"
             hideImage
             imagePlaceholderLabel="Staff Incharge Image"
-            heading="Dr. Swati Varma"
-            lines={['Computer Engineering', 'swati.saigaonkar@vcet.edu.in']}
+            heading={cName}
+            lines={[cDept, cMail]}
           />
           <div>
             <div className="mb-6 reveal">
               <h3 className="text-2xl font-display font-bold text-brand-navy">
-                Student Committee 2025-26 :
+                Student Committee {teamYear} :
               </h3>
             </div>
-            <DataTable columns={['Position', 'Name']} rows={teamRows} />
+            <DataTable columns={['Position', 'Name']} rows={resolvedTeamRows} />
           </div>
         </div>
       </ContentSection>
@@ -220,7 +297,7 @@ const Literati: React.FC = () => {
         subtitle="Vista Magazine :"
         backgroundClassName="bg-brand-light"
       >
-        <ResourceGrid items={magazineLinks} />
+        <ResourceGrid items={resolvedMagazines} />
       </ContentSection>
     </PageLayout>
   );

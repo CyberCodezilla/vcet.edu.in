@@ -21,8 +21,6 @@ import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
 import SplashScreen from './components/SplashScreen';
 
-const CAREER_AT_VCET_PDF_URL =
-  'https://drive.google.com/file/d/1grwZ4_QIjC23c4HHFCM4xPJuFywsWtgw/view?usp=sharing';
 
 /* ── Lazy-loaded Pages ── */
 
@@ -248,6 +246,7 @@ const AchievementsList = lazy(() => import('./admin/pages/achievements/Achieveme
 const AchievementsForm = lazy(() => import('./admin/pages/achievements/AchievementsForm'));
 const TestimonialsList = lazy(() => import('./admin/pages/testimonials/TestimonialsList'));
 const TestimonialsForm = lazy(() => import('./admin/pages/testimonials/TestimonialsForm'));
+const ExploreUsList = lazy(() => import('./admin/pages/explore-us/ExploreUsList'));
 const GalleryPage = lazy(() => import('./admin/pages/gallery/GalleryPage'));
 const PlacementPartnersList = lazy(() => import('./admin/pages/placement-partners/PlacementPartnersList'));
 const PlacementPartnersForm = lazy(() => import('./admin/pages/placement-partners/PlacementPartnersForm'));
@@ -354,6 +353,7 @@ function App() {
             <Route path="/administration" element={<Administration />} />
             <Route path="/strategic-plan" element={<StrategicPlan />} />
               <Route path="/code-of-conduct" element={<CodeOfConduct />} />
+            <Route path="/courses-and-intake" element={<CoursesIntake />} />
             <Route path="/fees-structure" element={<FeesStructure />} />
             <Route path="/scholarships" element={<Scholarships />} />
             <Route path="/brochure" element={<Brochure />} />
@@ -410,7 +410,6 @@ function App() {
             <Route path="/differently-abled" element={<DifferentlyAbled />} />
 
             {/* Student Life */}
-            <Route path="/career-at-vcet" element={<ExternalRedirect to={CAREER_AT_VCET_PDF_URL} />} />
             <Route path="/students-council" element={<Navigate to="/" replace />} />
             <Route path="/cultural-committee" element={<CulturalCommittee />} />
             <Route path="/sports-committee" element={<SportsCommittee />} />
@@ -586,8 +585,7 @@ element={<MMSStudentsLifeCustomEvent />} />
             <Route path="achievements/:id/edit" element={<AchievementsForm />} />
             <Route path="testimonials" element={<TestimonialsList />} />
             <Route path="testimonials/new" element={<TestimonialsForm />} />
-            <Route path="testimonials/:id/edit" element={<TestimonialsForm />} />
-            <Route path="gallery" element={<GalleryPage />} />
+            <Route path="testimonials/:id/edit" element={<TestimonialsForm />} />              <Route path="explore-us" element={<ExploreUsList />} />            <Route path="gallery" element={<GalleryPage />} />
             <Route path="placement-partners" element={<PlacementPartnersList />} />
             <Route path="placement-partners/new" element={<PlacementPartnersForm />} />
             <Route path="placement-partners/:id/edit" element={<PlacementPartnersForm />} />

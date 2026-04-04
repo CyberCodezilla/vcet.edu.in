@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React from 'react';
+=======
+﻿import React, { useEffect, useState } from 'react';
+>>>>>>> a10712dd9bfe52065269a0c041e8a0d058872467
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import {
@@ -9,6 +13,8 @@ import {
   IntroSection,
   ProfileHighlight,
 } from './studentLifeShared';
+import { getStudentCareerSection } from '../../services/studentCareer';
+import { resolveApiUrl } from '../../services/api';
 
 const ebsbEvents = [
   {
@@ -56,6 +62,76 @@ const studentRows = [
 ];
 
 const EBSB: React.FC = () => {
+  const [apiData, setApiData] = useState<Record<string, any> | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getStudentCareerSection<Record<string, any>>('ebsb')
+      .then((res) => {
+        if (mounted) setApiData(res);
+      })
+      .catch(() => {
+        if (mounted) setApiData(null);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const apiEvents = Array.isArray(apiData?.events)
+    ? apiData.events
+      .map((event: Record<string, unknown>) => ({
+        title: String(event.title ?? ''),
+        description: String(event.desc ?? ''),
+      }))
+      .filter((event: { title: string; description: string }) => event.title || event.description)
+    : [];
+  const resolvedEvents = apiEvents.length > 0 ? apiEvents : ebsbEvents;
+
+  const apiGallery = Array.isArray(apiData?.gallery)
+    ? apiData.gallery
+      .map((item: Record<string, unknown>, index: number) => {
+        const raw = String(item.img ?? item.imageUrl ?? item.image ?? '');
+        const src = resolveApiUrl(raw) || raw;
+        if (!src) return null;
+        return {
+          src,
+          alt: `EBSB gallery image ${index + 1}`,
+        };
+      })
+      .filter((item): item is { src: string; alt: string } => !!item)
+    : [];
+  const resolvedGallery = apiGallery.length > 0 ? apiGallery : gallery;
+
+  const apiStaffRows = Array.isArray(apiData?.staff)
+    ? apiData.staff
+      .map((member: Record<string, unknown>) => [
+        String(member.role ?? member.pos ?? ''),
+        String(member.name ?? ''),
+        String(member.dept ?? ''),
+      ])
+      .filter((row: string[]) => row[0] || row[1] || row[2])
+    : [];
+  const resolvedStaffRows = apiStaffRows.length > 0 ? apiStaffRows : staffRows;
+
+  const apiStudRows = Array.isArray(apiData?.studs)
+    ? apiData.studs
+      .map((member: Record<string, unknown>) => [
+        String(member.role ?? member.pos ?? ''),
+        String(member.name ?? ''),
+        String(member.dept ?? ''),
+      ])
+      .filter((row: string[]) => row[0] || row[1] || row[2])
+    : [];
+  const resolvedStudentRows = apiStudRows.length > 0 ? apiStudRows : studentRows;
+
+  const cImgRaw = String(apiData?.cImg ?? '');
+  const cImg = resolveApiUrl(cImgRaw) || cImgRaw || '/images/student-life/ebsb/staff-incharge.jpg';
+  const cName = String(apiData?.cName ?? 'Dr. Archana Ekbote');
+  const cDept = String(apiData?.cDept ?? 'Department of Information Technology');
+  const cMail = String(apiData?.cMail ?? 'archana.ekbote@vcet.edu.in');
+
   return (
     <PageLayout>
       <PageBanner
@@ -119,7 +195,7 @@ const EBSB: React.FC = () => {
         subtitle="From the EBSB page screenshots"
         backgroundClassName="bg-white"
       >
-        <EventGrid items={ebsbEvents} />
+        <EventGrid items={resolvedEvents} />
       </ContentSection>
 
       <ContentSection
@@ -128,7 +204,7 @@ const EBSB: React.FC = () => {
         subtitle="Image placeholders as per Literati style"
         backgroundClassName="bg-brand-light"
       >
-        <GalleryGrid items={gallery} />
+        <GalleryGrid items={resolvedGallery} />
       </ContentSection>
 
       <ContentSection
@@ -140,26 +216,26 @@ const EBSB: React.FC = () => {
         <div className="space-y-8">
           <ProfileHighlight
             title="In-Charge and Co-ordinator"
-            image="/images/student-life/ebsb/staff-incharge.jpg"
+            image={cImg}
             imageAlt="Dr. Archana Ekbote"
             hideImage
             imagePlaceholderLabel="Dr. Archana Ekbote"
-            heading="Dr. Archana Ekbote"
-            lines={['Department of Information Technology', 'archana.ekbote@vcet.edu.in']}
+            heading={cName}
+            lines={[cDept, cMail]}
           />
 
           <div>
             <div className="mb-6 reveal">
               <h3 className="text-2xl font-display font-bold text-brand-navy">Staff Committee</h3>
             </div>
-            <DataTable columns={['Role', 'Name', 'Department']} rows={staffRows} />
+            <DataTable columns={['Role', 'Name', 'Department']} rows={resolvedStaffRows} />
           </div>
 
           <div>
             <div className="mb-6 reveal">
               <h3 className="text-2xl font-display font-bold text-brand-navy">Student Committee</h3>
             </div>
-            <DataTable columns={['Role', 'Name', 'Department']} rows={studentRows} />
+            <DataTable columns={['Role', 'Name', 'Department']} rows={resolvedStudentRows} />
           </div>
         </div>
       </ContentSection>

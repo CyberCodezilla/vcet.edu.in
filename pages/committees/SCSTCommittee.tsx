@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Check } from 'lucide-react';
+import { getCommitteeSection } from '../../services/committees';
 
-const objectives = [
+const fallbackObjectives = [
   'Ensuring that the policies and programs devised by the Government of India, the University Grants Commission (UGC), and state governments regarding backward castes and classes are effectively implemented within the institution.',
   'Acting as advocates for SC/ST students, helping them access government schemes and programs designed to support their educational and career aspirations.',
   'Providing counseling and guidance services tailored to the specific needs of SC/ST students, assisting them in navigating academic challenges and personal issues they may face during their college life.',
@@ -12,7 +13,7 @@ const objectives = [
   'Establishing a formal grievance redressal mechanism specifically tailored to address the concerns and issues faced by SC/ST students.',
 ];
 
-const members = [
+const fallbackMembers = [
   { name: 'Mrs. C.V. Sonarkar', designation: 'Chairman', caste: 'SC' },
   { name: 'Dr. Swapnil Mane', designation: 'Member', caste: 'SC' },
   { name: 'Mr. Sandeep Pawar', designation: 'Member', caste: 'SC' },
@@ -21,6 +22,40 @@ const members = [
 ];
 
 const SCSTCommittee: React.FC = () => {
+  const [apiData, setApiData] = useState<Record<string, any> | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getCommitteeSection<Record<string, any>>('sc-st')
+      .then((res) => {
+        if (mounted) setApiData(res);
+      })
+      .catch(() => {
+        if (mounted) setApiData(null);
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const objectives = useMemo(() => {
+    const source = Array.isArray(apiData?.objectives) ? apiData.objectives : [];
+    const mapped = source.map((item: unknown) => String(item ?? '').trim()).filter(Boolean);
+    return mapped.length > 0 ? mapped : fallbackObjectives;
+  }, [apiData]);
+
+  const members = useMemo(() => {
+    const source = Array.isArray(apiData?.members) ? apiData.members : [];
+    const mapped = source
+      .map((row: Record<string, unknown>, index: number) => ({
+        name: String(row.name ?? '').trim(),
+        designation: String(row.designation ?? row.post ?? '').trim(),
+        caste: String(row.caste ?? fallbackMembers[index]?.caste ?? '').trim(),
+      }))
+      .filter((row: { name: string; designation: string; caste: string }) => row.name || row.designation || row.caste);
+    return mapped.length > 0 ? mapped : fallbackMembers;
+  }, [apiData]);
+
   return (
     <PageLayout>
       <PageBanner

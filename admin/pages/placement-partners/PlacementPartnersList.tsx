@@ -88,7 +88,7 @@ const PlacementPartnersList: React.FC = () => {
             <span className="text-slate-900">Partners</span>
           </div>
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">
-            Placement <span className="text-[#1e293b]">Partners</span>
+            Our <span className="text-[#1e293b]">Hiring Partners</span>
           </h1>
         </div>
         <Link 

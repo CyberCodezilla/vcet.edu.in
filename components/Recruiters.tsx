@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { placementsService } from "../services/placements";
 
 // -- Data (all logos from /public/Images/recriters/) ---------------------------
 type Recruiter = { name: string; logo: string; url: string };
@@ -289,6 +290,23 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
 // -- Main ----------------------------------------------------------------------
 const Recruiters: React.FC = () => {
   const [confirmTarget, setConfirmTarget] = useState<Recruiter | null>(null);
+  const [rowOneData, setRowOneData] = useState<Recruiter[]>(rowOne);
+  const [rowTwoData, setRowTwoData] = useState<Recruiter[]>(rowTwo);
+
+  useEffect(() => {
+    placementsService.list().then((partners) => {
+      if (partners && partners.length > 0) {
+        const recruitersData: Recruiter[] = partners.map((p: any) => ({
+          name: p.company || p.name,
+          logo: p.logo,
+          url: p.website || '#',
+        }));
+        const half = Math.ceil(recruitersData.length / 2);
+        setRowOneData(recruitersData.slice(0, half));
+        setRowTwoData(recruitersData.slice(half));
+      }
+    });
+  }, []);
 
   const handleRecruiterClick = (item: Recruiter) => {
     setConfirmTarget(item);
@@ -400,7 +418,7 @@ const Recruiters: React.FC = () => {
         <div className="flex items-center justify-center gap-3 mb-4">
           <div className="w-8 h-px" style={{ background: "#F4B400" }} />
           <span className="text-[11px] font-bold uppercase tracking-[0.25em]" style={{ color: "#0B3D91" }}>
-            Placement Partners
+            Our Hiring Partners
           </span>
           <div className="w-8 h-px" style={{ background: "#F4B400" }} />
         </div>
@@ -510,8 +528,8 @@ const Recruiters: React.FC = () => {
 
           {/* Marquee area */}
           <div className="bg-white px-0 py-8 sm:py-10 space-y-6 overflow-hidden">
-            <MarqueeRow items={rowOne} direction="left" speed={45} onItemClick={handleRecruiterClick} />
-            <MarqueeRow items={rowTwo} direction="right" speed={40} onItemClick={handleRecruiterClick} />
+            <MarqueeRow items={rowOneData} direction="left" speed={45} onItemClick={handleRecruiterClick} />
+            <MarqueeRow items={rowTwoData} direction="right" speed={40} onItemClick={handleRecruiterClick} />
           </div>
         </div>
 

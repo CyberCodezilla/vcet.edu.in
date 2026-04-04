@@ -148,6 +148,7 @@ const navSections: NavSection[] = [
       { label: 'News Ticker', path: '/admin/news-ticker', icon: <HashIcon /> },
       { label: 'Achievements', path: '/admin/achievements', icon: <StarIcon /> },
       { label: 'Testimonials', path: '/admin/testimonials', icon: <QuoteIcon /> },
+      { label: 'Explore Us Links', path: '/admin/explore-us', icon: <MonitorIcon /> },
     ],
   },
   {
@@ -159,8 +160,8 @@ const navSections: NavSection[] = [
   {
     label: 'Corporate Relations',
     items: [
-      { label: 'Placements', path: '/admin/placements', icon: <BriefcaseIcon /> },
-      { label: 'Partners', path: '/admin/placement-partners', icon: <UsersIcon /> },
+      { label: 'Our Hiring Partners', path: '/admin/placements', icon: <BriefcaseIcon /> },
+      { label: 'Placement Partners', path: '/admin/placement-partners', icon: <UsersIcon /> },
     ],
   },
 ];

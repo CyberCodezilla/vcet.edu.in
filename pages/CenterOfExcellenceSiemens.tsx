@@ -280,7 +280,7 @@ Students can have hands on practice on these kits and learn about it.</p>
               <div className="text-slate-600 leading-8 space-y-3">
                 <p>Click on the academic year below to view the detailed list of activities conducted under Siemens CoE.</p>
                 <a
-                  href="https://vcet.edu.in/wp-content/uploads/2024/04/List-of-Activities.pdf"
+                  href="/pdfs/homepage/centerofexcellence/activities/List-of-Activities.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-4 py-2 rounded-full border border-brand-gold text-brand-navy font-semibold hover:bg-brand-gold hover:text-brand-navy transition-colors duration-200 shadow-sm"

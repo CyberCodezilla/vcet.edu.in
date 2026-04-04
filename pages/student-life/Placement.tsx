@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { FileText, ExternalLink, Check } from 'lucide-react';
+import { getPlacementPage, PlacementPageData } from '../../services/placementPage';
 
 const sidebarLinks = [
   { id: 'objectives',  label: 'Objectives', icon: 'ph-target' },
@@ -9,16 +10,6 @@ const sidebarLinks = [
   { id: 'gallery',    label: 'Gallery', icon: 'ph-image' },
   { id: 'placement-statistics',label: 'Placement Statistics', icon: 'ph-chart-bar' },
   { id: 'our-recruiters',   label: 'Our Recruiters', icon: 'ph-buildings' },
-];
-
-const placementReports = [
-  { label: 'Placement 2024-25', href: 'https://vcet.edu.in/wp-content/uploads/2025/06/Placement-Summary-24-25-for-Website.pdf' },
-  { label: 'Placement 2023-24', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/Website-Data_merged-1.pdf' },
-  { label: 'Placement 2022-23', href: 'https://vcet.edu.in/wp-content/uploads/2024/04/Placement-2022-23.pdf' },
-  { label: 'Placement 2021-22', href: 'https://vcet.edu.in/wp-content/uploads/2024/04/2021-22_Website.pdf' },
-  { label: 'Placement 2020-21', href: 'https://vcet.edu.in/wp-content/uploads/2024/04/2020-21_Website.pdf' },
-  { label: 'Placement 2019-20', href: 'https://vcet.edu.in/wp-content/uploads/2024/04/2019-20_Website.pdf' },
-  { label: 'Placement 2018-19', href: 'https://vcet.edu.in/wp-content/uploads/2024/04/2018-19_Website.pdf' },
 ];
 
 const StyledPointList: React.FC<{ items: string[] }> = ({ items }) => (
@@ -50,6 +41,36 @@ const StyledPointList: React.FC<{ items: string[] }> = ({ items }) => (
 const Placement: React.FC = () => {
   const [activeId, setActiveId] = React.useState('objectives');
   const activeLink = sidebarLinks.find(l => l.id === activeId);
+  const [apiData, setApiData] = useState<PlacementPageData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+    setLoading(true);
+    getPlacementPage()
+      .then((data) => {
+        if (mounted) {
+          setApiData(data);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (mounted) {
+          setApiData(null);
+          setLoading(false);
+        }
+      });
+    return () => { mounted = false; };
+  }, []);
+
+  const placementReports = useMemo(() => {
+    return apiData?.reports || [];
+  }, [apiData]);
+  const objectives = useMemo(() => (apiData?.objectives || []), [apiData]);
+  const placementCellMembers = useMemo(() => (apiData?.placementCell?.members || []), [apiData]);
+  const placementGallery = useMemo(() => (apiData?.gallery || []), [apiData]);
+  const statisticsSeries = useMemo(() => (apiData?.statistics || []), [apiData]);
+  const recruitersBanner = apiData?.recruiters?.bannerImage;
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -117,17 +138,11 @@ const Placement: React.FC = () => {
             <section className="reveal bg-white p-8 lg:p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB]">
               <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
                 <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Objectives</h3>
-                <StyledPointList
-                  items={[
-                    'To provide necessary support for implementing the mandate of providing excellent career opportunities for the students.',
-                    'To plan and execute tasks like student skills development, soft skills training and career guidance.',
-                    'To plan and implement campus interview process.',
-                    'To equip students with necessary technical and behavioral competencies by rigorous and meticulously designed skills and aptitude practical trainings.',
-                    'To provide all necessary facilities essential for the conduct of campus recruitment.',
-                    'To formulate the strategy for roll-out of campus recruitment and placement policy for the campus eligible students.',
-                    'To develop and sustain a long term mutually beneficial relationship with the industry.',
-                  ]}
-                />
+                {loading ? (
+                  <div className="text-slate-500">Loading...</div>
+                ) : (
+                  <StyledPointList items={objectives} />
+                )}
               </div>
             </section>
           )}
@@ -139,56 +154,43 @@ const Placement: React.FC = () => {
                 <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Placement Cell</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                  {/* Manager Card */}
-                  <div className="flex flex-col">
-                    <img src="/images/Trainging & Placement/Placement/training-placementcell-prafulla.jpg" alt="Prafulla Patil" className="w-full aspect-[4/3] object-cover rounded-xl border border-slate-200 mb-4" />
-                    <h4 className="text-[#64b5f6] text-2xl font-bold mb-1">Mr. Prafulla Patil</h4>
-                    <p className="text-slate-600 mb-4">Placement Manager</p>
-                    
-                    <div className="space-y-2 text-slate-600">
-                      <div className="flex items-center gap-3 justify-center md:justify-start">
-                        <i className="ph-fill ph-envelope text-[#1a4b7c]"></i>
-                        <a href="mailto:placements@vcet.edu.in" className="hover:text-[#1a4b7c] transition-colors hover:underline">placements@vcet.edu.in</a>
-                      </div>
-                      <div className="flex items-center gap-3 justify-center md:justify-start">
-                        <i className="ph-fill ph-device-mobile text-[#1a4b7c]"></i>
-                        <a href="tel:+917710070966" className="hover:text-[#1a4b7c] transition-colors hover:underline">7710070966</a>
-                      </div>
-                      <div className="flex items-center gap-3 justify-center md:justify-start">
-                        <i className="ph-fill ph-phone text-[#1a4b7c]"></i>
-                        <span>0250-2338234 (Extn:228)</span>
-                      </div>
-                    </div>
-                  </div>
+                  {placementCellMembers.map((member, index) => (
+                    <div key={`${member.name}-${index}`} className="flex flex-col">
+                      {member.image && (
+                        <img src={member.image} alt={member.name} className="w-full aspect-[4/3] object-cover rounded-xl border border-slate-200 mb-4" />
+                      )}
+                      <h4 className="text-[#64b5f6] text-2xl font-bold mb-1">{member.name}</h4>
+                      <p className="text-slate-600 mb-4">{member.role}</p>
 
-                  {/* TPO Card */}
-                  <div className="flex flex-col">
-                    <img src="/images/Trainging & Placement/Placement/training-placementcell-sanketpatil.jpg" alt="Sanket Patil" className="w-full aspect-[4/3] object-cover rounded-xl border border-slate-200 mb-4" />
-                    <h4 className="text-[#64b5f6] text-2xl font-bold mb-1">Mr. Sanket Patil</h4>
-                    <p className="text-slate-600 mb-4">Training And Placement Officer</p>
-                    
-                    <div className="space-y-2 text-slate-600">
-                      <div className="flex items-center gap-3 justify-center md:justify-start">
-                        <i className="ph-fill ph-envelope text-[#1a4b7c]"></i>
-                        <a href="mailto:placements@vcet.edu.in" className="hover:text-[#1a4b7c] transition-colors hover:underline">placements@vcet.edu.in</a>
-                      </div>
-                      <div className="flex items-center gap-3 justify-center md:justify-start">
-                        <i className="ph-fill ph-device-mobile text-[#1a4b7c]"></i>
-                        <span>7710070970 / 9987173606</span>
-                      </div>
-                      <div className="flex items-center gap-3 justify-center md:justify-start">
-                        <i className="ph-fill ph-phone text-[#1a4b7c]"></i>
-                        <span>0250-2338234 (Extn:228)</span>
+                      <div className="space-y-2 text-slate-600">
+                        {member.email && (
+                          <div className="flex items-center gap-3 justify-center md:justify-start">
+                            <i className="ph-fill ph-envelope text-[#1a4b7c]"></i>
+                            <a href={`mailto:${member.email}`} className="hover:text-[#1a4b7c] transition-colors hover:underline">{member.email}</a>
+                          </div>
+                        )}
+                        {member.mobile && (
+                          <div className="flex items-center gap-3 justify-center md:justify-start">
+                            <i className="ph-fill ph-device-mobile text-[#1a4b7c]"></i>
+                            <span>{member.mobile}</span>
+                          </div>
+                        )}
+                        {member.phone && (
+                          <div className="flex items-center gap-3 justify-center md:justify-start">
+                            <i className="ph-fill ph-phone text-[#1a4b7c]"></i>
+                            <span>{member.phone}</span>
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
 
                 <div className="mt-12">
                   <h4 className="text-[#64b5f6] text-2xl font-bold mb-4">Training &amp; Placement</h4>
                   <div className="flex items-center justify-center md:justify-start">
                     <a 
-                      href="https://vcet.edu.in/wp-content/uploads/2024/04/Training-and-Placement-Committee_1-2.pdf" 
+                      href={apiData?.placementCell?.committeePdf || '#'} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 text-slate-700 hover:text-[#1a4b7c] transition-colors group"
@@ -209,10 +211,16 @@ const Placement: React.FC = () => {
               <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
                 <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Gallery</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                  {[1, 2, 3, 4, 5, 6].map((idx) => (
-                    <div key={idx} className="aspect-[4/3] bg-slate-100 rounded-xl border border-slate-200 flex flex-col items-center justify-center text-slate-400 overflow-hidden hover:shadow-md transition-shadow">
-                      <i className="ph ph-image text-4xl mb-3" />
-                      <span className="text-sm font-medium">Image Placeholder {idx}</span>
+                  {placementGallery.map((item, idx) => (
+                    <div key={`${item.image}-${idx}`} className="aspect-[4/3] rounded-xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow bg-slate-100">
+                      {item.image ? (
+                        <img src={item.image} alt={item.title || `Placement gallery ${idx + 1}`} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center text-slate-400">
+                          <i className="ph ph-image text-4xl mb-3" />
+                          <span className="text-sm font-medium">Image {idx + 1}</span>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -253,50 +261,44 @@ const Placement: React.FC = () => {
                 </div>
 
                 <div className="mt-16 space-y-12">
-                  {/* Higher Studies Graph */}
-                  <div className="border rounded-2xl p-6 md:p-10 bg-white" style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.05), inset 0 0 0 1px rgba(0,0,0,0.1)' }}>
-                    <h4 className="text-center text-2xl md:text-3xl font-serif font-bold text-black mb-12 tracking-wide">Higher Studies</h4>
+                  {statisticsSeries.map((series) => (
+                  <div key={series.title} className="border rounded-2xl p-6 md:p-10 bg-white" style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.05), inset 0 0 0 1px rgba(0,0,0,0.1)' }}>
+                    <h4 className="text-center text-2xl md:text-3xl font-serif font-bold text-black mb-12 tracking-wide">{series.title}</h4>
                     <p className="text-center md:hidden text-[15px] font-serif text-[#1a4b7c] mb-4">
-                      No. of students admitted to higher studies
+                      {series.yAxisLabel}
                     </p>
                     
                     <div className="flex flex-col md:flex-row items-center md:items-stretch">
                       <div className="hidden md:flex w-24 lg:w-28 shrink-0 items-center justify-end pr-3">
                         <p className="text-right text-[14px] lg:text-[15px] font-serif text-[#1a4b7c] leading-tight">
-                          <span className="block">No. of students admitted to higher</span>
-                          <span className="block">studies</span>
+                          <span className="block">{series.yAxisLabel}</span>
                         </p>
                       </div>
                       <div className="flex-1 relative w-full mx-auto max-w-3xl">
                         {/* Grid Lines */}
                         <div className="absolute left-8 right-0 top-0 bottom-0 flex flex-col justify-between pointer-events-none z-0">
-                          <div className="border-b border-slate-300 w-full relative"><span className="absolute -left-8 -top-3 text-xs md:text-sm font-serif text-slate-600">50</span></div>
-                          <div className="border-b border-slate-300 w-full relative"><span className="absolute -left-8 -top-3 text-xs md:text-sm font-serif text-slate-600">40</span></div>
-                          <div className="border-b border-slate-300 w-full relative"><span className="absolute -left-8 -top-3 text-xs md:text-sm font-serif text-slate-600">30</span></div>
-                          <div className="border-b border-slate-300 w-full relative"><span className="absolute -left-8 -top-3 text-xs md:text-sm font-serif text-slate-600">20</span></div>
-                          <div className="border-b border-slate-300 w-full relative"><span className="absolute -left-8 -top-3 text-xs md:text-sm font-serif text-slate-600">10</span></div>
-                          <div className="border-b border-slate-400 w-full relative"><span className="absolute -left-6 -top-3 text-xs md:text-sm font-serif text-slate-600">0</span></div>
+                          {Array.from({ length: 6 }).map((_, tickIndex) => {
+                            const tickValue = Math.round((series.maxValue || 0) - ((series.maxValue || 0) / 5) * tickIndex);
+                            return (
+                              <div key={tickIndex} className={`border-b w-full relative ${tickIndex === 5 ? 'border-slate-400' : 'border-slate-300'}`}>
+                                <span className={`absolute -top-3 text-xs md:text-sm font-serif text-slate-600 ${tickValue >= 10 ? '-left-8' : '-left-6'}`}>{tickValue}</span>
+                              </div>
+                            );
+                          })}
                         </div>
 
                         {/* Bars Container */}
                         <div className="ml-8 mr-0 h-64 md:h-80 relative z-10 flex items-end justify-around pb-0 border-l border-slate-400">
-                          {[
-                            { year: '2018-19', value: 34, color: 'bg-[#1a4b7c]' },
-                            { year: '2019-20', value: 36, color: 'bg-[#2f6298]' },
-                            { year: '2020-21', value: 49, color: 'bg-[#3a6fa8]' },
-                            { year: '2021-22', value: 41, color: 'bg-[#fdb813]' },
-                            { year: '2022-23', value: 21, color: 'bg-[#d89c0f]' },
-                            { year: '2023-24', value: 26, color: 'bg-[#214e7f]' },
-                          ].map((item) => (
+                          {series.values.map((item) => (
                             <div key={item.year} className="flex flex-col items-center w-8 md:w-14 group h-full justify-end relative">
                               <div 
-                                className={`w-full ${item.color} border border-slate-800 border-b-0 rounded-t-[2px] relative z-10 transition-all duration-300 hover:brightness-110`} 
-                                style={{ height: `${(item.value / 50) * 100}%` }}
+                                className={`w-full ${item.color || 'bg-[#1a4b7c]'} border border-slate-800 border-b-0 rounded-t-[2px] relative z-10 transition-all duration-300 hover:brightness-110`} 
+                                style={{ height: `${(item.value / (series.maxValue || 1)) * 100}%` }}
                               >
                                  <div className="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
                                  <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[11px] font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none">
-                                   {item.value}
-                                 </span>
+                                    {item.value}{series.unit ? ` ${series.unit}` : ''}
+                                  </span>
                               </div>
                               <span className="absolute -bottom-8 text-[11px] md:text-[13px] font-serif whitespace-nowrap text-slate-700">{item.year}</span>
                             </div>
@@ -306,16 +308,9 @@ const Placement: React.FC = () => {
 
                       {/* Legend */}
                       <div className="mt-16 md:mt-0 flex flex-row md:flex-col justify-center flex-wrap gap-4 md:gap-5 md:ml-10">
-                        {[
-                          { year: '2018-19', color: 'bg-[#1a4b7c]' },
-                          { year: '2019-20', color: 'bg-[#2f6298]' },
-                          { year: '2020-21', color: 'bg-[#3a6fa8]' },
-                          { year: '2021-22', color: 'bg-[#fdb813]' },
-                          { year: '2022-23', color: 'bg-[#d89c0f]' },
-                          { year: '2023-24', color: 'bg-[#214e7f]' },
-                        ].map((l) => (
+                        {series.values.map((l) => (
                           <div key={l.year} className="flex items-center gap-2">
-                            <div className={`w-3 h-3 md:w-4 md:h-4 border border-slate-800 ${l.color}`}></div>
+                            <div className={`w-3 h-3 md:w-4 md:h-4 border border-slate-800 ${l.color || 'bg-[#1a4b7c]'}`}></div>
                             <span className="text-[12px] md:text-[14px] font-serif text-slate-700">{l.year}</span>
                           </div>
                         ))}
@@ -323,77 +318,7 @@ const Placement: React.FC = () => {
                     </div>
                     <div className="text-center mt-12 text-lg md:text-[19px] font-serif tracking-wide text-black pb-2">Academic Year</div>
                   </div>
-
-                  {/* Highest Package Graph */}
-                  <div className="border rounded-2xl p-6 md:p-10 bg-white" style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.05), inset 0 0 0 1px rgba(0,0,0,0.1)' }}>
-                    <h4 className="text-center text-2xl md:text-3xl font-serif font-bold text-black mb-12 tracking-wide">Highest Package</h4>
-                    <p className="text-center md:hidden text-[15px] font-serif text-[#1a4b7c] mb-4">
-                      Package (LPA)
-                    </p>
-                    
-                    <div className="flex flex-col md:flex-row items-center md:items-stretch">
-                      <div className="hidden md:flex w-24 lg:w-28 shrink-0 items-center justify-end pr-3">
-                        <p className="text-right text-[14px] lg:text-[15px] font-serif text-[#1a4b7c] leading-tight">
-                          <span className="block">Package</span>
-                          <span className="block">(LPA)</span>
-                        </p>
-                      </div>
-                      <div className="flex-1 relative w-full mx-auto max-w-3xl">
-                        {/* Grid Lines */}
-                        <div className="absolute left-8 right-0 top-0 bottom-0 flex flex-col justify-between pointer-events-none z-0">
-                          <div className="border-b border-slate-300 w-full relative"><span className="absolute -left-8 -top-3 text-xs md:text-sm font-serif text-slate-600">25</span></div>
-                          <div className="border-b border-slate-300 w-full relative"><span className="absolute -left-8 -top-3 text-xs md:text-sm font-serif text-slate-600">20</span></div>
-                          <div className="border-b border-slate-300 w-full relative"><span className="absolute -left-8 -top-3 text-xs md:text-sm font-serif text-slate-600">15</span></div>
-                          <div className="border-b border-slate-300 w-full relative"><span className="absolute -left-8 -top-3 text-xs md:text-sm font-serif text-slate-600">10</span></div>
-                          <div className="border-b border-slate-300 w-full relative"><span className="absolute -left-6 -top-3 text-xs md:text-sm font-serif text-slate-600">5</span></div>
-                          <div className="border-b border-slate-400 w-full relative"><span className="absolute -left-6 -top-3 text-xs md:text-sm font-serif text-slate-600">0</span></div>
-                        </div>
-
-                        {/* Bars Container */}
-                        <div className="ml-8 mr-0 h-64 md:h-80 relative z-10 flex items-end justify-around pb-0 border-l border-slate-400">
-                          {[
-                            { year: '2018-19', value: 21, color: 'bg-[#1a4b7c]' },
-                            { year: '2019-20', value: 7, color: 'bg-[#2f6298]' },
-                            { year: '2020-21', value: 9, color: 'bg-[#3a6fa8]' },
-                            { year: '2021-22', value: 18, color: 'bg-[#fdb813]' },
-                            { year: '2022-23', value: 11, color: 'bg-[#d89c0f]' },
-                            { year: '2023-24', value: 10, color: 'bg-[#214e7f]' },
-                          ].map((item) => (
-                            <div key={item.year} className="flex flex-col items-center w-8 md:w-14 group h-full justify-end relative">
-                              <div 
-                                className={`w-full ${item.color} border border-slate-800 border-b-0 rounded-t-[2px] relative z-10 transition-all duration-300 hover:brightness-110`} 
-                                style={{ height: `${(item.value / 25) * 100}%` }}
-                              >
-                                 <div className="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
-                                 <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[11px] font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none">
-                                   {item.value} LPA
-                                 </span>
-                              </div>
-                              <span className="absolute -bottom-8 text-[11px] md:text-[13px] font-serif whitespace-nowrap text-slate-700">{item.year}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Legend */}
-                      <div className="mt-16 md:mt-0 flex flex-row md:flex-col justify-center flex-wrap gap-4 md:gap-5 md:ml-10">
-                        {[
-                          { year: '2018-19', color: 'bg-[#1a4b7c]' },
-                          { year: '2019-20', color: 'bg-[#2f6298]' },
-                          { year: '2020-21', color: 'bg-[#3a6fa8]' },
-                          { year: '2021-22', color: 'bg-[#fdb813]' },
-                          { year: '2022-23', color: 'bg-[#d89c0f]' },
-                          { year: '2023-24', color: 'bg-[#214e7f]' },
-                        ].map((l) => (
-                          <div key={l.year} className="flex items-center gap-2">
-                            <div className={`w-3 h-3 md:w-4 md:h-4 border border-slate-800 ${l.color}`}></div>
-                            <span className="text-[12px] md:text-[14px] font-serif text-slate-700">{l.year}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="text-center mt-12 text-lg md:text-[19px] font-serif tracking-wide text-black pb-2">Academic Year</div>
-                  </div>
+                  ))}
                 </div>
 
               </div>
@@ -405,7 +330,13 @@ const Placement: React.FC = () => {
             <section className="reveal bg-white p-8 lg:p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB]">
               <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
                 <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Our Recruiters</h3>
-                <img src="/images/Trainging & Placement/Placement/placements-recruiters.jpg" alt="Our Recruiters" className="w-full rounded-lg border border-slate-200" />
+                {recruitersBanner ? (
+                  <img src={recruitersBanner} alt="Our Recruiters" className="w-full rounded-lg border border-slate-200" />
+                ) : (
+                  <div className="w-full min-h-[280px] rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-center text-slate-400">
+                    Recruiters banner not available
+                  </div>
+                )}
               </div>
             </section>
           )}

@@ -1,25 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Calendar, Download, ExternalLink, Loader2 } from 'lucide-react';
-import { academicsService, AcademicDocument } from '../../services/academics';
+
+interface AcademicDocument {
+  title: string;
+  year?: string;
+  description?: string;
+  fileUrl: string;
+}
+
+const staticCalendars: AcademicDocument[] = [
+  { title: 'EVEN SEM 2025-26 SE TE BE (Tentative)', year: '2025-26', fileUrl: '/pdfs/Academics/AcademicCalender/Academic_Calendar_Even_2025-26.pdf' },
+  { title: 'ODD SEM 2025-26 SE TE BE', year: '2025-26', fileUrl: '/pdfs/Academics/AcademicCalender/acad-calen-odd-25-26(SE,TE,BE).pdf' },
+  { title: 'EVEN SEM 2024-25', year: '2024-25', fileUrl: '/pdfs/Academics/AcademicCalender/Academic_Calender_2024_25_Even_2025-1.pdf' },
+  { title: 'ODD SEM 2024-25 FE ME', year: '2024-25', fileUrl: '/pdfs/Academics/AcademicCalender/Academic_Calendar_Odd-24-25(FE,ME,Sem1).pdf' },
+  { title: 'ODD SEM 2024-25 SE TE BE', year: '2024-25', fileUrl: '/pdfs/Academics/AcademicCalender/Academic_Calendar_Odd-24-25(SE,TE,BE).pdf' },
+  { title: 'EVEN SEM 2023-24 SE TE BE', year: '2023-24', fileUrl: '/pdfs/Academics/AcademicCalender/Academic-Calendar_Even-Sem_-2023-2024.pdf' },
+  { title: 'EVEN SEM 2022-23 SE TE BE', year: '2022-23', fileUrl: '/pdfs/Academics/AcademicCalender/Academic-Calendar-Even-Semester-2022-23-SE-TE-BE.pdf' },
+  { title: 'FE & ME EVEN SEM 2022-23', year: '2022-23', fileUrl: '/pdfs/Academics/AcademicCalender/FE_SemII_Academic_Calendar2022-23(EvenSem).pdf' },
+  { title: 'FE ODD SEM 2022-23', year: '2022-23', fileUrl: '/pdfs/Academics/AcademicCalender/Academic-Calendar-Odd-Semester-2022-23-F.E.pdf' },
+];
 
 const AcademicCalendar: React.FC = () => {
-  const [calendars, setCalendars] = useState<AcademicDocument[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    academicsService.get()
-      .then(data => {
-        setCalendars(data.academicCalendars || []);
-      })
-      .catch(err => {
-        console.error('Failed to fetch academic calendars:', err);
-        setError('Failed to load academic calendars');
-      })
-      .finally(() => setLoading(false));
-  }, []);
+  const calendars = staticCalendars;
+  const loading = false;
+  const error = null;
 
   return (
     <PageLayout>

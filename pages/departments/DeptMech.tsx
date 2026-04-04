@@ -102,7 +102,19 @@ const DeptMech: React.FC = () => {
           {activeId === 'about' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="space-y-6 text-slate-600 leading-8 text-left">
-                <p className="text-lg font-bold text-brand-navy">Dr. Uday Aswalekar, Head Of Department</p>
+                <div className="mx-auto max-w-md text-center space-y-4">
+                  <div className="rounded-3xl border-2 border-dashed border-blue-200 bg-blue-50/40 px-6 py-12">
+                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm">
+                      <i className="ph ph-image text-2xl" />
+                    </div>
+                    <p className="text-base font-semibold text-slate-600">HOD Image Placeholder</p>
+                    <p className="text-sm text-slate-400">Add image later in this area</p>
+                  </div>
+                  <div>
+                    <p className="mt-4 text-2xl font-bold text-brand-navy">Dr. Uday Aswalekar</p>
+                    <p className="mt-1 text-sm font-semibold text-brand-gold">Head Of Department</p>
+                  </div>
+                </div>
                 <p>
                   Established in 1994, the Department of Mechanical Engineering is amongst the premier Departments of VCET. Currently,
                   it is running Under Graduate program, B.E in Mechanical Engineering with an intake of 60 seats. The Department is
@@ -578,15 +590,6 @@ const DeptMech: React.FC = () => {
                   <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
                 </div>
                 <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Infrastructure<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                <div className="space-y-4 text-slate-600 leading-8">
-                  <p>
-                    The Department features the state-of-the-art infrastructure including well developed laboratories, and is armed with the recent software&apos;s.
-                  </p>
-                  <p>
-                    The Department imparts the skills and expertise in the areas of Design, Thermal sciences, Manufacturing and Renewable energy that are the backbone of Industries.
-                  </p>
-                </div>
-
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {infrastructureLabs.map((lab, idx) => (
                     <article key={`${lab.title}-${idx}`} className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">

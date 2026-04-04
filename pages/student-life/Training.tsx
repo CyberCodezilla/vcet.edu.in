@@ -1,58 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { BookOpen, Users, Monitor, Briefcase, Target, Award, Lightbulb, Wrench, Check } from 'lucide-react';
+import { getTrainingSection, TrainingData } from '../../services/training';
 
-const trainingPrograms = [
-  {
-    icon: Users,
-    title: 'Soft Skills Development',
-    description: 'Communication skills, presentation techniques, group discussions, team building, and leadership training to enhance professional competence.',
-  },
-  {
-    icon: Monitor,
-    title: 'Aptitude Training',
-    description: 'Comprehensive aptitude training covering quantitative ability, logical reasoning, verbal ability, and data interpretation for placement readiness.',
-  },
-  {
-    icon: Wrench,
-    title: 'Technical Workshops',
-    description: 'Hands-on technical workshops on emerging technologies, programming languages, tools, and frameworks relevant to industry requirements.',
-  },
-  {
-    icon: Briefcase,
-    title: 'Mock Interviews',
-    description: 'Regular mock interview sessions with industry professionals to prepare students for actual placement interviews.',
-  },
-  {
-    icon: BookOpen,
-    title: 'Resume Building',
-    description: 'Guidance on crafting effective resumes, cover letters, and LinkedIn profiles that stand out to recruiters.',
-  },
-  {
-    icon: Target,
-    title: 'Industry Certifications',
-    description: 'Facilitating industry-recognized certifications from Google, AWS, Microsoft, Cisco, and other leading technology companies.',
-  },
-];
-
-const stats = [
-  { icon: Users, value: '1000+', label: 'Students Trained Annually' },
-  { icon: Briefcase, value: '50+', label: 'Training Sessions' },
-  { icon: Award, value: '20+', label: 'Industry Partners' },
-  { icon: Lightbulb, value: '15+', label: 'Certification Programs' },
-];
-
-const trainingHighlights = [
-  'Year-round training calendar aligned with placement cycles',
-  'Dedicated training team with industry-experienced trainers',
-  'Training needs assessment based on industry trends and feedback',
-  'Personalized training tracks for different career aspirations',
-  'Assessment and feedback mechanism for continuous improvement',
-  'Bridge courses for students from diverse academic backgrounds',
-  'Online resources and practice platforms for self-paced learning',
-  'Guest sessions by industry leaders and successful alumni',
-];
+// Icon mapping for dynamic icon assignment
+const iconMap: Record<string, React.ComponentType<any>> = {
+  Users,
+  Monitor,
+  Wrench,
+  Briefcase,
+  BookOpen,
+  Target,
+  Award,
+  Lightbulb,
+};
 
 const sidebarLinks = [
   { id: 'training',  label: 'Training', icon: 'ph-chalkboard-teacher' },
@@ -91,6 +53,53 @@ const StyledPointList: React.FC<{ items: string[]; ordered?: boolean }> = ({ ite
 const Training: React.FC = () => {
   const [activeId, setActiveId] = React.useState('training');
   const activeLink = sidebarLinks.find(l => l.id === activeId);
+  const [apiData, setApiData] = useState<TrainingData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+    setLoading(true);
+    getTrainingSection()
+      .then((data) => {
+        if (mounted) {
+          setApiData(data);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (mounted) {
+          setApiData(null);
+          setLoading(false);
+        }
+      });
+    return () => { mounted = false; };
+  }, []);
+
+  // Map programs with icons
+  const trainingPrograms = useMemo(() => {
+    if (!apiData?.programs || apiData.programs.length === 0) return [];
+    return apiData.programs.map((prog) => ({
+      ...prog,
+      icon: iconMap[prog.icon] || Users,
+    }));
+  }, [apiData]);
+
+  // Map stats with icons
+  const stats = useMemo(() => {
+    if (!apiData?.stats || apiData.stats.length === 0) return [];
+    return apiData.stats.map((stat) => ({
+      ...stat,
+      icon: iconMap[stat.icon] || Users,
+    }));
+  }, [apiData]);
+
+  const trainingHighlights = useMemo(() => {
+    return apiData?.highlights || [];
+  }, [apiData]);
+
+  const mainContent = useMemo(() => {
+    return apiData?.mainContent || [];
+  }, [apiData]);
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -156,24 +165,23 @@ const Training: React.FC = () => {
           {/* Training Tab */}
           {activeId === 'training' && (
             <section className="reveal bg-white p-8 lg:p-12 border border-[#E5E7EB] shadow-[4px_4px_0_#E5E7EB]">
-              <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
-                <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Training</h3>
-                <p>
-                  To gear-up the students for facing the recruitment process successfully, an extensive pre-placement training on aptitude, group discussions, interviews and presentation is offered to the students. The various measures taken in line with this are:
-                </p>
-                <div className="mt-8">
-                  <StyledPointList
-                    items={[
-                      'Scheduling of pre-placement training programs in conjunction with academic schedule',
-                      'Conducting Aptitude Development training sessions right from the third year of UG program',
-                      'Collaborating with leading training agencies like IMS, Campus credential, Career Launcher for conduction of Aptitude Development training & Soft skills development to provide high-quality training by seasoned trainers experienced in corporate education.',
-                      'Conducting technical and domain specific training sessions',
-                      'Orientation of students on core companies opportunities and preparations required for placements.',
-                      "Identification of students' soft skills and Aptitude development/training needs and provide additional sessions either through external/internal resources.",
-                    ]}
-                  />
+              {loading ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="text-slate-500">Loading...</div>
                 </div>
-              </div>
+              ) : (
+                <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
+                  <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Training</h3>
+                  <p>
+                    To gear-up the students for facing the recruitment process successfully, an extensive pre-placement training on aptitude, group discussions, interviews and presentation is offered to the students. The various measures taken in line with this are:
+                  </p>
+                  {mainContent.length > 0 && (
+                    <div className="mt-8">
+                      <StyledPointList items={mainContent} />
+                    </div>
+                  )}
+                </div>
+              )}
             </section>
           )}
 

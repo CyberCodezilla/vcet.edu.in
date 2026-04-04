@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Check } from 'lucide-react';
+import { getCommitteeSection } from '../../services/committees';
 
-const objectives = [
+const fallbackObjectives = [
   'To create awareness among all employees.',
   'To make it illegal for any employee to engage in unwelcome workplace sexual harassment or acts that amount to sexual harassment.',
   'To ensure that all individuals are treated with respect and that no discriminatory treatment is meted out solely based on gender.',
   'To provide a fair and compassionate redress process.',
 ];
 
-const members = [
+const fallbackMembers = [
   {
     post: 'Presiding Officer',
     name: 'Dr.Archana Dongre',
@@ -67,16 +68,45 @@ const members = [
     contactNo: '--',
     address: 'Student T.E.(COMP)',
   },
-  {
-    post: 'Member',
-    name: 'Mrs.Anjali Dilip Vartak',
-    email: 'anjali.vartak@vcet.edu.in',
-    contactNo: '--',
-    address: 'Swadhar (NGO)',
-  },
 ];
 
 const InternalComplaint: React.FC = () => {
+  const [apiData, setApiData] = useState<Record<string, any> | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getCommitteeSection<Record<string, any>>('icc')
+      .then((res) => {
+        if (mounted) setApiData(res);
+      })
+      .catch(() => {
+        if (mounted) setApiData(null);
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const objectives = useMemo(() => {
+    const source = Array.isArray(apiData?.objectives) ? apiData.objectives : [];
+    const mapped = source.map((item: unknown) => String(item ?? '').trim()).filter(Boolean);
+    return mapped.length > 0 ? mapped : fallbackObjectives;
+  }, [apiData]);
+
+  const members = useMemo(() => {
+    const source = Array.isArray(apiData?.members) ? apiData.members : [];
+    const mapped = source
+      .map((row: Record<string, unknown>) => ({
+        post: String(row.post ?? row.designation ?? '').trim(),
+        name: String(row.name ?? '').trim(),
+        email: String(row.email ?? '').trim(),
+        contactNo: String(row.contact ?? row.contactNo ?? '').trim(),
+        address: String(row.address ?? '').trim(),
+      }))
+      .filter((row: { post: string; name: string; email: string; contactNo: string; address: string }) => row.post || row.name || row.email || row.contactNo || row.address);
+    return mapped.length > 0 ? mapped : fallbackMembers;
+  }, [apiData]);
+
   return (
     <PageLayout>
       <PageBanner

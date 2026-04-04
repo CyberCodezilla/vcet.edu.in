@@ -24,7 +24,7 @@ const homeEditables = [
     description: 'Update alumni stories and partner logos for the alumni/recruiter section.',
     links: [
       { label: 'Edit Testimonials', to: '/admin/testimonials' },
-      { label: 'Edit Placement Partners', to: '/admin/placement-partners' },
+      { label: 'Edit Our Hiring Partners', to: '/admin/placement-partners' },
     ],
   },
   {
@@ -213,6 +213,13 @@ const studentCareerEditables = [
       { label: "Centurion", section: "centurion" },
       { label: "Airnova", section: "airnova" },
       { label: "Emechto", section: "emechto" }
+    ]
+  },
+  {
+    title: "Career",
+    description: "Manage Career @ VCET recruitment PDF link.",
+    links: [
+      { label: "Career @ VCET", section: "career-at-vcet" },
     ]
   }
 ];

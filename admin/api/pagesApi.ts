@@ -196,5 +196,16 @@ export const pagesApi = {
       
       return client.requestForm<ItemResponse<AboutData>>(`/pages/about/${slug}`, formData);
     }
+  },
+
+  studentCareer: {
+    get: (slug: string) => client.request<ItemResponse<Record<string, unknown>>>(`/pages/student-career/${slug}`),
+
+    update: (slug: string, payload: Record<string, unknown>) => {
+      const formData = new FormData();
+      buildFormData(formData, payload);
+
+      return client.requestForm<ItemResponse<Record<string, unknown>>>(`/pages/student-career/${slug}`, formData);
+    }
   }
 };
