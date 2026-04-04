@@ -113,7 +113,19 @@ const DeptComputerEngg: React.FC = () => {
               {/* dept info */}
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="space-y-6 text-slate-600 leading-8 text-left">
-                  <p className="text-lg font-bold text-brand-navy">Dr. Megha Trivedi, Associate Professor &amp; Head Of Department</p>
+                  <div className="mx-auto max-w-md text-center space-y-4">
+                    <div className="rounded-3xl border-2 border-dashed border-blue-200 bg-blue-50/40 px-6 py-12">
+                      <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm">
+                        <i className="ph ph-image text-2xl" />
+                      </div>
+                      <p className="text-base font-semibold text-slate-600">HOD Image Placeholder</p>
+                      <p className="text-sm text-slate-400">Add image later in this area</p>
+                    </div>
+                    <div>
+                      <p className="mt-4 text-2xl font-bold text-brand-navy">Dr. Megha Trivedi</p>
+                      <p className="mt-1 text-sm font-semibold text-brand-gold">Associate Professor &amp; Head Of Department</p>
+                    </div>
+                  </div>
                   <p>
                     The Department of Computer Engineering was established in the year 1999 to impart knowledge and develop practical
                     skills in various areas of computer engineering. The Department offers an undergraduate program in Computer Engineering
@@ -225,7 +237,7 @@ const DeptComputerEngg: React.FC = () => {
               { sr: 2, name: 'Dr. Vikas Gupta', designation: 'Dean, Academics', org: 'VCET, Vasai', role: 'Dean', tag: 'internal' },
               { sr: 3, name: 'Dr. Megha Trivedi', designation: 'HOD, Comps', org: 'VCET, Vasai', role: 'HOD', tag: 'internal' },
               { sr: 4, name: 'Dr. Swapna Borde', designation: 'Asst. Professor', org: 'VCET, Vasai', role: 'Sr. Faculty', tag: 'internal' },
-              { sr: 5, name: 'Dr. Subhash Shinde', designation: 'Vice-Principal LTCOE & Member BOS, Comp Engg, UoM', org: 'University Representative', role: 'Academic Representative', tag: 'academic' },
+              { sr: 5, name: 'Dr. Subhash Shinde', designation: 'Vice-Principal', org: 'LTCOE & Member BOS, Comp Engg, UoM', role: 'University Representative', tag: 'academic' },
               { sr: 6, name: 'Mr. Gaurav Ghelani', designation: 'Academic Relationship Manager India West & Central', org: 'TCS, Mumbai', role: 'Industry Representative', tag: 'industry' },
               { sr: 7, name: 'Mr. Sachin Sadre', designation: 'Founder/Director', org: 'Digital Dojo OPC Pvt. Ltd.', role: 'Industry Representative', tag: 'industry' },
               { sr: 8, name: 'Mr. Rahul Mhatre', designation: 'Senior Engineering Manager', org: 'SAG Banglore Tech. Ltd.', role: 'Industry Representative', tag: 'industry' },
@@ -300,18 +312,18 @@ const DeptComputerEngg: React.FC = () => {
           {/* ════ POs, PEOs & PSOs ══════════════════════════════ */}
           {activeId === 'peo' && (() => {
             const pos = [
-              { n: '01', text: 'An ability to apply knowledge of mathematics, science, and engineering.' },
-              { n: '02', text: 'An ability to design and conduct experiments, as well as to analyze and interpret data.' },
-              { n: '03', text: 'An ability to design a system, component, or process to meet desired needs within realistic constraints.' },
-              { n: '04', text: 'An ability to identify, formulate, and solve engineering problems.' },
-              { n: '05', text: 'An ability to use the techniques, skills, and modern engineering tools necessary for engineering practice.' },
-              { n: '06', text: 'Knowledge of contemporary issues.' },
-              { n: '07', text: 'The broad education necessary to understand the impact of engineering solutions in a global, economic, environmental and societal context.' },
-              { n: '08', text: 'An understanding of professional and ethical responsibility.' },
-              { n: '09', text: 'An ability to function in multidisciplinary teams.' },
-              { n: '10', text: 'An ability to communicate effectively.' },
-              { n: '11', text: 'Recognition of the need for, and an ability to engage in life-long learning.' },
-              { n: '12', text: 'An understanding of engineering and management principles and the ability to apply these to manage projects in multidisciplinary environments.' },
+              { n: '01', text: 'Engineering knowledge: Apply the knowledge of mathematics, science, engineering fundamentals, and an engineering specialization to the solution of complex engineering problems.' },
+              { n: '02', text: 'Problem analysis: Identify, formulate, review research literature, and analyze complex engineering problems reaching substantiated conclusions using first principles of mathematics, natural sciences, and engineering sciences.' },
+              { n: '03', text: 'Design/development of solutions: Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for the public health and safety, and the cultural, societal, and environmental considerations.' },
+              { n: '04', text: 'Conduct investigations of complex problems: Use research-based knowledge and research methods including design of experiments, analysis and interpretation of data, and synthesis of the information to provide valid conclusions.' },
+              { n: '05', text: 'Modern tool usage: Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools including prediction and modeling to complex engineering activities with an understanding of the limitations.' },
+              { n: '06', text: 'The engineer and society: Apply reasoning informed by the contextual knowledge to assess societal, health, safety, legal and cultural issues and the consequent responsibilities relevant to the professional engineering practice.' },
+              { n: '07', text: 'Environment and sustainability: Understand the impact of the professional engineering solutions in societal and environmental contexts, and demonstrate the knowledge of, and need for sustainable development.' },
+              { n: '08', text: 'Ethics: Apply ethical principles and commit to professional ethics and responsibilities and norms of the engineering practice.' },
+              { n: '09', text: 'Individual and team work: Function effectively as an individual, and as a member or leader in diverse teams, and in multidisciplinary settings.' },
+              { n: '10', text: 'Communication: Communicate effectively on complex engineering activities with the engineering community and with society at large, such as, being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions.' },
+              { n: '11', text: 'Project management and finance: Demonstrate knowledge and understanding of the engineering and management principles and apply these to one’s own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.' },
+              { n: '12', text: 'Life-long learning: Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change.' },
             ];
             const psos = [
               { n: 'PSO1', text: 'Analyze problems and design applications of database, networking, security, web technology, cloud computing and machine learning using mathematical skills and computational tools.' },
@@ -405,7 +417,7 @@ const DeptComputerEngg: React.FC = () => {
               'Review assessment data periodically and identify gaps/shortfalls in the program.',
               'Recommend action plans to bridge gaps and monitor implementation.',
               'Review quality and relevance of assessment processes and tools for attainment of COs, POs and PSOs.',
-              'Prepare compliance reports as per accreditation requirements.',
+              'Preparing the compliance report as per requirement of accreditation activities',
               'Periodically revise Program Educational Objectives (PEOs), PSOs, etc.',
               'PAQIC Coordinator schedules meetings, records minutes, and compiles action taken reports.',
             ];
@@ -438,29 +450,101 @@ const DeptComputerEngg: React.FC = () => {
           {/* ════ INFRASTRUCTURE ═══════════════════════════════ */}
           {activeId === 'infrastructure' && (() => {
             const labs = [
-              { name: 'Programming Lab', incharge: 'Dr. Sneha Mhatre & Ms. Joyce D\'Souza', pcs: '20', software: 'Windows 11, Ubuntu Linux, TC, Java, Google Chrome' },
-              { name: 'Project & Research Lab', incharge: 'Dr. Anil Hingmire & Ms. Brinal Colaco', pcs: '16 + 6 GPU systems', software: 'Windows 11, Ubuntu Linux, TC, Java, Google Chrome' },
-              { name: 'AI & Advanced Technology Lab', incharge: 'Dr. Swapna Borde & Ms. Soniya Khatu', pcs: '19 GPU systems', software: 'Windows 11, Ubuntu Linux, TC, Java, Google Chrome' },
-              { name: 'Database Lab', incharge: 'Ms. Smita Jawale & Ms. Bhakti Jadhav', pcs: '21 + HP Server 01', software: 'Windows 11, Ubuntu Linux, TC, Java, Google Chrome' },
-              { name: 'Network & Security Lab', incharge: 'Dr. Dinesh Patil & Dr. Swati Varma', pcs: '20', software: 'Windows 11, Kali Linux, TC, Java, Google Chrome' },
-              { name: 'Software Development Lab', incharge: 'Mr. Sunil Katkar & Ms. Vinal Waghela', pcs: '20', software: 'Windows 11, Ubuntu Linux, TC, Java, Google Chrome' },
+              {
+                title: 'LAB 01 - PROGRAMMING LAB',
+                incharge: 'Dr. SNEHA MHATRE & Ms. JOYCE D\'SOUZA',
+                software: 'OS - Windows 11 and Ubuntu Linux. SW- TC, JAVA, Google Chrome.',
+                hardware: 'PC - HP Core i5 - No. 20, Printer - Laser printer, LCD Projector, Network switch etc.',
+                features: 'Latest PC configuration with dual boot OS and All licensed SW with Internet enabled on all PC.',
+              },
+              {
+                title: 'LAB 02 - PROJECT & RESEARCH LAB',
+                incharge: 'Dr. ANIL HINGMIRE & Ms. BRINAL COLACO',
+                software: 'OS - Windows 11 and Ubuntu Linux. SW- TC, JAVA, Google Chrome.',
+                hardware: 'PC - HP Core i5 - No. 16, HP Core i5 with GPU - No. 06, Printer - Laser printer, LCD Projector, Network Switch etc.',
+                features: 'Latest PC configuration with dual boot OS and All licensed SW with Internet enabled on all PC.',
+              },
+              {
+                title: 'LAB 03 - AI & ADVANCED TECHNOLOGY LAB',
+                incharge: 'Dr. SWAPNA BORDE & Ms. SONIYA KHATU',
+                software: 'OS - Windows 11 and Ubuntu Linux. SW- TC, JAVA, Google Chrome.',
+                hardware: 'PC - HP Core i5 with GPU - No. 19, Printer - Laser printer, LCD Projector, Network Switch etc.',
+                features: 'Latest PC configuration with dual boot OS and All licensed SW with Internet enabled on all PC.',
+              },
+              {
+                title: 'LAB 04 - DATABASE LAB',
+                incharge: 'Ms. SMITA JAWALE & Ms. BHAKTI JADHAV',
+                software: 'OS - Windows 11 and Ubuntu Linux. SW- TC, JAVA, Google Chrome.',
+                hardware: 'PC - HP Core i5 - No. 21, Printer - Laser printer, LCD Projector, Network Switch & HP Server 01.',
+                features: 'Latest PC configuration with dual boot OS and All licensed SW with Internet enabled on all PC.',
+              },
+              {
+                title: 'LAB 05 - NETWORK & SECURITY LAB',
+                incharge: 'Dr. DINESH PATIL & Dr. SWATI VARMA',
+                software: 'OS - Windows 11 and Kali Linux. SW- TC, JAVA, Google Chrome.',
+                hardware: 'PC - HP Core i5 - No. 20, Printer - Laser printer, LCD Projector, Network Switch etc.',
+                features: 'Latest PC configuration with dual boot OS and All licensed SW with Internet enabled on all PC.',
+              },
+              {
+                title: 'LAB 06 - SOFTWARE DEVELOPMENT LAB',
+                incharge: 'Mr. SUNIL KATKAR & Ms. VINAL WAGHELA',
+                software: 'OS - Windows 11 and Ubuntu Linux. SW- TC, JAVA, Google Chrome.',
+                hardware: 'PC - HP Core i5 - No. 20, Printer - Laser Printer, LCD Projector, Network Switch etc.',
+                features: 'Latest PC configuration with dual boot OS and All licensed SW with Internet enabled on all PC.',
+              },
+              {
+                title: 'Department Conference Room',
+                isConferenceRoom: true,
+                incharge: '-',
+                software: '-',
+                hardware: '-',
+                features: 'Department Conference room',
+              },
             ];
             return (
-              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-8">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="w-8 h-px bg-brand-gold" />
                   <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Computer Engineering</span>
                 </div>
                 <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Infrastructure<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                <p className="text-slate-600 mb-6">All labs are equipped with internet-enabled systems, licensed software, LCD projector, printer, and network switch. Department conference room is also available.</p>
-                <div className="grid md:grid-cols-2 gap-4">
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {labs.map((lab, idx) => (
-                    <div key={lab.name} className={`reveal ${delayClass(idx)} border border-slate-200 rounded-2xl p-5 bg-slate-50/50`}>
-                      <h4 className="text-lg font-bold text-brand-navy">LAB {String(idx + 1).padStart(2, '0')} - {lab.name}</h4>
-                      <p className="text-sm text-slate-600 mt-2"><strong>Lab In-Charge:</strong> {lab.incharge}</p>
-                      <p className="text-sm text-slate-600"><strong>Hardware:</strong> HP Core i5 systems ({lab.pcs})</p>
-                      <p className="text-sm text-slate-600"><strong>Software:</strong> {lab.software}</p>
-                    </div>
+                    <article key={lab.title} className={`reveal ${delayClass(idx)} rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden`}>
+                      <div className="w-full aspect-[16/9] bg-slate-100 border-b border-slate-200 flex flex-col items-center justify-center text-slate-400">
+                        <i className="ph ph-image text-4xl mb-2" />
+                        <span className="text-sm font-medium">Image Holder {idx + 1}</span>
+                      </div>
+
+                      <div className="p-5 space-y-4">
+                        <h4 className="text-lg font-bold text-brand-navy">{lab.title}</h4>
+
+                        {!lab.isConferenceRoom && (
+                          <>
+                            <div>
+                              <p className="text-[11px] font-bold uppercase tracking-widest text-brand-gold mb-1">Lab In-Charge</p>
+                              <p className="text-slate-700">{lab.incharge}</p>
+                            </div>
+
+                            <div>
+                              <p className="text-[11px] font-bold uppercase tracking-widest text-brand-gold mb-1">Software Installed</p>
+                              <p className="text-slate-600 leading-7">{lab.software}</p>
+                            </div>
+
+                            <div>
+                              <p className="text-[11px] font-bold uppercase tracking-widest text-brand-gold mb-1">Hardware</p>
+                              <p className="text-slate-600 leading-7">{lab.hardware}</p>
+                            </div>
+
+                            <div>
+                              <p className="text-[11px] font-bold uppercase tracking-widest text-brand-gold mb-1">Features</p>
+                              <p className="text-slate-600 leading-7">{lab.features}</p>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </article>
                   ))}
                 </div>
               </section>
@@ -508,18 +592,18 @@ const DeptComputerEngg: React.FC = () => {
           {/* ════ SYLLABUS ═════════════════════════════════════ */}
           {activeId === 'syllabus' && (() => {
             const links = [
-              { label: 'SE - R16 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\SE-Comps_CBCGS_Syllabus.pdf' },
-              { label: 'TE / BE - R16 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\TE_BE-Comp_Engg_CBCGS_Syllabus.pdf' },
-              { label: 'BE - R12 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\BE-Comps_VII_VIII_Syllabus-1.pdf' },
-              { label: 'First Year - R19 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\FE-Final-Syllabus-R19.pdf' },
-              { label: 'SE - R19 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\SE-C-scheme-syllabus-Computer-Engg.pdf' },
-              { label: 'TE - R19 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\T.E.-C-scheme-syllabus-Computer-Engg.pdf' },
-              { label: 'BE - R19 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\B.E.-C-scheme-syllabus-Computer-Engg.pdf' },
-              { label: 'First Year (NEP) 2024-25', url: 'pdfs\Department\ComputerEngineering\Syllabus\First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25-1.pdf' },
-              { label: 'Honours & Minor Degree Program (Data Science)', url: 'pdfs\Department\ComputerEngineering\Syllabus\Honours-Minor-Degree-Program-Data-Science.pdf' },
-              { label: 'PO PSO CO - R12', url: 'pdfs\Department\ComputerEngineering\Syllabus\NAAC-Comp_PO_PSO_CO_R-12.pdf' },
-              { label: 'PO PSO CO - R16', url: 'pdfs\Department\ComputerEngineering\Syllabus\NAAC-Comp_PO_PSO_CO_R-16.pdf' },
-              { label: 'PO PSO CO - R19', url: 'pdfs\Department\ComputerEngineering\Syllabus\NACC-COMP_PO_PSO_CO_R-19-updated.pdf' },
+              { label: 'SE - R16 Syllabus', url: 'pdfs\\Department\\ComputerEngineering\\Syllabus\\SE-Comps_CBCGS_Syllabus.pdf' },
+              { label: 'TE / BE - R16 Syllabus', url: 'pdfs\\Department\\ComputerEngineering\\Syllabus\\TE_BE-Comp_Engg_CBCGS_Syllabus.pdf' },
+              { label: 'BE - R12 Syllabus', url: 'pdfs\\Department\\ComputerEngineering\\Syllabus\\BE-Comps_VII_VIII_Syllabus-1.pdf' },
+              { label: 'First Year - R19 Syllabus', url: 'pdfs\\Department\\ComputerEngineering\\Syllabus\\FE-Final-Syllabus-R19.pdf' },
+              { label: 'SE - R19 Syllabus', url: 'pdfs\\Department\\ComputerEngineering\\Syllabus\\SE-C-scheme-syllabus-Computer-Engg.pdf' },
+              { label: 'TE - R19 Syllabus', url: 'pdfs\\Department\\ComputerEngineering\\Syllabus\\T.E.-C-scheme-syllabus-Computer-Engg.pdf' },
+              { label: 'BE - R19 Syllabus', url: 'pdfs\\Department\\ComputerEngineering\\Syllabus\\B.E.-C-scheme-syllabus-Computer-Engg.pdf' },
+              { label: 'First Year (NEP) 2024-25', url: 'pdfs\\Department\\ComputerEngineering\\Syllabus\\First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25-1.pdf' },
+              { label: 'Honours & Minor Degree Program (Data Science)', url: 'pdfs\\Department\\ComputerEngineering\\Syllabus\\Honours-Minor-Degree-Program-Data-Science.pdf' },
+              { label: 'PO PSO CO - R12', url: 'pdfs\\Department\\ComputerEngineering\\Syllabus\\NAAC-Comp_PO_PSO_CO_R-12.pdf' },
+              { label: 'PO PSO CO - R16', url: 'pdfs\\Department\\ComputerEngineering\\Syllabus\\NAAC-Comp_PO_PSO_CO_R-16.pdf' },
+              { label: 'PO PSO CO - R19', url: 'pdfs\\Department\\ComputerEngineering\\Syllabus\\NACC-COMP_PO_PSO_CO_R-19-updated.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">

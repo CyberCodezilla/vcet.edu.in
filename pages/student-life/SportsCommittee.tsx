@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import {
@@ -10,6 +10,8 @@ import {
   IntroSection,
   ResourceGrid,
 } from './studentLifeShared';
+import { getStudentCareerSection } from '../../services/studentCareer';
+import { resolveApiUrl } from '../../services/api';
 
 const objectiveItems = [
   'To foster a culture of inclusivity, excellence, and sportsmanship that inspires every student to actively engage in sports and wellness activities,',
@@ -55,9 +57,67 @@ const teamRows = [
 ];
 
 const SportsCommittee: React.FC = () => {
+  const [apiData, setApiData] = useState<Record<string, any> | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getStudentCareerSection<Record<string, any>>('sports-committee')
+      .then((res) => {
+        if (mounted) setApiData(res);
+      })
+      .catch(() => {
+        if (mounted) setApiData(null);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const pageTitle = String(apiData?.slug ?? '').trim() === 'sports-committee' ? 'Sports Committee' : 'Sports Committee';
+  const links = [
+    {
+      label: 'Avahan Instagram',
+      href: String(apiData?.hInsta || 'https://www.instagram.com/avahan_vcet/'),
+      icon: 'instagram' as const,
+    },
+    {
+      label: 'Committee PDF',
+      href: String(resolveApiUrl(apiData?.hPdf) || apiData?.hPdf || 'https://vcet.edu.in/wp-content/uploads/2024/04/Avahan-List.pdf'),
+      icon: 'file' as const,
+    },
+  ];
+  const apiEvents = Array.isArray(apiData?.events)
+    ? apiData.events.map((event: Record<string, unknown>) => ({
+      title: String(event.title ?? ''),
+      description: String(event.desc ?? ''),
+    })).filter((event: { title: string; description: string; }) => event.title || event.description)
+    : [];
+  const apiTeamRows = Array.isArray(apiData?.team)
+    ? apiData.team.map((member: Record<string, unknown>) => [String(member.pos ?? ''), String(member.name ?? '')])
+      .filter((row: string[]) => row[0] || row[1])
+    : [];
+  const teamYear = typeof apiData?.teamYear === 'string' && apiData.teamYear.trim() ? apiData.teamYear : '2025-26';
+  const resolvedEvents = apiEvents.length > 0 ? apiEvents : events;
+  const resolvedTeamRows = apiTeamRows.length > 0 ? apiTeamRows : teamRows;
+  const apiGallery = Array.isArray(apiData?.gallery)
+    ? apiData.gallery
+      .map((item: Record<string, unknown>, index: number) => {
+        const raw = String(item.img ?? item.imageUrl ?? item.image ?? '');
+        const src = resolveApiUrl(raw) || raw;
+        if (!src) return null;
+        return {
+          src,
+          alt: `Sports Committee gallery image ${index + 1}`,
+        };
+      })
+      .filter((item): item is { src: string; alt: string } => !!item)
+    : [];
+  const resolvedGallery = apiGallery.length > 0 ? apiGallery : gallery;
+
   return (
     <PageLayout>
-      <PageBanner title="Sports Committee" breadcrumbs={[{ label: 'Sports Committee' }]} />
+      <PageBanner title={pageTitle} breadcrumbs={[{ label: 'Sports Committee' }]} />
 
       <IntroSection
         id="about"
@@ -74,18 +134,7 @@ const SportsCommittee: React.FC = () => {
           { label: 'Gallery', href: '#gallery' },
           { label: 'Team', href: '#team' },
         ]}
-        links={[
-          {
-            label: 'Avahan Instagram',
-            href: 'https://www.instagram.com/avahan_vcet/',
-            icon: 'instagram',
-          },
-          {
-            label: 'Committee PDF',
-            href: 'https://vcet.edu.in/wp-content/uploads/2024/04/Avahan-List.pdf',
-            icon: 'file',
-          },
-        ]}
+        links={links}
       />
 
       <ContentSection
@@ -103,7 +152,7 @@ const SportsCommittee: React.FC = () => {
         subtitle="Key Sports Committee activities published on the official VCET website."
         backgroundClassName="bg-white"
       >
-        <EventGrid items={events} />
+        <EventGrid items={resolvedEvents} />
       </ContentSection>
 
       <ContentSection
@@ -112,7 +161,7 @@ const SportsCommittee: React.FC = () => {
         subtitle="Official VCET Sports Committee gallery images."
         backgroundClassName="bg-brand-light"
       >
-        <GalleryGrid items={gallery} />
+        <GalleryGrid items={resolvedGallery} />
       </ContentSection>
 
       <ContentSection
@@ -132,7 +181,8 @@ const SportsCommittee: React.FC = () => {
               },
             ]}
           />
-          <DataTable columns={['Designation', 'Name']} rows={teamRows} />
+          <p className="text-xs font-semibold text-slate-500">Sports Core Committee (BE) for A.Y. {teamYear}</p>
+          <DataTable columns={['Designation', 'Name']} rows={resolvedTeamRows} />
         </div>
       </ContentSection>
     </PageLayout>

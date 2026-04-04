@@ -214,6 +214,13 @@ const studentCareerEditables = [
       { label: "Airnova", section: "airnova" },
       { label: "Emechto", section: "emechto" }
     ]
+  },
+  {
+    title: "Career",
+    description: "Manage Career @ VCET recruitment PDF link.",
+    links: [
+      { label: "Career @ VCET", section: "career-at-vcet" },
+    ]
   }
 ];
 const trainingPlacementEditables = [

@@ -2,8 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { pagesApi } from '../../api/pagesApi';
 import { CommitteeData, CommitteePayload, CommitteeMember, CommitteeReport } from '../../types';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 /* ── UI Components ────────────────────────────────────────────────────────── */
+const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () => void }> = ({ message, type, onClose }) => {
+  useEffect(() => { const t = setTimeout(onClose, 3500); return () => clearTimeout(t); }, [onClose]);
+  return (
+    <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-sm font-bold ${type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'}`}>
+      {message}
+    </div>
+  );
+};
+
 const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => (
   <div className="bg-white border border-slate-200/60 rounded-[2.5rem] overflow-hidden shadow-sm transition-all hover:shadow-md">
     <div className="px-8 py-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-4">
@@ -21,6 +31,95 @@ const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: Re
 const inputBase = "w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all";
 const labelBase = "block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 ml-1";
 
+const filePreviewCache = new WeakMap<File, string>();
+const getFilePreviewUrl = (file: File): string => {
+  const cached = filePreviewCache.get(file);
+  if (cached) return cached;
+  const url = URL.createObjectURL(file);
+  filePreviewCache.set(file, url);
+  return url;
+};
+
+const resolveMediaUrl = (value: any): string | null => {
+  if (!value) return null;
+  if (value instanceof File) return getFilePreviewUrl(value);
+  if (typeof value === 'string') return resolveUploadedAssetUrl(value) || value;
+  if (typeof value === 'object') {
+    const raw = value.url || value.fileUrl || value.imageUrl || value.path;
+    if (typeof raw === 'string') return resolveUploadedAssetUrl(raw) || raw;
+  }
+  return null;
+};
+
+const truncate = (value: unknown, max: number): string =>
+  String(value ?? '').trim().slice(0, max);
+
+const sanitizeStringList = (items: unknown, maxItems: number, maxLen: number): string[] => {
+  if (!Array.isArray(items)) return [];
+  return items
+    .map((item) => truncate(item, maxLen))
+    .filter(Boolean)
+    .slice(0, maxItems);
+};
+
+const sanitizeMembers = (items: unknown, slug: string): CommitteeMember[] => {
+  if (!Array.isArray(items)) return [];
+  const maxMembers = slug === 'cdc' ? 20 : 15;
+  return items.slice(0, maxMembers).map((row: any) => ({
+    post: truncate(row?.post, 80),
+    name: truncate(row?.name, 80),
+    designation: truncate(row?.designation, 80),
+    contact: truncate(row?.contact, 40),
+    email: truncate(row?.email, 40),
+    caste: truncate(row?.caste, 40),
+    address: truncate(row?.address, 180),
+    contactNo: truncate(row?.contactNo, 40),
+  }));
+};
+
+const sanitizeReports = (items: unknown, maxItems: number): CommitteeReport[] => {
+  if (!Array.isArray(items)) return [];
+  return items.slice(0, maxItems).map((row: any) => ({
+    year: truncate(row?.year, 20),
+    fileName: row?.fileName ? truncate(row.fileName, 150) : null,
+    fileUrl: row?.fileUrl ? truncate(row.fileUrl, 300) : null,
+    url: row?.url ? truncate(row.url, 300) : '',
+    file: row?.file ?? null,
+  }));
+};
+
+const sanitizeDocuments = (items: unknown, slug: string): any[] => {
+  if (!Array.isArray(items)) return [];
+  const maxDocs = 10;
+  return items.slice(0, maxDocs).map((row: any) => ({
+    title: truncate(row?.title, 120),
+    fileName: row?.fileName ? truncate(row.fileName, 150) : null,
+    fileUrl: row?.fileUrl ? truncate(row.fileUrl, 300) : null,
+    pdfUrl: row?.pdfUrl ? truncate(row.pdfUrl, 300) : '',
+    imageUrl: row?.imageUrl ? truncate(row.imageUrl, 300) : '',
+    file: row?.file ?? null,
+    image: row?.image ?? null,
+  }));
+};
+
+const sanitizeCommitteePayload = (slug: string, payload: CommitteePayload): CommitteePayload => ({
+  ...payload,
+  responsibilities: sanitizeStringList(payload.responsibilities, 10, 120),
+  objectives: sanitizeStringList(
+    payload.objectives,
+    10,
+    slug === 'sc-st' ? 100 : (slug === 'equal-opportunity' ? 150 : 120),
+  ),
+  activities: sanitizeStringList(payload.activities, 15, 200),
+  aboutPoints: sanitizeStringList(payload.aboutPoints, 10, 150),
+  initiatives: sanitizeStringList(payload.initiatives, 15, 200),
+  guidelines: sanitizeStringList(payload.guidelines, 12, 220),
+  members: sanitizeMembers(payload.members, slug),
+  reports: sanitizeReports(payload.reports, 5),
+  momReports: sanitizeReports((payload as any).momReports, 12),
+  documents: sanitizeDocuments(payload.documents, slug),
+});
+
 /* ── List Manager (Dynamic Strings) ────────────────────────────────────────── */
 const ListManager: React.FC<{
   title: string;
@@ -28,7 +127,7 @@ const ListManager: React.FC<{
   onChange: (items: string[]) => void;
   maxItems?: number;
   charLimit?: [number, number];
-}> = ({ title, items, onChange, maxItems = 6, charLimit }) => {
+}> = ({ title, items, onChange, maxItems = 10, charLimit }) => {
   const addItem = () => {
     if (items.length < maxItems) onChange([...items, '']);
   };
@@ -162,9 +261,20 @@ const ReportManager: React.FC<{
   onChange: (items: CommitteeReport[]) => void;
   maxItems?: number;
 }> = ({ items, onChange, maxItems = 5 }) => {
+  const currentYear = new Date().getFullYear();
+  const defaultAcademicYear = `${currentYear}-${String((currentYear + 1) % 100).padStart(2, '0')}`;
+  const yearOptions = Array.from({ length: 12 }, (_, idx) => {
+    const start = currentYear + 1 - idx;
+    return `${start}-${String((start + 1) % 100).padStart(2, '0')}`;
+  });
+  const existingYears = (items || [])
+    .map((item) => String(item?.year || '').trim())
+    .filter(Boolean);
+  const years = Array.from(new Set([...existingYears, ...yearOptions])).sort((a, b) => b.localeCompare(a));
+
   const addItem = () => {
     if (items.length < maxItems) {
-      onChange([...items, { year: '2024-25', fileName: null, fileUrl: null }]);
+      onChange([...items, { year: defaultAcademicYear, fileName: null, fileUrl: null }]);
     }
   };
   const removeItem = (idx: number) => onChange(items.filter((_, i) => i !== idx));
@@ -173,8 +283,6 @@ const ReportManager: React.FC<{
     next[idx] = { ...next[idx], ...updates };
     onChange(next);
   };
-
-  const years = ['2023-24', '2024-25', '2025-26', '2022-23'];
 
   return (
     <div className="space-y-4">
@@ -201,18 +309,37 @@ const ReportManager: React.FC<{
                <input id="committeesform-3" name="committeesform-3" aria-label="committeesform field" 
                  type="file" 
                  accept=".pdf" 
-                 onChange={e => updateItem(idx, { file: e.target.files?.[0] || null })}
-                 className="absolute inset-0 opacity-0 cursor-pointer z-10"
-               />
-               <span className="text-sm font-medium text-slate-500 truncate">
-                 {(item as any).file?.name || item.fileName || 'Select PDF file...'}
-               </span>
+                  onChange={e => updateItem(idx, { file: e.target.files?.[0] || null })}
+                  className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                />
+                <span className="text-sm font-medium text-slate-500 truncate">
+                  {(item as any).file?.name || item.fileName || 'Select PDF file...'}
+                </span>
                <div className="w-6 h-6 rounded-lg bg-blue-50 flex items-center justify-center text-[#2563EB]">
                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                </div>
+             </div>
+             {((item as any).file || item.fileUrl || item.url) && (
+               <div className="mt-3 flex gap-2">
+                 <a
+                   href={(item as any).file instanceof File ? getFilePreviewUrl((item as any).file) : (resolveUploadedAssetUrl(item.fileUrl || item.url || '') || item.fileUrl || item.url || '#')}
+                   target="_blank"
+                   rel="noreferrer"
+                   className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 text-xs font-black uppercase tracking-wider hover:bg-blue-100"
+                 >
+                   Preview PDF
+                 </a>
+                 <button
+                   type="button"
+                   onClick={() => updateItem(idx, { file: null, fileName: null, fileUrl: '', url: '' })}
+                   className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 text-xs font-black uppercase tracking-wider hover:bg-red-100"
+                 >
+                   Remove
+                 </button>
                </div>
-            </div>
-          </div>
-        </div>
+             )}
+           </div>
+         </div>
       ))}
       {items.length < maxItems && (
         <button type="button" onClick={addItem} className="text-[#2563EB] text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:opacity-80 transition-opacity">
@@ -232,7 +359,7 @@ const PDFDocumentManager: React.FC<{
 }> = ({ items, onChange, maxItems = 3, showUrlField }) => {
   const addItem = () => {
     if (items.length < maxItems) {
-      onChange([...items, { title: '', fileName: null, fileUrl: null, pdfUrl: '' }]);
+      onChange([...items, { title: '', fileName: null, fileUrl: null, pdfUrl: '', imageUrl: null }]);
     }
   };
   const removeItem = (idx: number) => onChange(items.filter((_, i) => i !== idx));
@@ -270,11 +397,69 @@ const PDFDocumentManager: React.FC<{
                    className="absolute inset-0 opacity-0 cursor-pointer z-10"
                  />
                  <span className="text-sm font-medium text-slate-500 truncate">
-                   {item.file?.name || item.fileName || 'Upload PDF...'}
-                 </span>
+                    {item.file?.name || item.fileName || 'Upload PDF...'}
+                  </span>
                  <div className="w-6 h-6 rounded-lg bg-[#2563EB]/5 text-[#2563EB] flex items-center justify-center">
                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
-                 </div>
+                  </div>
+              </div>
+              {(item.file || item.fileUrl || item.pdfUrl) && (
+                <div className="mt-3 flex gap-2">
+                  <a
+                    href={item.file instanceof File ? getFilePreviewUrl(item.file) : (resolveUploadedAssetUrl(item.fileUrl || item.pdfUrl || '') || item.fileUrl || item.pdfUrl || '#')}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 text-xs font-black uppercase tracking-wider hover:bg-blue-100"
+                  >
+                    Preview PDF
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => updateItem(idx, { file: null, fileName: null, fileUrl: '', pdfUrl: '' })}
+                    className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 text-xs font-black uppercase tracking-wider hover:bg-red-100"
+                  >
+                    Remove PDF
+                  </button>
+                </div>
+              )}
+            </div>
+            <div>
+              <label className={labelBase}>Image Upload (Optional)</label>
+              <div className="rounded-2xl border border-slate-200 bg-white p-3 space-y-3">
+                <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
+                  <input id="committeesform-image-1" name="committeesform-image-1" aria-label="committeesform image field"
+                    type="file"
+                    accept="image/*"
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                    onChange={e => {
+                      const file = e.target.files?.[0] || null;
+                      if (file) updateItem(idx, { image: file, imageUrl: file.name });
+                    }}
+                  />
+                  {resolveMediaUrl(item.image) || resolveMediaUrl(item.imageUrl) ? (
+                    <img
+                      src={resolveMediaUrl(item.image) || resolveMediaUrl(item.imageUrl) || ''}
+                      alt="Document preview"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-xs font-black uppercase tracking-wider text-slate-400">
+                      Click to upload image
+                    </div>
+                  )}
+                </div>
+                <div className="text-xs text-slate-500 break-all">
+                  {item.image instanceof File ? item.image.name : (item.imageUrl || 'No image selected')}
+                </div>
+                {(item.image || item.imageUrl) && (
+                  <button
+                    type="button"
+                    onClick={() => updateItem(idx, { image: null, imageUrl: '' })}
+                    className="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 text-xs font-black uppercase tracking-wider hover:bg-red-100"
+                  >
+                    Remove Image
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -311,17 +496,23 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
   const [payload, setPayload] = useState<CommitteePayload>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   useEffect(() => {
     pagesApi.committees.get(slug)
       .then(res => {
         setData(res.data);
         setPayload({
+          ...res.data,
           responsibilities: res.data?.responsibilities || [],
           objectives: res.data?.objectives || [],
+          activities: res.data?.activities || [],
+          aboutPoints: res.data?.aboutPoints || [],
+          initiatives: res.data?.initiatives || [],
           guidelines: res.data?.guidelines || [],
           members: res.data?.members || [],
           reports: res.data?.reports || [],
+          momReports: (res.data as any)?.momReports || [],
           documents: res.data?.documents || [],
         });
       })
@@ -331,11 +522,13 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
   const saveChanges = async () => {
     setSaving(true);
     try {
-      await pagesApi.committees.update(slug, payload);
-      alert(`${data?.name} updated successfully!`);
+      const sanitizedPayload = sanitizeCommitteePayload(slug, payload);
+      setPayload(sanitizedPayload);
+      await pagesApi.committees.update(slug, sanitizedPayload);
+      setToast({ message: `${data?.name || 'Committee'} updated successfully`, type: 'success' });
     } catch (err) {
       console.error(err);
-      alert('Failed to update committee.');
+      setToast({ message: 'Failed to update committee.', type: 'error' });
     } finally {
       setSaving(false);
     }
@@ -356,15 +549,16 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
   );
 
   return (
-    <form onSubmit={handleSave} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <PageEditorHeader
-        title={data?.name || 'Committee Editor'}
-        description="Manage professional committee data and records."
-        onSave={saveChanges}
-        isSaving={saving}
-        showBackButton
-        onBack={onBack}
-      />
+    <>
+      <form onSubmit={handleSave} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <PageEditorHeader
+          title={data?.name || 'Committee Editor'}
+          description="Manage professional committee data and records."
+          onSave={saveChanges}
+          isSaving={saving}
+          showBackButton
+          onBack={onBack}
+        />
 
       <div className="space-y-10 pb-20">
         {/* CDC Responsibilities */}
@@ -374,6 +568,7 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
               title="Responsibility" 
               items={payload.responsibilities || []} 
               onChange={items => setPayload({...payload, responsibilities: items})} 
+              maxItems={10}
               charLimit={[80, 120]}
             />
           </SectionCard>
@@ -386,9 +581,56 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
               title="Objective" 
               items={payload.objectives || []} 
               onChange={items => setPayload({...payload, objectives: items})} 
+              maxItems={10}
               charLimit={slug === 'sc-st' ? [80, 100] : [80, 120]}
             />
           </SectionCard>
+        )}
+
+        {slug === 'equal-opportunity' && (
+          <>
+            <SectionCard title="Committee Objectives" icon={<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>}>
+              <ListManager
+                title="Objective"
+                items={payload.objectives || []}
+                onChange={items => setPayload({ ...payload, objectives: items })}
+                maxItems={10}
+                charLimit={[50, 150]}
+              />
+            </SectionCard>
+            <SectionCard title="Activities & Initiatives" icon={<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>}>
+              <ListManager
+                title="Activity"
+                items={payload.activities || []}
+                onChange={items => setPayload({ ...payload, activities: items })}
+                maxItems={15}
+                charLimit={[30, 200]}
+              />
+            </SectionCard>
+          </>
+        )}
+
+        {slug === 'sedg' && (
+          <>
+            <SectionCard title="Focus Areas" icon={<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5l7 7-7 7M4 5l7 7-7 7" /></svg>}>
+              <ListManager
+                title="Focus Area"
+                items={payload.aboutPoints || []}
+                onChange={items => setPayload({ ...payload, aboutPoints: items })}
+                maxItems={10}
+                charLimit={[50, 150]}
+              />
+            </SectionCard>
+            <SectionCard title="Initiatives" icon={<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}>
+              <ListManager
+                title="Initiative"
+                items={payload.initiatives || []}
+                onChange={items => setPayload({ ...payload, initiatives: items })}
+                maxItems={15}
+                charLimit={[30, 200]}
+              />
+            </SectionCard>
+          </>
         )}
 
         {/* SGRC Guidelines */}
@@ -398,6 +640,7 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
               title="Guideline" 
               items={payload.guidelines || []} 
               onChange={items => setPayload({...payload, guidelines: items})} 
+              maxItems={12}
             />
           </SectionCard>
         )}
@@ -416,7 +659,7 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
                 slug === 'icc' ? [{ key: 'post', label: 'Post', placeholder: 'e.g. Presiding Officer' }, { key: 'name', label: 'Name', placeholder: 'Full Name' }, { key: 'contact', label: 'Contact', placeholder: 'Phone Number', limit: 40 }] :
                 [{ key: 'name', label: 'Name', placeholder: 'Full Name' }, { key: 'post', label: 'Post / Designation', placeholder: 'e.g. Member Secretary' }]
               }
-              maxItems={slug === 'cdc' ? 10 : 8}
+              maxItems={slug === 'cdc' ? 20 : 15}
             />
           </SectionCard>
         )}
@@ -427,6 +670,17 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
             <ReportManager 
               items={payload.reports || []} 
               onChange={reports => setPayload({...payload, reports})} 
+              maxItems={12}
+            />
+          </SectionCard>
+        )}
+
+        {slug === 'iqac' && (
+          <SectionCard title="IQAC Minutes of Meeting (MoM)" icon={<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}>
+            <ReportManager
+              items={(payload as any).momReports || []}
+              onChange={momReports => setPayload({ ...payload, momReports } as CommitteePayload)}
+              maxItems={12}
             />
           </SectionCard>
         )}
@@ -437,13 +691,15 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
             <PDFDocumentManager 
               items={payload.documents || []} 
               onChange={docs => setPayload({...payload, documents: docs})} 
-              maxItems={slug === 'sedg' ? 1 : 3}
-              showUrlField={slug === 'equal-opportunity'}
+              maxItems={10}
+              showUrlField
             />
           </SectionCard>
         )}
-      </div>
-    </form>
+        </div>
+      </form>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+    </>
   );
 };
 

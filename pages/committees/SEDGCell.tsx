@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Heart, Users, BookOpen, HandHeart, Target, Lightbulb, GraduationCap, Award } from 'lucide-react';
+import { getCommitteeSection } from '../../services/committees';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
-const aboutPoints = [
+const fallbackAboutPoints = [
   {
     icon: Heart,
     title: 'Student Welfare',
@@ -36,7 +38,7 @@ const aboutPoints = [
   },
 ];
 
-const initiatives = [
+const fallbackInitiatives = [
   'Identifying and enrolling students from SEDG backgrounds during admissions',
   'Providing free study materials, textbooks, and access to digital learning resources',
   'Organizing bridge courses and remedial classes in core subjects',
@@ -49,7 +51,78 @@ const initiatives = [
   'Facilitating participation in co-curricular and extra-curricular activities',
 ];
 
+type DocumentItem = { title: string; url: string };
+type AboutCard = { icon: React.ComponentType<any>; title: string; description: string };
+
+const fallbackDocuments: DocumentItem[] = [
+  { title: 'SEDG Cell Policy', url: '#' },
+];
+
+const aboutIconMap: React.ComponentType<any>[] = [
+  Heart,
+  BookOpen,
+  HandHeart,
+  GraduationCap,
+  Lightbulb,
+  Target,
+];
+
+const getAboutTitle = (text: string, index: number): string => {
+  const normalized = text.toLowerCase();
+  if (normalized.includes('holistic') || normalized.includes('welfare')) return 'Student Welfare';
+  if (normalized.includes('academic') || normalized.includes('remedial')) return 'Academic Support';
+  if (normalized.includes('scholarship') || normalized.includes('financial')) return 'Financial Assistance';
+  if (normalized.includes('career') || normalized.includes('placement')) return 'Career Guidance';
+  if (normalized.includes('workshop') || normalized.includes('growth')) return 'Empowerment Programs';
+  if (normalized.includes('disparity') || normalized.includes('gap')) return 'Bridging the Gap';
+  return `Focus Area ${index + 1}`;
+};
+
 const SEDGCell: React.FC = () => {
+  const [apiData, setApiData] = useState<Record<string, any> | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getCommitteeSection<Record<string, any>>('sedg')
+      .then((res) => {
+        if (mounted) setApiData(res);
+      })
+      .catch(() => {
+        if (mounted) setApiData(null);
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const documents = useMemo<DocumentItem[]>(() => {
+    const source = Array.isArray(apiData?.documents) ? apiData.documents : [];
+    const mapped = source
+      .map((row: Record<string, unknown>) => ({
+        title: String(row.title ?? row.label ?? 'Document').trim(),
+        url: String(resolveUploadedAssetUrl(String(row.fileUrl ?? row.pdfUrl ?? row.url ?? '').trim()) || String(row.fileUrl ?? row.pdfUrl ?? row.url ?? '').trim()),
+      }))
+      .filter((row: DocumentItem) => row.title || row.url);
+    return mapped.length > 0 ? mapped : fallbackDocuments;
+  }, [apiData]);
+
+  const aboutPoints = useMemo<AboutCard[]>(() => {
+    const source = Array.isArray(apiData?.aboutPoints) ? apiData.aboutPoints : [];
+    const mapped = source.map((item: unknown) => String(item ?? '').trim()).filter(Boolean);
+    const finalItems = mapped.length > 0 ? mapped : fallbackAboutPoints.map((item) => item.description);
+    return finalItems.map((description, index) => ({
+      description,
+      title: getAboutTitle(description, index),
+      icon: aboutIconMap[index % aboutIconMap.length],
+    }));
+  }, [apiData]);
+
+  const initiatives = useMemo<string[]>(() => {
+    const source = Array.isArray(apiData?.initiatives) ? apiData.initiatives : [];
+    const mapped = source.map((item: unknown) => String(item ?? '').trim()).filter(Boolean);
+    return mapped.length > 0 ? mapped : fallbackInitiatives;
+  }, [apiData]);
+
   return (
     <PageLayout>
       <PageBanner
@@ -151,6 +224,31 @@ const SEDGCell: React.FC = () => {
                   </div>
                   <p className="text-sm text-slate-600 leading-relaxed">{initiative}</p>
                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-8 md:py-16 lg:py-24 bg-brand-light">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-14 reveal">
+              <h2 className="text-2xl md:text-3xl font-display font-bold text-brand-navy">Documents</h2>
+            </div>
+
+            <div className="space-y-3">
+              {documents.map((doc, idx) => (
+                <a
+                  key={`${doc.title}-${idx}`}
+                  href={doc.url || '#'}
+                  target={doc.url && doc.url !== '#' ? '_blank' : undefined}
+                  rel={doc.url && doc.url !== '#' ? 'noopener noreferrer' : undefined}
+                  className="reveal flex items-center justify-between gap-4 bg-white rounded-none p-4 border border-[#8ea2b8] hover:shadow-md transition-all duration-300"
+                >
+                  <p className="text-sm text-slate-700 leading-relaxed">{doc.title || `Document ${idx + 1}`}</p>
+                  <span className="text-xs font-bold text-brand-blue uppercase tracking-wider">Open PDF</span>
+                </a>
               ))}
             </div>
           </div>

@@ -7,7 +7,7 @@ import { getResearchSection } from '../services/research';
 import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
 
 const CAREER_AT_VCET_PDF_URL =
-  'https://drive.google.com/file/d/1grwZ4_QIjC23c4HHFCM4xPJuFywsWtgw/view?usp=sharing';
+  'https://vcet.edu.in/wp-content/uploads/2025/05/Recruitment-Advertise-15-May-2025.pdf';
 const SSS_GOOGLE_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSeR3qTw2AO0xsDYkuzJ8dnrJyi4EGuYJAupBqLqlS2cQPLlYg/viewform';
 
@@ -167,7 +167,7 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'Student & Career',
     dropdown: [
-      { label: 'Career @ VCET', href: '/career-at-vcet' },
+      { label: 'Career @ VCET', href: CAREER_AT_VCET_PDF_URL },
       {
         label: 'Extra curricular Activities',
         subItems: [
@@ -438,7 +438,6 @@ const keywordMap: Record<string, string[]> = {
   '/sports-gymkhana': ['sports', 'gym', 'gymkhana', 'playground', 'athletics'],
   '/health-facilities': ['health', 'medical', 'doctor', 'first aid'],
   '/differently-abled': ['differently abled', 'disability', 'accessible', 'divyang'],
-  '/career-at-vcet': ['career', 'jobs', 'recruitment', 'vacancies', 'work at vcet'],
   [CAREER_AT_VCET_PDF_URL]: ['career', 'jobs', 'recruitment', 'vacancies', 'work at vcet'],
   '/cultural-committee': ['cultural', 'fest', 'events', 'annual day'],
   '/sports-committee': ['sports committee', 'games'],

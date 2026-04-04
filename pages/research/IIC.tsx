@@ -215,6 +215,14 @@ const ResearchIIC: React.FC = () => {
     return rows.length > 0 ? rows : defaultAchievementHolders;
   }, [apiData]);
 
+  const achievementGridClasses = achievementHolders.length <= 2
+    ? 'grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[1200px]'
+    : 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5';
+
+  const achievementMediaClasses = achievementHolders.length <= 2
+    ? 'bg-[#0E355C] border border-[#CFB46C]/35 h-[320px] md:h-[430px] flex flex-col items-center justify-center text-center overflow-hidden'
+    : 'bg-[#0E355C] border border-[#CFB46C]/35 h-[240px] md:h-[300px] flex flex-col items-center justify-center text-center overflow-hidden';
+
   const galleryHolders = useMemo(() => {
     const rows = Array.isArray(apiData?.iicGalleryDetailed)
       ? apiData.iicGalleryDetailed
@@ -389,13 +397,13 @@ const ResearchIIC: React.FC = () => {
             <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold text-[#1A4B7C] tracking-tight">Achievements !</h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-            {achievementHolders.map((holder, index) => (
+          <div className={achievementGridClasses}>
+            {achievementHolders.map((holder: { title: string; image: string | null }, index: number) => (
               <article key={holder.title} className="reveal group" style={{ transitionDelay: `${index * 0.04}s` }}>
                 <div className="relative p-[2px] bg-gradient-to-br from-[#D8A215] via-[#F4C84C] to-[#9E7215] shadow-[0_8px_20px_rgba(23,42,79,0.18)]">
-                  <div className="bg-[#0E355C] border border-[#CFB46C]/35 aspect-[4/3] flex flex-col items-center justify-center text-center overflow-hidden">
+                  <div className={achievementMediaClasses}>
                     {holder.image ? (
-                      <img src={holder.image} alt={holder.title} className="w-full h-full object-cover" />
+                      <img src={holder.image} alt={holder.title} className="w-full h-full object-contain bg-[#F8FAFC] p-1" />
                     ) : (
                       <>
                         <Crown className="w-7 h-7 text-[#F4C84C] mb-2" />
@@ -411,19 +419,17 @@ const ResearchIIC: React.FC = () => {
         </div>
       </section>
 
-      <section id="gallery" className="py-14 md:py-16 bg-[#F8FAFC] border-b border-[#E5E7EB] scroll-mt-28 overflow-hidden">
+      <section id="gallery" className="py-10 md:py-12 bg-[#F8FAFC] border-b border-[#E5E7EB] scroll-mt-28 overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
-          <div className="reveal mb-8">
+          <div className="reveal mb-6">
             <span className="inline-block text-[12px] font-bold uppercase tracking-[0.2em] text-[#fdb813] border-b border-[#fdb813]/60 pb-1 mb-4">
               Gallery
             </span>
             <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold text-[#1A4B7C] tracking-tight">IIC Events Visual Stream</h2>
           </div>
 
-          <div className="relative">
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-28 bg-gradient-to-r from-[#F8FAFC]/95 via-[#F8FAFC]/88 to-transparent backdrop-blur-[10px] z-10" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-28 bg-gradient-to-l from-[#F8FAFC]/95 via-[#F8FAFC]/88 to-transparent backdrop-blur-[10px] z-10" />
-            <div className="flex gap-4 w-max iic-marquee">
+          <div className="relative overflow-hidden iic-marquee-shell">
+            <div className="flex gap-3 md:gap-4 w-max iic-marquee">
               {[...galleryHolders, ...galleryHolders].map((item, index) => (
                 <div key={`${item.label}-${index}`} className="w-[250px] md:w-[280px] bg-white border border-[#DCE6F2] shadow-[0_4px_14px_rgba(15,23,42,0.06)]">
                   <div className="aspect-[16/10] bg-[#EDF4FB] flex items-center justify-center overflow-hidden">
@@ -433,7 +439,7 @@ const ResearchIIC: React.FC = () => {
                       <Image className="w-8 h-8 text-[#1A4B7C]/35" />
                     )}
                   </div>
-                  <div className="px-3 py-2.5 border-t border-[#E5ECF5]">
+                  <div className="px-3 py-2 border-t border-[#E5ECF5]">
                     <p className="text-[13px] font-semibold text-[#1A4B7C] text-center">{item.label}</p>
                   </div>
                 </div>
@@ -443,7 +449,7 @@ const ResearchIIC: React.FC = () => {
         </div>
       </section>
 
-      <section id="team" className="py-14 md:py-16 bg-white scroll-mt-28">
+      <section id="team" className="py-10 md:py-12 bg-white scroll-mt-28">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
           <div className="reveal mb-8">
             <span className="inline-block text-[12px] font-bold uppercase tracking-[0.2em] text-[#fdb813] border-b border-[#fdb813]/60 pb-1 mb-4">
@@ -494,7 +500,7 @@ const ResearchIIC: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap gap-3 md:gap-4">
-            {reportPdfs.map((item, idx) => (
+            {reportPdfs.map((item: { label: string; href: string }, idx: number) => (
               <a
                 key={item.label}
                 href={item.href}
@@ -536,6 +542,11 @@ const ResearchIIC: React.FC = () => {
             100% { transform: translateX(-50%); }
           }
 
+          .iic-marquee-shell {
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+          }
+
           .iic-float {
             animation: iicFloat 4.2s ease-in-out infinite;
           }
@@ -549,7 +560,12 @@ const ResearchIIC: React.FC = () => {
           }
 
           .iic-marquee {
-            animation: iicMarquee 58s linear infinite;
+            animation: iicMarquee 52s linear infinite;
+            will-change: transform;
+          }
+
+          .iic-marquee:hover {
+            animation-play-state: paused;
           }
         `}
       </style>

@@ -21,8 +21,6 @@ import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
 import SplashScreen from './components/SplashScreen';
 
-const CAREER_AT_VCET_PDF_URL =
-  'https://drive.google.com/file/d/1grwZ4_QIjC23c4HHFCM4xPJuFywsWtgw/view?usp=sharing';
 
 /* ── Lazy-loaded Pages ── */
 
@@ -354,6 +352,7 @@ function App() {
             <Route path="/administration" element={<Administration />} />
             <Route path="/strategic-plan" element={<StrategicPlan />} />
               <Route path="/code-of-conduct" element={<CodeOfConduct />} />
+            <Route path="/courses-and-intake" element={<CoursesIntake />} />
             <Route path="/fees-structure" element={<FeesStructure />} />
             <Route path="/scholarships" element={<Scholarships />} />
             <Route path="/brochure" element={<Brochure />} />
@@ -410,7 +409,6 @@ function App() {
             <Route path="/differently-abled" element={<DifferentlyAbled />} />
 
             {/* Student Life */}
-            <Route path="/career-at-vcet" element={<ExternalRedirect to={CAREER_AT_VCET_PDF_URL} />} />
             <Route path="/students-council" element={<Navigate to="/" replace />} />
             <Route path="/cultural-committee" element={<CulturalCommittee />} />
             <Route path="/sports-committee" element={<SportsCommittee />} />

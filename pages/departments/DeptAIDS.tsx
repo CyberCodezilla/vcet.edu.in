@@ -120,7 +120,19 @@ const DeptAIDS: React.FC = () => {
           {activeId === 'about' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="space-y-6 text-slate-600 leading-8 text-left">
-                <p className="text-lg font-bold text-brand-navy">Dr. Tatwadarshi Nagarhalli, Associate Professor &amp; Head Of Department</p>
+                <div className="mx-auto max-w-md text-center space-y-4">
+                  <div className="rounded-3xl border-2 border-dashed border-blue-200 bg-blue-50/40 px-6 py-12">
+                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm">
+                      <i className="ph ph-image text-2xl" />
+                    </div>
+                    <p className="text-base font-semibold text-slate-600">HOD Image Placeholder</p>
+                    <p className="text-sm text-slate-400">Add image later in this area</p>
+                  </div>
+                  <div>
+                    <p className="mt-4 text-2xl font-bold text-brand-navy">Dr. Tatwadarshi Nagarhalli</p>
+                    <p className="mt-1 text-sm font-semibold text-brand-gold">Associate Professor &amp; Head Of Department</p>
+                  </div>
+                </div>
                 <p>
                   The Department of Artificial Intelligence and Data Science was established in 2020 to provide quality education in the emerging fields of Artificial Intelligence and Data Science. Initially, the Department offered 30 seats in the first academic year for the Undergraduate Program (B.E.). However, in the following year (2021-22), the intake was doubled, and currently there are 120 seats.
                 </p>
@@ -244,18 +256,18 @@ const DeptAIDS: React.FC = () => {
           {/* ════ POs, PEOs & PSOs ═════════════════════════════════ */}
           {activeId === 'peo' && (() => {
             const pos = [
-              { n: '01', text: 'An ability to apply knowledge of mathematics, science, and engineering.' },
-              { n: '02', text: 'An ability to design and conduct experiments, as well as to analyze and interpret data.' },
-              { n: '03', text: 'An ability to design a system, component, or process to meet desired needs within realistic constraints.' },
-              { n: '04', text: 'An ability to identify, formulate, and solve engineering problems.' },
-              { n: '05', text: 'An ability to use the techniques, skills, and modern engineering tools necessary for engineering practice.' },
-              { n: '06', text: 'Knowledge of contemporary issues.' },
-              { n: '07', text: 'The broad education necessary to understand the impact of engineering solutions in a global, economic, environmental and societal context.' },
-              { n: '08', text: 'An understanding of professional and ethical responsibility.' },
-              { n: '09', text: 'An ability to function in multidisciplinary teams.' },
-              { n: '10', text: 'An ability to communicate effectively.' },
-              { n: '11', text: 'Recognition of the need for, and an ability to engage in life-long learning.' },
-              { n: '12', text: 'An understanding of engineering and management principles and the ability to apply these to manage projects in multidisciplinary environments.' },
+              { n: '01', text: 'Engineering knowledge: Apply the knowledge of mathematics, science, engineering fundamentals, and an engineering specialization to the solution of complex engineering problems.' },
+              { n: '02', text: 'Problem analysis: Identify, formulate, review research literature, and analyze complex engineering problems reaching substantiated conclusions using first principles of mathematics, natural sciences, and engineering sciences.' },
+              { n: '03', text: 'Design/development of solutions: Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for the public health and safety, and the cultural, societal, and environmental considerations.' },
+              { n: '04', text: 'Conduct investigations of complex problems: Use research-based knowledge and research methods including design of experiments, analysis and interpretation of data, and synthesis of the information to provide valid conclusions.' },
+              { n: '05', text: 'Modern tool usage: Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools including prediction and modeling to complex engineering activities with an understanding of the limitations.' },
+              { n: '06', text: 'The engineer and society: Apply reasoning informed by contextual knowledge to assess societal, health, safety, legal and cultural issues and the consequent responsibilities relevant to professional engineering practice.' },
+              { n: '07', text: 'Environment and sustainability: Understand the impact of professional engineering solutions in societal and environmental contexts, and demonstrate the knowledge of, and need for sustainable development.' },
+              { n: '08', text: 'Ethics: Apply ethical principles and commit to professional ethics and responsibilities and norms of engineering practice.' },
+              { n: '09', text: 'Individual and teamwork: Function effectively as an individual, and as a member or leader in diverse teams, and in multidisciplinary settings.' },
+              { n: '10', text: 'Communication: Communicate effectively on complex engineering activities with the engineering community and with society at large, such as, being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions.' },
+              { n: '11', text: 'Project management and finance: Demonstrate knowledge and understanding of the engineering and management principles and apply these to one\'s own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.' },
+              { n: '12', text: 'Life-long learning: Recognize the need for and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change.' },
             ];
             const psos = [
               { n: 'PSO1', text: 'Analyze the current trends in the field of Artificial Intelligence & Data Science and contribute to the technological advancements by presenting/publishing at national/international forums.' },
@@ -336,44 +348,64 @@ const DeptAIDS: React.FC = () => {
 
           {/* ════ TOPPERS ══════════════════════════════════════════ */}
           {activeId === 'toppers' && (() => {
-            const staticToppers = [
-              { name: 'Dnyanesh panchal', year: '2024-25', cgpa: '10 SGPI' },
-              { name: 'Priyanka bhandari', year: '2024-25', cgpa: '9.87 SGPI' },
-              { name: 'Mohammed Ali Jaffari', year: '2024-25', cgpa: '9.3 SGPI' },
+            const topperYears = [
+              {
+                year: '24-25',
+                se: ['1. Pranjal Patil (10)', '2. Devendra Gurav (9.92)', '3. Shravani Raut (9.75)'],
+                te: ['1. Nagar Pratham(9.78), Upadhyay Shagun (9.78)', '2. Panchal Dhyanesh (9.61)', '3. Bari AnkitBARI (9.48)'],
+                be: ['1. Jha Devharsh (9.56)', '2. Shetty Amulya (9.45)', '3. Maurya Hemani (9.34)'],
+              },
+              {
+                year: '23-24',
+                se: ['1. Dnyanesh panchal - 10 SGPI', '2. Priyanka bhandari -9.87 SGPI', '3. Mohammed Ali Jaffari -9.3 SGPI'],
+                te: ['1. JHA DEVHARSH JAGDANAND- 9.64 SGPI', '2. MAURYA HEMANI RAMAKANT- 9.45 SGPI, SINGH NEHA VINOD- 9.45 SGPI', '3. SHETTY AMULYA CHANDAYA-9.36SGPI'],
+                be: [],
+              },
+              {
+                year: '22-23',
+                se: ['1. Devharsh Jha - 9.74 SGPI', '2. Amulya Shetty- 8.96 SGPI', '3. Hemani Maurya - 8.7 SGPI, Ryan Chuliyl - 8.7 SGPI'],
+                te: ['1. JHA DEVHARSH JAGDANAND- 9.64 SGPI', '2. MAURYA HEMANI RAMAKANT- 9.45 SGPI, SINGH NEHA VINOD- 9.45 SGPI', '3. SHETTY AMULYA CHANDAYA-9.36SGPI'],
+                be: [],
+              },
+              {
+                year: '21-22',
+                se: ['1. Dnyanesh panchal - 10 SGPI', '2. Priyanka bhandari -9.87 SGPI', '3. Mohammed Ali Jaffari -9.3 SGPI'],
+                te: ['1. JHA DEVHARSH JAGDANAND- 9.64 SGPI', '2. MAURYA HEMANI RAMAKANT- 9.45 SGPI, SINGH NEHA VINOD- 9.45 SGPI', '3. SHETTY AMULYA CHANDAYA-9.36SGPI'],
+                be: [],
+              },
             ];
-            const toppers = department?.content?.toppers?.length ? department.content.toppers : staticToppers;
             return (
-              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-8">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="w-8 h-px bg-brand-gold" />
-                  <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">AI &amp; Data Science</span>
-                </div>
-                <h3 className="text-2xl font-bold text-brand-navy relative inline-block">Toppers<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                
-                <div>
-                  <h4 className="text-base font-bold text-brand-navy mb-3">Student Toppers</h4>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="bg-brand-navy text-white">
-                          <th className="px-4 py-3 text-left">Name</th>
-                          <th className="px-4 py-3 text-left">Year</th>
-                          <th className="px-4 py-3 text-left">CGPA</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {toppers.map((t, i) => (
-                          <tr key={`topper-${i}`} className="border-t border-slate-100">
-                            <td className="px-4 py-3 text-slate-600">{t.name || '-'}</td>
-                            <td className="px-4 py-3 text-slate-600">{t.year || '-'}</td>
-                            <td className="px-4 py-3 text-slate-600">{t.cgpa || '-'}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </section>
+              <div className="space-y-6">
+                {topperYears.map((set) => {
+                  const hasBE = set.be.length > 0;
+                  const maxRows = Math.max(set.se.length, set.te.length, hasBE ? set.be.length : 0, 1);
+                  return (
+                    <section key={set.year} className="reveal bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-100">
+                      <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Toppers {set.year}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-brand-navy text-white">
+                              <th className="px-4 py-3 text-left">SE</th>
+                              <th className="px-4 py-3 text-left">TE</th>
+                              {hasBE && <th className="px-4 py-3 text-left">BE</th>}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {Array.from({ length: maxRows }, (_, i) => (
+                              <tr key={`${set.year}-${i}`} className="border-t border-slate-100">
+                                <td className="px-4 py-3 text-slate-600">{set.se[i] || '-'}</td>
+                                <td className="px-4 py-3 text-slate-600">{set.te[i] || '-'}</td>
+                                {hasBE && <td className="px-4 py-3 text-slate-600">{set.be[i] || '-'}</td>}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  );
+                })}
+              </div>
             );
           })()}
 

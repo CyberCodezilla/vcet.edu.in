@@ -1122,6 +1122,9 @@ export interface CommitteeData {
   description?: string;
   responsibilities?: string[];
   objectives?: string[];
+  activities?: string[];
+  aboutPoints?: string[];
+  initiatives?: string[];
   guidelines?: string[];
   members?: any[];
   reports?: any[];

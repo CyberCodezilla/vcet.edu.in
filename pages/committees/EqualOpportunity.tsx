@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Accessibility, Heart, BookOpen, Users, Target, HandHeart, GraduationCap, Lightbulb } from 'lucide-react';
+import { getCommitteeSection } from '../../services/committees';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
-const objectives = [
+const fallbackObjectives = [
   {
     icon: Accessibility,
     title: 'Accessibility',
@@ -36,7 +38,7 @@ const objectives = [
   },
 ];
 
-const activities = [
+const fallbackActivities = [
   'Orientation programs for newly admitted students from disadvantaged backgrounds',
   'Providing assistive devices and technology for differently-abled students',
   'Organizing sensitization workshops for faculty and staff',
@@ -48,7 +50,78 @@ const activities = [
   'Facilitating internship and placement opportunities through corporate partnerships',
 ];
 
+type DocumentItem = { title: string; url: string };
+type ObjectiveCard = { icon: React.ComponentType<any>; title: string; description: string };
+
+const fallbackDocuments: DocumentItem[] = [
+  { title: 'Equal Opportunity Cell Policy', url: '#' },
+];
+
+const objectiveIconMap: React.ComponentType<any>[] = [
+  Accessibility,
+  Heart,
+  BookOpen,
+  HandHeart,
+  GraduationCap,
+  Lightbulb,
+];
+
+const getObjectiveTitle = (text: string, index: number): string => {
+  const normalized = text.toLowerCase();
+  if (normalized.includes('accessib')) return 'Accessibility';
+  if (normalized.includes('inclusive')) return 'Inclusive Environment';
+  if (normalized.includes('academic')) return 'Academic Support';
+  if (normalized.includes('scholarship') || normalized.includes('financial')) return 'Scholarship Facilitation';
+  if (normalized.includes('career') || normalized.includes('placement')) return 'Career Guidance';
+  if (normalized.includes('skill') || normalized.includes('training')) return 'Skill Development';
+  return `Objective ${index + 1}`;
+};
+
 const EqualOpportunity: React.FC = () => {
+  const [apiData, setApiData] = useState<Record<string, any> | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getCommitteeSection<Record<string, any>>('equal-opportunity')
+      .then((res) => {
+        if (mounted) setApiData(res);
+      })
+      .catch(() => {
+        if (mounted) setApiData(null);
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const documents = useMemo<DocumentItem[]>(() => {
+    const source = Array.isArray(apiData?.documents) ? apiData.documents : [];
+    const mapped = source
+      .map((row: Record<string, unknown>) => ({
+        title: String(row.title ?? row.label ?? 'Document').trim(),
+        url: String(resolveUploadedAssetUrl(String(row.fileUrl ?? row.pdfUrl ?? row.url ?? '').trim()) || String(row.fileUrl ?? row.pdfUrl ?? row.url ?? '').trim()),
+      }))
+      .filter((row: DocumentItem) => row.title || row.url);
+    return mapped.length > 0 ? mapped : fallbackDocuments;
+  }, [apiData]);
+
+  const objectives = useMemo<ObjectiveCard[]>(() => {
+    const source = Array.isArray(apiData?.objectives) ? apiData.objectives : [];
+    const mapped = source.map((item: unknown) => String(item ?? '').trim()).filter(Boolean);
+    const finalItems = mapped.length > 0 ? mapped : fallbackObjectives.map((item) => item.description);
+    return finalItems.map((description, index) => ({
+      description,
+      title: getObjectiveTitle(description, index),
+      icon: objectiveIconMap[index % objectiveIconMap.length],
+    }));
+  }, [apiData]);
+
+  const activities = useMemo<string[]>(() => {
+    const source = Array.isArray(apiData?.activities) ? apiData.activities : [];
+    const mapped = source.map((item: unknown) => String(item ?? '').trim()).filter(Boolean);
+    return mapped.length > 0 ? mapped : fallbackActivities;
+  }, [apiData]);
+
   return (
     <PageLayout>
       <PageBanner
@@ -149,6 +222,31 @@ const EqualOpportunity: React.FC = () => {
                   </div>
                   <p className="text-sm text-slate-600 leading-relaxed">{activity}</p>
                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-8 md:py-16 lg:py-24 bg-brand-light">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-14 reveal">
+              <h2 className="text-2xl md:text-3xl font-display font-bold text-brand-navy">Documents</h2>
+            </div>
+
+            <div className="space-y-3">
+              {documents.map((doc, idx) => (
+                <a
+                  key={`${doc.title}-${idx}`}
+                  href={doc.url || '#'}
+                  target={doc.url && doc.url !== '#' ? '_blank' : undefined}
+                  rel={doc.url && doc.url !== '#' ? 'noopener noreferrer' : undefined}
+                  className="reveal flex items-center justify-between gap-4 bg-white rounded-none p-4 border border-[#8ea2b8] hover:shadow-md transition-all duration-300"
+                >
+                  <p className="text-sm text-slate-700 leading-relaxed">{doc.title || `Document ${idx + 1}`}</p>
+                  <span className="text-xs font-bold text-brand-blue uppercase tracking-wider">Open PDF</span>
+                </a>
               ))}
             </div>
           </div>

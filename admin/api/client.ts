@@ -192,9 +192,9 @@ export function resolveApiUrl(path: any): string | null {
 
   if (typeof resolvedPath !== 'string') return null;
   if (/^https?:\/\//i.test(resolvedPath) || resolvedPath.startsWith("blob:") || resolvedPath.startsWith("data:")) return resolvedPath;
-  // Local frontend assets shouldn't be prefixed with API_ORIGIN
+  // Uploaded backend assets should be resolved against backend origin
   if (/^\/?(images|Images|pdfs|Pdfs)\//.test(resolvedPath)) {
-    return resolvedPath.startsWith("/") ? resolvedPath : `/${resolvedPath}`;
+    return `${API_ORIGIN}${resolvedPath.startsWith('/') ? '' : '/'}${resolvedPath}`;
   }
   return `${API_ORIGIN}${resolvedPath.startsWith("/") ? resolvedPath : `/${resolvedPath}`}`;
 }

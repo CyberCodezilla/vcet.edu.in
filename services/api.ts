@@ -51,7 +51,12 @@ export async function post<T>(path: string, body: unknown): Promise<T> {
 export async function get<T>(path: string): Promise<T> {
     const response = await fetch(`${API_BASE}/api${path}`, {
         cache: 'no-store',
-        headers: { Accept: 'application/json' },
+        headers: {
+            Accept: 'application/json',
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            Pragma: 'no-cache',
+            Expires: '0',
+        },
     });
 
     const data: unknown = await response.json().catch(() => ({}));
@@ -73,9 +78,9 @@ export function resolveApiUrl(path: any): string | null {
 
     if (typeof resolvedPath !== 'string') return null;
     if (/^https?:\/\//i.test(resolvedPath) || resolvedPath.startsWith('blob:') || resolvedPath.startsWith('data:')) return resolvedPath;
-    // Local frontend assets shouldn't be prefixed with API_ORIGIN
+    // Uploaded backend assets should be resolved against backend origin
     if (/^\/?(images|Images|pdfs|Pdfs)\//.test(resolvedPath)) {
-        return resolvedPath.startsWith("/") ? resolvedPath : `/${resolvedPath}`;
+        return `${API_BASE}${resolvedPath.startsWith('/') ? '' : '/'}${resolvedPath}`;
     }
     return `${API_BASE}${resolvedPath.startsWith('/') ? '' : '/'}${resolvedPath}`;
 }
