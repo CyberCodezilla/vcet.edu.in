@@ -157,7 +157,7 @@ const GalleryForm: React.FC = () => {
                 onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
                 className="absolute inset-0 opacity-0 cursor-pointer z-10"
               />
-              <div className="w-full aspect-video rounded-[2rem] bg-slate-50 border-4 border-dashed border-slate-100 flex flex-col items-center justify-center gap-3 group-hover:bg-slate-100 group-hover:border-slate-200 transition-all overflow-hidden">
+              <div className="w-full aspect-video rounded-4xl bg-slate-50 border-4 border-dashed border-slate-100 flex flex-col items-center justify-center gap-3 group-hover:bg-slate-100 group-hover:border-slate-200 transition-all overflow-hidden">
                 {imageFile ? (
                   <img src={URL.createObjectURL(imageFile)} alt="Preview" className="w-full h-full object-cover" />
                 ) : existingImageUrl ? (

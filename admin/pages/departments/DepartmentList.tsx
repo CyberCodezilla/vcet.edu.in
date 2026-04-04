@@ -126,7 +126,7 @@ const DepartmentList: React.FC = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-5 group hover:shadow-md transition-all">
+        <div className="bg-white p-6 rounded-4xl shadow-sm border border-slate-100 flex items-center gap-5 group hover:shadow-md transition-all">
           <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
           </div>
@@ -135,7 +135,7 @@ const DepartmentList: React.FC = () => {
             <h3 className="text-2xl font-black text-slate-800">{items.length}</h3>
           </div>
         </div>
-        <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-5 group hover:shadow-md transition-all">
+        <div className="bg-white p-6 rounded-4xl shadow-sm border border-slate-100 flex items-center gap-5 group hover:shadow-md transition-all">
           <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-500 group-hover:scale-110 transition-transform">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
@@ -204,7 +204,7 @@ const DepartmentList: React.FC = () => {
                   <tr key={item.id} className="group hover:bg-slate-50/50 transition-all duration-300 border-b border-slate-50 last:border-0">
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-sm font-black shadow-inner group-hover:scale-110 transition-transform">
+                        <div className="w-12 h-12 rounded-2xl bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-sm font-black shadow-inner group-hover:scale-110 transition-transform">
                           {item.name.substring(0, 2).toUpperCase()}
                         </div>
                         <div className="flex flex-col">

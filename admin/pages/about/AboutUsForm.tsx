@@ -25,7 +25,7 @@ const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () 
 
 /* ── UI Components ─────────────────────────────────────────────────────────── */
 const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => (
-  <div className="bg-white rounded-[2rem] shadow-lg shadow-slate-200/40 border border-slate-100 overflow-hidden">
+  <div className="bg-white rounded-4xl shadow-lg shadow-slate-200/40 border border-slate-100 overflow-hidden">
     <div className="px-8 py-5 border-b border-slate-100 flex items-center gap-3">
       <div className="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500">{icon}</div>
       <h3 className="text-sm font-extrabold text-[#111827] uppercase tracking-wider">{title}</h3>
@@ -117,7 +117,7 @@ const SortableDynamicItem = ({ id, item, idx, fields, minItems, itemsLength, del
       <div className="flex flex-col pt-8 pr-2 border-r border-slate-200 cursor-grab active:cursor-grabbing text-slate-400 hover:text-blue-500" {...attributes} {...listeners}>
         <svg className="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 8h16M4 16h16"/></svg>
       </div>
-      <div className="grid grid-cols-1 gap-y-4 flex-grow">
+      <div className="grid grid-cols-1 gap-y-4 grow">
          {fields.map((f: any) => (
             <LimitedInput key={f.key} label={f.label} max={f.max} min={f.min} type={f.type} value={item[f.key]} onChange={v => upd(idx, { [f.key]: v })} />
          ))}
@@ -183,7 +183,7 @@ const SortableStringItem = ({ id, str, idx, minItems, itemsLength, label, maxLen
       <div className="cursor-grab active:cursor-grabbing text-slate-300 hover:text-blue-500 p-2" {...attributes} {...listeners}>
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 8h16M4 16h16"/></svg>
       </div>
-      <div className="flex-grow">
+      <div className="grow">
          <LimitedInput label={`${label} ${idx+1}`} max={maxLength} min={minLength} type={type} value={str} onChange={v => upd(idx, v)} />
       </div>
       {itemsLength > minItems && (

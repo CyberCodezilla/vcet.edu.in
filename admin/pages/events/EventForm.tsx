@@ -287,7 +287,7 @@ const EventForm: React.FC = () => {
           {imagePreviewToUse && (
             <div className="mt-2 w-full flex items-center justify-between bg-white border border-amber-100 rounded-xl p-4 shadow-sm">
               <div className="flex items-center gap-3 overflow-hidden">
-                <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
                   <span className="text-xs font-black tracking-tight">IMG</span>
                 </div>
                 <div className="text-left truncate">
@@ -310,7 +310,7 @@ const EventForm: React.FC = () => {
           {pdfPreviewToUse && (
             <div className="mt-2 w-full flex items-center justify-between bg-white border border-blue-100 rounded-xl p-4 shadow-sm">
               <div className="flex items-center gap-3 overflow-hidden">
-                <div className="w-10 h-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center shrink-0">
                   <span className="text-xs font-black tracking-tight">PDF</span>
                 </div>
                 <div className="text-left truncate">

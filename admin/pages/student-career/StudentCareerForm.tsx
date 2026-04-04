@@ -17,7 +17,7 @@ const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () 
 
 /* ── UI Primitives ──────────────────────────────────────────────────────────── */
 const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => (
-  <div className="bg-white rounded-[2rem] shadow-lg shadow-slate-200/40 border border-slate-100 overflow-hidden">
+  <div className="bg-white rounded-4xl shadow-lg shadow-slate-200/40 border border-slate-100 overflow-hidden">
     <div className="px-8 py-5 border-b border-slate-100 flex items-center gap-3">
       <div className="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500">{icon}</div>
       <h3 className="text-sm font-extrabold text-[#111827] uppercase tracking-wider">{title}</h3>
@@ -131,8 +131,8 @@ const TableManager: React.FC<{
                   <div key={f.key} className={f.isTextarea ? 'col-span-1 md:col-span-2 lg:col-span-3' : ''}>
                     <label className={labelBase}>{f.label}</label>
                     {f.isTextarea
-                      ? <textarea id={`sc-ta-${idx}-${f.key}`} name={`sc-ta-${idx}-${f.key}`} aria-label="studentcareerform textarea field" maxLength={f.maxLength} value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs h-20 resize-none`} placeholder={f.placeholder} />
-                      : <input id={`sc-input-${idx}-${f.key}`} name={`sc-input-${idx}-${f.key}`} aria-label="studentcareerform field" maxLength={f.maxLength} value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} !py-3 !px-4 !rounded-xl !text-xs`} placeholder={f.placeholder} />
+                      ? <textarea id={`sc-ta-${idx}-${f.key}`} name={`sc-ta-${idx}-${f.key}`} aria-label="studentcareerform textarea field" maxLength={f.maxLength} value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} py-3! px-4! rounded-xl! text-xs! h-20 resize-none`} placeholder={f.placeholder} />
+                      : <input id={`sc-input-${idx}-${f.key}`} name={`sc-input-${idx}-${f.key}`} aria-label="studentcareerform field" maxLength={f.maxLength} value={item[f.key] || ''} onChange={e => upd(idx, { [f.key]: e.target.value })} className={`${inputBase} py-3! px-4! rounded-xl! text-xs!`} placeholder={f.placeholder} />
                     }
                   </div>
                 ))}
@@ -478,7 +478,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
 
           <SectionCard title="3. Committee Team" icon="👥">
                <div className="space-y-10">
-                  <div className="bg-slate-50 p-7 rounded-[2rem] border border-slate-100">
+                  <div className="bg-slate-50 p-7 rounded-4xl border border-slate-100">
                      <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-6 border-b border-slate-200 pb-2">A. In-Charge & Advisory</h4>
                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <div className="lg:col-span-1"><MediaUploadButton value={payload.cImg} previewUrl={payload.cImg_preview} onChange={(v,p) => setPayload({...payload, cImg: v, cImg_preview: p})} label="Upload Photo" /></div>
@@ -549,7 +549,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
             {slug !== 'hackathon-events' && slug !== 'nsdc' && slug !== 'csi' && (
               <SectionCard title="2. Events & Activities" icon="⚙️">
                 {['ieee', 'iete', 'ishrae', 'vmea', 'igbc'].includes(slug) && (
-                  <div className="mb-8 p-6 bg-blue-50/50 rounded-[2rem] border border-blue-100">
+                  <div className="mb-8 p-6 bg-blue-50/50 rounded-4xl border border-blue-100">
                     <label className="text-[10px] font-black text-blue-600 uppercase tracking-widest block mb-4">Featured Event Photos (Max 2)</label>
                     <TableManager items={payload.featured || []} maxItems={2} addLabel="Add Featured Banner" onChange={v => setPayload({...payload, featured: v})} textFields={[]} mediaField={{key:'img', label:'Featured Banner'}} />
                   </div>
@@ -621,7 +621,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
 
             {slug !== 'hackathon-events' && slug !== 'nsdc' && slug !== 'csi' && (
               <SectionCard title="4. Technical Team leadership" icon="👥">
-                <div className="bg-white border-2 border-slate-50 rounded-[2rem] p-6 space-y-8 shadow-inner shadow-slate-100/50">
+                <div className="bg-white border-2 border-slate-50 rounded-4xl p-6 space-y-8 shadow-inner shadow-slate-100/50">
                    <div>
                     <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Faculty In-Charge / Counselor Profile</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -878,7 +878,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
 
                    <SectionCard title={slug === 'centurion' ? '5. Professional Team' : '4. Professional Team'} icon="👥">
                       <div className="space-y-8">
-                        <div className="bg-slate-50/50 p-7 rounded-[2rem] border border-slate-100 flex flex-col md:flex-row gap-8">
+                        <div className="bg-slate-50/50 p-7 rounded-4xl border border-slate-100 flex flex-col md:flex-row gap-8">
                            <div className="w-40 shrink-0"><MediaUploadButton value={payload.fImg} previewUrl={payload.fImg_p} onChange={(v,p) => setPayload({...payload, fImg: v, fImg_p: p})} label="Upload Advisor" /></div>
                            <div className="grow space-y-4">
                               <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Faculty Advisor / In-Charge</h4>
@@ -931,7 +931,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                             <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Phone Contacts (Team Leads)</h4>
                             <TableManager items={payload.contacts || []} maxItems={8} addLabel="Add Contact Row" onChange={v => setPayload({...payload, contacts: v})} textFields={[{key:'name', label:'NAME', maxLength:60}, {key:'phone', label:'PHONE / MOBILE', maxLength:25}]} />
                          </div>
-                         <div className="bg-slate-50/50 p-7 rounded-[2rem] border border-slate-100 space-y-4">
+                         <div className="bg-slate-50/50 p-7 rounded-4xl border border-slate-100 space-y-4">
                             <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Official Engagement Links</h4>
                             <div className="space-y-4">
                                <div><label className="text-[9px] text-slate-500 font-bold block mb-1">EMAIL</label><input id="studentcareerform-41" name="studentcareerform-41" aria-label="studentcareerform field" value={payload.email || ''} onChange={e => setPayload({...payload, email: e.target.value})} className={inputBase} placeholder="team@vcet.edu.in" /></div>

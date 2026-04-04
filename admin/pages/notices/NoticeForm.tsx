@@ -359,7 +359,7 @@ const NoticeForm: React.FC = () => {
               <>
                 <div className="mt-6 w-full flex items-center justify-between bg-white border border-blue-100 rounded-xl p-4 shadow-sm">
                   <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="w-10 h-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center shrink-0">
                       <span className="text-xs font-black tracking-tight">PDF</span>
                     </div>
                     <div className="text-left truncate">
@@ -387,7 +387,7 @@ const NoticeForm: React.FC = () => {
                   <iframe
                     src={pdfPreviewToUse}
                     title="Notice PDF preview"
-                    className="w-full h-[28rem] bg-white"
+                    className="w-full h-112 bg-white"
                   />
                 </div>
               </>

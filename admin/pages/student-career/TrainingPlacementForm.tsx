@@ -341,7 +341,7 @@ const TrainingPlacementForm: React.FC = () => {
                    const c = [...form.placementCellMembers!]; c[i].email = val; setForm({...form, placementCellMembers: c});
                  })}/>
                  <div className="flex gap-2">
-                    <input id="trainingplacementform-13" name="trainingplacementform-13" aria-label="trainingplacementform field" className="admin-input-small flex-[2]" placeholder="Phone (Max 25) *" value={mem.phone} onChange={e => handleTextChange(e.target.value, 25, val => {
+                    <input id="trainingplacementform-13" name="trainingplacementform-13" aria-label="trainingplacementform field" className="admin-input-small flex-2" placeholder="Phone (Max 25) *" value={mem.phone} onChange={e => handleTextChange(e.target.value, 25, val => {
                       const c = [...form.placementCellMembers!]; c[i].phone = val; setForm({...form, placementCellMembers: c});
                     })}/>
                     <input id="trainingplacementform-14" name="trainingplacementform-14" aria-label="trainingplacementform field" className="admin-input-small flex-1" placeholder="Ext (Max 30)" value={mem.extension} onChange={e => handleTextChange(e.target.value, 30, val => {
@@ -351,7 +351,7 @@ const TrainingPlacementForm: React.FC = () => {
                </div>
              ))}
              {(form.placementCellMembers?.length || 0) < 2 && (
-               <button type="button" onClick={() => setForm({...form, placementCellMembers: [...(form.placementCellMembers||[]), {name: '', role: '', email: '', phone: '', extension: ''}]})} className="btn-add h-full min-h-[12rem]">
+               <button type="button" onClick={() => setForm({...form, placementCellMembers: [...(form.placementCellMembers||[]), {name: '', role: '', email: '', phone: '', extension: ''}]})} className="btn-add h-full min-h-48">
                  <Plus className="w-5 h-5 mx-auto mb-2" /> Add Member (Max 2)
                </button>
              )}
@@ -472,7 +472,7 @@ const TrainingPlacementForm: React.FC = () => {
                </div>
              ))}
              {(form.studentPlacements?.length || 0) < 6 && (
-               <button type="button" onClick={() => setForm({...form, studentPlacements: [...(form.studentPlacements||[]), {srNo: '', studentName: '', specialization: '', company: ''}]})} className="btn-add min-h-[14rem]">
+               <button type="button" onClick={() => setForm({...form, studentPlacements: [...(form.studentPlacements||[]), {srNo: '', studentName: '', specialization: '', company: ''}]})} className="btn-add min-h-56">
                  <Plus className="w-5 h-5 mx-auto mb-2" /> Add Student (Max 6)
                </button>
              )}
@@ -548,7 +548,7 @@ const GalleryEditor = ({ items, max, labelLimit, onChange }: { items: any[], max
         </div>
       ))}
       {items.length < max && (
-        <button type="button" onClick={() => onChange([...items, {label: ''}])} className="btn-add min-h-[7rem]">
+        <button type="button" onClick={() => onChange([...items, {label: ''}])} className="btn-add min-h-28">
           <Plus className="w-5 h-5 mx-auto mb-1" /> Add Image
         </button>
       )}

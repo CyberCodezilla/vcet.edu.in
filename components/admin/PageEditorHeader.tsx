@@ -47,7 +47,7 @@ const PageEditorHeader: React.FC<PageEditorHeaderProps> = ({
 
   return (
     <div
-      className={`sticky top-[4.5rem] z-30 flex items-center justify-between gap-4 rounded-2xl border border-slate-200/70 bg-white px-6 py-4 shadow-sm md:px-8 ${className}`}
+      className={`sticky top-18 z-30 flex items-center justify-between gap-4 rounded-2xl border border-slate-200/70 bg-white px-6 py-4 shadow-sm md:px-8 ${className}`}
     >
       <div className="flex min-w-0 items-center gap-4">
         {showBackButton && (

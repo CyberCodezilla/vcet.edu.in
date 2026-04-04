@@ -192,8 +192,9 @@ const MMSPlacementInfoForm: React.FC = () => {
               )}
             />
             {(form.placementCellMembers?.length || 0) < 2 && (
-              <button type="button" onClick={() => setForm({ ...form, placementCellMembers: [...(form.placementCellMembers || []), { name: '', role: '', email: '', phone: '', extension: '' }] })} className="btn-add h-full min-h-64">
-                <Plus className="w-5 h-5 mx-auto mb-2" /> Add Member (Max 2)
+              <button type="button" onClick={() => setForm({ ...form, placementCellMembers: [...(form.placementCellMembers || []), { name: '', role: '', email: '', phone: '', extension: '' }] })} className="btn-add h-full min-h-64 flex-col gap-3">
+                <Plus className="w-8 h-8 text-slate-300" />
+                <span className="text-slate-500 font-bold">Add Member (Max 2)</span>
               </button>
             )}
           </div>

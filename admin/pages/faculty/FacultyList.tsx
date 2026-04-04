@@ -99,7 +99,7 @@ const FacultyList: React.FC = () => {
       </div>
 
       {/* Search & Filters */}
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100">
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-6 rounded-4xl shadow-sm border border-slate-100">
         <div className="relative w-full md:w-96">
           <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" /><path strokeLinecap="round" strokeWidth="2" d="m21 21-4.35-4.35" /></svg>
           <input id="facultylist-1" name="facultylist-1" aria-label="facultylist field"
@@ -153,7 +153,7 @@ const FacultyList: React.FC = () => {
                   <tr key={item.id} className="group hover:bg-slate-50/50 transition-all duration-300">
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-2xl overflow-hidden bg-slate-100 flex-shrink-0 border-2 border-white shadow-sm">
+                        <div className="w-14 h-14 rounded-2xl overflow-hidden bg-slate-100 shrink-0 border-2 border-white shadow-sm">
                           {item.profileImage?.url ? (
                             <img src={item.profileImage.url} alt="" className="w-full h-full object-cover" />
                           ) : (

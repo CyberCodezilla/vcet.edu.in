@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import {
@@ -87,7 +87,7 @@ const EBSB: React.FC = () => {
         subtitle="EBSB Committee overview"
         backgroundClassName="bg-white"
       >
-        <div className="reveal rounded-[28px] border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
+        <div className="reveal rounded-4xl border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
           <p className="text-slate-600 leading-relaxed text-base md:text-lg">
             The “Ek Bharat Shreshtha Bharat” (EBSB) Committee at Vidyavardhini’s College of
             Engineering and Technology is a flagship program of the Government of India that
@@ -104,7 +104,7 @@ const EBSB: React.FC = () => {
         subtitle="Goals from the existing page content"
         backgroundClassName="bg-brand-light"
       >
-        <div className="reveal rounded-[28px] border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
+        <div className="reveal rounded-4xl border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
           <ul className="space-y-4 text-slate-600 leading-relaxed text-base md:text-lg list-disc pl-5">
             <li>Enhance communication skills through inter-state activities.</li>
             <li>Promote mutual understanding between people of different states and UTs.</li>

@@ -248,7 +248,7 @@ export default function DepartmentForm() {
         <div className="lg:col-span-2 space-y-8">
           
           {/* Main Info */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
             <h2 className="text-xl font-extrabold text-slate-800 mb-6 flex items-center gap-2">
               <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               Basic Information
@@ -294,7 +294,7 @@ export default function DepartmentForm() {
           </div>
 
           {/* Patents */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl font-extrabold text-slate-800 flex items-center gap-3">
                 <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-500">
@@ -355,7 +355,7 @@ export default function DepartmentForm() {
           </div>
 
           {/* MoUs */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl font-extrabold text-slate-800 flex items-center gap-3">
                 <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-500">
@@ -416,7 +416,7 @@ export default function DepartmentForm() {
           </div>
 
           {/* Achievements - Faculty & Student */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
             <h2 className="text-xl font-extrabold text-slate-800 mb-8 flex items-center gap-3">
               <div className="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center text-amber-500">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" /></svg>
@@ -498,7 +498,7 @@ export default function DepartmentForm() {
           </div>
 
           {/* Activities */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl font-extrabold text-slate-800 flex items-center gap-3">
                 <div className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center text-purple-500">
@@ -555,7 +555,7 @@ export default function DepartmentForm() {
           </div>
 
           {/* DAB Members */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl font-extrabold text-slate-800 flex items-center gap-3">
                 <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-500">
@@ -608,7 +608,7 @@ export default function DepartmentForm() {
           </div>
 
           {/* Faculty */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
             <h2 className="text-xl font-extrabold text-slate-800 mb-6 flex items-center gap-2">
               <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
               Core Faculty Selection
@@ -663,7 +663,7 @@ export default function DepartmentForm() {
           </div>
 
           {/* Student Toppers */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl font-extrabold text-slate-800 flex items-center gap-3">
                 <div className="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center text-amber-500">
@@ -721,7 +721,7 @@ export default function DepartmentForm() {
         <div className="space-y-8">
           
           {/* Syllabus Links */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-lg font-extrabold text-slate-800 flex items-center gap-3">
                 <div className="w-9 h-9 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-500">
@@ -739,7 +739,7 @@ export default function DepartmentForm() {
             </div>
             <div className="space-y-4">
               {content.syllabus?.map((s, i) => (
-                <div key={i} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-[1.5rem] border border-slate-100 relative group/row hover:border-slate-200 transition-all font-sans">
+                <div key={i} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-3xl border border-slate-100 relative group/row hover:border-slate-200 transition-all font-sans">
                   <input id="departmentform-17" name="departmentform-17" aria-label="departmentform field"
                     type="text"
                     placeholder="e.g. FE Syllabus 2024"
@@ -765,7 +765,7 @@ export default function DepartmentForm() {
             </div>
           </div>
 
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-lg font-extrabold text-slate-800 flex items-center gap-3">
                 <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-500">
@@ -783,7 +783,7 @@ export default function DepartmentForm() {
             </div>
             <div className="space-y-4">
               {content.newsletter?.map((n, i) => (
-                <div key={i} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-[1.5rem] relative group/row border border-slate-100 hover:border-slate-200 transition-all font-sans">
+                <div key={i} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-3xl relative group/row border border-slate-100 hover:border-slate-200 transition-all font-sans">
                   <input id="departmentform-18" name="departmentform-18" aria-label="departmentform field"
                     type="text"
                     placeholder="Title (e.g. Jan 2024 Edition)"
@@ -810,7 +810,7 @@ export default function DepartmentForm() {
             </div>
           </div>
 
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
+          <div className="bg-white rounded-4xl p-8 shadow-sm border border-slate-100">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-lg font-extrabold text-slate-800 mb-6 flex items-center gap-2">
                 <div className="w-9 h-9 bg-slate-100 rounded-xl flex items-center justify-center text-slate-500">
@@ -828,7 +828,7 @@ export default function DepartmentForm() {
             </div>
             <div className="space-y-4">
               {content.timetable?.map((t, i) => (
-                <div key={i} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-[1.5rem] border border-slate-100 relative group/row hover:border-slate-200 transition-all font-sans">
+                <div key={i} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-3xl border border-slate-100 relative group/row hover:border-slate-200 transition-all font-sans">
                   <input id="departmentform-20" name="departmentform-20" aria-label="departmentform field"
                     type="text"
                     placeholder="Class (e.g. SE IT)"

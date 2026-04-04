@@ -447,15 +447,6 @@ const AcademicsForm: React.FC<AcademicsFormProps> = ({ activeSection, onBack }) 
         )}
 
 
-        {/* Footer Actions */}
-        <div className="bg-white rounded-4xl shadow-lg shadow-slate-200/40 border border-slate-100 px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest sm:w-1/2 leading-relaxed">
-            All PDF resources support dynamic row management. Multiple entries can be added for booklets and calendars.
-          </p>
-          <span className="w-full sm:w-auto rounded-2xl border border-slate-200 px-6 py-3 text-center text-xs font-black uppercase tracking-[0.15em] text-slate-400">
-            Use top header to save changes
-          </span>
-        </div>
       </form>
 
       <style>{`
