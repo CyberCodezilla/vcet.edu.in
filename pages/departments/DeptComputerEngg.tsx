@@ -508,18 +508,18 @@ const DeptComputerEngg: React.FC = () => {
           {/* ════ SYLLABUS ═════════════════════════════════════ */}
           {activeId === 'syllabus' && (() => {
             const links = [
-              { label: 'SE - R16 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/SE-Comps_CBCGS_Syllabus.pdf' },
-              { label: 'TE / BE - R16 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/TE_BE-Comp_Engg_CBCGS_Syllabus.pdf' },
-              { label: 'BE - R12 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/BE-Comps_VII_VIII_Syllabus-1.pdf' },
-              { label: 'First Year - R19 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/FE-Final-Syllabus-R19.pdf' },
-              { label: 'SE - R19 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2023/06/SE-C-scheme-syllabus-Computer-Engg.pdf' },
-              { label: 'TE - R19 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2023/06/T.E.-C-scheme-syllabus-Computer-Engg.pdf' },
-              { label: 'BE - R19 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2023/06/B.E.-C-scheme-syllabus-Computer-Engg.pdf' },
-              { label: 'First Year (NEP) 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/01/First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25-1.pdf' },
-              { label: 'Honours & Minor Degree Program (Data Science)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/Honours-Minor-Degree-Program-Data-Science.pdf' },
-              { label: 'PO PSO CO - R12', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/NAAC-Comp_PO_PSO_CO_R-12.pdf' },
-              { label: 'PO PSO CO - R16', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/NAAC-Comp_PO_PSO_CO_R-16.pdf' },
-              { label: 'PO PSO CO - R19', url: 'https://vcet.edu.in/wp-content/uploads/2023/10/NACC-COMP_PO_PSO_CO_R-19-updated.pdf' },
+              { label: 'SE - R16 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\SE-Comps_CBCGS_Syllabus.pdf' },
+              { label: 'TE / BE - R16 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\TE_BE-Comp_Engg_CBCGS_Syllabus.pdf' },
+              { label: 'BE - R12 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\BE-Comps_VII_VIII_Syllabus-1.pdf' },
+              { label: 'First Year - R19 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\FE-Final-Syllabus-R19.pdf' },
+              { label: 'SE - R19 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\SE-C-scheme-syllabus-Computer-Engg.pdf' },
+              { label: 'TE - R19 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\T.E.-C-scheme-syllabus-Computer-Engg.pdf' },
+              { label: 'BE - R19 Syllabus', url: 'pdfs\Department\ComputerEngineering\Syllabus\B.E.-C-scheme-syllabus-Computer-Engg.pdf' },
+              { label: 'First Year (NEP) 2024-25', url: 'pdfs\Department\ComputerEngineering\Syllabus\First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25-1.pdf' },
+              { label: 'Honours & Minor Degree Program (Data Science)', url: 'pdfs\Department\ComputerEngineering\Syllabus\Honours-Minor-Degree-Program-Data-Science.pdf' },
+              { label: 'PO PSO CO - R12', url: 'pdfs\Department\ComputerEngineering\Syllabus\NAAC-Comp_PO_PSO_CO_R-12.pdf' },
+              { label: 'PO PSO CO - R16', url: 'pdfs\Department\ComputerEngineering\Syllabus\NAAC-Comp_PO_PSO_CO_R-16.pdf' },
+              { label: 'PO PSO CO - R19', url: 'pdfs\Department\ComputerEngineering\Syllabus\NACC-COMP_PO_PSO_CO_R-19-updated.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -544,13 +544,13 @@ const DeptComputerEngg: React.FC = () => {
           {/* ════ PUBLICATIONS & IPR ═══════════════════════════ */}
           {activeId === 'patent' && (() => {
             const links = [
-              { label: 'Patents Published', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/copyright.pdf' },
-              { label: 'Copyrights Registered', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/copyright.pdf' },
-              { label: 'Books & Book Chapters', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Comp-Book_BookChapter-with-academic-Year.pdf' },
-              { label: 'Faculty Publication Index 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/08/Faculty-Publication-Index-2024-25-up.pdf' },
-              { label: 'Faculty Publication Index 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/Faculty-Publication-Index-2023-24.pdf' },
-              { label: 'Faculty Publication Index 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/Faculty-Publication-Index-2022-23.pdf' },
-              { label: 'Faculty Publication Index 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/Faculty-Publication-Index-2021-22.pdf' },
+              { label: 'Patents Published', url: 'pdfs\Department\ComputerEngineering\Publications&IPR\patent.pdf' },
+              { label: 'Copyrights Registered', url: 'pdfs\Department\ComputerEngineering\Publications&IPR\copyright.pdf' },
+              { label: 'Books & Book Chapters', url: 'pdfs\Department\ComputerEngineering\Publications&IPR\Comp-Book_BookChapter-with-academic-Year.pdf' },
+              { label: 'Faculty Publication Index 2024-25', url: 'pdfs\Department\ComputerEngineering\Publications&IPR\Faculty-Publication-Index-2024-25-up.pdf' },
+              { label: 'Faculty Publication Index 2023-24', url: 'pdfs\Department\ComputerEngineering\Publications&IPR\Faculty-Publication-Index-2023-24.pdf' },
+              { label: 'Faculty Publication Index 2022-23', url: 'pdfs\Department\ComputerEngineering\Publications&IPR\Faculty-Publication-Index-2022-23.pdf' },
+              { label: 'Faculty Publication Index 2021-22', url: 'pdfs\Department\ComputerEngineering\Publications&IPR\Faculty-Publication-Index-2021-22.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -574,12 +574,12 @@ const DeptComputerEngg: React.FC = () => {
           {/* ════ INNOVATION & TECHNIQUE ═══════════════════════ */}
           {activeId === 'teaching-learning' && (() => {
             const links = [
-              { label: 'Innovation in Teaching Learning 2025-26', url: 'https://vcet.edu.in/wp-content/uploads/2025/11/Innovative-activities-in-Teaching-Learning_2025-26_Odd_Sem.pdf' },
-              { label: 'Innovation in Teaching Learning 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Innovative-activities-in-Teaching-Learning_2024-25_Odd_Even.pdf' },
-              { label: 'Innovation in Teaching Learning 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Innovative-activities-in-Teaching-Learning_2023-24_Odd_Even.pdf' },
-              { label: 'Innovation in Teaching Learning 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Innovative-activities-in-Teaching-Learning_2022-23_Odd-Even.pdf' },
-              { label: 'Innovation in Teaching Learning 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/Innovative-activities-in-Teaching-Learning_2021-22_links.pdf' },
-              { label: 'Innovation in Teaching Learning 2020-21', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/Innovation_teaching_learning-2020-21.pdf' },
+              { label: 'Innovation in Teaching Learning 2025-26', url: 'pdfs\Department\ComputerEngineering\InnovationinTeachingLearning\Innovative-activities-in-Teaching-Learning_2025-26_Odd_Sem.pdf' },
+              { label: 'Innovation in Teaching Learning 2024-25', url: 'pdfs\Department\ComputerEngineering\InnovationinTeachingLearning\Innovative-activities-in-Teaching-Learning_2024-25_Odd_Even.pdf' },
+              { label: 'Innovation in Teaching Learning 2023-24', url: 'pdfs\Department\ComputerEngineering\InnovationinTeachingLearning\Innovative-activities-in-Teaching-Learning_2023-24_Odd_Even.pdf' },
+              { label: 'Innovation in Teaching Learning 2022-23', url: 'pdfs\Department\ComputerEngineering\InnovationinTeachingLearning\Innovative-activities-in-Teaching-Learning_2022-23_Odd-Even.pdf' },
+              { label: 'Innovation in Teaching Learning 2021-22', url: 'pdfs\Department\ComputerEngineering\InnovationinTeachingLearning\Innovative-activities-in-Teaching-Learning_2021-22_links.pdf' },
+              { label: 'Innovation in Teaching Learning 2020-21', url: 'pdfs\Department\ComputerEngineering\InnovationinTeachingLearning\Innovation_teaching_learning-2020-21.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -608,7 +608,7 @@ const DeptComputerEngg: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Computer Engineering</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">MoU<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2025/04/MOU-Computer-Summary.pdf" target="_blank" rel="noopener noreferrer" className="group mt-3 flex w-full sm:w-max items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs\Department\ComputerEngineering\MoU\MOU-Computer-Summary.pdf" target="_blank" rel="noopener noreferrer" className="group mt-3 flex w-full sm:w-max items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>MoU List</span>
                 <i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
@@ -624,8 +624,8 @@ const DeptComputerEngg: React.FC = () => {
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Time Table<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
               <div className="space-y-3">
-                <a href="https://vcet.edu.in/wp-content/uploads/2025/08/TT_master_2025-26.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>Master TT 2025-26</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>
-                <a href="https://vcet.edu.in/wp-content/uploads/2025/05/Master_TT_Even_24-25.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>Master TT Even Sem 2024-25</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>
+                <a href="pdfs\Department\ComputerEngineering\TimeTable\TT_master_2025-26.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>Master TT 2025-26</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>
+                <a href="pdfs\Department\ComputerEngineering\TimeTable\Master_TT_Even_24-25.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>Master TT Even Sem 2024-25</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>
               </div>
             </section>
           )}

@@ -413,7 +413,7 @@ const DeptCSDS: React.FC = () => {
             <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span></div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">MoU{' '}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2024/06/MOU_CSEDS.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs\Department\ComputerScienceandEngineering(DataScience)\MoU\MOU_CSEDS.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>MoU Document (CSE-DS)</span>
                 <i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
@@ -425,7 +425,7 @@ const DeptCSDS: React.FC = () => {
             <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span></div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Patent{' '}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2024/04/Intellectual_Property_India_Journal_Publication.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs\Department\ComputerScienceandEngineering(DataScience)\PatentsPublished\Intellectual_Property_India_Journal_Publication.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>Patents Published</span>
                 <i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
@@ -474,11 +474,11 @@ const DeptCSDS: React.FC = () => {
           {/* ── SYLLABUS ──────────────────────────────────────── */}
           {activeId === 'syllabus' && (() => {
             const links = [
-              { label: 'Syllabus Revised 2019-20 (Computer SE New 8 Branch)', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/Computer_SE_New_8_Branch_R2019_1.7.2021.pdf' },
-              { label: 'Syllabus Revised 2019-20 (Final Syllabus)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/Final-Syllabus-1.pdf' },
-              { label: 'Syllabus Revised 2019-20 (BE CSE AIML / CSE DS)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE.pdf' },
-              { label: 'Honours & Minor Degree Program (Data Science)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/Honours-Minor-Degree-Program-Data-Science.pdf' },
-              { label: 'PO PSO CO (Rev-2019 CSEDS Syllabus)', url: 'https://vcet.edu.in/wp-content/uploads/2023/11/2.6.1_Rev-2019_CSEDS_Syllabus.pdf' },
+              { label: 'Syllabus Revised 2019-20 (Computer SE New 8 Branch)', url: 'pdfs\Department\ComputerScienceandEngineering(DataScience)\Syllabus\Computer_SE_New_8_Branch_R2019_1.7.2021.pdf' },
+              { label: 'Syllabus Revised 2019-20 (Final Syllabus)', url: 'pdfs\Department\ComputerScienceandEngineering(DataScience)\Syllabus\Final-Syllabus-1.pdf' },
+              { label: 'Syllabus Revised 2019-20 (BE CSE AIML / CSE DS)', url: 'pdfs\Department\ComputerScienceandEngineering(DataScience)\Syllabus\BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE.pdf' },
+              { label: 'Honours & Minor Degree Program (Data Science)', url: 'pdfs\Department\ComputerScienceandEngineering(DataScience)\Syllabus\Honours-Minor-Degree-Program-Data-Science(1).pdf' },
+              { label: 'PO PSO CO (Rev-2019 CSEDS Syllabus)', url: 'pdfs\Department\ComputerScienceandEngineering(DataScience)\Syllabus\2.6.1_Rev-2019_CSEDS_Syllabus.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">

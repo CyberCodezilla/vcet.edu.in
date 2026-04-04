@@ -433,11 +433,11 @@ const DeptAIDS: React.FC = () => {
           {/* ════ INNOVATIONS IN TEACHING LEARNING ═══════════════ */}
           {activeId === 'teaching-learning' && (() => {
             const links = [
-              { label: 'Innovation in Teaching Learning 2024-25 (Even)', url: 'https://vcet.edu.in/wp-content/uploads/2025/08/EVEN-SEM-Innovation-in-Teaching-learning-2024-25-.pdf' },
-              { label: 'Innovation in Teaching Learning 2024-25 (Odd)', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/ODD-SEM-Innovation-in-Teaching-learning-2024-25-.docx.pdf' },
-              { label: 'Innovation in Teaching Learning 2023-24 (Odd)', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Innovation-in-teaching-learning-2023-24-Odd-Sem.pdf' },
-              { label: 'Innovation in Teaching Learning 2022-23 (Odd)', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Innovation-in-Teaching-Learning-2022-23-ODD-Sem.pdf' },
-              { label: 'Innovation in Teaching Learning 2022-23 (Even)', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Innovation-in-Teaching-Learning-2022-23-Even-Sem.pdf' },
+              { label: 'Innovation in Teaching Learning 2024-25 (Even)', url: 'pdfs\Department\ArtificialIntelligenceandDataScience\InnovationinTeachingLearning\EVEN-SEM-Innovation-in-Teaching-learning-2024-25-.pdf' },
+              { label: 'Innovation in Teaching Learning 2024-25 (Odd)', url: 'pdfs\Department\ArtificialIntelligenceandDataScience\InnovationinTeachingLearning\ODD-SEM-Innovation-in-Teaching-learning-2024-25-.docx.pdf' },
+              { label: 'Innovation in Teaching Learning 2023-24 (Odd)', url: 'pdfs\Department\ArtificialIntelligenceandDataScience\InnovationinTeachingLearning\Innovation-in-teaching-learning-2023-24-Odd-Sem.pdf' },
+              { label: 'Innovation in Teaching Learning 2022-23 (Odd)', url: 'pdfs\Department\ArtificialIntelligenceandDataScience\InnovationinTeachingLearning\Innovation-in-Teaching-Learning-2022-23-ODD-Sem.pdf' },
+              { label: 'Innovation in Teaching Learning 2022-23 (Even)', url: 'pdfs\Department\ArtificialIntelligenceandDataScience\InnovationinTeachingLearning\Innovation-in-Teaching-Learning-2022-23-Even-Sem.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -473,7 +473,7 @@ const DeptAIDS: React.FC = () => {
                     <i className="ph ph-arrow-up-right text-brand-gold" />
                   </a>
                 )) : (
-                  <a href="https://vcet.edu.in/wp-content/uploads/2025/08/AIDS-MoU-2024-25.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                  <a href="pdfs\Department\ArtificialIntelligenceandDataScience\MoU\AIDS-MoU-2024-25.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                     <span>MoU 2024-25</span>
                     <i className="ph ph-arrow-up-right text-brand-gold" />
                   </a>
