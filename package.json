@@ -8,6 +8,7 @@
     "sanitize:paths": "node scripts/sanitize-path-separators.mjs",
     "prebuild": "npm run sanitize:paths",
     "build": "vite build",
+    "postbuild": "node scripts/copy-htaccess-to-dist.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
