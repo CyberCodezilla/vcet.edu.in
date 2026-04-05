@@ -89,7 +89,6 @@ const PlacementForm: React.FC = () => {
     <div className="min-h-[80vh] flex flex-col items-center justify-center py-12 px-4">
       <div className="w-full max-w-2xl">
         {/* Breadcrumbs */}
-<<<<<<< HEAD
         <PageEditorHeader
           title={isEdit ? 'Edit Placement' : 'New Placement'}
           description="Update campus placement statistics and company info."
@@ -98,23 +97,6 @@ const PlacementForm: React.FC = () => {
           showBackButton
           onBack={() => navigate('/admin/placements')}
         />
-=======
-        <div className="flex items-center justify-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">
-          <Link to="/admin" className="hover:text-[#1e293b] transition-colors">Dashboard</Link>
-          <span>/</span>
-          <Link to="/admin/placements" className="hover:text-[#1e293b] transition-colors">Placements</Link>
-          <span>/</span>
-          <span className="text-slate-900">{isEdit ? 'Edit Record' : 'New Record'}</span>
-        </div>
-
-        <div className="bg-white border border-slate-200/60 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 p-10 md:p-14">
-          <div className="text-center mb-10">
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight mb-3">
-              {isEdit ? 'Edit' : 'New'} <span className="text-[#1e293b]">Hiring Partner</span>
-            </h1>
-            <p className="text-slate-400 text-sm">Update campus placement statistics and company info.</p>
-          </div>
->>>>>>> a10712dd9bfe52065269a0c041e8a0d058872467
 
         <div className="bg-white border border-slate-200/60 rounded-4xl shadow-2xl shadow-slate-200/50 p-10 md:p-14">
           {error && (

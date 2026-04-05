@@ -385,11 +385,11 @@ const DeptMech: React.FC = () => {
           {/* ════ MoU ═════════════════════════════════════════════ */}
           {activeId === 'mou' && (() => {
             const links = [
-              { label: 'MoU 2022-23', url: 'pdfs\Department\MechanicalEngineering\MoU\Mech_MOUs-2022-23.pdf' },
-              { label: 'MoU 2021-22', url: 'pdfs\Department\MechanicalEngineering\MoU\Mech_MOUs-2021-22.pdf' },
-              { label: 'MoU 2020-21', url: 'pdfs\Department\MechanicalEngineering\MoU\Mech_MOUs-2020-21.pdf' },
-              { label: 'MoU 2019-20', url: 'pdfs\Department\MechanicalEngineering\MoU\Mech_MOUs-2019-20.pdf' },
-              { label: 'MoU 2018-19', url: 'pdfs\Department\MechanicalEngineering\MoU\Mech_MOUs-2018-19.pdf' },
+              { label: 'MoU 2022-23', url: 'pdfs/Department/MechanicalEngineering/MoU/Mech_MOUs-2022-23.pdf' },
+              { label: 'MoU 2021-22', url: 'pdfs/Department/MechanicalEngineering/MoU/Mech_MOUs-2021-22.pdf' },
+              { label: 'MoU 2020-21', url: 'pdfs/Department/MechanicalEngineering/MoU/Mech_MOUs-2020-21.pdf' },
+              { label: 'MoU 2019-20', url: 'pdfs/Department/MechanicalEngineering/MoU/Mech_MOUs-2019-20.pdf' },
+              { label: 'MoU 2018-19', url: 'pdfs/Department/MechanicalEngineering/MoU/Mech_MOUs-2018-19.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -413,9 +413,9 @@ const DeptMech: React.FC = () => {
           {/* ════ AICTE & UNIVERSITY FUNDING ═════════════════════ */}
           {activeId === 'aicte-funding' && (() => {
             const links = [
-              { label: 'Mumbai University Minor Research Grant', url: 'pdfs\Department\MechanicalEngineering\AICTE&UniversityFunding\Mumbai-University-Minor-Research-Grant.pdf' },
-              { label: 'AICTE-SPICES', url: 'pdfs\Department\MechanicalEngineering\AICTE&UniversityFunding\AICTE-SPICES.pdf' },
-              { label: 'AICTE-MODROB', url: 'pdfs\Department\MechanicalEngineering\AICTE&UniversityFunding\MODROB-Funding.pdf' },
+              { label: 'Mumbai University Minor Research Grant', url: 'pdfs/Department/MechanicalEngineering/AICTE&UniversityFunding/Mumbai-University-Minor-Research-Grant.pdf' },
+              { label: 'AICTE-SPICES', url: 'pdfs/Department/MechanicalEngineering/AICTE&UniversityFunding/AICTE-SPICES.pdf' },
+              { label: 'AICTE-MODROB', url: 'pdfs/Department/MechanicalEngineering/AICTE&UniversityFunding/MODROB-Funding.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -444,7 +444,7 @@ const DeptMech: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Innovative in Teaching learning<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="pdfs\Department\MechanicalEngineering\InnovativeinTeachinglearning\innovation-in-Teaching-learning-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs/Department/MechanicalEngineering/InnovativeinTeachinglearning/innovation-in-Teaching-learning-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>Innovation in Teaching Learning</span>
                 <i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
@@ -459,7 +459,7 @@ const DeptMech: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Journal Publication<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="pdfs\Department\MechanicalEngineering\JournalPublication\Journal_Publication.pdf.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs/Department/MechanicalEngineering/JournalPublication/Journal_Publication.pdf.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>Journal Publication</span>
                 <i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
@@ -474,7 +474,7 @@ const DeptMech: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Student Achievements<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="pdfs\Department\MechanicalEngineering\StudentAchievements\Student-Achievements-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs/Department/MechanicalEngineering/StudentAchievements/Student-Achievements-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>Student Achievements</span>
                 <i className="ph ph-arrow-up-right text-brand-gold" />
               </a>

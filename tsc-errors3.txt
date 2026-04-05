@@ -1,0 +1,53 @@
+﻿pages/departments/DeptAIDS.tsx(214,45): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(214,50): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(214,67): error TS1005: ':' expected.
+pages/departments/DeptAIDS.tsx(214,74): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(214,77): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(214,86): error TS1005: ':' expected.
+pages/departments/DeptAIDS.tsx(214,97): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(214,107): error TS1005: ':' expected.
+pages/departments/DeptAIDS.tsx(214,116): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(214,125): error TS1005: ':' expected.
+pages/departments/DeptAIDS.tsx(214,133): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(214,137): error TS1002: Unterminated string literal.
+pages/departments/DeptAIDS.tsx(215,15): error TS1005: ':' expected.
+pages/departments/DeptAIDS.tsx(216,15): error TS1136: Property assignment expected.
+pages/departments/DeptAIDS.tsx(269,174): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,176): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,180): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,189): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,191): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,198): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,202): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,209): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,214): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,223): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,230): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,239): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,243): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,264): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,276): error TS1005: ',' expected.
+pages/departments/DeptAIDS.tsx(269,277): error TS1003: Identifier expected.
+pages/departments/DeptAIDS.tsx(269,281): error TS1002: Unterminated string literal.
+pages/departments/DeptAIDS.tsx(270,15): error TS1005: ':' expected.
+pages/departments/DeptAIDS.tsx(271,13): error TS1136: Property assignment expected.
+pages/departments/DeptComputerEngg.tsx(455,60): error TS1005: ',' expected.
+pages/departments/DeptComputerEngg.tsx(455,65): error TS1005: ',' expected.
+pages/departments/DeptComputerEngg.tsx(455,67): error TS1002: Unterminated string literal.
+pages/departments/DeptComputerEngg.tsx(456,17): error TS1005: ':' expected.
+pages/departments/DeptComputerEngg.tsx(456,25): error TS1005: ',' expected.
+pages/departments/DeptComputerEngg.tsx(459,15): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+pages/departments/DeptComputerEngg.tsx(461,22): error TS1005: '}' expected.
+pages/departments/DeptComputerEngg.tsx(466,15): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+pages/departments/DeptComputerEngg.tsx(468,22): error TS1005: '}' expected.
+pages/departments/DeptComputerEngg.tsx(473,15): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+pages/departments/DeptComputerEngg.tsx(475,22): error TS1005: '}' expected.
+pages/departments/DeptComputerEngg.tsx(480,15): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+pages/departments/DeptComputerEngg.tsx(482,22): error TS1005: '}' expected.
+pages/departments/DeptComputerEngg.tsx(487,15): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+pages/departments/DeptComputerEngg.tsx(489,22): error TS1005: '}' expected.
+pages/departments/DeptComputerEngg.tsx(494,15): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+pages/departments/DeptComputerEngg.tsx(496,22): error TS1005: '}' expected.
+pages/departments/DeptComputerEngg.tsx(502,15): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+pages/departments/DeptComputerEngg.tsx(552,11): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+pages/departments/DeptComputerEngg.tsx(552,15): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?

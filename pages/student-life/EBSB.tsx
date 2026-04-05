@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React from 'react';
-=======
-﻿import React, { useEffect, useState } from 'react';
->>>>>>> a10712dd9bfe52065269a0c041e8a0d058872467
+import React, { useEffect, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import {

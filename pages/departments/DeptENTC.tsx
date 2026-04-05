@@ -372,8 +372,8 @@ const DeptENTC: React.FC = () => {
           {activeId === 'mou' && (() => {
             const links = [
               { label: 'MoU with IIoTExpert', url: 'https://iiotexpert.com/' },
-              { label: 'MoUs Document', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\Mou\MoU_Final_4_Dec2024_website-2.pdf' },
-              { label: 'Research Agreement with BITS Hyderabad', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\Mou\ResearchagreementwithBITSHyderabad.pdf' },
+              { label: 'MoUs Document', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/Mou/MoU_Final_4_Dec2024_website-2.pdf' },
+              { label: 'Research Agreement with BITS Hyderabad', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/Mou/ResearchagreementwithBITSHyderabad.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -397,9 +397,9 @@ const DeptENTC: React.FC = () => {
           {/* ════ STUDENT ACHIEVEMENTS ═══════════════════════════ */}
           {activeId === 'student-achievements' && (() => {
             const links = [
-              { label: 'Student Achievements 2024-25', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\StudentAchievements\students-Achievement-24-25.pdf' },
-              { label: 'Outreach Activity', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\StudentAchievements\achievemnets-18_3_25-2.pdf' },
-              { label: 'Best Outgoing', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\StudentAchievements\best-outgoing.pdf' },
+              { label: 'Student Achievements 2024-25', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/StudentAchievements/students-Achievement-24-25.pdf' },
+              { label: 'Outreach Activity', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/StudentAchievements/achievemnets-18_3_25-2.pdf' },
+              { label: 'Best Outgoing', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/StudentAchievements/best-outgoing.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -590,11 +590,11 @@ const DeptENTC: React.FC = () => {
           {/* ════ SYLLABUS ═══════════════════════════════════════ */}
           {activeId === 'syllabus' && (() => {
             const links = [
-              { label: 'Syllabus R19 (SE)', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\Syllabus\SE_EXTC_2019-20.pdf' },
-              { label: 'Syllabus R19 (TE)', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\Syllabus\TE_EXTC-1.pdf' },
-              { label: 'Syllabus R19 (BE)', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\Syllabus\Corrected-Final-BE-EXTC-R2019-Syllabus.pdf' },
-              { label: 'PO PSO CO (R16)', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\Syllabus\R16-EXTC-PO_PSO_CO_R16.pdf' },
-              { label: 'PO PSO CO (R19)', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\Syllabus\CO-PO-PSO_EXTC_REv-2019_final.pdf' },
+              { label: 'Syllabus R19 (SE)', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/Syllabus/SE_EXTC_2019-20.pdf' },
+              { label: 'Syllabus R19 (TE)', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/Syllabus/TE_EXTC-1.pdf' },
+              { label: 'Syllabus R19 (BE)', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/Syllabus/Corrected-Final-BE-EXTC-R2019-Syllabus.pdf' },
+              { label: 'PO PSO CO (R16)', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/Syllabus/R16-EXTC-PO_PSO_CO_R16.pdf' },
+              { label: 'PO PSO CO (R19)', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/Syllabus/CO-PO-PSO_EXTC_REv-2019_final.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -643,10 +643,10 @@ const DeptENTC: React.FC = () => {
           {/* ════ INNOVATIONS IN TEACHING LEARNING ══════════════ */}
           {activeId === 'teaching-learning' && (() => {
             const links = [
-              { label: 'Innovation in Teaching Learning (2020-21)', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\InnovationsinTeachingLearning\Innovation-in-teaching-learning_20-21.pdf' },
-              { label: 'Innovation in Teaching Learning (2021-22)', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\InnovationsinTeachingLearning\Innovation-in-teaching-learning_21-22.pdf' },
-              { label: 'Innovation in Teaching Learning (2022-23)', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\InnovationsinTeachingLearning\Innovation-in-Teaching-learning_2024-25.pdf' },
-              { label: 'Innovation in Teaching Learning (2024-25)', url: 'pdfs\Department\ElectronicsandTelecommunicationEngineering\InnovationsinTeachingLearning\Innovation-in-Teaching-learning_2024-25.pdf' },
+              { label: 'Innovation in Teaching Learning (2020-21)', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/InnovationsinTeachingLearning/Innovation-in-teaching-learning_20-21.pdf' },
+              { label: 'Innovation in Teaching Learning (2021-22)', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/InnovationsinTeachingLearning/Innovation-in-teaching-learning_21-22.pdf' },
+              { label: 'Innovation in Teaching Learning (2022-23)', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-learning_2024-25.pdf' },
+              { label: 'Innovation in Teaching Learning (2024-25)', url: 'pdfs/Department/ElectronicsandTelecommunicationEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-learning_2024-25.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -680,7 +680,7 @@ const DeptENTC: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Electronics &amp; Telecommunication Engineering</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Distinguished Alumni<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="pdfs\Department\ElectronicsandTelecommunicationEngineering\DistinguishedAlumni\Distinguished-Alumni.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs/Department/ElectronicsandTelecommunicationEngineering/DistinguishedAlumni/Distinguished-Alumni.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>Distinguished Alumni</span>
                 <i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
