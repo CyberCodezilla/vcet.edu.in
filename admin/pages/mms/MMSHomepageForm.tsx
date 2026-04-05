@@ -222,7 +222,7 @@ const MMSHomepageForm: React.FC = () => {
                 </div>
               )}
             />
-            <button type="button" onClick={() => setForm({...form, testimonials: [...form.testimonials, {name: '', role: '', quote: ''}]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+            <button type="button" onClick={() => setForm({...form, testimonials: [...form.testimonials, {name: '', role: '', quote: '', sectionTitle: ''}]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
               <Plus className="w-4 h-4" /> Add Testimonial
             </button>
           </div>

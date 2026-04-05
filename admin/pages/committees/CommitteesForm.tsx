@@ -6,7 +6,6 @@ import AdminFormSection from '../../components/AdminFormSection';
 import { SortableListContext } from '../../components/SortableList';
 import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
-/* ── UI Components ────────────────────────────────────────────────────────── */
 const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () => void }> = ({ message, type, onClose }) => {
   useEffect(() => { const t = setTimeout(onClose, 3500); return () => clearTimeout(t); }, [onClose]);
   return (
@@ -44,7 +43,7 @@ const getFilePreviewUrl = (file: File): string => {
 
 const resolveMediaUrl = (value: any): string | null => {
   if (!value) return null;
-  if (value instanceof File) return getFilePreviewUrl(value);
+  if (value instanceof File) return URL.createObjectURL(value);
   if (typeof value === 'string') return resolveUploadedAssetUrl(value) || value;
   if (typeof value === 'object') {
     const raw = value.url || value.fileUrl || value.imageUrl || value.path;
@@ -53,83 +52,13 @@ const resolveMediaUrl = (value: any): string | null => {
   return null;
 };
 
-const truncate = (value: unknown, max: number): string =>
-  String(value ?? '').trim().slice(0, max);
-
-const sanitizeStringList = (items: unknown, maxItems: number, maxLen: number): string[] => {
-  if (!Array.isArray(items)) return [];
-  return items
-    .map((item) => truncate(item, maxLen))
-    .filter(Boolean)
-    .slice(0, maxItems);
-};
-
-const sanitizeMembers = (items: unknown, slug: string): CommitteeMember[] => {
-  if (!Array.isArray(items)) return [];
-  const maxMembers = slug === 'cdc' ? 20 : 15;
-  return items.slice(0, maxMembers).map((row: any) => ({
-    post: truncate(row?.post, 80),
-    name: truncate(row?.name, 80),
-    designation: truncate(row?.designation, 80),
-    contact: truncate(row?.contact, 40),
-    email: truncate(row?.email, 40),
-    caste: truncate(row?.caste, 40),
-    address: truncate(row?.address, 180),
-    contactNo: truncate(row?.contactNo, 40),
-  }));
-};
-
-const sanitizeReports = (items: unknown, maxItems: number): CommitteeReport[] => {
-  if (!Array.isArray(items)) return [];
-  return items.slice(0, maxItems).map((row: any) => ({
-    year: truncate(row?.year, 20),
-    fileName: row?.fileName ? truncate(row.fileName, 150) : null,
-    fileUrl: row?.fileUrl ? truncate(row.fileUrl, 300) : null,
-    url: row?.url ? truncate(row.url, 300) : '',
-    file: row?.file ?? null,
-  }));
-};
-
-const sanitizeDocuments = (items: unknown, slug: string): any[] => {
-  if (!Array.isArray(items)) return [];
-  const maxDocs = 10;
-  return items.slice(0, maxDocs).map((row: any) => ({
-    title: truncate(row?.title, 120),
-    fileName: row?.fileName ? truncate(row.fileName, 150) : null,
-    fileUrl: row?.fileUrl ? truncate(row.fileUrl, 300) : null,
-    pdfUrl: row?.pdfUrl ? truncate(row.pdfUrl, 300) : '',
-    imageUrl: row?.imageUrl ? truncate(row.imageUrl, 300) : '',
-    file: row?.file ?? null,
-    image: row?.image ?? null,
-  }));
-};
-
-const sanitizeCommitteePayload = (slug: string, payload: CommitteePayload): CommitteePayload => ({
-  ...payload,
-  responsibilities: sanitizeStringList(payload.responsibilities, 10, 120),
-  objectives: sanitizeStringList(
-    payload.objectives,
-    10,
-    slug === 'sc-st' ? 100 : (slug === 'equal-opportunity' ? 150 : 120),
-  ),
-  activities: sanitizeStringList(payload.activities, 15, 200),
-  aboutPoints: sanitizeStringList(payload.aboutPoints, 10, 150),
-  initiatives: sanitizeStringList(payload.initiatives, 15, 200),
-  guidelines: sanitizeStringList(payload.guidelines, 12, 220),
-  members: sanitizeMembers(payload.members, slug),
-  reports: sanitizeReports(payload.reports, 5),
-  momReports: sanitizeReports((payload as any).momReports, 12),
-  documents: sanitizeDocuments(payload.documents, slug),
-});
-
 /* ── List Manager (Dynamic Strings) ────────────────────────────────────────── */
 const ListManager: React.FC<{
   title: string;
   items: string[];
   onChange: (items: string[]) => void;
   maxItems?: number;
-  charLimit?: [number, number];
-}> = ({ title, items, onChange, maxItems = 10, charLimit }) => {
+}> = ({ title, items = [], onChange, maxItems = 10 }) => {
   const addItem = () => {
     if (items.length < maxItems) onChange([...items, '']);
   };
@@ -144,30 +73,16 @@ const ListManager: React.FC<{
       <SortableListContext
         items={items}
         onChange={onChange}
-        renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging, actions) => (
+        renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging) => (
           <div ref={setNodeRef} style={style} className="flex gap-4 group items-start p-2 bg-white rounded-2xl border border-transparent hover:border-slate-100 transition-all">
-            <div className="flex flex-col gap-1 pt-3/5 opacity-50 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing text-slate-400 hover:text-[#2563EB]" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+            <div className="flex flex-col gap-1 pt-3.5 opacity-50 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing text-slate-400 hover:text-[#2563EB]" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 8h16M4 16h16"/></svg>
             </div>
             <div className="grow">
                <label className={labelBase}>{title} {idx + 1}</label>
-              <input id={`committeesform-list-${idx}`} name={`committeesform-list-${idx}`} aria-label="committeesform field" 
-                value={item} 
-                onChange={e => updateItem(idx, e.target.value)}
-                className={inputBase}
-                placeholder={`Enter ${title.toLowerCase()}...`}
-              />
-              {charLimit && (
-                <p className={`text-[10px] mt-1.5 ml-1 font-bold uppercase tracking-wider ${item.length > charLimit[1] ? 'text-red-500' : 'text-slate-400'}`}>
-                  {item.length} / {charLimit[1]} Characters
-                </p>
-              )}
+              <input value={item} onChange={e => updateItem(idx, e.target.value)} className={inputBase} placeholder={`Enter ${title.toLowerCase()}...`} />
             </div>
-            <button 
-              type="button" 
-              onClick={() => removeItem(idx)}
-              className="w-10 h-10 rounded-xl bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 mt-6"
-            >
+            <button type="button" onClick={() => removeItem(idx)} className="w-10 h-10 rounded-xl bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 mt-6">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
           </div>
@@ -189,7 +104,7 @@ const TableManager: React.FC<{
   onChange: (items: CommitteeMember[]) => void;
   columns: { key: keyof CommitteeMember; label: string; placeholder: string; limit?: number }[];
   maxItems?: number;
-}> = ({ items, onChange, columns, maxItems = 10 }) => {
+}> = ({ items = [], onChange, columns, maxItems = 15 }) => {
   const addItem = () => {
     if (items.length < maxItems) {
       const newItem: any = {};
@@ -206,8 +121,8 @@ const TableManager: React.FC<{
 
   return (
     <div className="space-y-4">
-      <div className="bg-slate-50 border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
-        <table className="w-full text-left border-collapse">
+      <div className="bg-slate-50 border border-slate-200 rounded-3xl overflow-hidden shadow-sm overflow-x-auto">
+        <table className="w-full text-left border-collapse min-w-[600px]">
           <thead>
             <tr className="bg-slate-100/50">
               <th className="w-10 px-4 py-4"></th>
@@ -220,8 +135,8 @@ const TableManager: React.FC<{
           <SortableListContext
             items={items}
             onChange={onChange}
-            renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging, actions) => (
-              <tr ref={setNodeRef} style={{...style, display: 'table-row'}} className="border-t border-slate-100 group bg-white hover:bg-slate-50/30 transition-colors">
+            renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging) => (
+              <tr ref={setNodeRef} style={{...style}} className="border-t border-slate-100 group bg-white hover:bg-slate-50/30 transition-colors">
                 <td className="px-4 py-4 w-10">
                   <div className="cursor-grab active:cursor-grabbing text-slate-400 hover:text-[#2563EB] opacity-50 group-hover:opacity-100 transition-opacity" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 8h16M4 16h16"/></svg>
@@ -229,7 +144,7 @@ const TableManager: React.FC<{
                 </td>
                 {columns.map(col => (
                   <td key={col.key as string} className="px-6 py-4">
-                    <input id={`committeesform-table-${idx}-${col.key as string}`} name={`committeesform-table-${idx}-${col.key as string}`} aria-label="committeesform field" 
+                    <input 
                       value={item[col.key] || ''} 
                       onChange={e => updateItem(idx, col.key, e.target.value)}
                       className="w-full bg-transparent border-none text-sm font-bold text-slate-700 focus:ring-0 p-0 placeholder:text-slate-300 placeholder:font-medium"
@@ -263,21 +178,16 @@ const ReportManager: React.FC<{
   items: CommitteeReport[];
   onChange: (items: CommitteeReport[]) => void;
   maxItems?: number;
-}> = ({ items, onChange, maxItems = 5 }) => {
+}> = ({ items = [], onChange, maxItems = 12 }) => {
   const currentYear = new Date().getFullYear();
-  const defaultAcademicYear = `${currentYear}-${String((currentYear + 1) % 100).padStart(2, '0')}`;
-  const yearOptions = Array.from({ length: 12 }, (_, idx) => {
-    const start = currentYear + 1 - idx;
+  const yearOptions = Array.from({ length: 10 }, (_, idx) => {
+    const start = currentYear - idx;
     return `${start}-${String((start + 1) % 100).padStart(2, '0')}`;
   });
-  const existingYears = (items || [])
-    .map((item) => String(item?.year || '').trim())
-    .filter(Boolean);
-  const years = Array.from(new Set([...existingYears, ...yearOptions])).sort((a, b) => b.localeCompare(a));
 
   const addItem = () => {
     if (items.length < maxItems) {
-      onChange([...items, { year: defaultAcademicYear, fileName: null, fileUrl: null }]);
+      onChange([...items, { year: yearOptions[0], fileName: null, fileUrl: null }]);
     }
   };
   const removeItem = (idx: number) => onChange(items.filter((_, i) => i !== idx));
@@ -292,13 +202,13 @@ const ReportManager: React.FC<{
       <SortableListContext
         items={items}
         onChange={onChange}
-        renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging, actions) => (
-          <div ref={setNodeRef} style={style} className="flex gap-4 p-6 bg-slate-50 border border-slate-200 rounded-3xl group relative shadow-sm">
+        renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging) => (
+          <div ref={setNodeRef} style={style} className="flex gap-4 p-6 bg-slate-50 border border-slate-200 rounded-3xl group relative shadow-sm flex-col md:flex-row">
             <div className="flex flex-col justify-center items-center mr-2 cursor-grab active:cursor-grabbing text-slate-400 hover:text-[#2563EB] opacity-50 group-hover:opacity-100 transition-opacity" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
                <svg className="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 8h16M4 16h16"/></svg>
             </div>
             
-            <button type="button" onClick={() => removeItem(idx)} className="absolute -top-3 -right-3 w-8 h-8 bg-white border border-red-100 shadow-sm text-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500 hover:text-white">
+            <button type="button" onClick={() => removeItem(idx)} className="absolute -top-3 -right-3 w-8 h-8 bg-white border border-red-100 shadow-sm text-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-red-500 hover:text-white z-20">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
             
@@ -349,6 +259,12 @@ const ReportManager: React.FC<{
                   </div>
                 )}
               </div>
+              {(item.file || item.fileUrl || item.url) && (
+                <div className="mt-2 flex gap-2">
+                  <a href={item.file ? URL.createObjectURL(item.file) : (resolveUploadedAssetUrl(item.fileUrl || item.url || '') || '#')} target="_blank" rel="noreferrer" className="text-[10px] font-black uppercase text-[#2563EB] hover:underline">Preview</a>
+                  <button type="button" onClick={() => updateItem(idx, { file: null, fileName: null, fileUrl: '', url: '' })} className="text-[10px] font-black uppercase text-red-500 hover:underline">Remove</button>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -369,7 +285,7 @@ const PDFDocumentManager: React.FC<{
   onChange: (items: any[]) => void;
   maxItems?: number;
   showUrlField?: boolean;
-}> = ({ items, onChange, maxItems = 3, showUrlField }) => {
+}> = ({ items = [], onChange, maxItems = 10, showUrlField }) => {
   const addItem = () => {
     if (items.length < maxItems) {
       onChange([...items, { title: '', fileName: null, fileUrl: null, pdfUrl: '', imageUrl: null }]);
@@ -408,20 +324,14 @@ const PDFDocumentManager: React.FC<{
                   />
                 </div>
                 <div>
-                  <label className={labelBase}>PDF Document File</label>
-                  <div className="relative h-[3.45rem] bg-white border border-slate-200 rounded-2xl px-5 flex items-center justify-between overflow-hidden ring-offset-2 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
-                     <input id={`committeesform-docpdf-${idx}`} name={`committeesform-docpdf-${idx}`} aria-label="committeesform field" 
-                       type="file" 
-                       accept=".pdf" 
-                       onChange={e => updateItem(idx, { file: e.target.files?.[0] || null })}
-                       className="absolute inset-0 opacity-0 cursor-pointer z-10"
-                     />
-                     <span className="text-sm font-bold text-slate-700 truncate">
-                       {item.file?.name || item.fileName || 'Click to upload PDF...'}
-                     </span>
-                     <div className="w-8 h-8 rounded-xl bg-[#2563EB]/5 text-[#2563EB] flex items-center justify-center">
-                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
-                     </div>
+                  <label className={labelBase}>Poster / Thumbnail (Optional)</label>
+                  <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-slate-200 bg-white group/img">
+                    <input type="file" accept="image/*" onChange={e => updateItem(idx, { image: e.target.files?.[0] || null })} className="absolute inset-0 opacity-0 cursor-pointer z-10" />
+                    {resolveMediaUrl(item.image || item.imageUrl) ? (
+                      <img src={resolveMediaUrl(item.image || item.imageUrl)!} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-[10px] font-black uppercase text-slate-300">Click to upload image</div>
+                    )}
                   </div>
                   {(item.file || item.fileUrl || item.pdfUrl) && (
                     <div className="mt-3 flex gap-2">
@@ -483,17 +393,6 @@ const PDFDocumentManager: React.FC<{
                   </div>
                 </div>
               </div>
-              {showUrlField && (
-                <div>
-                  <label className={labelBase}>Legacy Redirect / External PDF URL (Optional)</label>
-                  <input id={`committeesform-docurl-${idx}`} name={`committeesform-docurl-${idx}`} aria-label="committeesform field" 
-                    value={item.pdfUrl} 
-                    onChange={e => updateItem(idx, { pdfUrl: e.target.value })}
-                    className={inputBase}
-                    placeholder="https://example.com/document.pdf"
-                  />
-                </div>
-              )}
             </div>
           </div>
         )}
@@ -523,22 +422,11 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   useEffect(() => {
+    setLoading(true);
     pagesApi.committees.get(slug)
       .then(res => {
         setData(res.data);
-        setPayload({
-          ...res.data,
-          responsibilities: res.data?.responsibilities || [],
-          objectives: res.data?.objectives || [],
-          activities: res.data?.activities || [],
-          aboutPoints: res.data?.aboutPoints || [],
-          initiatives: res.data?.initiatives || [],
-          guidelines: res.data?.guidelines || [],
-          members: res.data?.members || [],
-          reports: res.data?.reports || [],
-          momReports: (res.data as any)?.momReports || [],
-          documents: res.data?.documents || [],
-        });
+        setPayload(res.data || {});
       })
       .finally(() => setLoading(false));
   }, [slug]);
@@ -546,31 +434,16 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
   const saveChanges = async () => {
     setSaving(true);
     try {
-      const sanitizedPayload = sanitizeCommitteePayload(slug, payload);
-      setPayload(sanitizedPayload);
-      await pagesApi.committees.update(slug, sanitizedPayload);
-      setToast({ message: `${data?.name || 'Committee'} updated successfully`, type: 'success' });
+      await pagesApi.committees.update(slug, payload);
+      setToast({ message: 'Update successful!', type: 'success' });
     } catch (err) {
-      console.error(err);
-      setToast({ message: 'Failed to update committee.', type: 'error' });
+      setToast({ message: 'Update failed.', type: 'error' });
     } finally {
       setSaving(false);
     }
   };
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await saveChanges();
-  };
-
-  if (loading) return (
-    <div className="flex items-center justify-center h-96 bg-white border border-slate-200/60 rounded-6xl animate-pulse">
-      <div className="flex flex-col items-center gap-4">
-        <div className="w-12 h-12 border-4 border-[#2563EB] border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Gathering Committee Records...</p>
-      </div>
-    </div>
-  );
+  if (loading) return <div className="p-20 text-center font-black text-slate-300 animate-pulse tracking-widest uppercase">Initializing...</div>;
 
   return (
     <>
@@ -709,7 +582,6 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
           </AdminFormSection>
         )}
 
-        {/* Equal Opportunity / SEDG Cell PDF Uploads */}
         {['equal-opportunity', 'sedg'].includes(slug) && (
           <AdminFormSection title="Regulatory Documentation" icon="📁" isOpen={activeAccordionSection === 'docs'} onToggle={() => setActiveAccordionSection(activeAccordionSection === 'docs' ? null : 'docs')}>
             <PDFDocumentManager 
@@ -720,10 +592,8 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
             />
           </AdminFormSection>
         )}
-        </div>
-      </form>
-      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
-    </>
+      </div>
+    </div>
   );
 };
 
