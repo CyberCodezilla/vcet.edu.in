@@ -1,7 +1,0 @@
-﻿pages/departments/DeptIT.tsx(691,93): error TS1487: Octal escape sequences are not allowed. Use the syntax '\x02'.
-pages/departments/DeptIT.tsx(692,93): error TS1487: Octal escape sequences are not allowed. Use the syntax '\x02'.
-pages/departments/DeptIT.tsx(716,107): error TS1487: Octal escape sequences are not allowed. Use the syntax '\x82'.
-pages/departments/DeptIT.tsx(718,107): error TS1487: Octal escape sequences are not allowed. Use the syntax '\x82'.
-pages/departments/DeptIT.tsx(719,108): error TS1487: Octal escape sequences are not allowed. Use the syntax '\x82'.
-pages/departments/DeptIT.tsx(720,107): error TS1487: Octal escape sequences are not allowed. Use the syntax '\x82'.
-pages/departments/DeptIT.tsx(721,108): error TS1487: Octal escape sequences are not allowed. Use the syntax '\x82'.
