@@ -303,9 +303,16 @@ export interface Enquiry {
   name: string;
   email: string;
   phone: string | null;
-  message: string | null;
-  course: string | null;
+  state: string | null;
+  city: string | null;
+  department: string;
+  course: string;
+  specialization: string | null;
+  consent: boolean;
+  ip_address: string | null;
+  is_read: boolean;
   created_at: string;
+  updated_at: string;
 }
 
 export interface GalleryImage {

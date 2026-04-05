@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { enquiriesApi } from '../../api/enquiries';
 import type { Enquiry } from '../../types';
@@ -10,10 +10,10 @@ const EnquiriesList: React.FC = () => {
   const [lastPage, setLastPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'read' | 'unread'>('all');
 
   const toggleFilter = () => {
-    setStatusFilter(prev => prev === 'all' ? 'active' : prev === 'active' ? 'inactive' : 'all');
+    setStatusFilter(prev => prev === 'all' ? 'unread' : prev === 'unread' ? 'read' : 'all');
   };
 
   const handleExport = () => {
@@ -49,17 +49,19 @@ const EnquiriesList: React.FC = () => {
       .finally(() => setLoading(false));
   }, [page]);
 
-  const filteredItems = items.filter(item => 
+  const filteredItems = useMemo(() => items.filter(item => 
     item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     item.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (item.course && item.course.toLowerCase().includes(searchTerm.toLowerCase()))
-  ).filter((item: any) => {
+    item.course.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (item.state ?? '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (item.city ?? '').toLowerCase().includes(searchTerm.toLowerCase())
+  ).filter((item) => {
     if (statusFilter === 'all') return true;
-    const isActive = item.is_active !== undefined ? item.is_active : true;
-    if (statusFilter === 'active' && !isActive) return false;
-    if (statusFilter === 'inactive' && isActive) return false;
+    if (statusFilter === 'read' && !item.is_read) return false;
+    if (statusFilter === 'unread' && item.is_read) return false;
     return true;
-  });
+  }), [items, searchTerm, statusFilter]);
 
   const fmt = (iso: string | null) => {
     if (!iso) return '—';
@@ -87,7 +89,7 @@ const EnquiriesList: React.FC = () => {
         <div className="relative w-full sm:max-w-md">
           <input id="enquirieslist-1" name="enquirieslist-1" aria-label="enquirieslist field"
             type="text"
-            placeholder="Search by name, email or course..."
+            placeholder="Search by name, email, department, course or location..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full bg-white border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-12 py-4 text-sm transition-all shadow-sm outline-none"
@@ -97,7 +99,7 @@ const EnquiriesList: React.FC = () => {
         <div className="flex items-center gap-3">
           <button onClick={toggleFilter} className={`flex items-center gap-2 ring-1 px-6 py-4 rounded-2xl text-xs font-bold transition-all shadow-sm ${statusFilter !== 'all' ? 'bg-[#1e293b] text-white ring-[#1e293b]' : 'bg-white text-slate-600 ring-slate-200 hover:bg-slate-50'}`}>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4.5h18m-18 5h18m-18 5h18m-18 5h18" /></svg>
-            Filter: {statusFilter === 'all' ? 'All' : statusFilter === 'active' ? 'Active' : 'Inactive'}
+            Filter: {statusFilter === 'all' ? 'All' : statusFilter === 'unread' ? 'Unread' : 'Read'}
           </button>
           <button onClick={handleExport} className="flex items-center gap-2 bg-white ring-1 ring-slate-200 px-6 py-4 rounded-2xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
@@ -126,8 +128,8 @@ const EnquiriesList: React.FC = () => {
               <thead>
                 <tr className="bg-slate-50/50 border-b border-slate-100">
                   <th className="text-left px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Student</th>
-                  <th className="text-left px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Course Interest</th>
-                  <th className="text-left px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Message Snippet</th>
+                  <th className="text-left px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Academic Details</th>
+                  <th className="text-left px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Location & Consent</th>
                   <th className="text-right px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Timestamp</th>
                 </tr>
               </thead>
@@ -139,21 +141,28 @@ const EnquiriesList: React.FC = () => {
                         <span className="text-sm font-bold text-slate-900 group-hover:text-[#1e293b] transition-colors">{item.name}</span>
                         <span className="text-xs text-slate-400 mt-0.5">{item.email}</span>
                         {item.phone && <span className="text-[10px] text-slate-400">{item.phone}</span>}
+                        <span className={`mt-1 inline-flex w-fit items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${item.is_read ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-amber-50 text-amber-600 border-amber-100'}`}>
+                          {item.is_read ? 'Read' : 'Unread'}
+                        </span>
                       </div>
                     </td>
                     <td className="px-8 py-6">
-                      {item.course ? (
-                        <span className="inline-flex items-center px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-bold uppercase tracking-wider border border-blue-100/50">
-                          {item.course}
+                      <div className="flex flex-col gap-1">
+                        <span className="inline-flex items-center px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-bold uppercase tracking-wider border border-blue-100/50 w-fit">
+                          {item.department}
                         </span>
-                      ) : (
-                        <span className="text-slate-300 text-xs italic">Not specified</span>
-                      )}
+                        <span className="text-xs text-slate-600 font-semibold">{item.course}</span>
+                        <span className="text-[11px] text-slate-500">{item.specialization || 'No specialization'}</span>
+                      </div>
                     </td>
-                    <td className="px-8 py-6 max-w-xs">
-                      <p className="text-xs text-slate-500 leading-relaxed truncate" title={item.message}>
-                        {item.message || <span className="text-slate-300 italic">No message provided</span>}
-                      </p>
+                    <td className="px-8 py-6">
+                      <div className="flex flex-col gap-1">
+                        <span className="text-xs text-slate-600">{item.city || 'City not provided'}</span>
+                        <span className="text-xs text-slate-600">{item.state || 'State not provided'}</span>
+                        <span className={`text-[11px] font-semibold ${item.consent ? 'text-emerald-600' : 'text-rose-600'}`}>
+                          {item.consent ? 'Consent given' : 'Consent missing'}
+                        </span>
+                      </div>
                     </td>
                     <td className="px-8 py-6 text-right">
                       <div className="flex flex-col items-end">

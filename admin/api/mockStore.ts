@@ -515,23 +515,27 @@ export const MOCK_PLACEMENT_PARTNERS: PlacementPartner[] = [
 export const MOCK_ENQUIRIES: Enquiry[] = [
   {
     id: 1, name: 'Priya Sharma', email: 'priya.sharma@gmail.com',
-    phone: '9876543210', message: 'I want to know about the admission process for B.E. Computer Engineering.',
-    course: 'Computer Engineering', created_at: '2026-03-12T14:30:00Z',
+    phone: '+919876543210', state: 'Maharashtra', city: 'Vasai', department: 'Computer Engineering',
+    course: 'B.E.', specialization: 'General', consent: true, ip_address: '127.0.0.1', is_read: false,
+    created_at: '2026-03-12T14:30:00Z', updated_at: '2026-03-12T14:30:00Z',
   },
   {
     id: 2, name: 'Rohan Mehta', email: 'rohan.m@yahoo.com',
-    phone: '8765432109', message: 'What are the scholarship options available for SC/ST students?',
-    course: 'Information Technology', created_at: '2026-03-11T10:15:00Z',
+    phone: '+918765432109', state: 'Gujarat', city: 'Surat', department: 'Information Technology',
+    course: 'B.E.', specialization: 'Data Science', consent: true, ip_address: '127.0.0.1', is_read: false,
+    created_at: '2026-03-11T10:15:00Z', updated_at: '2026-03-11T10:15:00Z',
   },
   {
     id: 3, name: 'Anjali Desai', email: 'anjali.d@hotmail.com',
-    phone: null, message: 'Can you share the hostel facilities details?',
-    course: null, created_at: '2026-03-10T16:45:00Z',
+    phone: '+917654321098', state: null, city: null, department: 'AI & Data Science',
+    course: 'B.E.', specialization: null, consent: true, ip_address: null, is_read: false,
+    created_at: '2026-03-10T16:45:00Z', updated_at: '2026-03-10T16:45:00Z',
   },
   {
     id: 4, name: 'Vikram Patel', email: 'vikram.p@gmail.com',
-    phone: '7654321098', message: 'I am interested in the AI & Data Science course. What is the cutoff?',
-    course: 'AI & Data Science', created_at: '2026-03-09T09:20:00Z',
+    phone: '+917543210987', state: 'Maharashtra', city: 'Mumbai', department: 'Computer Science & DS',
+    course: 'M.E.', specialization: 'Cyber Security', consent: true, ip_address: '127.0.0.1', is_read: true,
+    created_at: '2026-03-09T09:20:00Z', updated_at: '2026-03-09T09:20:00Z',
   },
 ];
 

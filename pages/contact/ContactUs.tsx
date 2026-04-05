@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Linkedin, Youtube, Send, ExternalLink } from 'lucide-react';
@@ -45,6 +45,27 @@ const socialLinks = [
 ];
 
 const ContactUs: React.FC = () => {
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    const to = 'hr@vcet.edu.in';
+    const subject = `[VCET Contact] ${form.subject}`;
+    const body = `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`;
+    const mailtoUrl = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = event.target;
+    setForm((prev) => ({ ...prev, [id]: value }));
+  };
+
   return (
     <PageLayout>
       <PageBanner
@@ -119,7 +140,7 @@ const ContactUs: React.FC = () => {
               <div className="reveal" style={{ transitionDelay: '0.15s' }}>
                 <div className="bg-brand-light rounded-2xl p-8 border border-brand-blue/5">
                   <h3 className="text-lg font-display font-bold text-brand-navy mb-6">Send us a Message</h3>
-                  <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+                  <form className="space-y-5" onSubmit={handleSubmit}>
                     <div>
                       <label htmlFor="name" className="block text-xs font-semibold text-brand-navy mb-2">
                         Full Name
@@ -127,6 +148,9 @@ const ContactUs: React.FC = () => {
                       <input name="contactus-1" aria-label="contactus field"
                         type="text"
                         id="name"
+                        value={form.name}
+                        onChange={handleChange}
+                        required
                         placeholder="Enter your full name"
                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-slate-700 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-gold transition-all duration-300"
                       />
@@ -138,6 +162,9 @@ const ContactUs: React.FC = () => {
                       <input name="contactus-2" aria-label="contactus field"
                         type="email"
                         id="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        required
                         placeholder="Enter your email address"
                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-slate-700 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-gold transition-all duration-300"
                       />
@@ -149,6 +176,9 @@ const ContactUs: React.FC = () => {
                       <input name="contactus-3" aria-label="contactus field"
                         type="text"
                         id="subject"
+                        value={form.subject}
+                        onChange={handleChange}
+                        required
                         placeholder="Enter subject"
                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-slate-700 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-gold transition-all duration-300"
                       />
@@ -159,6 +189,9 @@ const ContactUs: React.FC = () => {
                       </label>
                       <textarea name="contactus-textarea-1" aria-label="contactus textarea field"
                         id="message"
+                        value={form.message}
+                        onChange={handleChange}
+                        required
                         rows={5}
                         placeholder="Type your message here..."
                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm text-slate-700 placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-gold/30 focus:border-brand-gold transition-all duration-300 resize-none"
