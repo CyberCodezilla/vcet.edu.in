@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { newsTickerApi } from '../../api/newsTicker';
 import type { NewsTickerPayload } from '../../types';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const NewsTickerForm: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -57,31 +58,19 @@ const NewsTickerForm: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto pb-24">
       {/* Breadcrumbs */}
-      <div className="flex items-center gap-2 text-[11px] font-bold text-slate-400 mb-4 uppercase tracking-widest">
-        <Link to="/admin" className="hover:text-slate-600 transition-colors">Dashboard</Link>
-        <span className="text-slate-300 font-normal">/</span>
-        <Link to="/admin/news-ticker" className="hover:text-slate-600 transition-colors">News Ticker</Link>
-        <span className="text-slate-300 font-normal">/</span>
-        <span className="text-slate-600">{isEdit ? 'Edit' : 'New'}</span>
-      </div>
+      <PageEditorHeader
+        title={isEdit ? 'Edit Ticker Item' : 'Add New Ticker'}
+        description="Ticker items will rotate at the top of the header on the website."
+        onSave={handleSubmit as unknown as () => void}
+        isSaving={saving}
+        showBackButton
+        onBack={() => navigate('/admin/news-ticker')}
+      />
 
-      <div className="flex items-center justify-between mb-12">
-        <h1 className="text-4xl font-black text-slate-900 tracking-tight">
-          {isEdit ? 'Edit' : 'Add New'} <span className="text-slate-400">Ticker Item</span>
-        </h1>
-        <button 
-          onClick={() => navigate('/admin/news-ticker')}
-          className="text-slate-400 hover:text-slate-600 font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-colors"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-          Back to List
-        </button>
-      </div>
-
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
         {/* Left Column: Form Fields */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 space-y-8">
+          <div className="bg-white p-8 rounded-4xl shadow-xl shadow-slate-200/50 border border-slate-100 space-y-8">
             <div className="space-y-2">
               <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Ticker Message</label>
               <textarea id="newstickerform-textarea-1" aria-label="newstickerform textarea field"
@@ -137,40 +126,7 @@ const NewsTickerForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: Actions & Tips */}
-        <div className="space-y-6">
-          <div className="bg-slate-900 p-8 rounded-[2.5rem] shadow-2xl shadow-slate-900/20 text-white space-y-6">
-            <h3 className="font-bold text-lg italic tracking-tight underline decoration-slate-700 underline-offset-8">Ticker Settings</h3>
-            <p className="text-slate-400 text-xs leading-relaxed font-semibold">Ticker items will rotate at the top of the header on the website.</p>
-            
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-4">
-                <p className="text-red-400 text-[10px] font-black uppercase tracking-widest mb-1">Error</p>
-                <p className="text-red-200 text-xs font-bold leading-relaxed">{error}</p>
-              </div>
-            )}
 
-            <button
-              onClick={handleSubmit}
-              disabled={saving}
-              className="w-full bg-white text-slate-900 font-black py-4 rounded-2xl text-sm transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-white/10"
-            >
-              {saving && <div className="w-4 h-4 border-2 border-slate-900/20 border-t-slate-900 rounded-full animate-spin" />}
-              {isEdit ? 'Update Item' : 'Publish Item'}
-            </button>
-            <button
-              onClick={() => navigate('/admin/news-ticker')}
-              className="w-full bg-slate-800 text-slate-400 font-bold py-4 rounded-2xl text-[10px] uppercase tracking-[0.2em] transition-all hover:bg-slate-700 hover:text-white"
-            >
-              Discard
-            </button>
-          </div>
-
-          <div className="bg-[#1e293b] p-8 rounded-[2.5rem] border border-slate-700/30 text-white">
-            <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Pro Tip</h4>
-            <p className="text-slate-400 text-xs leading-relaxed font-bold italic">Keep ticker messages short and engaging for better readability on mobile devices.</p>
-          </div>
-        </div>
       </form>
     </div>
   );

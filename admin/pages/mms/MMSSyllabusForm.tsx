@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { FileText, CheckCircle, AlertTriangle, Upload, Eye, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { FileText, CheckCircle, AlertTriangle, Upload, Trash2, GripVertical } from 'lucide-react';
 import type { MMSSyllabusPayload } from '../../types';
 import { mmsSyllabusApi } from '../../api/mmsSyllabusApi';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
+import AdminFormSection from '../../components/AdminFormSection';
+
+const inputBase = "w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all text-slate-700";
+const labelBase = "block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1";
 
 const emptyForm: MMSSyllabusPayload = {
   firstYearPdf: { label: 'First Year Syllabus', url: null },
@@ -12,12 +16,12 @@ const emptyForm: MMSSyllabusPayload = {
 
 const MMSSyllabusForm: React.FC = () => {
   const navigate = useNavigate();
-  const { section } = useParams<{ section: string }>();
   const [form, setForm] = useState<MMSSyllabusPayload>(emptyForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [activeSection, setActiveSection] = useState<string | null>('first-year');
 
   useEffect(() => {
     fetchData();
@@ -54,21 +58,44 @@ const MMSSyllabusForm: React.FC = () => {
   };
 
   if (loading) {
-     return <div className="p-10 text-center"><div className="w-8 h-8 border-4 border-slate-200 border-t-[#2563EB] rounded-full animate-spin mx-auto mb-4" />Loading Form...</div>;
+     return <div className="p-10 text-center"><div className="w-8 h-8 border-4 border-slate-200 border-t-[#2563EB] rounded-full animate-spin mx-auto mb-4" />Loading...</div>;
   }
 
-  const isFirstYear = section === 'first-year';
-  const config = isFirstYear 
-    ? { title: 'First Year Syllabus', key: 'firstYearPdf' as const } 
-    : { title: 'Second Year Syllabus', key: 'secondYearPdf' as const };
-
-  const pdfData = form[config.key]!;
+  const renderSyllabusSection = (key: 'firstYearPdf' | 'secondYearPdf', title: string) => {
+    const pdfData = form[key]!;
+    return (
+      <div className="space-y-6">
+        <div className="relative group rounded-3xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-video md:aspect-[21/9] flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden shadow-inner">
+           <input type="file" accept="application/pdf" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+              if (e.target.files?.[0]) {
+                 setForm({...form, [key]: {...pdfData, url: e.target.files[0]}});
+              }
+           }} />
+           <div className="flex flex-col items-center justify-center gap-3">
+              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm transition-all ${pdfData.url ? 'bg-blue-500 text-white' : 'bg-white text-slate-300'}`}>
+                 {pdfData.url ? <FileText className="w-6 h-6" /> : <Upload className="w-6 h-6" />}
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                 {pdfData.url ? (pdfData.url instanceof File ? pdfData.url.name : 'Document Uploaded') : 'Upload Syllabus PDF'}
+              </span>
+           </div>
+           {pdfData.url && (
+              <button type="button" onClick={(e) => { e.stopPropagation(); setForm({...form, [key]: {...pdfData, url: null}}); }} className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-red-500 p-2 rounded-xl shadow-lg hover:bg-red-50 transition-all z-20 opacity-0 group-hover:opacity-100"><Trash2 className="w-4 h-4"/></button>
+           )}
+        </div>
+        <div>
+           <label className={labelBase}>Document Label</label>
+           <input className={inputBase} value={pdfData.label} onChange={e => setForm({...form, [key]: {...pdfData, label: e.target.value}})} placeholder="e.g. First Year Syllabus (Revised 2024)" />
+        </div>
+      </div>
+    );
+  };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-12 animate-fade-in relative pt-6">
+    <div className="max-w-5xl mx-auto space-y-8 pb-12 animate-fade-in relative pt-6">
       <PageEditorHeader
-        title={config.title}
-        description="Syllabus Document Editor"
+        title="MMS Syllabus"
+        description="Manage syllabus curriculum documents for first and second year students."
         onSave={() => {
           void handleSave();
         }}
@@ -77,89 +104,27 @@ const MMSSyllabusForm: React.FC = () => {
         onBack={() => navigate('/admin/pages/mms')}
       />
 
-      {/* MESSAGES */}
       {error && (
-        <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-xl flex items-center gap-3 text-red-700 font-medium animate-shake">
-          <AlertTriangle className="w-5 h-5" /> {error}
+        <div className="bg-red-50 border border-red-100 rounded-xl px-5 py-4 text-sm text-red-600 font-medium flex items-center gap-3">
+           <AlertTriangle className="w-5 h-5" /> {error}
         </div>
       )}
+      
       {successMsg && (
-        <div className="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-xl flex items-center gap-3 text-emerald-700 font-medium animate-slide-up">
-          <CheckCircle className="w-5 h-5" /> {successMsg}
+        <div className="bg-emerald-50 border border-emerald-100 rounded-xl px-5 py-4 text-sm text-emerald-600 font-medium flex items-center gap-3">
+           <CheckCircle className="w-5 h-5" /> {successMsg}
         </div>
       )}
 
-      <div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-xl overflow-hidden shadow-slate-200/50">
-        <div className="p-8 border-b border-slate-100 bg-slate-50/50">
-          <h3 className="text-xl font-bold text-slate-800">Syllabus PDF</h3>
-          <p className="text-sm text-slate-500 font-medium mt-1">Upload the curriculum document for {isFirstYear ? 'Semester I & II' : 'Semester III & IV'}.</p>
-        </div>
+      <div className="space-y-4">
+        <AdminFormSection title="1. First Year Syllabus" icon="📚" isOpen={activeSection === 'first-year'} onToggle={() => setActiveSection(activeSection === 'first-year' ? null : 'first-year')}>
+           {renderSyllabusSection('firstYearPdf', 'First Year')}
+        </AdminFormSection>
 
-        <div className="p-10">
-          <div className="max-w-2xl mx-auto space-y-8 text-center">
-             <div className="relative group">
-                <input id="mmssyllabusform-1" name="mmssyllabusform-1" aria-label="mmssyllabusform field" 
-                  type="file" 
-                  accept="application/pdf" 
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      setForm({ ...form, [config.key]: { ...pdfData, url: file } });
-                    }
-                  }}
-                />
-                <div className={`aspect-[16/6] rounded-[2rem] border-4 border-dashed transition-all flex flex-col items-center justify-center gap-4 ${pdfData.url ? 'border-emerald-100 bg-emerald-50/30' : 'border-slate-100 bg-slate-50/30 group-hover:border-blue-200 group-hover:bg-blue-50/30'}`}>
-                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg transition-transform group-hover:scale-110 ${pdfData.url ? 'bg-emerald-500 text-white shadow-emerald-200' : 'bg-white text-slate-400 shadow-slate-100 group-hover:text-blue-500 group-hover:shadow-blue-100'}`}>
-                    {pdfData.url ? <CheckCircle className="w-8 h-8" /> : <Upload className="w-8 h-8" />}
-                  </div>
-                  <div>
-                    <h4 className={`text-lg font-bold ${pdfData.url ? 'text-emerald-700' : 'text-slate-600'}`}>
-                      {pdfData.url ? (pdfData.url instanceof File ? pdfData.url.name : 'Current Syllabus PDF') : 'Click to Upload PDF'}
-                    </h4>
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">PDF documents only • Max 10MB</p>
-                  </div>
-                </div>
-             </div>
-
-             <div className="space-y-4">
-                <div className="flex justify-between items-center px-1">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Document Label</label>
-                </div>
-                <input id="mmssyllabusform-2" name="mmssyllabusform-2" aria-label="mmssyllabusform field" 
-                  className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-sm font-bold text-slate-700 outline-none focus:bg-white focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100 transition-all shadow-inner"
-                  value={pdfData.label}
-                  onChange={(e) => setForm({ ...form, [config.key]: { ...pdfData, label: e.target.value } })}
-                  placeholder="e.g. First Year Syllabus (Revised 2024)"
-                />
-             </div>
-
-             <div className="flex gap-4 justify-center mt-4">
-               {pdfData.url && !(pdfData.url instanceof File) && (
-                  <a href={pdfData.url as string} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-slate-800 text-white rounded-xl text-xs font-bold hover:bg-slate-700 transition-all shadow-lg shadow-slate-200">
-                    <Eye className="w-4 h-4" /> View Current Document
-                  </a>
-               )}
-               {pdfData.url && (
-                  <button 
-                    type="button"
-                    onClick={() => setForm({ ...form, [config.key]: { ...pdfData, url: null } })}
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-red-50 text-red-600 rounded-xl text-xs font-bold hover:bg-red-100 transition-all shadow-sm"
-                  >
-                    <Trash2 className="w-4 h-4" /> Remove Document
-                  </button>
-               )}
-             </div>
-          </div>
-        </div>
+        <AdminFormSection title="2. Second Year Syllabus" icon="🎓" isOpen={activeSection === 'second-year'} onToggle={() => setActiveSection(activeSection === 'second-year' ? null : 'second-year')}>
+           {renderSyllabusSection('secondYearPdf', 'Second Year')}
+        </AdminFormSection>
       </div>
-
-      <style>{`
-        @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-        .animate-shake { animation: shake 0.3s ease-in-out infinite; animation-iteration-count: 2; }
-      `}</style>
     </div>
   );
 };

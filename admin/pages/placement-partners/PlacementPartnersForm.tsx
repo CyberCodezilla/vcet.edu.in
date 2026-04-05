@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { placementPartnersApi } from '../../api/placementPartners';
 import type { PlacementPartnerPayload } from '../../types';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const PlacementPartnersForm: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -58,21 +59,16 @@ const PlacementPartnersForm: React.FC = () => {
     <div className="min-h-[80vh] flex flex-col items-center justify-center py-12 px-4">
       <div className="w-full max-w-2xl">
         {/* Breadcrumbs */}
-        <div className="flex items-center justify-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">
-          <Link to="/admin" className="hover:text-[#1e293b] transition-colors">Dashboard</Link>
-          <span>/</span>
-          <Link to="/admin/placement-partners" className="hover:text-[#1e293b] transition-colors">Partners</Link>
-          <span>/</span>
-          <span className="text-slate-900">{isEdit ? 'Edit Partner' : 'New Partner'}</span>
-        </div>
+        <PageEditorHeader
+          title={isEdit ? 'Edit Recruiter' : 'New Recruiter'}
+          description="Fill in the company details for display on the recruiters page."
+          onSave={handleSubmit as unknown as () => void}
+          isSaving={saving}
+          showBackButton
+          onBack={() => navigate('/admin/placement-partners')}
+        />
 
-        <div className="bg-white border border-slate-200/60 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 p-10 md:p-14">
-          <div className="text-center mb-10">
-            <h1 className="text-3xl font-black text-slate-900 tracking-tight mb-3">
-              {isEdit ? 'Edit' : 'New'} <span className="text-[#1e293b]">Recruiter</span>
-            </h1>
-            <p className="text-slate-400 text-sm">Fill in the company details for display.</p>
-          </div>
+        <div className="bg-white border border-slate-200/60 rounded-4xl shadow-2xl shadow-slate-200/50 p-10 md:p-14">
 
           {error && (
             <div className="mb-8 bg-red-50 border border-red-100 rounded-2xl px-6 py-4 flex items-center gap-3 text-red-600 animate-shake">
@@ -148,22 +144,7 @@ const PlacementPartnersForm: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-4 pt-4">
-              <button
-                type="submit"
-                disabled={saving}
-                className="flex-1 bg-[#1e293b] hover:bg-slate-800 disabled:opacity-50 text-white font-black px-8 py-5 rounded-2xl text-[10px] uppercase tracking-[0.2em] transition-all shadow-xl shadow-slate-200 hover:-translate-y-1"
-              >
-                {saving ? 'Processing...' : isEdit ? 'Save Changes' : 'Add Partner'}
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('/admin/placement-partners')}
-                className="px-8 py-5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-900 hover:bg-slate-50 transition-all"
-              >
-                Cancel
-              </button>
-            </div>
+
           </form>
         </div>
       </div>

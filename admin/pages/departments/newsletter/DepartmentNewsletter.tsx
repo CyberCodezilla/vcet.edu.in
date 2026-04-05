@@ -8,12 +8,13 @@ import NewsletterForm from './NewsletterForm';
 import NewsletterPreview from './NewsletterPreview';
 import NewsletterCard from './NewsletterCard';
 import PdfViewer from './PdfViewer';
+import PageEditorHeader from '../../../../components/admin/PageEditorHeader';
 
 /* ── Toast Component ────────────────────────────────────────────────────────── */
 const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () => void }> = ({ message, type, onClose }) => {
   useEffect(() => { const t = setTimeout(onClose, 3500); return () => clearTimeout(t); }, [onClose]);
   return (
-    <div className={`fixed bottom-6 right-6 z-[200] flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-sm font-bold animate-slide-up ${type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'}`}>
+    <div className={`fixed bottom-6 right-6 z-200 flex items-center gap-3 px-6 py-4 rounded-2xl shadow-2xl text-sm font-bold animate-slide-up ${type === 'success' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'}`}>
       {type === 'success' ? (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" /></svg>
       ) : (
@@ -172,18 +173,15 @@ const DepartmentNewsletter: React.FC = () => {
       `}</style>
 
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="flex items-center gap-2 text-[11px] font-bold text-slate-400 mb-1 uppercase tracking-widest">
-            <Link to="/admin" className="hover:text-slate-600 transition-colors">Dashboard</Link>
-            <span className="text-slate-300 font-normal">/</span>
-            <Link to="/admin/pages/home" className="hover:text-slate-600 transition-colors">Pages</Link>
-            <span className="text-slate-300 font-normal">/</span>
-            <span className="text-slate-600">Newsletter</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-[#111827]">Department Newsletters</h1>
-        </div>
-      </div>
+      <PageEditorHeader
+        title={editingItem ? 'Edit Newsletter' : 'Department Newsletters'}
+        description="Publish and manage departmental newsletters, magazines, and monthly archives."
+        onSave={() => (document.querySelector('form button[type="submit"]') as HTMLButtonElement)?.click()}
+        isSaving={isSubmitting}
+        saveLabel={editingItem ? 'Save Changes' : 'Publish Newsletter'}
+        showBackButton
+        onBack={() => window.history.back()}
+      />
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-24 gap-4">
@@ -233,7 +231,7 @@ const DepartmentNewsletter: React.FC = () => {
             </div>
             
             {newsletters.length === 0 ? (
-               <div className="text-center py-24 bg-white rounded-[2rem] border border-slate-100">
+               <div className="text-center py-24 bg-white rounded-4xl border border-slate-100">
                 <div className="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center mx-auto mb-6">
                   <svg className="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
                 </div>

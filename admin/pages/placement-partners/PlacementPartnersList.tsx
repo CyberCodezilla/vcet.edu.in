@@ -125,7 +125,7 @@ const PlacementPartnersList: React.FC = () => {
       </div>
 
       {/* Main Container */}
-      <div className="bg-white border border-slate-200/60 rounded-[2rem] shadow-xl shadow-slate-200/40 overflow-hidden">
+      <div className="bg-white border border-slate-200/60 rounded-4xl shadow-xl shadow-slate-200/40 overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-24">
             <div className="w-10 h-10 border-4 border-slate-100 border-t-[#1e293b] rounded-full animate-spin" />

@@ -234,7 +234,7 @@ const Literati: React.FC = () => {
         subtitle="Official objective published on the Literati page."
         backgroundClassName="bg-brand-light"
       >
-        <div className="reveal rounded-[28px] border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
+        <div className="reveal rounded-4xl border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
           <p className="text-slate-600 leading-relaxed text-base md:text-lg">
             The magazine committee was remoulded and renamed and took its form as the LITERATI - THE
             LITERARY CLUB. The sole responsibility of this committee is to spread the light of

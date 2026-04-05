@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { departmentApi } from '../../api/departments';
 import { facultyApi } from '../../api/faculty';
 import type { DepartmentPayload, Department, Faculty } from '../../types';
+import AdminFormSection from '../../components/AdminFormSection';
 
 /* ── Toast Component ────────────────────────────────────────────────────────── */
 const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () => void }> = ({ message, type, onClose }) => {
@@ -114,6 +115,9 @@ export default function DepartmentForm() {
   const [loading, setLoading] = useState(isEditing);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const [activeSection, setActiveSection] = useState<string | null>('basic-info');
+
+  const toggleSection = (id: string) => setActiveSection(prev => prev === id ? null : id);
 
   const [availableFaculty, setAvailableFaculty] = useState<Faculty[]>([]);
 
@@ -248,11 +252,12 @@ export default function DepartmentForm() {
         <div className="lg:col-span-2 space-y-8">
           
           {/* Main Info */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-            <h2 className="text-xl font-extrabold text-slate-800 mb-6 flex items-center gap-2">
-              <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              Basic Information
-            </h2>
+          <AdminFormSection 
+            title="Basic Information" 
+            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
+            isOpen={activeSection === 'basic-info'}
+            onToggle={() => toggleSection('basic-info')}
+          >
             <div className="space-y-6">
               <div>
                 <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Department Name</label>
@@ -291,20 +296,19 @@ export default function DepartmentForm() {
                 </div>
               </div>
             </div>
-          </div>
+          </AdminFormSection>
 
           {/* Patents */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl font-extrabold text-slate-800 flex items-center gap-3">
-                <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-500">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
-                </div>
-                Patents
-              </h2>
+          <AdminFormSection 
+            title="Patents" 
+            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>}
+            isOpen={activeSection === 'patents'}
+            onToggle={() => toggleSection('patents')}
+          >
+            <div className="flex justify-end mb-4">
               <button 
                 type="button"
-                onClick={() => addArrayItem('patents', { title: '', description: '', pdf: undefined })} 
+                onClick={(e) => { e.stopPropagation(); addArrayItem('patents', { title: '', description: '', pdf: undefined }); }} 
                 className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-[11px] font-bold hover:bg-indigo-100 transition-all border border-indigo-100 shadow-sm"
               >
                 <PlusIcon /> Add Patent
@@ -352,20 +356,19 @@ export default function DepartmentForm() {
                 </div>
               )}
             </div>
-          </div>
+          </AdminFormSection>
 
           {/* MoUs */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl font-extrabold text-slate-800 flex items-center gap-3">
-                <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-500">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                </div>
-                MoUs & Collaborations
-              </h2>
+          <AdminFormSection 
+            title="MoUs & Collaborations" 
+            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>}
+            isOpen={activeSection === 'mous'}
+            onToggle={() => toggleSection('mous')}
+          >
+            <div className="flex justify-end mb-4">
               <button 
                 type="button"
-                onClick={() => addArrayItem('mous', { organization: '', description: '', pdf: undefined })} 
+                onClick={(e) => { e.stopPropagation(); addArrayItem('mous', { organization: '', description: '', pdf: undefined }); }} 
                 className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-[11px] font-bold hover:bg-emerald-100 transition-all border border-emerald-100 shadow-sm"
               >
                 <PlusIcon /> Add MoU
@@ -413,17 +416,15 @@ export default function DepartmentForm() {
                 </div>
               )}
             </div>
-          </div>
+          </AdminFormSection>
 
           {/* Achievements - Faculty & Student */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-            <h2 className="text-xl font-extrabold text-slate-800 mb-8 flex items-center gap-3">
-              <div className="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center text-amber-500">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" /></svg>
-              </div>
-              Achievements
-            </h2>
-            
+          <AdminFormSection 
+            title="Achievements" 
+            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" /></svg>}
+            isOpen={activeSection === 'achievements'}
+            onToggle={() => toggleSection('achievements')}
+          >
             <div className="space-y-10">
               {/* Faculty Achievements */}
               <div>
@@ -495,20 +496,18 @@ export default function DepartmentForm() {
                 </div>
               </div>
             </div>
-          </div>
+          </AdminFormSection>
 
-          {/* Activities */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl font-extrabold text-slate-800 flex items-center gap-3">
-                <div className="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center text-purple-500">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                </div>
-                Department Activities
-              </h2>
+          <AdminFormSection 
+            title="Department Activities" 
+            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
+            isOpen={activeSection === 'activities'}
+            onToggle={() => toggleSection('activities')}
+          >
+            <div className="flex justify-end mb-4">
               <button 
                 type="button"
-                onClick={() => addArrayItem('activities', { title: '', description: '', image: undefined, pdf: undefined })} 
+                onClick={(e) => { e.stopPropagation(); addArrayItem('activities', { title: '', description: '', image: undefined, pdf: undefined }); }} 
                 className="inline-flex items-center gap-1.5 px-4 py-2 bg-purple-50 text-purple-600 rounded-xl text-[11px] font-bold hover:bg-purple-100 transition-all border border-purple-100 shadow-sm"
               >
                 <PlusIcon /> Add Activity
@@ -552,20 +551,18 @@ export default function DepartmentForm() {
                 </div>
               )}
             </div>
-          </div>
+          </AdminFormSection>
 
-          {/* DAB Members */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl font-extrabold text-slate-800 flex items-center gap-3">
-                <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-500">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                </div>
-                DAB Members
-              </h2>
+          <AdminFormSection 
+            title="DAB Members" 
+            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>}
+            isOpen={activeSection === 'dab-members'}
+            onToggle={() => toggleSection('dab-members')}
+          >
+            <div className="flex justify-end mb-4">
               <button 
                 type="button"
-                onClick={() => addArrayItem('dabMembers', { name: '', designation: '', organization: '' })} 
+                onClick={(e) => { e.stopPropagation(); addArrayItem('dabMembers', { name: '', designation: '', organization: '' }); }} 
                 className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-[11px] font-bold hover:bg-indigo-100 transition-all border border-indigo-100"
               >
                 <PlusIcon /> Add Member
@@ -605,21 +602,19 @@ export default function DepartmentForm() {
                 </div>
               ))}
             </div>
-          </div>
+          </AdminFormSection>
 
-          {/* Faculty */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-            <h2 className="text-xl font-extrabold text-slate-800 mb-6 flex items-center gap-2">
-              <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-              Core Faculty Selection
-            </h2>
+          <AdminFormSection 
+            title="Core Faculty Selection" 
+            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>}
+            isOpen={activeSection === 'faculty-selection'}
+            onToggle={() => toggleSection('faculty-selection')}
+          >
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Select faculty from the directory. Grouped by department.</p>
             
             <div className="max-h-96 overflow-y-auto pr-2 space-y-6">
               {Object.entries(
                 availableFaculty.reduce((acc, f) => {
-                  acc[f.basicInfo.department] = acc[f.basicInfo.department] || [];
-                  acc[f.basicInfo.department].push(f);
                   const deptName = f.basicInfo?.department || 'Unassigned';
                   acc[deptName] = acc[deptName] || [];
                   acc[deptName].push(f);
@@ -646,7 +641,6 @@ export default function DepartmentForm() {
                             }}
                           />
                           <div className="flex flex-col">
-
                             <span className={`text-sm font-bold ${isSelected ? 'text-indigo-900' : 'text-slate-700'}`}>{f.basicInfo?.fullName || 'Unnamed'}</span>
                             <span className={`text-[11px] font-medium ${isSelected ? 'text-indigo-600/70' : 'text-slate-400'}`}>{f.basicInfo?.designation || f.qualifications?.specialization || 'Faculty'}</span>
                           </div>
@@ -660,20 +654,18 @@ export default function DepartmentForm() {
                 <p className="text-sm text-slate-500 italic py-4">No faculty found. Please add faculty in the Faculty page first.</p>
               )}
             </div>
-          </div>
+          </AdminFormSection>
 
-          {/* Student Toppers */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl font-extrabold text-slate-800 flex items-center gap-3">
-                <div className="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center text-amber-500">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" /></svg>
-                </div>
-                Student Toppers
-              </h2>
+          <AdminFormSection 
+            title="Student Toppers" 
+            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" /></svg>}
+            isOpen={activeSection === 'toppers'}
+            onToggle={() => toggleSection('toppers')}
+          >
+            <div className="flex justify-end mb-4">
               <button 
                 type="button"
-                onClick={() => addArrayItem('toppers', { name: '', year: '', cgpa: '' })} 
+                onClick={(e) => { e.stopPropagation(); addArrayItem('toppers', { name: '', year: '', cgpa: '' }); }} 
                 className="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-50 text-amber-600 rounded-xl text-[11px] font-bold hover:bg-amber-100 transition-all border border-amber-100"
               >
                 <PlusIcon /> Add Topper
@@ -713,7 +705,7 @@ export default function DepartmentForm() {
                 </div>
               ))}
             </div>
-          </div>
+          </AdminFormSection>
 
         </div>
 
@@ -721,17 +713,16 @@ export default function DepartmentForm() {
         <div className="space-y-8">
           
           {/* Syllabus Links */}
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-lg font-extrabold text-slate-800 flex items-center gap-3">
-                <div className="w-9 h-9 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-500">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                </div>
-                Syllabus
-              </h2>
+          <AdminFormSection 
+            title="Syllabus" 
+            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>}
+            isOpen={activeSection === 'syllabus'}
+            onToggle={() => toggleSection('syllabus')}
+          >
+            <div className="flex justify-end mb-4">
               <button 
                 type="button"
-                onClick={() => addArrayItem('syllabus', { title: '', pdf: undefined })} 
+                onClick={(e) => { e.stopPropagation(); addArrayItem('syllabus', { title: '', pdf: undefined }); }} 
                 className="inline-flex items-center gap-1 bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-xl text-[10px] font-bold hover:bg-indigo-100 transition-all shadow-sm border border-indigo-100"
               >
                 <PlusIcon /> Add Item
@@ -739,7 +730,7 @@ export default function DepartmentForm() {
             </div>
             <div className="space-y-4">
               {content.syllabus?.map((s, i) => (
-                <div key={i} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-[1.5rem] border border-slate-100 relative group/row hover:border-slate-200 transition-all font-sans">
+                <div key={i} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-3xl border border-slate-100 relative group/row hover:border-slate-200 transition-all font-sans">
                   <input id="departmentform-17" name="departmentform-17" aria-label="departmentform field"
                     type="text"
                     placeholder="e.g. FE Syllabus 2024"
@@ -763,19 +754,18 @@ export default function DepartmentForm() {
                 </div>
               ))}
             </div>
-          </div>
+          </AdminFormSection>
 
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-lg font-extrabold text-slate-800 flex items-center gap-3">
-                <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-500">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H14" /></svg>
-                </div>
-                Newsletters
-              </h2>
+          <AdminFormSection 
+            title="Newsletters" 
+            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H14" /></svg>}
+            isOpen={activeSection === 'newsletter'}
+            onToggle={() => toggleSection('newsletter')}
+          >
+            <div className="flex justify-end mb-4">
               <button 
                 type="button"
-                onClick={() => addArrayItem('newsletter', { title: '', link: '' })} 
+                onClick={(e) => { e.stopPropagation(); addArrayItem('newsletter', { title: '', link: '' }); }} 
                 className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-600 px-3 py-1.5 rounded-xl text-[10px] font-bold hover:bg-emerald-100 transition-all shadow-sm border border-emerald-100"
               >
                 <PlusIcon /> Add Item
@@ -783,7 +773,7 @@ export default function DepartmentForm() {
             </div>
             <div className="space-y-4">
               {content.newsletter?.map((n, i) => (
-                <div key={i} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-[1.5rem] relative group/row border border-slate-100 hover:border-slate-200 transition-all font-sans">
+                <div key={i} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-3xl relative group/row border border-slate-100 hover:border-slate-200 transition-all font-sans">
                   <input id="departmentform-18" name="departmentform-18" aria-label="departmentform field"
                     type="text"
                     placeholder="Title (e.g. Jan 2024 Edition)"
@@ -808,19 +798,18 @@ export default function DepartmentForm() {
                 </div>
               ))}
             </div>
-          </div>
+          </AdminFormSection>
 
-          <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-lg font-extrabold text-slate-800 mb-6 flex items-center gap-2">
-                <div className="w-9 h-9 bg-slate-100 rounded-xl flex items-center justify-center text-slate-500">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                </div>
-                Timetable
-              </h2>
+          <AdminFormSection 
+            title="Timetable" 
+            icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>}
+            isOpen={activeSection === 'timetable'}
+            onToggle={() => toggleSection('timetable')}
+          >
+            <div className="flex justify-end mb-4">
               <button 
                 type="button"
-                onClick={() => addArrayItem('timetable', { class: '', pdf: undefined })} 
+                onClick={(e) => { e.stopPropagation(); addArrayItem('timetable', { class: '', pdf: undefined }); }} 
                 className="inline-flex items-center gap-1 bg-slate-100 text-slate-600 px-3 py-1.5 rounded-xl text-[10px] font-bold hover:bg-slate-200 transition-all shadow-sm border border-slate-200"
               >
                 <PlusIcon /> Add Class
@@ -828,7 +817,7 @@ export default function DepartmentForm() {
             </div>
             <div className="space-y-4">
               {content.timetable?.map((t, i) => (
-                <div key={i} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-[1.5rem] border border-slate-100 relative group/row hover:border-slate-200 transition-all font-sans">
+                <div key={i} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-3xl border border-slate-100 relative group/row hover:border-slate-200 transition-all font-sans">
                   <input id="departmentform-20" name="departmentform-20" aria-label="departmentform field"
                     type="text"
                     placeholder="Class (e.g. SE IT)"
@@ -852,7 +841,7 @@ export default function DepartmentForm() {
                 </div>
               ))}
             </div>
-          </div>
+          </AdminFormSection>
 
         </div>
       </div>

@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle, GripVertical } from 'lucide-react';
 import type { TrainingPlacementPayload } from '../../types';
 import { trainingPlacementApi } from '../../api/trainingPlacement';
 import { resolveApiUrl } from '../../../services/api';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
+import { SortableListContext } from '../../components/SortableList';
+import AdminFormSection from '../../components/AdminFormSection';
+
+const inputBase = "w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all text-slate-700";
+const labelBase = "block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1";
 
 const MMSStudentPlacementsForm: React.FC = () => {
   const navigate = useNavigate();
@@ -17,6 +22,7 @@ const MMSStudentPlacementsForm: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [activeSection, setActiveSection] = useState<string | null>('students');
 
   useEffect(() => { fetchData(); }, []);
 
@@ -67,7 +73,7 @@ const MMSStudentPlacementsForm: React.FC = () => {
     <div className="max-w-5xl mx-auto space-y-8 pb-12 animate-fade-in relative pt-6">
       <PageEditorHeader
         title="Student Placements"
-        description="MMS Training & Placement Editor"
+        description="Manage placed students, recruiter banners, and the placement event gallery."
         onSave={() => {
           void handleSave();
         }}
@@ -88,165 +94,150 @@ const MMSStudentPlacementsForm: React.FC = () => {
       )}
 
       <form onSubmit={handleSave} className="space-y-4">
-
         {/* SECTION 1: Student Placements */}
-        <SectionCard title="Student Placements" icon="🎓">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Add placed students (max 6). Includes student photo, name, specialization, and company.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {form.studentPlacements?.map((item, i) => (
-              <div key={i} className="p-4 bg-slate-50 border border-slate-200 rounded-xl relative space-y-3">
-                <button type="button" onClick={() => {
-                  const c = [...form.studentPlacements!]; c.splice(i, 1); setForm({ ...form, studentPlacements: c });
-                }} className="absolute top-2 right-2 text-red-500 z-10 p-1 bg-white rounded-md shadow-sm border border-red-100"><Trash2 className="w-3.5 h-3.5" /></button>
+        <AdminFormSection title={`1. Placed Students (${form.studentPlacements?.length || 0}/6)`} icon="🎓" isOpen={activeSection === 'students'} onToggle={() => setActiveSection(activeSection === 'students' ? null : 'students')}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <SortableListContext
+              items={form.studentPlacements || []}
+              onChange={val => setForm({ ...form, studentPlacements: val })}
+              renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <button type="button" onClick={() => {
+                      const c = [...form.studentPlacements!]; c.splice(i, 1); setForm({ ...form, studentPlacements: c });
+                    }} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4" /></button>
+                  </div>
 
-                  <ImageUploader 
-                    value={item.image}
-                    onFileSelect={(f) => {
-                      const c = [...form.studentPlacements!];
-                      c[i] = { ...c[i], image: f };
-                      setForm({ ...form, studentPlacements: c });
-                    }}
-                  />
+                  <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-square flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden mb-6 shadow-inner">
+                    <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+                        if (e.target.files?.[0]) {
+                           const c = [...form.studentPlacements!]; c[i].image = e.target.files[0]; setForm({...form, studentPlacements: c});
+                        }
+                    }} />
+                    {item.image ? (
+                      <img src={item.image instanceof File ? URL.createObjectURL(item.image) : resolveApiUrl(item.image)} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center gap-1">
+                         <ImageIcon className="w-6 h-6 text-slate-300 group-hover:text-blue-500 transition-colors" />
+                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Photo</span>
+                      </div>
+                    )}
+                  </div>
 
-                <div className="relative">
-                  <label className="admin-label">Sr. No</label>
-                  <input id="mmsstudentplacementsform-1" name="mmsstudentplacementsform-1" aria-label="mmsstudentplacementsform field" className="admin-input-small" placeholder="Sr No" value={item.srNo} onChange={e => {
-                    const c = [...form.studentPlacements!]; c[i] = { ...c[i], srNo: e.target.value }; setForm({ ...form, studentPlacements: c });
-                  }} />
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-4 gap-3">
+                       <div className="col-span-1">
+                          <label className={labelBase}>Sr.</label>
+                          <input className={inputBase + " px-2 text-center"} value={item.srNo} onChange={e => {
+                             const c = [...form.studentPlacements!]; c[i].srNo = e.target.value; setForm({...form, studentPlacements: c});
+                          }} />
+                       </div>
+                       <div className="col-span-3">
+                          <label className={labelBase}>Student Name</label>
+                          <input maxLength={25} className={inputBase} value={item.studentName} placeholder="Name" onChange={e => {
+                             const c = [...form.studentPlacements!]; c[i].studentName = e.target.value; setForm({...form, studentPlacements: c});
+                          }} />
+                       </div>
+                    </div>
+                    <div>
+                      <label className={labelBase}>Specialization</label>
+                      <input maxLength={15} className={inputBase} value={item.specialization} placeholder="e.g. Finance" onChange={e => {
+                         const c = [...form.studentPlacements!]; c[i].specialization = e.target.value; setForm({...form, studentPlacements: c});
+                      }} />
+                    </div>
+                    <div>
+                      <label className={labelBase}>Company</label>
+                      <input maxLength={40} className={inputBase} value={item.company} placeholder="Company Name" onChange={e => {
+                         const c = [...form.studentPlacements!]; c[i].company = e.target.value; setForm({...form, studentPlacements: c});
+                      }} />
+                    </div>
+                  </div>
                 </div>
-                <div className="relative">
-                  <label className="admin-label">Student Name <span className="text-slate-400 normal-case">({item.studentName.length}/25)</span></label>
-                  <input id="mmsstudentplacementsform-2" name="mmsstudentplacementsform-2" aria-label="mmsstudentplacementsform field" className="admin-input-small" placeholder="Full name" value={item.studentName} onChange={e => handleTextChange(e.target.value, 25, val => {
-                    const c = [...form.studentPlacements!]; c[i] = { ...c[i], studentName: val }; setForm({ ...form, studentPlacements: c });
-                  })} />
-                </div>
-                <div className="relative">
-                  <label className="admin-label">Specialization <span className="text-slate-400 normal-case">({item.specialization.length}/15)</span></label>
-                  <input id="mmsstudentplacementsform-3" name="mmsstudentplacementsform-3" aria-label="mmsstudentplacementsform field" className="admin-input-small" placeholder="e.g. Finance" value={item.specialization} onChange={e => handleTextChange(e.target.value, 15, val => {
-                    const c = [...form.studentPlacements!]; c[i] = { ...c[i], specialization: val }; setForm({ ...form, studentPlacements: c });
-                  })} />
-                </div>
-                <div className="relative">
-                  <label className="admin-label">Company <span className="text-slate-400 normal-case">({item.company.length}/40)</span></label>
-                  <input id="mmsstudentplacementsform-4" name="mmsstudentplacementsform-4" aria-label="mmsstudentplacementsform field" className="admin-input-small" placeholder="Company name" value={item.company} onChange={e => handleTextChange(e.target.value, 40, val => {
-                    const c = [...form.studentPlacements!]; c[i] = { ...c[i], company: val }; setForm({ ...form, studentPlacements: c });
-                  })} />
-                </div>
-              </div>
-            ))}
+              )}
+            />
             {(form.studentPlacements?.length || 0) < 6 && (
-              <button type="button" onClick={() => setForm({ ...form, studentPlacements: [...(form.studentPlacements || []), { srNo: '', studentName: '', specialization: '', company: '' }] })} className="btn-add min-h-[18rem]">
-                <Plus className="w-5 h-5 mx-auto mb-2" /> Add Student (Max 6)
+              <button type="button" onClick={() => setForm({ ...form, studentPlacements: [...(form.studentPlacements || []), { srNo: String((form.studentPlacements?.length || 0) + 1), studentName: '', specialization: '', company: '', image: null }] })} className="flex flex-col items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl p-10 hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500 min-h-[300px]">
+                <Plus className="w-8 h-8" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Add Placed Student</span>
               </button>
             )}
           </div>
-          {form.studentPlacements?.length === 6 && <p className="text-xs text-amber-500 font-bold mt-3">Max 6 students reached.</p>}
-        </SectionCard>
+        </AdminFormSection>
 
-        {/* SECTION 2: Our Recruiters Banner */}
-        <SectionCard title="Our Recruiters" icon="🏢">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Upload a single recruiter showcase banner image with an optional label.</p>
-          <div className="max-w-lg space-y-4">
-            <div className="relative">
-              <label className="admin-label">Banner Label (Optional)</label>
-              <input id="mmsstudentplacementsform-5" name="mmsstudentplacementsform-5" aria-label="mmsstudentplacementsform field" className="admin-input-small" placeholder="e.g. Our Top Recruiters" value={form.recruitersBanner?.label || ''} onChange={e => {
-                setForm({ ...form, recruitersBanner: { ...form.recruitersBanner, label: e.target.value } });
-              }} />
-            </div>
-            <div>
-              <label className="admin-label mb-2">Recruiters Banner Image</label>
-                <ImageUploader
-                  value={form.recruitersBanner?.image}
-                  onFileSelect={(f) => setForm({ ...form, recruitersBanner: { ...form.recruitersBanner, image: f } })}
-                />
+        {/* SECTION 2: Recruiters Banner */}
+        <AdminFormSection title="2. Recruiters Showcase" icon="🏢" isOpen={activeSection === 'recruiters'} onToggle={() => setActiveSection(activeSection === 'recruiters' ? null : 'recruiters')}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-6">
+              <div>
+                <label className={labelBase}>Section Title / Label</label>
+                <input className={inputBase} placeholder="e.g. Our Top Recruiters" value={form.recruitersBanner?.label || ''} onChange={e => setForm({...form, recruitersBanner: {...form.recruitersBanner, label: e.target.value}})}/>
               </div>
+              <p className="text-xs text-slate-400 font-medium leading-relaxed">This banner typically displays an optimized grid of company logos. Ensure the uploaded image is high resolution for the best visual impact.</p>
             </div>
-          </SectionCard>
+            <div className="relative group rounded-3xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-video flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden shadow-inner">
+               <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+                  if (e.target.files?.[0]) setForm({...form, recruitersBanner: {...form.recruitersBanner, image: e.target.files[0]}});
+               }} />
+               {form.recruitersBanner?.image ? (
+                 <img src={form.recruitersBanner.image instanceof File ? URL.createObjectURL(form.recruitersBanner.image) : resolveApiUrl(form.recruitersBanner.image)} alt="" className="w-full h-full object-cover" />
+               ) : (
+                 <div className="flex flex-col items-center justify-center gap-2">
+                    <ImageIcon className="w-8 h-8 text-slate-300" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Upload Banner Image</span>
+                 </div>
+               )}
+            </div>
+          </div>
+        </AdminFormSection>
 
         {/* SECTION 3: Placement Gallery */}
-        <SectionCard title="Placement Gallery" icon="📸">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Upload up to 8 images for the placement gallery. Label max 35 characters.</p>
-          <GalleryEditor
-            items={form.placementGallery || []}
-            max={8}
-            labelLimit={35}
-            onChange={(c) => setForm({ ...form, placementGallery: c })}
-          />
-        </SectionCard>
-
+        <AdminFormSection title={`3. Placement Event Gallery (${form.placementGallery?.length || 0}/8)`} icon="📸" isOpen={activeSection === 'gallery'} onToggle={() => setActiveSection(activeSection === 'gallery' ? null : 'gallery')}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <SortableListContext
+              items={form.placementGallery || []}
+              onChange={val => setForm({ ...form, placementGallery: val })}
+              renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-4 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-3 border-b border-slate-50 pb-3">
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                      <div className="w-4 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-4 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <button type="button" onClick={() => setForm({...form, placementGallery: form.placementGallery.filter((_, idx) => idx !== i)})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4"/></button>
+                  </div>
+                  <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-square flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden mb-4 shadow-inner">
+                     <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+                        if (e.target.files?.[0]) {
+                           const c = [...form.placementGallery!]; c[i].image = e.target.files[0]; setForm({...form, placementGallery: c});
+                        }
+                     }} />
+                     {item.image ? (
+                        <img src={item.image instanceof File ? URL.createObjectURL(item.image) : resolveApiUrl(item.image)} alt="" className="w-full h-full object-cover" />
+                     ) : (
+                        <ImageIcon className="w-5 h-5 text-slate-300" />
+                     )}
+                  </div>
+                  <input maxLength={35} className={inputBase + " py-1.5 px-3 text-[10px] h-9"} placeholder="Label" value={item.label} onChange={e => {
+                     const c = [...form.placementGallery!]; c[i].label = e.target.value; setForm({...form, placementGallery: c});
+                  }} />
+                </div>
+              )}
+            />
+            {form.placementGallery.length < 8 && (
+              <button type="button" onClick={() => setForm({...form, placementGallery: [...form.placementGallery, {label: '', image: null}]})} className="flex flex-col items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500 min-h-[160px]">
+                <Plus className="w-6 h-6" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-center">Add Photo</span>
+              </button>
+            )}
+          </div>
+        </AdminFormSection>
       </form>
-      <style>{`
-        .admin-input-small { width: 100%; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.5rem 0.75rem; color: #0f172a; font-size: 0.75rem; font-weight: 500; outline: none; transition: 0.2s; }
-        .admin-input-small:focus { border-color: #2563EB; background: #fff; box-shadow: 0 0 0 2px rgba(37,99,235, 0.1); }
-        .admin-label { display: block; font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem; }
-        .btn-add { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; border: 2px dashed #cbd5e1; border-radius: 0.75rem; padding: 0.75rem; font-size: 0.75rem; font-weight: bold; color: #64748b; background: white; transition: 0.2s; cursor: pointer; }
-        .btn-add:hover { border-color: #2563EB; color: #2563EB; background: #eff6ff; }
-      `}</style>
     </div>
   );
 };
-
-/* ── Helper Components ── */
-
-const SectionCard = ({ icon, title, children }: any) => (
-  <div className="bg-white rounded-[2rem] p-8 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.05)] border border-slate-100">
-    <div className="flex items-center gap-3 mb-8">
-      {icon && <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-lg shadow-sm border border-slate-100">{icon}</div>}
-      <h2 className="text-sm font-black text-[#111827] uppercase tracking-wider">{title}</h2>
-    </div>
-    <div>{children}</div>
-  </div>
-);
-
-const ImageUploader = ({ value, onFileSelect }: { value?: any; onFileSelect: (f: File) => void }) => {
-  const imageUrl = value instanceof File ? URL.createObjectURL(value) : (value && typeof value === 'object' && 'url' in value ? resolveApiUrl((value as any).url) : resolveApiUrl(value as string));
-  return (
-    <div className="relative group rounded-xl border-2 border-dashed border-slate-200 p-4 bg-slate-50 hover:bg-slate-100 transition-colors flex flex-col items-center justify-center min-h-[80px] text-center cursor-pointer overflow-hidden">
-      <input id="mmsstudentplacementsform-6" name="mmsstudentplacementsform-6" aria-label="mmsstudentplacementsform field" type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={(e) => { if (e.target.files?.[0]) onFileSelect(e.target.files[0]); }} />
-      {imageUrl ? (
-        <img src={imageUrl} alt="preview" className="absolute inset-0 w-full h-full object-cover" />
-      ) : (
-        <>
-          <ImageIcon className="w-5 h-5 text-slate-400 group-hover:text-blue-500 mb-1" />
-          <p className="text-[10px] text-slate-500 font-semibold">Click to Upload</p>
-        </>
-      )}
-    </div>
-  );
-};
-
-const GalleryEditor = ({ items, max, labelLimit, onChange }: { items: any[]; max: number; labelLimit: number; onChange: (items: any[]) => void }) => (
-  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-    {items.map((item, i) => {
-      const imgUrl = item.image instanceof File ? URL.createObjectURL(item.image) : (item.image && typeof item.image === 'object' && 'url' in item.image ? resolveApiUrl((item.image as any).url) : resolveApiUrl(item.image as string));
-      return (
-      <div key={i} className="p-3 bg-slate-50 border border-slate-200 rounded-lg relative space-y-2">
-        <button type="button" onClick={() => onChange(items.filter((_, idx) => idx !== i))} className="absolute top-1 right-1 bg-white border border-red-100 rounded text-red-500 z-10 p-0.5"><Trash2 className="w-3 h-3" /></button>
-        <div className="relative group rounded-lg border border-dashed border-slate-300 bg-white h-20 flex items-center justify-center cursor-pointer overflow-hidden">
-          <input id="mmsstudentplacementsform-7" name="mmsstudentplacementsform-7" aria-label="mmsstudentplacementsform field" type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={(e) => {
-            if (e.target.files?.[0]) {
-              const c = [...items]; c[i] = { ...c[i], image: e.target.files[0] }; onChange(c);
-            }
-          }} />
-          {imgUrl ? (
-            <img src={imgUrl} alt="preview" className="absolute inset-0 w-full h-full object-cover" />
-          ) : (
-            <ImageIcon className="w-5 h-5 text-slate-400 group-hover:text-blue-500" />
-          )}
-        </div>
-        <input id="mmsstudentplacementsform-8" name="mmsstudentplacementsform-8" aria-label="mmsstudentplacementsform field" className="admin-input-small text-center relative z-20" placeholder={`Label (Max ${labelLimit})`} value={item.label} onChange={e => {
-          if (e.target.value.length <= labelLimit) {
-            const c = [...items]; c[i] = { ...c[i], label: e.target.value }; onChange(c);
-          }
-        }} />
-      </div>
-    )})}
-    {items.length < max && (
-      <button type="button" onClick={() => onChange([...items, { label: '', image: null }])} className="btn-add min-h-[7rem]">
-        <Plus className="w-5 h-5 mx-auto mb-1" /> Add Image
-      </button>
-    )}
-  </div>
-);
 
 export default MMSStudentPlacementsForm;

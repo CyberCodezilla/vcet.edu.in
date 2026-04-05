@@ -82,7 +82,7 @@ const ExamPDFPage: React.FC<ExamPDFPageProps> = ({ title, subtitle, breadcrumbLa
                   )}
 
                   {group.pdfs && group.pdfs.length > 0 && (
-                    <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl overflow-hidden">
+                    <div className="bg-white rounded-4xl border border-slate-100 shadow-xl overflow-hidden">
                       <div className="overflow-x-auto">
                         <table className="w-full text-left">
                           <thead>

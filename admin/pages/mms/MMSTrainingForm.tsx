@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle, GripVertical } from 'lucide-react';
 import type { TrainingPlacementPayload } from '../../types';
 import { trainingPlacementApi } from '../../api/trainingPlacement';
 import { resolveApiUrl } from '../../../services/api';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
+import { SortableListContext } from '../../components/SortableList';
+import AdminFormSection from '../../components/AdminFormSection';
+
+const inputBase = "w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all text-slate-700";
+const labelBase = "block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1";
 
 const MMSTrainingForm: React.FC = () => {
   const navigate = useNavigate();
@@ -19,6 +24,7 @@ const MMSTrainingForm: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [activeSection, setActiveSection] = useState<string | null>('points');
 
   useEffect(() => { fetchData(); }, []);
 
@@ -59,19 +65,15 @@ const MMSTrainingForm: React.FC = () => {
     }
   };
 
-  const handleTextChange = (value: string, limit: number, setter: (val: string) => void) => {
-    if (value.length <= limit) setter(value);
-  };
-
   if (loading) {
-    return <div className="p-10 text-center"><div className="w-8 h-8 border-4 border-slate-200 border-t-[#2563EB] rounded-full animate-spin mx-auto mb-4" />Loading Form...</div>;
+    return <div className="p-10 text-center"><div className="w-8 h-8 border-4 border-slate-200 border-t-[#2563EB] rounded-full animate-spin mx-auto mb-4" />Loading...</div>;
   }
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-12 animate-fade-in relative pt-6">
       <PageEditorHeader
-        title="Training"
-        description="MMS Training & Placement Editor"
+        title="Training Initiatives"
+        description="Manage industry training points, guest lectures, career guidance, and internship procedures."
         onSave={() => {
           void handleSave();
         }}
@@ -91,286 +93,258 @@ const MMSTrainingForm: React.FC = () => {
         </div>
       )}
 
-      <form onSubmit={handleSave} className="space-y-4">
+      <div className="space-y-4">
+        {/* 1. Training Points */}
+        <AdminFormSection title={`1. Training Points (${form.trainingPoints?.length || 0}/5)`} icon="📋" isOpen={activeSection === 'points'} onToggle={() => setActiveSection(activeSection === 'points' ? null : 'points')}>
+           <div className="space-y-3">
+              <SortableListContext
+                items={form.trainingPoints || []}
+                onChange={val => setForm({ ...form, trainingPoints: val })}
+                renderItem={(pt, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                  <div ref={setNodeRef} style={style} className={`flex items-center gap-3 p-2 bg-white border border-slate-100 rounded-2xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                       <div className="w-4 h-0.5 bg-current mb-0.5 rounded-full" />
+                       <div className="w-4 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <input className={inputBase + " flex-1 h-10 py-1.5"} value={pt.point} placeholder="Enter training highlight..." onChange={e => {
+                       const c = [...form.trainingPoints]; c[i].point = e.target.value; setForm({...form, trainingPoints: c});
+                    }} />
+                    <button type="button" onClick={() => setForm({...form, trainingPoints: form.trainingPoints.filter((_, idx) => idx !== i)})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4"/></button>
+                  </div>
+                )}
+              />
+              {form.trainingPoints.length < 5 && (
+                 <button type="button" onClick={() => setForm({...form, trainingPoints: [...form.trainingPoints, {point: ''}]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-3 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+                    <Plus className="w-4 h-4" /> Add Training Point
+                 </button>
+              )}
+           </div>
+        </AdminFormSection>
 
-        {/* SECTION 1: Training Points */}
-        <SectionCard title="Training Points" icon="📋">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Add up to 5 training initiative points. Each point max 170 characters.</p>
-          <div className="space-y-3">
-            {form.trainingPoints?.map((pt, i) => (
-              <div key={i} className="flex gap-2 items-start">
-                <div className="flex-1 relative">
-                  <input id="mmstrainingform-1" name="mmstrainingform-1" aria-label="mmstrainingform field"
-                    type="text"
-                    value={pt.point}
-                    onChange={(e) => handleTextChange(e.target.value, 170, (val) => {
-                      const c = [...(form.trainingPoints || [])];
-                      c[i] = { ...c[i], point: val };
-                      setForm({ ...form, trainingPoints: c });
-                    })}
-                    placeholder="Enter training point..."
-                    className="admin-input-small"
-                  />
-                  <span className="absolute right-2 top-2.5 text-[10px] text-slate-400">{pt.point.length}/170</span>
-                </div>
-                <button type="button" onClick={() => setForm({ ...form, trainingPoints: form.trainingPoints!.filter((_, idx) => idx !== i) })} className="p-2 text-red-500 hover:bg-red-50 rounded-lg shrink-0">
-                  <Trash2 className="w-4 h-4" />
-                </button>
+        {/* 2. Events */}
+        <AdminFormSection title={`2. Training Events (${form.events?.length || 0}/3)`} icon="📅" isOpen={activeSection === 'events'} onToggle={() => setActiveSection(activeSection === 'events' ? null : 'events')}>
+           <div className="space-y-6">
+              <SortableListContext
+                items={form.events || []}
+                onChange={val => setForm({ ...form, events: val })}
+                renderItem={(ev, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                  <div ref={setNodeRef} style={style} className={`p-8 bg-white border border-slate-100 rounded-4xl relative shadow-sm hover:shadow-lg transition-all ${isDragging ? 'shadow-2xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
+                         <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                           <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                           <div className="w-5 h-0.5 bg-current rounded-full" />
+                         </div>
+                         <span className="text-[10px] font-black uppercase text-slate-400">Event #{i+1}</span>
+                      </div>
+                      <button type="button" onClick={() => setForm({...form, events: form.events.filter((_, idx) => idx !== i)})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4"/></button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                       <div className="space-y-6">
+                          <div>
+                             <label className={labelBase}>Event Name</label>
+                             <input className={inputBase} value={ev.eventName} onChange={e => {
+                               const c = [...form.events]; c[i].eventName = e.target.value; setForm({...form, events: c});
+                             }} />
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                             <div>
+                                <label className={labelBase}>Sr. No</label>
+                                <input className={inputBase} value={ev.srNo} onChange={e => {
+                                  const c = [...form.events]; c[i].srNo = e.target.value; setForm({...form, events: c});
+                                }} />
+                             </div>
+                             <div>
+                                <label className={labelBase}>Date</label>
+                                <input className={inputBase} value={ev.conductionDate} placeholder="e.g. 15 Mar 2025" onChange={e => {
+                                  const c = [...form.events]; c[i].conductionDate = e.target.value; setForm({...form, events: c});
+                                }} />
+                             </div>
+                          </div>
+                          <div>
+                             <label className={labelBase}>Resource Person / Details</label>
+                             <textarea maxLength={350} className={inputBase + " h-24 resize-none"} value={ev.resourcePerson} onChange={e => {
+                               const c = [...form.events]; c[i].resourcePerson = e.target.value; setForm({...form, events: c});
+                             }} />
+                          </div>
+                       </div>
+                       <div className="relative group rounded-3xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-video flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden shadow-inner">
+                          <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+                             if (e.target.files?.[0]) {
+                               const c = [...form.events]; c[i].image = e.target.files[0]; setForm({...form, events: c});
+                             }
+                          }} />
+                          {ev.image ? (
+                            <img src={ev.image instanceof File ? URL.createObjectURL(ev.image) : resolveApiUrl(ev.image)} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="flex flex-col items-center justify-center gap-2">
+                               <ImageIcon className="w-8 h-8 text-slate-300" />
+                               <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Event Photo</span>
+                            </div>
+                          )}
+                       </div>
+                    </div>
+                  </div>
+                )}
+              />
+              {form.events.length < 3 && (
+                 <button type="button" onClick={() => setForm({...form, events: [...form.events, {srNo: String(form.events.length + 1), eventName: '', resourcePerson: '', conductionDate: '', image: null}]})} className="w-full flex items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl p-10 hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500">
+                    <Plus className="w-8 h-8" />
+                    <span className="text-[11px] font-black uppercase tracking-widest">Add Training Event</span>
+                 </button>
+              )}
+           </div>
+        </AdminFormSection>
+
+        {/* 3. Career Guidance */}
+        <AdminFormSection title="3. Career Guidance" icon="🧭" isOpen={activeSection === 'career'} onToggle={() => setActiveSection(activeSection === 'career' ? null : 'career')}>
+           <div className="space-y-10">
+              <div>
+                 <label className={labelBase}>Guidance Highlights (Max 4)</label>
+                 <div className="space-y-3">
+                    {form.careerGuidance.guidancePoints.map((pt, i) => (
+                       <div key={i} className="flex items-center gap-3">
+                          <input className={inputBase + " h-10 py-1.5 flex-1"} value={pt.point} placeholder="Guidance point..." onChange={e => {
+                             const c = {...form.careerGuidance}; c.guidancePoints[i].point = e.target.value; setForm({...form, careerGuidance: c});
+                          }} />
+                          <button type="button" onClick={() => {
+                             const c = {...form.careerGuidance}; c.guidancePoints.splice(i, 1); setForm({...form, careerGuidance: c});
+                          }} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4"/></button>
+                       </div>
+                    ))}
+                    {form.careerGuidance.guidancePoints.length < 4 && (
+                       <button type="button" onClick={() => {
+                          const c = {...form.careerGuidance}; c.guidancePoints.push({point: ''}); setForm({...form, careerGuidance: c});
+                       }} className="text-[10px] font-black text-blue-500 uppercase tracking-widest hover:text-blue-600 transition-colors ml-1">+ Add Point</button>
+                    )}
+                 </div>
               </div>
-            ))}
-            {(form.trainingPoints?.length || 0) < 5 && (
-              <button type="button" onClick={() => setForm({ ...form, trainingPoints: [...(form.trainingPoints || []), { point: '' }] })} className="btn-add">
-                <Plus className="w-4 h-4" /> Add Training Point
-              </button>
-            )}
-            {form.trainingPoints?.length === 5 && <p className="text-xs text-amber-500 font-bold">Max 5 points reached.</p>}
-          </div>
-        </SectionCard>
 
-        {/* SECTION 2: Events */}
-        <SectionCard title="Events" icon="📅">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Manage training events (max 3). Each event includes name, resource person, date, and image.</p>
-          <div className="space-y-6">
-            {form.events?.map((ev, i) => (
-              <div key={i} className="p-5 bg-slate-50 border border-slate-200 rounded-xl relative">
-                <button type="button" onClick={() => setForm({ ...form, events: form.events!.filter((_, idx) => idx !== i) })} className="absolute top-3 right-3 text-red-500 p-1 hover:bg-red-50 rounded"><Trash2 className="w-4 h-4" /></button>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="admin-label">Sr. No (Optional)</label>
-                    <input id="mmstrainingform-2" name="mmstrainingform-2" aria-label="mmstrainingform field" className="admin-input-small" value={ev.srNo} onChange={e => {
-                      const c = [...form.events!]; c[i] = { ...c[i], srNo: e.target.value }; setForm({ ...form, events: c });
+              <div className="pt-8 border-t border-slate-50">
+                 <label className={labelBase}>Career seminars (Max 8)</label>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <SortableListContext
+                       items={form.careerGuidance.seminars}
+                       onChange={val => setForm({...form, careerGuidance: {...form.careerGuidance, seminars: val}})}
+                       renderItem={(sem, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                          <div ref={setNodeRef} style={style} className={`p-5 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                             <div className="flex items-center justify-between mb-4">
+                                <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                                   <div className="w-4 h-0.5 bg-current mb-0.5 rounded-full" />
+                                   <div className="w-4 h-0.5 bg-current rounded-full" />
+                                </div>
+                                <button type="button" onClick={() => {
+                                   const c = {...form.careerGuidance}; c.seminars.splice(i, 1); setForm({...form, careerGuidance: c});
+                                }} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4"/></button>
+                             </div>
+                             <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-video flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden mb-4 shadow-inner">
+                                <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+                                   if (e.target.files?.[0]) {
+                                      const c = {...form.careerGuidance}; c.seminars[i].image = e.target.files[0]; setForm({...form, careerGuidance: c});
+                                   }
+                                }} />
+                                {sem.image ? (
+                                   <img src={sem.image instanceof File ? URL.createObjectURL(sem.image) : resolveApiUrl(sem.image)} alt="" className="w-full h-full object-cover" />
+                                ) : (
+                                   <ImageIcon className="w-6 h-6 text-slate-300" />
+                                )}
+                             </div>
+                             <div className="space-y-4">
+                                <input className={inputBase + " h-9 text-[11px] py-1.5"} placeholder="Seminar Title" value={sem.title} onChange={e => {
+                                   const c = {...form.careerGuidance}; c.seminars[i].title = e.target.value; setForm({...form, careerGuidance: c});
+                                }} />
+                                <input className={inputBase + " h-9 text-[11px] py-1.5"} placeholder="Resource Details" value={sem.resourceDetails} onChange={e => {
+                                   const c = {...form.careerGuidance}; c.seminars[i].resourceDetails = e.target.value; setForm({...form, careerGuidance: c});
+                                }} />
+                             </div>
+                          </div>
+                       )}
+                    />
+                    {form.careerGuidance.seminars.length < 8 && (
+                       <button type="button" onClick={() => {
+                          const c = {...form.careerGuidance}; c.seminars.push({title: '', resourceDetails: '', image: null}); setForm({...form, careerGuidance: c});
+                       }} className="flex flex-col items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl p-8 hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500 min-h-[220px]">
+                          <Plus className="w-8 h-8" />
+                          <span className="text-[10px] font-black uppercase tracking-widest">Add Seminar</span>
+                       </button>
+                    )}
+                 </div>
+              </div>
+           </div>
+        </AdminFormSection>
+
+        {/* 4. Internship Steps */}
+        <AdminFormSection title={`4. Internship Procedure (${form.internshipSteps?.length || 0}/5)`} icon="📝" isOpen={activeSection === 'internship'} onToggle={() => setActiveSection(activeSection === 'internship' ? null : 'internship')}>
+           <div className="space-y-3">
+              <SortableListContext
+                items={form.internshipSteps || []}
+                onChange={val => setForm({ ...form, internshipSteps: val })}
+                renderItem={(step, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                  <div ref={setNodeRef} style={style} className={`flex items-center gap-3 p-2 bg-white border border-slate-100 rounded-2xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                       <div className="w-4 h-0.5 bg-current mb-0.5 rounded-full" />
+                       <div className="w-4 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-[10px] font-black text-slate-400 shrink-0 border border-slate-100">#{i+1}</div>
+                    <input className={inputBase + " flex-1 h-10 py-1.5"} value={step.step} placeholder="Enter procedure step..." onChange={e => {
+                       const c = [...form.internshipSteps]; c[i].step = e.target.value; setForm({...form, internshipSteps: c});
+                    }} />
+                    <button type="button" onClick={() => setForm({...form, internshipSteps: form.internshipSteps.filter((_, idx) => idx !== i)})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4"/></button>
+                  </div>
+                )}
+              />
+              {form.internshipSteps.length < 5 && (
+                 <button type="button" onClick={() => setForm({...form, internshipSteps: [...form.internshipSteps, {step: ''}]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-3 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+                    <Plus className="w-4 h-4" /> Add Procedure Step
+                 </button>
+              )}
+           </div>
+        </AdminFormSection>
+
+        {/* 5. Gallery */}
+        <AdminFormSection title={`5. Training Gallery (${form.trainingGallery?.length || 0}/4)`} icon="🖼️" isOpen={activeSection === 'gallery'} onToggle={() => setActiveSection(activeSection === 'gallery' ? null : 'gallery')}>
+           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <SortableListContext
+                items={form.trainingGallery || []}
+                onChange={val => setForm({ ...form, trainingGallery: val })}
+                renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                  <div ref={setNodeRef} style={style} className={`p-4 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                    <div className="flex items-center justify-between mb-3 border-b border-slate-50 pb-3">
+                       <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                         <div className="w-4 h-0.5 bg-current mb-0.5 rounded-full" />
+                         <div className="w-4 h-0.5 bg-current rounded-full" />
+                       </div>
+                       <button type="button" onClick={() => setForm({...form, trainingGallery: form.trainingGallery.filter((_, idx) => idx !== i)})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4"/></button>
+                    </div>
+                    <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-square flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden mb-4 shadow-inner">
+                       <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+                          if (e.target.files?.[0]) {
+                             const c = [...form.trainingGallery]; c[i].image = e.target.files[0]; setForm({...form, trainingGallery: c});
+                          }
+                       }} />
+                       {item.image ? (
+                          <img src={item.image instanceof File ? URL.createObjectURL(item.image) : resolveApiUrl(item.image)} alt="" className="w-full h-full object-cover" />
+                       ) : (
+                          <ImageIcon className="w-6 h-6 text-slate-300" />
+                       )}
+                    </div>
+                    <input className={inputBase + " h-9 text-[10px] py-1.5"} placeholder="Label" value={item.label} onChange={e => {
+                       const c = [...form.trainingGallery]; c[i].label = e.target.value; setForm({...form, trainingGallery: c});
                     }} />
                   </div>
-                  <div className="relative">
-                    <label className="admin-label">Date <span className="text-slate-400 normal-case">({ev.conductionDate.length}/15)</span></label>
-                    <input id="mmstrainingform-3" name="mmstrainingform-3" aria-label="mmstrainingform field" className="admin-input-small" placeholder="e.g. 15 Mar 2025" value={ev.conductionDate} onChange={e => handleTextChange(e.target.value, 15, val => {
-                      const c = [...form.events!]; c[i] = { ...c[i], conductionDate: val }; setForm({ ...form, events: c });
-                    })} />
-                  </div>
-                  <div className="md:col-span-2 relative">
-                    <label className="admin-label">Event Name <span className="text-slate-400 normal-case">({ev.eventName.length}/60)</span></label>
-                    <input id="mmstrainingform-4" name="mmstrainingform-4" aria-label="mmstrainingform field" className="admin-input-small" value={ev.eventName} onChange={e => handleTextChange(e.target.value, 60, val => {
-                      const c = [...form.events!]; c[i] = { ...c[i], eventName: val }; setForm({ ...form, events: c });
-                    })} />
-                  </div>
-                  <div className="md:col-span-2 relative">
-                    <label className="admin-label">Resource Person / Details <span className="text-slate-400 normal-case">({ev.resourcePerson.length}/350)</span></label>
-                    <textarea id="mmstrainingform-textarea-1" name="mmstrainingform-textarea-1" aria-label="mmstrainingform textarea field" className="admin-input-small resize-none" rows={3} value={ev.resourcePerson} onChange={e => handleTextChange(e.target.value, 350, val => {
-                      const c = [...form.events!]; c[i] = { ...c[i], resourcePerson: val }; setForm({ ...form, events: c });
-                    })} />
-                  </div>
-                  <div className="md:col-span-2">
-                    <label className="admin-label mb-2">Event Image</label>
-                      <ImageUploader onFileSelect={(f) => {
-                        const c = [...form.events!]; c[i] = { ...c[i], image: f }; setForm({ ...form, events: c });
-                      }} value={ev.image} />
-                  </div>
-                </div>
-              </div>
-            ))}
-            {(form.events?.length || 0) < 3 && (
-              <button type="button" onClick={() => setForm({ ...form, events: [...(form.events || []), { srNo: '', eventName: '', resourcePerson: '', conductionDate: '' }] })} className="btn-add">
-                <Plus className="w-4 h-4" /> Add Event (Max 3)
-              </button>
-            )}
-            {form.events?.length === 3 && <p className="text-xs text-amber-500 font-bold">Max 3 events reached.</p>}
-          </div>
-        </SectionCard>
-
-        {/* SECTION 3: Career Guidance */}
-        <SectionCard title="Career Guidance" icon="🧭">
-          <div className="space-y-6">
-            <div>
-              <h4 className="font-bold text-sm text-slate-700 mb-3">Guidance Points <span className="text-slate-400 font-medium text-xs">(Max 4, 100 chars each)</span></h4>
-              <div className="space-y-2">
-                {form.careerGuidance?.guidancePoints?.map((pt, i) => (
-                  <div key={i} className="flex gap-2">
-                    <div className="flex-1 relative">
-                      <input id="mmstrainingform-5" name="mmstrainingform-5" aria-label="mmstrainingform field" className="admin-input-small" value={pt.point} placeholder="Point description" onChange={e => handleTextChange(e.target.value, 100, val => {
-                        const c = { ...form.careerGuidance! }; 
-                        const pts = [...c.guidancePoints]; pts[i] = { ...pts[i], point: val }; 
-                        setForm({ ...form, careerGuidance: { ...c, guidancePoints: pts } });
-                      })} />
-                      <span className="absolute right-2 top-2.5 text-[10px] text-slate-400">{pt.point.length}/100</span>
-                    </div>
-                    <button type="button" onClick={() => {
-                      const c = { ...form.careerGuidance! }; 
-                      const pts = [...c.guidancePoints]; pts.splice(i, 1);
-                      setForm({ ...form, careerGuidance: { ...c, guidancePoints: pts } });
-                    }} className="p-2 text-red-500 rounded-lg shrink-0"><Trash2 className="w-4 h-4" /></button>
-                  </div>
-                ))}
-                {(form.careerGuidance?.guidancePoints?.length || 0) < 4 && (
-                  <button type="button" onClick={() => {
-                    const c = form.careerGuidance ? { ...form.careerGuidance } : { guidancePoints: [], seminars: [] };
-                    setForm({ ...form, careerGuidance: { ...c, guidancePoints: [...c.guidancePoints, { point: '' }] } });
-                  }} className="text-xs font-bold text-blue-600 hover:underline mt-1">+ Add Point</button>
                 )}
-              </div>
-            </div>
-
-            <div className="pt-5 border-t border-slate-200">
-              <h4 className="font-bold text-sm text-slate-700 mb-3">Seminars / Events <span className="text-slate-400 font-medium text-xs">(Max 8)</span></h4>
-              <div className="space-y-4">
-                {form.careerGuidance?.seminars?.map((sem, i) => (
-                  <div key={i} className="p-4 bg-slate-50 border border-slate-200 rounded-xl relative">
-                    <button type="button" onClick={() => {
-                      const c = { ...form.careerGuidance! }; 
-                      const sems = [...c.seminars]; sems.splice(i, 1);
-                      setForm({ ...form, careerGuidance: { ...c, seminars: sems } });
-                    }} className="absolute top-2 right-2 text-red-500 p-1 hover:bg-red-50 rounded"><Trash2 className="w-3.5 h-3.5" /></button>
-                    <div className="space-y-3">
-                      <div className="relative">
-                        <label className="admin-label">Title <span className="text-slate-400 normal-case">({sem.title.length}/50)</span></label>
-                        <input id="mmstrainingform-6" name="mmstrainingform-6" aria-label="mmstrainingform field" className="admin-input-small" placeholder="Seminar / Event title" value={sem.title} onChange={e => handleTextChange(e.target.value, 50, val => {
-                          const c = { ...form.careerGuidance! };
-                          const sems = [...c.seminars]; sems[i] = { ...sems[i], title: val };
-                          setForm({ ...form, careerGuidance: { ...c, seminars: sems } });
-                        })} />
-                      </div>
-                      <div className="relative">
-                        <label className="admin-label">Resource Details <span className="text-slate-400 normal-case">({sem.resourceDetails.length}/180)</span></label>
-                        <input id="mmstrainingform-7" name="mmstrainingform-7" aria-label="mmstrainingform field" className="admin-input-small" placeholder="Resource person profile" value={sem.resourceDetails} onChange={e => handleTextChange(e.target.value, 180, val => {
-                          const c = { ...form.careerGuidance! };
-                          const sems = [...c.seminars]; sems[i] = { ...sems[i], resourceDetails: val };
-                          setForm({ ...form, careerGuidance: { ...c, seminars: sems } });
-                        })} />
-                      </div>
-                      <div>
-                        <label className="admin-label mb-2">Seminar Image</label>
-                          <ImageUploader onFileSelect={(f) => {
-                            const c = { ...form.careerGuidance! };
-                            const sems = [...c.seminars]; sems[i] = { ...sems[i], image: f };
-                            setForm({ ...form, careerGuidance: { ...c, seminars: sems } });
-                          }} value={sem.image} />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                {(form.careerGuidance?.seminars?.length || 0) < 8 && (
-                  <button type="button" onClick={() => {
-                    const c = form.careerGuidance ? { ...form.careerGuidance } : { guidancePoints: [], seminars: [] };
-                    setForm({ ...form, careerGuidance: { ...c, seminars: [...c.seminars, { title: '', resourceDetails: '' }] } });
-                  }} className="btn-add">
-                    <Plus className="w-4 h-4" /> Add Seminar (Max 8)
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        </SectionCard>
-
-        {/* SECTION 4: Internship Procedure Steps */}
-        <SectionCard title="Internship Procedure Steps" icon="📝">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Define the internship procedure steps (max 5). Each step max 120 characters.</p>
-          <div className="space-y-3">
-            {form.internshipSteps?.map((step, i) => (
-              <div key={i} className="flex gap-2 items-center">
-                <span className="font-extrabold text-slate-300 w-7 text-center text-sm">{i + 1}.</span>
-                <div className="flex-1 relative">
-                  <input id="mmstrainingform-8" name="mmstrainingform-8" aria-label="mmstrainingform field" className="admin-input-small" value={step.step} placeholder="Internship step description" onChange={e => handleTextChange(e.target.value, 120, val => {
-                    const c = [...form.internshipSteps!]; c[i] = { ...c[i], step: val }; setForm({ ...form, internshipSteps: c });
-                  })} />
-                  <span className="absolute right-2 top-2.5 text-[10px] text-slate-400">{step.step.length}/120</span>
-                </div>
-                <button type="button" onClick={() => {
-                  const c = [...form.internshipSteps!]; c.splice(i, 1); setForm({ ...form, internshipSteps: c });
-                }} className="p-2 text-red-500 rounded-lg shrink-0"><Trash2 className="w-4 h-4" /></button>
-              </div>
-            ))}
-            {(form.internshipSteps?.length || 0) < 5 && (
-              <button type="button" onClick={() => setForm({ ...form, internshipSteps: [...(form.internshipSteps || []), { step: '' }] })} className="btn-add">
-                <Plus className="w-4 h-4" /> Add Step (Max 5)
-              </button>
-            )}
-            {form.internshipSteps?.length === 5 && <p className="text-xs text-amber-500 font-bold">Max 5 steps reached.</p>}
-          </div>
-        </SectionCard>
-
-        {/* SECTION 5: Training Gallery */}
-        <SectionCard title="Training Gallery" icon="🖼️">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Upload up to 4 images for the training gallery. Label max 19 characters.</p>
-          <GalleryEditor
-            items={form.trainingGallery || []}
-            max={4}
-            labelLimit={19}
-            onChange={(c) => setForm({ ...form, trainingGallery: c })}
-          />
-        </SectionCard>
-
-      </form>
-      <style>{`
-        .admin-input-small { width: 100%; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.5rem 0.75rem; color: #0f172a; font-size: 0.75rem; font-weight: 500; outline: none; transition: 0.2s; }
-        .admin-input-small:focus { border-color: #2563EB; background: #fff; box-shadow: 0 0 0 2px rgba(37,99,235, 0.1); }
-        .admin-label { display: block; font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem; }
-        .btn-add { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; border: 2px dashed #cbd5e1; border-radius: 0.75rem; padding: 0.75rem; font-size: 0.75rem; font-weight: bold; color: #64748b; background: white; transition: 0.2s; cursor: pointer; }
-        .btn-add:hover { border-color: #2563EB; color: #2563EB; background: #eff6ff; }
-      `}</style>
-    </div>
-  );
-};
-
-/* ── Helper Components ── */
-
-const SectionCard = ({ icon, title, children }: any) => (
-  <div className="bg-white rounded-[2rem] p-8 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.05)] border border-slate-100">
-    <div className="flex items-center gap-3 mb-8">
-      {icon && <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-lg shadow-sm border border-slate-100">{icon}</div>}
-      <h2 className="text-sm font-black text-[#111827] uppercase tracking-wider">{title}</h2>
-    </div>
-    <div>{children}</div>
-  </div>
-);
-
-const ImageUploader = ({ value, onFileSelect }: { value?: any; onFileSelect: (f: File) => void }) => {
-  const imageUrl = value instanceof File ? URL.createObjectURL(value) : (value && typeof value === 'object' && 'url' in value ? resolveApiUrl((value as any).url) : resolveApiUrl(value as string));
-  return (
-    <div className="relative group rounded-xl border-2 border-dashed border-slate-200 p-4 bg-slate-50 hover:bg-slate-100 transition-colors flex flex-col items-center justify-center min-h-[120px] text-center cursor-pointer overflow-hidden">
-      <input id="mmstrainingform-9" name="mmstrainingform-9" aria-label="mmstrainingform field" type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={(e) => { if (e.target.files?.[0]) onFileSelect(e.target.files[0]); }} />
-      {imageUrl ? (
-        <img src={imageUrl} alt="preview" className="absolute inset-0 w-full h-full object-cover" />
-      ) : (
-        <>
-          <ImageIcon className="w-5 h-5 text-slate-400 group-hover:text-blue-500 mb-1" />
-          <p className="text-[10px] text-slate-500 font-semibold">Click to Upload</p>
-        </>
-      )}
-    </div>
-  );
-};
-
-const GalleryEditor = ({ items, max, labelLimit, onChange }: { items: any[]; max: number; labelLimit: number; onChange: (items: any[]) => void }) => (
-  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-    {items.map((item, i) => {
-      const imgUrl = item.image instanceof File ? URL.createObjectURL(item.image) : (item.image && typeof item.image === 'object' && 'url' in item.image ? resolveApiUrl((item.image as any).url) : resolveApiUrl(item.image as string));
-      return (
-      <div key={i} className="p-3 bg-slate-50 border border-slate-200 rounded-lg relative space-y-2">
-        <button type="button" onClick={() => onChange(items.filter((_, idx) => idx !== i))} className="absolute top-1 right-1 bg-white border border-red-100 rounded text-red-500 z-10 p-0.5"><Trash2 className="w-3 h-3" /></button>
-        <div className="relative group rounded-lg border border-dashed border-slate-300 bg-white h-24 flex items-center justify-center cursor-pointer overflow-hidden">
-          <input id="mmstrainingform-10" name="mmstrainingform-10" aria-label="mmstrainingform field" type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
-            if (e.target.files?.[0]) {
-               const c = [...items]; c[i] = { ...c[i], image: e.target.files[0] }; onChange(c);
-            }
-          }} />
-          {imgUrl ? (
-            <img src={imgUrl} alt="gallery preview" className="absolute inset-0 w-full h-full object-cover" />
-          ) : (
-            <ImageIcon className="w-5 h-5 text-slate-400 group-hover:text-blue-500 mb-1" />
-          )}
-        </div>
-        <input id="mmstrainingform-11" name="mmstrainingform-11" aria-label="mmstrainingform field" className="admin-input-small text-center" placeholder={`Label (Max ${labelLimit})`} value={item.label || ''} onChange={e => {
-          if (e.target.value.length <= labelLimit) {
-            const c = [...items]; c[i] = { ...c[i], label: e.target.value }; onChange(c);
-          }
-        }} />
+              />
+              {form.trainingGallery.length < 4 && (
+                 <button type="button" onClick={() => setForm({...form, trainingGallery: [...form.trainingGallery, {label: '', image: null}]})} className="flex flex-col items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500 min-h-[160px]">
+                    <Plus className="w-6 h-6" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-center">Add Photo</span>
+                 </button>
+              )}
+           </div>
+        </AdminFormSection>
       </div>
-    )})}
-    {items.length < max && (
-      <button type="button" onClick={() => onChange([...items, { label: '', image: null }])} className="btn-add min-h-[7rem]">
-        <Plus className="w-5 h-5 mx-auto mb-1" /> Add Image
-      </button>
-    )}
-  </div>
-);
+    </div>
+  );
+};
 
 export default MMSTrainingForm;

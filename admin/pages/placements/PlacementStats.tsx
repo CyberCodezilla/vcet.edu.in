@@ -97,7 +97,7 @@ const PlacementStats: React.FC = () => {
       </div>
 
       {/* Year Stats Panel */}
-      <div className="bg-white border border-slate-200/60 rounded-[2rem] shadow-xl shadow-slate-200/40 overflow-hidden">
+      <div className="bg-white border border-slate-200/60 rounded-4xl shadow-xl shadow-slate-200/40 overflow-hidden">
         {/* Panel header */}
         <div className="flex items-center justify-between px-8 py-6 border-b border-slate-100">
           <div>

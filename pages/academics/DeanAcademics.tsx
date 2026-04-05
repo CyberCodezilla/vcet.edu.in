@@ -64,9 +64,9 @@ const DeanAcademics: React.FC = () => {
 
         <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-6xl xl:max-w-7xl">
-            <div className="reveal flow-root rounded-[28px] border border-brand-blue/10 bg-white/95 p-4 md:p-8 lg:p-10 shadow-[0_30px_80px_-55px_rgba(15,23,42,0.45)] backdrop-blur">
+            <div className="reveal flow-root rounded-4xl border border-brand-blue/10 bg-white/95 p-4 md:p-8 lg:p-10 shadow-[0_30px_80px_-55px_rgba(15,23,42,0.45)] backdrop-blur">
               <div className="group mb-6 w-full lg:float-left lg:mb-6 lg:mr-8 lg:w-80 mx-auto sm:w-72">
-                <div className="rounded-3xl bg-gradient-to-br from-yellow-300 via-brand-gold to-yellow-500 p-[2.5px] shadow-[0_0_40px_6px_rgba(253,184,19,0.25)] transition-transform duration-500 hover:-translate-y-1">
+                <div className="rounded-3xl bg-linear-to-br from-yellow-300 via-brand-gold to-yellow-500 p-[2.5px] shadow-[0_0_40px_6px_rgba(253,184,19,0.25)] transition-transform duration-500 hover:-translate-y-1">
                   <div className="overflow-hidden rounded-[22px] bg-white">
                     <div className="relative h-[360px] overflow-hidden bg-brand-light">
                       <div
@@ -87,11 +87,11 @@ const DeanAcademics: React.FC = () => {
                       )}
                     </div>
 
-                    <div className="bg-gradient-to-b from-white to-amber-50/40 px-5 py-5">
+                    <div className="bg-linear-to-b from-white to-amber-50/40 px-5 py-5">
                       <h2 className="text-center text-2xl font-display font-extrabold text-brand-navy">
                         {dean.name}
                       </h2>
-                      <div className="my-4 h-px bg-gradient-to-r from-transparent via-brand-gold/60 to-transparent" />
+                      <div className="my-4 h-px bg-linear-to-r from-transparent via-brand-gold/60 to-transparent" />
                       <div className="space-y-2 text-center">
                         <p className="text-sm font-semibold leading-6 text-brand-navy">
                           {dean.qualification}
@@ -103,7 +103,7 @@ const DeanAcademics: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="h-2 bg-gradient-to-r from-yellow-300 via-brand-gold to-yellow-400" />
+                    <div className="h-2 bg-linear-to-r from-yellow-300 via-brand-gold to-yellow-400" />
                   </div>
                 </div>
               </div>

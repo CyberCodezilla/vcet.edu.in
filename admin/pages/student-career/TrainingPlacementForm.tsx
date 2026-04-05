@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ChevronDown, ChevronUp, Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle } from 'lucide-react';
 import type { TrainingPlacementPayload } from '../../types';
 import { trainingPlacementApi } from '../../api/trainingPlacement';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const emptyForm: TrainingPlacementPayload = {
   trainingPoints: [],
@@ -109,18 +110,14 @@ const TrainingPlacementForm: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-20">
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="flex items-center gap-2 text-[11px] font-bold text-slate-400 mb-1 uppercase tracking-widest">
-            <Link to="/admin" className="hover:text-slate-600 transition-colors">Dashboard</Link>
-            <span className="text-slate-300 font-normal">/</span>
-            <Link to="/admin/pages/home" className="hover:text-slate-600 transition-colors">Pages</Link>
-            <span className="text-slate-300 font-normal">/</span>
-            <span className="text-slate-600">Training & Placement</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-[#111827]">Edit Training & Placement</h1>
-        </div>
-      </div>
+      <PageEditorHeader
+        title="Edit Training & Placement"
+        description="Manage training programs, placement cell members, objectives, and recruitment statistics."
+        onSave={handleSave as unknown as () => void}
+        isSaving={saving}
+        showBackButton
+        onBack={() => navigate('/admin/pages/home')}
+      />
 
       {error && (
         <div className="bg-red-50 border border-red-100 rounded-xl px-5 py-4 text-sm text-red-600 font-medium flex items-center gap-3">
@@ -344,7 +341,7 @@ const TrainingPlacementForm: React.FC = () => {
                    const c = [...form.placementCellMembers!]; c[i].email = val; setForm({...form, placementCellMembers: c});
                  })}/>
                  <div className="flex gap-2">
-                    <input id="trainingplacementform-13" name="trainingplacementform-13" aria-label="trainingplacementform field" className="admin-input-small flex-[2]" placeholder="Phone (Max 25) *" value={mem.phone} onChange={e => handleTextChange(e.target.value, 25, val => {
+                    <input id="trainingplacementform-13" name="trainingplacementform-13" aria-label="trainingplacementform field" className="admin-input-small flex-2" placeholder="Phone (Max 25) *" value={mem.phone} onChange={e => handleTextChange(e.target.value, 25, val => {
                       const c = [...form.placementCellMembers!]; c[i].phone = val; setForm({...form, placementCellMembers: c});
                     })}/>
                     <input id="trainingplacementform-14" name="trainingplacementform-14" aria-label="trainingplacementform field" className="admin-input-small flex-1" placeholder="Ext (Max 30)" value={mem.extension} onChange={e => handleTextChange(e.target.value, 30, val => {
@@ -354,7 +351,7 @@ const TrainingPlacementForm: React.FC = () => {
                </div>
              ))}
              {(form.placementCellMembers?.length || 0) < 2 && (
-               <button type="button" onClick={() => setForm({...form, placementCellMembers: [...(form.placementCellMembers||[]), {name: '', role: '', email: '', phone: '', extension: ''}]})} className="btn-add h-full min-h-[12rem]">
+               <button type="button" onClick={() => setForm({...form, placementCellMembers: [...(form.placementCellMembers||[]), {name: '', role: '', email: '', phone: '', extension: ''}]})} className="btn-add h-full min-h-48">
                  <Plus className="w-5 h-5 mx-auto mb-2" /> Add Member (Max 2)
                </button>
              )}
@@ -475,7 +472,7 @@ const TrainingPlacementForm: React.FC = () => {
                </div>
              ))}
              {(form.studentPlacements?.length || 0) < 6 && (
-               <button type="button" onClick={() => setForm({...form, studentPlacements: [...(form.studentPlacements||[]), {srNo: '', studentName: '', specialization: '', company: ''}]})} className="btn-add min-h-[14rem]">
+               <button type="button" onClick={() => setForm({...form, studentPlacements: [...(form.studentPlacements||[]), {srNo: '', studentName: '', specialization: '', company: ''}]})} className="btn-add min-h-56">
                  <Plus className="w-5 h-5 mx-auto mb-2" /> Add Student (Max 6)
                </button>
              )}
@@ -497,13 +494,7 @@ const TrainingPlacementForm: React.FC = () => {
           <GalleryEditor items={form.placementGallery || []} max={8} labelLimit={35} onChange={(c) => setForm({...form, placementGallery: c})} />
         </SectionCard>
 
-        {/* Submit Bar */}
-        <div className="sticky bottom-0 bg-white border-t border-slate-200 py-4 px-6 flex justify-end gap-3 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.1)] -mx-6 rounded-t-xl z-20">
-          <Link to="/admin/pages/home" className="px-6 py-2.5 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors">Cancel</Link>
-          <button type="submit" disabled={saving} className="bg-[#2563EB] hover:bg-blue-700 disabled:opacity-50 text-white font-bold px-8 py-2.5 rounded-xl shadow-lg shadow-blue-200/50 flex items-center gap-2 transition-all">
-            {saving ? <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" /> : <span>Save CMS Layout</span>}
-          </button>
-        </div>
+
       </form>
       
       <style>{`
@@ -525,7 +516,7 @@ const TrainingPlacementForm: React.FC = () => {
 const SectionCard = ({ id, title, active, onToggle, children }: any) => {
   const isActive = active === id;
   return (
-    <div className={`bg-white rounded-2xl border transition-colors ${isActive ? 'border-blue-200 shadow-sm' : 'border-slate-200'}`}>
+    <div className={`bg-white rounded-4xl border transition-colors ${isActive ? 'border-blue-200 shadow-sm' : 'border-slate-200'}`}>
       <button type="button" onClick={() => onToggle(id)} className="w-full flex items-center justify-between p-5 focus:outline-none">
         <h2 className="text-base font-extrabold text-[#111827]">{title}</h2>
         {isActive ? <ChevronUp className="w-5 h-5 text-slate-400" /> : <ChevronDown className="w-5 h-5 text-slate-400" />}
@@ -557,7 +548,7 @@ const GalleryEditor = ({ items, max, labelLimit, onChange }: { items: any[], max
         </div>
       ))}
       {items.length < max && (
-        <button type="button" onClick={() => onChange([...items, {label: ''}])} className="btn-add min-h-[7rem]">
+        <button type="button" onClick={() => onChange([...items, {label: ''}])} className="btn-add min-h-28">
           <Plus className="w-5 h-5 mx-auto mb-1" /> Add Image
         </button>
       )}

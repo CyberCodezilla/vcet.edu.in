@@ -102,7 +102,7 @@ const AchievementsList: React.FC = () => {
 
       {/* Stats Cards Section (Above Header but following reference order) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-5 group hover:shadow-md transition-all">
+        <div className="bg-white p-6 rounded-4xl shadow-sm border border-slate-100 flex items-center gap-5 group hover:shadow-md transition-all">
           <div className="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
           </div>
@@ -111,7 +111,7 @@ const AchievementsList: React.FC = () => {
             <h3 className="text-2xl font-black text-slate-800">124</h3>
           </div>
         </div>
-        <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-5 group hover:shadow-md transition-all">
+        <div className="bg-white p-6 rounded-4xl shadow-sm border border-slate-100 flex items-center gap-5 group hover:shadow-md transition-all">
           <div className="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
@@ -120,7 +120,7 @@ const AchievementsList: React.FC = () => {
             <h3 className="text-2xl font-black text-slate-800">08</h3>
           </div>
         </div>
-        <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex items-center gap-5 group hover:shadow-md transition-all">
+        <div className="bg-white p-6 rounded-4xl shadow-sm border border-slate-100 flex items-center gap-5 group hover:shadow-md transition-all">
           <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-500 group-hover:scale-110 transition-transform">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
           </div>

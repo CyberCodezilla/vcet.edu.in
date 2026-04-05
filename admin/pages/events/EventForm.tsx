@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { eventsApi } from '../../api/events';
 import type { EventPayload } from '../../types';
 import PdfPreviewModal from '../../components/PdfPreviewModal';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const CATEGORIES = ['Academic', 'Cultural', 'Sports', 'Technical', 'Workshop', 'Other'];
 
@@ -155,18 +156,14 @@ const EventForm: React.FC = () => {
         title={form.title || 'PDF Preview'} 
       />
 
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="flex items-center gap-2 text-[11px] font-bold text-slate-400 mb-1 uppercase tracking-widest">
-            <Link to="/admin" className="hover:text-slate-600 transition-colors">Dashboard</Link>
-            <span className="text-slate-300 font-normal">/</span>
-            <Link to="/admin/events" className="hover:text-slate-600 transition-colors">Events</Link>
-            <span className="text-slate-300 font-normal">/</span>
-            <span className="text-slate-600">{isEdit ? 'Edit' : 'New'}</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-[#111827]">{isEdit ? 'Edit Event' : 'Add New Event'}</h1>
-        </div>
-      </div>
+      <PageEditorHeader
+        title={isEdit ? 'Edit Event' : 'Add New Event'}
+        description="Manage campus events, workshops, technical symposiums, and cultural festivals."
+        onSave={handleSubmit as unknown as () => void}
+        isSaving={saving}
+        showBackButton
+        onBack={() => navigate('/admin/events')}
+      />
 
       {error && (
         <div className="bg-red-50 border border-red-100 rounded-2xl px-5 py-4 text-sm text-red-600 font-medium flex items-center gap-3">
@@ -175,7 +172,7 @@ const EventForm: React.FC = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-white border text-left border-slate-200 shadow-sm rounded-3xl p-8 lg:p-10 space-y-8">
+      <form onSubmit={handleSubmit} className="bg-white border text-left border-slate-200 shadow-sm rounded-4xl p-8 lg:p-10 space-y-8">
         
         {/* Main Info */}
         <div className="space-y-6">
@@ -290,7 +287,7 @@ const EventForm: React.FC = () => {
           {imagePreviewToUse && (
             <div className="mt-2 w-full flex items-center justify-between bg-white border border-amber-100 rounded-xl p-4 shadow-sm">
               <div className="flex items-center gap-3 overflow-hidden">
-                <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
                   <span className="text-xs font-black tracking-tight">IMG</span>
                 </div>
                 <div className="text-left truncate">
@@ -313,7 +310,7 @@ const EventForm: React.FC = () => {
           {pdfPreviewToUse && (
             <div className="mt-2 w-full flex items-center justify-between bg-white border border-blue-100 rounded-xl p-4 shadow-sm">
               <div className="flex items-center gap-3 overflow-hidden">
-                <div className="w-10 h-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center shrink-0">
                   <span className="text-xs font-black tracking-tight">PDF</span>
                 </div>
                 <div className="text-left truncate">
@@ -389,27 +386,7 @@ const EventForm: React.FC = () => {
           </label>
         </div>
 
-        {/* Footer Actions */}
-        <div className="flex items-center justify-end gap-3 pt-6 border-t border-slate-100">
-          <button
-            type="button"
-            onClick={() => navigate('/admin/events')}
-            className="px-6 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={saving}
-            className="bg-[#2563EB] hover:bg-blue-700 disabled:opacity-50 text-white font-bold px-8 py-3 rounded-xl transition-all shadow-lg shadow-blue-200 flex items-center gap-2"
-          >
-            {saving ? (
-              <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-            ) : (
-              <span>{isEdit ? 'Save Changes' : 'Upload Event'}</span>
-            )}
-          </button>
-        </div>
+
       </form>
 
       <style>{`

@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle, GripVertical } from 'lucide-react';
 import type { TrainingPlacementPayload } from '../../types';
 import { trainingPlacementApi } from '../../api/trainingPlacement';
 import { resolveApiUrl } from '../../../services/api';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
+import { SortableListContext } from '../../components/SortableList';
+import AdminFormSection from '../../components/AdminFormSection';
+
+const inputBase = "w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all text-slate-700";
+const labelBase = "block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1";
 
 const MMSPlacementInfoForm: React.FC = () => {
   const navigate = useNavigate();
@@ -18,6 +23,11 @@ const MMSPlacementInfoForm: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [activeSection, setActiveSection] = useState<string | null>('objectives');
+
+  const toggleSection = (section: string) => {
+    setActiveSection(prev => prev === section ? null : section);
+  };
 
   useEffect(() => { fetchData(); }, []);
 
@@ -69,7 +79,7 @@ const MMSPlacementInfoForm: React.FC = () => {
     <div className="max-w-5xl mx-auto space-y-8 pb-12 animate-fade-in relative pt-6">
       <PageEditorHeader
         title="Placement Info"
-        description="MMS Training & Placement Editor"
+        description="Manage the placement cell objectives, members, and training programs."
         onSave={() => {
           void handleSave();
         }}
@@ -90,231 +100,239 @@ const MMSPlacementInfoForm: React.FC = () => {
       )}
 
       <form onSubmit={handleSave} className="space-y-4">
-
         {/* SECTION 1: Placement Objectives */}
-        <SectionCard title="Placement Objectives" icon="🎯">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Define placement objectives (max 7). Each objective max 160 characters.</p>
-          <div className="space-y-3">
-            {form.placementObjectives?.map((obj, i) => (
-              <div key={i} className="flex gap-2">
-                <div className="flex-1 relative">
-                  <textarea id="mmsplacementinfoform-textarea-1" name="mmsplacementinfoform-textarea-1" aria-label="mmsplacementinfoform textarea field" className="admin-input-small resize-none" rows={2} value={obj.objective} placeholder="Placement objective statement..." onChange={e => handleTextChange(e.target.value, 160, val => {
-                    const c = [...form.placementObjectives!]; c[i] = { ...c[i], objective: val }; setForm({ ...form, placementObjectives: c });
-                  })} />
-                  <span className="absolute right-2 bottom-2 text-[10px] text-slate-400">{obj.objective.length}/160</span>
-                </div>
-                <button type="button" onClick={() => {
-                  const c = [...form.placementObjectives!]; c.splice(i, 1); setForm({ ...form, placementObjectives: c });
-                }} className="p-2 text-red-500 rounded-lg shrink-0 self-start"><Trash2 className="w-4 h-4" /></button>
-              </div>
-            ))}
-            {(form.placementObjectives?.length || 0) < 7 && (
-              <button type="button" onClick={() => setForm({ ...form, placementObjectives: [...(form.placementObjectives || []), { objective: '' }] })} className="btn-add">
-                <Plus className="w-4 h-4" /> Add Objective (Max 7)
-              </button>
-            )}
-            {form.placementObjectives?.length === 7 && <p className="text-xs text-amber-500 font-bold">Max 7 objectives reached.</p>}
-          </div>
-        </SectionCard>
-
-        {/* SECTION 2: Placement Cell Members */}
-        <SectionCard title="Placement Cell Members" icon="👤">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Add placement cell members (max 2). Includes photo, name, role, email, phone, extension.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {form.placementCellMembers?.map((mem, i) => (
-              <div key={i} className="p-5 bg-slate-50 border border-slate-200 rounded-xl relative space-y-3">
-                <button type="button" onClick={() => {
-                  const c = [...form.placementCellMembers!]; c.splice(i, 1); setForm({ ...form, placementCellMembers: c });
-                }} className="absolute top-2 right-2 text-red-500 z-10 p-1 bg-white rounded-md shadow-sm border border-red-100"><Trash2 className="w-3.5 h-3.5" /></button>
-
-                <ImageUploader 
-                  value={mem.image} 
-                  onFileSelect={f => {
-                    const c = [...form.placementCellMembers!]; 
-                    c[i] = { ...c[i], image: f }; 
-                    setForm({ ...form, placementCellMembers: c });
-                  }} 
-                />
-
-                <div className="relative">
-                  <label className="admin-label">Name <span className="text-slate-400 normal-case">({mem.name.length}/30)</span></label>
-                  <input id="mmsplacementinfoform-1" name="mmsplacementinfoform-1" aria-label="mmsplacementinfoform field" className="admin-input-small" placeholder="Full Name *" value={mem.name} onChange={e => handleTextChange(e.target.value, 30, val => {
-                    const c = [...form.placementCellMembers!]; c[i] = { ...c[i], name: val }; setForm({ ...form, placementCellMembers: c });
-                  })} />
-                </div>
-                <div className="relative">
-                  <label className="admin-label">Role <span className="text-slate-400 normal-case">({mem.role.length}/40)</span></label>
-                  <input id="mmsplacementinfoform-2" name="mmsplacementinfoform-2" aria-label="mmsplacementinfoform field" className="admin-input-small" placeholder="Designation / Role *" value={mem.role} onChange={e => handleTextChange(e.target.value, 40, val => {
-                    const c = [...form.placementCellMembers!]; c[i] = { ...c[i], role: val }; setForm({ ...form, placementCellMembers: c });
-                  })} />
-                </div>
-                <div className="relative">
-                  <label className="admin-label">Email <span className="text-slate-400 normal-case">({mem.email.length}/30)</span></label>
-                  <input id="mmsplacementinfoform-3" name="mmsplacementinfoform-3" aria-label="mmsplacementinfoform field" className="admin-input-small" placeholder="Email address *" value={mem.email} onChange={e => handleTextChange(e.target.value, 30, val => {
-                    const c = [...form.placementCellMembers!]; c[i] = { ...c[i], email: val }; setForm({ ...form, placementCellMembers: c });
-                  })} />
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="relative">
-                    <label className="admin-label">Phone <span className="text-slate-400 normal-case">({mem.phone.length}/25)</span></label>
-                    <input id="mmsplacementinfoform-4" name="mmsplacementinfoform-4" aria-label="mmsplacementinfoform field" className="admin-input-small" placeholder="Phone *" value={mem.phone} onChange={e => handleTextChange(e.target.value, 25, val => {
-                      const c = [...form.placementCellMembers!]; c[i] = { ...c[i], phone: val }; setForm({ ...form, placementCellMembers: c });
-                    })} />
-                  </div>
-                  <div className="relative">
-                    <label className="admin-label">Extension <span className="text-slate-400 normal-case">({mem.extension.length}/30)</span></label>
-                    <input id="mmsplacementinfoform-5" name="mmsplacementinfoform-5" aria-label="mmsplacementinfoform field" className="admin-input-small" placeholder="Ext" value={mem.extension} onChange={e => handleTextChange(e.target.value, 30, val => {
-                      const c = [...form.placementCellMembers!]; c[i] = { ...c[i], extension: val }; setForm({ ...form, placementCellMembers: c });
-                    })} />
-                  </div>
-                </div>
-              </div>
-            ))}
-            {(form.placementCellMembers?.length || 0) < 2 && (
-              <button type="button" onClick={() => setForm({ ...form, placementCellMembers: [...(form.placementCellMembers || []), { name: '', role: '', email: '', phone: '', extension: '' }] })} className="btn-add h-full min-h-[16rem]">
-                <Plus className="w-5 h-5 mx-auto mb-2" /> Add Member (Max 2)
-              </button>
-            )}
-          </div>
-        </SectionCard>
-
-        {/* SECTION 3: Soft Skill Training */}
-        <SectionCard title="Soft Skill Training" icon="💡">
-          <div className="space-y-6">
-            <div>
-              <h4 className="font-bold text-sm text-slate-700 mb-3">Program Description <span className="text-slate-400 font-medium text-xs">(Max 3 paragraphs, 1100 chars each)</span></h4>
-              <div className="space-y-3">
-                {form.softSkillTraining?.paragraphs?.map((p, i) => (
-                  <div key={i} className="flex gap-2">
-                    <div className="flex-1 relative">
-                      <textarea id="mmsplacementinfoform-textarea-2" name="mmsplacementinfoform-textarea-2" aria-label="mmsplacementinfoform textarea field" className="admin-input-small resize-none" rows={4} value={p.text} placeholder="Program description paragraph..." onChange={e => handleTextChange(e.target.value, 1100, val => {
-                        const c = { ...form.softSkillTraining! };
-                        const paras = [...c.paragraphs]; paras[i] = { ...paras[i], text: val };
-                        setForm({ ...form, softSkillTraining: { ...c, paragraphs: paras } });
-                      })} />
-                      <span className="absolute right-2 bottom-2 text-[10px] text-slate-400">{p.text.length}/1100</span>
+        <AdminFormSection 
+          title={`1. Placement Objectives (${form.placementObjectives?.length || 0}/7)`} 
+          icon="🎯"
+          isOpen={activeSection === 'objectives'}
+          onToggle={() => toggleSection('objectives')}
+        >
+          <div className="space-y-4">
+            <SortableListContext
+              items={form.placementObjectives || []}
+              onChange={val => setForm({ ...form, placementObjectives: val })}
+              renderItem={(obj, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-4 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-3 border-b border-slate-50 pb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                        <div className="w-4 h-0.5 bg-current mb-0.5 rounded-full" />
+                        <div className="w-4 h-0.5 bg-current rounded-full" />
+                      </div>
+                      <span className="text-[10px] font-black uppercase text-slate-400">Objective #{i+1}</span>
                     </div>
                     <button type="button" onClick={() => {
-                      const c = { ...form.softSkillTraining! };
-                      const paras = [...c.paragraphs]; paras.splice(i, 1);
-                      setForm({ ...form, softSkillTraining: { ...c, paragraphs: paras } });
-                    }} className="text-red-500 shrink-0 self-start p-2"><Trash2 className="w-4 h-4" /></button>
+                      const c = [...form.placementObjectives!]; c.splice(i, 1); setForm({ ...form, placementObjectives: c });
+                    }} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4" /></button>
                   </div>
-                ))}
-                {(form.softSkillTraining?.paragraphs?.length || 0) < 3 && (
-                  <button type="button" className="btn-add" onClick={() => {
-                    const c = form.softSkillTraining ? { ...form.softSkillTraining } : { paragraphs: [], images: [] };
-                    setForm({ ...form, softSkillTraining: { ...c, paragraphs: [...c.paragraphs, { text: '' }] } });
-                  }}><Plus className="w-4 h-4" /> Add Paragraph</button>
-                )}
-              </div>
-            </div>
-
-            <div className="pt-5 border-t border-slate-200">
-              <h4 className="font-bold text-sm text-slate-700 mb-3">Session Images <span className="text-slate-400 font-medium text-xs">(Max 2, Label 21 chars)</span></h4>
-              <GalleryEditor items={form.softSkillTraining?.images || []} max={2} labelLimit={21} onChange={(imgs) => {
-                setForm({ ...form, softSkillTraining: { ...form.softSkillTraining!, images: imgs } });
-              }} />
-            </div>
+                  <div className="relative">
+                    <label className={labelBase}>Statement</label>
+                    <textarea maxLength={160} className={inputBase + " h-20 resize-none"} value={obj.objective} placeholder="Enter objective statement..." onChange={e => {
+                      const c = [...form.placementObjectives!]; c[i].objective = e.target.value; setForm({ ...form, placementObjectives: c });
+                    }} />
+                  </div>
+                </div>
+              )}
+            />
+            {(form.placementObjectives?.length || 0) < 7 && (
+              <button type="button" onClick={() => setForm({ ...form, placementObjectives: [...(form.placementObjectives || []), { objective: '' }] })} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+                 <Plus className="w-4 h-4" /> Add Objective
+              </button>
+            )}
           </div>
-        </SectionCard>
+        </AdminFormSection>
+
+        {/* SECTION 2: Placement Cell Members */}
+        <AdminFormSection title={`2. Placement Cell Members (${form.placementCellMembers?.length || 0}/2)`} icon="👥" isOpen={activeSection === 'members'} onToggle={() => toggleSection('members')}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <SortableListContext
+              items={form.placementCellMembers || []}
+              onChange={val => setForm({ ...form, placementCellMembers: val })}
+              renderItem={(mem, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <button type="button" onClick={() => {
+                      const c = [...form.placementCellMembers!]; c.splice(i, 1); setForm({ ...form, placementCellMembers: c });
+                    }} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4" /></button>
+                  </div>
+
+                  <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-square w-32 mx-auto flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden mb-6 shadow-inner">
+                    <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+                        if (e.target.files?.[0]) {
+                           const c = [...form.placementCellMembers!]; c[i].image = e.target.files[0]; setForm({...form, placementCellMembers: c});
+                        }
+                    }} />
+                    {mem.image ? (
+                      <img src={mem.image instanceof File ? URL.createObjectURL(mem.image) : resolveApiUrl(mem.image)} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center gap-1">
+                         <ImageIcon className="w-6 h-6 text-slate-300 group-hover:text-blue-500 transition-colors" />
+                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Photo</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className={labelBase}>Full Name</label>
+                      <input maxLength={30} className={inputBase} value={mem.name} placeholder="Name" onChange={e => {
+                         const c = [...form.placementCellMembers!]; c[i].name = e.target.value; setForm({...form, placementCellMembers: c});
+                      }} />
+                    </div>
+                    <div>
+                      <label className={labelBase}>Designation</label>
+                      <input maxLength={40} className={inputBase} value={mem.role} placeholder="Role" onChange={e => {
+                         const c = [...form.placementCellMembers!]; c[i].role = e.target.value; setForm({...form, placementCellMembers: c});
+                      }} />
+                    </div>
+                    <div>
+                      <label className={labelBase}>Email</label>
+                      <input maxLength={30} className={inputBase} value={mem.email} placeholder="Email" onChange={e => {
+                         const c = [...form.placementCellMembers!]; c[i].email = e.target.value; setForm({...form, placementCellMembers: c});
+                      }} />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                       <div>
+                         <label className={labelBase}>Phone</label>
+                         <input maxLength={25} className={inputBase} value={mem.phone} placeholder="Phone" onChange={e => {
+                            const c = [...form.placementCellMembers!]; c[i].phone = e.target.value; setForm({...form, placementCellMembers: c});
+                         }} />
+                       </div>
+                       <div>
+                         <label className={labelBase}>Ext.</label>
+                         <input maxLength={30} className={inputBase} value={mem.extension} placeholder="Extension" onChange={e => {
+                            const c = [...form.placementCellMembers!]; c[i].extension = e.target.value; setForm({...form, placementCellMembers: c});
+                         }} />
+                       </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
+            {(form.placementCellMembers?.length || 0) < 2 && (
+              <button type="button" onClick={() => setForm({ ...form, placementCellMembers: [...(form.placementCellMembers || []), { name: '', role: '', email: '', phone: '', extension: '', image: null }] })} className="flex flex-col items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl p-10 hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500 min-h-[400px]">
+                <Plus className="w-8 h-8" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Add Cell Member</span>
+              </button>
+            )}
+          </div>
+        </AdminFormSection>
+
+        {/* SECTION 3: Soft Skill Training */}
+        <AdminFormSection title="3. Soft Skill Training" icon="🚀" isOpen={activeSection === 'soft-skill'} onToggle={() => toggleSection('soft-skill')}>
+           <div className="space-y-6">
+              <div className="space-y-4">
+                 <label className={labelBase}>Program Description Paragraphs</label>
+                 <SortableListContext
+                   items={form.softSkillTraining?.paragraphs || []}
+                   onChange={val => setForm({ ...form, softSkillTraining: { ...form.softSkillTraining!, paragraphs: val } })}
+                   renderItem={(p, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                     <div ref={setNodeRef} style={style} className={`p-4 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all mb-3 ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                       <div className="flex items-center justify-between mb-3 border-b border-slate-50 pb-3">
+                          <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                            <div className="w-4 h-0.5 bg-current mb-0.5 rounded-full" />
+                            <div className="w-4 h-0.5 bg-current rounded-full" />
+                          </div>
+                          <button type="button" onClick={() => setForm({...form, softSkillTraining: {...form.softSkillTraining!, paragraphs: form.softSkillTraining!.paragraphs.filter((_, idx) => idx !== i)}})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4"/></button>
+                       </div>
+                       <textarea maxLength={1100} className={inputBase + " h-32 resize-none"} value={p.text} placeholder="Enter training description..." onChange={e => {
+                          const c = [...form.softSkillTraining!.paragraphs]; c[i].text = e.target.value; setForm({...form, softSkillTraining: {...form.softSkillTraining!, paragraphs: c}});
+                       }} />
+                     </div>
+                   )}
+                 />
+                 <button type="button" onClick={() => setForm({...form, softSkillTraining: {...form.softSkillTraining!, paragraphs: [...form.softSkillTraining!.paragraphs, {text: ''}]}})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+                    <Plus className="w-4 h-4" /> Add Paragraph
+                 </button>
+              </div>
+
+              <div className="space-y-4 pt-6 border-t border-slate-100">
+                 <label className={labelBase}>Session Images (Max 2)</label>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {form.softSkillTraining?.images?.map((item, i) => (
+                      <div key={i} className="p-4 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all">
+                        <button type="button" onClick={() => {
+                           const c = [...form.softSkillTraining!.images]; c.splice(i, 1); setForm({...form, softSkillTraining: {...form.softSkillTraining!, images: c}});
+                        }} className="absolute top-4 right-4 text-slate-300 hover:text-red-500 hover:bg-red-50 p-2 rounded-xl transition-all z-20"><Trash2 className="w-4 h-4"/></button>
+                        <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-video flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden mb-4 shadow-inner">
+                           <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+                              if (e.target.files?.[0]) {
+                                 const c = [...form.softSkillTraining!.images]; c[i].image = e.target.files[0]; setForm({...form, softSkillTraining: {...form.softSkillTraining!, images: c}});
+                              }
+                           }} />
+                           {item.image ? (
+                             <img src={item.image instanceof File ? URL.createObjectURL(item.image) : resolveApiUrl(item.image)} alt="" className="w-full h-full object-cover" />
+                           ) : (
+                             <ImageIcon className="w-8 h-8 text-slate-300" />
+                           )}
+                        </div>
+                        <input className={inputBase} placeholder="Label" value={item.label} onChange={e => {
+                           const c = [...form.softSkillTraining!.images]; c[i].label = e.target.value; setForm({...form, softSkillTraining: {...form.softSkillTraining!, images: c}});
+                        }} />
+                      </div>
+                    ))}
+                    {form.softSkillTraining!.images.length < 2 && (
+                       <button type="button" onClick={() => setForm({...form, softSkillTraining: {...form.softSkillTraining!, images: [...form.softSkillTraining!.images, {label: '', image: null}]}})} className="flex flex-col items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl p-10 hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500 min-h-[240px]">
+                          <Plus className="w-8 h-8" />
+                          <span className="text-[10px] font-black uppercase tracking-widest">Add Image</span>
+                       </button>
+                    )}
+                 </div>
+              </div>
+           </div>
+        </AdminFormSection>
 
         {/* SECTION 4: Psychometric Test */}
-        <SectionCard title="Psychometric Test" icon="🧠">
-          <div className="space-y-6">
-            <div>
-              <h4 className="font-bold text-sm text-slate-700 mb-3">Test Description <span className="text-slate-400 font-medium text-xs">(Max 1300 chars)</span></h4>
+        <AdminFormSection title="4. Psychometric Test" icon="🧠" isOpen={activeSection === 'psychometric'} onToggle={() => toggleSection('psychometric')}>
+           <div className="space-y-6">
               <div className="relative">
-                <textarea id="mmsplacementinfoform-textarea-3" name="mmsplacementinfoform-textarea-3" aria-label="mmsplacementinfoform textarea field" className="admin-input-small resize-none" rows={6} value={form.psychometricTest?.paragraph || ''} placeholder="Psychometric test description..." onChange={e => handleTextChange(e.target.value, 1300, val => {
-                  setForm({ ...form, psychometricTest: { ...form.psychometricTest!, paragraph: val } });
-                })} />
-                <span className="absolute right-2 bottom-2 text-[10px] text-slate-400">{(form.psychometricTest?.paragraph || '').length}/1300</span>
+                 <label className={labelBase}>Program Description</label>
+                 <textarea maxLength={1300} className={inputBase + " h-40 resize-none"} value={form.psychometricTest?.paragraph || ''} placeholder="Enter training description..." onChange={e => {
+                    setForm({...form, psychometricTest: {...form.psychometricTest!, paragraph: e.target.value}});
+                 }} />
               </div>
-            </div>
-
-            <div className="pt-5 border-t border-slate-200">
-              <h4 className="font-bold text-sm text-slate-700 mb-3">Session Images <span className="text-slate-400 font-medium text-xs">(Max 2, Label 19 chars)</span></h4>
-              <GalleryEditor items={form.psychometricTest?.images || []} max={2} labelLimit={19} onChange={(imgs) => {
-                setForm({ ...form, psychometricTest: { ...form.psychometricTest!, images: imgs } });
-              }} />
-            </div>
-          </div>
-        </SectionCard>
-
+              <div className="space-y-4 pt-6 border-t border-slate-100">
+                 <label className={labelBase}>Session Images (Max 2)</label>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {form.psychometricTest?.images?.map((item, i) => (
+                      <div key={i} className="p-4 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all">
+                        <button type="button" onClick={() => {
+                           const c = [...form.psychometricTest!.images]; c.splice(i, 1); setForm({...form, psychometricTest: {...form.psychometricTest!, images: c}});
+                        }} className="absolute top-4 right-4 text-slate-300 hover:text-red-500 hover:bg-red-50 p-2 rounded-xl transition-all z-20"><Trash2 className="w-4 h-4"/></button>
+                        <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-video flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden mb-4 shadow-inner">
+                           <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+                              if (e.target.files?.[0]) {
+                                 const c = [...form.psychometricTest!.images]; c[i].image = e.target.files[0]; setForm({...form, psychometricTest: {...form.psychometricTest!, images: c}});
+                              }
+                           }} />
+                           {item.image ? (
+                             <img src={item.image instanceof File ? URL.createObjectURL(item.image) : resolveApiUrl(item.image)} alt="" className="w-full h-full object-cover" />
+                           ) : (
+                             <ImageIcon className="w-8 h-8 text-slate-300" />
+                           )}
+                        </div>
+                        <input className={inputBase} placeholder="Label" value={item.label} onChange={e => {
+                           const c = [...form.psychometricTest!.images]; c[i].label = e.target.value; setForm({...form, psychometricTest: {...form.psychometricTest!, images: c}});
+                        }} />
+                      </div>
+                    ))}
+                    {form.psychometricTest!.images.length < 2 && (
+                       <button type="button" onClick={() => setForm({...form, psychometricTest: {...form.psychometricTest!, images: [...form.psychometricTest!.images, {label: '', image: null}]}})} className="flex flex-col items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl p-10 hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500 min-h-[240px]">
+                          <Plus className="w-8 h-8" />
+                          <span className="text-[10px] font-black uppercase tracking-widest">Add Image</span>
+                       </button>
+                    )}
+                 </div>
+              </div>
+           </div>
+        </AdminFormSection>
       </form>
-      <style>{`
-        .admin-input-small { width: 100%; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.5rem 0.75rem; color: #0f172a; font-size: 0.75rem; font-weight: 500; outline: none; transition: 0.2s; }
-        .admin-input-small:focus { border-color: #2563EB; background: #fff; box-shadow: 0 0 0 2px rgba(37,99,235, 0.1); }
-        .admin-label { display: block; font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem; }
-        .btn-add { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; border: 2px dashed #cbd5e1; border-radius: 0.75rem; padding: 0.75rem; font-size: 0.75rem; font-weight: bold; color: #64748b; background: white; transition: 0.2s; cursor: pointer; }
-        .btn-add:hover { border-color: #2563EB; color: #2563EB; background: #eff6ff; }
-      `}</style>
     </div>
   );
 };
-
-/* ── Helper Components ── */
-
-const SectionCard = ({ icon, title, children }: any) => (
-  <div className="bg-white rounded-[2rem] p-8 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.05)] border border-slate-100">
-    <div className="flex items-center gap-3 mb-8">
-      {icon && <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-lg shadow-sm border border-slate-100">{icon}</div>}
-      <h2 className="text-sm font-black text-[#111827] uppercase tracking-wider">{title}</h2>
-    </div>
-    <div>{children}</div>
-  </div>
-);
-
-const ImageUploader = ({ value, onFileSelect }: { value?: any; onFileSelect: (f: File) => void }) => {
-  const imageUrl = value instanceof File ? URL.createObjectURL(value) : (value && typeof value === 'object' && 'url' in value ? resolveApiUrl((value as any).url) : resolveApiUrl(value as string));
-  return (
-    <div className="relative group rounded-xl border-2 border-dashed border-slate-200 p-4 bg-slate-50 hover:bg-slate-100 transition-colors flex flex-col items-center justify-center min-h-[80px] text-center cursor-pointer overflow-hidden">
-      <input id="mmsplacementinfoform-6" name="mmsplacementinfoform-6" aria-label="mmsplacementinfoform field" type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={(e) => { if (e.target.files?.[0]) onFileSelect(e.target.files[0]); }} />
-      {imageUrl ? (
-        <img src={imageUrl} alt="preview" className="absolute inset-0 w-full h-full object-cover" />
-      ) : (
-        <>
-          <ImageIcon className="w-5 h-5 text-slate-400 group-hover:text-blue-500 mb-1" />
-          <p className="text-[10px] text-slate-500 font-semibold">Click to Upload</p>
-        </>
-      )}
-    </div>
-  );
-};
-
-const GalleryEditor = ({ items, max, labelLimit, onChange }: { items: any[]; max: number; labelLimit: number; onChange: (items: any[]) => void }) => (
-  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-    {items.map((item, i) => {
-      const imgUrl = item.image instanceof File ? URL.createObjectURL(item.image) : (item.image && typeof item.image === 'object' && 'url' in item.image ? resolveApiUrl((item.image as any).url) : resolveApiUrl(item.image as string));
-      return (
-      <div key={i} className="p-3 bg-slate-50 border border-slate-200 rounded-lg relative space-y-2">
-        <button type="button" onClick={() => onChange(items.filter((_, idx) => idx !== i))} className="absolute top-1 right-1 bg-white border border-red-100 rounded text-red-500 z-10 p-0.5"><Trash2 className="w-3 h-3" /></button>
-        <div className="relative group rounded-lg border border-dashed border-slate-300 bg-white h-20 flex items-center justify-center cursor-pointer overflow-hidden">
-          <input id="mmsplacementinfoform-7" name="mmsplacementinfoform-7" aria-label="mmsplacementinfoform field" type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={(e) => {
-            if (e.target.files?.[0]) {
-              const c = [...items]; c[i] = { ...c[i], image: e.target.files[0] }; onChange(c);
-            }
-          }} />
-          {imgUrl ? (
-            <img src={imgUrl} alt="preview" className="absolute inset-0 w-full h-full object-cover" />
-          ) : (
-            <ImageIcon className="w-5 h-5 text-slate-400 group-hover:text-blue-500" />
-          )}
-        </div>
-        <input id="mmsplacementinfoform-8" name="mmsplacementinfoform-8" aria-label="mmsplacementinfoform field" className="admin-input-small text-center relative z-20" placeholder={`Label (Max ${labelLimit})`} value={item.label} onChange={e => {
-          if (e.target.value.length <= labelLimit) {
-            const c = [...items]; c[i] = { ...c[i], label: e.target.value }; onChange(c);
-          }
-        }} />
-      </div>
-    )})}
-    {items.length < max && (
-      <button type="button" onClick={() => onChange([...items, { label: '', image: null }])} className="btn-add min-h-[7rem]">
-        <Plus className="w-5 h-5 mx-auto mb-1" /> Add Image
-      </button>
-    )}
-  </div>
-);
 
 export default MMSPlacementInfoForm;
-

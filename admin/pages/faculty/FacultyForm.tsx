@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { facultyApi } from '../../api/faculty';
 import type { FacultyPayload } from '../../types';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 /* ── Toast Component ────────────────────────────────────────────────────────── */
 const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () => void }> = ({ message, type, onClose }) => {
@@ -20,7 +21,7 @@ const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () 
 
 /* ── Reusable Section Card ─────────────────────────────────────────────────── */
 const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => (
-  <div className="bg-white rounded-[2rem] shadow-lg shadow-slate-200/40 border border-slate-100 overflow-hidden">
+  <div className="bg-white rounded-4xl shadow-lg shadow-slate-200/40 border border-slate-100 overflow-hidden">
     <div className="px-8 py-5 border-b border-slate-100 flex items-center justify-center sm:justify-start gap-3">
       <div className="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500">{icon}</div>
       <h3 className="text-sm font-extrabold text-[#111827] uppercase tracking-wider">{title}</h3>
@@ -187,29 +188,18 @@ const FacultyForm: React.FC = () => {
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="text-center sm:text-left">
-          <div className="flex items-center justify-center sm:justify-start gap-2 text-[11px] font-bold text-slate-400 mb-1 uppercase tracking-widest">
-            <Link to="/admin" className="hover:text-slate-600 transition-colors">Dashboard</Link>
-            <span className="text-slate-300 font-normal">/</span>
-            <Link to="/admin/pages/faculty" className="hover:text-slate-600 transition-colors">Faculty</Link>
-            <span className="text-slate-300 font-normal">/</span>
-            <span className="text-slate-600">{isEdit ? 'Edit' : 'Create'}</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#111827]">{isEdit ? 'Edit Faculty Profille' : 'Add New Faculty'}</h1>
-        </div>
-        <button
-          type="button"
-          onClick={() => navigate('/admin/pages/faculty')}
-          className="bg-white border border-slate-200 text-slate-500 hover:text-red-500 hover:border-red-200 transition-all p-3 rounded-2xl shadow-sm hover:shadow-md"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
-        </button>
-      </div>
+      <PageEditorHeader
+        title={isEdit ? 'Edit Faculty Profile' : 'Add New Faculty'}
+        description="Manage faculty profiles, expertise, qualifications and research publications."
+        onSave={handleSubmit as unknown as () => void}
+        isSaving={saving}
+        showBackButton
+        onBack={() => navigate('/admin/pages/faculty')}
+      />
 
       {error && (
         <div className="bg-red-50 border border-red-100 rounded-3xl px-6 py-4 text-sm text-red-600 flex items-center gap-3">
-          <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg>
+          <svg className="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg>
           {error}
         </div>
       )}
@@ -433,7 +423,7 @@ const FacultyForm: React.FC = () => {
         </SectionCard>
 
         {/* Status Toggle */}
-        <div className="bg-white rounded-[2rem] shadow-lg shadow-slate-200/40 border border-slate-100 px-8 py-6 flex items-center justify-between">
+        <div className="bg-white rounded-4xl shadow-lg shadow-slate-200/40 border border-slate-100 px-8 py-6 flex items-center justify-between">
           <label className="flex items-center gap-3 cursor-pointer group">
             <div className={`relative flex items-center w-12 h-6.5 rounded-full transition-all duration-300 ${form.basicInfo.isActive ? 'bg-[#1e293b]' : 'bg-slate-200'}`}>
               <input id="facultyform-24" aria-label="facultyform field" type="checkbox" name="isActive" checked={form.basicInfo.isActive} onChange={handleBasicChange} className="sr-only" />
@@ -447,12 +437,7 @@ const FacultyForm: React.FC = () => {
         </div>
 
         {/* Footer Actions */}
-        <div className="bg-white rounded-[2rem] shadow-lg shadow-slate-200/40 border border-slate-100 px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <button type="button" onClick={() => navigate('/admin/pages/faculty')} className="w-full sm:w-auto px-8 py-4 rounded-2xl text-xs font-black text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all uppercase tracking-widest">Cancel</button>
-          <button type="submit" disabled={saving} className="w-full sm:w-auto bg-[#1e293b] hover:bg-[#0f172a] disabled:opacity-50 text-white font-black px-12 py-4 rounded-2xl text-xs transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 uppercase tracking-[0.15em] flex items-center justify-center gap-2">
-            {saving ? <><div className="w-3 h-3 border-2 border-white/20 border-t-white rounded-full animate-spin" /><span>Saving...</span></> : isEdit ? 'Update Profile' : 'Publish Faculty'}
-          </button>
-        </div>
+
       </form>
 
       <style>{`

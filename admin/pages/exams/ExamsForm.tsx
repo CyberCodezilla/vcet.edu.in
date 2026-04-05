@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { pagesApi } from '../../api/pagesApi';
 import { ExamData, ExamPayload, AdmissionDocument as DocItem, SyllabusSection, ResultSection } from '../../types';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
+import { SortableListContext } from '../../components/SortableList';
 
 const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => (
-  <div className="bg-white border border-slate-200/60 rounded-[2.5rem] overflow-hidden shadow-sm transition-all hover:shadow-md">
+  <div className="bg-white border border-slate-200/60 rounded-5xl overflow-hidden shadow-sm transition-all hover:shadow-md">
     <div className="px-8 py-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-4">
       <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#2563EB]">
         {icon}
@@ -53,73 +54,77 @@ const DocumentListManager: React.FC<{
 
   return (
     <div className="space-y-4">
-      {Array.isArray(items) && items.map((item, idx) => (
-        <div key={idx} className="relative group flex items-start gap-6 bg-slate-50 border border-slate-200 rounded-[2rem] p-6 transition-all hover:shadow-md hover:border-slate-300">
-          <div className="flex-shrink-0 w-12 h-12 border-2 border-slate-200 rounded-xl flex items-center justify-center text-slate-400 font-black text-lg bg-white">
-            {(idx + 1).toString().padStart(2, '0')}
-          </div>
-          
-          <div className="flex-grow space-y-4">
-            <button 
-              type="button" 
-              onClick={() => removeItem(idx)}
-              className="absolute -top-3 -right-3 w-8 h-8 bg-red-50 text-red-500 rounded-full flex items-center justify-center shadow-md hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 z-20"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-
-            <div className="grid grid-cols-1 gap-4">
-              <div>
-                <label className={labelBase}>File Title / Label</label>
-                <input id="examsform-1" name="examsform-1" aria-label="examsform field" 
-                  value={item.title} 
-                  onChange={e => updateItem(idx, { title: e.target.value })}
-                  className={inputBase}
-                  placeholder={`e.g. ${type.charAt(0).toUpperCase() + type.slice(1)} Sem III Revised`}
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                 <div className="md:col-span-1">
-                    <label className={labelBase}>Academic Year / Semester</label>
-                    <input id="examsform-2" name="examsform-2" aria-label="examsform field" 
-                      value={item.year} 
-                      onChange={e => updateItem(idx, { year: e.target.value })}
-                      className={inputBase}
-                      placeholder="e.g. 2024-25 or Sem IV"
-                    />
-                 </div>
-                 <div className="md:col-span-1">
-                    <label className={labelBase}>PDF Document</label>
-                    <div className="relative overflow-hidden bg-white border-2 border-dashed border-slate-200 rounded-2xl p-4 transition-all hover:border-[#2563EB]">
-                      <input id="examsform-3" name="examsform-3" aria-label="examsform field" 
-                        type="file" 
-                        accept="application/pdf"
-                        onChange={e => updateItem(idx, { file: e.target.files?.[0] || null })}
-                        className="absolute inset-0 opacity-0 cursor-pointer z-10"
+      <SortableListContext
+        items={items}
+        onChange={onChange}
+        renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging, actions) => (
+          <div ref={setNodeRef} style={style} className="relative group flex items-start gap-6 bg-slate-50 border border-slate-200 rounded-4xl p-6 transition-all hover:shadow-md hover:border-slate-300">
+            <div className="shrink-0 w-12 h-12 border-2 border-slate-200 rounded-xl flex items-center justify-center text-slate-400 font-black text-lg bg-white cursor-grab active:cursor-grabbing hover:bg-slate-50 hover:text-[#2563EB] transition-colors" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 8h16M4 16h16"/></svg>
+            </div>
+            
+            <div className="grow space-y-4">
+              <button 
+                type="button" 
+                onClick={() => removeItem(idx)}
+                className="absolute -top-3 -right-3 w-8 h-8 bg-red-50 text-red-500 rounded-full flex items-center justify-center shadow-md hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 z-20"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+  
+              <div className="grid grid-cols-1 gap-4">
+                <div>
+                  <label className={labelBase}>File Title / Label</label>
+                  <input id={`examsform-doc-${idx}`} name={`examsform-doc-${idx}`} aria-label="examsform field" 
+                    value={item.title} 
+                    onChange={e => updateItem(idx, { title: e.target.value })}
+                    className={inputBase}
+                    placeholder={`e.g. ${type.charAt(0).toUpperCase() + type.slice(1)} Sem III Revised`}
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                   <div className="md:col-span-1">
+                      <label className={labelBase}>Academic Year / Semester</label>
+                      <input id={`examsform-year-${idx}`} name={`examsform-year-${idx}`} aria-label="examsform field" 
+                        value={item.year} 
+                        onChange={e => updateItem(idx, { year: e.target.value })}
+                        className={inputBase}
+                        placeholder="e.g. 2024-25 or Sem IV"
                       />
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400">
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
-                        </div>
-                        <div className="flex-grow min-w-0">
-                          <p className="text-sm font-medium text-slate-700 truncate">
-                            {(item as any).file?.name || item.fileName || 'Click to upload PDF'}
-                          </p>
-                          <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold mt-0.5">PDF ONLY • MAX 10MB</p>
+                   </div>
+                   <div className="md:col-span-1">
+                      <label className={labelBase}>PDF Document</label>
+                      <div className="relative overflow-hidden bg-white border-2 border-dashed border-slate-200 rounded-2xl p-4 transition-all hover:border-[#2563EB]">
+                        <input id={`examsform-file-${idx}`} name={`examsform-file-${idx}`} aria-label="examsform field" 
+                          type="file" 
+                          accept="application/pdf"
+                          onChange={e => updateItem(idx, { file: e.target.files?.[0] || null })}
+                          className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                        />
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                          </div>
+                          <div className="grow min-w-0">
+                            <p className="text-sm font-medium text-slate-700 truncate">
+                              {(item as any).file?.name || item.fileName || 'Click to upload PDF'}
+                            </p>
+                            <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold mt-0.5">PDF ONLY • MAX 10MB</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                 </div>
+                   </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        )}
+      />
 
       <button
         type="button"
         onClick={addItem}
-        className="w-full py-4 border-2 border-dashed border-slate-200 rounded-[2rem] text-slate-400 text-sm font-semibold hover:border-[#2563EB] hover:text-[#2563EB] hover:bg-blue-50/50 transition-all flex items-center justify-center gap-2 group"
+        className="w-full py-4 border-2 border-dashed border-slate-200 rounded-4xl text-slate-400 text-sm font-semibold hover:border-[#2563EB] hover:text-[#2563EB] hover:bg-blue-50/50 transition-all flex items-center justify-center gap-2 group"
       >
         <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
@@ -150,45 +155,55 @@ const SyllabusSectionManager: React.FC<{
 
   return (
     <div className="space-y-10">
-      {Array.isArray(sections) && sections.map((section, idx) => (
-        <div key={idx} className="bg-slate-50/50 border border-slate-200 rounded-[2.5rem] p-8 space-y-6 relative group">
-          <button 
-            type="button" 
-            onClick={() => removeSection(idx)}
-            className="absolute top-6 right-6 w-10 h-10 bg-white text-red-500 rounded-2xl flex items-center justify-center shadow-sm hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 z-10"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-          </button>
+      <SortableListContext
+        items={sections}
+        onChange={onChange}
+        renderItem={(section, idx, id, dragHandleProps, setNodeRef, style, isDragging, actions) => (
+          <div ref={setNodeRef} style={style} className="bg-slate-50/50 border border-slate-200 rounded-5xl p-8 space-y-6 relative group shadow-sm transition-all hover:shadow-md">
+            <div className="absolute top-8 -left-6 flex items-center gap-2 cursor-grab active:cursor-grabbing text-slate-300 hover:text-[#2563EB] transition-colors" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+              <div className="bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M8 9h8m-8 6h8"/></svg>
+              </div>
+            </div>
 
-          <div className="max-w-2xl">
-            <label className={labelBase}>Department Name</label>
-            <select id="examsform-select-1" name="examsform-select-1" aria-label="examsform select field" 
-              value={section.department} 
-              onChange={e => updateSection(idx, { department: e.target.value })}
-              className={inputBase}
+            <button 
+              type="button" 
+              onClick={() => removeSection(idx)}
+              className="absolute top-6 right-6 w-10 h-10 bg-white text-red-500 rounded-2xl flex items-center justify-center shadow-sm hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 z-10"
             >
-              <option value="">Select Department</option>
-              {DEPARTMENTS.map(dept => (
-                <option key={dept} value={dept}>{dept}</option>
-              ))}
-            </select>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+  
+            <div className="max-w-2xl px-2">
+              <label className={labelBase}>Department Name</label>
+              <select id={`examsform-syllabus-select-${idx}`} name={`examsform-syllabus-select-${idx}`} aria-label="examsform select field" 
+                value={section.department} 
+                onChange={e => updateSection(idx, { department: e.target.value })}
+                className={inputBase}
+              >
+                <option value="">Select Department</option>
+                {DEPARTMENTS.map(dept => (
+                  <option key={dept} value={dept}>{dept}</option>
+                ))}
+              </select>
+            </div>
+  
+            <div className="pt-4 px-2">
+               <label className={labelBase + " mb-4"}>Departmental Documents</label>
+               <DocumentListManager 
+                 type="syllabus" 
+                 items={section.documents || []} 
+                 onChange={docs => updateSection(idx, { documents: docs })} 
+               />
+            </div>
           </div>
-
-          <div className="pt-4">
-             <label className={labelBase + " mb-4"}>Departmental Documents</label>
-             <DocumentListManager 
-               type="syllabus" 
-               items={section.documents || []} 
-               onChange={docs => updateSection(idx, { documents: docs })} 
-             />
-          </div>
-        </div>
-      ))}
+        )}
+      />
 
       <button
         type="button"
         onClick={addSection}
-        className="w-full py-6 border-2 border-dashed border-slate-200 rounded-[2.5rem] text-slate-400 text-sm font-bold hover:border-[#2563EB] hover:text-[#2563EB] hover:bg-blue-50/50 transition-all flex items-center justify-center gap-2"
+        className="w-full py-6 border-2 border-dashed border-slate-200 rounded-5xl text-slate-400 text-sm font-bold hover:border-[#2563EB] hover:text-[#2563EB] hover:bg-blue-50/50 transition-all flex items-center justify-center gap-2"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
         Add New Department Section
@@ -217,56 +232,66 @@ const ResultSectionManager: React.FC<{
 
   return (
     <div className="space-y-10">
-      {Array.isArray(sections) && sections.map((section, idx) => (
-        <div key={idx} className="bg-slate-50/50 border border-slate-200 rounded-[2.5rem] p-8 space-y-6 relative group">
-          <button 
-            type="button" 
-            onClick={() => removeSection(idx)}
-            className="absolute top-6 right-6 w-10 h-10 bg-white text-red-500 rounded-2xl flex items-center justify-center shadow-sm hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 z-10"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-          </button>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className={labelBase}>Exam Month & Year</label>
-              <input id="examsform-4" name="examsform-4" aria-label="examsform field" 
-                value={section.title} 
-                onChange={e => updateSection(idx, { title: e.target.value })}
-                className={inputBase}
-                placeholder="e.g. December 2021"
-              />
+      <SortableListContext
+        items={sections}
+        onChange={onChange}
+        renderItem={(section, idx, id, dragHandleProps, setNodeRef, style, isDragging, actions) => (
+          <div ref={setNodeRef} style={style} className="bg-slate-50/50 border border-slate-200 rounded-5xl p-8 space-y-6 relative group shadow-sm transition-all hover:shadow-md">
+            <div className="absolute top-8 -left-6 flex items-center gap-2 cursor-grab active:cursor-grabbing text-slate-300 hover:text-[#2563EB] transition-colors" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+              <div className="bg-white p-2 rounded-xl border border-slate-200 shadow-sm">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M8 9h8m-8 6h8"/></svg>
+              </div>
             </div>
-            <div>
-              <label className={labelBase}>Department Name</label>
-              <select id="examsform-select-2" name="examsform-select-2" aria-label="examsform select field" 
-                value={section.department} 
-                onChange={e => updateSection(idx, { department: e.target.value })}
-                className={inputBase}
-              >
-                <option value="">Select Department</option>
-                {DEPARTMENTS.map(dept => (
-                  <option key={dept} value={dept}>{dept}</option>
-                ))}
-              </select>
+
+            <button 
+              type="button" 
+              onClick={() => removeSection(idx)}
+              className="absolute top-6 right-6 w-10 h-10 bg-white text-red-500 rounded-2xl flex items-center justify-center shadow-sm hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 z-10"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+  
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-2">
+              <div>
+                <label className={labelBase}>Exam Month & Year</label>
+                <input id={`examsform-result-title-${idx}`} name={`examsform-result-title-${idx}`} aria-label="examsform field" 
+                  value={section.title} 
+                  onChange={e => updateSection(idx, { title: e.target.value })}
+                  className={inputBase}
+                  placeholder="e.g. December 2021"
+                />
+              </div>
+              <div>
+                <label className={labelBase}>Department Name</label>
+                <select id={`examsform-result-dept-select-${idx}`} name={`examsform-result-dept-select-${idx}`} aria-label="examsform select field" 
+                  value={section.department} 
+                  onChange={e => updateSection(idx, { department: e.target.value })}
+                  className={inputBase}
+                >
+                  <option value="">Select Department</option>
+                  {DEPARTMENTS.map(dept => (
+                    <option key={dept} value={dept}>{dept}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+  
+            <div className="pt-4 px-2">
+               <label className={labelBase + " mb-4"}>Result Documents</label>
+               <DocumentListManager 
+                 type="results" 
+                 items={section.documents || []} 
+                 onChange={docs => updateSection(idx, { documents: docs })} 
+               />
             </div>
           </div>
-
-          <div className="pt-4">
-             <label className={labelBase + " mb-4"}>Result Documents</label>
-             <DocumentListManager 
-               type="results" 
-               items={section.documents || []} 
-               onChange={docs => updateSection(idx, { documents: docs })} 
-             />
-          </div>
-        </div>
-      ))}
+        )}
+      />
 
       <button
         type="button"
         onClick={addSection}
-        className="w-full py-6 border-2 border-dashed border-slate-200 rounded-[2.5rem] text-slate-400 text-sm font-bold hover:border-[#2563EB] hover:text-[#2563EB] hover:bg-blue-50/50 transition-all flex items-center justify-center gap-2"
+        className="w-full py-6 border-2 border-dashed border-slate-200 rounded-5xl text-slate-400 text-sm font-bold hover:border-[#2563EB] hover:text-[#2563EB] hover:bg-blue-50/50 transition-all flex items-center justify-center gap-2"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
         Add New Result Section (Period/Dept)

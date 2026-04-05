@@ -166,8 +166,8 @@ const StatsBanner: React.FC = () => {
                 backgroundImage: 'radial-gradient(circle at 2px 2px, #fff 1px, transparent 0)',
                 backgroundSize: '32px 32px',
             }} />
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ffb100]/50 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ffb100]/30 to-transparent" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-[#ffb100]/50 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-[#ffb100]/30 to-transparent" />
             <div className="container mx-auto max-w-4xl relative z-10">
                 <p className="text-center text-xs font-black uppercase tracking-[0.3em] text-[#ffb100] mb-8 italic">EMECHTO By The Numbers</p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -201,7 +201,7 @@ const AboutPanel: React.FC = () => {
 
                 <div className="lg:col-span-2 flex justify-center">
                     <div className="relative group">
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#ffb100]/20 to-[#0056b3]/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                        <div className="absolute inset-0 bg-linear-to-br from-[#ffb100]/20 to-[#0056b3]/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
                         <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-slate-100 flex flex-col items-center gap-4 text-center">
                             <Zap className="w-12 h-12 text-[#ffb100] mb-2" />
                             <h4 className="font-bold text-[#1a2b4b]">Driving Innovation</h4>
@@ -230,7 +230,7 @@ const ObjectivePanel: React.FC = () => {
             <div className="grid grid-cols-1 gap-4">
                 {objectives.map((obj, i) => (
                     <div key={i} className="flex items-start gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
-                        <div className="w-8 h-8 rounded-full bg-[#1a2b4b]/5 flex items-center justify-center flex-shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-[#1a2b4b]/5 flex items-center justify-center shrink-0">
                             <Check className="w-4 h-4 text-[#082b64]" />
                         </div>
                         <p className="text-[#475569] text-[15px] leading-relaxed">{obj}</p>
@@ -318,11 +318,11 @@ const TeamPanel: React.FC = () => {
                         </div>
                         <div className="space-y-3">
                             <div className="flex items-center gap-3 justify-center md:justify-start text-[#475569]">
-                                <div className="w-8 h-8 rounded-full bg-[#eaf3ff] flex items-center justify-center flex-shrink-0"><Mail className="w-4 h-4 text-[#082b64]" /></div>
+                                <div className="w-8 h-8 rounded-full bg-[#eaf3ff] flex items-center justify-center shrink-0"><Mail className="w-4 h-4 text-[#082b64]" /></div>
                                 <p className="text-sm font-medium">rishabh.melwanki@vcet.edu.in</p>
                             </div>
                             <div className="flex items-center gap-3 justify-center md:justify-start text-[#475569]">
-                                <div className="w-8 h-8 rounded-full bg-[#fff8e7] flex items-center justify-center flex-shrink-0"><Phone className="w-4 h-4 text-[#ffb100]" /></div>
+                                <div className="w-8 h-8 rounded-full bg-[#fff8e7] flex items-center justify-center shrink-0"><Phone className="w-4 h-4 text-[#ffb100]" /></div>
                                 <p className="text-sm font-medium">+91 9029353539</p>
                             </div>
                         </div>
@@ -396,7 +396,7 @@ const GalleryPanel: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 {[1, 2, 3].map((i) => (
                     <div key={i} className="group relative rounded-3xl overflow-hidden aspect-video shadow-lg hover:shadow-2xl transition-all duration-500 bg-slate-100 flex items-center justify-center text-slate-400 border border-slate-200">
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                         <div className="flex flex-col items-center group-hover:scale-110 transition-transform duration-500">
                             <ImageIcon className="w-10 h-10 mb-2 opacity-50" />
                             <span className="text-[10px] font-black uppercase tracking-widest italic opacity-50">Image Holder {i}</span>
@@ -534,14 +534,14 @@ const EmechtoPage: React.FC = () => {
                                                         }`}
                                                 >
                                                     {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1 bg-[#ffb100] rounded-r-full" />}
-                                                    <div className={`w-10 h-10 flex items-center justify-center flex-shrink-0 rounded-xl transition-all ${isActive ? 'bg-white/10 ring-1 ring-white/20' : 'bg-slate-100'}`}>
+                                                    <div className={`w-10 h-10 flex items-center justify-center shrink-0 rounded-xl transition-all ${isActive ? 'bg-white/10 ring-1 ring-white/20' : 'bg-slate-100'}`}>
                                                         <tab.icon className={`w-4 h-4 ${isActive ? 'text-[#ffb100]' : 'text-[#64748b]'}`} />
                                                     </div>
                                                     <div className="flex-1 min-w-0">
                                                         <p className={`text-[14px] font-bold leading-tight ${isActive ? 'text-white' : 'text-[#1a2b4b]'}`}>{tab.label}</p>
                                                         <p className={`text-[10px] mt-0.5 tracking-wide ${isActive ? 'text-white/50' : 'text-[#94a3b8]'}`}>{tab.desc}</p>
                                                     </div>
-                                                    <ChevronRight className={`w-3.5 h-3.5 flex-shrink-0 transition-all ${isActive ? 'text-[#ffb100] translate-x-1' : 'text-slate-300 opacity-0 group-hover:opacity-100'}`} />
+                                                    <ChevronRight className={`w-3.5 h-3.5 shrink-0 transition-all ${isActive ? 'text-[#ffb100] translate-x-1' : 'text-slate-300 opacity-0 group-hover:opacity-100'}`} />
                                                 </button>
                                             );
                                         })}
@@ -549,7 +549,7 @@ const EmechtoPage: React.FC = () => {
                                 </nav>
 
                                 {/* EMECHTO Highlights card */}
-                                <div className="hidden lg:block bg-gradient-to-br from-[#1a2b4b] to-[#0056b3] p-6 text-white overflow-hidden relative rounded-2xl shadow-md">
+                                <div className="hidden lg:block bg-linear-to-br from-[#1a2b4b] to-[#0056b3] p-6 text-white overflow-hidden relative rounded-2xl shadow-md">
                                     <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-white/5 -mr-10 -mt-10" />
                                     <div className="absolute bottom-0 left-0 w-20 h-20 rounded-full bg-[#ffb100]/10 -ml-6 -mb-6" />
 
@@ -569,7 +569,7 @@ const EmechtoPage: React.FC = () => {
                                                 { icon: Calendar, val: '5+', label: 'Years of Legacy' },
                                             ].map(({ icon: Icon, val, label }) => (
                                                 <div key={label} className="flex items-center gap-3">
-                                                    <Icon className="w-3.5 h-3.5 text-[#ffb100]/80 flex-shrink-0" />
+                                                    <Icon className="w-3.5 h-3.5 text-[#ffb100]/80 shrink-0" />
                                                     <div>
                                                         <p className="text-base font-extrabold leading-none">{val}</p>
                                                         <p className="text-[9px] uppercase font-black tracking-widest text-white/40">{label}</p>
@@ -588,7 +588,7 @@ const EmechtoPage: React.FC = () => {
                             </div>
                         </aside>
 
-                        <div id="emechto-content" className="bg-white rounded-[2rem] border border-slate-100 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] overflow-hidden min-h-[600px]">
+                        <div id="emechto-content" className="bg-white rounded-4xl border border-slate-100 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] overflow-hidden min-h-[600px]">
                             {activeTab === 'about' && <AboutPanel />}
                             {activeTab === 'objective' && <ObjectivePanel />}
                             {activeTab === 'competition' && <CompetitionPanel items={resolvedCompetitionItems} />}

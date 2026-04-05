@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { heroSlidesApi } from '../../api/heroSlides';
 import type { HeroSlidePayload } from '../../types';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const HeroSlideForm: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -57,31 +58,19 @@ const HeroSlideForm: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto pb-24">
       {/* Breadcrumbs */}
-      <div className="flex items-center gap-2 text-[11px] font-bold text-slate-400 mb-4 uppercase tracking-widest">
-        <Link to="/admin" className="hover:text-slate-600 transition-colors">Dashboard</Link>
-        <span className="text-slate-300 font-normal">/</span>
-        <Link to="/admin/hero-slides" className="hover:text-slate-600 transition-colors">Hero Slides</Link>
-        <span className="text-slate-300 font-normal">/</span>
-        <span className="text-slate-600">{isEdit ? 'Edit' : 'New'}</span>
-      </div>
+      <PageEditorHeader
+        title={isEdit ? 'Edit Hero Slide' : 'Add New Hero Slide'}
+        description="Configure banner slides for the homepage hero section."
+        onSave={handleSubmit as unknown as () => void}
+        isSaving={saving}
+        showBackButton
+        onBack={() => navigate('/admin/hero-slides')}
+      />
 
-      <div className="flex items-center justify-between mb-12">
-        <h1 className="text-4xl font-black text-slate-900 tracking-tight">
-          {isEdit ? 'Edit' : 'Add New'} <span className="text-slate-400">Hero Slide</span>
-        </h1>
-        <button 
-          onClick={() => navigate('/admin/hero-slides')}
-          className="text-slate-400 hover:text-slate-600 font-bold text-xs uppercase tracking-widest flex items-center gap-2 transition-colors"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-          Back to List
-        </button>
-      </div>
-
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
         {/* Left Column: Form Fields */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 space-y-8">
+          <div className="bg-white p-8 rounded-4xl shadow-xl shadow-slate-200/50 border border-slate-100 space-y-8">
             <div className="space-y-2">
               <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">Slide Title</label>
               <input id="heroslideform-1" aria-label="heroslideform field"
@@ -160,28 +149,7 @@ const HeroSlideForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: Actions */}
-        <div className="space-y-6">
-          <div className="bg-slate-900 p-8 rounded-[2.5rem] shadow-2xl shadow-slate-900/20 text-white space-y-6">
-            <h3 className="font-bold text-lg">Banner Settings</h3>
-            <p className="text-slate-400 text-xs leading-relaxed font-medium">This slide will be displayed on the homepage hero section.</p>
-            {error && <p className="text-red-400 text-xs font-bold leading-relaxed">{error}</p>}
-            <button
-              onClick={handleSubmit}
-              disabled={saving}
-              className="w-full bg-white text-slate-900 font-black py-4 rounded-2xl text-sm transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
-            >
-              {saving && <div className="w-4 h-4 border-2 border-slate-900/20 border-t-slate-900 rounded-full animate-spin" />}
-              {isEdit ? 'Update Slide' : 'Publish Slide'}
-            </button>
-            <button
-              onClick={() => navigate('/admin/hero-slides')}
-              className="w-full bg-slate-800 text-slate-400 font-bold py-4 rounded-2xl text-xs uppercase tracking-widest transition-all hover:bg-slate-700 hover:text-white"
-            >
-              Discard Changes
-            </button>
-          </div>
-        </div>
+
       </form>
     </div>
   );

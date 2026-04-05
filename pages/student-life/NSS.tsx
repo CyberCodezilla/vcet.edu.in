@@ -221,7 +221,7 @@ const NSS: React.FC = () => {
         subtitle=""
         backgroundClassName="bg-brand-light"
       >
-        <div className="reveal rounded-[28px] border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
+        <div className="reveal rounded-4xl border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
           <p className="text-slate-600 leading-relaxed text-base md:text-lg mb-4">
             The National Service Scheme (NSS) Government of India, Ministry of Youth Affairs &amp;
             Sports provides an opportunity to the student youth of INDIA to take part in various

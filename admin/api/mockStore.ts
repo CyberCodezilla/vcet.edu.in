@@ -97,9 +97,35 @@ export function readMockCollection<T>(storageKey: string, seed: T[]): T[] {
     const stored = localStorage.getItem(storageKey);
     if (stored) {
       const parsed = JSON.parse(stored) as T[];
-      return Array.isArray(parsed)
-        ? parsed.map((item) => hydrateStoredValue(item))
-        : seed.map((item) => hydrateStoredValue(item));
+      if (Array.isArray(parsed)) {
+        const parsedHydrated = parsed.map((item) => hydrateStoredValue(item));
+        const seedHydrated = seed.map((item) => hydrateStoredValue(item));
+        
+        // Merger: Add seed items that don't exist in storage (check by slug or id)
+        const merged = [...parsedHydrated];
+        let hasNewItems = false;
+
+        seedHydrated.forEach(seedItem => {
+          const si = seedItem as any;
+          const exists = merged.some(mi => {
+            const m = mi as any;
+            if (si.slug && m.slug) return si.slug === m.slug;
+            if (si.id && m.id) return si.id === m.id;
+            return false;
+          });
+
+          if (!exists) {
+            merged.push(seedItem);
+            hasNewItems = true;
+          }
+        });
+
+        if (hasNewItems) {
+          localStorage.setItem(storageKey, JSON.stringify(merged));
+        }
+
+        return merged;
+      }
     }
   } catch (e) {
     console.error(`Failed to parse ${storageKey} from localStorage`, e);
@@ -1439,6 +1465,111 @@ export const MOCK_ADMISSION_SECTIONS: AdmissionSection[] = [
         is_active: true,
         sort_order: 2,
       },
+    ],
+  },
+  {
+    id: 5,
+    slug: 'cut-off',
+    navigation_title: 'Admission Cutoffs',
+    title: 'Admission Cutoffs',
+    summary: 'Manage historical and current year cutoff trends',
+    description: 'Archive of CAP round cutoffs for various engineering and management branches.',
+    section_type: 'document_list',
+    has_dropdown: false,
+    dropdown_key: null,
+    content: {
+      heading: 'Centralized Admission Process',
+      subheading: 'Previous Years Cut-off Data'
+    },
+    is_active: true,
+    sort_order: 5,
+    items: [
+      {
+        id: 10,
+        admission_section_id: 5,
+        item_type: 'document',
+        title: 'FE CAP Round-I Cutoff 2024-25',
+        subtitle: null,
+        description: 'Cutoff marks for First Year Engineering CAP Round I',
+        category: 'Engineering',
+        academic_year: '2024-25',
+        badge: 'New',
+        tag: 'FE',
+        group_key: 'cutoffs',
+        group_label: 'Cut Off Details',
+        intake: null,
+        metadata: null,
+        external_url: 'https://fe-cutoff-2024.pdf',
+        image_name: null,
+        image_mime_type: null,
+        image_size: null,
+        has_image: false,
+        image_url: null,
+        admin_image_url: null,
+        has_pdf: false,
+        pdf_name: null,
+        pdf_mime_type: null,
+        pdf_size: null,
+        pdf_url: null,
+        admin_pdf_url: null,
+        has_document: true,
+        document_url: 'https://fe-cutoff-2024.pdf',
+        is_active: true,
+        sort_order: 1,
+      }
+    ],
+  },
+  {
+    id: 6,
+    slug: 'brochure',
+    navigation_title: 'Promotional Materials',
+    title: 'Promotional Materials',
+    summary: 'Official college brochure and assets',
+    description: 'Download the latest official college brochure and other admission related media.',
+    section_type: 'document_list',
+    has_dropdown: false,
+    dropdown_key: null,
+    content: {
+      heading: 'College Brochure',
+      intro: 'Get all the details about our courses, infrastructure, and campus life.',
+      description: 'The official brochure for Academics and Admission for the upcoming session.'
+    },
+    is_active: true,
+    sort_order: 6,
+    items: [
+      {
+        id: 11,
+        admission_section_id: 6,
+        item_type: 'document',
+        title: 'Official College Brochure 2025-26',
+        subtitle: null,
+        description: 'Comprehensive guide to VCET engineering programs',
+        category: 'General',
+        academic_year: '2025-26',
+        badge: 'Official',
+        tag: 'Brochure',
+        group_key: 'brochure',
+        group_label: 'Brochure',
+        intake: null,
+        metadata: null,
+        external_url: 'https://VCET-Brochure-2025.pdf',
+        image_name: null,
+        image_mime_type: null,
+        image_size: null,
+        has_image: false,
+        image_url: null,
+        admin_image_url: null,
+        has_pdf: false,
+        pdf_name: null,
+        pdf_mime_type: null,
+        pdf_size: null,
+        pdf_url: null,
+        admin_pdf_url: null,
+        has_document: true,
+        document_url: 'https://VCET-Brochure-2025.pdf',
+        is_active: true,
+        sort_order: 1,
+      }
     ],
   },
 ];

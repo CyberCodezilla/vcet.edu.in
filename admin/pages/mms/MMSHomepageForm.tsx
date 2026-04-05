@@ -1,27 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { Image as ImageIcon, Video, Trash2, Plus, CheckCircle, AlertTriangle } from 'lucide-react';
-import { resolveApiUrl } from '../../api/client';
+import { useNavigate } from 'react-router-dom';
+import { Image as ImageIcon, Video, Trash2, Plus, CheckCircle, AlertTriangle, GripVertical, FileText } from 'lucide-react';
+import { resolveApiUrl } from '../../../services/api';
 import type { MMSHomePayload } from '../../types';
 import { mmsHomeApi } from '../../api/mmsHomeApi';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
+import { SortableListContext } from '../../components/SortableList';
+import AdminFormSection from '../../components/AdminFormSection';
+
+const inputBase = "w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all text-slate-700";
+const labelBase = "block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1";
 
 const emptyForm: MMSHomePayload = {
   sliders: Array(3).fill({ title: '', subtitle: '', image: null }),
   admission: { heading: '', description: '', banner: null },
-  notices: Array(3).fill({ title: '', label: '', text: '' }),
-  notifications: Array(3).fill({ title: '', text: '' }),
-  internships: Array(3).fill({ title: '', altText: '', logo: null }),
-  events: Array(3).fill({ title: '', eventTitle: '', altText: '', image: null }),
-  testimonials: Array(3).fill({ sectionTitle: '', name: '', role: '', quote: '' }),
-  videos: Array(3).fill({ sectionTitle: '', videoTitle: '', posterAlt: '', videoFile: null, videoUrl: '', poster: null }),
-  documents: Array(2).fill({ label: '', url: '', pdfFile: null })
+  notices: [],
+  notifications: [],
+  internships: [],
+  events: [],
+  testimonials: [],
+  videos: [],
+  documents: []
 };
 
 const MMSHomepageForm: React.FC = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState<MMSHomePayload>(emptyForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [activeSection, setActiveSection] = useState<string | null>('admission');
 
   useEffect(() => {
     fetchData();
@@ -46,7 +55,8 @@ const MMSHomepageForm: React.FC = () => {
     }
   };
 
-  const handleSave = async () => {
+  const handleSave = async (e?: React.FormEvent) => {
+    e?.preventDefault();
     setSaving(true);
     setError('');
     setSuccessMsg('');
@@ -61,10 +71,6 @@ const MMSHomepageForm: React.FC = () => {
     }
   };
 
-  const updateField = (key: keyof MMSHomePayload, value: any) => {
-    setForm(prev => ({ ...prev, [key]: value }));
-  };
-
   const handleArrayChange = (key: keyof MMSHomePayload, index: number, field: string, value: any) => {
     setForm(prev => {
       const list = [...(prev[key] as any[])];
@@ -73,318 +79,199 @@ const MMSHomepageForm: React.FC = () => {
     });
   };
 
-  const addArrayItem = (key: keyof MMSHomePayload, defaultItem: any) => {
-    setForm(prev => ({
-      ...prev,
-      [key]: [...(prev[key] as any[]), defaultItem]
-    }));
-  };
+  if (loading) {
+     return <div className="p-10 text-center"><div className="w-8 h-8 border-4 border-slate-200 border-t-[#2563EB] rounded-full animate-spin mx-auto mb-4" />Loading...</div>;
+  }
 
-  const removeArrayItem = (key: keyof MMSHomePayload, index: number) => {
-    setForm(prev => ({
-      ...prev,
-      [key]: (prev[key] as any[]).filter((_, i) => i !== index)
-    }));
+  const resolvePreview = (file: any, type: 'image' | 'video' | 'pdf') => {
+    if (!file) return null;
+    if (typeof file === 'string') return resolveApiUrl(file);
+    if (file instanceof Blob || file instanceof File) return URL.createObjectURL(file);
+    if (file.url) return resolveApiUrl(file.url);
+    return null;
   };
-
-  if (loading) return <div className="p-8 text-slate-500">Loading...</div>;
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">Edit MMS Homepage</h1>
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
-        >
-          {saving ? 'Saving...' : 'Save Changes'}
-        </button>
-      </div>
+    <div className="max-w-5xl mx-auto space-y-8 pb-12 animate-fade-in relative pt-6">
+      <PageEditorHeader
+        title="MMS Homepage"
+        description="Manage the main landing page content for the MMS department."
+        onSave={() => {
+          void handleSave();
+        }}
+        isSaving={saving}
+        showBackButton
+        onBack={() => navigate('/admin/pages/mms')}
+      />
 
       {error && (
-        <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-lg flex items-center gap-2">
-          <AlertTriangle className="w-5 h-5" />
-          {error}
+        <div className="bg-red-50 border border-red-100 rounded-xl px-5 py-4 text-sm text-red-600 font-medium flex items-center gap-3">
+           <AlertTriangle className="w-5 h-5" /> {error}
         </div>
       )}
-
+      
       {successMsg && (
-        <div className="mb-6 p-4 bg-green-50 text-green-600 rounded-lg flex items-center gap-2">
-          <CheckCircle className="w-5 h-5" />
-          {successMsg}
+        <div className="bg-emerald-50 border border-emerald-100 rounded-xl px-5 py-4 text-sm text-emerald-600 font-medium flex items-center gap-3">
+           <CheckCircle className="w-5 h-5" /> {successMsg}
         </div>
       )}
 
-      <div className="space-y-8">
+      <form onSubmit={handleSave} className="space-y-4">
         {/* Admission Highlight */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-          <h2 className="text-xl font-bold mb-4">Admission Highlight</h2>
-          <div className="grid gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Heading (Max 60)</label>
-              <input id="mmshomepageform-1" name="mmshomepageform-1" aria-label="mmshomepageform field" maxLength={60} value={form.admission.heading || ''} onChange={e => updateField('admission', { ...form.admission, heading: e.target.value })} className="w-full p-2 border rounded-lg" />
+        <AdminFormSection title="1. Admission Highlight" icon="🎓" isOpen={activeSection === 'admission'} onToggle={() => setActiveSection(activeSection === 'admission' ? null : 'admission')}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="md:col-span-2">
+              <label className={labelBase}>Heading</label>
+              <input maxLength={60} value={form.admission.heading || ''} onChange={e => setForm({...form, admission: {...form.admission, heading: e.target.value}})} className={inputBase} placeholder="e.g. Admission 2024-25 Open" />
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Description (Max 220)</label>
-              <textarea id="mmshomepageform-textarea-1" name="mmshomepageform-textarea-1" aria-label="mmshomepageform textarea field" maxLength={220} value={form.admission.description || ''} onChange={e => updateField('admission', { ...form.admission, description: e.target.value })} className="w-full p-2 border rounded-lg" rows={3} />
+            <div className="md:col-span-2">
+              <label className={labelBase}>Description</label>
+              <textarea maxLength={220} value={form.admission.description || ''} onChange={e => setForm({...form, admission: {...form.admission, description: e.target.value}})} className={inputBase + " h-24"} rows={2} placeholder="Brief description..." />
             </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Banner Image</label>
-        <input id="mmshomepageform-2" name="mmshomepageform-2" aria-label="mmshomepageform field" type="file" accept="image/*" onChange={e => updateField('admission', { ...form.admission, banner: e.target.files?.[0] || null })} className="w-full p-2 border rounded-lg" />
-        <FilePreview file={form.admission.banner} type="image" onRemove={() => updateField('admission', { ...form.admission, banner: null })} />
-
+            <div className="md:col-span-2">
+              <label className={labelBase}>Banner Image</label>
+              <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-video md:aspect-[21/9] flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden shadow-inner">
+                <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => setForm({...form, admission: {...form.admission, banner: e.target.files?.[0] || null}})} />
+                {form.admission.banner ? (
+                  <img src={resolvePreview(form.admission.banner, 'image') || ''} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="flex flex-col items-center justify-center gap-2">
+                     <ImageIcon className="w-8 h-8 text-slate-300 group-hover:text-blue-500 transition-colors" />
+                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Upload Banner</span>
+                  </div>
+                )}
+                {form.admission.banner && (
+                  <button type="button" onClick={(e) => { e.stopPropagation(); setForm({...form, admission: {...form.admission, banner: null}}); }} className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-red-500 p-2 rounded-xl shadow-lg hover:bg-red-50 transition-all z-20 opacity-0 group-hover:opacity-100"><Trash2 className="w-4 h-4"/></button>
+                )}
+              </div>
             </div>
           </div>
-        </section>
+        </AdminFormSection>
 
         {/* Notice Board */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">Notice Board</h2>
-            <button type="button" onClick={() => addArrayItem('notices', { title: '', label: '', text: '' })} className="flex items-center gap-1 text-sm bg-brand-blue/10 text-brand-blue px-3 py-1.5 rounded-lg hover:bg-brand-blue/20 font-medium">
-              <Plus className="w-4 h-4" /> Add Notice
+        <AdminFormSection title={`2. Notice Board (${form.notices.length})`} icon="📢" isOpen={activeSection === 'notices'} onToggle={() => setActiveSection(activeSection === 'notices' ? null : 'notices')}>
+          <div className="space-y-4">
+            <SortableListContext
+              items={form.notices}
+              onChange={val => setForm({...form, notices: val})}
+              renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <button type="button" onClick={() => setForm({...form, notices: form.notices.filter((_, idx) => idx !== i)})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"><Trash2 className="w-4 h-4"/></button>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className={labelBase}>Title</label>
+                      <input maxLength={35} value={item.title || ''} onChange={e => handleArrayChange('notices', i, 'title', e.target.value)} className={inputBase} placeholder="e.g. CAP Admission" />
+                    </div>
+                    <div>
+                      <label className={labelBase}>Label</label>
+                      <input maxLength={20} value={item.label || ''} onChange={e => handleArrayChange('notices', i, 'label', e.target.value)} className={inputBase} placeholder="e.g. Important" />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className={labelBase}>Notice Text</label>
+                      <textarea maxLength={120} value={item.text || ''} onChange={e => handleArrayChange('notices', i, 'text', e.target.value)} className={inputBase + " h-20"} rows={2} placeholder="Notice content..." />
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
+            <button type="button" onClick={() => setForm({...form, notices: [...form.notices, {title: '', label: '', text: ''}]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+              <Plus className="w-4 h-4" /> Add New Notice
             </button>
           </div>
-          <div className="max-h-96 overflow-y-auto pr-2 space-y-4">
-            {form.notices.map((item, i) => (
-              <div key={i} className="p-4 border rounded-lg space-y-4 relative">
-                <button type="button" onClick={() => removeArrayItem('notices', i)} className="absolute top-4 right-4 p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Remove notice">
-                  <Trash2 className="w-4 h-4" />
-                </button>
-                <div className="grid grid-cols-2 gap-4 pr-10">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Title (Max 35)</label>
-                    <input id="mmshomepageform-3" name="mmshomepageform-3" aria-label="mmshomepageform field" maxLength={35} value={item.title || ''} onChange={e => handleArrayChange('notices', i, 'title', e.target.value)} className="w-full p-2 border rounded-lg focus:border-brand-blue/50 outline-none" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Label (Max 20)</label>
-                    <input id="mmshomepageform-4" name="mmshomepageform-4" aria-label="mmshomepageform field" maxLength={20} value={item.label || ''} onChange={e => handleArrayChange('notices', i, 'label', e.target.value)} className="w-full p-2 border rounded-lg focus:border-brand-blue/50 outline-none" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Text (Max 120)</label>
-                  <textarea id="mmshomepageform-textarea-2" name="mmshomepageform-textarea-2" aria-label="mmshomepageform textarea field" maxLength={120} value={item.text || ''} onChange={e => handleArrayChange('notices', i, 'text', e.target.value)} className="w-full p-2 border rounded-lg focus:border-brand-blue/50 outline-none" rows={2} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Latest Notifications */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">Latest Notifications</h2>
-            <button type="button" onClick={() => addArrayItem('notifications', { title: '', text: '' })} className="flex items-center gap-1 text-sm bg-brand-blue/10 text-brand-blue px-3 py-1.5 rounded-lg hover:bg-brand-blue/20 font-medium">
-              <Plus className="w-4 h-4" /> Add Notification
-            </button>
-          </div>
-          <div className="max-h-96 overflow-y-auto pr-2 space-y-4">
-            {form.notifications.map((item, i) => (
-              <div key={i} className="p-4 border rounded-lg space-y-4 relative">
-                <button type="button" onClick={() => removeArrayItem('notifications', i)} className="absolute top-4 right-4 p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Remove notification">
-                  <Trash2 className="w-4 h-4" />
-                </button>
-                <div className="pr-10">
-                  <label className="block text-sm font-medium mb-1">Notification Title / Text</label>
-                  <input id="mmshomepageform-5" name="mmshomepageform-5" aria-label="mmshomepageform field" value={item.title || item.text || ''} onChange={e => handleArrayChange('notifications', i, 'title', e.target.value)} className="w-full p-2 border rounded-lg focus:border-brand-blue/50 outline-none" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        </AdminFormSection>
 
         {/* Testimonials */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-          <h2 className="text-xl font-bold mb-4">Testimonials (3 items)</h2>
-          {form.testimonials.map((item, i) => (
-            <div key={i} className="p-4 border rounded-lg mb-4 space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Section Title (Max 40)</label>
-                <input id="mmshomepageform-6" name="mmshomepageform-6" aria-label="mmshomepageform field" maxLength={40} value={item.sectionTitle || ''} onChange={e => handleArrayChange('testimonials', i, 'sectionTitle', e.target.value)} className="w-full p-2 border rounded-lg" />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Student Name (Max 35)</label>
-                  <input id="mmshomepageform-7" name="mmshomepageform-7" aria-label="mmshomepageform field" maxLength={35} value={item.name || ''} onChange={e => handleArrayChange('testimonials', i, 'name', e.target.value)} className="w-full p-2 border rounded-lg" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Role (Max 30)</label>
-                  <input id="mmshomepageform-8" name="mmshomepageform-8" aria-label="mmshomepageform field" maxLength={30} value={item.role || ''} onChange={e => handleArrayChange('testimonials', i, 'role', e.target.value)} className="w-full p-2 border rounded-lg" />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Quote (Max 320)</label>
-                <textarea id="mmshomepageform-textarea-3" name="mmshomepageform-textarea-3" aria-label="mmshomepageform textarea field" maxLength={320} value={item.quote || ''} onChange={e => handleArrayChange('testimonials', i, 'quote', e.target.value)} className="w-full p-2 border rounded-lg" rows={3} />
-              </div>
-            </div>
-          ))}
-        </section>
-
-        {/* Summer Internships */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">Summer Internships</h2>
-            <button type="button" onClick={() => addArrayItem('internships', { title: '', altText: '', logo: null })} className="flex items-center gap-1 text-sm bg-brand-blue/10 text-brand-blue px-3 py-1.5 rounded-lg hover:bg-brand-blue/20 font-medium">
-              <Plus className="w-4 h-4" /> Add Internship
-            </button>
-          </div>
-          <div className="max-h-96 overflow-y-auto pr-2 space-y-4">
-            {form.internships.map((item, i) => (
-              <div key={i} className="p-4 border rounded-lg space-y-4 relative bg-slate-50">
-                <button type="button" onClick={() => removeArrayItem('internships', i)} className="absolute top-4 right-4 p-1.5 text-red-500 hover:bg-red-100 rounded-lg transition-colors" title="Remove internship">
-                  <Trash2 className="w-4 h-4" />
-                </button>
-                <div className="pr-10">
-                  <label className="block text-sm font-medium mb-1">Company Name</label>
-                  <input id="mmshomepageform-9" name="mmshomepageform-9" aria-label="mmshomepageform field" maxLength={60} value={item.title || ''} onChange={e => handleArrayChange('internships', i, 'title', e.target.value)} className="w-full p-2 border rounded-lg focus:border-brand-blue/50 outline-none" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Company Logo</label>
-                  <input id="mmshomepageform-10" name="mmshomepageform-10" aria-label="mmshomepageform field" type="file" accept="image/*" onChange={e => handleArrayChange('internships', i, 'logo', e.target.files?.[0] || null)} className="w-full p-2 border rounded-lg bg-white" />
-                  <FilePreview file={item.logo} type="image" onRemove={() => handleArrayChange('internships', i, 'logo', null)} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Our Events */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">Our Events</h2>
-            <button type="button" onClick={() => addArrayItem('events', { title: '', eventTitle: '', altText: '', image: null })} className="flex items-center gap-1 text-sm bg-brand-blue/10 text-brand-blue px-3 py-1.5 rounded-lg hover:bg-brand-blue/20 font-medium">
-              <Plus className="w-4 h-4" /> Add Event
-            </button>
-          </div>
-          <div className="max-h-96 overflow-y-auto pr-2 space-y-4">
-            {form.events.map((item, i) => (
-              <div key={i} className="p-4 border rounded-lg space-y-4 relative bg-slate-50">
-                <button type="button" onClick={() => removeArrayItem('events', i)} className="absolute top-4 right-4 p-1.5 text-red-500 hover:bg-red-100 rounded-lg transition-colors" title="Remove event">
-                  <Trash2 className="w-4 h-4" />
-                </button>
-                <div className="pr-10">
-                  <label className="block text-sm font-medium mb-1">Event Title (Max 60)</label>
-                  <input id="mmshomepageform-11" name="mmshomepageform-11" aria-label="mmshomepageform field" maxLength={60} value={item.title || item.eventTitle || ''} onChange={e => handleArrayChange('events', i, 'title', e.target.value)} className="w-full p-2 border rounded-lg focus:border-brand-blue/50 outline-none" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Event Flyer / Image</label>
-                  <input id="mmshomepageform-12" name="mmshomepageform-12" aria-label="mmshomepageform field" type="file" accept="image/*" onChange={e => handleArrayChange('events', i, 'image', e.target.files?.[0] || null)} className="w-full p-2 border rounded-lg bg-white" />
-                  <FilePreview file={item.image} type="image" onRemove={() => handleArrayChange('events', i, 'image', null)} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Experiential Learning Videos */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-          <h2 className="text-xl font-bold mb-4">Experiential Learning Videos</h2>
-          {form.videos.map((item, i) => (
-            <div key={i} className="p-4 border rounded-lg mb-4 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Section Title (Max 45)</label>
-                  <input id="mmshomepageform-13" name="mmshomepageform-13" aria-label="mmshomepageform field" maxLength={45} value={item.sectionTitle || ''} onChange={e => handleArrayChange('videos', i, 'sectionTitle', e.target.value)} className="w-full p-2 border rounded-lg" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Video Title (Max 55)</label>
-                  <input id="mmshomepageform-14" name="mmshomepageform-14" aria-label="mmshomepageform field" maxLength={55} value={item.videoTitle || ''} onChange={e => handleArrayChange('videos', i, 'videoTitle', e.target.value)} className="w-full p-2 border rounded-lg" />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Video URL (Max 250)</label>
-                  <input id="mmshomepageform-15" name="mmshomepageform-15" aria-label="mmshomepageform field" maxLength={250} value={item.videoUrl || ''} onChange={e => handleArrayChange('videos', i, 'videoUrl', e.target.value)} placeholder="Or upload below" className="w-full p-2 border rounded-lg" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Video File Upload</label>
-            <input id="mmshomepageform-16" name="mmshomepageform-16" aria-label="mmshomepageform field" type="file" accept="video/*" onChange={e => handleArrayChange('videos', i, 'videoFile', e.target.files?.[0] || null)} className="w-full p-2 border rounded-lg" />
-            <FilePreview file={item.videoFile} type="video" onRemove={() => handleArrayChange('videos', i, 'videoFile', null)} />
-
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Poster Alt Text (Max 90)</label>
-                  <input id="mmshomepageform-17" name="mmshomepageform-17" aria-label="mmshomepageform field" maxLength={90} value={item.posterAlt || ''} onChange={e => handleArrayChange('videos', i, 'posterAlt', e.target.value)} className="w-full p-2 border rounded-lg" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Poster Image</label>
-            <input id="mmshomepageform-18" name="mmshomepageform-18" aria-label="mmshomepageform field" type="file" accept="image/*" onChange={e => handleArrayChange('videos', i, 'poster', e.target.files?.[0] || null)} className="w-full p-2 border rounded-lg" />
-            <FilePreview file={item.poster} type="image" onRemove={() => handleArrayChange('videos', i, 'poster', null)} />
-
-                </div>
-              </div>
-            </div>
-          ))}
-        </section>
-
-        {/* Resources / PDF Documents */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold">Resources / Documents</h2>
-            <button type="button" onClick={() => addArrayItem('documents', { label: '', url: '', pdfFile: null })} className="flex items-center gap-1 text-sm bg-brand-blue/10 text-brand-blue px-3 py-1.5 rounded-lg hover:bg-brand-blue/20 font-medium">
-              <Plus className="w-4 h-4" /> Add Document
-            </button>
-          </div>
-          <div className="max-h-96 overflow-y-auto pr-2 space-y-4">
-            {form.documents.map((item, i) => (
-              <div key={i} className="p-4 border rounded-lg space-y-4 relative bg-slate-50">
-                <button type="button" onClick={() => removeArrayItem('documents', i)} className="absolute top-4 right-4 p-1.5 text-red-500 hover:bg-red-100 rounded-lg transition-colors" title="Remove document">
-                  <Trash2 className="w-4 h-4" />
-                </button>
-                <div className="pr-10">
-                  <label className="block text-sm font-medium mb-1">Document Label (Max 60)</label>
-                  <input id="mmshomepageform-19" name="mmshomepageform-19" aria-label="mmshomepageform field" maxLength={60} value={item.label || ''} onChange={e => handleArrayChange('documents', i, 'label', e.target.value)} className="w-full p-2 border rounded-lg focus:border-brand-blue/50 outline-none" />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">External URL (Optional)</label>
-                    <input id="mmshomepageform-20" name="mmshomepageform-20" aria-label="mmshomepageform field" value={item.url || ''} onChange={e => handleArrayChange('documents', i, 'url', e.target.value)} placeholder="https://..." className="w-full p-2 border rounded-lg focus:border-brand-blue/50 outline-none" />
+        <AdminFormSection title={`3. Student Testimonials (${form.testimonials.length})`} icon="💬" isOpen={activeSection === 'testimonials'} onToggle={() => setActiveSection(activeSection === 'testimonials' ? null : 'testimonials')}>
+          <div className="space-y-4">
+            <SortableListContext
+              items={form.testimonials}
+              onChange={val => setForm({...form, testimonials: val})}
+              renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <button type="button" onClick={() => setForm({...form, testimonials: form.testimonials.filter((_, idx) => idx !== i)})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"><Trash2 className="w-4 h-4"/></button>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Upload PDF File</label>
-                    <input id="mmshomepageform-21" name="mmshomepageform-21" aria-label="mmshomepageform field" type="file" accept="application/pdf" onChange={e => handleArrayChange('documents', i, 'pdfFile', e.target.files?.[0] || null)} className="w-full p-2 border rounded-lg bg-white" />
-                    <FilePreview file={item.pdfFile} type="pdf" onRemove={() => handleArrayChange('documents', i, 'pdfFile', null)} />
+                  <div className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className={labelBase}>Student Name</label>
+                        <input maxLength={35} value={item.name || ''} onChange={e => handleArrayChange('testimonials', i, 'name', e.target.value)} className={inputBase} />
+                      </div>
+                      <div>
+                        <label className={labelBase}>Role / Year</label>
+                        <input maxLength={30} value={item.role || ''} onChange={e => handleArrayChange('testimonials', i, 'role', e.target.value)} className={inputBase} placeholder="e.g. Alumnus 2023" />
+                      </div>
+                    </div>
+                    <div>
+                      <label className={labelBase}>Quote</label>
+                      <textarea maxLength={320} value={item.quote || ''} onChange={e => handleArrayChange('testimonials', i, 'quote', e.target.value)} className={inputBase + " h-24"} rows={3} placeholder="Paste student testimonial here..." />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )}
+            />
+            <button type="button" onClick={() => setForm({...form, testimonials: [...form.testimonials, {name: '', role: '', quote: ''}]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+              <Plus className="w-4 h-4" /> Add Testimonial
+            </button>
           </div>
-        </section>
+        </AdminFormSection>
 
-      </div>
+        {/* Resources / Documents */}
+        <AdminFormSection title={`4. Resources & Documents (${form.documents.length})`} icon="📄" isOpen={activeSection === 'documents'} onToggle={() => setActiveSection(activeSection === 'documents' ? null : 'documents')}>
+          <div className="space-y-4">
+            <SortableListContext
+              items={form.documents}
+              onChange={val => setForm({...form, documents: val})}
+              renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <button type="button" onClick={() => setForm({...form, documents: form.documents.filter((_, idx) => idx !== i)})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"><Trash2 className="w-4 h-4"/></button>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="md:col-span-2">
+                      <label className={labelBase}>Document Label</label>
+                      <input maxLength={60} value={item.label || ''} onChange={e => handleArrayChange('documents', i, 'label', e.target.value)} className={inputBase} />
+                    </div>
+                    <div className="group relative rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 h-32 flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden shadow-inner">
+                      <input type="file" accept="application/pdf" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => handleArrayChange('documents', i, 'pdfFile', e.target.files?.[0] || null)} />
+                      <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                        <FileText className={`w-5 h-5 ${item.pdfFile ? 'text-blue-500' : 'text-slate-300 group-hover:text-blue-400'}`}/>
+                      </div>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{item.pdfFile ? 'PDF Selected' : 'Upload PDF'}</span>
+                    </div>
+                    <div>
+                      <label className={labelBase}>External URL (Optional)</label>
+                      <input value={item.url || ''} onChange={e => handleArrayChange('documents', i, 'url', e.target.value)} placeholder="https://..." className={inputBase} />
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
+            <button type="button" onClick={() => setForm({...form, documents: [...form.documents, {label: '', url: '', pdfFile: null}]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+               <Plus className="w-4 h-4" /> Add Document
+            </button>
+          </div>
+        </AdminFormSection>
+      </form>
     </div>
   );
 };
 
 export default MMSHomepageForm;
-
-const FilePreview = ({ file, type, onRemove }: { file: any, type: 'image' | 'video' | 'pdf', onRemove?: () => void }) => {
-  if (!file) return null;
-  const url = typeof file === 'string' ? resolveApiUrl(file) : (file.url ? resolveApiUrl(file.url) : URL.createObjectURL(file as File));
-  return (
-    <div className="mt-2 rounded border border-slate-200 p-2 bg-slate-50 flex items-center justify-between">
-      <div className="flex items-center">
-        {type === 'image' ? (
-          <img src={url} alt="preview" className="h-12 w-auto rounded object-cover" />
-        ) : type === 'video' ? (
-          <video src={url} className="h-12 w-auto rounded object-cover" muted />
-        ) : (
-          <div className="h-12 w-12 flex items-center justify-center bg-brand-blue/10 text-brand-blue rounded">
-            <span className="text-xs font-bold">PDF</span>
-          </div>
-        )}
-        <div className="text-xs text-slate-500 max-w-xs truncate ml-2">
-          {typeof file === 'string' ? file.split('/').pop() : ((file as any).name || 'Current ' + type)}
-        </div>
-      </div>
-      {onRemove && (
-        <button type="button" onClick={onRemove} className="ml-4 p-1.5 text-red-500 hover:bg-red-100 rounded-lg transition-colors">
-          <Trash2 className="w-4 h-4" />
-        </button>
-      )}
-    </div>
-  );
-};

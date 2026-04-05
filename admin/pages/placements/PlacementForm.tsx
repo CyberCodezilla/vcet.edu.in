@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { placementsApi } from '../../api/placements';
 import type { PlacementPayload } from '../../types';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const currentYear = new Date().getFullYear();
 const YEARS = Array.from({ length: 10 }, (_, i) => currentYear - i);
@@ -88,6 +89,16 @@ const PlacementForm: React.FC = () => {
     <div className="min-h-[80vh] flex flex-col items-center justify-center py-12 px-4">
       <div className="w-full max-w-2xl">
         {/* Breadcrumbs */}
+<<<<<<< HEAD
+        <PageEditorHeader
+          title={isEdit ? 'Edit Placement' : 'New Placement'}
+          description="Update campus placement statistics and company info."
+          onSave={handleSubmit as unknown as () => void}
+          isSaving={saving}
+          showBackButton
+          onBack={() => navigate('/admin/placements')}
+        />
+=======
         <div className="flex items-center justify-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">
           <Link to="/admin" className="hover:text-[#1e293b] transition-colors">Dashboard</Link>
           <span>/</span>
@@ -103,13 +114,16 @@ const PlacementForm: React.FC = () => {
             </h1>
             <p className="text-slate-400 text-sm">Update campus placement statistics and company info.</p>
           </div>
+>>>>>>> a10712dd9bfe52065269a0c041e8a0d058872467
 
+        <div className="bg-white border border-slate-200/60 rounded-4xl shadow-2xl shadow-slate-200/50 p-10 md:p-14">
           {error && (
             <div className="mb-8 bg-red-50 border border-red-100 rounded-2xl px-6 py-4 flex items-center gap-3 text-red-600 animate-shake">
               <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               <p className="text-xs font-bold uppercase tracking-wide">{error}</p>
             </div>
           )}
+
 
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -196,22 +210,7 @@ const PlacementForm: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-4 pt-4">
-              <button
-                type="submit"
-                disabled={saving}
-                className="flex-1 bg-[#1e293b] hover:bg-slate-800 disabled:opacity-50 text-white font-black px-8 py-5 rounded-2xl text-[10px] uppercase tracking-[0.2em] transition-all shadow-xl shadow-slate-200 hover:-translate-y-1"
-              >
-                {saving ? 'Processing...' : isEdit ? 'Save Changes' : 'Create Record'}
-              </button>
-              <button
-                type="button"
-                onClick={() => navigate('/admin/placements')}
-                className="px-8 py-5 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-slate-900 hover:bg-slate-50 transition-all"
-              >
-                Cancel
-              </button>
-            </div>
+
           </form>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { noticesApi } from '../../api/notices';
 import type { NoticePayload } from '../../types';
 import PdfPreviewModal from '../../components/PdfPreviewModal';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const NOTICE_TYPES: Array<{ label: string; value: NonNullable<NoticePayload['type']> }> = [
   { label: 'General', value: 'general' },
@@ -241,18 +242,14 @@ const NoticeForm: React.FC = () => {
   return (
     <div className="max-w-3xl mx-auto space-y-8 pb-12">
 
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="flex items-center gap-2 text-[11px] font-bold text-slate-400 mb-1 uppercase tracking-widest">
-            <Link to="/admin" className="hover:text-slate-600 transition-colors">Dashboard</Link>
-            <span className="text-slate-300 font-normal">/</span>
-            <Link to="/admin/notices" className="hover:text-slate-600 transition-colors">Notices</Link>
-            <span className="text-slate-300 font-normal">/</span>
-            <span className="text-slate-600">{isEdit ? 'Edit' : 'New'}</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-[#111827]">{isEdit ? 'Edit Notice' : 'Upload New Notice'}</h1>
-        </div>
-      </div>
+      <PageEditorHeader
+        title={isEdit ? 'Edit Notice' : 'Upload New Notice'}
+        description="Publish important announcements, schedules, and PDF documents for students."
+        onSave={handleSubmit as unknown as () => void}
+        isSaving={loading}
+        showBackButton
+        onBack={() => navigate('/admin/notices')}
+      />
 
       {error && (
         <div className="bg-red-50 border border-red-100 rounded-2xl px-5 py-4 text-sm text-red-600 font-medium flex items-center gap-3">
@@ -268,7 +265,7 @@ const NoticeForm: React.FC = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-white border border-slate-200/60 shadow-xl shadow-slate-200/40 rounded-[2rem] p-8 lg:p-10 space-y-7">
+      <form onSubmit={handleSubmit} className="bg-white border border-slate-200/60 shadow-xl shadow-slate-200/40 rounded-4xl p-8 lg:p-10 space-y-7">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Title */}
           <div className="md:col-span-2">
@@ -362,7 +359,7 @@ const NoticeForm: React.FC = () => {
               <>
                 <div className="mt-6 w-full flex items-center justify-between bg-white border border-blue-100 rounded-xl p-4 shadow-sm">
                   <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="w-10 h-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center shrink-0">
                       <span className="text-xs font-black tracking-tight">PDF</span>
                     </div>
                     <div className="text-left truncate">
@@ -390,7 +387,7 @@ const NoticeForm: React.FC = () => {
                   <iframe
                     src={pdfPreviewToUse}
                     title="Notice PDF preview"
-                    className="w-full h-[28rem] bg-white"
+                    className="w-full h-112 bg-white"
                   />
                 </div>
               </>
@@ -398,27 +395,7 @@ const NoticeForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Submit Actions */}
-        <div className="flex items-center justify-end gap-3 pt-6 border-t border-slate-100">
-          <button
-            type="button"
-            onClick={() => navigate('/admin/notices')}
-            className="px-6 py-3 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-[#2563EB] hover:bg-blue-700 disabled:opacity-50 text-white font-bold px-8 py-3 rounded-xl transition-all shadow-lg shadow-blue-200 flex items-center gap-2"
-          >
-            {loading ? (
-              <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-            ) : (
-              <span>{isEdit ? 'Save Changes' : 'Upload Notice'}</span>
-            )}
-          </button>
-        </div>
+
       </form>
 
       <style>{`

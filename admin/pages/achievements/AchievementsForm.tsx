@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { achievementsApi } from '../../api/achievements';
 import type { AchievementPayload } from '../../types';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const AchievementsForm: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -88,34 +89,23 @@ const AchievementsForm: React.FC = () => {
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 pb-12">
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="flex items-center gap-2 text-[11px] font-bold text-slate-400 mb-1 uppercase tracking-widest">
-            <Link to="/admin" className="hover:text-slate-600 transition-colors">Dashboard</Link>
-            <span className="text-slate-300 font-normal">/</span>
-            <Link to="/admin/achievements" className="hover:text-slate-600 transition-colors">Achievements</Link>
-            <span className="text-slate-300 font-normal">/</span>
-            <span className="text-slate-600">{isEdit ? 'Edit' : 'New'}</span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-[#111827]">{isEdit ? 'Edit Achievement' : 'Add Achievement'}</h1>
-        </div>
-        <button
-          type="button"
-          onClick={() => navigate('/admin/achievements')}
-          className="bg-white border border-slate-200 text-slate-500 hover:text-red-500 hover:border-red-200 transition-all p-3 rounded-2xl shadow-sm hover:shadow-md hidden sm:block"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
-        </button>
-      </div>
+      <PageEditorHeader
+        title={isEdit ? 'Edit Achievement' : 'Add Achievement'}
+        description="Showcase student and faculty achievements, awards, and recognitions on the website."
+        onSave={handleSubmit as unknown as () => void}
+        isSaving={saving}
+        showBackButton
+        onBack={() => navigate('/admin/achievements')}
+      />
 
       {error && (
         <div className="bg-red-50 border border-red-100 rounded-3xl px-6 py-4 text-sm text-red-600 flex items-center gap-3">
-          <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg>
+          <svg className="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg>
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 border border-slate-100 overflow-hidden flex flex-col transition-all">
+      <form onSubmit={handleSubmit} className="bg-white rounded-4xl shadow-2xl shadow-slate-200/60 border border-slate-100 overflow-hidden flex flex-col transition-all">
         <div className="p-8 sm:p-10 space-y-8">
           {/* Main Info */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -203,28 +193,7 @@ const AchievementsForm: React.FC = () => {
           </div>
         </div>
 
-        {/* Footer Actions */}
-        <div className="bg-slate-50 px-8 py-6 sm:px-10 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-100">
-           <button
-             type="button"
-             onClick={() => navigate('/admin/achievements')}
-             className="w-full sm:w-auto px-8 py-4 rounded-2xl text-xs font-black text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all uppercase tracking-widest"
-           >
-             Discard Changes
-           </button>
-           <button
-             type="submit"
-             disabled={saving}
-             className="w-full sm:w-auto bg-[#1e293b] hover:bg-[#0f172a] disabled:opacity-50 text-white font-black px-10 py-4 rounded-2xl text-xs transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 uppercase tracking-[0.15em] flex items-center justify-center gap-2"
-           >
-             {saving ? (
-               <>
-                 <div className="w-3 h-3 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                 <span>Saving...</span>
-               </>
-             ) : isEdit ? 'Update Achievement' : 'Publish Achievement'}
-           </button>
-        </div>
+
       </form>
     </div>
   );

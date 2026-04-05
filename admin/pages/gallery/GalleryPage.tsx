@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { galleryApi } from '../../api/gallery';
 import type { GalleryImage } from '../../types';
+import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 
 const GalleryPage: React.FC = () => {
   const [images, setImages] = useState<GalleryImage[]>([]);
@@ -49,13 +50,18 @@ const GalleryPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-800">Gallery</h1>
-        <p className="text-slate-400 text-sm mt-1">{images.length} image{images.length !== 1 ? 's' : ''} — upload new photos below.</p>
-      </div>
+      <PageEditorHeader
+        title="Campus Gallery"
+        description="Manage the photo gallery with campus events, infrastructure, and student life."
+        onSave={() => (document.querySelector('form button[type="submit"]') as HTMLButtonElement)?.click()}
+        isSaving={uploading}
+        saveLabel="Upload Image"
+        showBackButton
+        onBack={() => window.history.back()}
+      />
 
       {/* Upload form */}
-      <div className="bg-white border border-slate-100 shadow-sm rounded-2xl p-6">
+      <div className="bg-white border border-slate-100 shadow-sm rounded-4xl p-6">
         <h2 className="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-5">Upload Image</h2>
         {error && <div className="bg-red-50 border border-red-100 rounded-xl px-4 py-3 text-sm text-red-600 mb-5">{error}</div>}
         <style>{`.ai{background:#f8fafc;border:1px solid #e2e8f0;border-radius:.75rem;padding:.625rem .875rem;width:100%;color:#1e293b;font-size:.875rem;outline:none;transition:all .2s}.ai:focus{border-color:#94a3b8;background:#ffffff;box-shadow:0 0 0 4px rgba(241,245,249,.8)}.ai::placeholder{color:#94a3b8}`}</style>
@@ -68,7 +74,7 @@ const GalleryPage: React.FC = () => {
              <label className="block text-xs text-slate-500 uppercase tracking-wider mb-2 font-medium">Caption (optional)</label>
             <input id="gallerypage-2" name="gallerypage-2" aria-label="gallerypage field" value={caption} onChange={(e) => setCaption(e.target.value)} className="ai" placeholder="Describe the photo" />
           </div>
-          <button type="submit" disabled={uploading || !file} className="bg-[#1e293b] hover:bg-[#334155] disabled:opacity-50 text-white font-medium px-6 py-2.5 rounded-xl text-sm transition-colors shadow-sm shrink-0 mb-1 lg:mb-0">
+          <button type="submit" disabled={uploading || !file} className="bg-[#1e293b] hover:bg-[#334155] disabled:opacity-50 text-white font-medium px-6 py-2.5 rounded-xl text-sm transition-colors shadow-sm shrink-0 mb-1 lg:mb-0 hidden">
             {uploading ? 'Uploading…' : 'Upload Image'}
           </button>
         </form>
@@ -78,7 +84,7 @@ const GalleryPage: React.FC = () => {
       {loading ? (
         <div className="flex items-center justify-center py-16"><div className="w-6 h-6 border-2 border-slate-200 border-t-[#1e293b] rounded-full animate-spin" /></div>
       ) : images.length === 0 ? (
-        <div className="text-center py-16 text-slate-400 text-sm bg-white border border-slate-100 shadow-sm rounded-2xl">No images yet. Upload one above.</div>
+        <div className="text-center py-16 text-slate-400 text-sm bg-white border border-slate-100 shadow-sm rounded-4xl">No images yet. Upload one above.</div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {images.map((img) => (
