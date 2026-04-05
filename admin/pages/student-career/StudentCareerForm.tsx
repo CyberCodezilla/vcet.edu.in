@@ -1392,10 +1392,10 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                             </div>
                          </div>
                       </div>
-                   </AdminFormSection>
-                </div>
-             )}
-          </div>
+                    </AdminFormSection>
+                 </div>
+              )}
+           </div>
         );
 
 
