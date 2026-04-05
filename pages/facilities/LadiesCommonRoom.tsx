@@ -30,18 +30,22 @@ const focusAreas = [
   'Supportive atmosphere for well-being',
 ];
 
-const readingKnowledgeText =
-  'Girl students can spend productive time in the common room reading books, newspapers, and other informative materials. The space encourages both relaxation and knowledge sharing among students.';
-
 const recreationPanels = [
   {
     title: 'Reading and Knowledge Sharing',
-    description: readingKnowledgeText,
+    description: 'Students can read books, newspapers, and informative material.',
   },
   {
     title: 'Indoor Activities',
-    description:
-      'Students can also play indoor games such as table tennis and carrom, which help promote recreation and social interaction.',
+    description: 'Students can play indoor games such as table tennis and carrom.',
+  },
+  {
+    title: 'Cleanliness and Maintenance',
+    description: 'The room is maintained clean and hygienic under proper supervision.',
+  },
+  {
+    title: 'Health and Support Facilities',
+    description: 'Basic medical aid and emergency support are available.',
   },
 ];
 
@@ -69,22 +73,11 @@ const LadiesCommonRoom: React.FC = () => {
     };
   }, [apiData]);
 
-  const activityPanels = useMemo(() => {
-    const rows = Array.isArray(apiData?.activities)
-      ? apiData.activities
-          .map((item: any) => ({
-            title: String(item?.name ?? '').trim(),
-            description: String(item?.description ?? '').trim(),
-            imageUrl: resolveUploadedAssetUrl(item?.imageUrl ?? null),
-          }))
-          .filter((item: any) => item.title.length > 0 && item.description.length > 0)
-      : [];
-    return rows.length > 0 ? rows : recreationPanels;
-  }, [apiData]);
+  const activityPanels = recreationPanels;
 
   const comfortItems = useMemo(() => {
-    const rows = Array.isArray(apiData?.activities)
-      ? apiData.activities
+    const rows = Array.isArray(apiData?.additionalAmenities)
+      ? apiData.additionalAmenities
           .map((item: any) => ({
             title: String(item?.name ?? '').trim(),
             description: String(item?.description ?? '').trim(),

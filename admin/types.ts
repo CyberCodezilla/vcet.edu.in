@@ -852,6 +852,7 @@ export interface FacilityData {
   mentors?: { title: string; description: string }[];
   items?: { name: string; description: string; icon?: string; imageUrl?: string | File | null }[];
   activities?: { name: string; description: string; imageUrl?: string | File | null }[];
+  additionalAmenities?: { name: string; description: string; imageUrl?: string | File | null }[];
   librarySections?: { heading: string; paragraph: string }[];
   eResources?: { title: string; desc?: string; value?: string }[];
   delnetFacilities?: { label: string; value?: string }[];

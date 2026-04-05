@@ -457,21 +457,21 @@ const FacilitiesForm: React.FC<FacilitiesFormProps> = ({ slug, onBack }) => {
                   onChange={v=>updateGeneral('imageUrl', v)}
                 />
              </AdminFormSection>
-             <AdminFormSection title="Indoor Activities" icon="🎯" isOpen={activeAccordionSection === 'activities'} onToggle={() => setActiveAccordionSection(activeAccordionSection === 'activities' ? null : 'activities')}>
-                <DynamicListManager items={payload.activities} maxItems={6} onChange={v=>updateProp('activities', v)} fields={[
-                  { key: 'name', label: 'Activity Name', max: 30 },
-                  { key: 'description', label: 'Rules / Detail', max: 100 }
+             <AdminFormSection title="Additional Amenities" icon="🛋️" isOpen={activeAccordionSection === 'additionalAmenities'} onToggle={() => setActiveAccordionSection(activeAccordionSection === 'additionalAmenities' ? null : 'additionalAmenities')}>
+                <DynamicListManager items={payload.additionalAmenities || []} maxItems={6} onChange={v=>updateProp('additionalAmenities', v)} fields={[
+                  { key: 'name', label: 'Amenity Name', max: 40 },
+                  { key: 'description', label: 'Amenity Description', max: 150 }
                 ]} />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {(payload.activities || []).map((item: any, idx: number) => (
+                  {(payload.additionalAmenities || []).map((item: any, idx: number) => (
                     <ImageUploadInput
-                      key={`activity-image-${idx}`}
-                      label={`Activity ${idx + 1} Image`}
+                      key={`amenity-image-${idx}`}
+                      label={`Amenity ${idx + 1} Image`}
                       value={item?.imageUrl ?? null}
                       onChange={(next) => {
-                        const rows = [...(payload.activities || [])];
+                        const rows = [...(payload.additionalAmenities || [])];
                         rows[idx] = { ...rows[idx], imageUrl: next };
-                        updateProp('activities', rows);
+                        updateProp('additionalAmenities', rows);
                       }}
                     />
                   ))}

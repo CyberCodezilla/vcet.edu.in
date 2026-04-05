@@ -1059,7 +1059,7 @@ let MOCK_FACILITIES: any[] = [
   { id: '2', slug: 'counselling-cell', name: 'Counselling Cell', description: 'Student counselling and mentoring records.', general: { title: '', description: '' }, staff: [], mentors: [] },
   { id: '3', slug: 'differently-abled', name: 'Differently Abled Facilities', description: 'Facilities for differently abled individuals.', items: [] },
   { id: '4', slug: 'health-facilities', name: 'Health Facilities', description: 'Campus health and medical facilities.', items: [] },
-  { id: '5', slug: 'ladies-common-room', name: 'Ladies Common Room', description: 'Rest and recreation for female students.', general: { title: '', description: '' }, activities: [] },
+  { id: '5', slug: 'ladies-common-room', name: 'Ladies Common Room', description: 'Rest and recreation for female students.', general: { title: '', description: '' }, activities: [], additionalAmenities: [] },
   { id: '6', slug: 'library', name: 'VCET Library', description: 'Library rules, memberships, and statistics.', librarySections: [], facilitiesList: [], rules: [], memberships: [], tabs: [], contact: { phone: '', email: '', address: '' }, stats: [], staff: [], gallery: [] },
   { id: '7', slug: 'sports-gymkhana', name: 'Sports & Gymkhana', description: 'Sports facilities, records, and rules.', sports: [], achievements: [], results: [], rules: [], gallery: [], tabs: [] },
 ];
