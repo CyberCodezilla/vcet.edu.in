@@ -32,28 +32,14 @@ const CounselingCell: React.FC = () => {
       .finally(() => {
         if (mounted) setApiLoaded(true);
       });
-    return () => {
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="Counselling Cell"
-          breadcrumbs={[
-            { label: 'Counselling Cell' },
-          ]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const general = useMemo(() => {
+    const general = useMemo(() => {
     const source = apiData?.general ?? {};
     return {
       title: String(source?.title ?? '').trim() || 'About Counselling Cell',
@@ -94,7 +80,23 @@ const CounselingCell: React.FC = () => {
     return rows.length > 0 ? rows : mentorRecordItems;
   }, [apiData]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Counselling Cell"
+  breadcrumbs={[
+  { label: 'Counselling Cell' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Counselling Cell"

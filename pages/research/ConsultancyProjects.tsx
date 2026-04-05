@@ -132,29 +132,14 @@ const ConsultancyProjects: React.FC = () => {
       .finally(() => {
         if (mounted) setApiLoaded(true);
       });
-    return () => {
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="Consultancy Projects"
-          breadcrumbs={[
-            { label: 'Research', href: '/research' },
-            { label: 'Consultancy Projects' },
-          ]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const revenueData = useMemo(() => {
+    const revenueData = useMemo(() => {
     const rows = Array.isArray(apiData?.consultancyRevenue)
       ? apiData.consultancyRevenue
           .map((row: any) => ({
@@ -196,7 +181,24 @@ const ConsultancyProjects: React.FC = () => {
   function bX(i: number) { return PAD_L + i * SLOT_W + (SLOT_W - BAR_W) / 2; }
   function bY(v: number) { return PAD_T + PLOT_H - bHeight(v); }
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Consultancy Projects"
+  breadcrumbs={[
+  { label: 'Research', href: '/research' },
+  { label: 'Consultancy Projects' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Consultancy Projects"

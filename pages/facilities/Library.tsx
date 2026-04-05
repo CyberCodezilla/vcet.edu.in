@@ -87,6 +87,7 @@ const CountUp: React.FC<{ end: string; suffix?: string }> = ({ end, suffix = "" 
         setVal(Math.floor(start));
       }
     }, 1000 / 60);
+
     return () => clearInterval(timer);
   }, [target]);
 
@@ -118,23 +119,7 @@ const Library: React.FC = () => {
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="Library"
-          breadcrumbs={[
-            { label: 'Library' },
-          ]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const librarySections = Array.isArray(apiData?.librarySections)
+    const librarySections = Array.isArray(apiData?.librarySections)
     ? apiData.librarySections
         .map((item: any) => ({
           heading: String(item?.heading ?? '').trim(),
@@ -300,6 +285,22 @@ const Library: React.FC = () => {
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   }, [activeTab]);
+
+  if (!apiLoaded) {
+    return (
+      <PageLayout>
+        <PageBanner
+          title="Library"
+          breadcrumbs={[
+            { label: 'Library' },
+          ]}
+        />
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+        </section>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout>

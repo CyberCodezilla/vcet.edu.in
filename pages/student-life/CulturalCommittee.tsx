@@ -124,18 +124,7 @@ const CulturalCommittee: React.FC = () => {
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner title="Cultural Committee" breadcrumbs={[{ label: 'Cultural Committee' }]} />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const apiEvents = Array.isArray(apiData?.events)
+    const apiEvents = Array.isArray(apiData?.events)
     ? apiData.events
       .map((event: Record<string, unknown>) => ({
         title: String(event.title ?? ''),
@@ -182,7 +171,18 @@ const CulturalCommittee: React.FC = () => {
   const instagramUrl = String(apiData?.hInsta || 'https://www.instagram.com/vcetstudentscouncil?igsh=MTVjamlqaWNrbnIzbg==');
   const videoUrl = String(resolveApiUrl(apiData?.hVid) || apiData?.hVid || 'https://youtu.be/-O0TexTnwJ8?si=3oPGI5pT0jiduJ6P');
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner title="Cultural Committee" breadcrumbs={[{ label: 'Cultural Committee' }]} />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner title="Cultural Committee" breadcrumbs={[{ label: 'Cultural Committee' }]} />
 

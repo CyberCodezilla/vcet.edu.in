@@ -146,28 +146,14 @@ const CentralComputing: React.FC = () => {
       .finally(() => {
         if (mounted) setApiLoaded(true);
       });
-    return () => {
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="Central Computing Facility"
-          breadcrumbs={[
-            { label: 'Central Computing Facility' },
-          ]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const displayStats = useMemo(() => {
+    const displayStats = useMemo(() => {
     const rows = Array.isArray(apiData?.stats)
       ? apiData.stats
           .map((item: any, index: number) => ({
@@ -211,7 +197,23 @@ const CentralComputing: React.FC = () => {
     return rows.length > 0 ? rows : labs;
   }, [apiData]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Central Computing Facility"
+  breadcrumbs={[
+  { label: 'Central Computing Facility' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Central Computing Facility"

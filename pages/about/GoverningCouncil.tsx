@@ -29,12 +29,9 @@ export default function GoverningCouncil() {
       .finally(() => {
         if (mounted) setApiLoaded(true);
       });
-    return () => {
-      mounted = false;
-    };
-  }, []);
+    
 
-  if (!apiLoaded) {
+if (!apiLoaded) {
     return (
       <PageLayout>
         <PageBanner title="The Governing Council" breadcrumbs={[{ label: 'Governing Council' }]} />
@@ -45,7 +42,12 @@ export default function GoverningCouncil() {
     );
   }
 
-  const chairman = data?.chairman ?? {
+return () => {
+      mounted = false;
+    };
+  }, []);
+
+    const chairman = data?.chairman ?? {
     role: 'Chairman',
     name: 'Sri. Vikas Vartak',
     description: 'Chairman Vidyavardhini',

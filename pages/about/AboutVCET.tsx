@@ -27,28 +27,14 @@ const AboutVCET: React.FC = () => {
         if (mounted) setApiLoaded(true);
       });
 
-    return () => {
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="About VCET"
-          breadcrumbs={[
-            { label: 'About VCET' },
-          ]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const quickFacts = useMemo(() => {
+    const quickFacts = useMemo(() => {
     const facts = (data?.facts ?? [])
       .filter((fact) => fact.isActive !== false)
       .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
@@ -114,7 +100,23 @@ const AboutVCET: React.FC = () => {
     { icon: Users, value: '200+', label: 'Faculty' },
   ];
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="About VCET"
+  breadcrumbs={[
+  { label: 'About VCET' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="About VCET"

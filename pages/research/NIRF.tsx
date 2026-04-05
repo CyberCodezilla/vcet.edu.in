@@ -84,6 +84,20 @@ const NIRF: React.FC = () => {
     };
   }, []);
 
+    const reportPdfs = useMemo(() => {
+    const cards = Array.isArray(apiData?.nirfCards)
+      ? apiData.nirfCards
+          .map((card: any) => ({
+            title: String(card?.title ?? '').trim(),
+            year: String(card?.year ?? '').trim(),
+            href: resolveUploadedAssetUrl(card?.fileUrl ?? card?.url ?? null) || '',
+            note: String(card?.note ?? '').trim(),
+          }))
+          .filter((card: PdfItem) => card.title.length > 0 && card.href.length > 0)
+      : [];
+    return cards.length > 0 ? cards : defaultReportPdfs;
+  }, [apiData]);
+
   if (!apiLoaded) {
     return (
       <PageLayout>
@@ -100,20 +114,6 @@ const NIRF: React.FC = () => {
       </PageLayout>
     );
   }
-
-  const reportPdfs = useMemo(() => {
-    const cards = Array.isArray(apiData?.nirfCards)
-      ? apiData.nirfCards
-          .map((card: any) => ({
-            title: String(card?.title ?? '').trim(),
-            year: String(card?.year ?? '').trim(),
-            href: resolveUploadedAssetUrl(card?.fileUrl ?? card?.url ?? null) || '',
-            note: String(card?.note ?? '').trim(),
-          }))
-          .filter((card: PdfItem) => card.title.length > 0 && card.href.length > 0)
-      : [];
-    return cards.length > 0 ? cards : defaultReportPdfs;
-  }, [apiData]);
 
   return (
     <PageLayout>

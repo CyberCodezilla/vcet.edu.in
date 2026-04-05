@@ -59,29 +59,14 @@ const ResearchDownloads: React.FC = () => {
       .finally(() => {
         if (mounted) setApiLoaded(true);
       });
-    return () => {
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="Research Downloads"
-          breadcrumbs={[
-            { label: 'Research', href: '/research' },
-            { label: 'Downloads' },
-          ]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const docButtons = useMemo(() => {
+    const docButtons = useMemo(() => {
     const rows = Array.isArray(apiData?.topButtons)
       ? apiData.topButtons
           .map((item: any) => ({
@@ -117,7 +102,24 @@ const ResearchDownloads: React.FC = () => {
     return rows.length > 0 ? rows : defaultRightLinks;
   }, [apiData]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Research Downloads"
+  breadcrumbs={[
+  { label: 'Research', href: '/research' },
+  { label: 'Downloads' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Research Downloads"

@@ -37,28 +37,14 @@ const DifferentlyAbled: React.FC = () => {
       .finally(() => {
         if (mounted) setApiLoaded(true);
       });
-    return () => {
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="Differently-Abled Facilities"
-          breadcrumbs={[
-            { label: 'Differently-Abled Facilities' },
-          ]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const displayRows = useMemo(() => {
+    const displayRows = useMemo(() => {
     const items = Array.isArray(apiData?.items)
       ? apiData.items
           .map((item: any) => ({
@@ -81,7 +67,23 @@ const DifferentlyAbled: React.FC = () => {
     };
   }, [apiData]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Differently-Abled Facilities"
+  breadcrumbs={[
+  { label: 'Differently-Abled Facilities' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Differently-Abled Facilities"

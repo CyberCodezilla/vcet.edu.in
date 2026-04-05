@@ -46,23 +46,14 @@ const CollegeDevelopmentCommittee: React.FC = () => {
         if (mounted) setApiLoaded(true);
       });
 
-    return () => {
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner title="College Development Committee" breadcrumbs={[{ label: 'College Development Committee' }]} />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const responsibilities = useMemo(() => {
+    const responsibilities = useMemo(() => {
     const source = Array.isArray(apiData?.responsibilities) ? apiData.responsibilities : [];
     const mapped = source.map((item: unknown) => String(item ?? '').trim()).filter(Boolean);
     return mapped.length > 0 ? mapped : fallbackResponsibilities;
@@ -87,7 +78,18 @@ const CollegeDevelopmentCommittee: React.FC = () => {
     return [...topMembers, ...remainingMembers];
   }, [members]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner title="College Development Committee" breadcrumbs={[{ label: 'College Development Committee' }]} />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner title="College Development Committee" breadcrumbs={[{ label: 'College Development Committee' }]} />
 

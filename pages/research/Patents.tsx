@@ -170,29 +170,14 @@ const ResearchPatents: React.FC = () => {
       .finally(() => {
         if (mounted) setApiLoaded(true);
       });
-    return () => {
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="Patents"
-          breadcrumbs={[
-            { label: 'Research', href: '/research' },
-            { label: 'Patents' },
-          ]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const patents = useMemo<PatentRow[]>(() => {
+    const patents = useMemo<PatentRow[]>(() => {
     const rows = Array.isArray(apiData?.patents)
       ? apiData.patents
           .map((row: any, index: number) => ({
@@ -223,7 +208,24 @@ const ResearchPatents: React.FC = () => {
     ? patents
     : patents.filter((p: PatentRow) => String(p.year) === activeYear);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Patents"
+  breadcrumbs={[
+  { label: 'Research', href: '/research' },
+  { label: 'Patents' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Patents"

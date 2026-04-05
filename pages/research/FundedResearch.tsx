@@ -41,24 +41,7 @@ const FundedResearch: React.FC = () => {
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="Funded Research"
-          breadcrumbs={[
-            { label: 'Research', href: '/research' },
-            { label: 'Funded Research' },
-          ]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const fundingByYear = useMemo<FundingRow[]>(() => {
+    const fundingByYear = useMemo<FundingRow[]>(() => {
     const rows = Array.isArray(apiData?.funding)
       ? apiData.funding
           .map((row: any) => ({
@@ -79,7 +62,24 @@ const FundedResearch: React.FC = () => {
   const totalFunding = fundingByYear.reduce((s: number, d: FundingRow) => s + d.amount, 0);
   const peakYear = fundingByYear.reduce((a: FundingRow, b: FundingRow) => (b.amount > a.amount ? b : a), fundingByYear[0]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Funded Research"
+  breadcrumbs={[
+  { label: 'Research', href: '/research' },
+  { label: 'Funded Research' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Funded Research"

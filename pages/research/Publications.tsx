@@ -41,29 +41,14 @@ const Publications: React.FC = () => {
       .finally(() => {
         if (mounted) setApiLoaded(true);
       });
-    return () => {
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="Publications (Journals, Conference, Books)"
-          breadcrumbs={[
-            { label: 'Research', href: '/research' },
-            { label: 'Publications' },
-          ]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const booksPublished = useMemo(() => {
+    const booksPublished = useMemo(() => {
     const rows = Array.isArray(apiData?.books)
       ? apiData.books
           .map((row: any) => ({
@@ -105,7 +90,24 @@ const Publications: React.FC = () => {
   const totalJournal = papersPublished.reduce((s, d) => s + d.journal, 0);
   const totalConference = papersPublished.reduce((s, d) => s + d.conference, 0);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Publications (Journals, Conference, Books)"
+  breadcrumbs={[
+  { label: 'Research', href: '/research' },
+  { label: 'Publications' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Publications (Journals, Conference, Books)"

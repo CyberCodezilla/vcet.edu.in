@@ -485,25 +485,7 @@ const EmechtoPage: React.FC = () => {
         };
     }, []);
 
-    if (!apiLoaded) {
-        return (
-            <PageLayout>
-                <PageBanner
-                    title="EMECHTO"
-                    subtitle="The Official E-bike team of Vidyavardhini's College of Engineering & Technology."
-                    breadcrumbs={[
-                        { label: 'Students Club', href: '/students-club' },
-                        { label: 'EMECHTO' }
-                    ]}
-                />
-                <section className="py-16 bg-white">
-                    <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-                </section>
-            </PageLayout>
-        );
-    }
-
-    const apiCompetitionItems = Array.isArray(apiData?.results)
+        const apiCompetitionItems = Array.isArray(apiData?.results)
         ? apiData.results
             .map((item: Record<string, unknown>) => ({
                 title: String(item.title ?? ''),
@@ -523,7 +505,25 @@ const EmechtoPage: React.FC = () => {
         }
     };
 
-    return (
+          if (!apiLoaded) {
+  return (
+  <PageLayout>
+  <PageBanner
+  title="EMECHTO"
+  subtitle="The Official E-bike team of Vidyavardhini's College of Engineering & Technology."
+  breadcrumbs={[
+  { label: 'Students Club', href: '/students-club' },
+  { label: 'EMECHTO' }
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
         <PageLayout>
             <PageBanner
                 title="EMECHTO"

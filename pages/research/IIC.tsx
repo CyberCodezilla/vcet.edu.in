@@ -170,24 +170,7 @@ const ResearchIIC: React.FC = () => {
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="Institution's Innovation Council (IIC)"
-          breadcrumbs={[
-            { label: 'Research', href: '/research' },
-            { label: 'IIC' },
-          ]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  useEffect(() => {
+    useEffect(() => {
     const sectionIds = sectionTabs.map((tab) => tab.id);
 
     const updateActiveSection = () => {
@@ -274,6 +257,23 @@ const ResearchIIC: React.FC = () => {
   const expertRows = (Array.isArray(committeeGroups?.expert) && committeeGroups.expert.length > 0) ? committeeGroups.expert : defaultExpertRows;
   const supportStaffRows = (Array.isArray(committeeGroups?.support) && committeeGroups.support.length > 0) ? committeeGroups.support : defaultSupportStaffRows;
   const studentRepresentationRows = (Array.isArray(committeeGroups?.student) && committeeGroups.student.length > 0) ? committeeGroups.student : defaultStudentRepresentationRows;
+
+  if (!apiLoaded) {
+    return (
+      <PageLayout>
+        <PageBanner
+          title="Institution's Innovation Council (IIC)"
+          breadcrumbs={[
+            { label: 'Research', href: '/research' },
+            { label: 'IIC' },
+          ]}
+        />
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+        </section>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout>

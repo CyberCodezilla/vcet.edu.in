@@ -79,22 +79,7 @@ const EBSB: React.FC = () => {
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="EBSB"
-          subtitle="Ek Bharat Shreshtha Bharat"
-          breadcrumbs={[{ label: 'EBSB' }]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const apiEvents = Array.isArray(apiData?.events)
+    const apiEvents = Array.isArray(apiData?.events)
     ? apiData.events
       .map((event: Record<string, unknown>) => ({
         title: String(event.title ?? ''),
@@ -147,7 +132,22 @@ const EBSB: React.FC = () => {
   const cDept = String(apiData?.cDept ?? 'Department of Information Technology');
   const cMail = String(apiData?.cMail ?? 'archana.ekbote@vcet.edu.in');
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="EBSB"
+  subtitle="Ek Bharat Shreshtha Bharat"
+  breadcrumbs={[{ label: 'EBSB' }]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="EBSB"

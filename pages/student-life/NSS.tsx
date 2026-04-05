@@ -159,21 +159,7 @@ const NSS: React.FC = () => {
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="NSS"
-          breadcrumbs={[{ label: 'NSS' }]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const apiEvents = Array.isArray(apiData?.events)
+    const apiEvents = Array.isArray(apiData?.events)
     ? apiData.events
       .map((event: Record<string, unknown>) => ({
         title: String(event.title ?? ''),
@@ -226,7 +212,21 @@ const NSS: React.FC = () => {
   const instaUrl = String(apiData?.instaUrl || 'https://www.instagram.com/nss_vcet?igsh=MWx3YzIyZTBuenZxcw==');
   const instaLabel = String(apiData?.instaLab || 'CONTACT Us Instagram Click here:');
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="NSS"
+  breadcrumbs={[{ label: 'NSS' }]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="NSS"

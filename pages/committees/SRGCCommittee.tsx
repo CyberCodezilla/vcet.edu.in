@@ -36,23 +36,14 @@ const SRGCCommittee: React.FC = () => {
       .finally(() => {
         if (mounted) setApiLoaded(true);
       });
-    return () => {
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner title="Student Grievance Redressal Committee (SGRC)" breadcrumbs={[{ label: 'Student Grievance Redressal Committee (SDRC)' }]} />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const guidelines = useMemo(() => {
+    const guidelines = useMemo(() => {
     const source = Array.isArray(apiData?.guidelines) ? apiData.guidelines : [];
     const mapped = source.map((item: unknown) => String(item ?? '').trim()).filter(Boolean);
     return mapped.length > 0 ? mapped : fallbackGuidelines;
@@ -69,7 +60,18 @@ const SRGCCommittee: React.FC = () => {
     return mapped.length > 0 ? mapped : fallbackMembers;
   }, [apiData]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner title="Student Grievance Redressal Committee (SGRC)" breadcrumbs={[{ label: 'Student Grievance Redressal Committee (SDRC)' }]} />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner title="Student Grievance Redressal Committee (SGRC)" breadcrumbs={[{ label: 'Student Grievance Redressal Committee (SDRC)' }]} />
 

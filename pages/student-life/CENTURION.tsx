@@ -498,25 +498,7 @@ const CenturionPage: React.FC = () => {
     };
   }, []);
 
-  if (!apiLoaded) {
-    return (
-      <PageLayout>
-        <PageBanner
-          title="CENTURION"
-          subtitle="Vidyavardhini's College of Engineering and Technology's premier off-road mechanical design and manufacturing team."
-          breadcrumbs={[
-            { label: 'Students Club', href: '/students-club' },
-            { label: 'CENTURION' }
-          ]}
-        />
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-        </section>
-      </PageLayout>
-    );
-  }
-
-  const competitionItems: CompetitionItem[] = Array.isArray(apiData?.results)
+    const competitionItems: CompetitionItem[] = Array.isArray(apiData?.results)
     ? apiData.results
         .map((item: Record<string, unknown>) => ({
           team: String(item.team ?? ''),
@@ -570,7 +552,25 @@ const CenturionPage: React.FC = () => {
     }
   };
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="CENTURION"
+  subtitle="Vidyavardhini's College of Engineering and Technology's premier off-road mechanical design and manufacturing team."
+  breadcrumbs={[
+  { label: 'Students Club', href: '/students-club' },
+  { label: 'CENTURION' }
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="CENTURION"
