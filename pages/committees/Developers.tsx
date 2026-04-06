@@ -25,16 +25,16 @@ const coreTeam: DevProfile[] = [
     name: 'Sahil Karpe',
     githubUser: 'ivory-26',
     githubUrl: 'https://github.com/ivory-26',
-    linkedinUrl: '#',
-    portfolioUrl: '#',
+    linkedinUrl: 'https://www.linkedin.com/in/sahil-karpe-1v0ry',
+    portfolioUrl: 'https://dev-e-portfolio.vercel.app/',
     role: 'Backend Developer'
   },
   {
     name: 'Sahil Rane',
     githubUser: 'CyberCodezilla',
     githubUrl: 'https://github.com/CyberCodezilla',
-    linkedinUrl: '#',
-    portfolioUrl: '#',
+    linkedinUrl: 'https://www.linkedin.com/in/sahil-rane-6a539132b/',
+    portfolioUrl: 'https://sahil-rane-portfolio.vercel.app/',
     role: 'Frontend Developer'
    
   },
@@ -42,16 +42,16 @@ const coreTeam: DevProfile[] = [
     name: 'Yash Dedhia',
     githubUser: 'yashhh-23',
     githubUrl: 'https://github.com/yashhh-23',
-    linkedinUrl: '#',
-    portfolioUrl: '#',
+    linkedinUrl: 'https://www.linkedin.com/in/yashdedhia05/',
+    portfolioUrl: 'https://yash-dedhia.vercel.app/',
     role: 'Frontend Developer'
   },
   {
     name: 'Yash Sanil',
     githubUser: 'RedRex101',
     githubUrl: 'https://github.com/RedRex101',
-    linkedinUrl: '#',
-    portfolioUrl: '#',
+    linkedinUrl: 'https://www.linkedin.com/in/yash-sanil-8b0194352?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
+    portfolioUrl: 'https://yash-sanil-portfolio.vercel.app/',
     role: 'Frontend Developer'
   }
 ];

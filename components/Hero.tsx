@@ -18,6 +18,10 @@ import { useHeroSlides } from "../hooks/useHeroSlides";
 import { useHomepageBanners } from "../hooks/useHomepageBanners";
 import { resolveUploadedAssetUrl } from "../utils/uploadedAssets";
 import ImagePreviewModal from "./ImagePreviewModal";
+import { resolveUploadedAssetUrl } from "../utils/uploadedAssets";
+
+const HOMEPAGE_BG_PATH = "/images/Main Page/Home background/VCET-Home-1-scaled.jpg";
+const HOMEPAGE_BG_URL = resolveUploadedAssetUrl(HOMEPAGE_BG_PATH) ?? HOMEPAGE_BG_PATH;
 
 const departments = [
   "Computer Engineering",
@@ -387,7 +391,7 @@ const Hero: React.FC = () => {
       {/* ── Mobile hero image + card — only shown on xs/very small screens ───── */}
       <div className="sm:hidden flex flex-col w-full bg-brand-dark">
         <img
-          src="/images/Main Page/Home background/VCET-Home-1-scaled.jpg"
+          src={HOMEPAGE_BG_URL}
           alt="VCET Campus"
           className="block w-full h-[260px] sm:h-[320px] object-cover object-top"
         />
@@ -437,7 +441,7 @@ const Hero: React.FC = () => {
       <div
         className="hero-bg-pan hidden sm:block absolute inset-0 z-0"
         style={{
-          backgroundImage: "url('/images/Main Page/Home background/VCET-Home-1-scaled.jpg')",
+          backgroundImage: `url('${HOMEPAGE_BG_URL}')`,
           backgroundRepeat: "no-repeat",
         }}
         aria-hidden="true"

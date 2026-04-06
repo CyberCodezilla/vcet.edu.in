@@ -3,6 +3,30 @@ import { Quote } from 'lucide-react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { academicsService, DeanData } from '../../services/academics';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
+
+const DEAN_IMAGE_PATH = '/images/Professor Teacher Profile/Dr.Vikas-Gupta/imgi_8_Dr.Vikas-Gupta-225x300.jpg';
+const DEAN_IMAGE_ABSOLUTE_URL = 'https://vcet-3vjm.onrender.com/images/Professor%20Teacher%20Profile/Dr.Vikas-Gupta/imgi_8_Dr.Vikas-Gupta-225x300.jpg';
+
+function getDeanImageUrl(imageUrl?: string | null): string {
+  const preferred = resolveUploadedAssetUrl(DEAN_IMAGE_PATH) ?? DEAN_IMAGE_ABSOLUTE_URL;
+  if (!imageUrl) return preferred;
+
+  const trimmed = imageUrl.trim();
+  if (!trimmed) return preferred;
+
+  // Replace stale legacy values like /Images/dean_of_academics.jpeg
+  if (/\/images\/dean|\/Images\/dean/i.test(trimmed)) {
+    return preferred;
+  }
+
+  // Replace backend legacy dean API endpoint path with the exact requested image
+  if (/\/api\/pages\/academics\/dean\/image\//i.test(trimmed)) {
+    return preferred;
+  }
+
+  return resolveUploadedAssetUrl(trimmed) ?? preferred;
+}
 
 // Fallback data in case API fails
 const fallbackDean: DeanData = {
@@ -11,7 +35,7 @@ const fallbackDean: DeanData = {
   designation: 'Dean, Academics',
   institution: "Vidyavardhini's College of Engineering & Technology (VCET), Vasai.",
   message: "It is my pleasure to welcome you to Vidyavardhini's College of Engineering & Technology (VCET), Vasai, an institution committed to academic excellence and overall growth. At VCET, education transforms not only professional ability but also character, confidence, and responsibility.\n\nAs an autonomous institution, we have academic flexibility to build and adapt our curriculum in response to changing market expectations and emerging technology. This adaptability allows us to offer multidisciplinary electives, value-added programs, and project-based learning experiences that supplement classroom education and improve practical comprehension.\n\nOur academic methodology is underpinned by Outcome-Based Education principles, which ensure that learning outcomes are measurable, relevant, and in line with national quality requirements.\n\nWe retain a strong emphasis on academic rigor, which is reinforced by ongoing internal evaluation, transparent assessment processes, and systematic quality audits. Our faculty members use research-based teaching methods that promote critical thinking and analytical abilities. Learning at VCET goes beyond textbooks, with well-equipped laboratories, internships, field trips, and collaborative projects that provide valuable real-world experiences.\n\nOur academic culture values innovation and research. Our Innovation and Entrepreneurship initiatives, and technical groups enable students to experiment with new ideas and discover creative solutions to current problems. Participation in conferences, research publications, and patent-related projects reinforces our commitment to knowledge development and responsible innovation.\n\nIn addition, we provide training in soft skills, aptitude development, and new domains such as AI, Data Science, the Internet of Things, and robotics. This comprehensive strategy ensures that our graduates are prepared for both immediate employment and long-term professional advancement.\n\nOur Training and Placement Cell works tirelessly to establish excellent partnerships with reputable businesses across industries. Through specialized training modules, technical workshops, and mock recruiting exercises, we provide students with the confidence and competence they need to succeed in competitive selection processes. Our consistent placement record indicates the industry's trust in our students and the quality of education they get.\n\nAt VCET, we try to foster discipline, ethical responsibility, and a spirit of lifelong learning. We are devoted to developing individuals who are technically sound, socially conscious, and ready to make important contributions to society.\n\nI invite aspiring students and stakeholders to join us on this journey of development and achievement. Let us work together to create a future based on knowledge, honesty, creativity, and meaningful action.",
-  imageUrl: '/Images/dean_of_academics.jpeg',
+  imageUrl: DEAN_IMAGE_PATH,
 };
 
 const DeanAcademics: React.FC = () => {
@@ -38,6 +62,7 @@ const DeanAcademics: React.FC = () => {
 
   // Split message into paragraphs
   const messageParagraphs = dean.message.split('\n\n').filter(p => p.trim());
+  const deanImageUrl = getDeanImageUrl(dean.imageUrl);
 
   return (
     <PageLayout>
@@ -80,7 +105,7 @@ const DeanAcademics: React.FC = () => {
                         <div className="h-full w-full bg-slate-200 animate-pulse" />
                       ) : (
                         <img
-                          src={dean.imageUrl || '/Images/dean_of_academics.jpeg'}
+                          src={deanImageUrl}
                           alt={dean.name}
                           className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"
                         />

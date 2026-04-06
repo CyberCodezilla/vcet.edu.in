@@ -1,6 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import SectionHeader from './SectionHeader';
 import { Target, Eye, Users, BookOpen, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
+
+const HOMEPAGE_BG_PATH = '/images/Main Page/Home background/VCET-Home-1-scaled.jpg';
+const HOMEPAGE_BG_URL = resolveUploadedAssetUrl(HOMEPAGE_BG_PATH) ?? HOMEPAGE_BG_PATH;
 
 const ESTABLISHED_DATE = new Date(1994, 6, 1); // July 1994
 const currentYear = new Date().getFullYear();
@@ -87,7 +91,7 @@ const About: React.FC = () => {
             
             <div className="group relative h-[380px] w-full overflow-hidden rounded-2xl border border-brand-blue/10 bg-brand-light sm:h-[480px] md:h-[520px]">
               <img 
-                src="/images/Main Page/Home background/VCET-Home-1-scaled.jpg" 
+                src={HOMEPAGE_BG_URL}
                 alt="VCET Campus" 
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
