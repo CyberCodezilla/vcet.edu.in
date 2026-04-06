@@ -23,8 +23,8 @@ const GalleryPage: React.FC = () => {
 
   useEffect(() => { fetchImages(); }, []);
 
-  const handleUpload = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleUpload = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setError('');
     if (!file) { setError('Please select an image.'); return; }
     setUploading(true);
@@ -115,3 +115,4 @@ const GalleryPage: React.FC = () => {
 };
 
 export default GalleryPage;
+

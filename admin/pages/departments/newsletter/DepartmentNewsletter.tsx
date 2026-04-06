@@ -119,8 +119,8 @@ const DepartmentNewsletter: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!departmentId) {
        setToast({ message: 'Please select a department', type: 'error' });
        return;
@@ -264,3 +264,4 @@ const DepartmentNewsletter: React.FC = () => {
 };
 
 export default DepartmentNewsletter;
+

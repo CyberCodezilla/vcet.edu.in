@@ -107,8 +107,8 @@ const EventForm: React.FC = () => {
     setPdfFile(selected);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setError('');
     if (!form.title.trim() || !form.date) {
       setError('Title and Event Date are required.');
@@ -421,3 +421,4 @@ const EventForm: React.FC = () => {
 };
 
 export default EventForm;
+

@@ -32,8 +32,8 @@ const PlacementStats: React.FC = () => {
     return '';
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     const err = validateForm();
     if (err) { setFormErr(err); return; }
     setFormErr('');
@@ -241,3 +241,4 @@ const PlacementStats: React.FC = () => {
 };
 
 export default PlacementStats;
+

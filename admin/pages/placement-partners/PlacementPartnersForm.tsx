@@ -32,8 +32,8 @@ const PlacementPartnersForm: React.FC = () => {
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : type === 'number' ? Number(value) : value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setError('');
     if (!form.name.trim()) { setError('Company name is required.'); return; }
     setSaving(true);
@@ -153,3 +153,4 @@ const PlacementPartnersForm: React.FC = () => {
 };
 
 export default PlacementPartnersForm;
+

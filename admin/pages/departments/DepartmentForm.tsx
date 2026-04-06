@@ -188,8 +188,8 @@ export default function DepartmentForm() {
     }
   }, [isEditing, existingSlug, navigate]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!name || !slug) {
       setToast({ message: 'Name and Slug are required', type: 'error' });
       return;
@@ -1146,6 +1146,7 @@ export default function DepartmentForm() {
     </div>
   );
 }
+
 
 
 

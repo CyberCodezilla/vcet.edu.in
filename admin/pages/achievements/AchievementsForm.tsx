@@ -61,8 +61,8 @@ const AchievementsForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setError('');
     if (!form.title.trim()) { setError('Achievement title is required.'); return; }
     if (!form.value.trim()) { setError('Award/Rank value is required.'); return; }
@@ -200,3 +200,4 @@ const AchievementsForm: React.FC = () => {
 };
 
 export default AchievementsForm;
+

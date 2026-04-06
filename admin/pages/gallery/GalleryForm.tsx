@@ -34,8 +34,8 @@ const GalleryForm: React.FC = () => {
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : type === 'number' ? Number(value) : value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setError('');
     if (!form.title?.trim()) { setError('Title is required.'); return; }
     setSaving(true);
@@ -200,3 +200,4 @@ const GalleryForm: React.FC = () => {
 };
 
 export default GalleryForm;
+

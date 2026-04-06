@@ -347,8 +347,8 @@ const ExamsForm: React.FC<ExamFormProps> = ({ activeSection, onBack }) => {
     }
   };
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSave = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     await saveChanges();
   };
 
@@ -442,3 +442,4 @@ const ExamsForm: React.FC<ExamFormProps> = ({ activeSection, onBack }) => {
 };
 
 export default ExamsForm;
+

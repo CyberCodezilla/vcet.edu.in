@@ -52,8 +52,8 @@ const PlacementForm: React.FC = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setError('');
     
     // Explicit 0 values might be valid for package or student_count, but check null/undefined
@@ -200,3 +200,4 @@ const PlacementForm: React.FC = () => {
 };
 
 export default PlacementForm;
+

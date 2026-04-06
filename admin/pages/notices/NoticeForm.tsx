@@ -179,8 +179,8 @@ const NoticeForm: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setError('');
     setSuccess('');
     setLoading(true);
@@ -430,3 +430,4 @@ const NoticeForm: React.FC = () => {
 };
 
 export default NoticeForm;
+

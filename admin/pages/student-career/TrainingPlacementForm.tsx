@@ -52,8 +52,8 @@ const TrainingPlacementForm: React.FC = () => {
     }
   };
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSave = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setSaving(true);
     setError('');
     setSuccessMsg('');
@@ -557,3 +557,4 @@ const GalleryEditor = ({ items, max, labelLimit, onChange }: { items: any[], max
 };
 
 export default TrainingPlacementForm;
+

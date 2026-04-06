@@ -150,8 +150,8 @@ const FacultyForm: React.FC = () => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setError('');
     if (!form.basicInfo.fullName.trim()) { setError('Full Name is required.'); return; }
     if (!form.basicInfo.email.trim()) { setError('Email is required.'); return; }

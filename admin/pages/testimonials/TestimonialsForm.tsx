@@ -32,8 +32,8 @@ const TestimonialsForm: React.FC = () => {
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : type === 'number' ? Number(value) : value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setError('');
     if (!form.name?.trim()) { setError('Name is required.'); return; }
     if (!form.text?.trim()) { setError('Quote text is required.'); return; }
@@ -147,3 +147,4 @@ const TestimonialsForm: React.FC = () => {
 };
 
 export default TestimonialsForm;
+

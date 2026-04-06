@@ -303,8 +303,8 @@ const AcademicsForm: React.FC<AcademicsFormProps> = ({ activeSection, onBack }) 
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     await saveChanges();
   };
 
@@ -467,3 +467,4 @@ const AcademicsForm: React.FC<AcademicsFormProps> = ({ activeSection, onBack }) 
 };
 
 export default AcademicsForm;
+
