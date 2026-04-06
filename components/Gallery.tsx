@@ -154,20 +154,20 @@ const Gallery: React.FC = () => {
                   <>
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/85 via-transparent to-transparent pointer-events-none" />
                     <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-1 group-hover:translate-y-0 transition-transform duration-300 z-10">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-gold mb-0.5">
+                      <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-brand-gold mb-1">
                         {item.subtitle}
                       </p>
-                      <h3 className="text-white font-display font-bold text-base md:text-lg leading-tight">
+                      <h3 className="text-white font-display font-bold text-lg md:text-2xl leading-tight">
                         {item.title}
                       </h3>
                     </div>
                   </>
                 ) : (
                   <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-gold mb-1.5">
+                    <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.18em] text-brand-gold mb-2">
                       {item.subtitle}
                     </p>
-                    <h3 className="text-white font-display font-bold text-base md:text-lg leading-tight">
+                    <h3 className="text-white font-display font-bold text-lg md:text-2xl leading-tight">
                       {item.title}
                     </h3>
                     {linkTo ? (

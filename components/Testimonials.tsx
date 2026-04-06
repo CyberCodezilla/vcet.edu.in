@@ -2,6 +2,7 @@ import React from 'react';
 import { Quote } from 'lucide-react';
 import { useHomepageData } from '../context/HomepageDataContext';
 import { useTestimonials } from '../hooks/useTestimonials';
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
 
 interface Testimonial {
   id: number;
@@ -47,6 +48,38 @@ const testimonials: Testimonial[] = [
   }
 ];
 
+const TESTIMONIAL_CACHE_BUSTER = 'v=20260407';
+const FORCED_TESTIMONIAL_IMAGES: Record<string, string> = {
+  'dr amrita m a': 'https://vcet-3vjm.onrender.com/images/Main%20Page/testimonials/Dr_Amrita_M_A.jpg',
+  'anish patki': 'https://vcet-3vjm.onrender.com/images/Main%20Page/testimonials/Anish_Patki.jpg',
+};
+
+function normalizeName(name: string | null | undefined): string {
+  return (name ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+}
+
+function appendCacheBuster(url: string): string {
+  if (!url) return url;
+  const glue = url.includes('?') ? '&' : '?';
+  return `${url}${glue}${TESTIMONIAL_CACHE_BUSTER}`;
+}
+
+function normalizeImagePath(path: string): string {
+  return path.replace(/\\+/g, '/').trim();
+}
+
+function resolveTestimonialPhoto(name: string, rawPhoto: string | null | undefined): string | null {
+  const forced = FORCED_TESTIMONIAL_IMAGES[normalizeName(name)];
+  if (forced) return appendCacheBuster(forced);
+
+  if (!rawPhoto) return null;
+  const normalized = normalizeImagePath(rawPhoto);
+  if (!normalized || normalized.startsWith('data:image/')) return null;
+
+  const resolved = resolveUploadedAssetUrl(normalized) ?? normalized;
+  return appendCacheBuster(resolved);
+}
+
 const Testimonials: React.FC = () => {
   const homepage = useHomepageData();
   const useAggregate = Boolean(homepage);
@@ -60,7 +93,7 @@ const Testimonials: React.FC = () => {
     name: t.name,
     position: t.role || '',
     company: '', // Backend doesn't have company distinct from role yet
-    image: t.photo || null
+    image: resolveTestimonialPhoto(t.name, t.photo)
   })) : testimonials;
   return (
     <section id="testimonials" className="py-10 md:py-16 bg-brand-light relative overflow-hidden">
@@ -105,9 +138,6 @@ const Testimonials: React.FC = () => {
                       alt={testimonial.name}
                       className="w-full h-full object-cover"
                       loading="lazy"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Ccircle cx="50" cy="50" r="50" fill="%231B3A5C"/%3E%3Ctext fill="%23D4A843" font-family="Inter" font-size="36" x="50%25" y="55%25" text-anchor="middle" dominant-baseline="middle"%3E?%3C/text%3E%3C/svg%3E';
-                      }}
                     />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center bg-brand-navy text-brand-gold text-lg font-bold">
