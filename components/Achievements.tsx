@@ -77,10 +77,8 @@ function handleAchievementImageError(event: React.SyntheticEvent<HTMLImageElemen
     }
   }
 
-  // Keep backend URL intact in src; just mark failed visuals.
+  // Keep backend URL intact in src; UI should not hide/replace the image URL.
   img.dataset.loadFailed = '1';
-  img.style.opacity = '0.25';
-  img.style.filter = 'grayscale(100%)';
 }
 
 function handleAchievementImageLoad(event: React.SyntheticEvent<HTMLImageElement>): void {
