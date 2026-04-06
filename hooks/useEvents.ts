@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import type { Event } from '../admin/types';
 import { eventsService } from '../services/events';
 import { useFetch } from './useFetch';
@@ -5,7 +6,9 @@ import { useFetch } from './useFetch';
 const REFRESH_INTERVAL_MS = 60_000;
 
 export function useEvents() {
-  const { data, loading, error } = useFetch<Event[]>(() => eventsService.list(), {
+  const fetchEvents = useCallback(() => eventsService.list(), []);
+
+  const { data, loading, error } = useFetch<Event[]>(fetchEvents, {
     initialData: [],
     cacheKey: 'public:events:list',
     cacheTtlMs: 60_000,

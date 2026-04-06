@@ -1,8 +1,11 @@
+import { useCallback } from 'react';
 import { getTestimonials, TestimonialDTO } from '../services/testimonials';
 import { useFetch } from './useFetch';
 
 export const useTestimonials = () => {
-  const { data, loading, error } = useFetch<TestimonialDTO[]>(() => getTestimonials(), {
+  const fetchTestimonials = useCallback(() => getTestimonials(), []);
+
+  const { data, loading, error } = useFetch<TestimonialDTO[]>(fetchTestimonials, {
     initialData: [],
     cacheKey: 'public:testimonials:list',
     cacheTtlMs: 5 * 60_000,

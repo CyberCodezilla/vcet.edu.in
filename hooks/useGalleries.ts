@@ -1,9 +1,12 @@
+import { useCallback } from 'react';
 import { getGalleries } from '../services/gallery';
 import { Gallery } from '../admin/types';
 import { useFetch } from './useFetch';
 
 export function useGalleries() {
-  const { data, loading, error } = useFetch<Gallery[]>(() => getGalleries(), {
+  const fetchGalleries = useCallback(() => getGalleries(), []);
+
+  const { data, loading, error } = useFetch<Gallery[]>(fetchGalleries, {
     initialData: [],
     cacheKey: 'public:galleries:list',
     cacheTtlMs: 5 * 60_000,
