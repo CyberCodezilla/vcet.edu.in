@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { departmentApi } from '../../admin/api/departments';
-import type { Department } from '../../admin/types';
-import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
-
-
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
 import { departmentApi } from '../../admin/api/departments';
 import type { Department } from '../../admin/types';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 import { newsletterApi } from '../../admin/api/newsletterApi';
 import DepartmentNewsletterPanel from '../../components/DepartmentNewsletterPanel';
 
