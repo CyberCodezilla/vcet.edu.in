@@ -1,9 +1,12 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import MMSLayout from '../../../components/mms/MMSLayout';
 import { StudentsLifeImageHolder, StudentsLifeSectionCard } from './MMSStudentsLifeShared';
 import { get, resolveApiUrl } from '../../../services/api';
 import type { MMSStudentsLifeData } from '../../../admin/types';
+
+const toSlugToken = (value: string): string =>
+  value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
 export default function MMSStudentsLifeCustomEvent() {
   const { slug } = useParams<{ slug: string }>();
@@ -29,7 +32,8 @@ export default function MMSStudentsLifeCustomEvent() {
   }
 
   const customEvents = data?.customEvents || [];
-  const event = customEvents.find(e => e.slug === slug);
+  const routeToken = toSlugToken(slug ?? '');
+  const event = customEvents.find((e) => toSlugToken(String(e?.slug ?? '')) === routeToken);
 
   if (!event) {
     return <Navigate to="/mms/students-life" replace />;

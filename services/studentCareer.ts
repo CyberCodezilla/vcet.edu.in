@@ -38,8 +38,52 @@ function unwrapStudentCareerPayload<T>(value: unknown): T | null {
   return isRecord(current) ? (current as T) : null;
 }
 
+function isNotFoundLikeError(error: unknown): boolean {
+  return typeof error === 'object'
+    && error !== null
+    && 'status' in error
+    && ([404, 422] as number[]).includes((error as { status?: number }).status ?? -1);
+}
+
+function normalizeSlugToken(value: string): string {
+  return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+function getStudentCareerSlugCandidates(slug: string): string[] {
+  const token = normalizeSlugToken(slug);
+  const aliases: Record<string, string[]> = {
+    'sports-committee': ['sport-committee'],
+    'cultural-committee': ['culture-committee'],
+    training: ['training-placement'],
+    placement: ['placements'],
+  };
+  return [slug, token, ...(aliases[token] ?? [])]
+    .map((value) => value.trim())
+    .filter(Boolean);
+}
+
 export async function getStudentCareerSection<T = Record<string, unknown>>(slug: string): Promise<T> {
-  const response = await get<StudentCareerSectionResponse<T> | T>(`/pages/student-career/${slug}`);
+  const candidates = getStudentCareerSlugCandidates(slug);
+  let response: StudentCareerSectionResponse<T> | T | null = null;
+  let lastError: unknown = null;
+
+  for (const candidate of candidates) {
+    try {
+      response = await get<StudentCareerSectionResponse<T> | T>(`/pages/student-career/${candidate}`);
+      break;
+    } catch (error) {
+      lastError = error;
+      if (!isNotFoundLikeError(error)) {
+        throw error;
+      }
+    }
+  }
+
+  if (!response) {
+    if (lastError) throw lastError;
+    return {} as T;
+  }
+
   const payload = unwrapStudentCareerPayload<T>(response);
   return (payload ?? ({} as T));
 }

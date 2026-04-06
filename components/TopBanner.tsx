@@ -9,10 +9,15 @@ import {
   Youtube,
   ExternalLink,
 } from "lucide-react";
+import { useHomepageData } from "../context/HomepageDataContext";
 import { useNewsTicker } from "../hooks/useNewsTicker";
 
 const TopBanner: React.FC = () => {
-  const { items: tickerItems, loading } = useNewsTicker();
+  const homepage = useHomepageData();
+  const useAggregate = Boolean(homepage);
+  const { items: fallbackTickerItems, loading: fallbackLoading } = useNewsTicker(!useAggregate);
+  const tickerItems = useAggregate ? homepage!.data.newsTicker : fallbackTickerItems;
+  const loading = useAggregate ? homepage!.loading : fallbackLoading;
 
   return (
     <div className="bg-white border-b border-gray-100 relative overflow-hidden print:hidden">

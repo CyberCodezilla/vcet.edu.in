@@ -10,6 +10,7 @@ import {
   X,
   Image,
 } from "lucide-react";
+import { useHomepageData } from "../context/HomepageDataContext";
 import { post } from "../services/api";
 import { useEvents } from "../hooks/useEvents";
 import { useNotices } from "../hooks/useNotices";
@@ -343,10 +344,16 @@ const Hero: React.FC = () => {
   const [slideIndex, setSlideIndex] = useState(0);
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
   const [imageModalOpen, setImageModalOpen] = useState(false);
-  const { notices, loading: noticesLoading } = useNotices();
-  const { events, loading: eventsLoading } = useEvents();
-  const { slides: apiSlides, loading: slidesLoading } = useHeroSlides();
-  const { banners: apiHomepageBanners } = useHomepageBanners();
+  const homepage = useHomepageData();
+  const useAggregate = Boolean(homepage);
+  const { notices: fallbackNotices, loading: noticesLoading } = useNotices(!useAggregate);
+  const { events: fallbackEvents, loading: eventsLoading } = useEvents(!useAggregate);
+  const { slides: fallbackSlides, loading: slidesLoading } = useHeroSlides(!useAggregate);
+  const { banners: fallbackHomepageBanners } = useHomepageBanners(!useAggregate);
+  const notices = useAggregate ? homepage!.data.notices : fallbackNotices;
+  const events = useAggregate ? homepage!.data.events : fallbackEvents;
+  const apiSlides = useAggregate ? homepage!.data.heroSlides : fallbackSlides;
+  const apiHomepageBanners = useAggregate ? homepage!.data.homepageBanners : fallbackHomepageBanners;
 
   const packageImages = apiHomepageBanners.length
     ? apiHomepageBanners
@@ -362,8 +369,8 @@ const Hero: React.FC = () => {
     .filter((s) => Boolean(s.image_url))
     .map((s) => ({ src: s.image_url as string, alt: s.title || 'Slide' }));
 
-  // Combine API slides WITH the original fallback slides so both are shown and they keep animating
-  const displaySlides = [...apiFormattedSlides, ...fallbackBannerSlides];
+  // Use API slides when available; only fall back to static slides if the API has none.
+  const displaySlides = apiFormattedSlides.length > 0 ? apiFormattedSlides : fallbackBannerSlides;
 
   useEffect(() => {
     if (displaySlides.length <= 1) return;

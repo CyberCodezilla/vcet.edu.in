@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHomepageData } from '../context/HomepageDataContext';
 import { PixelImage } from '../ui/pixel-image';
 import { useGalleries } from '../hooks/useGalleries';
 import { Link } from 'react-router-dom';
@@ -60,7 +61,10 @@ const fallbackGalleryItems: FallbackGalleryItem[] = [
 const STAGGER_MS = 320;
 
 const Gallery: React.FC = () => {
-  const { galleries, loading, error } = useGalleries();
+  const homepage = useHomepageData();
+  const useAggregate = Boolean(homepage);
+  const { galleries: fallbackGalleries } = useGalleries(!useAggregate);
+  const galleries = useAggregate ? homepage!.data.galleries : fallbackGalleries;
 
   const activeGalleries = galleries.filter(g => g.is_active);
   const displayGalleries = activeGalleries.length > 0

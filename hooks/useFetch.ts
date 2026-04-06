@@ -14,7 +14,9 @@ interface UseFetchOptions<T> {
 	cacheKey?: string;
 	cacheTtlMs?: number;
 	refreshIntervalMs?: number;
+	/** Revalidate when window regains focus. Default: false (changed from true to prevent flooding) */
 	revalidateOnFocus?: boolean;
+	/** Revalidate when page becomes visible. Default: false (changed from true to prevent flooding) */
 	revalidateOnVisibility?: boolean;
 }
 
@@ -63,8 +65,9 @@ export function useFetch<T>(fetcher: Fetcher<T>, options: UseFetchOptions<T>) {
 		cacheKey,
 		cacheTtlMs = DEFAULT_CACHE_TTL_MS,
 		refreshIntervalMs,
-		revalidateOnFocus = true,
-		revalidateOnVisibility = true,
+		// Changed defaults to false to prevent API flooding
+		revalidateOnFocus = false,
+		revalidateOnVisibility = false,
 	} = options;
 
 	const shouldUseCache = PUBLIC_CACHE_ENABLED && !!cacheKey;

@@ -1,6 +1,10 @@
 import { prefetchPageData } from './api';
 
-const PREFETCH_ENDPOINTS = [
+/**
+ * Routes that can be prefetched on user interaction (hover/intent).
+ * NOT prefetched on app mount to prevent API flooding.
+ */
+const PREFETCHABLE_ROUTES = [
   // About
   '/pages/about/overview',
   '/pages/about/administration',
@@ -79,21 +83,57 @@ const PREFETCH_ENDPOINTS = [
   '/pages/mms-faqs',
 ];
 
-let warmed = false;
-const PREFETCH_ENABLED =
-  (import.meta.env.VITE_ENABLE_PAGE_PREFETCH as string | undefined) === 'true';
+const prefetchedRoutes = new Set<string>();
 
+/**
+ * DEPRECATED: This function is disabled to prevent API flooding.
+ * The old implementation would prefetch 80+ pages on every homepage load.
+ * Now data is fetched lazily only when the page is actually visited.
+ */
 export function warmPublicPageCache(): void {
-  if (!PREFETCH_ENABLED || warmed || typeof window === 'undefined') return;
-  warmed = true;
+  // Intentionally disabled - data is now fetched lazily on page visit
+  // This prevents 80+ unnecessary API calls on every homepage load/refresh
+  if (import.meta.env.DEV) {
+    console.log('[PagePrefetch] warmPublicPageCache is disabled - using lazy loading instead');
+  }
+}
 
-  const run = () => prefetchPageData(PREFETCH_ENDPOINTS);
-
-  // Warm cache after initial render so route navigation feels instant afterward.
+/**
+ * Prefetch a single route on user intent (e.g., link hover).
+ * Only prefetches if the route hasn't been fetched before.
+ */
+export function prefetchRouteOnIntent(route: string): void {
+  if (typeof window === 'undefined') return;
+  if (prefetchedRoutes.has(route)) return;
+  
+  // Only prefetch known prefetchable routes
+  const normalizedRoute = route.startsWith('/') ? route : `/${route}`;
+  const apiRoute = normalizedRoute.startsWith('/pages/') 
+    ? normalizedRoute 
+    : `/pages${normalizedRoute}`;
+  
+  if (!PREFETCHABLE_ROUTES.includes(apiRoute)) return;
+  
+  prefetchedRoutes.add(route);
+  
+  // Use requestIdleCallback for non-blocking prefetch
+  const run = () => prefetchPageData([apiRoute]);
+  
   if ('requestIdleCallback' in window) {
     (window as Window & { requestIdleCallback: (cb: () => void) => number }).requestIdleCallback(run);
     return;
   }
+  
+  globalThis.setTimeout(run, 100);
+}
 
-  globalThis.setTimeout(run, 300);
+/**
+ * Check if a route is prefetchable.
+ */
+export function isPrefetchableRoute(route: string): boolean {
+  const normalizedRoute = route.startsWith('/') ? route : `/${route}`;
+  const apiRoute = normalizedRoute.startsWith('/pages/') 
+    ? normalizedRoute 
+    : `/pages${normalizedRoute}`;
+  return PREFETCHABLE_ROUTES.includes(apiRoute);
 }

@@ -41,8 +41,8 @@ export const homepageBannersApi = {
           data: response.data.map(normalizeBanner),
         } as ListResponse<HomepageBanner>;
       }
-    : async () => {
-        const response = await client.request<ListResponse<HomepageBanner>>('/homepage-banners');
+      : async () => {
+        const response = await client.request<ListResponse<HomepageBanner>>('/hero-slides');
         return {
           ...response,
           data: response.data.map(normalizeBanner),
@@ -58,7 +58,7 @@ export const homepageBannersApi = {
         } as ItemResponse<HomepageBanner>;
       }
     : (id: number) =>
-        client.request<ItemResponse<HomepageBanner>>(`/homepage-banners/${id}`).then((response) => ({
+        client.request<ItemResponse<HomepageBanner>>(`/hero-slides/${id}`).then((response) => ({
           ...response,
           data: normalizeBanner(response.data),
         })),
@@ -72,7 +72,7 @@ export const homepageBannersApi = {
         } as ItemResponse<HomepageBanner>;
       }
     : (payload: HomepageBannerPayload) =>
-        client.requestForm<ItemResponse<HomepageBanner>>('/homepage-banners', toFormData(payload)).then((response) => ({
+        client.requestForm<ItemResponse<HomepageBanner>>('/hero-slides', toFormData(payload)).then((response) => ({
           ...response,
           data: normalizeBanner(response.data),
         })),
@@ -88,7 +88,7 @@ export const homepageBannersApi = {
     : (id: number, payload: HomepageBannerPayload) => {
         const form = toFormData(payload);
         form.append('_method', 'PUT');
-        return client.requestForm<ItemResponse<HomepageBanner>>(`/homepage-banners/${id}`, form).then((response) => ({
+        return client.requestForm<ItemResponse<HomepageBanner>>(`/hero-slides/${id}`, form).then((response) => ({
           ...response,
           data: normalizeBanner(response.data),
         }));
@@ -96,5 +96,5 @@ export const homepageBannersApi = {
 
   delete: USE_MOCK
     ? (id: number) => mock!.delete(id)
-    : (id: number) => client.request<DeleteResponse>(`/homepage-banners/${id}`, { method: 'DELETE' }),
+    : (id: number) => client.request<DeleteResponse>(`/hero-slides/${id}`, { method: 'DELETE' }),
 };

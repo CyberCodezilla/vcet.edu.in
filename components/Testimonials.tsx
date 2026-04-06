@@ -1,5 +1,6 @@
 import React from 'react';
 import { Quote } from 'lucide-react';
+import { useHomepageData } from '../context/HomepageDataContext';
 import { useTestimonials } from '../hooks/useTestimonials';
 
 interface Testimonial {
@@ -47,7 +48,10 @@ const testimonials: Testimonial[] = [
 ];
 
 const Testimonials: React.FC = () => {
-  const { testimonials: apiTestimonials, loading } = useTestimonials();
+  const homepage = useHomepageData();
+  const useAggregate = Boolean(homepage);
+  const { testimonials: fallbackTestimonials, loading } = useTestimonials(!useAggregate);
+  const apiTestimonials = useAggregate ? homepage!.data.testimonials : fallbackTestimonials;
   
   // Use API data if available, otherwise fallback to static data
   const displayTestimonials = apiTestimonials.length > 0 ? apiTestimonials.map(t => ({
