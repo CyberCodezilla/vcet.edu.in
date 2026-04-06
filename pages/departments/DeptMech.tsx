@@ -535,10 +535,62 @@ const DeptMech: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Student Achievements<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="pdfs/Department/MechanicalEngineering/StudentAchievements/Student-Achievements-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
-                <span>Student Achievements</span>
-                <i className="ph ph-arrow-up-right text-brand-gold" />
-              </a>
+              {(() => {
+                const staticRows = [
+                  {
+                    label: 'Student Achievements',
+                    description: 'Built-in department achievement document',
+                    href: 'pdfs/Department/MechanicalEngineering/StudentAchievements/Student-Achievements-1.pdf',
+                  },
+                ];
+
+                const dynamicRows = (department?.content?.studentAchievements || [])
+                  .filter((item: any) =>
+                    [item?.title, item?.description, item?.image, item?.image_url, item?.photo, item?.pdf, item?.pdf_url, item?.document_url, item?.fileUrl].some((value) => {
+                      if (typeof value === 'string') return value.trim().length > 0;
+                      return Boolean(value);
+                    }),
+                  )
+                  .map((item: any) => ({
+                    label: item.title?.trim() || 'Untitled Achievement',
+                    description: item.description?.trim() || '',
+                    href: resolveUploadedAssetUrl(item.pdf ?? item.pdf_url ?? item.document_url ?? item.fileUrl ?? item.image ?? item.image_url ?? item.photo) || undefined,
+                  }));
+
+                const rows = [...staticRows, ...dynamicRows];
+
+                return (
+                  <div className="space-y-3">
+                    {rows.map((item, idx) => {
+                      const content = (
+                        <>
+                          <span className="min-w-0 flex-1">
+                            <span className="block text-sm font-semibold text-brand-navy">{item.label}</span>
+                            {item.description && (
+                              <span className="mt-1 block text-xs text-slate-500 leading-relaxed">{item.description}</span>
+                            )}
+                          </span>
+                          <i className="ph ph-arrow-up-right text-brand-gold shrink-0" />
+                        </>
+                      );
+
+                      if (item.href) {
+                        return (
+                          <a key={`${item.label}-${idx}`} href={item.href} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                            {content}
+                          </a>
+                        );
+                      }
+
+                      return (
+                        <div key={`${item.label}-${idx}`} className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy">
+                          {content}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
             </section>
           )}
 

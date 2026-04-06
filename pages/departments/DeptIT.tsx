@@ -97,6 +97,18 @@ const magazinePdfs = [
   { label: 'MAGAZINE 2009-10', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2009-10.pdf' },
 ];
 
+const facultyAchievementLinks = [
+  { label: 'Faculty Patents and Copyright (2024-25)', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/2024-25-Patent-1.pdf' },
+  { label: 'Faculty Awards', href: 'https://vcet.edu.in/wp-content/uploads/2024/07/Staff_achievements.pdf' },
+  { label: 'Faculty Publications', href: 'https://vcet.edu.in/wp-content/uploads/2024/07/Staff_Publications_Stats.pdf' },
+  { label: 'Research Grants Received', href: 'https://vcet.edu.in/wp-content/uploads/2024/07/Research-Grants-of-IT-Dept-1-1.pdf' },
+];
+
+const studentAchievementLinks = [
+  { label: 'Student Achievements (Hackathon Achievers)', href: 'pdfs/Department/InformationTechnology/StudentsAchievements/Hackathon-Achivers.pdf' },
+  { label: 'Sports/Cultural Activities at National/International Level', href: 'pdfs/Department/InformationTechnology/StudentsAchievements/Student-Cultural-Sports.pdf' },
+];
+
 const editorialRows = [
   { post: 'Chairman', names: ['Prathamesh Anil Karambe'] },
   { post: 'Chief editor', names: ['Smita Verma', 'Revathi Nair', 'Gaurav Gawde'] },
@@ -593,7 +605,6 @@ const DeptIT: React.FC = () => {
                     {/* ===================== FACULTY ACHIEVEMENTS ===================== */} 
           {activeId === 'faculty-achievements' && (() => {
             const dynamicAch = department?.content?.facultyAchievements || [];
-            const hasStaticFa = false;
             const validAch = dynamicAch.filter((item: any) =>
               [
                 item?.title,
@@ -611,8 +622,14 @@ const DeptIT: React.FC = () => {
                 return Boolean(value);
               }),
             );
+            const dynamicLinks = validAch.map((item: any) => ({
+              label: item.title?.trim() || 'Untitled Achievement',
+              description: item.description?.trim() || '',
+              href: resolveDepartmentAssetUrl(item.pdf ?? item.pdf_url ?? item.document_url ?? item.fileUrl ?? item.image ?? item.image_url ?? item.photo ?? item.url),
+            }));
+            const rows = [...facultyAchievementLinks, ...dynamicLinks];
             
-            if (!validAch.length && !hasStaticFa) return null;
+            if (!rows.length) return null;
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="flex items-center gap-3 mb-6">
@@ -621,24 +638,34 @@ const DeptIT: React.FC = () => {
                 </div>
                 <h3 className="text-3xl md:text-4xl font-display font-bold text-brand-navy leading-tight mb-8">Faculty Achievements</h3>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {validAch.map((item: any, idx: number) => (
-                    <div key={idx} className="group relative bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                      {resolveDepartmentAssetUrl(item.image ?? item.image_url ?? item.photo ?? item.url) && (
-                        <div className="mb-5 overflow-hidden rounded-xl h-48 w-full">
-                          <img src={resolveDepartmentAssetUrl(item.image ?? item.image_url ?? item.photo ?? item.url) || ""} alt={item.title||""} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                        </div>
-                      )}
-                      <h4 className="text-xl font-bold text-brand-navy mb-2">{item.title}</h4>
-                      <p className="text-slate-600 text-sm leading-relaxed mb-4">{item.description}</p>
-                      {resolveDepartmentAssetUrl(item.pdf ?? item.pdf_url ?? item.document_url ?? item.fileUrl) && (
-                        <a href={resolveDepartmentAssetUrl(item.pdf ?? item.pdf_url ?? item.document_url ?? item.fileUrl) || "#"} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-brand-gold hover:text-brand-navy transition-colors">
-                          <i className="ph ph-file-pdf text-lg" />
-                          View Document
+                <div className="space-y-3">
+                  {rows.map((item, idx) => {
+                    const row = (
+                      <>
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-semibold text-brand-navy">{item.label}</span>
+                          {item.description && (
+                            <span className="mt-1 block text-xs text-slate-500 leading-relaxed">{item.description}</span>
+                          )}
+                        </span>
+                        <i className="ph ph-arrow-up-right text-brand-gold shrink-0" />
+                      </>
+                    );
+
+                    if (item.href) {
+                      return (
+                        <a key={`${item.label}-${idx}`} href={item.href} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                          {row}
                         </a>
-                      )}
-                    </div>
-                  ))}
+                      );
+                    }
+
+                    return (
+                      <div key={`${item.label}-${idx}`} className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy">
+                        {row}
+                      </div>
+                    );
+                  })}
                 </div>
               </section>
             );
@@ -647,7 +674,6 @@ const DeptIT: React.FC = () => {
                     {/* ===================== STUDENT ACHIEVEMENTS ===================== */} 
           {activeId === 'student-achievements' && (() => {
             const dynamicAch = department?.content?.studentAchievements || [];
-            const hasStaticFa = false;
             const validAch = dynamicAch.filter((item: any) =>
               [
                 item?.title,
@@ -665,8 +691,14 @@ const DeptIT: React.FC = () => {
                 return Boolean(value);
               }),
             );
+            const dynamicLinks = validAch.map((item: any) => ({
+              label: item.title?.trim() || 'Untitled Achievement',
+              description: item.description?.trim() || '',
+              href: resolveDepartmentAssetUrl(item.pdf ?? item.pdf_url ?? item.document_url ?? item.fileUrl ?? item.image ?? item.image_url ?? item.photo ?? item.url),
+            }));
+            const rows = [...studentAchievementLinks, ...dynamicLinks];
             
-            if (!validAch.length && !hasStaticFa) return null;
+            if (!rows.length) return null;
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="flex items-center gap-3 mb-6">
@@ -675,24 +707,34 @@ const DeptIT: React.FC = () => {
                 </div>
                 <h3 className="text-3xl md:text-4xl font-display font-bold text-brand-navy leading-tight mb-8">Students Achievements</h3>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {validAch.map((item: any, idx: number) => (
-                    <div key={idx} className="group relative bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                      {resolveDepartmentAssetUrl(item.image ?? item.image_url ?? item.photo ?? item.url) && (
-                        <div className="mb-5 overflow-hidden rounded-xl h-48 w-full">
-                          <img src={resolveDepartmentAssetUrl(item.image ?? item.image_url ?? item.photo ?? item.url) || ""} alt={item.title||""} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                        </div>
-                      )}
-                      <h4 className="text-xl font-bold text-brand-navy mb-2">{item.title}</h4>
-                      <p className="text-slate-600 text-sm leading-relaxed mb-4">{item.description}</p>
-                      {resolveDepartmentAssetUrl(item.pdf ?? item.pdf_url ?? item.document_url ?? item.fileUrl) && (
-                        <a href={resolveDepartmentAssetUrl(item.pdf ?? item.pdf_url ?? item.document_url ?? item.fileUrl) || "#"} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-brand-gold hover:text-brand-navy transition-colors">
-                          <i className="ph ph-file-pdf text-lg" />
-                          View Document
+                <div className="space-y-3">
+                  {rows.map((item, idx) => {
+                    const row = (
+                      <>
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-semibold text-brand-navy">{item.label}</span>
+                          {item.description && (
+                            <span className="mt-1 block text-xs text-slate-500 leading-relaxed">{item.description}</span>
+                          )}
+                        </span>
+                        <i className="ph ph-arrow-up-right text-brand-gold shrink-0" />
+                      </>
+                    );
+
+                    if (item.href) {
+                      return (
+                        <a key={`${item.label}-${idx}`} href={item.href} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                          {row}
                         </a>
-                      )}
-                    </div>
-                  ))}
+                      );
+                    }
+
+                    return (
+                      <div key={`${item.label}-${idx}`} className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy">
+                        {row}
+                      </div>
+                    );
+                  })}
                 </div>
               </section>
             );
