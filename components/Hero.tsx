@@ -316,17 +316,6 @@ const AdmissionForm: React.FC = () => {
   );
 };
 
-const fallbackPackageImages = [
-  {
-    src: "/images/Main Page/Packages/HIGEST_Package_banner.jpg",
-    label: "Highest Package",
-  },
-  {
-    src: "/images/Main Page/Packages/AICTE-Pamphlet_page-0001.jpg",
-    label: "AICTE Pamphlet",
-  },
-];
-
 const fallbackBannerSlides = [
     { src: "/images/Main Page/Banner/Bruse_Banner.png", alt: "Bruse Banner" },
     { src: "/images/Main Page/Banner/Yearly_banner.png", alt: "Yearly Banner" },
@@ -355,14 +344,12 @@ const Hero: React.FC = () => {
   const apiSlides = useAggregate ? homepage!.data.heroSlides : fallbackSlides;
   const apiHomepageBanners = useAggregate ? homepage!.data.homepageBanners : fallbackHomepageBanners;
 
-  const packageImages = apiHomepageBanners.length
-    ? apiHomepageBanners
-        .filter((banner) => Boolean(banner.image_url))
-        .map((banner) => ({
-          src: banner.image_url as string,
-          label: banner.description || banner.title || 'Homepage Banner',
-        }))
-    : fallbackPackageImages;
+  const packageImages = apiHomepageBanners
+    .filter((banner) => Boolean(banner.image_url))
+    .map((banner) => ({
+      src: banner.image_url as string,
+      label: banner.description || banner.title || 'Homepage Banner',
+    }));
 
   // Format the API slides
   const apiFormattedSlides = apiSlides
@@ -827,8 +814,15 @@ const Hero: React.FC = () => {
 
       {/* PACKAGES — vertical tab below ENQUIRE NOW */}
       <button
-        onClick={() => { setPackagesOpen(true); setPackageIndex(0); setPkgZoom(1); }}
+        onClick={() => {
+          if (!packageImages.length) return;
+          setPackagesOpen(true);
+          setPackageIndex(0);
+          setPkgZoom(1);
+        }}
+        disabled={!packageImages.length}
         className="hidden lg:flex absolute left-0 z-20 flex-col items-center justify-center gap-1 py-4 px-2 shadow-2xl transition-all duration-200 hover:brightness-110 active:scale-95"
+        aria-disabled={!packageImages.length}
         style={{
           background: 'rgba(196, 149, 53, 0.55)',
           backdropFilter: 'blur(16px)',

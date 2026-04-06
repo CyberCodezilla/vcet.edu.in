@@ -29,6 +29,16 @@ function withApiOrigin(pathname: string): string {
   return API_ORIGIN ? `${API_ORIGIN}${normalized}` : normalized;
 }
 
+function toUrlPath(value: string): string {
+  const normalized = value.startsWith('/') ? value : `/${value}`;
+  try {
+    const parsed = new URL(normalized);
+    return parsed.pathname || normalized;
+  } catch {
+    return normalized;
+  }
+}
+
 function isBackendAssetPath(pathname: string): boolean {
   return (
     BACKEND_CAPITAL_IMAGE_PATH_PATTERN.test(pathname) ||
@@ -54,7 +64,7 @@ export function resolveUploadedAssetUrl(path: string | null | undefined): string
   if (trimmed.startsWith('blob:') || trimmed.startsWith('data:')) return trimmed;
   if (ABSOLUTE_URL_PATTERN.test(trimmed)) return trimmed;
 
-  const pathname = trimmed.replace(/\\/g, '/');
+  const pathname = toUrlPath(trimmed.replace(/\\/g, '/'));
 
   // Uploaded/static assets should be served from backend origin in split-host setups.
   if (isBackendAssetPath(pathname)) {
@@ -84,7 +94,7 @@ export function resolveBackendMediaUrl(path: string | null | undefined): string 
   if (trimmed.startsWith('blob:') || trimmed.startsWith('data:')) return trimmed;
   if (ABSOLUTE_URL_PATTERN.test(trimmed)) return trimmed;
 
-  const pathname = trimmed.replace(/\\/g, '/');
+  const pathname = toUrlPath(trimmed.replace(/\\/g, '/'));
   if (!isBackendAssetPath(pathname)) return null;
   return withApiOrigin(pathname);
 }

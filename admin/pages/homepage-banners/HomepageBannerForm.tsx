@@ -18,7 +18,6 @@ const HomepageBannerForm: React.FC = () => {
     description: '',
     sort_order: 1,
     is_active: true,
-    is_fixed: false,
   });
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -38,7 +37,6 @@ const HomepageBannerForm: React.FC = () => {
           description: item.description,
           sort_order: item.sort_order,
           is_active: item.is_active,
-          is_fixed: item.is_fixed,
         });
         setExistingImageUrl(item.image_url);
       })
@@ -104,7 +102,6 @@ const HomepageBannerForm: React.FC = () => {
       description,
       sort_order: Number(form.sort_order ?? 1),
       is_active: form.is_active !== false,
-      is_fixed: form.is_fixed === true,
       ...(imageFile ? { image: imageFile } : {}),
     };
 

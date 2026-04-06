@@ -29,7 +29,7 @@ export const homepageBannersService = {
           'vcet_mock_homepage_banners',
           MOCK_HOMEPAGE_BANNERS as HomepageBannerRecord[],
         )
-      : unwrapListResponse<HomepageBannerRecord>(await get<unknown>('/hero-slides?active=1'));
+      : unwrapListResponse<HomepageBannerRecord>(await get<unknown>('/homepage-banners?active=1'));
 
     return sortBySortOrder(banners.filter((banner) => banner.is_active).map(normalizeBanner));
   },

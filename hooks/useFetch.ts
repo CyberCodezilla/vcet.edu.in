@@ -80,13 +80,18 @@ export function useFetch<T>(fetcher: Fetcher<T>, options: UseFetchOptions<T>) {
 	const [loading, setLoading] = useState<boolean>(() => enabled && !(shouldUseCache && cachedInitial !== null));
 	const [error, setError] = useState<string | null>(null);
 	const mountedRef = useRef(true);
+	const fetcherRef = useRef(fetcher);
+
+	useEffect(() => {
+		fetcherRef.current = fetcher;
+	}, [fetcher]);
 
 	const runFetch = useCallback(async (silent = false) => {
 		if (!enabled) return;
 		if (!silent) setLoading(true);
 
 		try {
-			const result = await fetcher();
+			const result = await fetcherRef.current();
 			if (!mountedRef.current) return;
 			setData(result);
 			setError(null);
@@ -98,7 +103,7 @@ export function useFetch<T>(fetcher: Fetcher<T>, options: UseFetchOptions<T>) {
 			if (!mountedRef.current || silent) return;
 			setLoading(false);
 		}
-	}, [enabled, fetcher, shouldUseCache, cacheKey]);
+	}, [enabled, shouldUseCache, cacheKey]);
 
 	useEffect(() => {
 		mountedRef.current = true;

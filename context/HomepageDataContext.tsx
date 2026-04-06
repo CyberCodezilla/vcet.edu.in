@@ -14,10 +14,10 @@ export const HomepageDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const { data, loading, error } = useFetch<HomepageData>(() => homepageService.get(), {
     initialData: EMPTY_HOMEPAGE_DATA,
     cacheKey: 'public:homepage:data',
-    cacheTtlMs: 5 * 60_000,
-    refreshIntervalMs: 5 * 60_000,
-    revalidateOnFocus: false,
-    revalidateOnVisibility: false,
+    cacheTtlMs: 30_000,
+    refreshIntervalMs: 30_000,
+    revalidateOnFocus: true,
+    revalidateOnVisibility: true,
   });
 
   return (
