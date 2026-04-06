@@ -171,7 +171,7 @@ return () => {
 
   const consultancyReportHref =
     resolveUploadedAssetUrl(apiData?.consultancyReport?.fileUrl ?? apiData?.consultancyReport?.url ?? null)
-    || '/pdfs/Research/ConsultancyProjects/CONSULTANCY-PROJECTS-revised.pdf';
+    || 'https://vcet.edu.in/wp-content/uploads/2024/06/CONSULTANCY-PROJECTS-revised.pdf';
 
   const MAX_VAL = Math.max(DEFAULT_MAX_VAL, ...revenueData.map((d) => d.value), 1);
   const SLOT_W = PLOT_W / Math.max(revenueData.length, 1);
@@ -374,25 +374,6 @@ return (
                   </div>
                 </a>
               </div>
-
-              {/* ── Click Here Button for Revised PDF ───────────────────────────── */}
-              <div className="reveal mt-4 border border-[#E5E7EB] bg-white w-full">
-                <a
-                  href="/pdfs/Research/ConsultancyProjects/CONSULTANCY-PROJECTS-revised.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center px-6 py-4 group hover:bg-[#F7F9FC] transition-colors duration-200"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 flex items-center justify-center bg-[#fdb813] text-white rounded-full flex-shrink-0">
-                      <Download className="w-5 h-5" />
-                    </div>
-                    <span className="text-[15px] font-bold text-[#1a4b7c] group-hover:text-[#3a6fa8] transition-colors">
-                      Click here to view the revised consultancy projects PDF
-                    </span>
-                  </div>
-                </a>
-              </div>
             </div>
           </div>
         </div>
@@ -422,7 +403,7 @@ return (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {portfolio.map((item, idx) => (
                 <div
-                  key={`${item.name || 'industry-partner'}-${idx}`}
+                  key={item.name}
                   className="reveal bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col"
                   style={{ transitionDelay: `${idx * 0.07}s` }}
                 >
@@ -430,9 +411,8 @@ return (
                   <div className="aspect-[16/9] bg-white border-b border-gray-100 flex items-center justify-center overflow-hidden">
                     {item.imageUrl ? (
                       <img 
-                        src={encodeURI(item.imageUrl)} 
-                        alt={item.name || 'Consultancy partner'} 
-                        loading="lazy"
+                        src={item.imageUrl} 
+                        alt={item.name} 
                         className="w-full h-full object-contain p-4 mix-blend-multiply" 
                       />
                     ) : (

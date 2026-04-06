@@ -53,7 +53,7 @@ const defaultQuickLinks = [
   { label: 'Publications',          href: '/publications',          icon: BookOpen },
   { label: 'Patents',               href: '/patents',               icon: Award },
   { label: 'Research Facilities',   href: '/research-facility',     icon: GraduationCap },
-  { label: 'Research Conventions',  href: '/pdfs/Research/NIRF/ResearchConventions/RESEARCH-CONVENTION.pdf', icon: Users },
+  { label: 'Research Conventions',  href: '/research-conventions',  icon: Users },
   { label: 'Research Policy',       href: '/research-policy',       icon: FileText },
 ];
 

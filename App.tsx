@@ -150,9 +150,6 @@ const RoboticsLab = lazy(() => import('./pages/RoboticsLab'));
 // pages/oracle-academy
 const OracleAcademy = lazy(() => import('./pages/OracleAcademy'));
 
-// pages/accreditation
-const Accreditation = lazy(() => import('./pages/Accreditation'));
-
 // pages/e-yantra
 const EYantra = lazy(() => import('./pages/EYantra'));
 
@@ -502,7 +499,6 @@ function App() {
             <Route path="/texas-instruments-lab" element={<TexasInstrumentsLab />} />
             <Route path="/robotics-lab" element={<RoboticsLab />} />
             <Route path="/oracle-academy" element={<OracleAcademy />} />
-            <Route path="/accreditation" element={<Accreditation />} />
             <Route path="/e-yantra" element={<EYantra />} />
             <Route path="/training" element={<Training />} />
             <Route path="/placement" element={<Placement />} />

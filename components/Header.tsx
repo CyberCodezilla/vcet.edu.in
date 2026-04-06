@@ -279,12 +279,6 @@ const menuGroups: MenuGroup[] = [
       { label: 'IIIC', href: '/iiic' },
     ],
   },
-
-  // 13. ACCREDITATION
-  {
-    label: 'Accreditation',
-    href: '/accreditation',
-  },
 ];
 
 const RESEARCH_CONVENTION_FALLBACK = 'https://vcet.edu.in/wp-content/uploads/2024/06/RESEARCH-CONVENTION.pdf';
@@ -407,7 +401,6 @@ const keywordMap: Record<string, string[]> = {
   '/administration': ['admin', 'office', 'staff'],
   '/strategic-plan': ['plan', 'roadmap', 'goals'],
   '/code-of-conduct': ['rules', 'discipline', 'policy', 'conduct'],
-  '/accreditation': ['accreditation', 'nba', 'certification', 'accredited', 'certificate'],
   '/courses-and-intake': ['courses', 'intake', 'branches', 'seats', 'ug', 'pg', 'btech', 'mtech', 'engineering'],
   '/fees-structure': ['fees', 'tuition', 'payment', 'cost', 'fee structure'],
   '/scholarships': ['scholarship', 'financial aid', 'freeship', 'merit'],
@@ -1198,8 +1191,8 @@ const Header: React.FC = () => {
           </Link>
 
           {/* â”€â”€â”€â”€ Desktop Nav â”€â”€â”€â”€ */}
-          <nav className="hidden lg:flex items-center flex-1 min-w-0 overflow-x-auto no-scrollbar pr-4" aria-label="Main navigation">
-            <ul className="flex items-center min-w-max gap-1">
+          <nav className="hidden lg:flex items-center flex-1 min-w-0 overflow-x-auto no-scrollbar" aria-label="Main navigation">
+            <ul className="flex items-center gap-0.5 lg:gap-1 xl:gap-1.5">
               {navMenuGroups.map((group, idx) => (
                 <li key={group.label} className="relative flex-shrink-0">
                   {group.dropdown ? (
@@ -1210,7 +1203,7 @@ const Header: React.FC = () => {
                       onBlur={scheduleClose}
                       aria-haspopup="true"
                       aria-expanded={activeMenu === group.label}
-                      className={`flex items-center gap-0.5 px-1.5 lg:px-2 xl:px-2.5 py-1.5 lg:py-2 text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[12px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap select-none ${activeMenu === group.label
+                      className={`flex items-center gap-0.5 px-1 lg:px-2 xl:px-2.5 py-1.5 lg:py-2 text-[8.5px] md:text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[12px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap select-none ${activeMenu === group.label
                         ? 'bg-brand-blue text-white'
                         : 'text-slate-700 hover:bg-brand-blue/8 hover:text-brand-blue'
                         }`}
@@ -1221,7 +1214,7 @@ const Header: React.FC = () => {
                   ) : group.href?.startsWith('/') ? (
                     <Link
                       to={group.href}
-                      className="block px-1.5 lg:px-2 xl:px-2.5 py-1.5 lg:py-2 text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[12px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap text-slate-700 hover:bg-brand-blue/8 hover:text-brand-blue"
+                      className="block px-1 lg:px-2 xl:px-2.5 py-1.5 lg:py-2 text-[8.5px] md:text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[12px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap text-slate-700 hover:bg-brand-blue/8 hover:text-brand-blue"
                     >
                       {group.label}
                     </Link>
@@ -1230,7 +1223,7 @@ const Header: React.FC = () => {
                       href={group.href}
                       target={group.href?.startsWith('http') ? '_blank' : '_self'}
                       rel="noopener noreferrer"
-                      className="block px-1.5 lg:px-2 xl:px-2.5 py-1.5 lg:py-2 text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[12px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap text-slate-700 hover:bg-brand-blue/8 hover:text-brand-blue"
+                      className="block px-1 lg:px-2 xl:px-2.5 py-1.5 lg:py-2 text-[8.5px] md:text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[12px] font-bold uppercase tracking-wide rounded-md transition-all duration-200 whitespace-nowrap text-slate-700 hover:bg-brand-blue/8 hover:text-brand-blue"
                     >
                       {group.label}
                     </a>

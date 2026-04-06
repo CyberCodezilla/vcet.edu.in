@@ -12,19 +12,6 @@ const sidebarLinks = [
   { id: 'our-recruiters',   label: 'Our Recruiters', icon: 'ph-buildings' },
 ];
 
-<<<<<<< HEAD
-const placementReports = [
-  { label: 'Placement 2024-25', href: '/pdfs/Training&Placements/Placement/PlacementStatistics/Placement-Summary-24-25-for-Website.pdf' },
-  { label: 'Placement 2023-24', href: '/pdfs/Training&Placements/Placement/PlacementStatistics/Website-Data_merged-1(Placement2021-2022).pdf' },
-  { label: 'Placement 2022-23', href: '/pdfs/Training&Placements/Placement/PlacementStatistics/Placement-2022-23.pdf' },
-  { label: 'Placement 2021-22', href: '/pdfs/Training&Placements/Placement/PlacementStatistics/2021-22_Website(Placement).pdf' },
-  { label: 'Placement 2020-21', href: '/pdfs/Training&Placements/Placement/PlacementStatistics/2020-21_Website(Placement).pdf' },
-  { label: 'Placement 2019-20', href: '/pdfs/Training&Placements/Placement/PlacementStatistics/2019-20_Website(Placement).pdf' },
-  { label: 'Placement 2018-19', href: '/pdfs/Training&Placements/Placement/PlacementStatistics/2018-19_Website(Placement).pdf' },
-];
-
-=======
->>>>>>> 5e4dcca88cb78bda0aa1e2f4937532790c19a2b5
 const StyledPointList: React.FC<{ items: string[] }> = ({ items }) => (
   <div className="border-2 border-[#adb9c6] overflow-hidden bg-white shadow-none">
     <table className="w-full border-separate border-spacing-0">
@@ -215,11 +202,7 @@ const Placement: React.FC = () => {
                   <h4 className="text-[#64b5f6] text-2xl font-bold mb-4">Training &amp; Placement</h4>
                   <div className="flex items-center justify-center md:justify-start">
                     <a 
-<<<<<<< HEAD
-                      href="/pdfs/Training&Placements/Placement/PlacementCell/Training-and-Placement-Committee_1-2.pdf" 
-=======
                       href={apiData?.placementCell?.committeePdf || '#'} 
->>>>>>> 5e4dcca88cb78bda0aa1e2f4937532790c19a2b5
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 text-slate-700 hover:text-[#1a4b7c] transition-colors group"

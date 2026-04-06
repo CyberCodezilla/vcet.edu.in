@@ -58,7 +58,7 @@ export function resolveUploadedAssetUrl(path: string | null | undefined): string
 
   // Uploaded/static assets should be served from backend origin in split-host setups.
   if (isBackendAssetPath(pathname)) {
-    return withApiOrigin(encodeURI(pathname));
+    return withApiOrigin(pathname);
   }
 
   const segments = pathname
