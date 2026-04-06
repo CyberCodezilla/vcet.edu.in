@@ -369,8 +369,8 @@ const Hero: React.FC = () => {
     .filter((s) => Boolean(s.image_url))
     .map((s) => ({ src: s.image_url as string, alt: s.title || 'Slide' }));
 
-  // Combine API slides WITH the original fallback slides so both are shown and they keep animating
-  const displaySlides = [...apiFormattedSlides, ...fallbackBannerSlides];
+  // Use API slides when available; only fall back to static slides if the API has none.
+  const displaySlides = apiFormattedSlides.length > 0 ? apiFormattedSlides : fallbackBannerSlides;
 
   useEffect(() => {
     if (displaySlides.length <= 1) return;

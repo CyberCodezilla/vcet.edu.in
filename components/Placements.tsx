@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { LampContainer } from '../ui/lamp';
 import { placementStatsApi, type PlacementStat } from '../admin/api/placementStats';
@@ -20,6 +20,12 @@ function toChartEntries(stats: PlacementStat[]): ChartEntry[] {
     }));
 }
 
+function getChartSignature(entries: ChartEntry[]): string {
+  return entries
+    .map((entry) => `${entry.year}:${entry.count}:${entry.isCovid ? 1 : 0}`)
+    .join('|');
+}
+
 const CHART_H = 260; // px — usable bar area height
 
 const Placements: React.FC = () => {
@@ -32,6 +38,8 @@ const Placements: React.FC = () => {
   const [placementData, setPlacementData] = useState<ChartEntry[]>([]);
   const [animatedCounts, setAnimatedCounts] = useState<number[]>([]);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const loadedSignatureRef = useRef('');
+  const animatedSignatureRef = useRef('');
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDown, setIsDown] = useState(false);
@@ -86,6 +94,12 @@ const Placements: React.FC = () => {
   useEffect(() => {
     if (useAggregate) {
       const entries = toChartEntries(homepage!.data.placementYearStats);
+      const signature = getChartSignature(entries);
+      if (signature === loadedSignatureRef.current) {
+        return;
+      }
+      loadedSignatureRef.current = signature;
+      animatedSignatureRef.current = '';
       setPlacementData(entries);
       setAnimatedCounts(entries.map(() => 0));
       return;
@@ -98,6 +112,12 @@ const Placements: React.FC = () => {
           return;
         }
         const entries = toChartEntries(stats);
+        const signature = getChartSignature(entries);
+        if (signature === loadedSignatureRef.current) {
+          return;
+        }
+        loadedSignatureRef.current = signature;
+        animatedSignatureRef.current = '';
         setPlacementData(entries);
         setAnimatedCounts(entries.map(() => 0));
       })
@@ -108,10 +128,6 @@ const Placements: React.FC = () => {
   }, [homepage, useAggregate]);
 
   useEffect(() => {
-    setAnimatedCounts(placementData.map(() => 0));
-  }, [placementData]);
-
-  useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
       { threshold: 0.15 }
@@ -120,15 +136,21 @@ const Placements: React.FC = () => {
     return () => { if (sectionRef.current) observer.unobserve(sectionRef.current); };
   }, []);
 
+  const placementDataSignature = useMemo(() => getChartSignature(placementData), [placementData]);
+
   useEffect(() => {
     if (!isVisible || placementData.length === 0) return;
+    if (animatedSignatureRef.current === placementDataSignature) return;
+    animatedSignatureRef.current = placementDataSignature;
+
     const duration = 1800;
     const steps = 72;
     const stepDuration = duration / steps;
     const timers: ReturnType<typeof setInterval>[] = [];
+    const delays: ReturnType<typeof setTimeout>[] = [];
     placementData.forEach((item, index) => {
       const delay = index * 100;
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         let currentStep = 0;
         const timer = setInterval(() => {
           currentStep++;
@@ -144,9 +166,13 @@ const Placements: React.FC = () => {
         }, stepDuration);
         timers.push(timer);
       }, delay);
+      delays.push(timeout);
     });
-    return () => timers.forEach(t => clearInterval(t));
-  }, [isVisible, placementData]);
+    return () => {
+      delays.forEach((timeout) => clearTimeout(timeout));
+      timers.forEach((timer) => clearInterval(timer));
+    };
+  }, [isVisible, placementData, placementDataSignature]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollRef.current) return;
