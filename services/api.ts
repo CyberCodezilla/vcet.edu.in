@@ -80,6 +80,44 @@ function writePageCache(path: string, data: unknown): void {
     }
 }
 
+function clearPageCachePath(path: string): void {
+    const key = getPageCacheKey(path);
+    pageMemoryCache.delete(key);
+    inflightPageFetches.delete(key);
+    if (typeof window !== 'undefined') {
+        try {
+            window.localStorage.removeItem(key);
+        } catch {
+            // Ignore storage failures.
+        }
+    }
+}
+
+export function invalidatePublicPageCache(paths?: string[]): void {
+    if (paths && paths.length > 0) {
+        paths
+            .filter((path) => path.startsWith('/pages/'))
+            .forEach((path) => clearPageCachePath(path));
+        return;
+    }
+
+    pageMemoryCache.clear();
+    inflightPageFetches.clear();
+
+    if (typeof window === 'undefined') return;
+
+    try {
+        for (let index = window.localStorage.length - 1; index >= 0; index -= 1) {
+            const key = window.localStorage.key(index);
+            if (key && key.startsWith(PAGE_CACHE_PREFIX)) {
+                window.localStorage.removeItem(key);
+            }
+        }
+    } catch {
+        // Ignore storage failures.
+    }
+}
+
 async function fetchJson<T>(path: string): Promise<T> {
     const response = await fetch(`${API_BASE}/api${path}`, {
         cache: 'no-store',
@@ -182,16 +220,18 @@ export async function get<T>(path: string): Promise<T> {
         const isFresh = age <= PAGE_CACHE_TTL_MS;
         const shouldRevalidate = age >= PAGE_CACHE_REVALIDATE_MS;
 
-        if (shouldRevalidate) {
-            void fetchAndCachePage<T>(path);
-        }
-
         if (isFresh) {
+            if (shouldRevalidate) {
+                void fetchAndCachePage<T>(path);
+            }
             return cached.data as T;
         }
 
-        // Serve stale data immediately while revalidating in the background.
-        return cached.data as T;
+        try {
+            return await fetchAndCachePage<T>(path);
+        } catch {
+            return cached.data as T;
+        }
     }
 
     return fetchAndCachePage<T>(path);
