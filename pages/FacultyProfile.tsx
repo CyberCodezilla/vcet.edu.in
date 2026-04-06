@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { facultyApi } from '../admin/api/faculty';
 import type { Faculty } from '../admin/types';
@@ -38,21 +38,22 @@ const ImageWithFallback: React.FC<{ url?: string; name: string; altText: string 
 };
 
 const FacultyProfile: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id, slug } = useParams<{ id?: string; slug?: string }>();
+  const profileKey = (id ?? slug ?? '').trim();
   const navigate = useNavigate();
   const [faculty, setFaculty] = useState<Faculty | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('about');
 
   useEffect(() => {
-    if (!id) return;
+    if (!profileKey) return;
     setLoading(true);
-    facultyApi.get(id)
+    facultyApi.get(profileKey)
       .then(r => {
         if (r && r.data) {
           setFaculty(r.data);
         } else {
-          const fallbackFaculty = findFallbackFaculty(id);
+          const fallbackFaculty = findFallbackFaculty(profileKey);
           if (fallbackFaculty) {
             setFaculty(fallbackFaculty);
             return;
@@ -62,10 +63,10 @@ const FacultyProfile: React.FC = () => {
       })
       .catch((e) => {
         console.warn("Failed to fetch faculty profile from backend API", e);
-        setFaculty(findFallbackFaculty(id));
+        setFaculty(findFallbackFaculty(profileKey));
       })
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [profileKey]);
 
   const backToDepartment = (department?: string) => {
     const normalized = (department || '').toLowerCase();
@@ -426,6 +427,3 @@ const FacultyProfile: React.FC = () => {
 };
 
 export default FacultyProfile;
-
-
-

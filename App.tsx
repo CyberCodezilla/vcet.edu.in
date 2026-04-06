@@ -5,6 +5,8 @@ import { PageTitleUpdater } from './components/PageTitleUpdater';
 import { AuthProvider } from './admin/context/AuthContext';
 import ProtectedRoute from './admin/components/ProtectedRoute';
 import AdminLayout from './admin/components/AdminLayout';
+import { HomepageDataProvider } from './context/HomepageDataContext';
+import { LazySection } from './hooks/useLazyFetch';
 
 /* ── Homepage Components ── */
 import Header from './components/Header';
@@ -20,9 +22,8 @@ import Gallery from './components/Gallery';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
 import SplashScreen from './components/SplashScreen';
+// warmPublicPageCache is intentionally NOT called - data is fetched lazily
 
-const CAREER_AT_VCET_PDF_URL =
-  'https://drive.google.com/file/d/1grwZ4_QIjC23c4HHFCM4xPJuFywsWtgw/view?usp=sharing';
 
 /* ── Lazy-loaded Pages ── */
 
@@ -243,6 +244,8 @@ const PlacementForm = lazy(() => import('./admin/pages/placements/PlacementForm'
 const PlacementStats = lazy(() => import('./admin/pages/placements/PlacementStats'));
 const HeroSlidesList = lazy(() => import('./admin/pages/hero-slides/HeroSlidesList'));
 const HeroSlideForm = lazy(() => import('./admin/pages/hero-slides/HeroSlideForm'));
+const HomepageBannersList = lazy(() => import('./admin/pages/homepage-banners/HomepageBannersList'));
+const HomepageBannerForm = lazy(() => import('./admin/pages/homepage-banners/HomepageBannerForm'));
 const GalleryList = lazy(() => import('./admin/pages/gallery/GalleryList'));
 const GalleryForm = lazy(() => import('./admin/pages/gallery/GalleryForm'));
 const NewsTickerList = lazy(() => import('./admin/pages/news-ticker/NewsTickerList'));
@@ -251,6 +254,7 @@ const AchievementsList = lazy(() => import('./admin/pages/achievements/Achieveme
 const AchievementsForm = lazy(() => import('./admin/pages/achievements/AchievementsForm'));
 const TestimonialsList = lazy(() => import('./admin/pages/testimonials/TestimonialsList'));
 const TestimonialsForm = lazy(() => import('./admin/pages/testimonials/TestimonialsForm'));
+const ExploreUsList = lazy(() => import('./admin/pages/explore-us/ExploreUsList'));
 const GalleryPage = lazy(() => import('./admin/pages/gallery/GalleryPage'));
 const PlacementPartnersList = lazy(() => import('./admin/pages/placement-partners/PlacementPartnersList'));
 const PlacementPartnersForm = lazy(() => import('./admin/pages/placement-partners/PlacementPartnersForm'));
@@ -297,6 +301,13 @@ const ExternalRedirect: React.FC<{ to: string }> = ({ to }) => {
   return <PageLoader />;
 };
 
+// Simple section loading placeholder
+const SectionPlaceholder: React.FC<{ height?: string }> = ({ height = '300px' }) => (
+  <div className="w-full bg-gray-50 animate-pulse flex items-center justify-center" style={{ minHeight: height }}>
+    <div className="text-gray-400 text-sm">Loading...</div>
+  </div>
+);
+
 const HomePage: React.FC = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -314,30 +325,59 @@ const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <div className="home-page min-h-screen font-sans bg-white text-slate-800">
-      <SplashScreen />
-      <div className="relative z-[100]">
-        <TopBanner />
-        <Header />
+    <HomepageDataProvider>
+      <div className="home-page min-h-screen font-sans bg-white text-slate-800">
+        <SplashScreen />
+        <div className="relative z-[100]">
+          <TopBanner />
+          <Header />
+        </div>
+        <main>
+          {/* Above-the-fold: Load immediately */}
+          <Hero />
+          <About />
+          
+          {/* Below-the-fold: Load lazily when user scrolls near */}
+          <LazySection fallback={<SectionPlaceholder height="400px" />} rootMargin="300px" minHeight="400px">
+            <Placements />
+          </LazySection>
+          
+          <LazySection fallback={<SectionPlaceholder height="300px" />} rootMargin="300px" minHeight="300px">
+            <Recruiters />
+          </LazySection>
+          
+          <LazySection fallback={<SectionPlaceholder height="400px" />} rootMargin="300px" minHeight="400px">
+            <Departments />
+          </LazySection>
+          
+          <LazySection fallback={<SectionPlaceholder height="300px" />} rootMargin="300px" minHeight="300px">
+            <Achievements />
+          </LazySection>
+          
+          <LazySection fallback={<SectionPlaceholder height="300px" />} rootMargin="300px" minHeight="300px">
+            <ExploreUs />
+          </LazySection>
+          
+          <LazySection fallback={<SectionPlaceholder height="400px" />} rootMargin="300px" minHeight="400px">
+            <Gallery />
+          </LazySection>
+          
+          <LazySection fallback={<SectionPlaceholder height="400px" />} rootMargin="300px" minHeight="400px">
+            <Testimonials />
+          </LazySection>
+        </main>
+        <Footer />
       </div>
-      <main>
-        <Hero />
-        <About />
-        <Placements />
-        <Recruiters />
-        <Departments />
-        <Achievements />
-        <ExploreUs />
-        <Gallery />
-        <Testimonials />
-      </main>
-      <Footer />
-    </div>
+    </HomepageDataProvider>
   );
 };
 
 /* ── App with Router ── */
 function App() {
+  // NOTE: warmPublicPageCache() is intentionally NOT called here
+  // Data is now fetched lazily only when sections become visible
+  // This prevents 80+ unnecessary API calls on every homepage load
+
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -357,6 +397,7 @@ function App() {
             <Route path="/administration" element={<Administration />} />
             <Route path="/strategic-plan" element={<StrategicPlan />} />
               <Route path="/code-of-conduct" element={<CodeOfConduct />} />
+            <Route path="/courses-and-intake" element={<CoursesIntake />} />
             <Route path="/fees-structure" element={<FeesStructure />} />
             <Route path="/scholarships" element={<Scholarships />} />
             <Route path="/brochure" element={<Brochure />} />
@@ -413,7 +454,6 @@ function App() {
             <Route path="/differently-abled" element={<DifferentlyAbled />} />
 
             {/* Student Life */}
-            <Route path="/career-at-vcet" element={<ExternalRedirect to={CAREER_AT_VCET_PDF_URL} />} />
             <Route path="/students-council" element={<Navigate to="/" replace />} />
             <Route path="/cultural-committee" element={<CulturalCommittee />} />
             <Route path="/sports-committee" element={<SportsCommittee />} />
@@ -569,6 +609,9 @@ element={<MMSStudentsLifeCustomEvent />} />
             <Route path="notices" element={<NoticesList />} />
             <Route path="notices/new" element={<NoticeForm />} />
             <Route path="notices/:id/edit" element={<NoticeForm />} />
+            <Route path="homepage-banners" element={<HomepageBannersList />} />
+            <Route path="homepage-banners/new" element={<HomepageBannerForm />} />
+            <Route path="homepage-banners/:id/edit" element={<HomepageBannerForm />} />
             <Route path="events" element={<EventsList />} />
             <Route path="events/new" element={<EventForm />} />
             <Route path="events/:id/edit" element={<EventForm />} />
@@ -590,8 +633,7 @@ element={<MMSStudentsLifeCustomEvent />} />
             <Route path="achievements/:id/edit" element={<AchievementsForm />} />
             <Route path="testimonials" element={<TestimonialsList />} />
             <Route path="testimonials/new" element={<TestimonialsForm />} />
-            <Route path="testimonials/:id/edit" element={<TestimonialsForm />} />
-            <Route path="gallery" element={<GalleryPage />} />
+            <Route path="testimonials/:id/edit" element={<TestimonialsForm />} />              <Route path="explore-us" element={<ExploreUsList />} />            <Route path="gallery" element={<GalleryPage />} />
             <Route path="placement-partners" element={<PlacementPartnersList />} />
             <Route path="placement-partners/new" element={<PlacementPartnersForm />} />
             <Route path="placement-partners/:id/edit" element={<PlacementPartnersForm />} />

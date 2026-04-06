@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Search, ChevronDown, ChevronRight } from 'lucide-react';
+import { useHomepageData } from '../context/HomepageDataContext';
 import { academicsService, type AcademicDocument } from '../services/academics';
 import { naacScoresService, type DynamicNaacScoreUpload } from '../services/naacScores';
 import { getResearchSection } from '../services/research';
 import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
 
 const CAREER_AT_VCET_PDF_URL =
-  'https://drive.google.com/file/d/1grwZ4_QIjC23c4HHFCM4xPJuFywsWtgw/view?usp=sharing';
+  'https://vcet.edu.in/wp-content/uploads/2025/05/Recruitment-Advertise-15-May-2025.pdf';
 const SSS_GOOGLE_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSeR3qTw2AO0xsDYkuzJ8dnrJyi4EGuYJAupBqLqlS2cQPLlYg/viewform';
 
@@ -48,7 +49,7 @@ const menuGroups: MenuGroup[] = [
       { label: 'Organizational Structure', href: '/organizational-structure' },
       { label: 'Administration', href: '/administration' },
       { label: 'Strategic Plan', href: '/strategic-plan' },
-      { label: 'Code of Conduct', href: '/code-of-conduct' },
+      { label: 'Code of Conduct', href: '/pdfs/Aboutus/Codeofconduct/Code-of-Conduct-1.pdf' },
       { label: 'Contact Us', href: '/contact-us' },
     ],
   },
@@ -107,15 +108,15 @@ const menuGroups: MenuGroup[] = [
         label: 'Academic Calendar',
         href: '/academic-calendar',
         subItems: [
-          { label: 'EVEN SEM 2025-26 SE TE BE (Tentative)', href: 'https://vcet.edu.in/wp-content/uploads/2026/01/Academic_Calendar_Even_2025-26.pdf' },
-          { label: 'ODD SEM 2025-26 SE TE BE', href: 'https://vcet.edu.in/wp-content/uploads/2025/08/acad-calen-odd-25-26.pdf' },
-          { label: 'EVEN SEM 2024-25', href: 'https://vcet.edu.in/wp-content/uploads/2024/12/Academic_Calender_2024_25_Even_2025-1.pdf' },
-          { label: 'ODD SEM 2024-25 FE ME', href: 'https://vcet.edu.in/wp-content/uploads/2024/09/Adobe-Scan-13-Sep-2024.pdf' },
-          { label: 'ODD SEM 2024-25 SE TE BE', href: 'https://vcet.edu.in/wp-content/uploads/2024/07/Adobe-Scan-05-Jul-2024-3.pdf' },
-          { label: 'EVEN SEM 2023-24 SE TE BE', href: 'https://vcet.edu.in/wp-content/uploads/2024/06/Academic-Calendar_Even-Sem_-2023-2024.pdf' },
-          { label: 'EVEN SEM 2022-23 SE TE BE', href: 'https://vcet.edu.in/wp-content/uploads/2023/01/Academic-Calendar-Even-Semester-2022-23-SE-TE-BE.pdf' },
-          { label: 'FE & ME EVEN SEM 2022-23', href: 'https://vcet.edu.in/wp-content/uploads/2023/03/FE_SemII_Academic_Calendar2022-23.pdf' },
-          { label: 'FE ODD SEM 2022-23', href: 'https://vcet.edu.in/wp-content/uploads/2023/01/Academic-Calendar-Odd-Semester-2022-23-F.E.pdf' },
+          { label: 'EVEN SEM 2025-26 SE TE BE (Tentative)', href: '/pdfs/Academics/AcademicCalender/Academic_Calendar_Even_2025-26.pdf' },
+          { label: 'ODD SEM 2025-26 SE TE BE', href: '/pdfs/Academics/AcademicCalender/acad-calen-odd-25-26(SE,TE,BE).pdf' },
+          { label: 'EVEN SEM 2024-25', href: '/pdfs/Academics/AcademicCalender/Academic_Calender_2024_25_Even_2025-1.pdf' },
+          { label: 'ODD SEM 2024-25 FE ME', href: '/pdfs/Academics/AcademicCalender/Academic_Calendar_Odd-24-25(FE,ME,Sem1).pdf' },
+          { label: 'ODD SEM 2024-25 SE TE BE', href: '/pdfs/Academics/AcademicCalender/Academic_Calendar_Odd-24-25(SE,TE,BE).pdf' },
+          { label: 'EVEN SEM 2023-24 SE TE BE', href: '/pdfs/Academics/AcademicCalender/Academic-Calendar_Even-Sem_-2023-2024.pdf' },
+          { label: 'EVEN SEM 2022-23 SE TE BE', href: '/pdfs/Academics/AcademicCalender/Academic-Calendar-Even-Semester-2022-23-SE-TE-BE.pdf' },
+          { label: 'FE & ME EVEN SEM 2022-23', href: '/pdfs/Academics/AcademicCalender/FE_SemII_Academic_Calendar2022-23(EvenSem).pdf' },
+          { label: 'FE ODD SEM 2022-23', href: '/pdfs/Academics/AcademicCalender/Academic-Calendar-Odd-Semester-2022-23-F.E.pdf' },
         ],
       },
       { label: 'Teaching Learning Process', href: '/teaching-learning' },
@@ -123,8 +124,8 @@ const menuGroups: MenuGroup[] = [
       {
         label: 'Honours / Minor Degree Program',
         subItems: [
-          { label: 'Booklet Part 1', href: 'https://vcet.edu.in/wp-content/uploads/2022/08/Honours-Minor-Degree-Program-_Booklet_Part-1-Final.pdf' },
-          { label: 'Booklet Part 2', href: 'https://vcet.edu.in/wp-content/uploads/2022/08/Honours-Minor-Degree-Program-Booklet-_Part-2_Detailed-Syllabus-Final.pdf' },
+          { label: 'Booklet Part 1', href: '/pdfs/Academics/Honours-Minor-Degree-Program/Honours-Minor-Degree-Program-_Booklet_Part-1-Final.pdf' },
+          { label: 'Booklet Part 2', href: '/pdfs/Academics/Honours-Minor-Degree-Program/Honours-Minor-Degree-Program-Booklet-_Part-2_Detailed-Syllabus-Final.pdf' },
         ],
       },
     ],
@@ -167,7 +168,7 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'Student & Career',
     dropdown: [
-      { label: 'Career @ VCET', href: '/career-at-vcet' },
+      { label: 'Career @ VCET', href: CAREER_AT_VCET_PDF_URL },
       {
         label: 'Extra curricular Activities',
         subItems: [
@@ -227,8 +228,8 @@ const menuGroups: MenuGroup[] = [
         ],
       },
       { label: 'Internal Complaint Committee', href: '/internal-complaint' },
-      { label: 'Equal Opportunity Cell', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/EOC-Committee.pdf' },
-      { label: 'Socio-Economically Disadvantaged Groups Cell', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/SEDG.pdf' },
+      { label: 'Equal Opportunity Cell', href: '/pdfs/Committees/EqualOpportunityCell/EOC-Committee.pdf' },
+      { label: 'Socio-Economically Disadvantaged Groups Cell', href: '/pdfs/Committees/Socio-EconomicallyDisadvantagedGroupsCell/SEDG.pdf' },
     ],
   },
 
@@ -445,7 +446,6 @@ const keywordMap: Record<string, string[]> = {
   '/sports-gymkhana': ['sports', 'gym', 'gymkhana', 'playground', 'athletics'],
   '/health-facilities': ['health', 'medical', 'doctor', 'first aid'],
   '/differently-abled': ['differently abled', 'disability', 'accessible', 'divyang'],
-  '/career-at-vcet': ['career', 'jobs', 'recruitment', 'vacancies', 'work at vcet'],
   [CAREER_AT_VCET_PDF_URL]: ['career', 'jobs', 'recruitment', 'vacancies', 'work at vcet'],
   '/cultural-committee': ['cultural', 'fest', 'events', 'annual day'],
   '/sports-committee': ['sports committee', 'games'],
@@ -959,6 +959,8 @@ const MobileAccordionItem: React.FC<MobileAccordionItemProps> = ({ item, onClose
    MAIN HEADER COMPONENT
 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const Header: React.FC = () => {
+  const homepage = useHomepageData();
+  const useAggregate = Boolean(homepage);
   const navigate = useNavigate();
   const [liveCalendars, setLiveCalendars] = useState<AcademicDocument[]>([]);
   const [liveBooklets, setLiveBooklets] = useState<AcademicDocument[]>([]);
@@ -977,6 +979,13 @@ const Header: React.FC = () => {
   const [dropdownPos, setDropdownPos] = useState<{ top: number; left: number; right: number; alignRight: boolean }>({ top: 0, left: 0, right: 0, alignRight: false });
 
   useEffect(() => {
+    if (useAggregate) {
+      const data = homepage!.data.academics;
+      setLiveCalendars(Array.isArray(data.academicCalendars) ? data.academicCalendars : []);
+      setLiveBooklets(Array.isArray(data.programBooklets) ? data.programBooklets : []);
+      return;
+    }
+
     academicsService
       .get()
       .then((data) => {
@@ -987,16 +996,27 @@ const Header: React.FC = () => {
         setLiveCalendars([]);
         setLiveBooklets([]);
       });
-  }, []);
+  }, [homepage, useAggregate]);
 
   useEffect(() => {
+    if (useAggregate) {
+      setLiveNaacScoreDocs(Array.isArray(homepage!.data.naacScoreUploads) ? homepage!.data.naacScoreUploads : []);
+      return;
+    }
+
     naacScoresService
       .list()
       .then((items) => setLiveNaacScoreDocs(Array.isArray(items) ? items : []))
       .catch(() => setLiveNaacScoreDocs([]));
-  }, []);
+  }, [homepage, useAggregate]);
 
   useEffect(() => {
+    if (useAggregate) {
+      setResearchConventionHref(resolveResearchPdfHref(homepage!.data.research.conventions, RESEARCH_CONVENTION_FALLBACK));
+      setResearchPolicyHref(resolveResearchPdfHref(homepage!.data.research.policy, RESEARCH_POLICY_FALLBACK));
+      return;
+    }
+
     let mounted = true;
 
     Promise.all([
@@ -1017,7 +1037,7 @@ const Header: React.FC = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [homepage, useAggregate]);
 
   const navMenuGroups = useMemo(
     () => withLiveResearchDropdown(
@@ -1170,7 +1190,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 mr-0.5">
             <img
-              src="/Images/VCET logo.jpeg"
+              src="/images/VCET logo.jpeg"
               alt="VCET Logo"
               className="h-12 md:h-14 w-auto rounded-sm"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}

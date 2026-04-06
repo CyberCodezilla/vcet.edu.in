@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
-import NewsletterSection from '../../components/NewsletterSection';
+import DepartmentNewsletterPanel from '../../components/DepartmentNewsletterPanel';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -30,6 +30,20 @@ const delayClass = (idx: number) => {
   return 'delay-300';
 };
 
+const newsletterPdfs = [
+  { label: 'Newsletter 2024-25', href: '/pdfs/Department/CivilEngineering/Newsletter/Civil-Newsletter-2024-25.pdf' },
+  { label: 'Newsletter 2023-24', href: '/pdfs/Department/CivilEngineering/Newsletter/Civil-Newsletter-2023-24.pdf' },
+  { label: 'Newsletter 2022-23', href: '/pdfs/Department/CivilEngineering/Newsletter/Civil-Newsletter-2022-23.pdf' },
+  { label: 'Newsletter 2021-22', href: '/pdfs/Department/CivilEngineering/Newsletter/Civil-Newsletter-2021-22.pdf' },
+];
+
+const magazinePdfs = [
+  { label: 'Magazine 2024-25', href: '/pdfs/Department/CivilEngineering/Magazine/Civil-Magazine-2024-25.pdf' },
+  { label: 'Magazine 2023-24', href: '/pdfs/Department/CivilEngineering/Magazine/Civil-Magazine-2023-24.pdf' },
+  { label: 'Magazine 2022-23', href: '/pdfs/Department/CivilEngineering/Magazine/Civil-Magazine-2022-23.pdf' },
+  { label: 'Magazine 2021-22', href: '/pdfs/Department/CivilEngineering/Magazine/Civil-Magazine-2021-22.pdf' },
+];
+
 const DeptCivil: React.FC = () => {
   const [activeId, setActiveId] = useState('about');
   const activeLink = sidebarLinks.find(l => l.id === activeId);
@@ -55,7 +69,7 @@ const DeptCivil: React.FC = () => {
   return (
     <PageLayout>
 
-      {/* ── Hero Banner ─────────────────────────────────────────── */}
+      {/* â”€â”€ Hero Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header className="relative bg-gradient-to-r from-brand-navy to-slate-800 pt-24 md:pt-28 pb-12 md:pb-16 overflow-hidden shadow-lg border-b-4 border-brand-gold">
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-white opacity-5 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-10 w-64 h-64 rounded-full bg-brand-gold opacity-10 blur-2xl pointer-events-none" />
@@ -72,7 +86,7 @@ const DeptCivil: React.FC = () => {
         </div>
       </header>
 
-      {/* ── Page Body ───────────────────────────────────────────── */}
+      {/* â”€â”€ Page Body â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="container mx-auto px-4 sm:px-6 py-10 md:py-12 max-w-7xl flex flex-col lg:flex-row gap-8 lg:gap-10">
 
         {/* Sticky Sidebar */}
@@ -100,7 +114,7 @@ const DeptCivil: React.FC = () => {
         {/* Main Content */}
         <main className="w-full flex-1 space-y-14 md:space-y-16 min-w-0">
 
-          {/* ════ ABOUT ════════════════════════════════════════════ */}
+          {/* â•â•â•â• ABOUT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'about' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="mb-8 flex flex-col items-center text-center">
@@ -128,7 +142,7 @@ const DeptCivil: React.FC = () => {
             </section>
           )}
 
-          {/* ════ VISION & MISSION ═════════════════════════════════ */}
+          {/* â•â•â•â• VISION & MISSION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'vision' && (
             <div className="space-y-16">
               <div className="reveal flex items-center gap-4">
@@ -152,7 +166,7 @@ const DeptCivil: React.FC = () => {
                     </blockquote>
                     <div className="flex items-center gap-4">
                       <div className="h-px flex-1 bg-white/10" />
-                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">VCET · Civil Engineering</span>
+                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">VCET Â· Civil Engineering</span>
                       <div className="h-px w-12 bg-brand-gold/40" />
                     </div>
                   </div>
@@ -186,7 +200,7 @@ const DeptCivil: React.FC = () => {
             </div>
           )}
 
-          {/* ════ DAB ══════════════════════════════════════════════ */}
+          {/* â•â•â•â• DAB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'dab' && (() => {
             const members = [
               { sr: 1, name: 'Dr. Rakesh Himte', designation: 'Principal', org: 'VCET, Vasai', role: 'Chairman', tag: 'internal' },
@@ -231,7 +245,7 @@ const DeptCivil: React.FC = () => {
             );
           })()}
 
-          {/* ════ POs, PEOs & PSOs ═════════════════════════════════ */}
+          {/* â•â•â•â• POs, PEOs & PSOs â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'peo' && (() => {
             const pos = [
               { n: '01', text: 'Engineering knowledge: Apply the knowledge of mathematics, science, engineering fundamentals, and an engineering specialization to the solution of complex engineering problems.' },
@@ -244,7 +258,7 @@ const DeptCivil: React.FC = () => {
               { n: '08', text: 'Ethics: Apply ethical principles and commit to professional ethics and responsibilities and norms of the engineering practice.' },
               { n: '09', text: 'Individual and team work: Function effectively as an individual, and as a member or leader in diverse teams, and in multidisciplinary settings.' },
               { n: '10', text: 'Communication: Communicate effectively on complex engineering activities with the engineering community and with society at large, such as, being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions.' },
-              { n: '11', text: 'Project management and finance: Demonstrate knowledge and understanding of the engineering and management principles and apply these to one’s own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.' },
+              { n: '11', text: 'Project management and finance: Demonstrate knowledge and understanding of the engineering and management principles and apply these to oneâ€™s own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.' },
               { n: '12', text: 'Life-long learning: Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change.' },
             ];
             const peos = [
@@ -304,10 +318,10 @@ const DeptCivil: React.FC = () => {
             );
           })()}
 
-          {/* ════ FACULTY ══════════════════════════════════════════ */}
+          {/* â•â•â•â• FACULTY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'faculty' && <DepartmentFacultySection departmentName="Civil Engineering" />}
 
-          {/* ════ PAQIC ═══════════════════════════════════════════ */}
+          {/* â•â•â•â• PAQIC â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'paqic' && (() => {
             const members = [
               'Dr. Ajay Radke, HOD, Civil Engineering (Chairman)',
@@ -357,13 +371,13 @@ const DeptCivil: React.FC = () => {
             );
           })()}
 
-          {/* ════ FACULTY LIST ═══════════════════════════════════ */}
+          {/* â•â•â•â• FACULTY LIST â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'faculty-list' && (() => {
             const links = [
-              { label: 'Faculty List 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Faculty-List-2023-24.pdf' },
-              { label: 'Faculty List 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Faculty-List-2022-23.pdf' },
-              { label: 'Faculty List 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Faculty-List-2021-22.pdf' },
-              { label: 'Faculty List 2020-21', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Faculty-List-2020-21.pdf' },
+              { label: 'Faculty List 2023-24', url: 'pdfs/Department/CivilEngineering/FacultyList/Faculty-List-2023-24.pdf' },
+              { label: 'Faculty List 2022-23', url: 'pdfs/Department/CivilEngineering/FacultyList/Faculty-List-2022-23.pdf' },
+              { label: 'Faculty List 2021-22', url: 'pdfs/Department/CivilEngineering/FacultyList/Faculty-List-2021-22.pdf' },
+              { label: 'Faculty List 2020-21', url: 'pdfs/Department/CivilEngineering/FacultyList/Faculty-List-2020-21.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -380,11 +394,11 @@ const DeptCivil: React.FC = () => {
             );
           })()}
 
-          {/* ════ STUDENT LIST ═══════════════════════════════════ */}
+          {/* â•â•â•â• STUDENT LIST â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'student-list' && (() => {
             const links = [
-              { label: 'Student List 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Student-List-23-24.pdf' },
-              { label: 'Student List 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Student-List-2022-23.pdf' },
+              { label: 'Student List 2023-24', url: 'pdfs/Department/CivilEngineering/StudentList/Student-List-23-24.pdf' },
+              { label: 'Student List 2022-23', url: 'pdfs/Department/CivilEngineering/StudentList/Student-List-2022-23.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -401,18 +415,18 @@ const DeptCivil: React.FC = () => {
             );
           })()}
 
-          {/* ════ PLACEMENT RECORD ═══════════════════════════════ */}
+          {/* â•â•â•â• PLACEMENT RECORD â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'placement-record' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Civil Engineering</span></div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Placement Record<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2024/04/Placement-Record.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs/Department/CivilEngineering/PlacementRecord/Placement-Record.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>Placement Record - Civil</span><i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
             </section>
           )}
 
-          {/* ════ INFRASTRUCTURE ═════════════════════════════════ */}
+          {/* â•â•â•â• INFRASTRUCTURE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'infrastructure' && (() => {
             const labs = [
               {
@@ -424,13 +438,13 @@ const DeptCivil: React.FC = () => {
               {
                 title: 'Research Laboratory',
                 inCharge: 'Mr. Nikhil Gavad',
-                hardware: 'HP 280 G5 SFF desktop with i5 /10 th gen/ 8Gb/512SSD, 19.5″ Monitor (20 Unit)',
+                hardware: 'HP 280 G5 SFF desktop with i5 /10 th gen/ 8Gb/512SSD, 19.5â€³ Monitor (20 Unit)',
                 features: 'This lab desktops are equipped with softwares like ETABS Version-20 Ultimate, Auto CAAD 2023 (Student Version), Microsoft Office (Campus License). It is used by all Civil Engineering students for SBLC Labs & project research.',
               },
               {
                 title: 'Fluid Mechanics Laboratory',
                 inCharge: 'Mr. Prakash Panda',
-                hardware: 'Buoyance & Metacentric height apparatus Bernoulli’s theorem apparatus Close circuit calibration rig for measuring discharge through venturi meter and orifice meter Close circuit apparatus for determination of co efficient of discharge of orifice and mouthpiece Flow through nozzles Reynolds Apparatus. Wind Tunnel.',
+                hardware: 'Buoyance & Metacentric height apparatus Bernoulliâ€™s theorem apparatus Close circuit calibration rig for measuring discharge through venturi meter and orifice meter Close circuit apparatus for determination of co efficient of discharge of orifice and mouthpiece Flow through nozzles Reynolds Apparatus. Wind Tunnel.',
                 features: 'This laboratory deals with the experiments based on Fluid Mechanics and various water resources applications. This Laboratory is designed to educate the students of S.E. Civil.',
               },
               {
@@ -443,7 +457,7 @@ const DeptCivil: React.FC = () => {
                 title: 'Transportation Engineering Laboratory',
                 inCharge: 'Dr. Viren Chandanshive',
                 hardware: 'Marshal Stability Test, Aggregate Impact Value, Crushing Strength, Ductility Test Apparatus, etc.',
-                features: 'The transportation Laboratory is well equipped with advanced equipment’s to carry out various test on aggregate and bitumen. Tis laboratory is designed to students of TE Civil. Also this laboratory is used to carried out the research work of BE Civil students',
+                features: 'The transportation Laboratory is well equipped with advanced equipmentâ€™s to carry out various test on aggregate and bitumen. Tis laboratory is designed to students of TE Civil. Also this laboratory is used to carried out the research work of BE Civil students',
               },
               {
                 title: 'Geotechnics Laboratory',
@@ -455,13 +469,13 @@ const DeptCivil: React.FC = () => {
                 title: 'Building Materials and Construction Technology Laboratory',
                 inCharge: 'Mr. jaydeep Chougale',
                 hardware: 'Tile Flexure Strength Testing Machine +Accessories, Compression Testing Machine, Hot Air Oven, Electronic Balance, Needle Vibrating Machine, Vibrating Table, Concrete Mixer, Slump Test Apparatus, etc',
-                features: 'Lab is well furnished and equipped with advanced Material testing equipment’s like CTM, ultrasonic pulse velocity meter (UPV), Rebound hammer, Bar Detector, Carbonation Kit etc. This laboratory is design to educate student of SE, TE, and BE Civil. Final year research work is also carried out in this laboratory.',
+                features: 'Lab is well furnished and equipped with advanced Material testing equipmentâ€™s like CTM, ultrasonic pulse velocity meter (UPV), Rebound hammer, Bar Detector, Carbonation Kit etc. This laboratory is design to educate student of SE, TE, and BE Civil. Final year research work is also carried out in this laboratory.',
               },
               {
                 title: 'Environmental Engineering Laboratory',
                 inCharge: 'Ms Puja Kadam',
                 hardware: 'BOD incubator, COD Apparatus, Jar Test Apparatus, etc.',
-                features: 'This Laboratory is equipped with Hot air Oven, BOD Incubator, COD Digester, Digital Ph meter, Turbidity meter and DO meter, Sound Level meter and glassware’s for performing experiments on quality of water and wastewater. This laboratory is designed to educate students of 6 th semester in different areas of Environmental Engineering.',
+                features: 'This Laboratory is equipped with Hot air Oven, BOD Incubator, COD Digester, Digital Ph meter, Turbidity meter and DO meter, Sound Level meter and glasswareâ€™s for performing experiments on quality of water and wastewater. This laboratory is designed to educate students of 6 th semester in different areas of Environmental Engineering.',
               },
             ];
             return (
@@ -498,12 +512,12 @@ const DeptCivil: React.FC = () => {
             );
           })()}
 
-          {/* ════ TOPPERS ════════════════════════════════════════ */}
+          {/* â•â•â•â• TOPPERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'toppers' && (() => {
             const toppers = {
-              SE: ['Ghule Amey : 9.44 SGPI', 'Solanki Pratham : 9.13 SGPI', 'Jagtap Apurva : 8.77 SGPI'],
-              TE: ['Medge Jeevan : 9.39 CGPI', 'Shetty Deeksha : 8.74 CGPI', 'Ghelani Jeet : 8.52 CGPI'],
-              BE: ['Dhanawade Pooja : 9.84 CGPI', 'Sankhe Manali : 9.53 CGPI', 'Nazreen Khatoon : 9.21 CGPI'],
+              SE: ['1. Ghule Amey : 9.44 SGPI', '2. Solanki Pratham : 9.13 SGPI', '3. Jagtap Apurva : 8.77 SGPI'],
+              TE: ['1. Medge Jeevan : 9.39 CGPI', '2. Shetty Deeksha : 8.74 CGPI', '3. Ghelani Jeet : 8.52 CGPI'],
+              BE: ['1. Dhanawade Pooja : 9.84 CGPI', '2. Sankhe Manali : 9.53 CGPI, Ansari Mohammed Faraz', '3. Nazreen Khatoon : 9.21 CGPI, Salunkhe Roshani'],
             };
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -528,18 +542,18 @@ const DeptCivil: React.FC = () => {
             );
           })()}
 
-          {/* ════ SYLLABUS ═══════════════════════════════════════ */}
+          {/* â•â•â•â• SYLLABUS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'syllabus' && (() => {
             const links = [
-              { label: 'Syllabus UG SE R-16', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/SE-Civil-CBCGS-Syllabus.pdf' },
-              { label: 'Syllabus UG TE R-16', url: 'https://vcet.edu.in/wp-content/uploads/2023/12/TE-Civil_Syllabus_R16.pdf' },
-              { label: 'Syllabus UG BE R-16', url: 'https://vcet.edu.in/wp-content/uploads/2023/12/BE-Civil_Syllabus_R16.pdf' },
-              { label: 'Syllabus 2019-20 SE R-19 C Scheme', url: 'https://vcet.edu.in/wp-content/uploads/2023/02/S.E.-Civil-Engg-Sem-III-IV.pdf' },
-              { label: 'Syllabus 2019-20 TE R-19 C Scheme', url: 'https://vcet.edu.in/wp-content/uploads/2023/02/T.E.-Civil-Engg-Sem-V-VI.pdf' },
-              { label: 'Syllabus 2019-20 BE R-19 C Scheme', url: 'https://vcet.edu.in/wp-content/uploads/2023/02/B.E.-Civil-Engg.-Sem.-VII-VIII.pdf' },
-              { label: 'PO PSO CO (R16)', url: 'https://vcet.edu.in/wp-content/uploads/2023/11/Civil_R16-COs.pdf' },
-              { label: 'PO PSO CO (R19)', url: 'https://vcet.edu.in/wp-content/uploads/2023/11/Civil_R-19-COs.pdf' },
-              { label: 'Syllabus PG ME Rev 2022', url: 'https://vcet.edu.in/wp-content/uploads/2023/02/ME-Str-Syllabus-R22_Final-1.pdf' },
+              { label: 'Syllabus UG SE R-16', url: 'pdfs/Department/CivilEngineering/Syllabus/SE-Civil-CBCGS-Syllabus.pdf' },
+              { label: 'Syllabus UG TE R-16', url: 'pdfs/Department/CivilEngineering/Syllabus/TE-Civil_Syllabus_R16.pdf' },
+              { label: 'Syllabus UG BE R-16', url: 'pdfs/Department/CivilEngineering/Syllabus/BE-Civil_Syllabus_R16.pdf' },
+              { label: 'Syllabus 2019-20 SE R-19 C Scheme', url: 'pdfs/Department/CivilEngineering/Syllabus/S.E.-Civil-Engg-Sem-III-IV.pdf' },
+              { label: 'Syllabus 2019-20 TE R-19 C Scheme', url: 'pdfs/Department/CivilEngineering/Syllabus/T.E.-Civil-Engg-Sem-V-VI.pdf' },
+              { label: 'Syllabus 2019-20 BE R-19 C Scheme', url: 'pdfs/Department/CivilEngineering/Syllabus/B.E.-Civil-Engg.-Sem.-VII-VIII.pdf' },
+              { label: 'PO PSO CO (R16)', url: 'pdfs/Department/CivilEngineering/Syllabus/Civil_R16-COs.pdf' },
+              { label: 'PO PSO CO (R19)', url: 'pdfs/Department/CivilEngineering/Syllabus/Civil_R-19-COs.pdf' },
+              { label: 'Syllabus PG ME Rev 2022', url: 'pdfs/Department/CivilEngineering/Syllabus/ME-Str-Syllabus-R22_Final-1.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -556,17 +570,17 @@ const DeptCivil: React.FC = () => {
             );
           })()}
 
-          {/* ════ INNOVATIONS IN TEACHING LEARNING ══════════════ */}
+          {/* â•â•â•â• INNOVATIONS IN TEACHING LEARNING â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'teaching-learning' && (() => {
             const innovationLinks = [
-              { label: 'Innovation in Teaching Learning (2022-23)', url: 'https://vcet.edu.in/wp-content/uploads/2023/12/2.3.1_Innovation-Index_Civil_2022-23-1.pdf' },
-              { label: 'Innovation in Teaching Learning (2021-22)', url: '' },
-              { label: 'Innovation in Teaching Learning (2020-21)', url: 'https://vcet.edu.in/wp-content/uploads/2023/12/2.3.1_Innovation-Index_Civil_2020-21-1.pdf' },
+              { label: 'Innovation in Teaching Learning (2022-23)', url: 'pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_Innovation-Index_Civil_2022-23-1.pdf' },
+              { label: 'Innovation in Teaching Learning (2021-22)', url: 'pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_Innovation-Index_Civil_2021-22-1.pdf' },
+              { label: 'Innovation in Teaching Learning (2020-21)', url: 'pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_Innovation-Index_Civil_2020-21-1.pdf' },
             ];
             const ictLinks = [
-              { label: 'ICT Tools in Teaching Learning (2022-23)', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/2.3.1_ICT-Index_Civil_22-23-2.pdf' },
-              { label: 'ICT Tools in Teaching Learning (2021-22)', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/2.3.1_ICT-Index_Civil_21-22-2.pdf' },
-              { label: 'ICT Tools in Teaching Learning (2020-21)', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/2.3.1_ICT-Index_Civil_20-21-2.pdf' },
+              { label: 'ICT Tools in Teaching Learning (2022-23)', url: 'pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_ICT-Index_Civil_22-23-2.pdf' },
+              { label: 'ICT Tools in Teaching Learning (2021-22)', url: 'pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_ICT-Index_Civil_21-22-2.pdf' },
+              { label: 'ICT Tools in Teaching Learning (2020-21)', url: 'pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_ICT-Index_Civil_20-21-2.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-6">
@@ -600,28 +614,32 @@ const DeptCivil: React.FC = () => {
             );
           })()}
 
-          {/* ════ MoU ═════════════════════════════════════════════ */}
+          {/* â•â•â•â• MoU â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'mou' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Civil Engineering</span></div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">MoU<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2024/03/MOU-Activity-Summary-Website-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs/Department/CivilEngineering/MoU/MOU-Activity-Summary-Website-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>MoU List</span><i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
             </section>
           )}
 
-          {/* ════ NEWSLETTER & MAGAZINE ══════════════════════════ */}
+          {/* â•â•â•â• NEWSLETTER & MAGAZINE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'newsletter' && (
-            <NewsletterSection departmentName="Civil Engineering" departmentId="8" />
+            <DepartmentNewsletterPanel
+              departmentLabel="Civil Engineering"
+              newsletterItems={newsletterPdfs}
+              magazineItems={magazinePdfs}
+            />
           )}
 
-          {/* ════ VCET-ADT CELL ══════════════════════════════════ */}
+          {/* â•â•â•â• VCET-ADT CELL â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'vcet-adt-cell' && (() => {
             const consultLinks = [
-              { label: 'Consultancy 23-24', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/Consultancy-Data_final_11-march-2024-23-24.pdf' },
-              { label: 'Consultancy 22-23', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/Consultancy-Data_final_11-march-2024-22-23.pdf' },
-              { label: 'Consultancy 21-22', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/Consultancy-Data_final_11-march-2024-21-22.pdf' },
+              { label: 'Consultancy 23-24', url: 'pdfs/Department/CivilEngineering/VCET-ADTCELL/Consultancy-Data_final_11-march-2024-23-24.pdf' },
+              { label: 'Consultancy 22-23', url: 'pdfs/Department/CivilEngineering/VCET-ADTCELL/Consultancy-Data_final_11-march-2024-22-23.pdf' },
+              { label: 'Consultancy 21-22', url: 'pdfs/Department/CivilEngineering/VCET-ADTCELL/Consultancy-Data_final_11-march-2024-21-22.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-6">
@@ -653,7 +671,7 @@ const DeptCivil: React.FC = () => {
             );
           })()}
 
-          {/* ════ OTHER SECTIONS (placeholder) ════════════════════ */}
+          {/* â•â•â•â• OTHER SECTIONS (placeholder) â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'paqic' && activeId !== 'faculty-list' && activeId !== 'student-list' && activeId !== 'placement-record' && activeId !== 'infrastructure' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'teaching-learning' && activeId !== 'mou' && activeId !== 'newsletter' && activeId !== 'vcet-adt-cell' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
@@ -671,3 +689,4 @@ const DeptCivil: React.FC = () => {
 };
 
 export default DeptCivil;
+

@@ -21,11 +21,18 @@ import {
   Layout,
   MessageSquare,
 } from 'lucide-react';
+import { getStudentCareerSection } from '../../services/studentCareer';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 /* ─────────────────────────────────────────────
    TYPES & DATA
 ───────────────────────────────────────────── */
 type TabId = 'about' | 'vision' | 'objective' | 'competition' | 'sponsors' | 'team' | 'contact' | 'gallery';
+type CompetitionItem = { team: string; event: string; result: string };
+type TeamMember = { name: string; position: string; subsystem: string };
+type ContactItem = { name: string; phone: string };
+type MediaItem = { img?: string };
+type VideoItem = { title?: string; vid?: string };
 
 const tabs: { id: TabId; label: string; icon: any; desc: string }[] = [
   { id: 'about', label: 'About', icon: Info, desc: 'Our story & mission' },
@@ -52,6 +59,21 @@ const teamMembers = [
   { name: 'Shravan Chaudhary', position: 'Member', subsystem: 'Chassis' },
   { name: 'Soorya Guddemane', position: 'Member', subsystem: 'Social Media Handling' },
   { name: 'Deep Patel', position: 'Member', subsystem: 'Driver' },
+];
+
+const fallbackCompetitionItems: CompetitionItem[] = [
+  { team: 'Team Centurions 1.0', event: 'Quad Torc 2016', result: '8th Overall Rank' },
+  { team: 'Team Centurions 2.0', event: 'QBDC 2018', result: '11th Rank Overall & 4th in Sales presentation' },
+  { team: 'Team Centurions 3.0', event: 'QBDC 2020', result: '13th Overall Rank' },
+  { team: 'Team Centurions 4.0', event: 'Quad Torc 2021', result: '5th Overall Rank' },
+  { team: 'Team Centurions 5.0', event: 'Quad Torc 2022', result: '8th Overall Rank' },
+  { team: 'Team Centurions 5.0', event: 'Quad Torc 2023', result: '9th Rank Overall, 4th in Business Plan Presentation' },
+];
+
+const fallbackContacts: ContactItem[] = [
+  { name: 'Mr. Kamlesh Bachkar', phone: '+91 9890852702' },
+  { name: 'Mr. Omkar Hatkar', phone: '+91 9764050936' },
+  { name: 'Akansha Kariya', phone: '+91 7083975485' },
 ];
 
 // Removed subsystems list as it wasn't in original
@@ -240,7 +262,7 @@ const ObjectivePanel: React.FC = () => {
   );
 };
 
-const CompetitionPanel: React.FC = () => {
+const CompetitionPanel: React.FC<{ items: CompetitionItem[] }> = ({ items }) => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref as React.RefObject<Element>);
   return (
@@ -260,14 +282,7 @@ const CompetitionPanel: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {[
-                ['Team Centurions 1.0', 'Quad Torc 2016', '8th Overall Rank'],
-                ['Team Centurions 2.0', 'QBDC 2018', '11th Rank Overall & 4th in Sales presentation'],
-                ['Team Centurions 3.0', 'QBDC 2020', '13th Overall Rank'],
-                ['Team Centurions 4.0', 'Quad Torc 2021', '5th Overall Rank'],
-                ['Team Centurions 5.0', 'Quad Torc 2022', '8th Overall Rank'],
-                ['Team Centurions 5.0', 'Quad Torc 2023', '9th Rank Overall, 4th in Business Plan Presentation'],
-              ].map(([t, e, r], idx) => (
+              {items.map(({ team: t, event: e, result: r }, idx) => (
                 <tr key={idx} className="hover:bg-slate-50/50 transition-colors">
                   <td className="p-4 text-sm font-bold text-[#1a2b4b]">{t}</td>
                   <td className="p-4 text-sm text-[#64748b]">{e}</td>
@@ -282,7 +297,7 @@ const CompetitionPanel: React.FC = () => {
   );
 };
 
-const TeamPanel: React.FC = () => {
+const TeamPanel: React.FC<{ faculty: Record<string, any>; team: TeamMember[] }> = ({ faculty, team }) => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref as React.RefObject<Element>);
   return (
@@ -295,16 +310,18 @@ const TeamPanel: React.FC = () => {
           <div className="relative group">
             <div className="absolute inset-0 bg-[#082b64]/5 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500" />
             <div className="relative w-48 h-56 rounded-2xl overflow-hidden border-4 border-white shadow-xl bg-slate-100">
-              <img
-                src="\images\StudentLife\CO-Curricular-activities\Student_clubs\CENTURION\team\Mr_Kamlesh_Bachkar.jpg"
-                alt="Mr. Kamlesh Bachkar"
-                className="w-full h-full object-cover"
-              />
+              {faculty.fImg ? (
+                <img
+                  src={faculty.fImg}
+                  alt={faculty.fName || 'Faculty Incharge'}
+                  className="w-full h-full object-cover"
+                />
+              ) : null}
             </div>
           </div>
           <div className="space-y-4 text-center md:text-left">
             <div>
-              <h4 className="text-2xl font-extrabold text-[#082b64]">Mr. Kamlesh Bachkar</h4>
+              <h4 className="text-2xl font-extrabold text-[#082b64]">{faculty.fName || 'Mr. Kamlesh Bachkar'}</h4>
               <p className="text-[#ffb100] font-black uppercase tracking-widest text-xs mt-1">SAE Incharge</p>
             </div>
             <div className="space-y-3">
@@ -312,13 +329,13 @@ const TeamPanel: React.FC = () => {
                 <div className="w-8 h-8 rounded-full bg-[#eaf3ff] flex items-center justify-center flex-shrink-0">
                   <Mail className="w-4 h-4 text-[#082b64]" />
                 </div>
-                <p className="text-sm font-medium">kamlesh.bachkar@vcet.edu.in</p>
+                <p className="text-sm font-medium">{faculty.fMail || 'kamlesh.bachkar@vcet.edu.in'}</p>
               </div>
               <div className="flex items-center gap-3 justify-center md:justify-start text-[#475569]">
                 <div className="w-8 h-8 rounded-full bg-[#fff8e7] flex items-center justify-center flex-shrink-0">
                   <Phone className="w-4 h-4 text-[#ffb100]" />
                 </div>
-                <p className="text-sm font-medium">+919890852702</p>
+                <p className="text-sm font-medium">{faculty.fPhone || '+919890852702'}</p>
               </div>
             </div>
           </div>
@@ -337,7 +354,7 @@ const TeamPanel: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {teamMembers.map((member, idx) => (
+              {team.map((member, idx) => (
                 <tr key={idx} className={idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/30'}>
                   <td className="p-4 text-sm font-bold text-[#1a2b4b]">{member.name}</td>
                   <td className="p-4 text-sm text-[#64748b]">{member.position}</td>
@@ -352,20 +369,12 @@ const TeamPanel: React.FC = () => {
   );
 };
 
-const GalleryPanel: React.FC = () => {
+const GalleryPanel: React.FC<{ videos: VideoItem[]; gallery: MediaItem[] }> = ({ videos, gallery }) => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref as React.RefObject<Element>);
-  const videoLinks = [
-    'https://www.youtube.com/watch?v=e2y_zc2f0f0',
-    'https://youtu.be/OyoZsd6q03I',
-    'https://youtu.be/RU30hal-Qd4',
-    'https://youtu.be/cqC6kp8zFSQ',
-    'https://youtu.be/tS558BLiUoA',
-    'https://youtube.com/shorts/4PNuL8vCKg4?feature=share',
-    'https://youtu.be/TMx_l3n2pCI',
-    'https://youtu.be/SFL0HkwewZ0',
-    'https://youtu.be/jAEesFcw0F0',
-  ];
+  const videoLinks = videos
+    .map((item) => (item.vid && item.vid.trim() ? item.vid : ''))
+    .filter(Boolean);
   return (
     <div ref={ref} className={`p-8 lg:p-12 space-y-8 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
       <SectionHeading title="Event Videos" />
@@ -380,12 +389,29 @@ const GalleryPanel: React.FC = () => {
             </a>
           </div>
         ))}
+        {videoLinks.length === 0 && <p className="text-sm text-[#64748b]">No videos available.</p>}
+      </div>
+
+      <SectionHeading title="Gallery" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {gallery.map((item, i) => (
+          <div key={i} className="rounded-2xl overflow-hidden aspect-video border border-slate-100 shadow-sm bg-slate-50">
+            <img
+              src={resolveUploadedAssetUrl(item.img) || ''}
+              alt={`Centurion Gallery ${i + 1}`}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ))}
+        {gallery.length === 0 && (
+          <p className="text-sm text-[#64748b]">No gallery images available.</p>
+        )}
       </div>
     </div>
   );
 };
 
-const ContactPanel: React.FC = () => {
+const ContactPanel: React.FC<{ contacts: ContactItem[]; email: string; insta: string; facebook: string }> = ({ contacts, email, insta, facebook }) => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref as React.RefObject<Element>);
   return (
@@ -399,26 +425,22 @@ const ContactPanel: React.FC = () => {
           <div className="flex flex-col items-center md:items-end gap-3 mt-4">
             <div className="flex items-center gap-3 text-[#1a2b4b]/60">
               <Mail className="w-4 h-4" />
-              <p className="text-sm font-medium">teamcenturionsvcet@gmail.com</p>
+              <p className="text-sm font-medium">{email || 'teamcenturionsvcet@gmail.com'}</p>
             </div>
             <div className="flex items-center gap-3 text-[#1a2b4b]/60">
               <Instagram className="w-4 h-4" />
-              <p className="text-sm font-medium">team_ centurions</p>
+              <p className="text-sm font-medium">{insta || 'team_centurions'}</p>
             </div>
             <div className="flex items-center gap-3 text-[#1a2b4b]/60">
               <Facebook className="w-4 h-4" />
-              <p className="text-sm font-medium">TeamCenturions</p>
+              <p className="text-sm font-medium">{facebook || 'TeamCenturions'}</p>
             </div>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-slate-50">
-        {[
-          { name: 'Mr. Kamlesh Bachkar', phone: '+91 9890852702' },
-          { name: 'Mr. Omkar Hatkar', phone: '+91 9764050936' },
-          { name: 'Akansha Kariya', phone: '+91 7083975485' },
-        ].map((p, i) => (
+        {contacts.map((p, i) => (
           <div key={i} className="space-y-1 text-center md:text-left">
             <h5 className="text-sm font-bold text-[#1a2b4b]">{p.name}</h5>
             <p className="text-xs text-[#94a3b8]">{p.phone}</p>
@@ -429,32 +451,21 @@ const ContactPanel: React.FC = () => {
   );
 };
 
-const SponsorsPanel: React.FC = () => {
+const SponsorsPanel: React.FC<{ logos: MediaItem[]; sponsorText: string }> = ({ logos, sponsorText }) => {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref as React.RefObject<Element>);
-  const sponsors = [
-    'Ace.png',
-    'Dalmia.png',
-    'Galaxy_coating.png',
-    'HT.png',
-    'Kiran.png',
-    'mark.png',
-    'mbm_engineering.png',
-    'om_vir.png',
-    'Sigma_multitech.png',
-    'subAero.png',
-    'the_thermocol.png',
-    'turning_tech.png',
-    'union_bank.png'
-  ];
+  const sponsors = logos
+    .map((item) => item.img)
+    .filter((img): img is string => !!img);
   return (
     <div ref={ref} className={`p-8 lg:p-12 space-y-10 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
       <SectionHeading title="Our Sponsors" />
+      {sponsorText ? <p className="text-[#64748b] text-sm">{sponsorText}</p> : null}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {sponsors.map((sponsor, i) => (
           <div key={i} className="aspect-square rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center overflow-hidden">
             <img
-              src={`/images/StudentLife/CO-Curricular-activities/Student_clubs/CENTURION/sponsors/${sponsor}`}
+              src={resolveUploadedAssetUrl(sponsor) || ''}
               alt={`Sponsor ${i + 1}`}
               className="w-full h-full object-contain p-2"
             />
@@ -467,6 +478,70 @@ const SponsorsPanel: React.FC = () => {
 
 const CenturionPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabId>('about');
+  const [apiData, setApiData] = useState<Record<string, any> | null>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    getStudentCareerSection<Record<string, any>>('centurion')
+      .then((res) => {
+        if (mounted) setApiData(res);
+      })
+      .catch(() => {
+        if (mounted) setApiData(null);
+      })
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+    const competitionItems: CompetitionItem[] = Array.isArray(apiData?.results)
+    ? apiData.results
+        .map((item: Record<string, unknown>) => ({
+          team: String(item.team ?? ''),
+          event: String(item.event ?? ''),
+          result: String(item.result ?? ''),
+        }))
+        .filter((item: CompetitionItem) => item.team || item.event || item.result)
+    : fallbackCompetitionItems;
+
+  const team: TeamMember[] = Array.isArray(apiData?.team)
+    ? apiData.team
+        .map((item: Record<string, unknown>) => ({
+          name: String(item.name ?? ''),
+          position: String(item.pos ?? ''),
+          subsystem: String(item.sub ?? ''),
+        }))
+        .filter((item: TeamMember) => item.name || item.position || item.subsystem)
+    : teamMembers;
+
+  const faculty = {
+    fName: String(apiData?.fName ?? ''),
+    fMail: String(apiData?.fMail ?? ''),
+    fPhone: String(apiData?.fPhone ?? ''),
+    // Backward compatibility: older payloads saved advisor image under imageUrl.
+    fImg: resolveUploadedAssetUrl(apiData?.fImg ?? apiData?.imageUrl),
+  };
+
+  const contacts: ContactItem[] = Array.isArray(apiData?.contacts)
+    ? apiData.contacts
+        .map((item: Record<string, unknown>) => ({
+          name: String(item.name ?? ''),
+          phone: String(item.phone ?? ''),
+        }))
+        .filter((item: ContactItem) => item.name || item.phone)
+    : fallbackContacts;
+
+  const logos: MediaItem[] = Array.isArray(apiData?.logos) ? apiData.logos : [];
+  const gallery: MediaItem[] = Array.isArray(apiData?.gallery) ? apiData.gallery : [];
+  const videos: VideoItem[] = Array.isArray(apiData?.videos) ? apiData.videos : [];
+  const sponsorText = String(apiData?.sponsorText ?? '');
+  const email = String(apiData?.email ?? '');
+  const insta = String(apiData?.insta ?? '');
+  const facebook = String(apiData?.facebook ?? '');
 
   const handleTabChange = (id: TabId) => {
     setActiveTab(id);
@@ -477,7 +552,25 @@ const CenturionPage: React.FC = () => {
     }
   };
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="CENTURION"
+  subtitle="Vidyavardhini's College of Engineering and Technology's premier off-road mechanical design and manufacturing team."
+  breadcrumbs={[
+  { label: 'Students Club', href: '/students-club' },
+  { label: 'CENTURION' }
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="CENTURION"
@@ -568,11 +661,11 @@ const CenturionPage: React.FC = () => {
               {activeTab === 'about' && <AboutPanel />}
               {activeTab === 'vision' && <VisionPanel />}
               {activeTab === 'objective' && <ObjectivePanel />}
-              {activeTab === 'competition' && <CompetitionPanel />}
-              {activeTab === 'sponsors' && <SponsorsPanel />}
-              {activeTab === 'team' && <TeamPanel />}
-              {activeTab === 'gallery' && <GalleryPanel />}
-              {activeTab === 'contact' && <ContactPanel />}
+              {activeTab === 'competition' && <CompetitionPanel items={competitionItems} />}
+              {activeTab === 'sponsors' && <SponsorsPanel logos={logos} sponsorText={sponsorText} />}
+              {activeTab === 'team' && <TeamPanel faculty={faculty} team={team} />}
+              {activeTab === 'gallery' && <GalleryPanel videos={videos} gallery={gallery} />}
+              {activeTab === 'contact' && <ContactPanel contacts={contacts} email={email} insta={insta} facebook={facebook} />}
             </div>
           </div>
         </div>

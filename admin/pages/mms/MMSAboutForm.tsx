@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { ChevronDown, ChevronUp, Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle } from 'lucide-react';
 import type { MMSAboutPayload } from '../../types';
 import { mmsAboutApi } from '../../api/mmsAboutApi';
-import { resolveApiUrl } from '../../api/client';
+import { resolveApiUrl } from '../../../services/api';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
+import { SortableListContext } from '../../components/SortableList';
+import AdminFormSection from '../../components/AdminFormSection';
+
+const inputBase = "w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all text-slate-700";
+const labelBase = "block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1";
 
 const emptyForm: MMSAboutPayload = {
   aboutMMS: { description: '', image: null },
@@ -16,12 +21,12 @@ const emptyForm: MMSAboutPayload = {
 
 const MMSAboutForm: React.FC = () => {
   const navigate = useNavigate();
-  const { section } = useParams<{ section: string }>();
   const [form, setForm] = useState<MMSAboutPayload>(emptyForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [activeAccordionSection, setActiveAccordionSection] = useState<string | null>('overview');
 
 
   useEffect(() => {
@@ -106,16 +111,10 @@ const MMSAboutForm: React.FC = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-12 animate-fade-in relative">
+    <div className="max-w-4xl mx-auto space-y-8 pb-12 animate-fade-in relative pt-6">
       <PageEditorHeader
-        title={
-          section === 'overview' ? 'About MMS' :
-          section === 'principal' ? "Principal's Desk" :
-          section === 'hod' ? "HOD's Desk" :
-          section === 'faculty' ? 'MMS Faculty' :
-          section === 'dab' ? 'Advisory Board (DAB)' : 'MMS About'
-        }
-        description="About Us Editor"
+        title="MMS About Editor"
+        description="Manage overview, Principal's and HOD's desk, faculty, and advisory board."
         onSave={() => {
           void handleSave();
         }}
@@ -126,35 +125,37 @@ const MMSAboutForm: React.FC = () => {
 
       {error && (
         <div className="bg-red-50 border border-red-100 rounded-xl px-5 py-4 text-sm text-red-600 font-medium flex items-center gap-3">
-          <AlertTriangle className="w-5 h-5 flex-shrink-0" /> {error}
+          <AlertTriangle className="w-5 h-5 shrink-0" /> {error}
         </div>
       )}
       
       {successMsg && (
         <div className="bg-emerald-50 border border-emerald-100 rounded-xl px-5 py-4 text-sm text-emerald-600 font-medium flex items-center gap-3">
-          <CheckCircle className="w-5 h-5 flex-shrink-0" /> {successMsg}
+          <CheckCircle className="w-5 h-5 shrink-0" /> {successMsg}
         </div>
       )}
 
       <form onSubmit={handleSave} className="space-y-4">
-
         {/* SECTION 1: ABOUT MMS */}
-        {section === 'overview' && (
-          <SectionCard title="ABOUT MMS" icon="📝">
+        <AdminFormSection 
+          title="1. Overview & About MMS" 
+          icon="📝"
+          isOpen={activeAccordionSection === 'overview'}
+          onToggle={() => setActiveAccordionSection(activeAccordionSection === 'overview' ? null : 'overview')}
+        >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="col-span-1">
-               <label className="admin-label">Section Image</label>
+               <label className={labelBase}>Section Image</label>
                <ImageUploader 
                  image={form.aboutMMS?.image} 
                  onChange={(f) => setForm({...form, aboutMMS: {...form.aboutMMS!, image: f}})} 
                />
-               <p className="text-[10px] text-slate-400 mt-2 text-center">Max 1 Image</p>
             </div>
             <div className="col-span-1 md:col-span-2 relative">
-               <label className="admin-label">Description Text <span className="text-slate-400 normal-case">({form.aboutMMS?.description?.length || 0}/1200)</span></label>
+               <label className={labelBase}>Description Text <span className="text-slate-400 normal-case font-medium">({form.aboutMMS?.description?.length || 0}/1200)</span></label>
                <textarea id="mmsaboutform-textarea-1" name="mmsaboutform-textarea-1" aria-label="mmsaboutform textarea field" 
-                  className="admin-input-small h-48 resize-none" 
-                  placeholder="Enter detailed description here... (max 1200 chars)"
+                  className={inputBase + " h-48 resize-none"} 
+                  placeholder="Enter detailed description here..."
                   value={form.aboutMMS?.description || ''}
                   onChange={e => handleTextChange(e.target.value, 1200, val => {
                     setForm({...form, aboutMMS: {...form.aboutMMS!, description: val}});
@@ -162,25 +163,28 @@ const MMSAboutForm: React.FC = () => {
                />
             </div>
           </div>
-        </SectionCard>
-        )}
+        </AdminFormSection>
 
         {/* SECTION 2: PRINCIPAL'S DESK */}
-        {section === 'principal' && (
-        <SectionCard title="PRINCIPAL'S DESK" icon="👤">
+        <AdminFormSection 
+          title="2. Principal's Desk" 
+          icon="👤"
+          isOpen={activeAccordionSection === 'principal'}
+          onToggle={() => setActiveAccordionSection(activeAccordionSection === 'principal' ? null : 'principal')}
+        >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="col-span-1 border-r border-slate-100 pr-4">
-               <label className="admin-label">Principal Photo</label>
+               <label className={labelBase}>Principal Photo</label>
                <ImageUploader 
                  image={form.principalDesk?.photo} 
                  onChange={(f) => setForm({...form, principalDesk: {...form.principalDesk!, photo: f}})} 
                />
             </div>
             <div className="col-span-1 md:col-span-2 relative">
-               <label className="admin-label">Message <span className="text-slate-400 normal-case">({form.principalDesk?.message?.length || 0}/1500)</span></label>
+               <label className={labelBase}>Message <span className="text-slate-400 normal-case font-medium">({form.principalDesk?.message?.length || 0}/1500)</span></label>
                <textarea id="mmsaboutform-textarea-2" name="mmsaboutform-textarea-2" aria-label="mmsaboutform textarea field" 
-                  className="admin-input-small h-48 resize-none" 
-                  placeholder="Principal's message... (max 1500 chars)"
+                  className={inputBase + " h-48 resize-none"} 
+                  placeholder="Principal's message..."
                   value={form.principalDesk?.message || ''}
                   onChange={e => handleTextChange(e.target.value, 1500, val => {
                     setForm({...form, principalDesk: {...form.principalDesk!, message: val}});
@@ -188,25 +192,28 @@ const MMSAboutForm: React.FC = () => {
                />
             </div>
           </div>
-        </SectionCard>
-        )}
+        </AdminFormSection>
 
         {/* SECTION 3: HOD'S DESK */}
-        {section === 'hod' && (
-        <SectionCard title="HOD'S DESK" icon="👤">
+        <AdminFormSection 
+          title="3. HOD's Desk" 
+          icon="👨‍🏫"
+          isOpen={activeAccordionSection === 'hod'}
+          onToggle={() => setActiveAccordionSection(activeAccordionSection === 'hod' ? null : 'hod')}
+        >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="col-span-1 border-r border-slate-100 pr-4">
-               <label className="admin-label">HOD Photo</label>
+               <label className={labelBase}>HOD Photo</label>
                <ImageUploader 
                  image={form.hodDesk?.photo} 
                  onChange={(f) => setForm({...form, hodDesk: {...form.hodDesk!, photo: f}})} 
                />
             </div>
             <div className="col-span-1 md:col-span-2 relative">
-               <label className="admin-label">Message <span className="text-slate-400 normal-case">({form.hodDesk?.message?.length || 0}/1500)</span></label>
+               <label className={labelBase}>Message <span className="text-slate-400 normal-case font-medium">({form.hodDesk?.message?.length || 0}/1500)</span></label>
                <textarea id="mmsaboutform-textarea-3" name="mmsaboutform-textarea-3" aria-label="mmsaboutform textarea field" 
-                  className="admin-input-small h-48 resize-none" 
-                  placeholder="HOD's message... (max 1500 chars)" 
+                  className={inputBase + " h-48 resize-none"} 
+                  placeholder="HOD's message..." 
                   value={form.hodDesk?.message || ''}
                   onChange={e => handleTextChange(e.target.value, 1500, val => {
                     setForm({...form, hodDesk: {...form.hodDesk!, message: val}});
@@ -214,142 +221,130 @@ const MMSAboutForm: React.FC = () => {
                />
             </div>
           </div>
-        </SectionCard>
-        )}
+        </AdminFormSection>
 
         {/* SECTION 4: MMS FACULTY */}
-        {section === 'faculty' && (
-        <SectionCard title={`MMS FACULTY (${form.faculty?.length || 0})`} icon="👥">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Add faculty members.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {form.faculty?.map((member, i) => (
-              <div key={i} className="flex gap-4 p-4 border border-slate-200 rounded-xl bg-slate-50 relative">
-                {true && (
-                   <button type="button" onClick={() => {
-                     const c = [...form.faculty!]; c.splice(i, 1); setForm({...form, faculty: c});
-                   }} className="absolute top-2 right-2 text-red-500 p-1 hover:bg-red-50 rounded"><Trash2 className="w-4 h-4"/></button>
-                )}
-                <div className="w-20 shrink-0">
+        <AdminFormSection 
+          title={`4. MMS Faculty (${form.faculty?.length || 0})`} 
+          icon="👥"
+          isOpen={activeAccordionSection === 'faculty'}
+          onToggle={() => setActiveAccordionSection(activeAccordionSection === 'faculty' ? null : 'faculty')}
+        >
+          <p className={labelBase + " text-slate-400! mb-4!"}>Add or manage faculty members.</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <SortableListContext
+            items={form.faculty || []}
+            onChange={val => setForm({ ...form, faculty: val })}
+            renderItem={(member, i, id, dragHandleProps, setNodeRef, style, isDragging, actions) => (
+              <div ref={setNodeRef} style={style} className={`flex gap-4 p-6 border border-slate-100 rounded-3xl bg-white relative transition-all ${isDragging ? 'shadow-2xl z-50 ring-4 ring-blue-50' : 'hover:shadow-lg shadow-sm border-slate-100'}`}>
+                <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-300 hover:text-[#2563EB] transition-colors p-1 self-start mt-2" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                  <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                  <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                  <div className="w-5 h-0.5 bg-current rounded-full" />
+                </div>
+                <button type="button" onClick={() => {
+                  const c = [...form.faculty!]; c.splice(i, 1); setForm({...form, faculty: c});
+                }} className="absolute top-4 right-4 text-slate-300 hover:text-red-500 p-2 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4"/></button>
+                <div className="w-24 shrink-0">
                   <ImageUploader 
                     image={member.photo} 
                     onChange={f => { const c = [...form.faculty!]; c[i].photo = f; setForm({...form, faculty: c}); }} 
                     compact
                   />
                 </div>
-                <div className="flex-1 space-y-3">
+                <div className="flex-1 space-y-4">
                   <div className="relative">
-                     <label className="admin-label">Name <span className="text-slate-400 normal-case">({member.name.length}/40)</span></label>
-                     <input id="mmsaboutform-1" name="mmsaboutform-1" aria-label="mmsaboutform field" className="admin-input-small font-bold" value={member.name} onChange={e => handleTextChange(e.target.value, 40, val => {
+                     <label className={labelBase}>Name</label>
+                     <input id={`mms-fac-name-${i}`} name={`mms-fac-name-${i}`} aria-label="mmsaboutform field" className={inputBase} value={member.name} placeholder="Faculty Name" onChange={e => handleTextChange(e.target.value, 40, val => {
                          const c = [...form.faculty!]; c[i].name = val; setForm({...form, faculty: c});
                      })}/>
                   </div>
                   <div className="relative">
-                     <label className="admin-label">Designation <span className="text-slate-400 normal-case">({member.designation.length}/60)</span></label>
-                     <input id="mmsaboutform-2" name="mmsaboutform-2" aria-label="mmsaboutform field" className="admin-input-small text-slate-600" value={member.designation} onChange={e => handleTextChange(e.target.value, 60, val => {
+                     <label className={labelBase}>Designation</label>
+                     <input id={`mms-fac-desc-${i}`} name={`mms-fac-desc-${i}`} aria-label="mmsaboutform field" className={inputBase} value={member.designation} placeholder="e.g. Asst. Professor" onChange={e => handleTextChange(e.target.value, 60, val => {
                          const c = [...form.faculty!]; c[i].designation = val; setForm({...form, faculty: c});
                      })}/>
                   </div>
                   <div className="relative">
-                     <label className="admin-label">Email <span className="text-slate-400 normal-case">({member.email?.length || 0}/50)</span></label>
-                     <input id="mmsaboutform-3" name="mmsaboutform-3" aria-label="mmsaboutform field" className="admin-input-small text-[#2563EB] font-medium" type="email" value={member.email || ''} onChange={e => handleTextChange(e.target.value, 50, val => {
+                     <label className={labelBase}>Email</label>
+                     <input id={`mms-fac-mail-${i}`} name={`mms-fac-mail-${i}`} aria-label="mmsaboutform field" className={inputBase + " text-[#2563EB]"} type="email" value={member.email || ''} placeholder="email@vcet.edu.in" onChange={e => handleTextChange(e.target.value, 50, val => {
                          const c = [...form.faculty!]; c[i].email = val; setForm({...form, faculty: c});
                      })}/>
                   </div>
-
                 </div>
               </div>
-            ))}
-            {true && (
-              <button type="button" onClick={() => setForm({...form, faculty: [...(form.faculty||[]), {name: '', designation: '', email: '', photo: null}]})} className="btn-add min-h-[120px]">
-                <Plus className="w-5 h-5 mx-auto mb-1" /> Add Faculty Member
-              </button>
             )}
+          />
+              <button type="button" onClick={() => setForm({...form, faculty: [...(form.faculty||[]), {name: '', designation: '', email: '', photo: null}]})} className="flex flex-col items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl p-10 hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500">
+                <Plus className="w-8 h-8" /> 
+                <span className="text-[10px] font-black uppercase tracking-widest">Add Faculty Member</span>
+              </button>
           </div>
-        </SectionCard>
-        )}
+        </AdminFormSection>
 
         {/* SECTION 5: DEPARTMENTAL ADVISORY BOARD */}
-        {section === 'dab' && (
-        <SectionCard title={`DEPARTMENTAL ADVISORY BOARD (DAB) ()`} icon="👔">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Add members of the DAB.</p>
-          <div className="space-y-3">
-             {form.dabMembers?.map((member, i) => (
-                <div key={i} className="flex gap-2 p-3 bg-white border border-slate-200 rounded-xl relative">
-                   <div className="w-8 flex items-center justify-center border-r border-slate-100 font-bold text-slate-400 text-sm">
-                      #{i+1}
-                   </div>
-                   <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-3 px-2">
-                      <div className="relative">
-                        <label className="admin-label">Name (Max 40)</label>
-                        <input id="mmsaboutform-4" name="mmsaboutform-4" aria-label="mmsaboutform field" className="admin-input-small" placeholder="Name" value={member.name} onChange={e => handleTextChange(e.target.value, 40, val => {
-                           const c = [...form.dabMembers!]; c[i].name = val; setForm({...form, dabMembers: c});
-                        })}/>
-                      </div>
-                      <div className="relative">
-                        <label className="admin-label">Designation (Max 60)</label>
-                        <input id="mmsaboutform-5" name="mmsaboutform-5" aria-label="mmsaboutform field" className="admin-input-small" placeholder="Designation" value={member.designation} onChange={e => handleTextChange(e.target.value, 60, val => {
-                           const c = [...form.dabMembers!]; c[i].designation = val; setForm({...form, dabMembers: c});
-                        })}/>
-                      </div>
-                      <div className="relative">
-                        <label className="admin-label">Organization (Max 70)</label>
-                        <input id="mmsaboutform-6" name="mmsaboutform-6" aria-label="mmsaboutform field" className="admin-input-small" placeholder="Organization" value={member.organization} onChange={e => handleTextChange(e.target.value, 70, val => {
-                           const c = [...form.dabMembers!]; c[i].organization = val; setForm({...form, dabMembers: c});
-                        })}/>
-                      </div>
-                      <div className="relative">
-                        <label className="admin-label">Role in DAB (Max 30)</label>
-                        <input id="mmsaboutform-7" name="mmsaboutform-7" aria-label="mmsaboutform field" className="admin-input-small" placeholder="e.g. Chairman" value={member.role} onChange={e => handleTextChange(e.target.value, 30, val => {
-                           const c = [...form.dabMembers!]; c[i].role = val; setForm({...form, dabMembers: c});
-                        })}/>
-                      </div>
-                   </div>
-                   
-                   {true && (
-                     <button type="button" onClick={() => {
-                        const c = [...form.dabMembers!]; c.splice(i, 1); setForm({...form, dabMembers: c});
-                     }} className="text-red-500 hover:bg-red-50 p-2 rounded-lg flex items-center justify-center shrink-0">
-                       <Trash2 className="w-4 h-4"/>
-                     </button>
-                   )}
-                </div>
-             ))}
-             {true && (
-              <button type="button" onClick={() => setForm({...form, dabMembers: [...(form.dabMembers||[]), {srNo: (form.dabMembers?.length || 0)+1, name: '', designation: '', organization: '', role: ''}]})} className="btn-add">
-                <Plus className="w-4 h-4" /> Add Row
+        <AdminFormSection 
+          title="5. Departmental Advisory Board (DAB)" 
+          icon="👔"
+          isOpen={activeAccordionSection === 'dab'}
+          onToggle={() => setActiveAccordionSection(activeAccordionSection === 'dab' ? null : 'dab')}
+        >
+          <p className={labelBase + " text-slate-400! mb-4!"}>Manage the professional advisory board members.</p>
+          <div className="space-y-4">
+             <SortableListContext
+                items={form.dabMembers || []}
+                onChange={val => setForm({ ...form, dabMembers: val })}
+                renderItem={(member, i, id, dragHandleProps, setNodeRef, style, isDragging, actions) => (
+                  <div ref={setNodeRef} style={style} className={`flex gap-4 p-5 bg-white border border-slate-100 rounded-3xl relative transition-all ${isDragging ? 'shadow-2xl z-50 ring-4 ring-blue-50' : 'hover:shadow-md shadow-sm'}`}>
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1 shrink-0 justify-center border-r border-slate-100 pr-3" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                      <div className="w-4 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-4 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-4 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4">
+                       <div className="relative">
+                         <label className={labelBase}>Name</label>
+                         <input id={`mms-dab-name-${i}`} name={`mms-dab-name-${i}`} aria-label="mmsaboutform field" className={inputBase} placeholder="Name" value={member.name} onChange={e => handleTextChange(e.target.value, 40, val => {
+                            const c = [...form.dabMembers!]; c[i].name = val; setForm({...form, dabMembers: c});
+                         })}/>
+                       </div>
+                       <div className="relative">
+                         <label className={labelBase}>Designation</label>
+                         <input id={`mms-dab-desig-${i}`} name={`mms-dab-desig-${i}`} aria-label="mmsaboutform field" className={inputBase} placeholder="Designation" value={member.designation} onChange={e => handleTextChange(e.target.value, 60, val => {
+                            const c = [...form.dabMembers!]; c[i].designation = val; setForm({...form, dabMembers: c});
+                         })}/>
+                       </div>
+                       <div className="relative">
+                         <label className={labelBase}>Organization</label>
+                         <input id={`mms-dab-org-${i}`} name={`mms-dab-org-${i}`} aria-label="mmsaboutform field" className={inputBase} placeholder="Organization" value={member.organization} onChange={e => handleTextChange(e.target.value, 70, val => {
+                            const c = [...form.dabMembers!]; c[i].organization = val; setForm({...form, dabMembers: c});
+                         })}/>
+                       </div>
+                       <div className="relative">
+                         <label className={labelBase}>Role in DAB</label>
+                         <input id={`mms-dab-role-${i}`} name={`mms-dab-role-${i}`} aria-label="mmsaboutform field" className={inputBase} placeholder="e.g. Chairman" value={member.role} onChange={e => handleTextChange(e.target.value, 30, val => {
+                            const c = [...form.dabMembers!]; c[i].role = val; setForm({...form, dabMembers: c});
+                         })}/>
+                       </div>
+                    </div>
+                    
+                    <button type="button" onClick={() => {
+                       const c = [...form.dabMembers!]; c.splice(i, 1); setForm({...form, dabMembers: c});
+                    }} className="text-slate-300 hover:text-red-500 hover:bg-red-50 p-2 rounded-xl flex items-center justify-center shrink-0 self-center transition-all">
+                      <Trash2 className="w-5 h-5"/>
+                    </button>
+                  </div>
+                )}
+             />
+              <button type="button" onClick={() => setForm({...form, dabMembers: [...(form.dabMembers||[]), {srNo: (form.dabMembers?.length || 0)+1, name: '', designation: '', organization: '', role: ''}]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+                <Plus className="w-4 h-4" /> Add DAB Member
               </button>
-            )}
           </div>
-        </SectionCard>
-        )}
-
+        </AdminFormSection>
       </form>
-      
-      <style>{`
-        .admin-input-small {
-          width: 100%; bg-slate-50; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.5rem 0.75rem; 
-          color: #0f172a; font-size: 0.75rem; font-weight: 500; outline: none; transition: 0.2s;
-        }
-        .admin-input-small:focus { border-color: #2563EB; background: #fff; box-shadow: 0 0 0 2px rgba(37,99,235, 0.1); }
-        .admin-label { display: block; font-size: 0.65rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
-        .btn-add { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; border: 2px dashed #cbd5e1; border-radius: 0.75rem; padding: 0.75rem; font-size: 0.75rem; font-weight: bold; color: #64748b; background: white; transition: 0.2s; cursor: pointer; }
-        .btn-add:hover { border-color: #2563EB; color: #2563EB; background: #eff6ff; }
-      `}</style>
     </div>
   );
 };
-
-// --- Helper Components --- //
-
-const SectionCard: React.FC<{ title: string; icon: string; children: React.ReactNode }> = ({ title, icon, children }) => (
-  <div className="bg-white rounded-[2rem] shadow-lg shadow-slate-200/40 border border-slate-100 overflow-hidden">
-    <div className="px-8 py-5 border-b border-slate-100 flex items-center gap-3">
-      <div className="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500">{icon}</div>
-      <h3 className="text-sm font-extrabold text-[#111827] uppercase tracking-wider">{title}</h3>
-    </div>
-    <div className="p-8 space-y-6">{children}</div>
-  </div>
-);
 
 const ImageUploader = ({ image, onChange, compact = false }: { image: any, onChange: (f: File|null) => void, compact?: boolean }) => {
   const [preview, setPreview] = useState<string | null>(null);

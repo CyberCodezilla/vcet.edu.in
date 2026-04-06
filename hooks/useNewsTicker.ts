@@ -1,29 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useCallback } from 'react';
 import { newsTickerService } from '../services/newsTicker';
 import type { NewsTicker } from '../admin/types';
+import { useFetch } from './useFetch';
 
-export function useNewsTicker() {
-  const [items, setItems] = useState<NewsTicker[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+// Reduced from 60s to 5 minutes to minimize API load
+const REFRESH_INTERVAL_MS = 5 * 60_000;
 
-  useEffect(() => {
-    let mounted = true;
-    
-    setLoading(true);
-    newsTickerService.list()
-      .then(data => {
-        if (mounted) setItems(data);
-      })
-      .catch(err => {
-        if (mounted) setError(err instanceof Error ? err : new Error('Failed to fetch news ticker'));
-      })
-      .finally(() => {
-        if (mounted) setLoading(false);
-      });
+export function useNewsTicker(enabled = true) {
+  const fetchNewsTicker = useCallback(() => newsTickerService.list(), []);
 
-    return () => { mounted = false; };
-  }, []);
+  const { data, loading, error } = useFetch<NewsTicker[]>(fetchNewsTicker, {
+    enabled,
+    initialData: [],
+    cacheKey: 'public:news-ticker:list',
+    cacheTtlMs: 5 * 60_000,
+    refreshIntervalMs: REFRESH_INTERVAL_MS,
+    // Disabled to prevent API flooding
+    revalidateOnFocus: false,
+    revalidateOnVisibility: false,
+  });
 
-  return { items, loading, error };
+  return { items: data, loading, error: error ? new Error(error) : null };
 }

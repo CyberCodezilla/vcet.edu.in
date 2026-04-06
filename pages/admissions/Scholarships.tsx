@@ -77,7 +77,7 @@ const fallbackAicteSchemes = [
 
 const Scholarships: React.FC = () => {
   const [activeSection, setActiveSection] = useState('govt');
-  const { section, error } = useAdmissionSection('scholarships');
+  const { section, loading, error } = useAdmissionSection('scholarships');
   const groupedItems = groupItemsByGroupKey(section?.items ?? []);
   const governmentScholarships = groupedItems.govt?.map((item) => ({
     title: item.title,
@@ -95,6 +95,20 @@ const Scholarships: React.FC = () => {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
+
+  if (loading) {
+    return (
+      <PageLayout>
+        <PageBanner
+          title={section?.title || 'Scholarships'}
+          breadcrumbs={[{ label: 'Scholarships' }]}
+        />
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+        </section>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout>

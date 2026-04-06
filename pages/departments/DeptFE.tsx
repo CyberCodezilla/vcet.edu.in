@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
-import NewsletterSection from '../../components/NewsletterSection';
+import DepartmentNewsletterPanel from '../../components/DepartmentNewsletterPanel';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -20,6 +20,20 @@ const sidebarLinks = [
   { id: 'toppers',    label: 'Toppers',                      icon: 'ph-medal' },
   { id: 'syllabus',   label: 'Syllabus',                     icon: 'ph-book-open' },
   { id: 'newsletter', label: 'Newsletter',                   icon: 'ph-newspaper' },
+];
+
+const newsletterPdfs = [
+  { label: 'Newsletter 2024-25', href: '/pdfs/Department/FirstYearEngineering/Newsletter/FE-Newsletter-2024-25.pdf' },
+  { label: 'Newsletter 2023-24', href: '/pdfs/Department/FirstYearEngineering/Newsletter/FE-Newsletter-2023-24.pdf' },
+  { label: 'Newsletter 2022-23', href: '/pdfs/Department/FirstYearEngineering/Newsletter/FE-Newsletter-2022-23.pdf' },
+  { label: 'Newsletter 2021-22', href: '/pdfs/Department/FirstYearEngineering/Newsletter/FE-Newsletter-2021-22.pdf' },
+];
+
+const magazinePdfs = [
+  { label: 'Magazine 2024-25', href: '/pdfs/Department/FirstYearEngineering/Magazine/FE-Magazine-2024-25.pdf' },
+  { label: 'Magazine 2023-24', href: '/pdfs/Department/FirstYearEngineering/Magazine/FE-Magazine-2023-24.pdf' },
+  { label: 'Magazine 2022-23', href: '/pdfs/Department/FirstYearEngineering/Magazine/FE-Magazine-2022-23.pdf' },
+  { label: 'Magazine 2021-22', href: '/pdfs/Department/FirstYearEngineering/Magazine/FE-Magazine-2021-22.pdf' },
 ];
 
 const DeptFE: React.FC = () => {
@@ -47,7 +61,7 @@ const DeptFE: React.FC = () => {
   return (
     <PageLayout>
 
-      {/* ── Hero Banner ─────────────────────────────────────────── */}
+      {/* â”€â”€ Hero Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header className="relative bg-gradient-to-r from-brand-navy to-slate-800 pt-24 md:pt-28 pb-12 md:pb-16 overflow-hidden shadow-lg border-b-4 border-brand-gold">
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-white opacity-5 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-10 w-64 h-64 rounded-full bg-brand-gold opacity-10 blur-2xl pointer-events-none" />
@@ -64,12 +78,12 @@ const DeptFE: React.FC = () => {
           </div>
           <h1 className="font-display font-bold text-white leading-tight tracking-tight text-center">
             <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl">First Year Engineering</span>
-            <span className="block text-xl md:text-2xl mt-4 text-brand-gold/80 font-normal italic">Gateway to all Engineering Branches · 720 Students</span>
+            <span className="block text-xl md:text-2xl mt-4 text-brand-gold/80 font-normal italic">Gateway to all Engineering Branches Â· 720 Students</span>
           </h1>
         </div>
       </header>
 
-      {/* ── Page Body ───────────────────────────────────────────── */}
+      {/* â”€â”€ Page Body â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="container mx-auto px-4 sm:px-6 py-10 md:py-12 max-w-7xl flex flex-col lg:flex-row gap-8 lg:gap-10">
 
         {/* Sticky Sidebar */}
@@ -97,7 +111,7 @@ const DeptFE: React.FC = () => {
         {/* Main Content */}
         <main className="w-full flex-1 space-y-14 md:space-y-16 min-w-0">
 
-          {/* ════ ABOUT ════════════════════════════════════════════ */}
+          {/* â•â•â•â• ABOUT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'about' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="mb-8 flex flex-col items-center text-center">
@@ -112,22 +126,34 @@ const DeptFE: React.FC = () => {
 
               <div className="space-y-6 text-slate-600 leading-8 text-left">
                 <p>
-                  Established in June 1994 alongside the inception of the college, the First Year Engineering department offers an array of subjects including Engineering Physics, Engineering Chemistry, Engineering Mathematics, and Business Communication &amp; Ethics, and they collectively form the foundational pillars.
+                  Established in June 1994 alongside the inception of the college, the department, First Year Engineering offers an array of subjects including Engineering Physics, Engineering Chemistry, Engineering Mathematics, and Business Communication &amp; Ethics, and they collectively formed the foundational pillars.
                 </p>
                 <p>
-                  The Undergraduate Program (UG) offers various specializations including Computer Engineering with an approved intake of 180 students, Computer Science and Engineering (Data Science) with 180 students, Information Technology with 60 students, and Artificial Intelligence and Data Science with 120 students. Additionally, there are programs in Mechanical Engineering, Electronics and Telecommunication Engineering, and Civil Engineering, each with an approved intake of 60 students.
+                  The Undergraduate Program (UG) offers various specializations including Computer Engineering with an approved intake of 180 students, Computer Science and Engineering (Data Science) with 180 students, Information Technology with 60 students, and Artificial Intelligence and Data Science with 120 students. Additionally, there are programs in Mechanical Engineering, Electronics and Telecommunication Engineering, Civil Engineering, each with an approved intake of 60 students. This diverse array of courses caters to a broad spectrum of interests and career paths within the field of engineering, ensuring students have ample opportunities to pursue their academic and professional aspirations.
                 </p>
                 <p>
-                  Bolstered by dedicated faculty members, the department serves as a cornerstone for all engineering disciplines within the college. Faculty members actively engage in professional development through participation in refresher and orientation courses whenever feasible, and the department has hosted several seminars on diverse topics for both students and staff.
+                  Bolstered by dedicated faculty members, the department serves as a cornerstone for all engineering disciplines within the college. Faculty members actively engage in professional development through participation in refresher/orientation courses whenever feasible. Moreover, the department has hosted several seminars on diverse topics, catering to both students and staff.
                 </p>
                 <p>
                   Recognized for its pivotal role, the department is equipped with state-of-the-art laboratories and continues to spearhead various curricular and extracurricular initiatives. By nurturing a culture of innovation and collaboration, the department cultivates a strong foundation essential for the success of all engineering branches.
                 </p>
+                <div>
+                  <p className="font-bold text-brand-navy">OBJECTIVES</p>
+                  <p className="mt-2">
+                    The First Year department is dedicated to the holistic development of incoming engineering students, providing comprehensive guidance and support to ensure a smooth transition into college life. Our primary objective is to nurture students&apos; academic potential while instilling them with the confidence needed for a successful career in engineering. Through personalized counseling sessions and a supportive learning environment, we aim to enhance students&apos; cognitive abilities and problem-solving skills, empowering them to excel in their academic pursuits and professional endeavors. Our department is committed to fostering personal growth and professional development, ensuring that students emerge as well-rounded individuals equipped to tackle the challenges of the engineering profession.
+                  </p>
+                </div>
+                <div>
+                  <p className="font-bold text-brand-navy">INDUCTION PROGRAM</p>
+                  <p className="mt-2">
+                    VCET has been conducting the induction program for newcomers, aiming to assist new students in adjusting and feeling comfortable in their new academic environment. This initiative also serves to foster relationships among students and faculty, as well as to introduce newcomers to a broader sense of purpose and self-discovery. The event is meticulously organized by the First Year department in collaboration with senior students. It is designed to familiarize new entrants with the institution&apos;s environment and facilitate connections with its members. The student induction program engages with new students during their first week of college, ensuring that regular classes commence only after its completion. Participants are briefed on institutional policies, processes, practices, culture, and values, and are assigned mentor groups consisting of senior students and faculty members. Various activities are incorporated into the Induction Program, including sessions on universal human values, familiarization with the college and department, lectures and workshops by eminent individuals, creative practices, literary activities, language proficiency modules, feedback sessions, language and mathematics proficiency tests, introductions to professional chapters and clubs, and interactions with alumni.
+                  </p>
+                </div>
               </div>
             </section>
           )}
 
-          {/* ════ VISION & MISSION ═════════════════════════════════ */}
+          {/* â•â•â•â• VISION & MISSION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'vision' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
@@ -138,7 +164,7 @@ const DeptFE: React.FC = () => {
             </section>
           )}
 
-          {/* ════ DAB ══════════════════════════════════════════════ */}
+          {/* â•â•â•â• DAB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'dab' && (() => {
             return (
               <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
@@ -151,7 +177,7 @@ const DeptFE: React.FC = () => {
             );
           })()}
 
-          {/* ════ POs, PEOs & PSOs ═════════════════════════════════ */}
+          {/* â•â•â•â• POs, PEOs & PSOs â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'peo' && (() => {
             return (
               <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
@@ -164,7 +190,7 @@ const DeptFE: React.FC = () => {
             );
           })()}
 
-          {/* ════ MoU ═════════════════════════════════════════════ */}
+          {/* â•â•â•â• MoU â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'mou' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
@@ -175,7 +201,7 @@ const DeptFE: React.FC = () => {
             </section>
           )}
 
-          {/* ════ PATENT ══════════════════════════════════════════ */}
+          {/* â•â•â•â• PATENT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'patent' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
@@ -186,16 +212,16 @@ const DeptFE: React.FC = () => {
             </section>
           )}
 
-          {/* ════ FACULTY ══════════════════════════════════════════ */}
+          {/* â•â•â•â• FACULTY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'faculty' && <DepartmentFacultySection departmentName="First Year Engineering" />}
 
-          {/* ════ INFRASTRUCTURE ═════════════════════════════════ */}
+          {/* â•â•â•â• INFRASTRUCTURE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'infrastructure' && (() => {
             const labs = [
               {
                 title: 'Chemistry Lab',
                 inCharge: 'Ms. c.v.Sonarkar',
-                majorEquipments: 'Contech Electronic Balance, Portable DM Plant, Hot Air Oven, Redwood Viscometer, Pensky Martin’s Apparatus, Vicat’s Apparatus.',
+                majorEquipments: 'Contech Electronic Balance, Portable DM Plant, Hot Air Oven, Redwood Viscometer, Pensky Martinâ€™s Apparatus, Vicatâ€™s Apparatus.',
               },
               {
                 title: 'Physics Lab',
@@ -219,14 +245,14 @@ const DeptFE: React.FC = () => {
               {
                 title: 'Computer Lab',
                 inCharge: 'Ms. Shraddha Gosavi',
-                software: 'OS – Windows 11. SW – TC, JAVA, MS Office. Browser – IE 8, Google Chrome, Mozilla.',
-                hardware: 'PC – HP Corei3 – No.25. Printer – HP laser Jet.',
+                software: 'OS â€“ Windows 11. SW â€“ TC, JAVA, MS Office. Browser â€“ IE 8, Google Chrome, Mozilla.',
+                hardware: 'PC â€“ HP Corei3 â€“ No.25. Printer â€“ HP laser Jet.',
               },
               {
                 title: 'Language Lab',
                 inCharge: 'Dr. Pradip Gulbhile',
-                software: 'Orell Talk Smart Version , 1 Teacher,50 student Consoles ,OS – Windows 10. SW – TC, JAVA, MS Office. Browser – IE 8, Google Chrome, Mozilla.',
-                hardware: 'PC – HP Core i3 – No.25. Printer – HP Laser Jet.',
+                software: 'Orell Talk Smart Version , 1 Teacher,50 student Consoles ,OS â€“ Windows 10. SW â€“ TC, JAVA, MS Office. Browser â€“ IE 8, Google Chrome, Mozilla.',
+                hardware: 'PC â€“ HP Core i3 â€“ No.25. Printer â€“ HP Laser Jet.',
               },
               {
                 title: 'Engineering Mechanics',
@@ -282,14 +308,14 @@ const DeptFE: React.FC = () => {
             );
           })()}
 
-          {/* ════ SYLLABUS ═══════════════════════════════════════ */}
+          {/* â•â•â•â• SYLLABUS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'syllabus' && (() => {
             const links = [
-              { label: 'All Branches Scheme Syllabus (Sem I & Sem II)', url: 'https://vcet.edu.in/wp-content/uploads/2024/08/First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25.pdf' },
-              { label: 'Course Outcomes for First Year Engineering', url: 'https://vcet.edu.in/wp-content/uploads/2025/02/Course-Outcomes-for-First-Year-Engineering.pdf' },
-              { label: 'NEP 2020 Theory CO (All Subjects)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/FE-COsNEP-2020-All-Subjects-Theory.pdf' },
-              { label: 'Lab COs', url: 'https://vcet.edu.in/wp-content/uploads/2025/02/LAB-COs.pdf' },
-              { label: 'NEP 2020 Lab CO (All Subjects)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/FE-COsNEP-2020-All-Subjects-LAB.pdf' },
+              { label: 'All Branches Scheme Syllabus (Sem I & Sem II)', url: 'pdfs/Department/FirstYearEngineering/Syllabus/First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25.pdf' },
+              { label: 'Course Outcomes for First Year Engineering', url: 'pdfs/Department/FirstYearEngineering/Syllabus/Course-Outcomes-for-First-Year-Engineering.pdf' },
+              { label: 'NEP 2020 Theory CO (All Subjects)', url: 'pdfs/Department/FirstYearEngineering/Syllabus/FE-COsNEP-2020-All-Subjects-Theory.pdf' },
+              { label: 'Lab COs', url: 'pdfs/Department/FirstYearEngineering/Syllabus/LAB-COs.pdf' },
+              { label: 'NEP 2020 Lab CO (All Subjects)', url: 'pdfs/Department/FirstYearEngineering/Syllabus/FE-COsNEP-2020-All-Subjects-LAB.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -306,35 +332,35 @@ const DeptFE: React.FC = () => {
             );
           })()}
 
-          {/* ════ TIME TABLE ═════════════════════════════════════ */}
+          {/* â•â•â•â• TIME TABLE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'time-table' && (() => {
             const sem2Links = [
-              { label: 'Sem II - FE A (Comp 1)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivAComps1_Sem2_TT.pdf' },
-              { label: 'Sem II - FE B (Comp 2)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivBComps2_Sem2_TT-.pdf' },
-              { label: 'Sem II - FE C (Comp 3)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivCComps3_Sem2_TT.pdf' },
-              { label: 'Sem II - FE D (Civil)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivDCivil_Sem2_TT.pdf' },
-              { label: 'Sem II - FE E (CSEDS 1)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivECSEDS1_Sem2_TT.pdf' },
-              { label: 'Sem II - FE F (CSEDS 2)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivFCSEDS2_Sem2_TT.pdf' },
-              { label: 'Sem II - FE G (INFT)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-G-INFT-Engg.-_-SemII-_-2024-25.pdf' },
-              { label: 'Sem II - FE H (AI & DS)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/DivHAIDS_Sem2_TT.pdf' },
-              { label: 'Sem II - FE I (EXTC)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-I-EXTC-Engg._-semII_-2024-25.pdf' },
-              { label: 'Sem II - FE J (Mech)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-J_MECH.pdf' },
-              { label: 'Sem II - FE K (Civil & VLSI)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-K_-VLSI.pdf' },
-              { label: 'Sem II - FE L (CSEDS 3)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-L_-CSEDS-3.pdf' },
+              { label: 'Sem II - FE A (Comp 1)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivAComps1_Sem2_TT.pdf' },
+              { label: 'Sem II - FE B (Comp 2)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivBComps2_Sem2_TT-.pdf' },
+              { label: 'Sem II - FE C (Comp 3)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivCComps3_Sem2_TT.pdf' },
+              { label: 'Sem II - FE D (Civil)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivDCivil_Sem2_TT.pdf' },
+              { label: 'Sem II - FE E (CSEDS 1)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivECSEDS1_Sem2_TT.pdf' },
+              { label: 'Sem II - FE F (CSEDS 2)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivFCSEDS2_Sem2_TT.pdf' },
+              { label: 'Sem II - FE G (INFT)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/Div-G-INFT-Engg.-_-SemII-_-2024-25.pdf' },
+              { label: 'Sem II - FE H (AI & DS)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivHAIDS_Sem2_TT.pdf' },
+              { label: 'Sem II - FE I (EXTC)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/Div-I-EXTC-Engg._-semII_-2024-25.pdf' },
+              { label: 'Sem II - FE J (Mech)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-J_MECH.pdf' },
+              { label: 'Sem II - FE K (Civil & VLSI)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-K_-VLSI.pdf' },
+              { label: 'Sem II - FE L (CSEDS 3)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-L_-CSEDS-3.pdf' },
             ];
             const sem1Links = [
-              { label: 'Sem I - FE A (Comp 1)', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/Div-A-Comp1-_-TT.pdf' },
-              { label: 'Sem I - FE B (Comp 2)', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/Div-B-Comp2-_-TT.pdf' },
-              { label: 'Sem I - FE C (Comp 3)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-C-Comp3-_-TT.pdf' },
-              { label: 'Sem I - FE D (Civil)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-D-Civil-engg.-_-TT.pdf' },
-              { label: 'Sem I - FE E (CSEDS 1)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-E-CSE-DS-1-_-TT.pdf' },
-              { label: 'Sem I - FE F (CSEDS 2)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-F-CSE-DS-2-_-TT.pdf' },
-              { label: 'Sem I - FE G (INFT)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-G-INFT-engg-_-TT.pdf' },
-              { label: 'Sem I - FE H (AI-DS)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-H-AI-DS-engg.-_-TT.pdf' },
-              { label: 'Sem I - FE I (EXTC)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-I-EXTC-engg.-_-TT.pdf' },
-              { label: 'Sem I - FE J (Mech)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-J-Mech-engg.-_-TT.pdf' },
-              { label: 'Sem I - FE K (VLSI)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Div-K-VLSI-engg.-_-TT.pdf' },
-              { label: 'Sem I - FE L (CSE-DS 3)', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/L-Div-_-CSE-DS-3_-TT.pdf' },
+              { label: 'Sem I - FE A (Comp 1)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-A-Comp1-_-TT.pdf' },
+              { label: 'Sem I - FE B (Comp 2)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-B-Comp2-_-TT.pdf' },
+              { label: 'Sem I - FE C (Comp 3)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-C-Comp3-_-TT.pdf' },
+              { label: 'Sem I - FE D (Civil)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-D-Civil-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE E (CSEDS 1)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-E-CSE-DS-1-_-TT.pdf' },
+              { label: 'Sem I - FE F (CSEDS 2)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-F-CSE-DS-2-_-TT.pdf' },
+              { label: 'Sem I - FE G (INFT)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-G-INFT-engg-_-TT.pdf' },
+              { label: 'Sem I - FE H (AI-DS)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-H-AI-DS-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE I (EXTC)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-I-EXTC-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE J (Mech)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-J-Mech-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE K (VLSI)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-K-VLSI-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE L (CSE-DS 3)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/L-Div-_-CSE-DS-3_-TT.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-8">
@@ -364,14 +390,14 @@ const DeptFE: React.FC = () => {
             );
           })()}
 
-          {/* ════ INNOVATIONS IN TEACHING LEARNING ══════════════ */}
+          {/* â•â•â•â• INNOVATIONS IN TEACHING LEARNING â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'teaching-learning' && (() => {
             const links = [
-              { label: 'Innovation in Teaching Report 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Innovation-in-Teaching-report-2024-25.pdf' },
-              { label: 'Innovation in Teaching Report 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Innovation-in-Teaching-report-2023-24.pdf' },
-              { label: 'Innovation in Teaching Report 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/Innovation-in-Teaching-report-2022-23-Copy.pdf' },
-              { label: 'Innovation in Teaching Report 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2022/09/Innovation-in-Teaching-report-2021-22-1.pdf' },
-              { label: 'Innovation in Teaching Report 2020-21', url: 'https://vcet.edu.in/wp-content/uploads/2022/09/Innovation-in-Teaching-report-2020-21-2.pdf' },
+              { label: 'Innovation in Teaching Report 2024-25', url: 'public/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2024-25.pdf' },
+              { label: 'Innovation in Teaching Report 2023-24', url: 'public/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2023-24.pdf' },
+              { label: 'Innovation in Teaching Report 2022-23', url: 'public/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2022-23-Copy.pdf' },
+              { label: 'Innovation in Teaching Report 2021-22', url: 'public/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2021-22-1.pdf' },
+              { label: 'Innovation in Teaching Report 2020-21', url: 'public/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2020-21-2.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -388,7 +414,7 @@ const DeptFE: React.FC = () => {
             );
           })()}
 
-          {/* ════ INDUCTION PROGRAM ═════════════════════════════ */}
+          {/* â•â•â•â• INDUCTION PROGRAM â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'induction' && (() => {
             const links = [
               { label: 'SIP Report 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/SIP-Report_24-25.pdf' },
@@ -416,7 +442,7 @@ const DeptFE: React.FC = () => {
             );
           })()}
 
-          {/* ════ TOPPERS ════════════════════════════════════════ */}
+          {/* â•â•â•â• TOPPERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'toppers' && (() => {
             const toppers = [
               { term: '2020-21 SEM-I', topper: 'Thakur Mihir Ashish', score: '9.26 SGPI' },
@@ -458,7 +484,7 @@ const DeptFE: React.FC = () => {
             );
           })()}
 
-          {/* ════ ANNUAL REPORTS ═════════════════════════════════ */}
+          {/* â•â•â•â• ANNUAL REPORTS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'annual-reports' && (() => {
             const links = [
               { label: 'Annual Report 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/First_Year_Engg._Annual_Report_23-24.pdf' },
@@ -480,9 +506,13 @@ const DeptFE: React.FC = () => {
             );
           })()}
 
-          {/* ════ OTHER SECTIONS (placeholder) ════════════════════ */}
+          {/* â•â•â•â• NEWSLETTER & MAGAZINE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'newsletter' && (
-            <NewsletterSection departmentName="First Year Engineering" departmentId="6" />
+            <DepartmentNewsletterPanel
+              departmentLabel="First Year Engineering"
+              newsletterItems={newsletterPdfs}
+              magazineItems={magazinePdfs}
+            />
           )}
 
           {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'mou' && activeId !== 'patent' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'infrastructure' && activeId !== 'time-table' && activeId !== 'teaching-learning' && activeId !== 'induction' && activeId !== 'annual-reports' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'newsletter' && (
@@ -502,4 +532,5 @@ const DeptFE: React.FC = () => {
 };
 
 export default DeptFE;
+
 

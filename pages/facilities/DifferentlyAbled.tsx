@@ -27,18 +27,24 @@ const placeholderRows = {
 
 const DifferentlyAbled: React.FC = () => {
   const [apiData, setApiData] = useState<any>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     getFacilitiesSection<any>('differently-abled')
       .then((res) => mounted && setApiData(res))
-      .catch(() => mounted && setApiData(null));
-    return () => {
+      .catch(() => mounted && setApiData(null))
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  const displayRows = useMemo(() => {
+    const displayRows = useMemo(() => {
     const items = Array.isArray(apiData?.items)
       ? apiData.items
           .map((item: any) => ({
@@ -61,7 +67,23 @@ const DifferentlyAbled: React.FC = () => {
     };
   }, [apiData]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Differently-Abled Facilities"
+  breadcrumbs={[
+  { label: 'Differently-Abled Facilities' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Differently-Abled Facilities"

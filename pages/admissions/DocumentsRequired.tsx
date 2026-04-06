@@ -33,13 +33,27 @@ const fallbackDocuments = [
 ];
 
 const DocumentsRequired: React.FC = () => {
-  const { section, error } = useAdmissionSection('documents-required');
+  const { section, loading, error } = useAdmissionSection('documents-required');
   const documents = section?.items?.map((item) => ({
     title: item.title,
     description: item.description || '',
     link: item.document_url || item.external_url || '#',
     tag: item.tag || item.category || '',
   })) ?? fallbackDocuments;
+
+  if (loading) {
+    return (
+      <PageLayout>
+        <PageBanner
+          title={section?.title || 'Documents Required'}
+          breadcrumbs={[{ label: 'Documents Required' }]}
+        />
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+        </section>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout>

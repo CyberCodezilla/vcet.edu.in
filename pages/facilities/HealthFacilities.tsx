@@ -6,18 +6,24 @@ import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const HealthFacilities: React.FC = () => {
   const [apiData, setApiData] = useState<any>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     getFacilitiesSection<any>('health-facilities')
       .then((res) => mounted && setApiData(res))
-      .catch(() => mounted && setApiData(null));
-    return () => {
+      .catch(() => mounted && setApiData(null))
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  const items = useMemo(() => {
+    const items = useMemo(() => {
     const rows = Array.isArray(apiData?.items)
       ? apiData.items
           .map((item: any, index: number) => ({
@@ -31,7 +37,24 @@ const HealthFacilities: React.FC = () => {
     return [1, 2, 3, 4].map((n) => ({ name: `Image ${n}`, description: 'Health Facility', imageUrl: null }));
   }, [apiData]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Health Facilities"
+  subtitle="Dedicated spaces designed to support student health, care, and emergency readiness."
+  breadcrumbs={[
+  { label: 'Health Facilities' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Health Facilities"

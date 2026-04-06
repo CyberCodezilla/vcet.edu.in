@@ -1,5 +1,6 @@
 import React from 'react';
 import { Quote } from 'lucide-react';
+import { useHomepageData } from '../context/HomepageDataContext';
 import { useTestimonials } from '../hooks/useTestimonials';
 
 interface Testimonial {
@@ -18,7 +19,7 @@ const testimonials: Testimonial[] = [
     name: "Vinit Kanvinde",
     position: "Network Engineer",
     company: "Google",
-    image: "/Images/testimonials/Vinit Kanvinde.jpg"
+    image: "/images/Main Page/testimonials/Vinit_Kanvinde.jpg"
   },
   {
     id: 2,
@@ -26,7 +27,7 @@ const testimonials: Testimonial[] = [
     name: "Dr Amrita M A",
     position: "Manager Learning Studio",
     company: "I-Nurture Solutions",
-    image: "/Images/testimonials/Dr Amrita M A.jpg"
+    image: "/images/Main Page/testimonials/Dr Amrita M A.jpg"
   },
   {
     id: 3,
@@ -34,7 +35,7 @@ const testimonials: Testimonial[] = [
     name: "Amit Verma",
     position: "Product And Process Manager",
     company: "BillDesk",
-    image: "/Images/testimonials/Amit Verma.jpg"
+    image: "/images/Main Page/testimonials/Amit_Verma.jpg"
   },
   {
     id: 4,
@@ -42,12 +43,15 @@ const testimonials: Testimonial[] = [
     name: "Anish Patki",
     position: "General Manager",
     company: "Marketing",
-    image: "/Images/testimonials/Anish Patki.jpg"
+    image: "/images/Main Page/testimonials/Anish Patki.jpg"
   }
 ];
 
 const Testimonials: React.FC = () => {
-  const { testimonials: apiTestimonials, loading } = useTestimonials();
+  const homepage = useHomepageData();
+  const useAggregate = Boolean(homepage);
+  const { testimonials: fallbackTestimonials, loading } = useTestimonials(!useAggregate);
+  const apiTestimonials = useAggregate ? homepage!.data.testimonials : fallbackTestimonials;
   
   // Use API data if available, otherwise fallback to static data
   const displayTestimonials = apiTestimonials.length > 0 ? apiTestimonials.map(t => ({

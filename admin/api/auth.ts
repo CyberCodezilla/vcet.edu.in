@@ -18,8 +18,8 @@ export interface AuthUserResponse {
   user: User;
 }
 
-// Enabled mock auth for admin login without a backend server
-const USE_MOCK = false;
+// Keep auth mode aligned with the rest of admin APIs.
+const USE_MOCK = import.meta.env.VITE_MOCK_AUTH === 'true';
 
 const MOCK_USER: User = {
   id: 1,

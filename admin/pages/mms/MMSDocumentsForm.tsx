@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDown, ChevronUp, Plus, Trash2, FileText, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Plus, Trash2, FileText, CheckCircle, AlertTriangle } from 'lucide-react';
 import type { MMSDocumentsPayload } from '../../types';
 import { mmsDocumentsApi } from '../../api/mmsDocumentsApi';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
+import { SortableListContext } from '../../components/SortableList';
+import AdminFormSection from '../../components/AdminFormSection';
+
+const inputBase = "w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all text-slate-700";
+const labelBase = "block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1";
 
 const emptyForm: MMSDocumentsPayload = {
   overview: [],
@@ -59,10 +64,6 @@ const MMSDocumentsForm: React.FC = () => {
     }
   };
 
-  const toggleSection = (id: string) => {
-    setActiveSection(prev => prev === id ? null : id);
-  };
-
   const handleTextChange = (value: string, limit: number, setter: (val: string) => void) => {
     if (value.length <= limit) setter(value);
   };
@@ -71,7 +72,6 @@ const MMSDocumentsForm: React.FC = () => {
      return <div className="p-10 text-center"><div className="w-8 h-8 border-4 border-slate-200 border-t-[#2563EB] rounded-full animate-spin mx-auto mb-4" />Loading Form...</div>;
   }
 
-  // Generic List Renderer
   const renderStringList = (
     key: keyof Pick<MMSDocumentsPayload, 'admissionDocs' | 'academicDocs' | 'personalDocs' | 'categoryDocs' | 'specialDocs'>,
     title: string,
@@ -81,25 +81,32 @@ const MMSDocumentsForm: React.FC = () => {
   ) => {
     const list = form[key] || [];
     return (
-      <div className="space-y-3">
-        {list.map((item, i) => (
-          <div key={i} className="flex gap-2 items-start">
-            <div className="flex-1 relative">
-              <input id="mmsdocumentsform-1" name="mmsdocumentsform-1" aria-label="mmsdocumentsform field" className="admin-input-small w-full" value={item || ''} placeholder={placeholder} onChange={e => handleTextChange(e.target.value, charLimit, val => {
-                const c = [...list]; c[i] = val; setForm({...form, [key]: c});
-              })}/>
-              <span className="absolute right-2 top-2 text-[10px] text-slate-400">{item?.length || 0}/{charLimit}</span>
+      <div className="space-y-4">
+        <SortableListContext
+          items={list}
+          onChange={val => setForm({ ...form, [key]: val })}
+          renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging, actions) => (
+            <div ref={setNodeRef} style={style} className={`flex gap-3 items-center p-3 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+              <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1 shrink-0" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                <div className="w-4 h-0.5 bg-current mb-0.5 rounded-full" />
+                <div className="w-4 h-0.5 bg-current rounded-full" />
+              </div>
+              <div className="flex-1 relative">
+                <input id={`mms-doc-input-${key}-${i}`} name={`mms-doc-input-${key}-${i}`} aria-label="mmsdocumentsform field" className={inputBase} value={item || ''} placeholder={placeholder} onChange={e => handleTextChange(e.target.value, charLimit, val => {
+                  const c = [...list]; c[i] = val; setForm({...form, [key]: c});
+                })}/>
+              </div>
+              <button type="button" onClick={() => {
+                 const c = [...list]; c.splice(i, 1); setForm({...form, [key]: c});
+              }} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"><Trash2 className="w-4 h-4" /></button>
             </div>
-            <button type="button" onClick={() => {
-               const c = [...list]; c.splice(i, 1); setForm({...form, [key]: c});
-            }} className="p-2 text-red-500 hover:bg-red-50 rounded-lg"><Trash2 className="w-4 h-4" /></button>
-          </div>
-        ))}
+          )}
+        />
         {(list?.length || 0) < maxLimit && (
           <button type="button" onClick={() => {
              const c = [...list]; c.push(''); setForm({...form, [key]: c});
-          }} className="btn-add">
-            <Plus className="w-4 h-4" /> Add Item (Max {maxLimit})
+          }} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+             <Plus className="w-4 h-4" /> Add Item ({list?.length || 0}/{maxLimit})
           </button>
         )}
       </div>
@@ -110,7 +117,7 @@ const MMSDocumentsForm: React.FC = () => {
     <div className="max-w-5xl mx-auto space-y-8 pb-12 animate-fade-in relative pt-6">
       <PageEditorHeader
         title="Documents Required"
-        description="MMS Admissions Editor"
+        description="Manage the list of documents required for MMS admission."
         onSave={() => {
           void handleSave();
         }}
@@ -132,124 +139,129 @@ const MMSDocumentsForm: React.FC = () => {
       )}
 
       <form onSubmit={handleSave} className="space-y-4">
-
         {/* SECTION 1: OVERVIEW */}
-        <SectionCard title="Document Submission Overview" icon="📋">
+        <AdminFormSection 
+          title="1. Document Submission Overview" 
+          icon="📋"
+          isOpen={activeSection === 'overview'}
+          onToggle={() => setActiveSection(activeSection === 'overview' ? null : 'overview')}
+        >
           <div className="space-y-4">
-            {form.overview?.map((item, i) => (
-              <div key={i} className="flex gap-2 items-start bg-slate-50 p-3 rounded-lg border border-slate-200">
-                <div className="flex-1 relative">
-                  <label className="admin-label">Requirement (Max 100)</label>
-                  <input id="mmsdocumentsform-2" name="mmsdocumentsform-2" aria-label="mmsdocumentsform field" className="admin-input-small w-full" value={item.requirement} placeholder="e.g. Original Documents" onChange={e => handleTextChange(e.target.value, 100, val => {
-                    const c = [...form.overview!]; c[i].requirement = val; setForm({...form, overview: c});
-                  })}/>
+            <SortableListContext
+              items={form.overview || []}
+              onChange={val => setForm({ ...form, overview: val })}
+              renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging, actions) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <button type="button" onClick={() => {
+                       const c = [...form.overview!]; c.splice(i, 1); setForm({...form, overview: c});
+                    }} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"><Trash2 className="w-4 h-4" /></button>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="relative">
+                      <label className={labelBase}>Requirement</label>
+                      <input id={`mms-doc-over-req-${i}`} name={`mms-doc-over-req-${i}`} aria-label="mmsdocumentsform field" className={inputBase} value={item.requirement} placeholder="e.g. Original Documents" onChange={e => handleTextChange(e.target.value, 100, val => {
+                        const c = [...form.overview!]; c[i].requirement = val; setForm({...form, overview: c});
+                      })}/>
+                    </div>
+                    <div className="relative">
+                      <label className={labelBase}>Copies</label>
+                      <input id={`mms-doc-over-copy-${i}`} name={`mms-doc-over-copy-${i}`} aria-label="mmsdocumentsform field" className={inputBase + " text-center"} value={item.copies} placeholder="e.g. 3 sets" onChange={e => handleTextChange(e.target.value, 20, val => {
+                        const c = [...form.overview!]; c[i].copies = val; setForm({...form, overview: c});
+                      })}/>
+                    </div>
+                  </div>
                 </div>
-                <div className="w-32 relative text-center">
-                  <label className="admin-label">Copies (20)</label>
-                  <input id="mmsdocumentsform-3" name="mmsdocumentsform-3" aria-label="mmsdocumentsform field" className="admin-input-small w-full text-center" value={item.copies} placeholder="e.g. 3 copies" onChange={e => handleTextChange(e.target.value, 20, val => {
-                    const c = [...form.overview!]; c[i].copies = val; setForm({...form, overview: c});
-                  })}/>
-                </div>
-                <button type="button" onClick={() => {
-                   const c = [...form.overview!]; c.splice(i, 1); setForm({...form, overview: c});
-                }} className="p-2 text-red-500 hover:bg-red-50 rounded-lg mt-5"><Trash2 className="w-4 h-4" /></button>
-              </div>
-            ))}
-            {(form.overview?.length || 0) < 2 && (
-              <button type="button" onClick={() => setForm({...form, overview: [...(form.overview||[]), {requirement: '', copies: ''}]})} className="btn-add">
-                <Plus className="w-4 h-4" /> Add Overview Requirement (Max 2)
+              )}
+            />
+            {(form.overview?.length || 0) < 3 && (
+              <button type="button" onClick={() => setForm({...form, overview: [...(form.overview||[]), {requirement: '', copies: ''}]})} className="w-full flex flex-col items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl p-10 hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500">
+                <Plus className="w-8 h-8" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Add Overview Requirement</span>
               </button>
             )}
           </div>
-        </SectionCard>
+        </AdminFormSection>
 
-        {/* SECTIONS 2 to 6: DOCUMENT LISTS */}
-        <SectionCard title="Admission Documents" icon="📝">
+        {/* SECTION 2: ADMISSION DOCUMENTS */}
+        <AdminFormSection title="2. Admission Documents" icon="📝" isOpen={activeSection === 'admissionDocs'} onToggle={() => setActiveSection(activeSection === 'admissionDocs' ? null : 'admissionDocs')}>
           {renderStringList('admissionDocs', 'Admission Document', 'e.g. Provisional Allotment Letter', 3, 100)}
-        </SectionCard>
+        </AdminFormSection>
 
-        <SectionCard title="Academic Documents" icon="🎓">
-          {renderStringList('academicDocs', 'Academic Document', 'e.g. SSC Marksheet', 5, 100)}
-        </SectionCard>
+        {/* SECTION 3: ACADEMIC DOCUMENTS */}
+        <AdminFormSection title="3. Academic Documents" icon="🎓" isOpen={activeSection === 'academicDocs'} onToggle={() => setActiveSection(activeSection === 'academicDocs' ? null : 'academicDocs')}>
+          {renderStringList('academicDocs', 'Academic Document', 'e.g. SSC Marksheet', 10, 100)}
+        </AdminFormSection>
 
-        <SectionCard title="Personal & Domicile Documents" icon="🏠">
-          {renderStringList('personalDocs', 'Personal Document', 'e.g. Nationality Certificate', 2, 100)}
-        </SectionCard>
+        {/* SECTION 4: PERSONAL & DOMICILE DOCUMENTS */}
+        <AdminFormSection title="4. Personal & Domicile" icon="🏠" isOpen={activeSection === 'personalDocs'} onToggle={() => setActiveSection(activeSection === 'personalDocs' ? null : 'personalDocs')}>
+          {renderStringList('personalDocs', 'Personal Document', 'e.g. Nationality Certificate', 5, 100)}
+        </AdminFormSection>
 
-        <SectionCard title="Category-Based Documents" icon="👥">
-          {renderStringList('categoryDocs', 'Category Document', 'e.g. Caste Certificate', 4, 100)}
-        </SectionCard>
+        {/* SECTION 5: CATEGORY DOCUMENTS */}
+        <AdminFormSection title="5. Category Documents" icon="👥" isOpen={activeSection === 'categoryDocs'} onToggle={() => setActiveSection(activeSection === 'categoryDocs' ? null : 'categoryDocs')}>
+          {renderStringList('categoryDocs', 'Category Document', 'e.g. Caste Certificate', 6, 100)}
+        </AdminFormSection>
 
-        <SectionCard title="Special Case Documents" icon="⭐">
+        {/* SECTION 6: SPECIAL DOCUMENTS */}
+        <AdminFormSection title="6. Special Case Documents" icon="⭐" isOpen={activeSection === 'specialDocs'} onToggle={() => setActiveSection(activeSection === 'specialDocs' ? null : 'specialDocs')}>
           {renderStringList('specialDocs', 'Special Document', 'e.g. Gap Certificate', 6, 100)}
-        </SectionCard>
+        </AdminFormSection>
 
         {/* SECTION 7: ADDITIONAL REQUIREMENTS */}
-        <SectionCard title="Additional Requirements" icon="📌">
+        <AdminFormSection title="7. Additional Requirements" icon="📌" isOpen={activeSection === 'additional'} onToggle={() => setActiveSection(activeSection === 'additional' ? null : 'additional')}>
           <div className="relative">
-             <label className="admin-label">Requirement Detail (Max 50) <span className="text-[10px] font-normal normal-case text-slate-400">e.g. Passport Size Photographs</span></label>
-             <input id="mmsdocumentsform-4" name="mmsdocumentsform-4" aria-label="mmsdocumentsform field" className="admin-input-small" value={form.additionalDocs || ''} onChange={e => handleTextChange(e.target.value, 50, val => {
+             <label className={labelBase}>Requirement Detail</label>
+             <input id="mmsdocumentsform-4" name="mmsdocumentsform-4" aria-label="mmsdocumentsform field" className={inputBase} value={form.additionalDocs || ''} placeholder="e.g. Passport Size Photographs (3 copies)" onChange={e => handleTextChange(e.target.value, 100, val => {
                setForm({...form, additionalDocs: val});
              })}/>
           </div>
-        </SectionCard>
+        </AdminFormSection>
 
         {/* SECTION 8: CHECKLIST PDF */}
-        <SectionCard title="Documents Checklist (PDF)" icon="📄">
-          <p className="text-xs text-slate-500 mb-3 font-medium">Upload exactly 1 PDF checklist.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <AdminFormSection title="8. Documents Checklist (PDF)" icon="📄" isOpen={activeSection === 'pdf'} onToggle={() => setActiveSection(activeSection === 'pdf' ? null : 'pdf')}>
+          <p className={labelBase + " text-slate-400!"}>Upload exactly 1 PDF checklist for candidates.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {form.checklistPdf?.map((pdfItem, i) => (
-              <div key={i} className="p-4 bg-slate-50 border border-slate-200 rounded-lg relative space-y-3">
+              <div key={i} className="p-6 bg-white border border-slate-100 rounded-3xl relative space-y-4 shadow-sm hover:shadow-md transition-all">
                 <button type="button" onClick={() => {
                   const c = [...form.checklistPdf!]; c.splice(i, 1); setForm({...form, checklistPdf: c});
-                }} className="absolute top-2 right-2 text-red-500 z-10 hover:bg-red-50 p-1 rounded"><Trash2 className="w-4 h-4"/></button>
+                }} className="absolute top-4 right-4 text-slate-300 hover:text-red-500 hover:bg-red-50 p-2 rounded-xl transition-all"><Trash2 className="w-4 h-4"/></button>
                 
-                <div className="relative group rounded-lg border border-dashed border-slate-300 bg-white h-24 flex flex-col items-center justify-center hover:bg-slate-100 transition-colors cursor-pointer">
+                <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 h-32 flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden shadow-inner">
                   <input id="mmsdocumentsform-5" name="mmsdocumentsform-5" aria-label="mmsdocumentsform field" type="file" accept="application/pdf" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
                     if (e.target.files && e.target.files[0]) {
                        const c = [...form.checklistPdf!]; c[i].fileUrl = e.target.files[0]; setForm({...form, checklistPdf: c});
                     }
                   }}/>
-                  <FileText className={`w-6 h-6 ${pdfItem.fileUrl ? 'text-blue-500' : 'text-slate-300 group-hover:text-blue-400'}`}/>
-                  <span className="text-[10px] text-slate-500 font-medium mt-1">{pdfItem.fileUrl ? 'File Selected' : 'Upload PDF'}</span>
+                  <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                    <FileText className={`w-5 h-5 ${pdfItem.fileUrl ? 'text-blue-500' : 'text-slate-300 group-hover:text-blue-400'}`}/>
+                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{pdfItem.fileUrl ? 'File Selected' : 'Upload PDF'}</span>
                 </div>
                 
-                <div className="relative">
-                  <label className="admin-label text-[10px]">PDF Label / Name</label>
-                  <input id="mmsdocumentsform-6" name="mmsdocumentsform-6" aria-label="mmsdocumentsform field" className="admin-input-small text-xs" placeholder="Label / Name" value={pdfItem.label || ''} onChange={e => {
+                <div className="relative pt-2">
+                  <label className={labelBase}>PDF Label</label>
+                  <input id="mmsdocumentsform-6" name="mmsdocumentsform-6" aria-label="mmsdocumentsform field" className={inputBase} placeholder="e.g. Document Checklist 2024" value={pdfItem.label || ''} onChange={e => {
                       const c = [...form.checklistPdf!]; c[i].label = e.target.value; setForm({...form, checklistPdf: c});
                   }} />
                 </div>
               </div>
             ))}
             {(form.checklistPdf?.length || 0) < 1 && (
-              <button type="button" onClick={() => setForm({...form, checklistPdf: [...(form.checklistPdf||[]), {fileUrl: null as any, label: ''}]})} className="btn-add min-h-[12rem]">
-                <Plus className="w-5 h-5 mx-auto mb-1" /> Add PDF (Max 1)
+              <button type="button" onClick={() => setForm({...form, checklistPdf: [...(form.checklistPdf||[]), {fileUrl: null as any, label: ''}]})} className="flex flex-col items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl p-10 hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500 min-h-[260px]">
+                <Plus className="w-8 h-8" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Add PDF Checklist</span>
               </button>
             )}
           </div>
-        </SectionCard>
-
+        </AdminFormSection>
       </form>
-      <style>{`
-        .admin-input-small { width: 100%; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.5rem 0.75rem; color: #0f172a; font-size: 0.75rem; font-weight: 500; outline: none; transition: 0.2s; }
-        .admin-input-small:focus { border-color: #2563EB; background: #fff; box-shadow: 0 0 0 2px rgba(37,99,235, 0.1); }
-        .admin-label { display: block; font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem; }
-        .btn-add { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; border: 2px dashed #cbd5e1; border-radius: 0.75rem; padding: 0.75rem; font-size: 0.75rem; font-weight: bold; color: #64748b; background: white; transition: 0.2s; cursor: pointer; }
-        .btn-add:hover { border-color: #2563EB; color: #2563EB; background: #eff6ff; }
-      `}</style>
-    </div>
-  );
-};
-
-const SectionCard = ({ icon, title, children }: any) => {
-  return (
-    <div className="bg-white rounded-[2rem] p-8 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.05)] border border-slate-100">
-      <div className="flex items-center gap-3 mb-8">
-         {icon && <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-lg shadow-sm border border-slate-100">{icon}</div>}
-         <h2 className="text-sm font-black text-[#111827] uppercase tracking-wider">{title}</h2>
-      </div>
-      <div>{children}</div>
     </div>
   );
 };

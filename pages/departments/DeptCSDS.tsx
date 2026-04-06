@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
-import NewsletterSection from '../../components/NewsletterSection';
+import DepartmentNewsletterPanel from '../../components/DepartmentNewsletterPanel';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -15,6 +15,20 @@ const sidebarLinks = [
   { id: 'toppers',    label: 'Toppers: 21-22',               icon: 'ph-medal' },
   { id: 'syllabus',   label: 'Syllabus',                     icon: 'ph-book-open' },
   { id: 'newsletter', label: 'Newsletter',                   icon: 'ph-newspaper' },
+];
+
+const newsletterPdfs = [
+  { label: 'NEWSLETTER 2024-25', href: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Newsletter/NEWSLETTER-2024-25.pdf' },
+  { label: 'NEWSLETTER 2023-24', href: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Newsletter/NEWSLETTER-2023-24.pdf' },
+  { label: 'NEWSLETTER 2022-23', href: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Newsletter/NEWSLETTER-2022-23.pdf' },
+  { label: 'NEWSLETTER 2021-22', href: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Newsletter/NEWSLETTER-2021-22.pdf' },
+];
+
+const magazinePdfs = [
+  { label: 'MAGAZINE 2024-25', href: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Magazine/MAGAZINE-2024-25.pdf' },
+  { label: 'MAGAZINE 2023-24', href: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Magazine/MAGAZINE-2023-24.pdf' },
+  { label: 'MAGAZINE 2022-23', href: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Magazine/MAGAZINE-2022-23.pdf' },
+  { label: 'MAGAZINE 2021-22', href: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Magazine/MAGAZINE-2021-22.pdf' },
 ];
 
 const DeptCSDS: React.FC = () => {
@@ -43,11 +57,11 @@ const DeptCSDS: React.FC = () => {
 
   return (
     <PageLayout>
-      {/* ── Hero Banner ─────────────────────────────────────────── */}
+      {/* â”€â”€ Hero Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header className="relative bg-gradient-to-r from-brand-navy to-slate-800 pt-28 pb-16 overflow-hidden shadow-lg border-b-4 border-brand-gold">
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-white opacity-5 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-10 w-64 h-64 rounded-full bg-brand-gold opacity-10 blur-2xl pointer-events-none" />
-        {/* Breadcrumb — absolute top-left */}
+        {/* Breadcrumb â€” absolute top-left */}
         <nav className="absolute top-[52px] left-6 z-20 flex items-center space-x-2 text-sm font-medium text-white/70">
           <a href="/" className="hover:text-brand-gold transition-colors duration-200 flex items-center"><i className="ph ph-house text-base" /></a>
           <i className="ph ph-caret-right text-xs" />
@@ -63,7 +77,7 @@ const DeptCSDS: React.FC = () => {
         </div>
       </header>
 
-      {/* ── Page Body ───────────────────────────────────────────── */}
+      {/* â”€â”€ Page Body â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="container mx-auto px-6 py-12 max-w-7xl flex flex-col lg:flex-row gap-10">
 
         {/* Sticky Sidebar */}
@@ -99,28 +113,28 @@ const DeptCSDS: React.FC = () => {
         {/* Main Content */}
         <main className="w-full lg:w-3/4 space-y-16">
 
-          {/* ── ABOUT ──────────────────────────────────────────── */}
+          {/* â”€â”€ ABOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'about' && (
             <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="space-y-6 text-slate-600 leading-relaxed text-justify">
                 <p>
-                  The Computer Science &amp; Engineering (Data Science) Department is established in the year 2019.
-                  Having started with a four-year undergraduate program, B.E. (CSE&#8209;DS), the department is
-                  willing to start the Post Graduate Program, M.E. CSE&#8209;DS with specializations, shortly in
-                  coming days. Data Science is a field of Scientific theories where Unstructured, Raw data is taken
-                  and moulded into meaningful information by means of Programming, Business skills, and Analytics.
+                  The Computer Science &amp; Engineering ( Data Science)Department is established in the year 2019.
+                  Having started with a four-year undergraduate program, B. E. (CSE -DS), the department is willing
+                  to start the Post Graduate Program, M. E. CSE-DS with specializations, shortly in coming days.
+                  Data Science is a field of Scientific theories where Unstructured, Raw data is taken and moulded
+                  into meaningful information by means of Programming, Business skills, and Analytics.
                 </p>
                 <p>
                   Many Multinational Companies across the globe are using Digital methods to Rationalize their work
-                  and Maintaining their inventory. This technological advancement helps in various factors like Cost
-                  Saving, Resource Saving, and Time Saving. The concept of Data science consists of various
+                  and Maintaining their Inventory. This Technological advancement helps in various factors like Cost
+                  Saving, Resource Saving, and Time-Saving. The concept of Data science consists of various
                   components or sub building units that help to segregate or segment data using calculus and
                   algorithms, it's a time-saving process.
                 </p>
                 <p>
-                  The data can be either in structured form or unstructured form. The structured form data can be
+                  The data can be either in structured form or unstructured form, the structured form data can be
                   in form of a tabular form or Excel sheets, etc whereas the unstructured form of data can be
-                  Images, audios, videos, pdf files, etc. DML Data Manipulation Language is used to Manipulate and
+                  Images, audios, videos, pdf files, etc DML Data Manipulation Language is used to Manipulate and
                   Extract meaningful data out of junk. Until and unless the Data Scientists don't have a good
                   knowledge about statistics and Probability, they are not capable of segmenting data, it may lead
                   to the high possibility of misinterpreting data and reaching to the incorrect conclusions.
@@ -130,25 +144,103 @@ const DeptCSDS: React.FC = () => {
                   regression and Classification concepts help the Data scientists to predict the valuable insights
                   from all the Unstructured or structured form of Data available. The concept of Big Data helps to
                   extract the main information out of all the possible raw data available. Like we can separate oil
-                  from water, The Data Scientist uses various concepts and skills to extract data like JAVA, R,
+                  from water. The Data Scientist uses various concepts and skills to extract data like JAVA, R,
                   Apache Spark, Hadoop Etc.
                 </p>
-                <p>Thus, there are many more components of data science available and every component works on different algorithms.</p>
+                <p>
+                  Thus, there are many more components of data science available and every component works on
+                  different algorithms.
+                </p>
+
+                <div>
+                  <p className="font-semibold text-brand-navy mb-2">Skills Required for Data Science career:</p>
+                  <ul className="list-disc pl-6 space-y-1 text-slate-600">
+                    <li>Programming Skills</li>
+                    <li>Statistics</li>
+                    <li>Machine Learning</li>
+                    <li>Multivariable Calculus &amp; Linear Algebra</li>
+                    <li>Data Wrangling</li>
+                    <li>Data Visualization &amp; Communication</li>
+                    <li>Software Engineering</li>
+                    <li>Data Intuition</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p className="font-semibold text-brand-navy mb-2">Some of the prominent data science roles are listed below :</p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Data Scientist</p>
+                  <p>
+                    A Data Scientist's primary job role is to extract consumable information from structured and
+                    unstructured data with computer programming tools and processes. Their job also includes creating
+                    methodology and blueprint to present information to stakeholders. They are also supposed to
+                    maintain databases.
+                  </p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Data Analyst</p>
+                  <p>
+                    A Data Analyst has the responsibility of analyzing the data, identifying trends, and creating a
+                    predictive model based on data studied. Another critical responsibility of a Data Analyst is to
+                    translate findings into reports, which can be understood by the management, and help them
+                    accurately visualize the possible outcome. They are also supposed to maintain databases and data
+                    systems.
+                  </p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Data Engineer</p>
+                  <p>
+                    Data Engineers are required to study data, develop data set processes, prepare the predictive
+                    model, and build algorithms through which stakeholders can easily consume raw data. It may include
+                    developing dashboards and reports that can be accessed and used by all stakeholders. Data Engineers
+                    need to have strong communication skills to be able to understand client's requirements and
+                    objectives. Analysts predict that the country will have more than 11 million job openings by 2026.
+                    In fact, since 2019, hiring in the data science industry has increased by 46%. Yet, around 93,000
+                    jobs in Data Science were vacant at the end of August 2020 in India.
+                  </p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Data Mining Engineer</p>
+                  <p>
+                    The job of a Data Mining Engineer is mainly extracting data from an extensive database and
+                    analyzing them. They are also responsible for building and maintaining software and digital
+                    infrastructure to study big chunks of data.
+                  </p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Data Architect</p>
+                  <p>
+                    Data Architect's role is to ensure that data used in creating a blueprint of a project is stable,
+                    secure, and available to all stakeholders at all times. The job role includes collating,
+                    organizing, centralizing, maintaining, and protecting a company or client's data.
+                  </p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Data Statistician</p>
+                  <p>
+                    This job role includes critical responsibilities such as extraction of data using statistical
+                    methodologies and analyzing, organizing, and contextualizing data and its subsets. A Data
+                    Statistician is supposed to conduct tests to determine the reliability and accuracy of data.
+                  </p>
+
+                  <p className="font-semibold text-brand-navy mt-3">Project Manager</p>
+                  <p>
+                    Data mining, extraction, testing, analysis, and application for creating a blueprint is a wide
+                    field of work that requires management to optimize the resources being used on a project. A
+                    Project Manager's role is to oversee and guide the execution of the project. They act as a medium
+                    between the team and clients to communicate requirements and changes in the project.
+                  </p>
+                </div>
               </div>
             </section>
           )}
 
-          {/* ── VISION & MISSION ───────────────────────────────── */}
+          {/* â”€â”€ VISION & MISSION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'vision' && (
             <div className="space-y-16">
 
-              {/* ── Section header ── */}
+              {/* â”€â”€ Section header â”€â”€ */}
               <div className="reveal flex items-center gap-4">
                 <span className="w-8 h-px bg-brand-gold" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span>
+                <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering Â· Data Science</span>
               </div>
 
-              {/* ── VISION ── full-bleed cinematic card ── */}
+              {/* â”€â”€ VISION â”€â”€ full-bleed cinematic card â”€â”€ */}
               <section className="reveal">
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl" style={{ background: 'linear-gradient(135deg, #0d2d56 0%, #1a4b7c 50%, #0f3460 100%)' }}>
                   {/* large faint quote mark */}
@@ -169,20 +261,20 @@ const DeptCSDS: React.FC = () => {
 
                     {/* quote */}
                     <blockquote className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-white leading-[1.3] italic mb-10 max-w-4xl">
-                      "To emerge as a center of excellence in Data Science, generating globally competent professionals to address complex computational challenges and contribute to societal growth."
+                      "To be a front-runner in future tech and data-driven innovation through an interdisciplinary excellence in Computer Science and Engineering with a focus on Data science."
                     </blockquote>
 
                     {/* decorative bottom rule */}
                     <div className="flex items-center gap-4">
                       <div className="h-px flex-1 bg-white/10" />
-                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">VCET · CSE(Data Science)</span>
+                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">VCET Â· CSE(Data Science)</span>
                       <div className="h-px w-12 bg-brand-gold/40" />
                     </div>
                   </div>
                 </div>
               </section>
 
-              {/* ── MISSION ── */}
+              {/* â”€â”€ MISSION â”€â”€ */}
               <section className="reveal space-y-6">
                 {/* heading */}
                 <div className="flex items-end justify-between mb-2">
@@ -218,7 +310,7 @@ const DeptCSDS: React.FC = () => {
             </div>
           )}
 
-          {/* ── DEPARTMENTAL ADVISORY BOARD ────────────────────── */}
+          {/* â”€â”€ DEPARTMENTAL ADVISORY BOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'dab' && (() => {
             const members = [
               { sr: 1,  name: 'Dr. Rakesh Himte',          designation: 'Principal',                          org: 'VCET, Vasai',                                              role: 'Chairman',                tag: 'internal' },
@@ -248,7 +340,7 @@ const DeptCSDS: React.FC = () => {
                 <div className="reveal">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="w-8 h-px bg-brand-gold" />
-                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span>
+                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering Â· Data Science</span>
                   </div>
                   <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy leading-tight">
                     Departmental Advisory Board
@@ -301,21 +393,20 @@ const DeptCSDS: React.FC = () => {
             );
           })()}
 
-          {/* ── POs, PEOs, PSOs ────────────────────────────────── */}
+          {/* â”€â”€ POs, PEOs, PSOs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'peo' && (() => {
             const pos = [
               { n: '01', text: 'An ability to apply knowledge of mathematics, science, and Engineering.' },
               { n: '02', text: 'An ability to design and conduct experiments, as well as to analyze and interpret data.' },
               { n: '03', text: 'An ability to design a system, component, or process to meet desired needs within realistic constraints.' },
-              { n: '04', text: 'An ability to design a system, component, or process to meet desired needs within realistic constraints.' },
-              { n: '05', text: 'An ability to use the techniques, skills, and modern engineering tools necessary for civil engineering practice.' },
-              { n: '06', text: 'Knowledge of contemporary issues.' },
-              { n: '07', text: 'The broad education necessary to understand the impact of engineering solutions in a global, economic, environmental and societal context.' },
-              { n: '08', text: 'An understanding of professional and ethical responsibility.' },
-              { n: '09', text: 'An ability to function in multidisciplinary teams.' },
-              { n: '10', text: 'An ability to communicate effectively.' },
-              { n: '11', text: 'Recognition of the need for, and an ability to engage in life-long learning.' },
-              { n: '12', text: "An understanding of engineering and management principles and apply these to one's own work, as a member and leader in a team, to manage projects." },
+              { n: '04', text: 'An ability to use the techniques, skills, and modern engineering tools necessary for civil engineering practice.' },
+              { n: '05', text: 'Knowledge of contemporary issues.' },
+              { n: '06', text: 'The broad education necessary to understand the impact of engineering solutions in a global, economic, environmental and societal context.' },
+              { n: '07', text: 'An understanding of professional and ethical responsibility.' },
+              { n: '08', text: 'An ability to function in multidisciplinary teams.' },
+              { n: '09', text: 'An ability to communicate effectively.' },
+              { n: '10', text: 'Recognition of the need for, and an ability to engage in life-long learning.' },
+              { n: '11', text: "An understanding of engineering and management principles and apply these to one's own work, as a member and leader in a team, to manage projects." },
             ];
             const psos = [
               { n: 'PSO1', text: 'To apply the knowledge of Data Science to analyze, design and implement application specific problems with modern AI tools.' },
@@ -329,17 +420,17 @@ const DeptCSDS: React.FC = () => {
                 <div className="reveal">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="w-8 h-px bg-brand-gold" />
-                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span>
+                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering Â· Data Science</span>
                   </div>
                   <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy">POs, PEOs &amp; PSOs</h2>
                   <div className="mt-4 h-px bg-gradient-to-r from-brand-gold via-brand-navylight to-transparent" />
                 </div>
 
-                {/* ── PROGRAM OUTCOMES ── */}
+                {/* â”€â”€ PROGRAM OUTCOMES â”€â”€ */}
                 <section className="reveal space-y-6">
                   {/* heading */}
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">12 Outcomes</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">11 Outcomes</p>
                     <h3 className="text-2xl font-display font-bold text-brand-navy leading-tight">Program Outcomes (POs)</h3>
                   </div>
 
@@ -364,7 +455,7 @@ const DeptCSDS: React.FC = () => {
                   </div>
                 </section>
 
-                {/* ── PROGRAM EDUCATIONAL OBJECTIVES ── */}
+                {/* â”€â”€ PROGRAM EDUCATIONAL OBJECTIVES â”€â”€ */}
                 <section className="reveal">
                   <div className="relative rounded-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg,#0d2d56 0%,#1a4b7c 100%)' }}>
                     <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px)', backgroundSize: '28px 28px' }} />
@@ -379,7 +470,7 @@ const DeptCSDS: React.FC = () => {
                   </div>
                 </section>
 
-                {/* ── PROGRAM SPECIFIC OUTCOMES ── */}
+                {/* â”€â”€ PROGRAM SPECIFIC OUTCOMES â”€â”€ */}
                 <section className="reveal space-y-6">
                   <div>
                     <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-gold">Data Science Specific</p>
@@ -408,34 +499,34 @@ const DeptCSDS: React.FC = () => {
             );
           })()}
 
-          {/* ── MoU ────────────────────────────────────────────── */}
+          {/* â”€â”€ MoU â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'mou' && (
             <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
-              <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span></div>
+              <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering Â· Data Science</span></div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">MoU{' '}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2024/06/MOU_CSEDS.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs/Department/ComputerScienceandEngineering(DataScience)/MoU/MOU_CSEDS.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>MoU Document (CSE-DS)</span>
                 <i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
             </section>
           )}
 
-          {/* ── PATENT ─────────────────────────────────────────── */}
+          {/* â”€â”€ PATENT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'patent' && (
             <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
-              <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span></div>
+              <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering Â· Data Science</span></div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Patent{' '}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2024/04/Intellectual_Property_India_Journal_Publication.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs/Department/ComputerScienceandEngineering(DataScience)/PatentsPublished/Intellectual_Property_India_Journal_Publication.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>Patents Published</span>
                 <i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
             </section>
           )}
 
-          {/* ── FACULTY ────────────────────────────────────────── */}
+          {/* â”€â”€ FACULTY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'faculty' && <DepartmentFacultySection departmentName="Computer Science & Data Science" />}
 
-          {/* ── TOPPERS ───────────────────────────────────────── */}
+          {/* â”€â”€ TOPPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'toppers' && (() => {
             const toppers = [
               { rank: 1, name: 'Shukla Abhay Devnath', score: '9.79 SGPI' },
@@ -444,7 +535,7 @@ const DeptCSDS: React.FC = () => {
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
-                <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span></div>
+                <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering Â· Data Science</span></div>
                 <h3 className="text-2xl font-bold text-brand-navy mb-1 relative inline-block">Toppers{' '}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
                 <p className="mt-4 text-sm font-semibold text-brand-navy">Academic Year: 2021-22 (SE)</p>
                 <div className="mt-5 overflow-x-auto">
@@ -471,18 +562,18 @@ const DeptCSDS: React.FC = () => {
             );
           })()}
 
-          {/* ── SYLLABUS ──────────────────────────────────────── */}
+          {/* â”€â”€ SYLLABUS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'syllabus' && (() => {
             const links = [
-              { label: 'Syllabus Revised 2019-20 (Computer SE New 8 Branch)', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/Computer_SE_New_8_Branch_R2019_1.7.2021.pdf' },
-              { label: 'Syllabus Revised 2019-20 (Final Syllabus)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/Final-Syllabus-1.pdf' },
-              { label: 'Syllabus Revised 2019-20 (BE CSE AIML / CSE DS)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE.pdf' },
-              { label: 'Honours & Minor Degree Program (Data Science)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/Honours-Minor-Degree-Program-Data-Science.pdf' },
-              { label: 'PO PSO CO (Rev-2019 CSEDS Syllabus)', url: 'https://vcet.edu.in/wp-content/uploads/2023/11/2.6.1_Rev-2019_CSEDS_Syllabus.pdf' },
+              { label: 'Syllabus Revised 2019-20 (Computer SE New 8 Branch)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Computer_SE_New_8_Branch_R2019_1.7.2021.pdf' },
+              { label: 'Syllabus Revised 2019-20 (Final Syllabus)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Final-Syllabus-1.pdf' },
+              { label: 'Syllabus Revised 2019-20 (BE CSE AIML / CSE DS)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE.pdf' },
+              { label: 'Honours & Minor Degree Program (Data Science)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Honours-Minor-Degree-Program-Data-Science(1).pdf' },
+              { label: 'PO PSO CO (Rev-2019 CSEDS Syllabus)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/2.6.1_Rev-2019_CSEDS_Syllabus.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
-                <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering · Data Science</span></div>
+                <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering Â· Data Science</span></div>
                 <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Syllabus{' '}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
                 <div className="space-y-3">
                   {links.map((item) => (
@@ -496,12 +587,16 @@ const DeptCSDS: React.FC = () => {
             );
           })()}
 
-          {/* ── NEWSLETTER ────────────────────────────────────── */}
+          {/* â”€â”€ NEWSLETTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'newsletter' && (
-            <NewsletterSection departmentName="Computer Science and Engineering (Data Science)" departmentId="5" />
+            <DepartmentNewsletterPanel
+              departmentLabel="CS & Engineering · Data Science"
+              newsletterItems={newsletterPdfs}
+              magazineItems={magazinePdfs}
+            />
           )}
 
-          {/* ── OTHER SECTIONS (placeholder) ───────────────────── */}
+          {/* â”€â”€ OTHER SECTIONS (placeholder) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'mou' && activeId !== 'patent' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'newsletter' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
@@ -519,3 +614,4 @@ const DeptCSDS: React.FC = () => {
 };
 
 export default DeptCSDS;
+

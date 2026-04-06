@@ -22,7 +22,7 @@ const coreTeam: DevProfile[] = [
     role: 'Lead Developer'
   },
   {
-    name: 'ivory-26',
+    name: 'Sahil Karpe',
     githubUser: 'ivory-26',
     githubUrl: 'https://github.com/ivory-26',
     linkedinUrl: '#',
@@ -30,7 +30,7 @@ const coreTeam: DevProfile[] = [
     role: 'Backend Developer'
   },
   {
-    name: 'CyberCodezilla',
+    name: 'Sahil Rane',
     githubUser: 'CyberCodezilla',
     githubUrl: 'https://github.com/CyberCodezilla',
     linkedinUrl: '#',
@@ -39,7 +39,7 @@ const coreTeam: DevProfile[] = [
    
   },
   {
-    name: 'yashhh-23',
+    name: 'Yash Dedhia',
     githubUser: 'yashhh-23',
     githubUrl: 'https://github.com/yashhh-23',
     linkedinUrl: '#',
@@ -47,7 +47,7 @@ const coreTeam: DevProfile[] = [
     role: 'Frontend Developer'
   },
   {
-    name: 'RedRex101',
+    name: 'Yash Sanil',
     githubUser: 'RedRex101',
     githubUrl: 'https://github.com/RedRex101',
     linkedinUrl: '#',
@@ -193,7 +193,7 @@ const Developers: React.FC = () => {
             <h2 className="text-sm font-bold text-amber-500 tracking-[0.2em] uppercase mb-2">Contributors</h2>
             <h3 className="text-3xl md:text-5xl font-display font-bold text-[#111827] flex items-center justify-center gap-4">
               <Users className="w-8 h-8 md:w-10 md:h-10 text-[#2563EB]" />
-               These are Devlophers how collaborated with the lead team
+               These are Developers who collaborated with the lead team
             </h3>
             <p className="mt-4 max-w-2xl mx-auto text-slate-600">
               A dedicated team of students who collaborated to build features, manage data, and bring the platform to life.

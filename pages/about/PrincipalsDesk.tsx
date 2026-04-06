@@ -22,18 +22,24 @@ const icons = [GraduationCap, Briefcase, Users, Star];
 
 const PrincipalsDesk: React.FC = () => {
   const [data, setData] = useState<PrincipalData | null>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     getAboutSection<PrincipalData>('principal-desk')
       .then((res) => mounted && setData(res))
-      .catch(() => mounted && setData(null));
-    return () => {
+      .catch(() => mounted && setData(null))
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  const intro = data?.intro ?? {};
+    const intro = data?.intro ?? {};
   const name = intro.name || 'Dr. Rakesh Himte';
   const role = intro.role || 'Principal';
   const highlightQuote = intro.highlightQuote || "Our cherished motto is the 'overall empowerment of students' for their all-round development.";
@@ -60,7 +66,18 @@ const PrincipalsDesk: React.FC = () => {
     { value: 'NAAC B++', label: 'Accredited Institution' },
   ]).slice(0, 4);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner title="Principal's Desk" breadcrumbs={[{ label: "Principal's Desk" }]} />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner title="Principal's Desk" breadcrumbs={[{ label: "Principal's Desk" }]} />
 

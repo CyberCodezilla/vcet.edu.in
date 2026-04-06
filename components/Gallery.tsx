@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHomepageData } from '../context/HomepageDataContext';
 import { PixelImage } from '../ui/pixel-image';
 import { useGalleries } from '../hooks/useGalleries';
 import { Link } from 'react-router-dom';
@@ -13,61 +14,64 @@ const fallbackGalleryItems: FallbackGalleryItem[] = [
   {
     title: 'VCET Campus',
     subtitle: 'Our Sprawling Campus',
-    src: '/Images/gallery/Gallary_1.jpg',
+    src: '/images/Main Page/gallery/Gallary_1.jpg',
   },
   {
     title: 'AICTE IDEA Lab',
     subtitle: 'Innovation & Design',
-    src: '/Images/gallery/aicte_lab_new.jpg',
+    src: '/images/Main Page/gallery/Gallary_1.jpg',
   },
   {
     title: 'Center of Excellence',
     subtitle: 'Advanced Research',
-    src: '/Images/gallery/Gallary_1.jpg',
+    src: '/images/Main Page/gallery/Gallary_1.jpg',
   },
   {
     title: 'Machinery Diagnostics',
     subtitle: 'Precision Engineering',
-    src: '/Images/gallery/Gallary_1.jpg',
+    src: '/images/Main Page/gallery/Gallary_1.jpg',
   },
   {
     title: 'Texas Instruments Lab',
     subtitle: 'Embedded Systems',
-    src: '/Images/gallery/texas_lab_new.jpg',
+    src: '/images/Main Page/gallery/texas_lab_new.jpg',
   },
   {
     title: 'Robotics Lab',
     subtitle: 'Automation & AI',
-    src: '/Images/gallery/Gallary_1.jpg',
+    src: '/images/Main Page/gallery/Gallary_1.jpg',
   },
   {
     title: 'Siemens Lab',
     subtitle: 'Industrial Automation',
-    src: '/Images/gallery/Gallary_1.jpg',
+    src: '/images/Main Page/gallery/Gallary_1.jpg',
   },
   {
     title: 'Oracle Academy',
     subtitle: 'Cloud & Databases',
-    src: '/Images/gallery/Gallary_1.jpg',
+    src: '/images/Main Page/gallery/Gallary_1.jpg',
   },
   {
     title: 'e-Yantra Lab',
     subtitle: 'Drones & Embedded',
-    src: '/Images/gallery/Gallary_1.jpg',
+    src: '/images/Main Page/gallery/Gallary_1.jpg',
   },
 ];
 
 const STAGGER_MS = 320;
 
 const Gallery: React.FC = () => {
-  const { galleries, loading, error } = useGalleries();
+  const homepage = useHomepageData();
+  const useAggregate = Boolean(homepage);
+  const { galleries: fallbackGalleries } = useGalleries(!useAggregate);
+  const galleries = useAggregate ? homepage!.data.galleries : fallbackGalleries;
 
   const activeGalleries = galleries.filter(g => g.is_active);
   const displayGalleries = activeGalleries.length > 0
     ? activeGalleries.map(g => ({
         title: g.title || '',
         subtitle: g.subtitle || '',
-        src: g.image_url || '/Images/gallery/Gallary_1.jpg',
+        src: g.image_url || '/images/Main Page/gallery/Gallary_1.jpg',
         id: String(g.id)
       }))
     : fallbackGalleryItems.map((fg, i) => ({ ...fg, id: `fallback-${i}` }));

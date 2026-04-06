@@ -59,18 +59,24 @@ const defaultQuickLinks = [
 
 const ResearchIntro: React.FC = () => {
   const [apiData, setApiData] = useState<any>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     getResearchSection<any>('research-intro')
       .then((res) => mounted && setApiData(res))
-      .catch(() => mounted && setApiData(null));
-    return () => {
+      .catch(() => mounted && setApiData(null))
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  const hubSpokes = useMemo(() => {
+    const hubSpokes = useMemo(() => {
     const cards = Array.isArray(apiData?.hubCards)
       ? apiData.hubCards
           .map((card: any, index: number) => ({
@@ -146,7 +152,24 @@ const ResearchIntro: React.FC = () => {
     };
   }, [apiData]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Research – Introduction"
+  breadcrumbs={[
+  { label: 'Research', href: '/research' },
+  { label: 'Introduction' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Research – Introduction"

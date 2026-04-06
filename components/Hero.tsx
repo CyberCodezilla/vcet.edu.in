@@ -10,11 +10,17 @@ import {
   X,
   Image,
 } from "lucide-react";
+import { useHomepageData } from "../context/HomepageDataContext";
 import { post } from "../services/api";
 import { useEvents } from "../hooks/useEvents";
 import { useNotices } from "../hooks/useNotices";
 import { useHeroSlides } from "../hooks/useHeroSlides";
+import { useHomepageBanners } from "../hooks/useHomepageBanners";
 import ImagePreviewModal from "./ImagePreviewModal";
+import { resolveUploadedAssetUrl } from "../utils/uploadedAssets";
+
+const HOMEPAGE_BG_PATH = "/images/Main Page/Home background/VCET-Home-1-scaled.jpg";
+const HOMEPAGE_BG_URL = resolveUploadedAssetUrl(HOMEPAGE_BG_PATH) ?? HOMEPAGE_BG_PATH;
 
 const departments = [
   "Computer Engineering",
@@ -314,20 +320,20 @@ const AdmissionForm: React.FC = () => {
   );
 };
 
-const packageImages = [
+const fallbackPackageImages = [
   {
-    src: "/Images/Packages/HIGEST Package banner.jpg",
+    src: "/images/Main Page/Packages/HIGEST_Package_banner.jpg",
     label: "Highest Package",
   },
   {
-    src: "/Images/Packages/AICTE-Pamphlet_page-0001.jpg",
+    src: "/images/Main Page/Packages/AICTE-Pamphlet_page-0001.jpg",
     label: "AICTE Pamphlet",
   },
 ];
 
 const fallbackBannerSlides = [
-    { src: "/Images/Banner/Bruse Banner.png", alt: "Bruse Banner" },
-    { src: "/Images/Banner/Yearly banner.png", alt: "Yearly Banner" },
+    { src: "/images/Main Page/Banner/Bruse_Banner.png", alt: "Bruse Banner" },
+    { src: "/images/Main Page/Banner/Yearly_banner.png", alt: "Yearly Banner" },
   ];
 
 const Hero: React.FC = () => {
@@ -342,17 +348,33 @@ const Hero: React.FC = () => {
   const [slideIndex, setSlideIndex] = useState(0);
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
   const [imageModalOpen, setImageModalOpen] = useState(false);
-  const { notices, loading: noticesLoading } = useNotices();
-  const { events, loading: eventsLoading } = useEvents();
-  const { slides: apiSlides, loading: slidesLoading } = useHeroSlides();
+  const homepage = useHomepageData();
+  const useAggregate = Boolean(homepage);
+  const { notices: fallbackNotices, loading: noticesLoading } = useNotices(!useAggregate);
+  const { events: fallbackEvents, loading: eventsLoading } = useEvents(!useAggregate);
+  const { slides: fallbackSlides, loading: slidesLoading } = useHeroSlides(!useAggregate);
+  const { banners: fallbackHomepageBanners } = useHomepageBanners(!useAggregate);
+  const notices = useAggregate ? homepage!.data.notices : fallbackNotices;
+  const events = useAggregate ? homepage!.data.events : fallbackEvents;
+  const apiSlides = useAggregate ? homepage!.data.heroSlides : fallbackSlides;
+  const apiHomepageBanners = useAggregate ? homepage!.data.homepageBanners : fallbackHomepageBanners;
+
+  const packageImages = apiHomepageBanners.length
+    ? apiHomepageBanners
+        .filter((banner) => Boolean(banner.image_url))
+        .map((banner) => ({
+          src: banner.image_url as string,
+          label: banner.description || banner.title || 'Homepage Banner',
+        }))
+    : fallbackPackageImages;
 
   // Format the API slides
   const apiFormattedSlides = apiSlides
     .filter((s) => Boolean(s.image_url))
     .map((s) => ({ src: s.image_url as string, alt: s.title || 'Slide' }));
 
-  // Combine API slides WITH the original fallback slides so both are shown and they keep animating
-  const displaySlides = [...apiFormattedSlides, ...fallbackBannerSlides];
+  // Use API slides when available; only fall back to static slides if the API has none.
+  const displaySlides = apiFormattedSlides.length > 0 ? apiFormattedSlides : fallbackBannerSlides;
 
   useEffect(() => {
     if (displaySlides.length <= 1) return;
@@ -361,6 +383,11 @@ const Hero: React.FC = () => {
     }, 10000);
     return () => clearInterval(timer);
   }, [displaySlides.length]);
+
+  useEffect(() => {
+    if (!packageImages.length) return;
+    setPackageIndex((prev) => (prev >= packageImages.length ? 0 : prev));
+  }, [packageImages.length]);
   return (
     <>
       <section
@@ -370,7 +397,7 @@ const Hero: React.FC = () => {
       {/* ── Mobile hero image + card — only shown on xs/very small screens ───── */}
       <div className="sm:hidden flex flex-col w-full bg-brand-dark">
         <img
-          src="/Images/Home background/VCET-Home-1-scaled.jpg"
+          src={HOMEPAGE_BG_URL}
           alt="VCET Campus"
           className="block w-full h-[260px] sm:h-[320px] object-cover object-top"
         />
@@ -420,7 +447,7 @@ const Hero: React.FC = () => {
       <div
         className="hero-bg-pan hidden sm:block absolute inset-0 z-0"
         style={{
-          backgroundImage: "url('/Images/Home background/VCET-Home-1-scaled.jpg')",
+          backgroundImage: `url('${HOMEPAGE_BG_URL}')`,
           backgroundRepeat: "no-repeat",
         }}
         aria-hidden="true"

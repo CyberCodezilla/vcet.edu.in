@@ -107,6 +107,20 @@ const TeachingLearning: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
+  if (loading) {
+    return (
+      <PageLayout>
+        <PageBanner
+          title="Teaching Learning Process"
+          breadcrumbs={[{ label: 'Teaching Learning Process' }]}
+        />
+        <section className="py-16 md:py-24 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+        </section>
+      </PageLayout>
+    );
+  }
+
   return (
     <PageLayout>
       <style>{`

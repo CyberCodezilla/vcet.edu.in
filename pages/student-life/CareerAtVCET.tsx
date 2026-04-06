@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Briefcase, FileText, ClipboardList, Send, CheckCircle, Clock, MapPin, Users } from 'lucide-react';
+import { getStudentCareerSection } from '../../services/studentCareer';
 
 const stats = [
   { icon: Briefcase, value: '100+', label: 'Faculty & Staff' },
@@ -61,7 +62,84 @@ const processSteps = [
 ];
 
 const CareerAtVCET: React.FC = () => {
+  const [apiData, setApiData] = useState<Record<string, any> | null>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    getStudentCareerSection<Record<string, any>>('career-at-vcet')
+      .then((res) => {
+        if (mounted) setApiData(res);
+      })
+      .catch(() => {
+        if (mounted) setApiData(null);
+      })
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+
+    
+
+return () => {
+      mounted = false;
+    };
+  }, []);
+
+    const resolvedStats = useMemo(() => {
+    if (!Array.isArray(apiData?.stats)) return stats;
+    const iconMap = [Briefcase, Users, Clock, MapPin];
+    const mapped = apiData.stats.map((item: Record<string, unknown>, index: number) => ({
+      icon: iconMap[index] ?? Briefcase,
+      value: String(item.value ?? ''),
+      label: String(item.label ?? ''),
+    })).filter((item: { value: string; label: string; }) => item.value || item.label);
+    return mapped.length > 0 ? mapped : stats;
+  }, [apiData]);
+
+  const resolvedOpenings = useMemo(() => {
+    if (!Array.isArray(apiData?.openings)) return openings;
+    const mapped = apiData.openings.map((item: Record<string, unknown>) => ({
+      title: String(item.title ?? ''),
+      department: String(item.department ?? ''),
+      type: String(item.type ?? ''),
+      posted: String(item.posted ?? ''),
+    })).filter((item: { title: string; }) => item.title);
+    return mapped.length > 0 ? mapped : openings;
+  }, [apiData]);
+
+  const resolvedSteps = useMemo(() => {
+    if (!Array.isArray(apiData?.processSteps)) return processSteps;
+    const mapped = apiData.processSteps.map((item: Record<string, unknown>, index: number) => ({
+      step: String(item.step ?? `${index + 1}`.padStart(2, '0')),
+      title: String(item.title ?? ''),
+      description: String(item.description ?? ''),
+    })).filter((item: { title: string; }) => item.title);
+    return mapped.length > 0 ? mapped : processSteps;
+  }, [apiData]);
+
+  const heroTag = typeof apiData?.heroTag === 'string' && apiData.heroTag.trim() ? apiData.heroTag : 'Join Our Team';
+  const heroTitle = typeof apiData?.heroTitle === 'string' && apiData.heroTitle.trim() ? apiData.heroTitle : 'Career Opportunities at VCET';
+  const heroDescription = typeof apiData?.heroDescription === 'string' && apiData.heroDescription.trim()
+    ? apiData.heroDescription
+    : "Vidyavardhini's College of Engineering and Technology (VCET) is always looking for talented, passionate individuals to join our team. We offer a dynamic work environment, opportunities for professional growth, and a chance to shape the future of engineering education.";
+
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Career @ VCET"
+  breadcrumbs={[
+  { label: 'Career @ VCET' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Career @ VCET"
@@ -86,18 +164,13 @@ const CareerAtVCET: React.FC = () => {
               <div className="reveal" style={{ transitionDelay: '0.1s' }}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-0.5 bg-brand-gold" />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">
-                    Join Our Team
-                  </span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">{heroTag}</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-display font-bold text-brand-navy mb-6">
-                  Career Opportunities at VCET
+                  {heroTitle}
                 </h2>
                 <p className="text-slate-500 leading-relaxed mb-4">
-                  Vidyavardhini's College of Engineering and Technology (VCET) is always looking for
-                  talented, passionate individuals to join our team. We offer a dynamic work
-                  environment, opportunities for professional growth, and a chance to shape the
-                  future of engineering education.
+                  {heroDescription}
                 </p>
                 <p className="text-slate-500 leading-relaxed mb-6">
                   Whether you are an experienced academician, a researcher, or an administrative
@@ -120,7 +193,7 @@ const CareerAtVCET: React.FC = () => {
       <section className="py-14 bg-gradient-to-br from-brand-dark via-brand-blue to-brand-navy">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            {stats.map((stat, idx) => (
+            {resolvedStats.map((stat, idx) => (
               <div
                 key={idx}
                 className="reveal text-center p-6"
@@ -154,7 +227,7 @@ const CareerAtVCET: React.FC = () => {
           </div>
 
           <div className="max-w-4xl mx-auto space-y-4">
-            {openings.map((opening, idx) => (
+            {resolvedOpenings.map((opening, idx) => (
               <div
                 key={idx}
                 className="reveal group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg p-6 transition-all duration-500 hover:-translate-y-1 hover:border-brand-gold/30"
@@ -203,7 +276,7 @@ const CareerAtVCET: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {processSteps.map((item, idx) => (
+            {resolvedSteps.map((item, idx) => (
               <div
                 key={idx}
                 className="reveal group bg-brand-light rounded-xl p-6 text-center transition-all duration-500 hover:-translate-y-1 hover:shadow-lg"

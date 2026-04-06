@@ -10,7 +10,6 @@ import ResearchForm from '../research/ResearchForm';
 import FacilitiesForm from '../facilities/FacilitiesForm';
 import AboutUsForm from '../about/AboutUsForm';
 import NaacForm from '../naac/NaacForm';
-import TrainingPlacementForm from '../training-placement/TrainingPlacementForm';
 import StudentCareerForm from '../student-career/StudentCareerForm';
 
 const homeEditables = [
@@ -24,7 +23,7 @@ const homeEditables = [
     description: 'Update alumni stories and partner logos for the alumni/recruiter section.',
     links: [
       { label: 'Edit Testimonials', to: '/admin/testimonials' },
-      { label: 'Edit Placement Partners', to: '/admin/placement-partners' },
+      { label: 'Edit Our Hiring Partners', to: '/admin/placement-partners' },
     ],
   },
   {
@@ -214,13 +213,20 @@ const studentCareerEditables = [
       { label: "Airnova", section: "airnova" },
       { label: "Emechto", section: "emechto" }
     ]
+  },
+  {
+    title: "Career",
+    description: "Manage Career @ VCET recruitment PDF link.",
+    links: [
+      { label: "Career @ VCET", section: "career-at-vcet" },
+    ]
   }
 ];
 const trainingPlacementEditables = [
   { slug: 'placement', title: 'Placement', description: 'Manage Placement Cell profiles, statistics, gallery, and recruiters.' },
   { slug: 'training', title: 'Training', description: 'Manage training events, career guidance seminars, and gallery.' },
-  { slug: 'e-cell', title: 'E-Cell', description: 'Manage Entrepreneurship Cell events, coordinators, and gallery.' },
-  { slug: 'iiic', title: 'IIIC', description: 'Manage Industry Institute Interaction Cell guidelines.' },
+  { slug: 'e-cell', title: 'E-Cell', description: 'Manage entrepreneurship cell content, yearly events, and team details.' },
+  { slug: 'iiic', title: 'IIIC', description: 'Manage Industry-Institute Interaction Cell sections, events, and resources.' },
 ];
 
 const mmsEditables = [
@@ -381,7 +387,7 @@ const SitePages: React.FC = () => {
   }
 
   if (activeTab.key === 'training-placement' && activeSection) {
-    return <TrainingPlacementForm slug={activeSection} onBack={() => setActiveSection(null)} />;
+    return <StudentCareerForm slug={activeSection} onBack={() => setActiveSection(null)} />;
   }
 
   if (activeTab.key === 'student-career' && activeSection) {

@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDown, ChevronUp, Plus, Trash2, FileText, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Plus, Trash2, FileText, CheckCircle, AlertTriangle, GripVertical } from 'lucide-react';
 import type { MMSScholarshipPayload } from '../../types';
 import { mmsScholarshipApi } from '../../api/mmsScholarshipApi';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
+import { SortableListContext } from '../../components/SortableList';
+import AdminFormSection from '../../components/AdminFormSection';
+
+const inputBase = "w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all text-slate-700";
+const labelBase = "block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1";
 
 const emptyForm: MMSScholarshipPayload = {
   overview: [],
@@ -22,6 +27,10 @@ const MMSScholarshipForm: React.FC = () => {
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
   const [activeSection, setActiveSection] = useState<string | null>('overview');
+
+  const toggleSection = (id: string) => {
+    setActiveSection(prev => prev === id ? null : id);
+  };
 
   useEffect(() => {
     fetchData();
@@ -57,10 +66,6 @@ const MMSScholarshipForm: React.FC = () => {
     }
   };
 
-  const toggleSection = (id: string) => {
-    setActiveSection(prev => prev === id ? null : id);
-  };
-
   const handleTextChange = (value: string, limit: number, setter: (val: string) => void) => {
     if (value.length <= limit) setter(value);
   };
@@ -73,7 +78,7 @@ const MMSScholarshipForm: React.FC = () => {
     <div className="max-w-5xl mx-auto space-y-8 pb-12 animate-fade-in relative pt-6">
       <PageEditorHeader
         title="Scholarships"
-        description="MMS Admissions Editor"
+        description="Manage various scholarship schemes, eligibility criteria, and mandatory portals."
         onSave={() => {
           void handleSave();
         }}
@@ -95,219 +100,245 @@ const MMSScholarshipForm: React.FC = () => {
       )}
 
       <form onSubmit={handleSave} className="space-y-4">
-
         {/* SECTION 1: OVERVIEW */}
-        <SectionCard title="Scholarship Overview" icon="📝">
+        <AdminFormSection 
+          title={`1. Scholarship Overview (${form.overview?.length || 0}/10)`} 
+          icon="📝"
+          isOpen={activeSection === 'overview'}
+          onToggle={() => toggleSection('overview')}
+        >
           <div className="space-y-4">
-            {form.overview?.map((item, i) => (
-              <div key={i} className="p-4 bg-slate-50 border border-slate-200 rounded-xl relative space-y-3">
-                 <button type="button" onClick={() => {
-                   const c = [...form.overview!]; c.splice(i, 1); setForm({...form, overview: c});
-                 }} className="absolute top-2 right-2 text-red-500 p-1 hover:bg-red-50 rounded"><Trash2 className="w-4 h-4"/></button>
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                   <div className="relative">
-                     <label className="admin-label">Name (Max 100)</label>
-                     <input id="mmsscholarshipform-1" name="mmsscholarshipform-1" aria-label="mmsscholarshipform field" className="admin-input-small" value={item.name} onChange={e => handleTextChange(e.target.value, 100, val => {
-                       const c = [...form.overview!]; c[i].name = val; setForm({...form, overview: c});
-                     })}/>
-                     <span className="absolute right-2 top-8 text-[10px] text-slate-400">{item.name?.length || 0}/100</span>
-                   </div>
-                   <div className="relative">
-                     <label className="admin-label">Category (Max 50)</label>
-                     <input id="mmsscholarshipform-2" name="mmsscholarshipform-2" aria-label="mmsscholarshipform field" className="admin-input-small" value={item.category} onChange={e => handleTextChange(e.target.value, 50, val => {
-                       const c = [...form.overview!]; c[i].category = val; setForm({...form, overview: c});
-                     })}/>
-                     <span className="absolute right-2 top-8 text-[10px] text-slate-400">{item.category?.length || 0}/50</span>
-                   </div>
-                   <div className="md:col-span-2 relative">
-                     <label className="admin-label">Description (Max 150)</label>
-                     <input id="mmsscholarshipform-3" name="mmsscholarshipform-3" aria-label="mmsscholarshipform field" className="admin-input-small" value={item.description} onChange={e => handleTextChange(e.target.value, 150, val => {
-                       const c = [...form.overview!]; c[i].description = val; setForm({...form, overview: c});
-                     })}/>
-                     <span className="absolute right-2 top-8 text-[10px] text-slate-400">{item.description?.length || 0}/150</span>
-                   </div>
-                 </div>
-              </div>
-            ))}
+            <SortableListContext
+              items={form.overview || []}
+              onChange={val => setForm({ ...form, overview: val })}
+              renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4 border-b border-slate-50 pb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                        <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                        <div className="w-5 h-0.5 bg-current rounded-full" />
+                      </div>
+                      <span className="text-[10px] font-black uppercase text-slate-400">Scholarship #{i+1}</span>
+                    </div>
+                    <button type="button" onClick={() => {
+                      const c = [...form.overview!]; c.splice(i, 1); setForm({ ...form, overview: c });
+                    }} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4" /></button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className={labelBase}>Scholarship Name</label>
+                      <input maxLength={100} className={inputBase} value={item.name} placeholder="e.g. Rajarshi Shahu Maharaj Scholarship" onChange={e => {
+                        const c = [...form.overview!]; c[i].name = e.target.value; setForm({ ...form, overview: c });
+                      }} />
+                    </div>
+                    <div>
+                      <label className={labelBase}>Category</label>
+                      <input maxLength={50} className={inputBase} value={item.category} placeholder="e.g. Open / OBC" onChange={e => {
+                        const c = [...form.overview!]; c[i].category = e.target.value; setForm({ ...form, overview: c });
+                      }} />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className={labelBase}>Brief Description / Eligibility</label>
+                      <textarea maxLength={150} className={inputBase + " h-20 resize-none"} value={item.description} placeholder="Criteria summary..." onChange={e => {
+                        const c = [...form.overview!]; c[i].description = e.target.value; setForm({ ...form, overview: c });
+                      }} />
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
             {(form.overview?.length || 0) < 10 && (
-              <button type="button" onClick={() => setForm({...form, overview: [...(form.overview||[]), {name: '', category: '', description: ''}]})} className="btn-add">
+              <button type="button" onClick={() => setForm({...form, overview: [...(form.overview||[]), {name: '', category: '', description: ''}]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
                 <Plus className="w-4 h-4" /> Add Scholarship
               </button>
             )}
           </div>
-        </SectionCard>
+        </AdminFormSection>
 
         {/* SECTION 2: MINORITY */}
-        <SectionCard title="Minority Scholarship" icon="👥">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="relative">
-               <label className="admin-label">Eligible Communities (Max 100) <br/><span className="text-[10px] text-slate-400 font-normal">e.g. Muslim, Christian, Sikh, Buddhist, Parsi, Jain</span></label>
-               <input id="mmsscholarshipform-4" name="mmsscholarshipform-4" aria-label="mmsscholarshipform field" className="admin-input-small mt-1" value={form.minority?.communities || ''} onChange={e => handleTextChange(e.target.value, 100, val => {
-                 setForm({...form, minority: {...form.minority!, communities: val}});
-               })}/>
+        <AdminFormSection title="2. Minority Scholarship" icon="🤝" isOpen={activeSection === 'minority'} onToggle={() => toggleSection('minority')}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+               <label className={labelBase}>Eligible Communities</label>
+               <input maxLength={100} className={inputBase} placeholder="e.g. Muslim, Christian, Sikh..." value={form.minority?.communities || ''} onChange={e => setForm({...form, minority: {...form.minority!, communities: e.target.value}})}/>
             </div>
-            <div className="relative">
-               <label className="admin-label">Purpose (Max 150)<br/>&nbsp;</label>
-               <input id="mmsscholarshipform-5" name="mmsscholarshipform-5" aria-label="mmsscholarshipform field" className="admin-input-small mt-1" value={form.minority?.purpose || ''} onChange={e => handleTextChange(e.target.value, 150, val => {
-                 setForm({...form, minority: {...form.minority!, purpose: val}});
-               })}/>
+            <div>
+               <label className={labelBase}>Purpose</label>
+               <input maxLength={150} className={inputBase} placeholder="e.g. Higher Education Support" value={form.minority?.purpose || ''} onChange={e => setForm({...form, minority: {...form.minority!, purpose: e.target.value}})}/>
             </div>
           </div>
-        </SectionCard>
+        </AdminFormSection>
 
         {/* SECTION 3: EBC */}
-        <SectionCard title="EBC Scholarship" icon="🏛️">
+        <AdminFormSection title={`3. EBC Scholarship (${form.ebc?.length || 0}/3)`} icon="🏢" isOpen={activeSection === 'ebc'} onToggle={() => toggleSection('ebc')}>
           <div className="space-y-4">
-            {form.ebc?.map((item, i) => (
-              <div key={i} className="p-4 bg-slate-50 border border-slate-200 rounded-xl relative space-y-3">
-                 <button type="button" onClick={() => {
-                   const c = [...form.ebc!]; c.splice(i, 1); setForm({...form, ebc: c});
-                 }} className="absolute top-2 right-2 text-red-500 p-1 hover:bg-red-50 rounded"><Trash2 className="w-4 h-4"/></button>
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                   <div className="relative md:col-span-2">
-                     <label className="admin-label">Scheme Name (Max 120)</label>
-                     <input id="mmsscholarshipform-6" name="mmsscholarshipform-6" aria-label="mmsscholarshipform field" className="admin-input-small" value={item.schemeName} onChange={e => handleTextChange(e.target.value, 120, val => {
-                       const c = [...form.ebc!]; c[i].schemeName = val; setForm({...form, ebc: c});
-                     })}/>
-                   </div>
-                   <div className="relative">
-                     <label className="admin-label">Category (Max 50)</label>
-                     <input id="mmsscholarshipform-7" name="mmsscholarshipform-7" aria-label="mmsscholarshipform field" className="admin-input-small" value={item.category} onChange={e => handleTextChange(e.target.value, 50, val => {
-                       const c = [...form.ebc!]; c[i].category = val; setForm({...form, ebc: c});
-                     })}/>
-                   </div>
-                   <div className="relative md:col-span-3">
-                     <label className="admin-label">Applicable GR Dates (Max 100)</label>
-                     <input id="mmsscholarshipform-8" name="mmsscholarshipform-8" aria-label="mmsscholarshipform field" className="admin-input-small" value={item.grDates} onChange={e => handleTextChange(e.target.value, 100, val => {
-                       const c = [...form.ebc!]; c[i].grDates = val; setForm({...form, ebc: c});
-                     })}/>
-                   </div>
-                 </div>
-              </div>
-            ))}
+            <SortableListContext
+              items={form.ebc || []}
+              onChange={val => setForm({ ...form, ebc: val })}
+              renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4 border-b border-slate-50 pb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                        <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                        <div className="w-5 h-0.5 bg-current rounded-full" />
+                      </div>
+                      <span className="text-[10px] font-black uppercase text-slate-400">EBC Item #{i+1}</span>
+                    </div>
+                    <button type="button" onClick={() => {
+                      const c = [...form.ebc!]; c.splice(i, 1); setForm({ ...form, ebc: c });
+                    }} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4" /></button>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="md:col-span-2">
+                       <label className={labelBase}>Scheme Name</label>
+                       <input maxLength={120} className={inputBase} value={item.schemeName} placeholder="Full scheme name" onChange={e => {
+                          const c = [...form.ebc!]; c[i].schemeName = e.target.value; setForm({...form, ebc: c});
+                       }} />
+                    </div>
+                    <div>
+                       <label className={labelBase}>Category</label>
+                       <input maxLength={50} className={inputBase} value={item.category} placeholder="Category" onChange={e => {
+                          const c = [...form.ebc!]; c[i].category = e.target.value; setForm({...form, ebc: c});
+                       }} />
+                    </div>
+                    <div>
+                       <label className={labelBase}>Applicable GR Dates</label>
+                       <input maxLength={100} className={inputBase} value={item.grDates} placeholder="GR Reference" onChange={e => {
+                          const c = [...form.ebc!]; c[i].grDates = e.target.value; setForm({...form, ebc: c});
+                       }} />
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
             {(form.ebc?.length || 0) < 3 && (
-              <button type="button" onClick={() => setForm({...form, ebc: [...(form.ebc||[]), {schemeName: '', category: '', grDates: ''}]})} className="btn-add">
+              <button type="button" onClick={() => setForm({...form, ebc: [...(form.ebc||[]), {schemeName: '', category: '', grDates: ''}]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
                 <Plus className="w-4 h-4" /> Add EBC Item
               </button>
             )}
           </div>
-        </SectionCard>
+        </AdminFormSection>
 
         {/* SECTION 4: CATEGORY BASED */}
-        <SectionCard title="Category-Based Scholarships" icon="🏷️">
+        <AdminFormSection title={`4. Category-Based Scholarships (${form.categoryBased?.length || 0}/3)`} icon="🏷️" isOpen={activeSection === 'category'} onToggle={() => toggleSection('category')}>
           <div className="space-y-4">
-            {form.categoryBased?.map((item, i) => (
-              <div key={i} className="p-4 bg-slate-50 border border-slate-200 rounded-xl relative space-y-3">
-                 <button type="button" onClick={() => {
-                   const c = [...form.categoryBased!]; c.splice(i, 1); setForm({...form, categoryBased: c});
-                 }} className="absolute top-2 right-2 text-red-500 p-1 hover:bg-red-50 rounded"><Trash2 className="w-4 h-4"/></button>
-                 
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                   <div className="relative md:col-span-2">
-                     <label className="admin-label">Scholarship Name (Max 120)</label>
-                     <input id="mmsscholarshipform-9" name="mmsscholarshipform-9" aria-label="mmsscholarshipform field" className="admin-input-small" value={item.name} onChange={e => handleTextChange(e.target.value, 120, val => {
-                       const c = [...form.categoryBased!]; c[i].name = val; setForm({...form, categoryBased: c});
-                     })}/>
-                   </div>
-                   <div className="relative">
-                     <label className="admin-label">Category (Max 50)</label>
-                     <input id="mmsscholarshipform-10" name="mmsscholarshipform-10" aria-label="mmsscholarshipform field" className="admin-input-small" value={item.category} onChange={e => handleTextChange(e.target.value, 50, val => {
-                       const c = [...form.categoryBased!]; c[i].category = val; setForm({...form, categoryBased: c});
-                     })}/>
-                   </div>
-                   <div className="relative">
-                     <label className="admin-label">Funding Authority (Max 50)</label>
-                     <input id="mmsscholarshipform-11" name="mmsscholarshipform-11" aria-label="mmsscholarshipform field" className="admin-input-small" value={item.authority} onChange={e => handleTextChange(e.target.value, 50, val => {
-                       const c = [...form.categoryBased!]; c[i].authority = val; setForm({...form, categoryBased: c});
-                     })}/>
-                   </div>
-                 </div>
-              </div>
-            ))}
+            <SortableListContext
+              items={form.categoryBased || []}
+              onChange={val => setForm({ ...form, categoryBased: val })}
+              renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4 border-b border-slate-50 pb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                        <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                        <div className="w-5 h-0.5 bg-current rounded-full" />
+                      </div>
+                      <span className="text-[10px] font-black uppercase text-slate-400">Scheme #{i+1}</span>
+                    </div>
+                    <button type="button" onClick={() => {
+                      const c = [...form.categoryBased!]; c.splice(i, 1); setForm({ ...form, categoryBased: c });
+                    }} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4" /></button>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="md:col-span-2">
+                       <label className={labelBase}>Scholarship Name</label>
+                       <input maxLength={120} className={inputBase} value={item.name} onChange={e => {
+                          const c = [...form.categoryBased!]; c[i].name = e.target.value; setForm({...form, categoryBased: c});
+                       }} />
+                    </div>
+                    <div>
+                       <label className={labelBase}>Category</label>
+                       <input maxLength={50} className={inputBase} value={item.category} placeholder="e.g. SC / ST" onChange={e => {
+                          const c = [...form.categoryBased!]; c[i].category = e.target.value; setForm({...form, categoryBased: c});
+                       }} />
+                    </div>
+                    <div>
+                       <label className={labelBase}>Funding Authority</label>
+                       <input maxLength={50} className={inputBase} value={item.authority} placeholder="e.g. Social Justice Dept." onChange={e => {
+                          const c = [...form.categoryBased!]; c[i].authority = e.target.value; setForm({...form, categoryBased: c});
+                       }} />
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
             {(form.categoryBased?.length || 0) < 3 && (
-              <button type="button" onClick={() => setForm({...form, categoryBased: [...(form.categoryBased||[]), {name: '', category: '', authority: ''}]})} className="btn-add">
-                <Plus className="w-4 h-4" /> Add Category Scholarship
+              <button type="button" onClick={() => setForm({...form, categoryBased: [...(form.categoryBased||[]), {name: '', category: '', authority: ''}]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+                <Plus className="w-4 h-4" /> Add Item
               </button>
             )}
           </div>
-        </SectionCard>
+        </AdminFormSection>
 
         {/* SECTION 5: PORTAL */}
-        <SectionCard title="Scholarship Portal" icon="🌐">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="relative">
-               <label className="admin-label">Portal Name (Max 100)</label>
-               <input id="mmsscholarshipform-12" name="mmsscholarshipform-12" aria-label="mmsscholarshipform field" className="admin-input-small" value={form.portal?.name || ''} onChange={e => handleTextChange(e.target.value, 100, val => {
-                 setForm({...form, portal: {...form.portal!, name: val}});
-               })}/>
+        <AdminFormSection title="5. Mandatory Portal" icon="🌐" isOpen={activeSection === 'portal'} onToggle={() => toggleSection('portal')}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+               <label className={labelBase}>Portal Name</label>
+               <input maxLength={100} className={inputBase} placeholder="e.g. MahaDBT" value={form.portal?.name || ''} onChange={e => setForm({...form, portal: {...form.portal!, name: e.target.value}})}/>
             </div>
-            <div className="relative">
-               <label className="admin-label">Portal URL (Max 150)</label>
-               <input id="mmsscholarshipform-13" name="mmsscholarshipform-13" aria-label="mmsscholarshipform field" className="admin-input-small" value={form.portal?.url || ''} onChange={e => handleTextChange(e.target.value, 150, val => {
-                 setForm({...form, portal: {...form.portal!, url: val}});
-               })}/>
+            <div>
+               <label className={labelBase}>Portal URL</label>
+               <input maxLength={150} className={inputBase} placeholder="https://..." value={form.portal?.url || ''} onChange={e => setForm({...form, portal: {...form.portal!, url: e.target.value}})}/>
             </div>
           </div>
-        </SectionCard>
+        </AdminFormSection>
 
         {/* SECTION 6: PDF SECTION */}
-        <SectionCard title="Scholarship Details (PDF)" icon="📄">
-          <p className="text-xs text-slate-500 mb-3 font-medium">Upload up to 2 PDFs for detailed scholarship rules.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {form.pdf?.map((pdfItem, i) => (
-              <div key={i} className="p-4 bg-slate-50 border border-slate-200 rounded-lg relative space-y-3">
-                <button type="button" onClick={() => {
-                  const c = [...form.pdf!]; c.splice(i, 1); setForm({...form, pdf: c});
-                }} className="absolute top-2 right-2 text-red-500 z-10 hover:bg-red-50 p-1 rounded"><Trash2 className="w-4 h-4"/></button>
-                
-                <div className="relative group rounded-lg border border-dashed border-slate-300 bg-white h-24 flex flex-col items-center justify-center hover:bg-slate-100 transition-colors cursor-pointer">
-                  <input id="mmsscholarshipform-14" name="mmsscholarshipform-14" aria-label="mmsscholarshipform field" type="file" accept="application/pdf" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
-                    if (e.target.files && e.target.files[0]) {
-                       const c = [...form.pdf!]; c[i].fileUrl = e.target.files[0]; setForm({...form, pdf: c});
-                    }
-                  }}/>
-                  <FileText className={`w-6 h-6 ${pdfItem.fileUrl ? 'text-blue-500' : 'text-slate-300 group-hover:text-blue-400'}`}/>
-                  <span className="text-[10px] text-slate-500 font-medium mt-1">{pdfItem.fileUrl ? 'File Selected' : 'Upload PDF'}</span>
+        <AdminFormSection title={`6. Detailed Rules (PDF) (${form.pdf?.length || 0}/2)`} icon="📄" isOpen={activeSection === 'pdf'} onToggle={() => toggleSection('pdf')}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <SortableListContext
+              items={form.pdf || []}
+              onChange={val => setForm({ ...form, pdf: val })}
+              renderItem={(pdfItem, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4 border-b border-slate-50 pb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                        <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                        <div className="w-5 h-0.5 bg-current rounded-full" />
+                      </div>
+                      <span className="text-[10px] font-black uppercase text-slate-400">PDF Document #{i+1}</span>
+                    </div>
+                    <button type="button" onClick={() => {
+                      const c = [...form.pdf!]; c.splice(i, 1); setForm({ ...form, pdf: c });
+                    }} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4" /></button>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 h-32 flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden shadow-inner">
+                      <input type="file" accept="application/pdf" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+                        if (e.target.files?.[0]) {
+                          const c = [...form.pdf!]; c[i].fileUrl = e.target.files[0]; setForm({ ...form, pdf: c });
+                        }
+                      }} />
+                      <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                        <FileText className={`w-5 h-5 ${pdfItem.fileUrl ? 'text-blue-500' : 'text-slate-300 group-hover:text-blue-400'}`} />
+                      </div>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{pdfItem.fileUrl ? 'PDF Selected' : 'Upload PDF'}</span>
+                    </div>
+                    <div>
+                      <label className={labelBase}>Document Label</label>
+                      <input className={inputBase} placeholder="e.g. Scholarship Rules 2024" value={pdfItem.label || ''} onChange={e => {
+                        const c = [...form.pdf!]; c[i].label = e.target.value; setForm({ ...form, pdf: c });
+                      }} />
+                    </div>
+                  </div>
                 </div>
-                
-                <div className="relative">
-                  <label className="admin-label text-[10px]">PDF Label / Name</label>
-                  <input id="mmsscholarshipform-15" name="mmsscholarshipform-15" aria-label="mmsscholarshipform field" className="admin-input-small text-xs" placeholder="Label / Name" value={pdfItem.label || ''} onChange={e => {
-                      const c = [...form.pdf!]; c[i].label = e.target.value; setForm({...form, pdf: c});
-                  }} />
-                </div>
-              </div>
-            ))}
+              )}
+            />
             {(form.pdf?.length || 0) < 2 && (
-              <button type="button" onClick={() => setForm({...form, pdf: [...(form.pdf||[]), {fileUrl: null as any, label: ''}]})} className="btn-add min-h-[12rem]">
-                <Plus className="w-5 h-5 mx-auto mb-1" /> Add PDF (Max 2)
+              <button type="button" onClick={() => setForm({...form, pdf: [...(form.pdf||[]), {fileUrl: null as any, label: ''}]})} className="flex flex-col items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl p-10 hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500 min-h-[220px]">
+                <Plus className="w-8 h-8" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Add Rules PDF</span>
               </button>
             )}
           </div>
-        </SectionCard>
-
+        </AdminFormSection>
       </form>
-      <style>{`
-        .admin-input-small { width: 100%; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.5rem 0.75rem; color: #0f172a; font-size: 0.75rem; font-weight: 500; outline: none; transition: 0.2s; }
-        .admin-input-small:focus { border-color: #2563EB; background: #fff; box-shadow: 0 0 0 2px rgba(37,99,235, 0.1); }
-        .admin-label { display: block; font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem; }
-        .btn-add { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; border: 2px dashed #cbd5e1; border-radius: 0.75rem; padding: 0.75rem; font-size: 0.75rem; font-weight: bold; color: #64748b; background: white; transition: 0.2s; cursor: pointer; }
-        .btn-add:hover { border-color: #2563EB; color: #2563EB; background: #eff6ff; }
-      `}</style>
-    </div>
-  );
-};
-
-const SectionCard = ({ icon, title, children }: any) => {
-  return (
-    <div className="bg-white rounded-[2rem] p-8 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.05)] border border-slate-100">
-      <div className="flex items-center gap-3 mb-8">
-         {icon && <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-lg shadow-sm border border-slate-100">{icon}</div>}
-         <h2 className="text-sm font-black text-[#111827] uppercase tracking-wider">{title}</h2>
-      </div>
-      <div>{children}</div>
     </div>
   );
 };

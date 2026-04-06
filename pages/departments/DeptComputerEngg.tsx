@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
-import NewsletterSection from '../../components/NewsletterSection';
+import DepartmentNewsletterPanel from '../../components/DepartmentNewsletterPanel';
 
-/* ── Sidebar navigation links ─────────────────────────────── */
+/* â”€â”€ Sidebar navigation links â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const sidebarLinks = [
   { id: 'about',        label: 'About',                        icon: 'ph-info' },
   { id: 'vision',       label: 'Vision and Mission',           icon: 'ph-target' },
@@ -22,13 +22,27 @@ const sidebarLinks = [
   { id: 'newsletter',   label: 'Newsletter',                   icon: 'ph-newspaper' },
 ];
 
+const newsletterPdfs = [
+  { label: 'NEWSLETTER 2024-25', href: '/pdfs/Department/ComputerEngineering/Newsletter/NEWSLETTER-2024-25.pdf' },
+  { label: 'NEWSLETTER 2023-24', href: '/pdfs/Department/ComputerEngineering/Newsletter/NEWSLETTER-2023-24.pdf' },
+  { label: 'NEWSLETTER 2022-23', href: '/pdfs/Department/ComputerEngineering/Newsletter/NEWSLETTER-2022-23.pdf' },
+  { label: 'NEWSLETTER 2021-22', href: '/pdfs/Department/ComputerEngineering/Newsletter/NEWSLETTER-2021-22.pdf' },
+];
+
+const magazinePdfs = [
+  { label: 'MAGAZINE 2024-25', href: '/pdfs/Department/ComputerEngineering/Magazine/MAGAZINE-2024-25.pdf' },
+  { label: 'MAGAZINE 2023-24', href: '/pdfs/Department/ComputerEngineering/Magazine/MAGAZINE-2023-24.pdf' },
+  { label: 'MAGAZINE 2022-23', href: '/pdfs/Department/ComputerEngineering/Magazine/MAGAZINE-2022-23.pdf' },
+  { label: 'MAGAZINE 2021-22', href: '/pdfs/Department/ComputerEngineering/Magazine/MAGAZINE-2021-22.pdf' },
+];
+
 const delayClass = (idx: number) => {
   if (idx % 3 === 0) return 'delay-100';
   if (idx % 3 === 1) return 'delay-200';
   return 'delay-300';
 };
 
-/* ── Component ─────────────────────────────────────────────── */
+/* â”€â”€ Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const DeptComputerEngg: React.FC = () => {
   const [activeId, setActiveId] = useState('about');
   const activeLink = sidebarLinks.find(l => l.id === activeId);
@@ -54,7 +68,7 @@ const DeptComputerEngg: React.FC = () => {
   return (
     <PageLayout>
 
-      {/* ── Hero Banner ─────────────────────────────────────────── */}
+      {/* â”€â”€ Hero Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header className="relative bg-gradient-to-r from-brand-navy to-slate-800 pt-24 md:pt-28 pb-12 md:pb-16 overflow-hidden shadow-lg border-b-4 border-brand-gold">
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-white opacity-5 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-10 w-64 h-64 rounded-full bg-brand-gold opacity-10 blur-2xl pointer-events-none" />
@@ -71,10 +85,10 @@ const DeptComputerEngg: React.FC = () => {
         </div>
       </header>
 
-      {/* ── Page Body ────────────────────────────────────────────── */}
+      {/* â”€â”€ Page Body â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="container mx-auto px-4 sm:px-6 py-10 md:py-12 max-w-7xl flex flex-col lg:flex-row gap-8 lg:gap-10">
 
-        {/* ── Sticky Sidebar ───────────────────────────────────── */}
+        {/* â”€â”€ Sticky Sidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <aside className="w-full lg:w-72 xl:w-80 flex-shrink-0">
           <div className="lg:sticky lg:top-24 bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
             <nav className="flex flex-col py-2">
@@ -104,21 +118,33 @@ const DeptComputerEngg: React.FC = () => {
           </div>
         </aside>
 
-        {/* ── Main Content ─────────────────────────────────────── */}
+        {/* â”€â”€ Main Content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <main className="w-full flex-1 space-y-14 md:space-y-16 min-w-0">
 
-          {/* ════ ABOUT ═════════════════════════════════════════ */}
+          {/* â•â•â•â• ABOUT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'about' && (
             <>
               {/* dept info */}
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="space-y-6 text-slate-600 leading-8 text-left">
-                  <p className="text-lg font-bold text-brand-navy">Dr. Megha Trivedi, Associate Professor &amp; Head Of Department</p>
+                  <div className="mx-auto max-w-md text-center space-y-4">
+                    <div className="rounded-3xl border-2 border-dashed border-blue-200 bg-blue-50/40 px-6 py-12">
+                      <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm">
+                        <i className="ph ph-image text-2xl" />
+                      </div>
+                      <p className="text-base font-semibold text-slate-600">HOD Image Placeholder</p>
+                      <p className="text-sm text-slate-400">Add image later in this area</p>
+                    </div>
+                    <div>
+                      <p className="mt-4 text-2xl font-bold text-brand-navy">Dr. Megha Trivedi</p>
+                      <p className="mt-1 text-sm font-semibold text-brand-gold">Associate Professor &amp; Head Of Department</p>
+                    </div>
+                  </div>
                   <p>
                     The Department of Computer Engineering was established in the year 1999 to impart knowledge and develop practical
                     skills in various areas of computer engineering. The Department offers an undergraduate program in Computer Engineering
                     with a current intake of 180 seats. The Department was accredited by the National Board of Accreditation (NBA) from
-                    2012–2015, reaccredited from July 2022 to June 2025, and is permanently affiliated with the University of Mumbai.
+                    2012â€“2015, reaccredited from July 2022 to June 2025, and is permanently affiliated with the University of Mumbai.
                   </p>
                   <p>
                     The Department has expert and well-trained human resources and state-of-the-art laboratories to impart domain-specific
@@ -153,7 +179,7 @@ const DeptComputerEngg: React.FC = () => {
             </>
           )}
 
-          {/* ════ VISION & MISSION ══════════════════════════════ */}
+          {/* â•â•â•â• VISION & MISSION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'vision' && (
             <div className="space-y-16">
               <div className="reveal flex items-center gap-4">
@@ -178,7 +204,7 @@ const DeptComputerEngg: React.FC = () => {
                     </blockquote>
                     <div className="flex items-center gap-4">
                       <div className="h-px flex-1 bg-white/10" />
-                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">VCET · Computer Engineering</span>
+                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">VCET Â· Computer Engineering</span>
                       <div className="h-px w-12 bg-brand-gold/40" />
                     </div>
                   </div>
@@ -218,14 +244,14 @@ const DeptComputerEngg: React.FC = () => {
             </div>
           )}
 
-          {/* ════ DAB ════════════════════════════════════════════ */}
+          {/* â•â•â•â• DAB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'dab' && (() => {
             const members = [
               { sr: 1, name: 'Dr. Rakesh Himte', designation: 'Principal', org: 'VCET, Vasai', role: 'Chairman', tag: 'internal' },
               { sr: 2, name: 'Dr. Vikas Gupta', designation: 'Dean, Academics', org: 'VCET, Vasai', role: 'Dean', tag: 'internal' },
               { sr: 3, name: 'Dr. Megha Trivedi', designation: 'HOD, Comps', org: 'VCET, Vasai', role: 'HOD', tag: 'internal' },
               { sr: 4, name: 'Dr. Swapna Borde', designation: 'Asst. Professor', org: 'VCET, Vasai', role: 'Sr. Faculty', tag: 'internal' },
-              { sr: 5, name: 'Dr. Subhash Shinde', designation: 'Vice-Principal LTCOE & Member BOS, Comp Engg, UoM', org: 'University Representative', role: 'Academic Representative', tag: 'academic' },
+              { sr: 5, name: 'Dr. Subhash Shinde', designation: 'Vice-Principal', org: 'LTCOE & Member BOS, Comp Engg, UoM', role: 'University Representative', tag: 'academic' },
               { sr: 6, name: 'Mr. Gaurav Ghelani', designation: 'Academic Relationship Manager India West & Central', org: 'TCS, Mumbai', role: 'Industry Representative', tag: 'industry' },
               { sr: 7, name: 'Mr. Sachin Sadre', designation: 'Founder/Director', org: 'Digital Dojo OPC Pvt. Ltd.', role: 'Industry Representative', tag: 'industry' },
               { sr: 8, name: 'Mr. Rahul Mhatre', designation: 'Senior Engineering Manager', org: 'SAG Banglore Tech. Ltd.', role: 'Industry Representative', tag: 'industry' },
@@ -297,21 +323,21 @@ const DeptComputerEngg: React.FC = () => {
             );
           })()}
 
-          {/* ════ POs, PEOs & PSOs ══════════════════════════════ */}
+          {/* â•â•â•â• POs, PEOs & PSOs â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'peo' && (() => {
             const pos = [
-              { n: '01', text: 'An ability to apply knowledge of mathematics, science, and engineering.' },
-              { n: '02', text: 'An ability to design and conduct experiments, as well as to analyze and interpret data.' },
-              { n: '03', text: 'An ability to design a system, component, or process to meet desired needs within realistic constraints.' },
-              { n: '04', text: 'An ability to identify, formulate, and solve engineering problems.' },
-              { n: '05', text: 'An ability to use the techniques, skills, and modern engineering tools necessary for engineering practice.' },
-              { n: '06', text: 'Knowledge of contemporary issues.' },
-              { n: '07', text: 'The broad education necessary to understand the impact of engineering solutions in a global, economic, environmental and societal context.' },
-              { n: '08', text: 'An understanding of professional and ethical responsibility.' },
-              { n: '09', text: 'An ability to function in multidisciplinary teams.' },
-              { n: '10', text: 'An ability to communicate effectively.' },
-              { n: '11', text: 'Recognition of the need for, and an ability to engage in life-long learning.' },
-              { n: '12', text: 'An understanding of engineering and management principles and the ability to apply these to manage projects in multidisciplinary environments.' },
+              { n: '01', text: 'Engineering knowledge: Apply the knowledge of mathematics, science, engineering fundamentals, and an engineering specialization to the solution of complex engineering problems.' },
+              { n: '02', text: 'Problem analysis: Identify, formulate, review research literature, and analyze complex engineering problems reaching substantiated conclusions using first principles of mathematics, natural sciences, and engineering sciences.' },
+              { n: '03', text: 'Design/development of solutions: Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for the public health and safety, and the cultural, societal, and environmental considerations.' },
+              { n: '04', text: 'Conduct investigations of complex problems: Use research-based knowledge and research methods including design of experiments, analysis and interpretation of data, and synthesis of the information to provide valid conclusions.' },
+              { n: '05', text: 'Modern tool usage: Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools including prediction and modeling to complex engineering activities with an understanding of the limitations.' },
+              { n: '06', text: 'The engineer and society: Apply reasoning informed by the contextual knowledge to assess societal, health, safety, legal and cultural issues and the consequent responsibilities relevant to the professional engineering practice.' },
+              { n: '07', text: 'Environment and sustainability: Understand the impact of the professional engineering solutions in societal and environmental contexts, and demonstrate the knowledge of, and need for sustainable development.' },
+              { n: '08', text: 'Ethics: Apply ethical principles and commit to professional ethics and responsibilities and norms of the engineering practice.' },
+              { n: '09', text: 'Individual and team work: Function effectively as an individual, and as a member or leader in diverse teams, and in multidisciplinary settings.' },
+              { n: '10', text: 'Communication: Communicate effectively on complex engineering activities with the engineering community and with society at large, such as, being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions.' },
+              { n: '11', text: 'Project management and finance: Demonstrate knowledge and understanding of the engineering and management principles and apply these to oneâ€™s own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.' },
+              { n: '12', text: 'Life-long learning: Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change.' },
             ];
             const psos = [
               { n: 'PSO1', text: 'Analyze problems and design applications of database, networking, security, web technology, cloud computing and machine learning using mathematical skills and computational tools.' },
@@ -387,10 +413,10 @@ const DeptComputerEngg: React.FC = () => {
             );
           })()}
 
-          {/* ════ FACULTY ════════════════════════════════════════ */}
+          {/* â•â•â•â• FACULTY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'faculty' && <DepartmentFacultySection departmentName="Computer Engineering" />}
 
-          {/* ════ PAQIC ════════════════════════════════════════ */}
+          {/* â•â•â•â• PAQIC â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'paqic' && (() => {
             const members = [
               'Dr. Megha Trivedi, Head, Department of Computer Engineering (Chairperson)',
@@ -405,7 +431,7 @@ const DeptComputerEngg: React.FC = () => {
               'Review assessment data periodically and identify gaps/shortfalls in the program.',
               'Recommend action plans to bridge gaps and monitor implementation.',
               'Review quality and relevance of assessment processes and tools for attainment of COs, POs and PSOs.',
-              'Prepare compliance reports as per accreditation requirements.',
+              'Preparing the compliance report as per requirement of accreditation activities',
               'Periodically revise Program Educational Objectives (PEOs), PSOs, etc.',
               'PAQIC Coordinator schedules meetings, records minutes, and compiles action taken reports.',
             ];
@@ -435,39 +461,111 @@ const DeptComputerEngg: React.FC = () => {
             );
           })()}
 
-          {/* ════ INFRASTRUCTURE ═══════════════════════════════ */}
+          {/* â•â•â•â• INFRASTRUCTURE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'infrastructure' && (() => {
             const labs = [
-              { name: 'Programming Lab', incharge: 'Dr. Sneha Mhatre & Ms. Joyce D\'Souza', pcs: '20', software: 'Windows 11, Ubuntu Linux, TC, Java, Google Chrome' },
-              { name: 'Project & Research Lab', incharge: 'Dr. Anil Hingmire & Ms. Brinal Colaco', pcs: '16 + 6 GPU systems', software: 'Windows 11, Ubuntu Linux, TC, Java, Google Chrome' },
-              { name: 'AI & Advanced Technology Lab', incharge: 'Dr. Swapna Borde & Ms. Soniya Khatu', pcs: '19 GPU systems', software: 'Windows 11, Ubuntu Linux, TC, Java, Google Chrome' },
-              { name: 'Database Lab', incharge: 'Ms. Smita Jawale & Ms. Bhakti Jadhav', pcs: '21 + HP Server 01', software: 'Windows 11, Ubuntu Linux, TC, Java, Google Chrome' },
-              { name: 'Network & Security Lab', incharge: 'Dr. Dinesh Patil & Dr. Swati Varma', pcs: '20', software: 'Windows 11, Kali Linux, TC, Java, Google Chrome' },
-              { name: 'Software Development Lab', incharge: 'Mr. Sunil Katkar & Ms. Vinal Waghela', pcs: '20', software: 'Windows 11, Ubuntu Linux, TC, Java, Google Chrome' },
+              {
+                title: 'LAB 01 - PROGRAMMING LAB',
+                incharge: 'Dr. SNEHA MHATRE & Ms. JOYCE D\'SOUZA',
+                software: 'OS - Windows 11 and Ubuntu Linux. SW- TC, JAVA, Google Chrome.',
+                hardware: 'PC - HP Core i5 - No. 20, Printer - Laser printer, LCD Projector, Network switch etc.',
+                features: 'Latest PC configuration with dual boot OS and All licensed SW with Internet enabled on all PC.',
+              },
+              {
+                title: 'LAB 02 - PROJECT & RESEARCH LAB',
+                incharge: 'Dr. ANIL HINGMIRE & Ms. BRINAL COLACO',
+                software: 'OS - Windows 11 and Ubuntu Linux. SW- TC, JAVA, Google Chrome.',
+                hardware: 'PC - HP Core i5 - No. 16, HP Core i5 with GPU - No. 06, Printer - Laser printer, LCD Projector, Network Switch etc.',
+                features: 'Latest PC configuration with dual boot OS and All licensed SW with Internet enabled on all PC.',
+              },
+              {
+                title: 'LAB 03 - AI & ADVANCED TECHNOLOGY LAB',
+                incharge: 'Dr. SWAPNA BORDE & Ms. SONIYA KHATU',
+                software: 'OS - Windows 11 and Ubuntu Linux. SW- TC, JAVA, Google Chrome.',
+                hardware: 'PC - HP Core i5 with GPU - No. 19, Printer - Laser printer, LCD Projector, Network Switch etc.',
+                features: 'Latest PC configuration with dual boot OS and All licensed SW with Internet enabled on all PC.',
+              },
+              {
+                title: 'LAB 04 - DATABASE LAB',
+                incharge: 'Ms. SMITA JAWALE & Ms. BHAKTI JADHAV',
+                software: 'OS - Windows 11 and Ubuntu Linux. SW- TC, JAVA, Google Chrome.',
+                hardware: 'PC - HP Core i5 - No. 21, Printer - Laser printer, LCD Projector, Network Switch & HP Server 01.',
+                features: 'Latest PC configuration with dual boot OS and All licensed SW with Internet enabled on all PC.',
+              },
+              {
+                title: 'LAB 05 - NETWORK & SECURITY LAB',
+                incharge: 'Dr. DINESH PATIL & Dr. SWATI VARMA',
+                software: 'OS - Windows 11 and Kali Linux. SW- TC, JAVA, Google Chrome.',
+                hardware: 'PC - HP Core i5 - No. 20, Printer - Laser printer, LCD Projector, Network Switch etc.',
+                features: 'Latest PC configuration with dual boot OS and All licensed SW with Internet enabled on all PC.',
+              },
+              {
+                title: 'LAB 06 - SOFTWARE DEVELOPMENT LAB',
+                incharge: 'Mr. SUNIL KATKAR & Ms. VINAL WAGHELA',
+                software: 'OS - Windows 11 and Ubuntu Linux. SW- TC, JAVA, Google Chrome.',
+                hardware: 'PC - HP Core i5 - No. 20, Printer - Laser Printer, LCD Projector, Network Switch etc.',
+                features: 'Latest PC configuration with dual boot OS and All licensed SW with Internet enabled on all PC.',
+              },
+              {
+                title: 'Department Conference Room',
+                isConferenceRoom: true,
+                incharge: '-',
+                software: '-',
+                hardware: '-',
+                features: 'Department Conference room',
+              },
             ];
             return (
-              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-8">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="w-8 h-px bg-brand-gold" />
                   <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Computer Engineering</span>
                 </div>
                 <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Infrastructure<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                <p className="text-slate-600 mb-6">All labs are equipped with internet-enabled systems, licensed software, LCD projector, printer, and network switch. Department conference room is also available.</p>
-                <div className="grid md:grid-cols-2 gap-4">
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {labs.map((lab, idx) => (
-                    <div key={lab.name} className={`reveal ${delayClass(idx)} border border-slate-200 rounded-2xl p-5 bg-slate-50/50`}>
-                      <h4 className="text-lg font-bold text-brand-navy">LAB {String(idx + 1).padStart(2, '0')} - {lab.name}</h4>
-                      <p className="text-sm text-slate-600 mt-2"><strong>Lab In-Charge:</strong> {lab.incharge}</p>
-                      <p className="text-sm text-slate-600"><strong>Hardware:</strong> HP Core i5 systems ({lab.pcs})</p>
-                      <p className="text-sm text-slate-600"><strong>Software:</strong> {lab.software}</p>
-                    </div>
+                    <article key={lab.title} className={`reveal ${delayClass(idx)} rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden`}>
+                      <div className="w-full aspect-[16/9] bg-slate-100 border-b border-slate-200 flex flex-col items-center justify-center text-slate-400">
+                        <i className="ph ph-image text-4xl mb-2" />
+                        <span className="text-sm font-medium">Image Holder {idx + 1}</span>
+                      </div>
+
+                      <div className="p-5 space-y-4">
+                        <h4 className="text-lg font-bold text-brand-navy">{lab.title}</h4>
+
+                        {!lab.isConferenceRoom && (
+                          <>
+                            <div>
+                              <p className="text-[11px] font-bold uppercase tracking-widest text-brand-gold mb-1">Lab In-Charge</p>
+                              <p className="text-slate-700">{lab.incharge}</p>
+                            </div>
+
+                            <div>
+                              <p className="text-[11px] font-bold uppercase tracking-widest text-brand-gold mb-1">Software Installed</p>
+                              <p className="text-slate-600 leading-7">{lab.software}</p>
+                            </div>
+
+                            <div>
+                              <p className="text-[11px] font-bold uppercase tracking-widest text-brand-gold mb-1">Hardware</p>
+                              <p className="text-slate-600 leading-7">{lab.hardware}</p>
+                            </div>
+
+                            <div>
+                              <p className="text-[11px] font-bold uppercase tracking-widest text-brand-gold mb-1">Features</p>
+                              <p className="text-slate-600 leading-7">{lab.features}</p>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </article>
                   ))}
                 </div>
               </section>
             );
           })()}
 
-          {/* ════ TOPPERS ══════════════════════════════════════ */}
+          {/* â•â•â•â• TOPPERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'toppers' && (() => {
             const toppers = {
               SE: ['Yadav Rishiraj - 9.51', 'Barve Smit - 9.49', 'Yadav Visha - 9.48'],
@@ -505,22 +603,23 @@ const DeptComputerEngg: React.FC = () => {
             );
           })()}
 
-          {/* ════ SYLLABUS ═════════════════════════════════════ */}
+          {/* â•â•â•â• SYLLABUS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'syllabus' && (() => {
             const links = [
-              { label: 'SE - R16 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/SE-Comps_CBCGS_Syllabus.pdf' },
-              { label: 'TE / BE - R16 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/TE_BE-Comp_Engg_CBCGS_Syllabus.pdf' },
-              { label: 'BE - R12 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/BE-Comps_VII_VIII_Syllabus-1.pdf' },
-              { label: 'First Year - R19 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/FE-Final-Syllabus-R19.pdf' },
-              { label: 'SE - R19 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2023/06/SE-C-scheme-syllabus-Computer-Engg.pdf' },
-              { label: 'TE - R19 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2023/06/T.E.-C-scheme-syllabus-Computer-Engg.pdf' },
-              { label: 'BE - R19 Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2023/06/B.E.-C-scheme-syllabus-Computer-Engg.pdf' },
-              { label: 'First Year (NEP) 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/01/First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25-1.pdf' },
-              { label: 'Honours & Minor Degree Program (Data Science)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/Honours-Minor-Degree-Program-Data-Science.pdf' },
-              { label: 'PO PSO CO - R12', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/NAAC-Comp_PO_PSO_CO_R-12.pdf' },
-              { label: 'PO PSO CO - R16', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/NAAC-Comp_PO_PSO_CO_R-16.pdf' },
-              { label: 'PO PSO CO - R19', url: 'https://vcet.edu.in/wp-content/uploads/2023/10/NACC-COMP_PO_PSO_CO_R-19-updated.pdf' },
+              { label: 'SE - R16 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//SE-Comps_CBCGS_Syllabus.pdf' },
+              { label: 'TE / BE - R16 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//TE_BE-Comp_Engg_CBCGS_Syllabus.pdf' },
+              { label: 'BE - R12 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//BE-Comps_VII_VIII_Syllabus-1.pdf' },
+              { label: 'First Year - R19 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//FE-Final-Syllabus-R19.pdf' },
+              { label: 'SE - R19 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//SE-C-scheme-syllabus-Computer-Engg.pdf' },
+              { label: 'TE - R19 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//T.E.-C-scheme-syllabus-Computer-Engg.pdf' },
+              { label: 'BE - R19 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//B.E.-C-scheme-syllabus-Computer-Engg.pdf' },
+              { label: 'First Year (NEP) 2024-25', url: 'pdfs/Department//ComputerEngineering//Syllabus//First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25-1.pdf' },
+              { label: 'Honours & Minor Degree Program (Data Science)', url: 'pdfs/Department//ComputerEngineering//Syllabus//Honours-Minor-Degree-Program-Data-Science.pdf' },
+              { label: 'PO PSO CO - R12', url: 'pdfs/Department//ComputerEngineering//Syllabus//NAAC-Comp_PO_PSO_CO_R-12.pdf' },
+              { label: 'PO PSO CO - R16', url: 'pdfs/Department//ComputerEngineering//Syllabus//NAAC-Comp_PO_PSO_CO_R-16.pdf' },
+              { label: 'PO PSO CO - R19', url: 'pdfs/Department//ComputerEngineering//Syllabus//NACC-COMP_PO_PSO_CO_R-19-updated.pdf' },
             ];
+            const syllabusLinks: { label: string, url: string }[] = [];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="flex items-center gap-3 mb-4">
@@ -530,7 +629,7 @@ const DeptComputerEngg: React.FC = () => {
                 <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Syllabus<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
                 <p className="text-slate-600 mb-5">NEP-2020 MU syllabus link is currently not available in the provided document.</p>
                 <div className="grid md:grid-cols-2 gap-3">
-                  {links.map((item) => (
+                  {syllabusLinks.map((item) => (
                     <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                       <span>{item.label}</span>
                       <i className="ph ph-arrow-up-right text-brand-gold" />
@@ -541,16 +640,16 @@ const DeptComputerEngg: React.FC = () => {
             );
           })()}
 
-          {/* ════ PUBLICATIONS & IPR ═══════════════════════════ */}
+          {/* â•â•â•â• PUBLICATIONS & IPR â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'patent' && (() => {
             const links = [
-              { label: 'Patents Published', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/copyright.pdf' },
-              { label: 'Copyrights Registered', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/copyright.pdf' },
-              { label: 'Books & Book Chapters', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Comp-Book_BookChapter-with-academic-Year.pdf' },
-              { label: 'Faculty Publication Index 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/08/Faculty-Publication-Index-2024-25-up.pdf' },
-              { label: 'Faculty Publication Index 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/Faculty-Publication-Index-2023-24.pdf' },
-              { label: 'Faculty Publication Index 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/Faculty-Publication-Index-2022-23.pdf' },
-              { label: 'Faculty Publication Index 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/Faculty-Publication-Index-2021-22.pdf' },
+              { label: 'Patents Published', url: 'pdfs/Department/ComputerEngineering/Publications&IPR/patent.pdf' },
+              { label: 'Copyrights Registered', url: 'pdfs/Department/ComputerEngineering/Publications&IPR/copyright.pdf' },
+              { label: 'Books & Book Chapters', url: 'pdfs/Department/ComputerEngineering/Publications&IPR/Comp-Book_BookChapter-with-academic-Year.pdf' },
+              { label: 'Faculty Publication Index 2024-25', url: 'pdfs/Department/ComputerEngineering/Publications&IPR/Faculty-Publication-Index-2024-25-up.pdf' },
+              { label: 'Faculty Publication Index 2023-24', url: 'pdfs/Department/ComputerEngineering/Publications&IPR/Faculty-Publication-Index-2023-24.pdf' },
+              { label: 'Faculty Publication Index 2022-23', url: 'pdfs/Department/ComputerEngineering/Publications&IPR/Faculty-Publication-Index-2022-23.pdf' },
+              { label: 'Faculty Publication Index 2021-22', url: 'pdfs/Department/ComputerEngineering/Publications&IPR/Faculty-Publication-Index-2021-22.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -571,15 +670,15 @@ const DeptComputerEngg: React.FC = () => {
             );
           })()}
 
-          {/* ════ INNOVATION & TECHNIQUE ═══════════════════════ */}
+          {/* â•â•â•â• INNOVATION & TECHNIQUE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'teaching-learning' && (() => {
             const links = [
-              { label: 'Innovation in Teaching Learning 2025-26', url: 'https://vcet.edu.in/wp-content/uploads/2025/11/Innovative-activities-in-Teaching-Learning_2025-26_Odd_Sem.pdf' },
-              { label: 'Innovation in Teaching Learning 2024-25', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Innovative-activities-in-Teaching-Learning_2024-25_Odd_Even.pdf' },
-              { label: 'Innovation in Teaching Learning 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Innovative-activities-in-Teaching-Learning_2023-24_Odd_Even.pdf' },
-              { label: 'Innovation in Teaching Learning 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2025/05/Innovative-activities-in-Teaching-Learning_2022-23_Odd-Even.pdf' },
-              { label: 'Innovation in Teaching Learning 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/Innovative-activities-in-Teaching-Learning_2021-22_links.pdf' },
-              { label: 'Innovation in Teaching Learning 2020-21', url: 'https://vcet.edu.in/wp-content/uploads/2022/01/Innovation_teaching_learning-2020-21.pdf' },
+              { label: 'Innovation in Teaching Learning 2025-26', url: 'pdfs/Department/ComputerEngineering/InnovationinTeachingLearning/Innovative-activities-in-Teaching-Learning_2025-26_Odd_Sem.pdf' },
+              { label: 'Innovation in Teaching Learning 2024-25', url: 'pdfs/Department/ComputerEngineering/InnovationinTeachingLearning/Innovative-activities-in-Teaching-Learning_2024-25_Odd_Even.pdf' },
+              { label: 'Innovation in Teaching Learning 2023-24', url: 'pdfs/Department/ComputerEngineering/InnovationinTeachingLearning/Innovative-activities-in-Teaching-Learning_2023-24_Odd_Even.pdf' },
+              { label: 'Innovation in Teaching Learning 2022-23', url: 'pdfs/Department/ComputerEngineering/InnovationinTeachingLearning/Innovative-activities-in-Teaching-Learning_2022-23_Odd-Even.pdf' },
+              { label: 'Innovation in Teaching Learning 2021-22', url: 'pdfs/Department/ComputerEngineering/InnovationinTeachingLearning/Innovative-activities-in-Teaching-Learning_2021-22_links.pdf' },
+              { label: 'Innovation in Teaching Learning 2020-21', url: 'pdfs/Department/ComputerEngineering/InnovationinTeachingLearning/Innovation_teaching_learning-2020-21.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -600,7 +699,7 @@ const DeptComputerEngg: React.FC = () => {
             );
           })()}
 
-          {/* ════ MoU ══════════════════════════════════════════ */}
+          {/* â•â•â•â• MoU â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'mou' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="flex items-center gap-3 mb-4">
@@ -608,14 +707,14 @@ const DeptComputerEngg: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Computer Engineering</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">MoU<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2025/04/MOU-Computer-Summary.pdf" target="_blank" rel="noopener noreferrer" className="group mt-3 flex w-full sm:w-max items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs/Department/ComputerEngineering/MoU/MOU-Computer-Summary.pdf" target="_blank" rel="noopener noreferrer" className="group mt-3 flex w-full sm:w-max items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>MoU List</span>
                 <i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
             </section>
           )}
 
-          {/* ════ TIME TABLE ═══════════════════════════════════ */}
+          {/* â•â•â•â• TIME TABLE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'time-table' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="flex items-center gap-3 mb-4">
@@ -624,18 +723,22 @@ const DeptComputerEngg: React.FC = () => {
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Time Table<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
               <div className="space-y-3">
-                <a href="https://vcet.edu.in/wp-content/uploads/2025/08/TT_master_2025-26.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>Master TT 2025-26</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>
-                <a href="https://vcet.edu.in/wp-content/uploads/2025/05/Master_TT_Even_24-25.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>Master TT Even Sem 2024-25</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>
+                <a href="pdfs/Department/ComputerEngineering/TimeTable/TT_master_2025-26.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>Master TT 2025-26</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>
+                <a href="pdfs/Department/ComputerEngineering/TimeTable/Master_TT_Even_24-25.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors"><span>Master TT Even Sem 2024-25</span><i className="ph ph-arrow-up-right text-brand-gold" /></a>
               </div>
             </section>
           )}
 
-          {/* ════ NEWSLETTER & MAGAZINE ═══════════════════════ */}
+          {/* â•â•â•â• NEWSLETTER & MAGAZINE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'newsletter' && (
-            <NewsletterSection departmentName="Computer Engineering" departmentId="2" />
+            <DepartmentNewsletterPanel
+              departmentLabel="Computer Engineering"
+              newsletterItems={newsletterPdfs}
+              magazineItems={magazinePdfs}
+            />
           )}
 
-          {/* ════ FALLBACK ═════════════════════════════════════ */}
+          {/* â•â•â•â• FALLBACK â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'paqic' && activeId !== 'infrastructure' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'patent' && activeId !== 'teaching-learning' && activeId !== 'mou' && activeId !== 'time-table' && activeId !== 'newsletter' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
@@ -653,3 +756,4 @@ const DeptComputerEngg: React.FC = () => {
 };
 
 export default DeptComputerEngg;
+

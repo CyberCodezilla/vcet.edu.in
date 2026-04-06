@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Plus, Trash2, CheckCircle, AlertTriangle, GripVertical } from 'lucide-react';
 import type { TrainingPlacementPayload } from '../../types';
 import { trainingPlacementApi } from '../../api/trainingPlacement';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
+import { SortableListContext } from '../../components/SortableList';
+import AdminFormSection from '../../components/AdminFormSection';
+
+const inputBase = "w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all text-slate-700";
+const labelBase = "block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1";
 
 const MMSOjtInternshipForm: React.FC = () => {
   const navigate = useNavigate();
@@ -14,6 +19,7 @@ const MMSOjtInternshipForm: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [activeAccordionSection, setActiveAccordionSection] = useState<string | null>('internships');
 
   useEffect(() => { fetchData(); }, []);
 
@@ -61,7 +67,7 @@ const MMSOjtInternshipForm: React.FC = () => {
     <div className="max-w-5xl mx-auto space-y-8 pb-12 animate-fade-in relative pt-6">
       <PageEditorHeader
         title="OJT & Internships"
-        description="MMS Training & Placement Editor"
+        description="Manage the list of students and their OJT/Summer Internship placements."
         onSave={() => {
           void handleSave();
         }}
@@ -82,87 +88,78 @@ const MMSOjtInternshipForm: React.FC = () => {
       )}
 
       <form onSubmit={handleSave} className="space-y-4">
-
-        {/* OJT & Summer Internship List */}
-        <SectionCard title="OJT & Summer Internship List" icon="📊">
-          <p className="text-xs text-slate-500 mb-4 font-medium">Manage the OJT and summer internship records (max 45 rows).</p>
-          <div className="overflow-x-auto bg-white rounded-xl border border-slate-200">
-            <table className="w-full text-xs text-left text-slate-600">
-              <thead className="bg-slate-50 text-[10px] uppercase font-extrabold text-slate-400">
-                <tr>
-                  <th className="px-4 py-3 w-16">Sr.</th>
-                  <th className="px-4 py-3">Student Name <span className="text-slate-300 font-normal">(Max 50)</span></th>
-                  <th className="px-4 py-3 w-32">Spec <span className="text-slate-300 font-normal">(Max 15)</span></th>
-                  <th className="px-4 py-3">Company <span className="text-slate-300 font-normal">(Max 45)</span></th>
-                  <th className="px-4 py-3 w-10"></th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {form.internshipList?.map((item, i) => (
-                  <tr key={i} className="hover:bg-slate-50/50 transition-colors">
-                    <td className="p-2">
-                      <input id="mmsojtinternshipform-1" name="mmsojtinternshipform-1" aria-label="mmsojtinternshipform field" className="admin-input-small w-14 text-center" value={item.srNo} onChange={e => {
-                        const c = [...form.internshipList!]; c[i] = { ...c[i], srNo: e.target.value }; setForm({ ...form, internshipList: c });
-                      }} />
-                    </td>
-                    <td className="p-2">
-                      <input id="mmsojtinternshipform-2" name="mmsojtinternshipform-2" aria-label="mmsojtinternshipform field" className="admin-input-small w-full" value={item.studentName} placeholder="Student name" onChange={e => handleTextChange(e.target.value, 50, val => {
-                        const c = [...form.internshipList!]; c[i] = { ...c[i], studentName: val }; setForm({ ...form, internshipList: c });
-                      })} />
-                    </td>
-                    <td className="p-2">
-                      <input id="mmsojtinternshipform-3" name="mmsojtinternshipform-3" aria-label="mmsojtinternshipform field" className="admin-input-small w-full" value={item.specialization} placeholder="Spec" onChange={e => handleTextChange(e.target.value, 15, val => {
-                        const c = [...form.internshipList!]; c[i] = { ...c[i], specialization: val }; setForm({ ...form, internshipList: c });
-                      })} />
-                    </td>
-                    <td className="p-2">
-                      <input id="mmsojtinternshipform-4" name="mmsojtinternshipform-4" aria-label="mmsojtinternshipform field" className="admin-input-small w-full" value={item.company} placeholder="Company name" onChange={e => handleTextChange(e.target.value, 45, val => {
-                        const c = [...form.internshipList!]; c[i] = { ...c[i], company: val }; setForm({ ...form, internshipList: c });
-                      })} />
-                    </td>
-                    <td className="p-2 text-center">
-                      <button type="button" onClick={() => {
-                        const c = [...form.internshipList!]; c.splice(i, 1); setForm({ ...form, internshipList: c });
-                      }} className="text-red-500 hover:bg-red-50 p-1 rounded"><Trash2 className="w-4 h-4" /></button>
-                    </td>
+        <AdminFormSection 
+          title={`Internship Records (${form.internshipList?.length || 0}/45)`} 
+          icon="📊"
+          isOpen={activeAccordionSection === 'internships'}
+          onToggle={() => setActiveAccordionSection(activeAccordionSection === 'internships' ? null : 'internships')}
+        >
+          <div className="space-y-4">
+            <div className="overflow-hidden bg-white rounded-3xl border border-slate-100 shadow-sm overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-50/50 border-b border-slate-100">
+                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 w-16 text-center">Drag</th>
+                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 w-20 text-center">Sr.</th>
+                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Student Name</th>
+                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 w-32">Spec.</th>
+                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Company</th>
+                    <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 w-16 text-center">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="flex items-center justify-between mt-4">
-            <span className="text-[10px] font-bold text-slate-400 uppercase">{form.internshipList?.length || 0} / 45 rows</span>
+                </thead>
+                <tbody className="divide-y divide-slate-50">
+                  <SortableListContext
+                    items={form.internshipList || []}
+                    onChange={val => setForm({ ...form, internshipList: val })}
+                    renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                      <tr ref={setNodeRef} style={style} className={`transition-all ${isDragging ? 'z-50 bg-white shadow-2xl ring-4 ring-blue-50 relative' : 'hover:bg-slate-50/30'}`}>
+                        <td className="px-6 py-4">
+                          <div className="flex justify-center cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                            <GripVertical className="w-5 h-5" />
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <input className={inputBase + " text-center px-2 py-1.5 h-10"} value={item.srNo} onChange={e => {
+                            const c = [...form.internshipList!]; c[i].srNo = e.target.value; setForm({ ...form, internshipList: c });
+                          }} />
+                        </td>
+                        <td className="px-6 py-4">
+                          <input className={inputBase + " py-1.5 h-10"} value={item.studentName} placeholder="Student Name" onChange={e => handleTextChange(e.target.value, 50, val => {
+                            const c = [...form.internshipList!]; c[i].studentName = val; setForm({ ...form, internshipList: c });
+                          })} />
+                        </td>
+                        <td className="px-6 py-4">
+                          <input className={inputBase + " py-1.5 h-10"} value={item.specialization} placeholder="Spec" onChange={e => handleTextChange(e.target.value, 15, val => {
+                            const c = [...form.internshipList!]; c[i].specialization = val; setForm({ ...form, internshipList: c });
+                          })} />
+                        </td>
+                        <td className="px-6 py-4">
+                          <input className={inputBase + " py-1.5 h-10"} value={item.company} placeholder="Company Name" onChange={e => handleTextChange(e.target.value, 45, val => {
+                            const c = [...form.internshipList!]; c[i].company = val; setForm({ ...form, internshipList: c });
+                          })} />
+                        </td>
+                        <td className="px-6 py-4 text-center">
+                          <button type="button" onClick={() => {
+                            const c = [...form.internshipList!]; c.splice(i, 1); setForm({ ...form, internshipList: c });
+                          }} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4" /></button>
+                        </td>
+                      </tr>
+                    )}
+                  />
+                </tbody>
+              </table>
+            </div>
+
             {(form.internshipList?.length || 0) < 45 && (
-              <button type="button" onClick={() => setForm({ ...form, internshipList: [...(form.internshipList || []), { srNo: String((form.internshipList?.length || 0) + 1), studentName: '', specialization: '', company: '' }] })} className="btn-add max-w-xs">
-                <Plus className="w-4 h-4" /> Add Row
+              <button type="button" onClick={() => setForm({ ...form, internshipList: [...(form.internshipList || []), { srNo: String((form.internshipList?.length || 0) + 1), studentName: '', specialization: '', company: '' }] })} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+                <Plus className="w-4 h-4" /> Add New Row
               </button>
             )}
           </div>
-          {form.internshipList?.length === 45 && <p className="text-xs text-amber-500 font-bold mt-2">Max 45 rows reached.</p>}
-        </SectionCard>
-
+        </AdminFormSection>
       </form>
-      <style>{`
-        .admin-input-small { width: 100%; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.5rem 0.75rem; color: #0f172a; font-size: 0.75rem; font-weight: 500; outline: none; transition: 0.2s; }
-        .admin-input-small:focus { border-color: #2563EB; background: #fff; box-shadow: 0 0 0 2px rgba(37,99,235, 0.1); }
-        .admin-label { display: block; font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.35rem; }
-        .btn-add { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; border: 2px dashed #cbd5e1; border-radius: 0.75rem; padding: 0.75rem; font-size: 0.75rem; font-weight: bold; color: #64748b; background: white; transition: 0.2s; cursor: pointer; }
-        .btn-add:hover { border-color: #2563EB; color: #2563EB; background: #eff6ff; }
-      `}</style>
     </div>
   );
 };
-
-/* ── Helper Components ── */
-
-const SectionCard = ({ icon, title, children }: any) => (
-  <div className="bg-white rounded-[2rem] p-8 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.05)] border border-slate-100">
-    <div className="flex items-center gap-3 mb-8">
-      {icon && <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-lg shadow-sm border border-slate-100">{icon}</div>}
-      <h2 className="text-sm font-black text-[#111827] uppercase tracking-wider">{title}</h2>
-    </div>
-    <div>{children}</div>
-  </div>
-);
 
 export default MMSOjtInternshipForm;

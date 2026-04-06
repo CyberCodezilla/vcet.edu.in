@@ -28,7 +28,7 @@ const ExamAbout: React.FC = () => {
             <span className="font-bold text-sm uppercase tracking-wider">Back</span>
           </button>
 
-          <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl overflow-hidden reveal">
+          <div className="bg-white rounded-4xl border border-slate-100 shadow-xl overflow-hidden reveal">
             <div className="p-8 md:p-12">
               <div className="mb-10">
                 <h2 className="text-3xl font-display font-bold text-brand-navy mb-6 relative pb-4">

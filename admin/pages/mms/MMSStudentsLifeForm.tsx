@@ -1,29 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { ChevronDown, ChevronUp, Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle, FileText, User, Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Plus, Trash2, Image as ImageIcon, CheckCircle, AlertTriangle, FileText, GripVertical } from 'lucide-react';
 import type { MMSStudentsLifePayload, GalleryItem } from '../../types';
 import { mmsStudentsLifeApi } from '../../api/mmsStudentsLifeApi';
 import { resolveApiUrl } from '../../../services/api';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
+import { SortableListContext } from '../../components/SortableList';
+import AdminFormSection from '../../components/AdminFormSection';
 
-const resolvePreviewImage = (image: unknown): string => {
-  if (typeof image === 'string') return image;
-  if (image instanceof Blob) return URL.createObjectURL(image);
-  if (image && typeof image === 'object' && 'url' in image && typeof (image as { url?: unknown }).url === 'string') {
-    return resolveApiUrl((image as { url: string }).url) || '';
-  }
-  return '';
-};
+const inputBase = "w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all text-slate-700";
+const labelBase = "block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1";
 
 const emptyForm: MMSStudentsLifePayload = {
   overview: { description: '', highlights: [] },
-  vEcstatic: { description: '', activities: [], images: [] },
-  dlle: { description: '', projects: [], outcomes: [], images: [] },
-  bookReview: { description: '', benefits: [], images: [] },
-  addOnCourses: { description: '', topics: [], objectives: [], images: [] },
-  advanceExcel: { description: '', objectives: [], images: [] },
-  powerBi: { description: '', objectives: [], images: [] },
-  industrySessions: { description: '', learningPoints: [], sessions: [] },
+  vEcstatic: { description: '', activities: [] as any, images: [] },
+  dlle: { description: '', projects: [] as any, outcomes: [] as any, images: [] },
+  bookReview: { description: '', benefits: [] as any, images: [] },
+  addOnCourses: { description: '', topics: [] as any, objectives: [] as any, images: [] },
+  advanceExcel: { description: '', objectives: [] as any, images: [] },
+  powerBi: { description: '', objectives: [] as any, images: [] },
+  industrySessions: { description: '', learningPoints: [] as any, sessions: [] },
   ideation: { description: '', images: [] },
   oscillations: { description: '', images: [] },
   nsimTraining: { description: '', images: [] },
@@ -34,12 +30,12 @@ const emptyForm: MMSStudentsLifePayload = {
 
 const MMSStudentsLifeForm: React.FC = () => {
   const navigate = useNavigate();
-  const { section } = useParams<{ section: string }>();
   const [form, setForm] = useState<MMSStudentsLifePayload>(emptyForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [activeSection, setActiveSection] = useState<string | null>('overview');
 
   useEffect(() => {
     fetchData();
@@ -76,315 +72,255 @@ const MMSStudentsLifeForm: React.FC = () => {
   };
 
   if (loading) {
-     return <div className="p-10 text-center"><div className="w-8 h-8 border-4 border-slate-200 border-t-[#2563EB] rounded-full animate-spin mx-auto mb-4" />Loading Form...</div>;
+     return <div className="p-10 text-center"><div className="w-8 h-8 border-4 border-slate-200 border-t-[#2563EB] rounded-full animate-spin mx-auto mb-4" />Loading...</div>;
   }
 
-  const renderSectionHeader = (title: string, subtitle: string) => (
-    <PageEditorHeader
-      title={title}
-      description={subtitle}
-      onSave={() => {
-        void handleSave();
-      }}
-      isSaving={saving}
-      showBackButton
-      onBack={() => navigate('/admin/pages/mms')}
-      className="mb-8"
-    />
-  );
-
-  const renderTextArea = (label: string, value: string, min: number, max: number, onChange: (v: string) => void) => (
-    <div className="space-y-2">
-      <div className="flex justify-between items-center">
-        <label className="text-sm font-bold text-slate-700">{label}</label>
-        <span className={`text-[10px] font-black ${value.length < min || value.length > max ? 'text-red-500' : 'text-emerald-500'}`}>
-          {value.length} / {max} chars (Min {min})
-        </span>
-      </div>
-      <textarea id="mmsstudentslifeform-textarea-1" name="mmsstudentslifeform-textarea-1" aria-label="mmsstudentslifeform textarea field" 
-        className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:bg-white focus:ring-4 focus:ring-blue-100 focus:border-[#2563EB] transition-all h-32 resize-none"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={`Enter ${label.toLowerCase()}...`}
-        maxLength={max}
-      />
-    </div>
-  );
-
-  const renderListEditor = (label: string, items: { text: string }[], maxItems: number, charLimit: number, onChange: (items: { text: string }[]) => void) => (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center bg-slate-50/50 p-4 rounded-xl border border-slate-100">
-        <label className="text-sm font-bold text-slate-700 uppercase tracking-tight">{label}</label>
-        <div className="text-[10px] font-black text-slate-400 tracking-widest bg-white border border-slate-200 px-3 py-1 rounded-full uppercase shadow-sm">
-           {items.length} / {maxItems} items used
-        </div>
-      </div>
-      <div className="space-y-2">
-        {items.map((item, i) => (
-          <div key={i} className="flex gap-2 group animate-fade-in">
-             <div className="flex-1 relative">
-                <input id="mmsstudentslifeform-1" name="mmsstudentslifeform-1" aria-label="mmsstudentslifeform field" 
-                  className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium focus:ring-4 focus:ring-blue-100 focus:border-[#2563EB] transition-all"
-                  value={item.text}
-                  maxLength={charLimit}
-                  onChange={(e) => {
-                    const newItems = [...items];
-                    newItems[i].text = e.target.value;
-                    onChange(newItems);
-                  }}
-                  placeholder={`Item ${i + 1}...`}
-                />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-bold text-slate-300 group-focus-within:text-blue-400">
-                  {item.text.length} / {charLimit}
-                </span>
+  const renderGallery = (items: GalleryItem[], max: number, onChange: (items: GalleryItem[]) => void) => (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <SortableListContext
+        items={items}
+        onChange={onChange}
+        renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+          <div ref={setNodeRef} style={style} className={`p-4 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+             <div className="flex items-center justify-between mb-3 border-b border-slate-50 pb-3">
+               <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                 <div className="w-4 h-0.5 bg-current mb-0.5 rounded-full" />
+                 <div className="w-4 h-0.5 bg-current rounded-full" />
+               </div>
+               <button type="button" onClick={() => onChange(items.filter((_, idx) => idx !== i))} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4"/></button>
              </div>
-             <button type="button" onClick={() => onChange(items.filter((_, idx) => idx !== i))} className="p-3 bg-red-50 text-red-500 border border-red-100 rounded-xl hover:bg-red-100 transition-colors shadow-sm">
-               <Trash2 className="w-5 h-5" />
-             </button>
+             <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-square flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden mb-4 shadow-inner">
+                <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => {
+                   if (e.target.files?.[0]) {
+                      const c = [...items]; c[i].image = e.target.files[0]; onChange(c);
+                   }
+                }} />
+                {item.image ? (
+                   <img src={item.image instanceof File ? URL.createObjectURL(item.image) : resolveApiUrl(item.image)} alt="" className="w-full h-full object-cover" />
+                ) : (
+                   <ImageIcon className="w-6 h-6 text-slate-300" />
+                )}
+             </div>
+             <input className={inputBase + " h-9 text-[10px] py-1.5"} placeholder="Label" value={item.label} onChange={e => {
+                const c = [...items]; c[i].label = e.target.value; onChange(c);
+             }} />
           </div>
-        ))}
-        {items.length < maxItems && (
-          <button type="button" onClick={() => onChange([...items, { text: '' }])} className="w-full py-3 bg-white border-2 border-dashed border-slate-100 rounded-xl flex items-center justify-center gap-2 text-slate-400 font-bold text-xs hover:border-blue-200 hover:bg-blue-50/50 transition-all uppercase tracking-widest">
-            <Plus className="w-4 h-4" /> Add Item
-          </button>
         )}
-      </div>
+      />
+      {items.length < max && (
+        <button type="button" onClick={() => onChange([...items, { label: '', image: null }])} className="flex flex-col items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500 min-h-[200px]">
+           <Plus className="w-6 h-6" />
+           <span className="text-[10px] font-black uppercase tracking-widest">Add Photo</span>
+        </button>
+      )}
     </div>
   );
 
-  const renderGalleryEditor = (label: string, items: GalleryItem[], maxItems: number, charLimit: number, onChange: (items: GalleryItem[]) => void) => (
-    <div className="space-y-4 pt-4 border-t border-slate-50 mt-4">
-      <div className="flex justify-between items-center bg-slate-50/50 p-4 rounded-xl border border-slate-100">
-        <label className="text-sm font-bold text-slate-700 uppercase tracking-tight">{label}</label>
-        <div className="text-[10px] font-black text-slate-400 tracking-widest bg-white border border-slate-200 px-3 py-1 rounded-full uppercase shadow-sm">
-           {items.length} / {maxItems} images used
-        </div>
-      </div>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {items.map((item, i) => (
-          <div key={i} className="group relative bg-slate-50 rounded-2xl border border-slate-200 p-3 transition-all">
-            <button type="button" onClick={() => onChange(items.filter((_, idx) => idx !== i))} className="absolute -top-2 -right-2 w-6 h-6 bg-white border border-red-100 rounded-full text-red-500 flex items-center justify-center shadow-lg hover:bg-red-50 transition-colors z-10"><Trash2 className="w-3" /></button>
-            <div className="relative aspect-video rounded-xl bg-white border border-slate-200 mb-2 overflow-hidden flex items-center justify-center">
-               <input id="mmsstudentslifeform-2" name="mmsstudentslifeform-2" aria-label="mmsstudentslifeform field" type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer z-10" onChange={async (e) => {
-                 const file = e.target.files?.[0];
-                 if (file) { const newItems = [...items]; newItems[i].image = file; onChange(newItems); }
-               }}/>
-               {item.image ? (
-                  <img src={typeof item.image === 'string' ? item.image : ((item.image as any) instanceof File || (item.image as any) instanceof Blob ? URL.createObjectURL(item.image as any) : ((item.image as any)?.url ? (resolveApiUrl((item.image as any).url) || '') : ''))} className="w-full h-full object-cover" alt="" />
-               ) : (
-                <ImageIcon className="w-6 h-6 text-slate-300" />
-               )}
+  const renderSimpleList = (items: { text: string }[], max: number, onChange: (items: { text: string }[]) => void) => (
+     <div className="space-y-3">
+        <SortableListContext
+          items={items}
+          onChange={onChange}
+          renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+            <div ref={setNodeRef} style={style} className={`flex items-center gap-3 p-2 bg-white border border-slate-100 rounded-2xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+               <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                 <div className="w-4 h-0.5 bg-current mb-0.5 rounded-full" />
+                 <div className="w-4 h-0.5 bg-current rounded-full" />
+               </div>
+               <input className={inputBase + " flex-1 h-10 py-1.5"} value={item.text} placeholder="Item text..." onChange={e => {
+                  const c = [...items]; c[i].text = e.target.value; onChange(c);
+               }} />
+               <button type="button" onClick={() => onChange(items.filter((_, idx) => idx !== i))} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4"/></button>
             </div>
-            <input id="mmsstudentslifeform-3" name="mmsstudentslifeform-3" aria-label="mmsstudentslifeform field" className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1.5 text-[10px] font-bold text-slate-600 outline-none focus:border-blue-300" placeholder="Label..." value={item.label || ''} maxLength={charLimit} onChange={e => {
-               const newItems = [...items]; newItems[i].label = e.target.value; onChange(newItems);
-            }}/>
-          </div>
-        ))}
-        {items.length < maxItems && (
-           <button type="button" onClick={() => onChange([...items, { label: '', image: null }])} className="min-h-[6rem] bg-white border-2 border-dashed border-slate-100 rounded-2xl flex flex-col items-center justify-center gap-1 text-slate-300 hover:border-blue-100 hover:text-blue-400 hover:bg-blue-50/20 transition-all font-black uppercase text-[10px]">
-             <Plus className="w-4 h-4" /> Add Image
+          )}
+        />
+        {items.length < max && (
+           <button type="button" onClick={() => onChange([...items, { text: '' }])} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-3 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+              <Plus className="w-4 h-4" /> Add Item
            </button>
         )}
-      </div>
-    </div>
+     </div>
   );
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-12 animate-fade-in relative pt-6">
-      {/* Dynamic Section Rendering */}
-      {section === 'overview' && (
-        <>
-          {renderSectionHeader('Student Life Overview', 'CORE DEPARTMENT HIGHLIGHTS')}
-          <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
-            {renderTextArea('Description', form.overview?.description || '', 300, 500, (v) => setForm({ ...form, overview: { ...form.overview!, description: v } }))}
-            {renderListEditor('Highlights', form.overview?.highlights || [], 4, 80, (l) => setForm({ ...form, overview: { ...form.overview!, highlights: l } }))}
-          </div>
-        </>
+      <PageEditorHeader
+        title="Students Life"
+        description="Manage extra-curricular activities, festivals, and specialized training programs."
+        onSave={() => {
+          void handleSave();
+        }}
+        isSaving={saving}
+        showBackButton
+        onBack={() => navigate('/admin/pages/mms')}
+      />
+
+      {error && (
+        <div className="bg-red-50 border border-red-100 rounded-xl px-5 py-4 text-sm text-red-600 font-medium flex items-center gap-3">
+           <AlertTriangle className="w-5 h-5" /> {error}
+        </div>
       )}
-
-      {section === 'v-ecstatic' && (
-        <>
-          {renderSectionHeader('V-Ecstatic', 'ANNUAL FESTIVAL CMS')}
-          <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
-            {renderTextArea('Description', form.vEcstatic?.description || '', 200, 300, (v) => setForm({ ...form, vEcstatic: { ...form.vEcstatic!, description: v } }))}
-            {renderListEditor('Activities', form.vEcstatic?.activities || [], 5, 80, (l) => setForm({ ...form, vEcstatic: { ...form.vEcstatic!, activities: l } }))}
-            {renderGalleryEditor('Event Images', form.vEcstatic?.images || [], 5, 35, (g) => setForm({ ...form, vEcstatic: { ...form.vEcstatic!, images: g } }))}
-          </div>
-        </>
-      )}
-
-      {section === 'dlle' && (
-        <>
-          {renderSectionHeader('DLLE', 'EXTENSION ACTIVITIES CMS')}
-          <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
-            {renderTextArea('Description', form.dlle?.description || '', 200, 300, (v) => setForm({ ...form, dlle: { ...form.dlle!, description: v } }))}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {renderListEditor('Projects', form.dlle?.projects || [], 5, 50, (l) => setForm({ ...form, dlle: { ...form.dlle!, projects: l } }))}
-              {renderListEditor('Outcomes', form.dlle?.outcomes || [], 3, 80, (l) => setForm({ ...form, dlle: { ...form.dlle!, outcomes: l } }))}
-            </div>
-            {renderGalleryEditor('Section Images', form.dlle?.images || [], 3, 35, (g) => setForm({ ...form, dlle: { ...form.dlle!, images: g } }))}
-          </div>
-        </>
-      )}
-
-      {section === 'book-review' && (
-        <>
-          {renderSectionHeader('Book Review', 'LITERARY ACTIVITIES CMS')}
-          <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
-            {renderTextArea('Description', form.bookReview?.description || '', 150, 250, (v) => setForm({ ...form, bookReview: { ...form.bookReview!, description: v } }))}
-            {renderListEditor('Benefits', form.bookReview?.benefits || [], 4, 80, (l) => setForm({ ...form, bookReview: { ...form.bookReview!, benefits: l } }))}
-            {renderGalleryEditor('Section Images', form.bookReview?.images || [], 4, 35, (g) => setForm({ ...form, bookReview: { ...form.bookReview!, images: g } }))}
-          </div>
-        </>
-      )}
-
-      {section === 'add-on-courses' && (
-        <>
-          {renderSectionHeader('Add-On Courses', 'SKILL DEVELOPMENT CMS')}
-          <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
-            {renderTextArea('Description', form.addOnCourses?.description || '', 200, 300, (v) => setForm({ ...form, addOnCourses: { ...form.addOnCourses!, description: v } }))}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {renderListEditor('Topics Covered', form.addOnCourses?.topics || [], 6, 50, (l) => setForm({ ...form, addOnCourses: { ...form.addOnCourses!, topics: l } }))}
-              {renderListEditor('Objectives', form.addOnCourses?.objectives || [], 5, 80, (l) => setForm({ ...form, addOnCourses: { ...form.addOnCourses!, objectives: l } }))}
-            </div>
-            {renderGalleryEditor('Course Images', form.addOnCourses?.images || [], 4, 35, (g) => setForm({ ...form, addOnCourses: { ...form.addOnCourses!, images: g } }))}
-          </div>
-        </>
-      )}
-        {section === 'add-on-courses-powerbi' && (
-          <>
-            {renderSectionHeader('Add-On Courses on Powerbi', 'SKILL DEVELOPMENT CMS')}
-            <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
-              {renderTextArea('Description', form.powerBi?.description || '', 200, 300, (v) => setForm({ ...form, powerBi: { ...form.powerBi!, description: v } }))}
-              {renderListEditor('Objectives', form.powerBi?.objectives || [], 5, 80, (l) => setForm({ ...form, powerBi: { ...form.powerBi!, objectives: l } }))}
-              {renderGalleryEditor('Highlights/Images', form.powerBi?.images || [], 5, 35, (g) => setForm({ ...form, powerBi: { ...form.powerBi!, images: g } }))}
-            </div>
-          </>
-        )}
-
-        {section === 'advance-excel' && (
-          <>
-            {renderSectionHeader('ADD ON COURSES ON ADVANCE EXCEL', 'SKILL DEVELOPMENT CMS')}
-            <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
-              {renderTextArea('Description', form.advanceExcel?.description || '', 200, 300, (v) => setForm({ ...form, advanceExcel: { ...form.advanceExcel!, description: v } }))}
-              {renderListEditor('Objectives', form.advanceExcel?.objectives || [], 5, 80, (l) => setForm({ ...form, advanceExcel: { ...form.advanceExcel!, objectives: l } }))}
-              {renderGalleryEditor('Training Images', form.advanceExcel?.images || [], 5, 35, (g) => setForm({ ...form, advanceExcel: { ...form.advanceExcel!, images: g } }))}
-            </div>
-          </>
-        )}
-      {section === 'industry-sessions' && (
-        <>
-          {renderSectionHeader('Industry Sessions', 'EXPERT LECTURES / VISITS CMS')}
-          <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
-            {renderTextArea('Description', form.industrySessions?.description || '', 150, 250, (v) => setForm({ ...form, industrySessions: { ...form.industrySessions!, description: v } }))}
-            {renderListEditor('Key Learning Points', form.industrySessions?.learningPoints || [], 4, 80, (l) => setForm({ ...form, industrySessions: { ...form.industrySessions!, learningPoints: l } }))}
-            {renderGalleryEditor('Session Images', form.industrySessions?.sessions || [], 3, 35, (g) => setForm({ ...form, industrySessions: { ...form.industrySessions!, sessions: g } }))}
-          </div>
-        </>
-      )}
-
-      {section === 'ideation' && (
-          <>
-            {renderSectionHeader('Ideation', 'STUDENT INNOVATION')}
-            <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
-              {renderTextArea('Description', form.ideation?.description || '', 120, 200, (v) => setForm({...form, ideation: { ...form.ideation, description: v, images: form.ideation?.images || [] }} as any))}
-              {renderGalleryEditor('Ideation Gallery', form.ideation?.images || [], 5, 45, (g) => setForm({...form, ideation: { ...form.ideation, images: g, description: form.ideation?.description || '' }} as any))}
-            </div>
-          </>
-        )}
-
-        {section === 'oscillations' && (
-          <>
-            {renderSectionHeader('Oscillations', 'ANNUAL FESTIVAL')}
-            <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
-              {renderTextArea('Description', form.oscillations?.description || '', 120, 200, (v) => setForm({...form, oscillations: { ...form.oscillations, description: v, images: form.oscillations?.images || [] }} as any))}
-              {renderGalleryEditor('Oscillations Gallery', form.oscillations?.images || [], 8, 45, (g) => setForm({...form, oscillations: { ...form.oscillations, images: g, description: form.oscillations?.description || '' }} as any))}     
-            </div>
-          </>
-        )}
-
-        {section === 'nsimTraining' && (
-          <>
-            {renderSectionHeader('NSIM Training', 'SKILL DEVELOPMENT')}
-            <div className="bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-xl space-y-8 animate-fade-in">
-              {renderTextArea('Description', form.nsimTraining?.description || '', 120, 200, (v) => setForm({...form, nsimTraining: { ...form.nsimTraining, description: v, images: form.nsimTraining?.images || [] }} as any))}
-              {renderGalleryEditor('Training Gallery', form.nsimTraining?.images || [], 5, 45, (g) => setForm({...form, nsimTraining: { ...form.nsimTraining, images: g, description: form.nsimTraining?.description || '' }} as any))}
-            </div>
-          </>
-        )}
-
-      {section === 'custom-events' && (
-        <>
-          {renderSectionHeader('Custom Events', 'DYNAMIC EVENTS')}
-          <div className="bg-white rounded-[2.5rem] p-10 border border-slate-200 shadow-xl animate-fade-in relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-2 h-full bg-blue-500" />
-            <div className="space-y-12">
-              {form.customEvents?.map((ev, i) => (
-                <div key={i} className="bg-slate-50 border border-slate-200 p-6 rounded-3xl relative">
-                  <button type="button" onClick={() => { const n = [...form.customEvents!]; n.splice(i, 1); setForm({...form, customEvents: n}) }} className="absolute -top-4 -right-4 w-10 h-10 bg-red-50 text-red-500 flex items-center justify-center rounded-2xl hover:bg-red-500 hover:text-white transition-all shadow-md z-10"><Trash2 className="w-5 h-5"/></button>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <input id="mmsstudentslifeform-4" name="mmsstudentslifeform-4" aria-label="mmsstudentslifeform field" className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700" placeholder="Event Name (e.g. Activity 1)" value={ev.name} onChange={e => { const n = [...form.customEvents!]; n[i].name = e.target.value; n[i].slug = e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''); setForm({...form, customEvents: n}); }}/>
-                    <input id="mmsstudentslifeform-5" name="mmsstudentslifeform-5" aria-label="mmsstudentslifeform field" className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-slate-400 cursor-not-allowed" placeholder="URL Slug (auto-generated)" value={ev.slug} readOnly />
-                  </div>
-                  {renderTextArea(`Description for ${ev.name || 'Event'}`, ev.description || '', 10, 800, (v) => { const n = [...form.customEvents!]; n[i].description = v; setForm({...form, customEvents: n}); })}
-                  <div className="mt-6">
-                    {renderGalleryEditor(`Gallery for ${ev.name || 'Event'}`, ev.images || [], 10, 45, (g) => { const n = [...form.customEvents!]; n[i].images = g; setForm({...form, customEvents: n}); })}
-                  </div>
-                </div>
-              ))}
-              <div className="pt-4">
-                <button type="button" onClick={() => setForm({...form, customEvents: [...(form.customEvents || []), { id: Date.now().toString(), name: '', slug: '', description: '', images: [] }]})} className="w-full py-6 bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl flex items-center justify-center gap-2 text-slate-400 font-bold text-xs hover:border-blue-400 hover:text-blue-500 transition-all uppercase tracking-widest"><Plus className="w-5 h-5"/> Add New Dynamic Event</button>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
-
-      {section === 'pdfs' && (
-        <>
-          {renderSectionHeader('PDF Resources', 'DOCUMENTS & DOWNLOADS')}
-          <div className="bg-white rounded-[2.5rem] p-10 border border-slate-200 shadow-xl animate-fade-in relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-2 h-full bg-blue-500" />
-            <div className="space-y-4">
-              {form.pdfs?.map((pdf, i) => (
-                <div key={i} className="flex gap-4 items-center bg-slate-50 border border-slate-200 p-6 rounded-3xl transition-all hover:bg-white hover:shadow-lg">
-                  <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center shadow-sm"><FileText className="w-6 h-6 text-red-500" /></div>
-                  <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input id="mmsstudentslifeform-6" name="mmsstudentslifeform-6" aria-label="mmsstudentslifeform field" className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-blue-100" placeholder="Document Title..." value={pdf.title} maxLength={80} onChange={e => { const n = [...form.pdfs!]; n[i].title = e.target.value; setForm({...form, pdfs: n}); }}/>
-                    <input id="mmsstudentslifeform-7" name="mmsstudentslifeform-7" aria-label="mmsstudentslifeform field" className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium text-blue-500 focus:ring-4 focus:ring-blue-100" placeholder="Document URL..." value={pdf.url} onChange={e => { const n = [...form.pdfs!]; n[i].url = e.target.value; setForm({...form, pdfs: n}); }}/>
-                  </div>
-                  <button type="button" onClick={() => setForm({...form, pdfs: form.pdfs!.filter((_,idx) => idx !== i)})} className="w-10 h-10 rounded-xl bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all"><Trash2 className="w-5 h-5"/></button>
-                </div>
-              ))}
-              {(form.pdfs?.length || 0) < 2 && (
-                <button type="button" onClick={() => setForm({...form, pdfs: [...(form.pdfs || []), { title: '', url: '' }]})} className="w-full py-6 bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl flex items-center justify-center gap-2 text-slate-400 font-bold text-xs hover:border-blue-400 hover:text-blue-500 transition-all uppercase tracking-widest"><Plus className="w-5 h-5"/> Add PDF Document</button>
-              )}
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* MESSAGES (FOOTER ONES) */}
+      
       {successMsg && (
-        <div className="fixed bottom-6 right-6 z-50 animate-slide-up">
-           <div className="bg-emerald-600 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 font-bold border border-emerald-400/50 backdrop-blur-md">
-             <CheckCircle className="w-6 h-6" /> {successMsg}
-           </div>
+        <div className="bg-emerald-50 border border-emerald-100 rounded-xl px-5 py-4 text-sm text-emerald-600 font-medium flex items-center gap-3">
+           <CheckCircle className="w-5 h-5" /> {successMsg}
         </div>
       )}
 
-      <style>{`
-        @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
-        @keyframes slide-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-slide-up { animation: slide-up 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-      `}</style>
+      <div className="space-y-4">
+        {/* 1. Overview */}
+        <AdminFormSection title="1. Section Overview" icon="🏡" isOpen={activeSection === 'overview'} onToggle={() => setActiveSection(activeSection === 'overview' ? null : 'overview')}>
+           <div className="space-y-6">
+              <div>
+                 <label className={labelBase}>Main Description</label>
+                 <textarea maxLength={500} className={inputBase + " h-32 resize-none"} value={form.overview.description} onChange={e => setForm({...form, overview: {...form.overview, description: e.target.value}})} />
+              </div>
+              <div className="space-y-2">
+                 <label className={labelBase}>Highlights</label>
+                 {renderSimpleList(form.overview.highlights, 4, (l) => setForm({...form, overview: {...form.overview, highlights: l as any}}))}
+              </div>
+           </div>
+        </AdminFormSection>
+
+        {/* 2. V-Ecstatic */}
+        <AdminFormSection title="2. V-Ecstatic Festival" icon="🎭" isOpen={activeSection === 'v-ecstatic'} onToggle={() => setActiveSection(activeSection === 'v-ecstatic' ? null : 'v-ecstatic')}>
+           <div className="space-y-6">
+              <div>
+                 <label className={labelBase}>Event Description</label>
+                 <textarea maxLength={300} className={inputBase + " h-24 resize-none"} value={form.vEcstatic.description} onChange={e => setForm({...form, vEcstatic: {...form.vEcstatic, description: e.target.value}})} />
+              </div>
+              <div className="space-y-2">
+                 <label className={labelBase}>Activities</label>
+                 {renderSimpleList(form.vEcstatic.activities as any, 5, (l) => setForm({...form, vEcstatic: {...form.vEcstatic, activities: l as any}}))}
+              </div>
+              <div className="space-y-2 pt-4 border-t border-slate-50">
+                 <label className={labelBase}>Event Gallery</label>
+                 {renderGallery(form.vEcstatic.images, 5, (g) => setForm({...form, vEcstatic: {...form.vEcstatic, images: g}}))}
+              </div>
+           </div>
+        </AdminFormSection>
+
+        {/* 3. DLLE */}
+        <AdminFormSection title="3. DLLE Extension" icon="🌱" isOpen={activeSection === 'dlle'} onToggle={() => setActiveSection(activeSection === 'dlle' ? null : 'dlle')}>
+           <div className="space-y-6">
+              <div>
+                 <label className={labelBase}>Section Description</label>
+                 <textarea maxLength={300} className={inputBase + " h-24 resize-none"} value={form.dlle.description} onChange={e => setForm({...form, dlle: {...form.dlle, description: e.target.value}})} />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                 <div className="space-y-2">
+                    <label className={labelBase}>Projects</label>
+                    {renderSimpleList(form.dlle.projects as any, 5, (l) => setForm({...form, dlle: {...form.dlle, projects: l as any}}))}
+                 </div>
+                 <div className="space-y-2">
+                    <label className={labelBase}>Outcomes</label>
+                    {renderSimpleList(form.dlle.outcomes as any, 3, (l) => setForm({...form, dlle: {...form.dlle, outcomes: l as any}}))}
+                 </div>
+              </div>
+              <div className="space-y-2 pt-4 border-t border-slate-50">
+                 <label className={labelBase}>Gallery</label>
+                 {renderGallery(form.dlle.images, 3, (g) => setForm({...form, dlle: {...form.dlle, images: g}}))}
+              </div>
+           </div>
+        </AdminFormSection>
+
+        {/* 4. Specialized Training (PowerBI, Excel, etc.) */}
+        <AdminFormSection title="4. Specialized Training Programs" icon="📈" isOpen={activeSection === 'training'} onToggle={() => setActiveSection(activeSection === 'training' ? null : 'training')}>
+           <div className="space-y-12">
+              <div className="p-6 bg-slate-50/50 rounded-3xl border border-slate-100 space-y-6">
+                 <h4 className="text-[10px] font-black uppercase tracking-widest text-[#2563EB] mb-4">Power BI Course</h4>
+                 <textarea maxLength={300} className={inputBase + " h-24 bg-white"} value={form.powerBi.description} placeholder="Description" onChange={e => setForm({...form, powerBi: {...form.powerBi, description: e.target.value}})} />
+                 {renderSimpleList(form.powerBi.objectives as any, 5, (l) => setForm({...form, powerBi: {...form.powerBi, objectives: l as any}}))}
+                 {renderGallery(form.powerBi.images, 5, (g) => setForm({...form, powerBi: {...form.powerBi, images: g}}))}
+              </div>
+              <div className="p-6 bg-slate-50/50 rounded-3xl border border-slate-100 space-y-6">
+                 <h4 className="text-[10px] font-black uppercase tracking-widest text-[#2563EB] mb-4">Advanced Excel</h4>
+                 <textarea maxLength={300} className={inputBase + " h-24 bg-white"} value={form.advanceExcel.description} placeholder="Description" onChange={e => setForm({...form, advanceExcel: {...form.advanceExcel, description: e.target.value}})} />
+                 {renderSimpleList(form.advanceExcel.objectives as any, 5, (l) => setForm({...form, advanceExcel: {...form.advanceExcel, objectives: l as any}}))}
+                 {renderGallery(form.advanceExcel.images, 5, (g) => setForm({...form, advanceExcel: {...form.advanceExcel, images: g}}))}
+              </div>
+           </div>
+        </AdminFormSection>
+
+        {/* 5. Custom Dynamic Events */}
+        <AdminFormSection title={`5. Dynamic Events (${form.customEvents?.length || 0})`} icon="🎡" isOpen={activeSection === 'custom'} onToggle={() => setActiveSection(activeSection === 'custom' ? null : 'custom')}>
+           <div className="space-y-8">
+              <SortableListContext
+                items={form.customEvents}
+                onChange={val => setForm({...form, customEvents: val})}
+                renderItem={(ev, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                  <div ref={setNodeRef} style={style} className={`p-8 bg-white border border-slate-100 rounded-4xl relative shadow-sm hover:shadow-lg transition-all ${isDragging ? 'shadow-2xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
+                         <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                           <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                           <div className="w-5 h-0.5 bg-current rounded-full" />
+                         </div>
+                         <span className="text-[10px] font-black uppercase text-slate-400">Event #{i+1}</span>
+                      </div>
+                      <button type="button" onClick={() => setForm({...form, customEvents: form.customEvents.filter((_, idx) => idx !== i)})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><Trash2 className="w-4 h-4"/></button>
+                    </div>
+                    <div className="space-y-6">
+                       <div>
+                          <label className={labelBase}>Event Name</label>
+                          <input className={inputBase} value={ev.name} onChange={e => {
+                             const c = [...form.customEvents]; c[i].name = e.target.value; c[i].slug = e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''); setForm({...form, customEvents: c});
+                          }} />
+                       </div>
+                       <div>
+                          <label className={labelBase}>Event Description</label>
+                          <textarea maxLength={800} className={inputBase + " h-32 resize-none"} value={ev.description} onChange={e => {
+                             const c = [...form.customEvents]; c[i].description = e.target.value; setForm({...form, customEvents: c});
+                          }} />
+                       </div>
+                       <div className="pt-4 border-t border-slate-50">
+                          <label className={labelBase}>Event Gallery</label>
+                          {renderGallery(ev.images || [], 6, (g) => {
+                             const c = [...form.customEvents]; c[i].images = g; setForm({...form, customEvents: c});
+                          })}
+                       </div>
+                    </div>
+                  </div>
+                )}
+              />
+              <button type="button" onClick={() => setForm({...form, customEvents: [...form.customEvents, {id: Date.now().toString(), name: '', slug: '', description: '', images: []}]})} className="w-full flex items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl p-10 hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500">
+                 <Plus className="w-8 h-8" />
+                 <span className="text-[11px] font-black uppercase tracking-widest">Add New Dynamic Event</span>
+              </button>
+           </div>
+        </AdminFormSection>
+
+        {/* 6. PDF Documents */}
+        <AdminFormSection title={`6. PDF Resources (${form.pdfs?.length || 0}/2)`} icon="📄" isOpen={activeSection === 'pdfs'} onToggle={() => setActiveSection(activeSection === 'pdfs' ? null : 'pdfs')}>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {form.pdfs.map((pdf, i) => (
+                <div key={i} className="p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all">
+                  <button type="button" onClick={() => setForm({...form, pdfs: form.pdfs.filter((_, idx) => idx !== i)})} className="absolute top-4 right-4 p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all z-20"><Trash2 className="w-4 h-4"/></button>
+                  <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 h-32 flex flex-col items-center justify-center hover:bg-blue-50/30 hover:border-blue-200 transition-all cursor-pointer overflow-hidden shadow-inner mb-4">
+                     <FileText className="w-8 h-8 text-slate-300 group-hover:text-blue-500 transition-colors mb-2" />
+                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">PDF Document</span>
+                  </div>
+                  <div className="space-y-4">
+                     <input className={inputBase} value={pdf.title} placeholder="Document Title" onChange={e => {
+                        const c = [...form.pdfs]; c[i].title = e.target.value; setForm({...form, pdfs: c});
+                     }} />
+                     <input className={inputBase} value={pdf.url} placeholder="https://..." onChange={e => {
+                        const c = [...form.pdfs]; c[i].url = e.target.value; setForm({...form, pdfs: c});
+                     }} />
+                  </div>
+                </div>
+              ))}
+              {form.pdfs.length < 2 && (
+                 <button type="button" onClick={() => setForm({...form, pdfs: [...form.pdfs, {title: '', url: ''}]})} className="flex flex-col items-center justify-center gap-3 border-4 border-dashed border-slate-100 rounded-4xl p-10 hover:border-blue-400 hover:bg-blue-50/30 transition-all text-slate-300 hover:text-blue-500 min-h-[240px]">
+                    <Plus className="w-8 h-8" />
+                    <span className="text-[10px] font-black uppercase tracking-widest">Add Rules PDF</span>
+                 </button>
+              )}
+           </div>
+        </AdminFormSection>
+      </div>
     </div>
   );
 };
 
 export default MMSStudentsLifeForm;
-
-
-
-

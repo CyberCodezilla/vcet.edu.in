@@ -57,7 +57,7 @@ const NewsletterForm: React.FC<NewsletterFormProps> = ({
   };
 
   return (
-    <form onSubmit={onSubmit} className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 flex flex-col h-full">
+    <form onSubmit={onSubmit} className="bg-white rounded-4xl p-6 shadow-sm border border-slate-100 flex flex-col h-full">
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-500">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
@@ -149,28 +149,7 @@ const NewsletterForm: React.FC<NewsletterFormProps> = ({
         </div>
       </div>
 
-      <div className="mt-8 flex gap-3">
-        {isEditing && (
-          <button
-            type="button"
-            onClick={onCancelEdit}
-            className="flex-1 px-4 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl text-sm transition-colors uppercase tracking-wider"
-          >
-            Cancel
-          </button>
-        )}
-        <button
-          type="submit"
-          disabled={isSubmitting || (!isEditing && (!imageName || !pdfName))}
-          className="flex-1 px-4 py-3.5 bg-[#1e293b] hover:bg-[#0f172a] text-white font-bold rounded-xl text-sm transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:shadow-none uppercase tracking-wider disabled:cursor-not-allowed flex items-center justify-center gap-2"
-        >
-          {isSubmitting ? (
-             <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-          ) : (
-            <span>{isEditing ? 'Save Changes' : 'Publish Newsletter'}</span>
-          )}
-        </button>
-      </div>
+
     </form>
   );
 };

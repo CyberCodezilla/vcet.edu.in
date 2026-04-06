@@ -67,25 +67,42 @@ const fallbackSections: ConductSection[] = [
 
 const CodeOfConduct: React.FC = () => {
   const [data, setData] = useState<ConductData | null>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     getAboutSection<ConductData>('code-of-conduct')
       .then((res) => mounted && setData(res))
-      .catch(() => mounted && setData(null));
-    return () => {
+      .catch(() => mounted && setData(null))
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  const sections = useMemo(() => {
+    const sections = useMemo(() => {
     const rows = (data?.conductSections ?? [])
       .filter((section) => (section.isActive ?? section.active ?? true) !== false)
       .sort((a, b) => (a.displayOrder ?? a.order ?? a.sortOrder ?? 0) - (b.displayOrder ?? b.order ?? b.sortOrder ?? 0));
     return rows.length ? rows : fallbackSections;
   }, [data]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner title="Code of Conduct" breadcrumbs={[{ label: 'Code of Conduct' }]} />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner title="Code of Conduct" breadcrumbs={[{ label: 'Code of Conduct' }]} />
 

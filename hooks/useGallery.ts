@@ -1,4 +1,18 @@
-// useGallery() → { images, loading, error }
-// Calls galleryService.list() → GET /api/gallery
-// Used in: components/Gallery.tsx, pages/student-life/Gallery page
-// TODO: implement
+import { useCallback } from 'react';
+import { getGalleries } from '../services/gallery';
+import type { Gallery } from '../admin/types';
+import { useFetch } from './useFetch';
+
+export function useGallery() {
+	const fetchGallery = useCallback(() => getGalleries(), []);
+
+	const { data, loading, error } = useFetch<Gallery[]>(fetchGallery, {
+		initialData: [],
+		cacheKey: 'public:gallery:list',
+		cacheTtlMs: 5 * 60_000,
+		revalidateOnFocus: true,
+		revalidateOnVisibility: true,
+	});
+
+	return { images: data, loading, error };
+}

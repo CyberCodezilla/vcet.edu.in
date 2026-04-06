@@ -6,6 +6,7 @@
 import type {
   Notice, Event, Placement, HeroSlide, NewsTicker,
   Achievement, Testimonial, GalleryImage, PlacementPartner, Enquiry, Faculty, Department,
+  HomepageBanner,
   AdmissionData, AdmissionDocument,
   AcademicsData, AcademicsPayload,
   ExamData, ExamPayload,
@@ -97,9 +98,35 @@ export function readMockCollection<T>(storageKey: string, seed: T[]): T[] {
     const stored = localStorage.getItem(storageKey);
     if (stored) {
       const parsed = JSON.parse(stored) as T[];
-      return Array.isArray(parsed)
-        ? parsed.map((item) => hydrateStoredValue(item))
-        : seed.map((item) => hydrateStoredValue(item));
+      if (Array.isArray(parsed)) {
+        const parsedHydrated = parsed.map((item) => hydrateStoredValue(item));
+        const seedHydrated = seed.map((item) => hydrateStoredValue(item));
+        
+        // Merger: Add seed items that don't exist in storage (check by slug or id)
+        const merged = [...parsedHydrated];
+        let hasNewItems = false;
+
+        seedHydrated.forEach(seedItem => {
+          const si = seedItem as any;
+          const exists = merged.some(mi => {
+            const m = mi as any;
+            if (si.slug && m.slug) return si.slug === m.slug;
+            if (si.id && m.id) return si.id === m.id;
+            return false;
+          });
+
+          if (!exists) {
+            merged.push(seedItem);
+            hasNewItems = true;
+          }
+        });
+
+        if (hasNewItems) {
+          localStorage.setItem(storageKey, JSON.stringify(merged));
+        }
+
+        return merged;
+      }
     }
   } catch (e) {
     console.error(`Failed to parse ${storageKey} from localStorage`, e);
@@ -390,6 +417,31 @@ export const MOCK_HERO_SLIDES: HeroSlide[] = [
   },
 ];
 
+export const MOCK_HOMEPAGE_BANNERS: HomepageBanner[] = [
+  {
+    id: 1,
+    title: 'Highest Package',
+    description: 'Highest package achieved by VCET students.',
+    image_url: '/images/Main Page/Packages/HIGEST_Package_banner.jpg',
+    sort_order: 1,
+    is_active: true,
+    is_fixed: true,
+    created_at: '2026-01-01T10:00:00Z',
+    updated_at: '2026-01-01T10:00:00Z',
+  },
+  {
+    id: 2,
+    title: 'AICTE Pamphlet',
+    description: 'AICTE highlights and key updates for students.',
+    image_url: '/images/Main Page/Packages/AICTE-Pamphlet_page-0001.jpg',
+    sort_order: 2,
+    is_active: true,
+    is_fixed: true,
+    created_at: '2026-01-01T10:00:00Z',
+    updated_at: '2026-01-01T10:00:00Z',
+  },
+];
+
 export const MOCK_NEWS_TICKER: NewsTicker[] = [
   {
     id: 1, text: '🎓 Admissions open for AY 2026-27 — Apply now!',
@@ -489,23 +541,27 @@ export const MOCK_PLACEMENT_PARTNERS: PlacementPartner[] = [
 export const MOCK_ENQUIRIES: Enquiry[] = [
   {
     id: 1, name: 'Priya Sharma', email: 'priya.sharma@gmail.com',
-    phone: '9876543210', message: 'I want to know about the admission process for B.E. Computer Engineering.',
-    course: 'Computer Engineering', created_at: '2026-03-12T14:30:00Z',
+    phone: '+919876543210', state: 'Maharashtra', city: 'Vasai', department: 'Computer Engineering',
+    course: 'B.E.', specialization: 'General', consent: true, ip_address: '127.0.0.1', is_read: false,
+    created_at: '2026-03-12T14:30:00Z', updated_at: '2026-03-12T14:30:00Z',
   },
   {
     id: 2, name: 'Rohan Mehta', email: 'rohan.m@yahoo.com',
-    phone: '8765432109', message: 'What are the scholarship options available for SC/ST students?',
-    course: 'Information Technology', created_at: '2026-03-11T10:15:00Z',
+    phone: '+918765432109', state: 'Gujarat', city: 'Surat', department: 'Information Technology',
+    course: 'B.E.', specialization: 'Data Science', consent: true, ip_address: '127.0.0.1', is_read: false,
+    created_at: '2026-03-11T10:15:00Z', updated_at: '2026-03-11T10:15:00Z',
   },
   {
     id: 3, name: 'Anjali Desai', email: 'anjali.d@hotmail.com',
-    phone: null, message: 'Can you share the hostel facilities details?',
-    course: null, created_at: '2026-03-10T16:45:00Z',
+    phone: '+917654321098', state: null, city: null, department: 'AI & Data Science',
+    course: 'B.E.', specialization: null, consent: true, ip_address: null, is_read: false,
+    created_at: '2026-03-10T16:45:00Z', updated_at: '2026-03-10T16:45:00Z',
   },
   {
     id: 4, name: 'Vikram Patel', email: 'vikram.p@gmail.com',
-    phone: '7654321098', message: 'I am interested in the AI & Data Science course. What is the cutoff?',
-    course: 'AI & Data Science', created_at: '2026-03-09T09:20:00Z',
+    phone: '+917543210987', state: 'Maharashtra', city: 'Mumbai', department: 'Computer Science & DS',
+    course: 'M.E.', specialization: 'Cyber Security', consent: true, ip_address: '127.0.0.1', is_read: true,
+    created_at: '2026-03-09T09:20:00Z', updated_at: '2026-03-09T09:20:00Z',
   },
 ];
 
@@ -1029,7 +1085,7 @@ let MOCK_FACILITIES: any[] = [
   { id: '2', slug: 'counselling-cell', name: 'Counselling Cell', description: 'Student counselling and mentoring records.', general: { title: '', description: '' }, staff: [], mentors: [] },
   { id: '3', slug: 'differently-abled', name: 'Differently Abled Facilities', description: 'Facilities for differently abled individuals.', items: [] },
   { id: '4', slug: 'health-facilities', name: 'Health Facilities', description: 'Campus health and medical facilities.', items: [] },
-  { id: '5', slug: 'ladies-common-room', name: 'Ladies Common Room', description: 'Rest and recreation for female students.', general: { title: '', description: '' }, activities: [] },
+  { id: '5', slug: 'ladies-common-room', name: 'Ladies Common Room', description: 'Rest and recreation for female students.', general: { title: '', description: '' }, activities: [], additionalAmenities: [] },
   { id: '6', slug: 'library', name: 'VCET Library', description: 'Library rules, memberships, and statistics.', librarySections: [], facilitiesList: [], rules: [], memberships: [], tabs: [], contact: { phone: '', email: '', address: '' }, stats: [], staff: [], gallery: [] },
   { id: '7', slug: 'sports-gymkhana', name: 'Sports & Gymkhana', description: 'Sports facilities, records, and rules.', sports: [], achievements: [], results: [], rules: [], gallery: [], tabs: [] },
 ];
@@ -1439,6 +1495,111 @@ export const MOCK_ADMISSION_SECTIONS: AdmissionSection[] = [
         is_active: true,
         sort_order: 2,
       },
+    ],
+  },
+  {
+    id: 5,
+    slug: 'cut-off',
+    navigation_title: 'Admission Cutoffs',
+    title: 'Admission Cutoffs',
+    summary: 'Manage historical and current year cutoff trends',
+    description: 'Archive of CAP round cutoffs for various engineering and management branches.',
+    section_type: 'document_list',
+    has_dropdown: false,
+    dropdown_key: null,
+    content: {
+      heading: 'Centralized Admission Process',
+      subheading: 'Previous Years Cut-off Data'
+    },
+    is_active: true,
+    sort_order: 5,
+    items: [
+      {
+        id: 10,
+        admission_section_id: 5,
+        item_type: 'document',
+        title: 'FE CAP Round-I Cutoff 2024-25',
+        subtitle: null,
+        description: 'Cutoff marks for First Year Engineering CAP Round I',
+        category: 'Engineering',
+        academic_year: '2024-25',
+        badge: 'New',
+        tag: 'FE',
+        group_key: 'cutoffs',
+        group_label: 'Cut Off Details',
+        intake: null,
+        metadata: null,
+        external_url: 'https://fe-cutoff-2024.pdf',
+        image_name: null,
+        image_mime_type: null,
+        image_size: null,
+        has_image: false,
+        image_url: null,
+        admin_image_url: null,
+        has_pdf: false,
+        pdf_name: null,
+        pdf_mime_type: null,
+        pdf_size: null,
+        pdf_url: null,
+        admin_pdf_url: null,
+        has_document: true,
+        document_url: 'https://fe-cutoff-2024.pdf',
+        is_active: true,
+        sort_order: 1,
+      }
+    ],
+  },
+  {
+    id: 6,
+    slug: 'brochure',
+    navigation_title: 'Promotional Materials',
+    title: 'Promotional Materials',
+    summary: 'Official college brochure and assets',
+    description: 'Download the latest official college brochure and other admission related media.',
+    section_type: 'document_list',
+    has_dropdown: false,
+    dropdown_key: null,
+    content: {
+      heading: 'College Brochure',
+      intro: 'Get all the details about our courses, infrastructure, and campus life.',
+      description: 'The official brochure for Academics and Admission for the upcoming session.'
+    },
+    is_active: true,
+    sort_order: 6,
+    items: [
+      {
+        id: 11,
+        admission_section_id: 6,
+        item_type: 'document',
+        title: 'Official College Brochure 2025-26',
+        subtitle: null,
+        description: 'Comprehensive guide to VCET engineering programs',
+        category: 'General',
+        academic_year: '2025-26',
+        badge: 'Official',
+        tag: 'Brochure',
+        group_key: 'brochure',
+        group_label: 'Brochure',
+        intake: null,
+        metadata: null,
+        external_url: 'https://VCET-Brochure-2025.pdf',
+        image_name: null,
+        image_mime_type: null,
+        image_size: null,
+        has_image: false,
+        image_url: null,
+        admin_image_url: null,
+        has_pdf: false,
+        pdf_name: null,
+        pdf_mime_type: null,
+        pdf_size: null,
+        pdf_url: null,
+        admin_pdf_url: null,
+        has_document: true,
+        document_url: 'https://VCET-Brochure-2025.pdf',
+        is_active: true,
+        sort_order: 1,
+      }
     ],
   },
 ];

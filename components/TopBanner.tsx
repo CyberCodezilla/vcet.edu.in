@@ -9,10 +9,15 @@ import {
   Youtube,
   ExternalLink,
 } from "lucide-react";
+import { useHomepageData } from "../context/HomepageDataContext";
 import { useNewsTicker } from "../hooks/useNewsTicker";
 
 const TopBanner: React.FC = () => {
-  const { items: tickerItems, loading } = useNewsTicker();
+  const homepage = useHomepageData();
+  const useAggregate = Boolean(homepage);
+  const { items: fallbackTickerItems, loading: fallbackLoading } = useNewsTicker(!useAggregate);
+  const tickerItems = useAggregate ? homepage!.data.newsTicker : fallbackTickerItems;
+  const loading = useAggregate ? homepage!.loading : fallbackLoading;
 
   return (
     <div className="bg-white border-b border-gray-100 relative overflow-hidden print:hidden">
@@ -27,7 +32,7 @@ const TopBanner: React.FC = () => {
             <div className="flex flex-col lg:flex-row items-center text-center lg:text-left gap-3 lg:gap-5 flex-shrink-0 max-w-full">
               <div className="flex-shrink-0">
                 <img
-                  src="/Images/VCET logo.jpeg"
+                  src="/images/VCET logo.jpeg"
                   alt="VCET Logo"
                   className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain drop-shadow-sm"
                   onError={(e) => {
@@ -55,7 +60,7 @@ const TopBanner: React.FC = () => {
             {/* NAAC & NBA Logos */}
             <div className="flex items-center justify-center gap-3 sm:gap-6 flex-shrink-0 w-full lg:w-auto mt-2 lg:mt-0">
               <img
-                src="/Images/LOGO/NAAC_LOGO.png"
+                src="/images/Main Page/LOGO/NAAC_LOGO.png"
                 alt="NAAC Accredited"
                 className="h-10 sm:h-14 lg:h-20 w-auto object-contain drop-shadow-sm"
                 onError={(e) => {
@@ -63,7 +68,7 @@ const TopBanner: React.FC = () => {
                 }}
               />
               <img
-                src="/Images/LOGO/NBA logo.webp"
+                src="/images/Main Page/LOGO/NBA logo.webp"
                 alt="NBA Accredited"
                 className="h-10 sm:h-14 lg:h-20 w-auto object-contain drop-shadow-sm"
                 onError={(e) => {

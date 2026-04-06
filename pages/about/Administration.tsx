@@ -25,25 +25,42 @@ const fallbackMembers: AdminMember[] = [
 
 const Administration: React.FC = () => {
   const [data, setData] = useState<AdministrationData | null>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     getAboutSection<AdministrationData>('administration')
       .then((res) => mounted && setData(res))
-      .catch(() => mounted && setData(null));
-    return () => {
+      .catch(() => mounted && setData(null))
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  const members = useMemo(() => {
+    const members = useMemo(() => {
     const rows = (data?.adminCards ?? [])
       .filter((card) => card.isActive !== false)
       .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
     return rows.length ? rows : fallbackMembers;
   }, [data]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner title="Administration" breadcrumbs={[{ label: 'Administration' }]} />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner title="Administration" breadcrumbs={[{ label: 'Administration' }]} />
 

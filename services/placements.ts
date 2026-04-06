@@ -1,6 +1,6 @@
-import { client } from '../admin/api/client';
+import { client, resolveApiUrl as resolveUploadedAssetUrl } from '../admin/api/client';
 import type { ListResponse, Placement } from '../admin/types';
-import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
+
 import { MOCK_PLACEMENTS, readMockCollection } from '../admin/api/mockStore';
 import { USE_PUBLIC_MOCK, unwrapListResponse } from './publicData';
 

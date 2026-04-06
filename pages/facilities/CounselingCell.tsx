@@ -20,20 +20,29 @@ const mentorRecordItems = [
   'Parent interaction records',
 ];
 
+const studentSupportDescription =
+  "In today's fast-paced and competitive world, students face personal, social, academic, and career planning challenges. VCET provides professional counseling support to help students manage these challenges effectively.";
+
 const CounselingCell: React.FC = () => {
   const [apiData, setApiData] = useState<any>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     getFacilitiesSection<any>('counselling-cell')
       .then((res) => mounted && setApiData(res))
-      .catch(() => mounted && setApiData(null));
-    return () => {
+      .catch(() => mounted && setApiData(null))
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  const general = useMemo(() => {
+    const general = useMemo(() => {
     const source = apiData?.general ?? {};
     return {
       title: String(source?.title ?? '').trim() || 'About Counselling Cell',
@@ -74,7 +83,23 @@ const CounselingCell: React.FC = () => {
     return rows.length > 0 ? rows : mentorRecordItems;
   }, [apiData]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Counselling Cell"
+  breadcrumbs={[
+  { label: 'Counselling Cell' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Counselling Cell"
@@ -103,10 +128,7 @@ const CounselingCell: React.FC = () => {
                         className="text-[17px] md:text-[18px] text-[#333333] leading-8"
                         style={{ fontFamily: 'Cambria, Georgia, serif' }}
                       >
-                        In today's fast-paced and competitive world, students face personal, social,
-                        academic, and career planning challenges. Considering this as a major concern,
-                        VCET provides professional counseling support to help students manage these
-                        challenges effectively.
+                        {studentSupportDescription}
                       </p>
                     </div>
                   </div>

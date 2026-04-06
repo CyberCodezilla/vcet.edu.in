@@ -1,39 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useCallback } from 'react';
 import { getTestimonials, TestimonialDTO } from '../services/testimonials';
+import { useFetch } from './useFetch';
 
-export const useTestimonials = () => {
-  const [items, setItems] = useState<TestimonialDTO[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+export const useTestimonials = (enabled = true) => {
+  const fetchTestimonials = useCallback(() => getTestimonials(), []);
 
-  useEffect(() => {
-    let mounted = true;
+  const { data, loading, error } = useFetch<TestimonialDTO[]>(fetchTestimonials, {
+    enabled,
+    initialData: [],
+    cacheKey: 'public:testimonials:list',
+    cacheTtlMs: 5 * 60_000,
+    // Disabled to prevent API flooding
+    revalidateOnFocus: false,
+    revalidateOnVisibility: false,
+  });
 
-    const fetchItems = async () => {
-      try {
-        setLoading(true);
-        const data = await getTestimonials();
-        if (mounted) {
-          setItems(data);
-          setError(null);
-        }
-      } catch (err) {
-        if (mounted) {
-          setError(err instanceof Error ? err : new Error('Failed to fetch testimonials'));
-        }
-      } finally {
-        if (mounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchItems();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  return { testimonials: items, loading, error };
+  return { testimonials: data, loading, error: error ? new Error(error) : null };
 };

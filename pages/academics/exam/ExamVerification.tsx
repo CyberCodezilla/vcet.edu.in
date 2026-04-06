@@ -28,7 +28,7 @@ const ExamVerification: React.FC = () => {
             <span className="font-bold text-sm uppercase tracking-wider">Back</span>
           </button>
 
-          <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl overflow-hidden reveal">
+          <div className="bg-white rounded-4xl border border-slate-100 shadow-xl overflow-hidden reveal">
             <div className="p-8 md:p-12">
               <div className="mb-10">
                 <div className="flex items-center gap-4 mb-6">
@@ -55,7 +55,7 @@ const ExamVerification: React.FC = () => {
                     'DD of Rs. (As stated below) in favor of "Vidyavaridhi’s College of Engineering and Technology" payable at Mumbai.'
                   ].map((step, i) => (
                     <div key={i} className="flex gap-4 p-4 bg-brand-light rounded-xl border border-brand-blue/5">
-                      <span className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-blue text-white flex items-center justify-center font-bold text-sm">
+                      <span className="shrink-0 w-8 h-8 rounded-full bg-brand-blue text-white flex items-center justify-center font-bold text-sm">
                         {i + 1}
                       </span>
                       <p className="text-slate-700 font-medium">{step}</p>
@@ -113,7 +113,7 @@ const ExamVerification: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-slate-700 font-semibold bg-brand-gold/5 p-6 rounded-2xl border border-brand-gold/10 text-sm italic">
-                  <Info className="w-5 h-5 text-brand-gold flex-shrink-0" />
+                  <Info className="w-5 h-5 text-brand-gold shrink-0" />
                   <p>In case of any query mail to: <a href="mailto:icexam_vcet@vcet.edu.in" className="text-brand-blue font-bold not-italic hover:underline ml-1">icexam_vcet@vcet.edu.in</a></p>
                 </div>
 

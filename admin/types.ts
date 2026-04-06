@@ -176,6 +176,29 @@ export interface HeroSlidePayload {
   image?: File;
 }
 
+// ── Homepage Banners (Packages Modal) ───────────────────────────────────────
+
+export interface HomepageBanner {
+  id: number;
+  title: string;
+  description: string;
+  image_url: string | null;
+  sort_order: number;
+  is_active: boolean;
+  is_fixed: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface HomepageBannerPayload {
+  title?: string;
+  description?: string;
+  sort_order?: number;
+  is_active?: boolean;
+  is_fixed?: boolean;
+  image?: File;
+}
+
 // ── Gallery ───────────────────────────────────────────────────────────────
 
 export interface Gallery {
@@ -303,9 +326,16 @@ export interface Enquiry {
   name: string;
   email: string;
   phone: string | null;
-  message: string | null;
-  course: string | null;
+  state: string | null;
+  city: string | null;
+  department: string;
+  course: string;
+  specialization: string | null;
+  consent: boolean;
+  ip_address: string | null;
+  is_read: boolean;
   created_at: string;
+  updated_at: string;
 }
 
 export interface GalleryImage {
@@ -439,6 +469,19 @@ export interface Department {
     facultyAchievements: { title: string; description: string; image?: string | File; pdf?: string | File }[];
     studentAchievements: { title: string; description: string; image?: string | File; pdf?: string | File }[];
     activities: { title: string; description: string; image?: string | File; pdf?: string | File }[];
+    newsletterMagazineSection?: {
+      committeeDetails?: string;
+      newsletters?: { label: string; pdf?: string | File }[];
+      magazines?: { label: string; pdf?: string | File }[];
+      staffIncharge?: {
+        name?: string;
+        image?: string | File;
+        email?: string;
+        phone?: string;
+      };
+      tableTitle?: string;
+      tableRows?: { post: string; name: string }[];
+    };
   };
   is_active: boolean;
   created_at: string;
@@ -460,6 +503,19 @@ export interface DepartmentPayload {
     facultyAchievements?: { title: string; description: string; image?: string | File; pdf?: string | File }[];
     studentAchievements?: { title: string; description: string; image?: string | File; pdf?: string | File }[];
     activities?: { title: string; description: string; image?: string | File; pdf?: string | File }[];
+    newsletterMagazineSection?: {
+      committeeDetails?: string;
+      newsletters?: { label: string; pdf?: string | File }[];
+      magazines?: { label: string; pdf?: string | File }[];
+      staffIncharge?: {
+        name?: string;
+        image?: string | File;
+        email?: string;
+        phone?: string;
+      };
+      tableTitle?: string;
+      tableRows?: { post: string; name: string }[];
+    };
   };
   is_active?: boolean;
 }
@@ -520,6 +576,7 @@ export interface CommitteeMember {
   designation?: string;
   contact?: string;
   email?: string;
+  address?: string;
 }
 // ── Admission Sections (new structured admission system) ────────────────────────
 
@@ -844,6 +901,7 @@ export interface FacilityData {
   mentors?: { title: string; description: string }[];
   items?: { name: string; description: string; icon?: string; imageUrl?: string | File | null }[];
   activities?: { name: string; description: string; imageUrl?: string | File | null }[];
+  additionalAmenities?: { name: string; description: string; imageUrl?: string | File | null }[];
   librarySections?: { heading: string; paragraph: string }[];
   eResources?: { title: string; desc?: string; value?: string }[];
   delnetFacilities?: { label: string; value?: string }[];
@@ -1122,10 +1180,14 @@ export interface CommitteeData {
   description?: string;
   responsibilities?: string[];
   objectives?: string[];
+  activities?: string[];
+  aboutPoints?: string[];
+  initiatives?: string[];
   guidelines?: string[];
   members?: any[];
   reports?: any[];
   documents?: any[];
+  momReports?: any[];
 }
 
 export type CommitteePayload = Partial<CommitteeData>;

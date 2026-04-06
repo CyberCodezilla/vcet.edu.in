@@ -1,58 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { heroSlidesService, type HeroSlideRecord } from '../services/heroSlides';
+import { useFetch } from './useFetch';
 
-const REFRESH_INTERVAL_MS = 60_000;
+// Changed from 60s to 5 minutes to reduce API load
+const REFRESH_INTERVAL_MS = 5 * 60_000;
 
-export function useHeroSlides() {
-  const [slides, setSlides] = useState<HeroSlideRecord[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export function useHeroSlides(enabled = true) {
+  const fetchHeroSlides = useCallback(() => heroSlidesService.list(), []);
 
-  useEffect(() => {
-    let cancelled = false;
+  const { data, loading, error } = useFetch<HeroSlideRecord[]>(fetchHeroSlides, {
+    enabled,
+    initialData: [],
+    cacheKey: 'public:hero-slides:list',
+    cacheTtlMs: 5 * 60_000,
+    refreshIntervalMs: REFRESH_INTERVAL_MS,
+    // Disabled to prevent API flooding on focus/visibility changes
+    revalidateOnFocus: false,
+    revalidateOnVisibility: false,
+  });
 
-    const load = async (silent = false) => {
-      if (!silent) setLoading(true);
-      setError(null);
-
-      try {
-        const data = await heroSlidesService.list();
-        if (!cancelled) setSlides(data);
-      } catch (err) {
-        if (!cancelled) setError(err instanceof Error ? err.message : 'Unable to load hero slides');
-      } finally {
-        if (!cancelled && !silent) setLoading(false);
-      }
-    };
-
-    void load();
-
-    const onFocus = () => {
-      void load(true);
-    };
-
-    const onVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        void load(true);
-      }
-    };
-
-    const intervalId = window.setInterval(() => {
-      if (document.visibilityState !== 'hidden') {
-        void load(true);
-      }
-    }, REFRESH_INTERVAL_MS);
-
-    window.addEventListener('focus', onFocus);
-    document.addEventListener('visibilitychange', onVisibilityChange);
-
-    return () => {
-      cancelled = true;
-      window.clearInterval(intervalId);
-      window.removeEventListener('focus', onFocus);
-      document.removeEventListener('visibilitychange', onVisibilityChange);
-    };
-  }, []);
-
-  return { slides, loading, error };
+  return { slides: data, loading, error };
 }

@@ -1,29 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useCallback } from 'react';
 import { achievementsService } from '../services/achievements';
 import type { Achievement } from '../admin/types';
+import { useFetch } from './useFetch';
 
 export function useAchievements() {
-  const [achievements, setAchievements] = useState<Achievement[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const fetchAchievements = useCallback(() => achievementsService.list(), []);
 
-  useEffect(() => {
-    let mounted = true;
-    
-    setLoading(true);
-    achievementsService.list()
-      .then(data => {
-        if (mounted) setAchievements(data);
-      })
-      .catch(err => {
-        if (mounted) setError(err instanceof Error ? err : new Error('Failed to fetch achievements'));
-      })
-      .finally(() => {
-        if (mounted) setLoading(false);
-      });
+  const { data, loading, error } = useFetch<Achievement[]>(fetchAchievements, {
+    initialData: [],
+    cacheKey: 'public:achievements:list',
+    cacheTtlMs: 5 * 60_000,
+    revalidateOnFocus: true,
+    revalidateOnVisibility: true,
+  });
 
-    return () => { mounted = false; };
-  }, []);
-
-  return { achievements, loading, error };
+  return { achievements: data, loading, error: error ? new Error(error) : null };
 }

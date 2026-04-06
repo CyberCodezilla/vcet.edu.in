@@ -32,7 +32,7 @@ const labs = [
   {
     name: 'Lab 1',
     total: 30,
-    image: '/images\Faculities\Central Computing Faculity\Central Computing Facilities\c1-1024x766.png',
+    image: '/images/Facilities/Central Computing Facilities/Central Computing Facilities/Central_Computing_Facilities_Lab1.png',
     configs: [
       {
         heading: 'Configuration (30 PCs)',
@@ -50,7 +50,7 @@ const labs = [
   {
     name: 'Lab 2',
     total: 26,
-    image: '/images\Faculities\Central Computing Faculity\Central Computing Facilities\c2-1024x767.png',
+    image: '/images/Facilities/Central Computing Facilities/Central Computing Facilities/Central_Computing_Facilities_Lab2.png',
     configs: [
       {
         heading: '20 PCs — 1 Server + 19 Clients',
@@ -80,7 +80,7 @@ const labs = [
   {
     name: 'Lab 3',
     total: 63,
-    image: '/images\Faculities\Central Computing Faculity\Central Computing Facilities\c3-1024x758.png',
+    image: '/images/Facilities/Central Computing Facilities/Central Computing Facilities/Central_Computing_Facilities_Lab3.png',
     configs: [
       {
         heading: 'Configuration (63 PCs)',
@@ -136,18 +136,24 @@ const servers = [
 /* ─── Component ──────────────────────────────────────────────────────────── */
 const CentralComputing: React.FC = () => {
   const [apiData, setApiData] = useState<any>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     getFacilitiesSection<any>('central-computing')
       .then((res) => mounted && setApiData(res))
-      .catch(() => mounted && setApiData(null));
-    return () => {
+      .catch(() => mounted && setApiData(null))
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  const displayStats = useMemo(() => {
+    const displayStats = useMemo(() => {
     const rows = Array.isArray(apiData?.stats)
       ? apiData.stats
           .map((item: any, index: number) => ({
@@ -191,7 +197,23 @@ const CentralComputing: React.FC = () => {
     return rows.length > 0 ? rows : labs;
   }, [apiData]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Central Computing Facility"
+  breadcrumbs={[
+  { label: 'Central Computing Facility' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Central Computing Facility"

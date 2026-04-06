@@ -241,18 +241,22 @@ const ResultTable: React.FC<{ title: string; rows: string[][]; fullCols?: boolea
 /* ═══════════════════════════════════════════════════════════════ */
 const SportsGymkhana: React.FC = () => {
   const [apiData, setApiData] = useState<any>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     getFacilitiesSection<any>('sports-gymkhana')
       .then((res) => mounted && setApiData(res))
-      .catch(() => mounted && setApiData(null));
+      .catch(() => mounted && setApiData(null))
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
     return () => {
       mounted = false;
     };
   }, []);
 
-  const displaySports = useMemo(() => {
+    const displaySports = useMemo(() => {
     const rows = Array.isArray(apiData?.sports)
       ? apiData.sports
           .map((sport: any) => ({
@@ -370,6 +374,22 @@ const SportsGymkhana: React.FC = () => {
     if (fromApi.length >= 6) return fromApi.slice(0, 6) as string[];
     return competitionImages;
   }, [displayGallery]);
+
+  if (!apiLoaded) {
+    return (
+      <PageLayout>
+        <PageBanner
+          title="Sports Gymkhana"
+          breadcrumbs={[
+            { label: 'Sports Gymkhana' },
+          ]}
+        />
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+        </section>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout>

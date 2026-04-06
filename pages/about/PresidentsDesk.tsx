@@ -18,18 +18,24 @@ interface PresidentData {
 
 const PresidentsDesk: React.FC = () => {
   const [data, setData] = useState<PresidentData | null>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     getAboutSection<PresidentData>('president-desk')
       .then((res) => mounted && setData(res))
-      .catch(() => mounted && setData(null));
-    return () => {
+      .catch(() => mounted && setData(null))
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  const intro = data?.intro ?? {};
+    const intro = data?.intro ?? {};
   const paragraphs = useMemo(() => {
     if (Array.isArray(data?.messageParagraphs) && data!.messageParagraphs!.length > 0) {
       return data!.messageParagraphs!;
@@ -47,7 +53,18 @@ const PresidentsDesk: React.FC = () => {
   const closingQuote = intro.closingQuote || "Vidyavardhini's College of Engineering and Technology is an excellent choice for your career and growth. We remain committed to shaping the engineers and leaders of tomorrow.";
   const profileImage = resolveUploadedAssetUrl(intro.image ?? null) || '/images/About Us/President_s Desk/Mr._Vikas_Vartak.jpg';
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner title="President's Desk" breadcrumbs={[{ label: "President's Desk" }]} />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner title="President's Desk" breadcrumbs={[{ label: "President's Desk" }]} />
 

@@ -19,20 +19,29 @@ const defaultFundingByYear = [
 ];
 const defaultFundingReportHref = '/pdfs/Research/FundedResearch/RESEARCH-FUNDING1.pdf';
 
+type FundingRow = {
+  year: string;
+  amount: number;
+};
+
 const FundedResearch: React.FC = () => {
   const [apiData, setApiData] = useState<any>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     getResearchSection<any>('funded-research')
       .then((res) => mounted && setApiData(res))
-      .catch(() => mounted && setApiData(null));
+      .catch(() => mounted && setApiData(null))
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
     return () => {
       mounted = false;
     };
   }, []);
 
-  const fundingByYear = useMemo(() => {
+    const fundingByYear = useMemo<FundingRow[]>(() => {
     const rows = Array.isArray(apiData?.funding)
       ? apiData.funding
           .map((row: any) => ({
@@ -49,11 +58,28 @@ const FundedResearch: React.FC = () => {
     resolveUploadedAssetUrl(apiData?.fundingReport?.fileUrl ?? apiData?.fundingReport?.url ?? null)
     || defaultFundingReportHref;
 
-  const maxFunding = Math.max(...fundingByYear.map(d => d.amount), 1);
-  const totalFunding = fundingByYear.reduce((s, d) => s + d.amount, 0);
-  const peakYear = fundingByYear.reduce((a, b) => (b.amount > a.amount ? b : a), fundingByYear[0]);
+  const maxFunding = Math.max(...fundingByYear.map((d: FundingRow) => d.amount), 1);
+  const totalFunding = fundingByYear.reduce((s: number, d: FundingRow) => s + d.amount, 0);
+  const peakYear = fundingByYear.reduce((a: FundingRow, b: FundingRow) => (b.amount > a.amount ? b : a), fundingByYear[0]);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Funded Research"
+  breadcrumbs={[
+  { label: 'Research', href: '/research' },
+  { label: 'Funded Research' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Funded Research"
@@ -84,7 +110,7 @@ const FundedResearch: React.FC = () => {
 
               {/* Bars */}
               <div className="px-6 py-6 space-y-3">
-                {fundingByYear.map((d, i) => {
+                {fundingByYear.map((d: FundingRow, i: number) => {
                   const pct = (d.amount / maxFunding) * 100;
                   const isPeak = d.amount === maxFunding;
                   return (

@@ -160,24 +160,24 @@ export const IntroSection: React.FC<IntroSectionProps> = ({
       <div className="container mx-auto px-4 sm:px-6">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-14 items-start">
           <div className="reveal">
-            <div className="relative overflow-hidden rounded-[28px] border border-brand-blue/10 shadow-[0_24px_60px_-32px_rgba(5,43,104,0.35)] bg-brand-light">
+            <div className="relative overflow-hidden rounded-4xl border border-brand-blue/10 shadow-[0_24px_60px_-32px_rgba(5,43,104,0.35)] bg-brand-light">
               {hideImage ? (
                 <ImagePlaceholder
                   label={imagePlaceholderLabel ?? imageAlt}
-                  className="aspect-[4/3]"
+                  className="aspect-4/3"
                 />
               ) : (
                 <img
                   src={image}
                   alt={imageAlt}
-                  className={`h-full w-full aspect-[4/3] ${imageFit === 'contain'
+                  className={`h-full w-full aspect-4/3 ${imageFit === 'contain'
                       ? 'object-contain bg-white p-4 sm:p-6'
                       : 'object-cover'
                     }`}
                   loading="lazy"
                 />
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/70 via-brand-navy/10 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-brand-navy/70 via-brand-navy/10 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
                 <div className="flex flex-wrap gap-2">
                   {chips.map((chip) => (
@@ -354,9 +354,9 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({ items }) => {
               src={item.src}
               alt={item.alt}
               loading="lazy"
-              className="aspect-[4/3] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="aspect-4/3 w-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/80 via-brand-navy/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <div className="absolute inset-0 bg-linear-to-t from-brand-navy/80 via-brand-navy/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <div className="absolute inset-x-0 bottom-0 p-5 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               <div className="flex items-center gap-2 text-sm font-semibold">
                 <ImageIcon className="h-4 w-4" />
@@ -415,19 +415,19 @@ export const ProfileHighlight: React.FC<ProfileHighlightProps> = ({
   imagePlaceholderLabel,
 }) => {
   return (
-    <div className="reveal overflow-hidden rounded-[28px] border border-brand-blue/10 bg-white shadow-[0_20px_50px_-30px_rgba(5,43,104,0.35)]">
+    <div className="reveal overflow-hidden rounded-4xl border border-brand-blue/10 bg-white shadow-[0_20px_50px_-30px_rgba(5,43,104,0.35)]">
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr]">
         <div className="bg-brand-light">
           {hideImage ? (
             <ImagePlaceholder
               label={imagePlaceholderLabel ?? imageAlt}
-              className="aspect-[4/3] md:aspect-auto"
+              className="aspect-4/3 md:aspect-auto"
             />
           ) : (
             <img
               src={image}
               alt={imageAlt}
-              className="h-full w-full object-cover aspect-[4/3] md:aspect-auto"
+              className="h-full w-full object-cover aspect-4/3 md:aspect-auto"
               loading="lazy"
             />
           )}

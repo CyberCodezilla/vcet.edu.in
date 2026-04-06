@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import {
@@ -9,6 +9,8 @@ import {
   IntroSection,
   ProfileHighlight,
 } from './studentLifeShared';
+import { getStudentCareerSection } from '../../services/studentCareer';
+import { resolveApiUrl } from '../../services/api';
 
 const ebsbEvents = [
   {
@@ -56,7 +58,96 @@ const studentRows = [
 ];
 
 const EBSB: React.FC = () => {
+  const [apiData, setApiData] = useState<Record<string, any> | null>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    getStudentCareerSection<Record<string, any>>('ebsb')
+      .then((res) => {
+        if (mounted) setApiData(res);
+      })
+      .catch(() => {
+        if (mounted) setApiData(null);
+      })
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+    const apiEvents = Array.isArray(apiData?.events)
+    ? apiData.events
+      .map((event: Record<string, unknown>) => ({
+        title: String(event.title ?? ''),
+        description: String(event.desc ?? ''),
+      }))
+      .filter((event: { title: string; description: string }) => event.title || event.description)
+    : [];
+  const resolvedEvents = apiEvents.length > 0 ? apiEvents : ebsbEvents;
+
+  const apiGallery = Array.isArray(apiData?.gallery)
+    ? apiData.gallery
+      .map((item: Record<string, unknown>, index: number) => {
+        const raw = String(item.img ?? item.imageUrl ?? item.image ?? '');
+        const src = resolveApiUrl(raw) || raw;
+        if (!src) return null;
+        return {
+          src,
+          alt: `EBSB gallery image ${index + 1}`,
+        };
+      })
+      .filter((item): item is { src: string; alt: string } => !!item)
+    : [];
+  const resolvedGallery = apiGallery.length > 0 ? apiGallery : gallery;
+
+  const apiStaffRows = Array.isArray(apiData?.staff)
+    ? apiData.staff
+      .map((member: Record<string, unknown>) => [
+        String(member.role ?? member.pos ?? ''),
+        String(member.name ?? ''),
+        String(member.dept ?? ''),
+      ])
+      .filter((row: string[]) => row[0] || row[1] || row[2])
+    : [];
+  const resolvedStaffRows = apiStaffRows.length > 0 ? apiStaffRows : staffRows;
+
+  const apiStudRows = Array.isArray(apiData?.studs)
+    ? apiData.studs
+      .map((member: Record<string, unknown>) => [
+        String(member.role ?? member.pos ?? ''),
+        String(member.name ?? ''),
+        String(member.dept ?? ''),
+      ])
+      .filter((row: string[]) => row[0] || row[1] || row[2])
+    : [];
+  const resolvedStudentRows = apiStudRows.length > 0 ? apiStudRows : studentRows;
+
+  const cImgRaw = String(apiData?.cImg ?? '');
+  const cImg = resolveApiUrl(cImgRaw) || cImgRaw || '/images/student-life/ebsb/staff-incharge.jpg';
+  const cName = String(apiData?.cName ?? 'Dr. Archana Ekbote');
+  const cDept = String(apiData?.cDept ?? 'Department of Information Technology');
+  const cMail = String(apiData?.cMail ?? 'archana.ekbote@vcet.edu.in');
+
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="EBSB"
+  subtitle="Ek Bharat Shreshtha Bharat"
+  breadcrumbs={[{ label: 'EBSB' }]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="EBSB"
@@ -87,7 +178,7 @@ const EBSB: React.FC = () => {
         subtitle="EBSB Committee overview"
         backgroundClassName="bg-white"
       >
-        <div className="reveal rounded-[28px] border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
+        <div className="reveal rounded-4xl border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
           <p className="text-slate-600 leading-relaxed text-base md:text-lg">
             The “Ek Bharat Shreshtha Bharat” (EBSB) Committee at Vidyavardhini’s College of
             Engineering and Technology is a flagship program of the Government of India that
@@ -104,7 +195,7 @@ const EBSB: React.FC = () => {
         subtitle="Goals from the existing page content"
         backgroundClassName="bg-brand-light"
       >
-        <div className="reveal rounded-[28px] border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
+        <div className="reveal rounded-4xl border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
           <ul className="space-y-4 text-slate-600 leading-relaxed text-base md:text-lg list-disc pl-5">
             <li>Enhance communication skills through inter-state activities.</li>
             <li>Promote mutual understanding between people of different states and UTs.</li>
@@ -119,7 +210,7 @@ const EBSB: React.FC = () => {
         subtitle="From the EBSB page screenshots"
         backgroundClassName="bg-white"
       >
-        <EventGrid items={ebsbEvents} />
+        <EventGrid items={resolvedEvents} />
       </ContentSection>
 
       <ContentSection
@@ -128,7 +219,7 @@ const EBSB: React.FC = () => {
         subtitle="Image placeholders as per Literati style"
         backgroundClassName="bg-brand-light"
       >
-        <GalleryGrid items={gallery} />
+        <GalleryGrid items={resolvedGallery} />
       </ContentSection>
 
       <ContentSection
@@ -140,26 +231,26 @@ const EBSB: React.FC = () => {
         <div className="space-y-8">
           <ProfileHighlight
             title="In-Charge and Co-ordinator"
-            image="/images/student-life/ebsb/staff-incharge.jpg"
+            image={cImg}
             imageAlt="Dr. Archana Ekbote"
             hideImage
             imagePlaceholderLabel="Dr. Archana Ekbote"
-            heading="Dr. Archana Ekbote"
-            lines={['Department of Information Technology', 'archana.ekbote@vcet.edu.in']}
+            heading={cName}
+            lines={[cDept, cMail]}
           />
 
           <div>
             <div className="mb-6 reveal">
               <h3 className="text-2xl font-display font-bold text-brand-navy">Staff Committee</h3>
             </div>
-            <DataTable columns={['Role', 'Name', 'Department']} rows={staffRows} />
+            <DataTable columns={['Role', 'Name', 'Department']} rows={resolvedStaffRows} />
           </div>
 
           <div>
             <div className="mb-6 reveal">
               <h3 className="text-2xl font-display font-bold text-brand-navy">Student Committee</h3>
             </div>
-            <DataTable columns={['Role', 'Name', 'Department']} rows={studentRows} />
+            <DataTable columns={['Role', 'Name', 'Department']} rows={resolvedStudentRows} />
           </div>
         </div>
       </ContentSection>

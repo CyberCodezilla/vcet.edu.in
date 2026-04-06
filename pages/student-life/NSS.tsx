@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import {
@@ -8,6 +8,8 @@ import {
   GalleryGrid,
 } from './studentLifeShared';
 import { Mail, Phone } from 'lucide-react';
+import { getStudentCareerSection } from '../../services/studentCareer';
+import { resolveApiUrl } from '../../services/api';
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -136,7 +138,95 @@ const studentRows: string[][] = [
 // ── Component ─────────────────────────────────────────────────────────────────
 
 const NSS: React.FC = () => {
+  const [apiData, setApiData] = useState<Record<string, any> | null>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    getStudentCareerSection<Record<string, any>>('nss')
+      .then((res) => {
+        if (mounted) setApiData(res);
+      })
+      .catch(() => {
+        if (mounted) setApiData(null);
+      })
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+    const apiEvents = Array.isArray(apiData?.events)
+    ? apiData.events
+      .map((event: Record<string, unknown>) => ({
+        title: String(event.title ?? ''),
+        description: String(event.desc ?? ''),
+      }))
+      .filter((event: { title: string; description: string }) => event.title || event.description)
+    : [];
+  const resolvedEvents = apiEvents.length > 0 ? apiEvents : events;
+
+  const apiGallery = Array.isArray(apiData?.gallery)
+    ? apiData.gallery
+      .map((item: Record<string, unknown>, index: number) => {
+        const raw = String(item.img ?? item.imageUrl ?? item.image ?? '');
+        const src = resolveApiUrl(raw) || raw;
+        if (!src) return null;
+        return {
+          src,
+          alt: `NSS gallery image ${index + 1}`,
+        };
+      })
+      .filter((item): item is { src: string; alt: string } => !!item)
+    : [];
+  const resolvedGallery = apiGallery.length > 0 ? apiGallery : gallery;
+
+  const apiStaffRows = Array.isArray(apiData?.staff)
+    ? apiData.staff
+      .map((member: Record<string, unknown>) => [
+        String(member.pos ?? ''),
+        String(member.name ?? ''),
+        String(member.dept ?? ''),
+      ])
+      .filter((row: string[]) => row[0] || row[1] || row[2])
+    : [];
+  const resolvedStaffRows = apiStaffRows.length > 0 ? apiStaffRows : staffRows;
+
+  const apiStudRows = Array.isArray(apiData?.studs)
+    ? apiData.studs
+      .map((member: Record<string, unknown>) => [String(member.pos ?? ''), String(member.name ?? '')])
+      .filter((row: string[]) => row[0] || row[1])
+    : [];
+  const resolvedStudentRows = apiStudRows.length > 0 ? apiStudRows : studentRows;
+  const teamYear = typeof apiData?.teamYear === 'string' && apiData.teamYear.trim() ? apiData.teamYear : '2024-25';
+
+  const cImgRaw = String(apiData?.cImg ?? '');
+  const cImg = resolveApiUrl(cImgRaw) || cImgRaw || '/images/StudentLife/Extra-curricular-activities/Student_council/NSS/Team/Pradip_Gulbhile.jpg';
+  const cName = String(apiData?.cName ?? 'Dr. Pradip Gulbhile');
+  const cDept = String(apiData?.cDept ?? 'Humanity Department');
+  const cMail = String(apiData?.cMail ?? 'pradip.gulbhile@vcet.edu.in');
+  const cPhone = String(apiData?.cPhone ?? '9970042379');
+  const instaUrl = String(apiData?.instaUrl || 'https://www.instagram.com/nss_vcet?igsh=MWx3YzIyZTBuenZxcw==');
+  const instaLabel = String(apiData?.instaLab || 'CONTACT Us Instagram Click here:');
+
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="NSS"
+  breadcrumbs={[{ label: 'NSS' }]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="NSS"
@@ -149,7 +239,7 @@ const NSS: React.FC = () => {
         subtitle=""
         backgroundClassName="bg-brand-light"
       >
-        <div className="reveal rounded-[28px] border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
+        <div className="reveal rounded-4xl border border-brand-blue/10 bg-white p-8 md:p-10 shadow-sm">
           <p className="text-slate-600 leading-relaxed text-base md:text-lg mb-4">
             The National Service Scheme (NSS) Government of India, Ministry of Youth Affairs &amp;
             Sports provides an opportunity to the student youth of INDIA to take part in various
@@ -175,12 +265,12 @@ const NSS: React.FC = () => {
         backgroundClassName="bg-white"
       >
         <div className="space-y-12">
-          <EventGrid items={events} />
+          <EventGrid items={resolvedEvents} />
 
           <div className="reveal">
-            <a href="https://www.instagram.com/nss_vcet?igsh=MWx3YzIyZTBuenZxcw==" target="_blank" rel="noreferrer">
+            <a href={instaUrl} target="_blank" rel="noreferrer">
               <h3 className="text-xl md:text-2xl font-display font-bold text-brand-navy hover:text-brand-blue transition-colors">
-                CONTACT Us Instagram Click here:
+                {instaLabel}
               </h3>
             </a>
           </div>
@@ -193,7 +283,7 @@ const NSS: React.FC = () => {
         subtitle=""
         backgroundClassName="bg-brand-light"
       >
-        <GalleryGrid items={gallery} />
+        <GalleryGrid items={resolvedGallery} />
       </ContentSection>
 
       <ContentSection
@@ -211,23 +301,21 @@ const NSS: React.FC = () => {
 
             <div className="relative mb-6 w-48 h-56 rounded-2xl overflow-hidden shadow-lg border border-brand-blue/10">
               <img
-                src="\images\StudentLife\Extra-curricular-activities\Student_council\NSS\Team\Pradip_Gulbhile.jpg "
-                alt="Dr. Pradip Gulbhile"
+                src={cImg}
+                alt={cName}
                 className="w-full h-full object-cover"
                 loading="lazy"
               />
             </div>
 
-            <h4 className="text-lg md:text-xl font-bold text-brand-gold mb-6">
-              Dr. Pradip Gulbhile (Humanity Department)
-            </h4>
+              <h4 className="text-lg md:text-xl font-bold text-brand-gold mb-6">{cName} ({cDept})</h4>
 
             <div className="flex flex-col gap-3 text-slate-500 font-medium text-sm md:text-base">
-              <a href="mailto:pradip.gulbhile@vcet.edu.in" className="flex items-center justify-center gap-2 hover:text-brand-blue transition-colors">
-                <span className="text-brand-gold">✉</span> pradip.gulbhile@vcet.edu.in
+              <a href={`mailto:${cMail}`} className="flex items-center justify-center gap-2 hover:text-brand-blue transition-colors">
+                <span className="text-brand-gold">✉</span> {cMail}
               </a>
-              <a href="tel:9970042379" className="flex items-center justify-center gap-2 hover:text-brand-blue transition-colors">
-                <span className="text-brand-gold">✆</span> 9970042379
+              <a href={`tel:${cPhone}`} className="flex items-center justify-center gap-2 hover:text-brand-blue transition-colors">
+                <span className="text-brand-gold">✆</span> {cPhone}
               </a>
             </div>
           </div>
@@ -242,7 +330,7 @@ const NSS: React.FC = () => {
               <div className="w-full">
                 <DataTable
                   columns={['Post', 'Name', 'Department']}
-                  rows={staffRows}
+                  rows={resolvedStaffRows}
                 />
               </div>
             </div>
@@ -250,13 +338,13 @@ const NSS: React.FC = () => {
             <div className="reveal">
               <div className="mb-6 text-center md:text-left">
                 <h3 className="text-2xl font-display font-bold text-brand-blue">
-                  NSS Students Core committee: 2024-25 :
+                  NSS Students Core committee: {teamYear} :
                 </h3>
               </div>
               <div className="w-full">
                 <DataTable
                   columns={['Post', 'Name']}
-                  rows={studentRows}
+                  rows={resolvedStudentRows}
                 />
               </div>
             </div>

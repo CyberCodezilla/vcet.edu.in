@@ -69,6 +69,23 @@ const ResearchFacility: React.FC = () => {
     return fallbackItems;
   }, [items]);
 
+  if (loading) {
+    return (
+      <PageLayout>
+        <PageBanner
+          title="Research Facilities"
+          breadcrumbs={[
+            { label: 'Research', href: '/research' },
+            { label: 'Research Facilities' },
+          ]}
+        />
+        <section className="py-14 md:py-20 bg-[#F7F9FC]">
+          <div className="container mx-auto px-4 sm:px-6 max-w-[1200px] text-center text-slate-500">Loading facilities...</div>
+        </section>
+      </PageLayout>
+    );
+  }
+
   return (
     <PageLayout>
       <PageBanner
@@ -98,12 +115,6 @@ const ResearchFacility: React.FC = () => {
 
       <section className="py-14 md:py-20 bg-[#F7F9FC]">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
-          {loading && (
-            <div className="mb-6 text-[14px] font-semibold uppercase tracking-[0.14em] text-[#6B7280]">
-              Loading facilities...
-            </div>
-          )}
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-7">
             {facilities.map((item, index) => (
               <article

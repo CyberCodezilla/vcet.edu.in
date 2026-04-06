@@ -87,6 +87,7 @@ const CountUp: React.FC<{ end: string; suffix?: string }> = ({ end, suffix = "" 
         setVal(Math.floor(start));
       }
     }, 1000 / 60);
+
     return () => clearInterval(timer);
   }, [target]);
 
@@ -100,6 +101,7 @@ const CountUp: React.FC<{ end: string; suffix?: string }> = ({ end, suffix = "" 
 const Library: React.FC = () => {
   const [activeTab, setActiveTab] = useState('Overview');
   const [apiData, setApiData] = useState<any>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
   const tabKeys = ['Overview', 'Resources', 'E-Resources', 'Facilities', 'Membership', 'Committee', 'Rules', 'Gallery'] as const;
   const contentStartRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
@@ -108,13 +110,16 @@ const Library: React.FC = () => {
     let mounted = true;
     getFacilitiesSection<any>('library')
       .then((res) => mounted && setApiData(res))
-      .catch(() => mounted && setApiData(null));
+      .catch(() => mounted && setApiData(null))
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
     return () => {
       mounted = false;
     };
   }, []);
 
-  const librarySections = Array.isArray(apiData?.librarySections)
+    const librarySections = Array.isArray(apiData?.librarySections)
     ? apiData.librarySections
         .map((item: any) => ({
           heading: String(item?.heading ?? '').trim(),
@@ -280,6 +285,22 @@ const Library: React.FC = () => {
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   }, [activeTab]);
+
+  if (!apiLoaded) {
+    return (
+      <PageLayout>
+        <PageBanner
+          title="Library"
+          breadcrumbs={[
+            { label: 'Library' },
+          ]}
+        />
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+        </section>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout>

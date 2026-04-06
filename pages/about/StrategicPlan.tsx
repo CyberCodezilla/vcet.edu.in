@@ -1,48 +1,25 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { FileText, Download, Calendar } from 'lucide-react';
-import { getAboutSection } from '../../services/about';
-import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 interface PlanDocument {
-  label?: string;
-  title?: string;
-  year?: string;
-  session?: string;
-  fileUrl?: string | null;
-  file_url?: string | null;
-  url?: string | null;
-  displayOrder?: number;
-  order?: number;
-  sortOrder?: number;
-  isActive?: boolean;
-  active?: boolean;
+  label: string;
+  year: string;
+  fileUrl: string;
 }
 
-interface StrategicData {
-  documents?: PlanDocument[];
-}
+const staticPlans: PlanDocument[] = [
+  { label: 'Strategic Plan 2025-29', year: '2025-29', fileUrl: '/pdfs/Aboutus/StrategicPlan/Strategitc-Plan-2025-29.pdf' },
+  { label: 'Strategic Plan 2024-25', year: '2024-25', fileUrl: '/pdfs/Aboutus/StrategicPlan/Strategitc-Plan-2024-25.pdf' },
+  { label: 'Strategic Plan 2023-24', year: '2023-24', fileUrl: '/pdfs/Aboutus/StrategicPlan/Strategitc-Plan-2023-24.pdf' },
+  { label: 'Strategic Plan 2022-23', year: '2022-23', fileUrl: '/pdfs/Aboutus/StrategicPlan/Strategitc-Plan-2022-23.pdf' },
+  { label: 'Strategic Plan 2021-22', year: '2021-22', fileUrl: '/pdfs/Aboutus/StrategicPlan/Strategitc-Plan-2021-22-1.pdf' },
+  { label: 'Strategic Plan 2020-21', year: '2020-21', fileUrl: '/pdfs/Aboutus/StrategicPlan/Strategitc-Plan-2020-21.pdf' },
+];
 
 const StrategicPlan: React.FC = () => {
-  const [data, setData] = useState<StrategicData | null>(null);
-
-  useEffect(() => {
-    let mounted = true;
-    getAboutSection<StrategicData>('strategic-plan')
-      .then((res) => mounted && setData(res))
-      .catch(() => mounted && setData(null));
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  const plans = useMemo(() => {
-    const docs = (data?.documents ?? [])
-      .filter((doc) => (doc.isActive ?? doc.active ?? true) !== false)
-      .sort((a, b) => (a.displayOrder ?? a.order ?? a.sortOrder ?? 0) - (b.displayOrder ?? b.order ?? b.sortOrder ?? 0));
-    return docs;
-  }, [data]);
+  const plans = staticPlans;
 
   return (
     <PageLayout>
@@ -65,14 +42,14 @@ const StrategicPlan: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {plans.map((plan, idx) => {
-                const fileHref = resolveUploadedAssetUrl(plan.fileUrl ?? plan.file_url ?? plan.url ?? null);
+                const fileHref = plan.fileUrl;
                 return (
                   <a
-                    key={`${plan.year ?? plan.session}-${idx}`}
-                    href={fileHref ?? '#'}
+                    key={`${plan.year}-${idx}`}
+                    href={fileHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`reveal group ${fileHref ? '' : 'pointer-events-none opacity-70'}`}
+                    className="reveal group"
                     style={{ transitionDelay: `${idx * 0.08}s` }}
                   >
                     <div className="flex items-center gap-4 p-5 bg-brand-light rounded-2xl border border-gray-100 hover:border-brand-gold/40 hover:shadow-lg transition-all duration-500 h-full">
@@ -81,10 +58,10 @@ const StrategicPlan: React.FC = () => {
                       </div>
 
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-display font-bold text-brand-navy group-hover:text-brand-blue transition-colors duration-300">{plan.label ?? plan.title ?? ''}</h3>
+                        <h3 className="font-display font-bold text-brand-navy group-hover:text-brand-blue transition-colors duration-300">{plan.label}</h3>
                         <div className="flex items-center gap-1.5 mt-1">
                           <Calendar className="w-3.5 h-3.5 text-brand-gold" />
-                          <span className="text-xs text-slate-400">{plan.year ?? plan.session ?? ''}</span>
+                          <span className="text-xs text-slate-400">{plan.year}</span>
                         </div>
                       </div>
 

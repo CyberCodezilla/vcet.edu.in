@@ -9,10 +9,24 @@ const BROCHURE_PDF_URL = '/documents/admissions/vcet-brochure.pdf';
 const BROCHURE_FILE_NAME = 'vcet-brochure.pdf';
 
 const Brochure: React.FC = () => {
-  const { section, error } = useAdmissionSection('brochure');
+  const { section, loading, error } = useAdmissionSection('brochure');
   const brochureItem = section?.items?.[0];
   const brochureUrl = brochureItem?.document_url || brochureItem?.external_url || BROCHURE_PDF_URL;
   const brochureFileName = brochureItem?.pdf_name || BROCHURE_FILE_NAME;
+
+  if (loading) {
+    return (
+      <PageLayout>
+        <PageBanner
+          title="Brochure"
+          breadcrumbs={[{ label: 'Brochure' }]}
+        />
+        <section className="py-8 md:py-16 lg:py-24 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+        </section>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout>

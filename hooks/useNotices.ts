@@ -1,58 +1,23 @@
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { noticesService, type NoticeRecord } from '../services/notices';
+import { useFetch } from './useFetch';
 
-const REFRESH_INTERVAL_MS = 60_000;
+// Reduced from 60s to 5 minutes
+const REFRESH_INTERVAL_MS = 5 * 60_000;
 
-export function useNotices() {
-  const [notices, setNotices] = useState<NoticeRecord[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export function useNotices(enabled = true) {
+  const fetchNotices = useCallback(() => noticesService.list(), []);
 
-  useEffect(() => {
-    let cancelled = false;
+  const { data, loading, error } = useFetch<NoticeRecord[]>(fetchNotices, {
+    enabled,
+    initialData: [],
+    cacheKey: 'public:notices:list',
+    cacheTtlMs: 5 * 60_000,
+    refreshIntervalMs: REFRESH_INTERVAL_MS,
+    // Disabled to prevent API flooding
+    revalidateOnFocus: false,
+    revalidateOnVisibility: false,
+  });
 
-    const load = async (silent = false) => {
-      if (!silent) setLoading(true);
-      setError(null);
-
-      try {
-        const data = await noticesService.list();
-        if (!cancelled) setNotices(data);
-      } catch (err) {
-        if (!cancelled) setError(err instanceof Error ? err.message : 'Unable to load notices');
-      } finally {
-        if (!cancelled && !silent) setLoading(false);
-      }
-    };
-
-    void load();
-
-    const onFocus = () => {
-      void load(true);
-    };
-
-    const onVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        void load(true);
-      }
-    };
-
-    const intervalId = window.setInterval(() => {
-      if (document.visibilityState !== 'hidden') {
-        void load(true);
-      }
-    }, REFRESH_INTERVAL_MS);
-
-    window.addEventListener('focus', onFocus);
-    document.addEventListener('visibilitychange', onVisibilityChange);
-
-    return () => {
-      cancelled = true;
-      window.clearInterval(intervalId);
-      window.removeEventListener('focus', onFocus);
-      document.removeEventListener('visibilitychange', onVisibilityChange);
-    };
-  }, []);
-
-  return { notices, loading, error };
+  return { notices: data, loading, error };
 }

@@ -17,8 +17,8 @@ const AdminLogin: React.FC = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setError("");
     setLoading(true);
     try {
@@ -291,3 +291,4 @@ const AdminLogin: React.FC = () => {
 };
 
 export default AdminLogin;
+

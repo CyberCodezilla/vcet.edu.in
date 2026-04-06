@@ -5,10 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "sanitize:paths": "node scripts/sanitize-path-separators.mjs",
+    "prebuild": "npm run sanitize:paths",
     "build": "vite build",
+    "postbuild": "node scripts/copy-htaccess-to-dist.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@types/react-router-dom": "^5.3.3",
     "framer-motion": "^12.34.3",
     "lucide-react": "^0.574.0",

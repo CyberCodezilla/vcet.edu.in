@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { ExternalLink, FileText } from 'lucide-react';
@@ -13,32 +13,32 @@ const statementItems: StatementItem[] = [
   {
     label: 'Audited Statement 2019-2020',
     description: 'Income and expenditure statement for FY 2019-20.',
-    href: 'https://vcet.edu.in/wp-content/uploads/2022/01/Income-Expenditure-2019-20.pdf',
+    href: 'pdfs/Facilities/FOOTER/AuditedStatement/Income-Expenditure-2019-20.pdf',
   },
   {
     label: 'Audited Statement 2020-2021',
     description: 'Income and expenditure statement for FY 2020-21.',
-    href: 'https://vcet.edu.in/wp-content/uploads/2022/01/Income-Expenditure-2020-2021.pdf',
+    href: 'pdfs/Facilities/FOOTER/AuditedStatement/Income-Expenditure-2020-2021.pdf',
   },
   {
     label: 'Audited Statement 2021-2022',
     description: 'Income and expenditure statement for FY 2021-22.',
-    href: 'https://vcet.edu.in/wp-content/uploads/2024/04/2021-22-1.pdf',
+    href: 'pdfs/Facilities/FOOTER/AuditedStatement/Income-Expenditure-2021-22.pdf',
   },
   {
     label: 'Audited Statement 2022-2023',
     description: 'Income and expenditure statement for FY 2022-23.',
-    href: 'https://vcet.edu.in/wp-content/uploads/2024/04/2022-23-1.pdf',
+    href: 'pdfs/Facilities/FOOTER/AuditedStatement/Income-Expenditure-2022-23.pdf',
   },
   {
     label: 'Audited Statement 2023-2024',
     description: 'Income and expenditure statement for FY 2023-24.',
-    href: 'https://vcet.edu.in/wp-content/uploads/2025/05/AUDITED-STATEMENT-2023-24.pdf',
+    href: 'pdfs/Facilities/FOOTER/AuditedStatement/AUDITED-STATEMENT-2023-24.pdf',
   },
   {
     label: 'Audited Statement 2024-2025',
     description: 'Income and expenditure statement for FY 2024-25.',
-    href: 'https://vcet.edu.in/wp-content/uploads/2026/03/INCOME-EXPENDITURE-STATEMET-FOR-THE-YEAR-ENDED-31ST-MARCH-2025.pdf',
+    href: 'pdfs/Facilities/FOOTER/AuditedStatement/INCOME-EXPENDITURE-STATEMET-FOR-THE-YEAR-ENDED-31ST-MARCH-2025.pdf',
   },
 ];
 
@@ -89,3 +89,4 @@ const AuditedStatement: React.FC = () => {
 };
 
 export default AuditedStatement;
+

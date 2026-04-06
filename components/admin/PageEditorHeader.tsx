@@ -5,6 +5,8 @@ interface PageEditorHeaderProps {
   description?: string;
   onSave: () => void | Promise<void>;
   isSaving?: boolean;
+  saveLabel?: string;
+  disabled?: boolean;
   showBackButton?: boolean;
   onBack?: () => void;
   className?: string;
@@ -15,6 +17,8 @@ const PageEditorHeader: React.FC<PageEditorHeaderProps> = ({
   description,
   onSave,
   isSaving = false,
+  saveLabel = 'Save Changes',
+  disabled = false,
   showBackButton = true,
   onBack,
   className = '',
@@ -43,7 +47,7 @@ const PageEditorHeader: React.FC<PageEditorHeaderProps> = ({
 
   return (
     <div
-      className={`sticky top-[4.5rem] z-30 flex items-center justify-between gap-4 rounded-2xl border border-slate-200/70 bg-white px-6 py-4 shadow-sm md:px-8 ${className}`}
+      className={`sticky top-18 z-30 flex items-center justify-between gap-4 rounded-2xl border border-slate-200/70 bg-white px-6 py-4 shadow-sm md:px-8 ${className}`}
     >
       <div className="flex min-w-0 items-center gap-4">
         {showBackButton && (
@@ -67,11 +71,11 @@ const PageEditorHeader: React.FC<PageEditorHeaderProps> = ({
       <button
         type="button"
         onClick={handleSaveClick}
-        disabled={isSaving}
+        disabled={isSaving || disabled}
         className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-[#2563EB] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isSaving && <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />}
-        {isSaving ? 'Saving...' : justSaved ? 'Saved' : 'Save Changes'}
+        {isSaving ? 'Saving...' : justSaved ? 'Saved' : saveLabel}
       </button>
     </div>
   );

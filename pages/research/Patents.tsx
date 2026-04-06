@@ -140,6 +140,17 @@ const defaultPatents = [
 
 const defaultYears = ['All', '2023', '2022', '2021', '2016'];
 
+type PatentRow = {
+  sr: number;
+  dept: string;
+  faculty: string;
+  title: string;
+  office: string;
+  year: number;
+  appNo: string;
+  status: string;
+};
+
 const officeAccent: Record<string, { bar: string; badge: string; text: string; label: string }> = {
   'Indian Patent Office':              { bar: '#1a4b7c', badge: 'bg-[#EFF4FB]',  text: 'text-[#1a4b7c]',  label: 'IND' },
   'German Patent':                     { bar: '#374151', badge: 'bg-[#F3F4F6]',  text: 'text-[#374151]',  label: 'DEU' },
@@ -149,18 +160,24 @@ const officeAccent: Record<string, { bar: string; badge: string; text: string; l
 const ResearchPatents: React.FC = () => {
   const [apiData, setApiData] = useState<any>(null);
   const [activeYear, setActiveYear] = useState('All');
+  const [apiLoaded, setApiLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
     getResearchSection<any>('patents')
       .then((res) => mounted && setApiData(res))
-      .catch(() => mounted && setApiData(null));
-    return () => {
+      .catch(() => mounted && setApiData(null))
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+    
+
+return () => {
       mounted = false;
     };
   }, []);
 
-  const patents = useMemo(() => {
+    const patents = useMemo<PatentRow[]>(() => {
     const rows = Array.isArray(apiData?.patents)
       ? apiData.patents
           .map((row: any, index: number) => ({
@@ -187,11 +204,28 @@ const ResearchPatents: React.FC = () => {
     return fromRows.length > 0 ? ['All', ...fromRows] : defaultYears;
   }, [apiData, patents]);
 
-  const filtered = activeYear === 'All'
+  const filtered: PatentRow[] = activeYear === 'All'
     ? patents
-    : patents.filter(p => String(p.year) === activeYear);
+    : patents.filter((p: PatentRow) => String(p.year) === activeYear);
 
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner
+  title="Patents"
+  breadcrumbs={[
+  { label: 'Research', href: '/research' },
+  { label: 'Patents' },
+  ]}
+  />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner
         title="Patents"
@@ -255,7 +289,7 @@ const ResearchPatents: React.FC = () => {
               </thead>
 
               <tbody>
-                {filtered.map((p, idx) => {
+                {filtered.map((p: PatentRow, idx: number) => {
                   const accent = officeAccent[p.office] ?? officeAccent['Indian Patent Office'];
                   const isEven = idx % 2 === 0;
                   return (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import {
@@ -10,6 +10,8 @@ import {
   IntroSection,
   ProfileHighlight,
 } from './studentLifeShared';
+import { getStudentCareerSection } from '../../services/studentCareer';
+import { resolveApiUrl } from '../../services/api';
 
 const objectiveItems = [
   'Foster leadership, represent student interests, and enhance the sense of community.',
@@ -101,7 +103,86 @@ const teamRows = [
 ];
 
 const CulturalCommittee: React.FC = () => {
+  const [apiData, setApiData] = useState<Record<string, any> | null>(null);
+  const [apiLoaded, setApiLoaded] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    getStudentCareerSection<Record<string, any>>('cultural-committee')
+      .then((res) => {
+        if (mounted) setApiData(res);
+      })
+      .catch(() => {
+        if (mounted) setApiData(null);
+      })
+      .finally(() => {
+        if (mounted) setApiLoaded(true);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+    const apiEvents = Array.isArray(apiData?.events)
+    ? apiData.events
+      .map((event: Record<string, unknown>) => ({
+        title: String(event.title ?? ''),
+        description: String(event.desc ?? ''),
+      }))
+      .filter((event: { title: string; description: string }) => event.title || event.description)
+    : [];
+  const resolvedEvents = apiEvents.length > 0 ? apiEvents : events;
+
+  const apiTeamRows = Array.isArray(apiData?.team)
+    ? apiData.team
+      .map((member: Record<string, unknown>) => [
+        String(member.pos ?? ''),
+        String(member.name ?? ''),
+        String(member.dept ?? ''),
+      ])
+      .filter((row: string[]) => row[0] || row[1] || row[2])
+    : [];
+  const resolvedTeamRows = apiTeamRows.length > 0 ? apiTeamRows : teamRows;
+  const teamYear = typeof apiData?.teamYear === 'string' && apiData.teamYear.trim() ? apiData.teamYear : '2025-26';
+
+  const apiGallery = Array.isArray(apiData?.gallery)
+    ? apiData.gallery
+      .map((item: Record<string, unknown>, index: number) => {
+        const raw = String(item.img ?? item.imageUrl ?? item.image ?? '');
+        const src = resolveApiUrl(raw) || raw;
+        if (!src) return null;
+        return {
+          src,
+          alt: `Cultural Committee gallery image ${index + 1}`,
+        };
+      })
+      .filter((item): item is { src: string; alt: string } => !!item)
+    : [];
+  const resolvedGallery = apiGallery.length > 0 ? apiGallery : gallery;
+
+  const bos = Array.isArray(apiData?.bos) && apiData.bos.length > 0 ? apiData.bos[0] : null;
+  const bosName = String(bos?.name ?? 'Rishabh Tripathi');
+  const bosDept = String(bos?.dept ?? 'Computer Engineering Department');
+  const bosBatch = String(bos?.batch ?? '2023 - 2024');
+  const bosImgRaw = String(bos?.img ?? '');
+  const bosImg = resolveApiUrl(bosImgRaw) || bosImgRaw || '/images/student-life/cultural-committee/best-outgoing-student.png';
+
+  const instagramUrl = String(apiData?.hInsta || 'https://www.instagram.com/vcetstudentscouncil?igsh=MTVjamlqaWNrbnIzbg==');
+  const videoUrl = String(resolveApiUrl(apiData?.hVid) || apiData?.hVid || 'https://youtu.be/-O0TexTnwJ8?si=3oPGI5pT0jiduJ6P');
+
+        if (!apiLoaded) {
   return (
+  <PageLayout>
+  <PageBanner title="Cultural Committee" breadcrumbs={[{ label: 'Cultural Committee' }]} />
+  <section className="py-16 bg-white">
+  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+  </section>
+  </PageLayout>
+  );
+  }
+
+return (
     <PageLayout>
       <PageBanner title="Cultural Committee" breadcrumbs={[{ label: 'Cultural Committee' }]} />
 
@@ -122,12 +203,12 @@ const CulturalCommittee: React.FC = () => {
         links={[
           {
             label: "Students' Council Instagram",
-            href: 'https://www.instagram.com/vcetstudentscouncil?igsh=MTVjamlqaWNrbnIzbg==',
+            href: instagramUrl,
             icon: 'instagram',
           },
           {
             label: 'Watch Highlight Video',
-            href: 'https://youtu.be/-O0TexTnwJ8?si=3oPGI5pT0jiduJ6P',
+            href: videoUrl,
             icon: 'video',
           },
         ]}
@@ -136,9 +217,9 @@ const CulturalCommittee: React.FC = () => {
             <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-brand-gold">
               Best Outgoing Student
             </p>
-            <p className="text-lg font-display font-bold text-brand-navy">Rishabh Tripathi</p>
-            <p className="mt-2 text-sm text-slate-500">Computer Engineering Department</p>
-            <p className="text-sm text-slate-500">Batch : 2023 - 2024</p>
+            <p className="text-lg font-display font-bold text-brand-navy">{bosName}</p>
+            <p className="mt-2 text-sm text-slate-500">{bosDept}</p>
+            <p className="text-sm text-slate-500">Batch : {bosBatch}</p>
           </div>
         }
       />
@@ -159,16 +240,16 @@ const CulturalCommittee: React.FC = () => {
       >
         <ProfileHighlight
           title="Best Outgoing Student"
-          image="/images/student-life/cultural-committee/best-outgoing-student.png"
+          image={bosImg}
           imageAlt="Best Outgoing Student"
           hideImage
           imagePlaceholderLabel="Best Outgoing Student Image"
-          heading="Rishabh Tripathi"
-          lines={['Computer Engineering Department', 'Batch : 2023 - 2024']}
+          heading={bosName}
+          lines={[bosDept, `Batch : ${bosBatch}`]}
           actions={[
             {
               label: 'Watch Highlight Video',
-              href: 'https://youtu.be/-O0TexTnwJ8?si=3oPGI5pT0jiduJ6P',
+              href: videoUrl,
               icon: 'video',
             },
           ]}
@@ -181,7 +262,7 @@ const CulturalCommittee: React.FC = () => {
         subtitle="Published activities and celebrations featured on the official Cultural Committee page."
         backgroundClassName="bg-brand-light"
       >
-        <EventGrid items={events} />
+        <EventGrid items={resolvedEvents} />
       </ContentSection>
 
       <ContentSection
@@ -190,16 +271,16 @@ const CulturalCommittee: React.FC = () => {
         subtitle="Official VCET Cultural Committee gallery images."
         backgroundClassName="bg-white"
       >
-        <GalleryGrid items={gallery} />
+        <GalleryGrid items={resolvedGallery} />
       </ContentSection>
 
       <ContentSection
         id="team"
         title="Team"
-        subtitle="B.E. Students Council Core Committee (A.Y. 2025-26) :"
+        subtitle={`B.E. Students Council Core Committee (A.Y. ${teamYear}) :`}
         backgroundClassName="bg-brand-light"
       >
-        <DataTable columns={['Position', 'Name', 'Department']} rows={teamRows} />
+        <DataTable columns={['Position', 'Name', 'Department']} rows={resolvedTeamRows} />
       </ContentSection>
     </PageLayout>
   );

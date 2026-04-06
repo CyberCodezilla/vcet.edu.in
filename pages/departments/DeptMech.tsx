@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
-import NewsletterSection from '../../components/NewsletterSection';
+import DepartmentNewsletterPanel from '../../components/DepartmentNewsletterPanel';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -27,6 +27,20 @@ const delayClass = (idx: number) => {
   if (idx % 3 === 1) return 'delay-200';
   return 'delay-300';
 };
+
+const newsletterPdfs = [
+  { label: 'Newsletter 2024-25', href: '/pdfs/Department/Mechanical/Newsletter/Mech-Newsletter-2024-25.pdf' },
+  { label: 'Newsletter 2023-24', href: '/pdfs/Department/Mechanical/Newsletter/Mech-Newsletter-2023-24.pdf' },
+  { label: 'Newsletter 2022-23', href: '/pdfs/Department/Mechanical/Newsletter/Mech-Newsletter-2022-23.pdf' },
+  { label: 'Newsletter 2021-22', href: '/pdfs/Department/Mechanical/Newsletter/Mech-Newsletter-2021-22.pdf' },
+];
+
+const magazinePdfs = [
+  { label: 'Magazine 2024-25', href: '/pdfs/Department/Mechanical/Magazine/Mech-Magazine-2024-25.pdf' },
+  { label: 'Magazine 2023-24', href: '/pdfs/Department/Mechanical/Magazine/Mech-Magazine-2023-24.pdf' },
+  { label: 'Magazine 2022-23', href: '/pdfs/Department/Mechanical/Magazine/Mech-Magazine-2022-23.pdf' },
+  { label: 'Magazine 2021-22', href: '/pdfs/Department/Mechanical/Magazine/Mech-Magazine-2021-22.pdf' },
+];
 
 const DeptMech: React.FC = () => {
   const [activeId, setActiveId] = useState('about');
@@ -53,7 +67,7 @@ const DeptMech: React.FC = () => {
   return (
     <PageLayout>
 
-      {/* ── Hero Banner ─────────────────────────────────────────── */}
+      {/* â”€â”€ Hero Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header className="relative bg-gradient-to-r from-brand-navy to-slate-800 pt-24 md:pt-28 pb-12 md:pb-16 overflow-hidden shadow-lg border-b-4 border-brand-gold">
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-white opacity-5 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-10 w-64 h-64 rounded-full bg-brand-gold opacity-10 blur-2xl pointer-events-none" />
@@ -70,7 +84,7 @@ const DeptMech: React.FC = () => {
         </div>
       </header>
 
-      {/* ── Page Body ───────────────────────────────────────────── */}
+      {/* â”€â”€ Page Body â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="container mx-auto px-4 sm:px-6 py-10 md:py-12 max-w-7xl flex flex-col lg:flex-row gap-8 lg:gap-10">
 
         {/* Sticky Sidebar */}
@@ -98,11 +112,23 @@ const DeptMech: React.FC = () => {
         {/* Main Content */}
         <main className="w-full flex-1 space-y-14 md:space-y-16 min-w-0">
 
-          {/* ════ ABOUT ════════════════════════════════════════════ */}
+          {/* â•â•â•â• ABOUT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'about' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="space-y-6 text-slate-600 leading-8 text-left">
-                <p className="text-lg font-bold text-brand-navy">Dr. Uday Aswalekar, Head Of Department</p>
+                <div className="mx-auto max-w-md text-center space-y-4">
+                  <div className="rounded-3xl border-2 border-dashed border-blue-200 bg-blue-50/40 px-6 py-12">
+                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm">
+                      <i className="ph ph-image text-2xl" />
+                    </div>
+                    <p className="text-base font-semibold text-slate-600">HOD Image Placeholder</p>
+                    <p className="text-sm text-slate-400">Add image later in this area</p>
+                  </div>
+                  <div>
+                    <p className="mt-4 text-2xl font-bold text-brand-navy">Dr. Uday Aswalekar</p>
+                    <p className="mt-1 text-sm font-semibold text-brand-gold">Head Of Department</p>
+                  </div>
+                </div>
                 <p>
                   Established in 1994, the Department of Mechanical Engineering is amongst the premier Departments of VCET. Currently,
                   it is running Under Graduate program, B.E in Mechanical Engineering with an intake of 60 seats. The Department is
@@ -134,7 +160,7 @@ const DeptMech: React.FC = () => {
             </section>
           )}
 
-          {/* ════ VISION & MISSION ═════════════════════════════════ */}
+          {/* â•â•â•â• VISION & MISSION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'vision' && (
             <div className="space-y-16">
               <div className="reveal flex items-center gap-4">
@@ -158,7 +184,7 @@ const DeptMech: React.FC = () => {
                     </blockquote>
                     <div className="flex items-center gap-4">
                       <div className="h-px flex-1 bg-white/10" />
-                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">VCET · Mechanical Engineering</span>
+                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">VCET Â· Mechanical Engineering</span>
                       <div className="h-px w-12 bg-brand-gold/40" />
                     </div>
                   </div>
@@ -192,7 +218,7 @@ const DeptMech: React.FC = () => {
             </div>
           )}
 
-          {/* ════ DAB ══════════════════════════════════════════════ */}
+          {/* â•â•â•â• DAB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'dab' && (() => {
             const members = [
               { sr: 1, name: 'Dr. Rakesh Himte', designation: 'Principal', org: 'VCET, Vasai', role: 'Chairman', tag: 'internal' },
@@ -243,7 +269,7 @@ const DeptMech: React.FC = () => {
             );
           })()}
 
-          {/* ════ POs, PEOs & PSOs ═════════════════════════════════ */}
+          {/* â•â•â•â• POs, PEOs & PSOs â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'peo' && (() => {
             const pos = [
               { n: '01', text: 'Engineering knowledge: Apply the knowledge of mathematics, science, engineering fundamentals, and an engineering specialization to the solution of complex engineering problems.' },
@@ -256,7 +282,7 @@ const DeptMech: React.FC = () => {
               { n: '08', text: 'Ethics: Apply ethical principles and commit to professional ethics and responsibilities and norms of the engineering practice.' },
               { n: '09', text: 'Individual and team work: Function effectively as an individual, and as a member or leader in diverse teams, and in multidisciplinary settings.' },
               { n: '10', text: 'Communication: Communicate effectively on complex engineering activities with the engineering community and with society at large, such as, being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions.' },
-              { n: '11', text: 'Project management and finance: Demonstrate knowledge and understanding of the engineering and management principles and apply these to one’s own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.' },
+              { n: '11', text: 'Project management and finance: Demonstrate knowledge and understanding of the engineering and management principles and apply these to oneâ€™s own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.' },
               { n: '12', text: 'Life-long learning: Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change.' },
             ];
             const peos = [
@@ -317,10 +343,10 @@ const DeptMech: React.FC = () => {
             );
           })()}
 
-          {/* ════ FACULTY ══════════════════════════════════════════ */}
+          {/* â•â•â•â• FACULTY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'faculty' && <DepartmentFacultySection departmentName="Mechanical Engineering" />}
 
-          {/* ════ PAQIC ═══════════════════════════════════════════ */}
+          {/* â•â•â•â• PAQIC â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'paqic' && (() => {
             const members = [
               'Dr. Uday Aswalekar, HOD, Mechanical Engineering (Chairman)',
@@ -370,14 +396,14 @@ const DeptMech: React.FC = () => {
             );
           })()}
 
-          {/* ════ MoU ═════════════════════════════════════════════ */}
+          {/* â•â•â•â• MoU â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'mou' && (() => {
             const links = [
-              { label: 'MoU 2022-23', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Mech_MOUs-2022-23.pdf' },
-              { label: 'MoU 2021-22', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Mech_MOUs-2021-22.pdf' },
-              { label: 'MoU 2020-21', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Mech_MOUs-2020-21.pdf' },
-              { label: 'MoU 2019-20', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Mech_MOUs-2019-20.pdf' },
-              { label: 'MoU 2018-19', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Mech_MOUs-2018-19.pdf' },
+              { label: 'MoU 2022-23', url: 'pdfs/Department/MechanicalEngineering/MoU/Mech_MOUs-2022-23.pdf' },
+              { label: 'MoU 2021-22', url: 'pdfs/Department/MechanicalEngineering/MoU/Mech_MOUs-2021-22.pdf' },
+              { label: 'MoU 2020-21', url: 'pdfs/Department/MechanicalEngineering/MoU/Mech_MOUs-2020-21.pdf' },
+              { label: 'MoU 2019-20', url: 'pdfs/Department/MechanicalEngineering/MoU/Mech_MOUs-2019-20.pdf' },
+              { label: 'MoU 2018-19', url: 'pdfs/Department/MechanicalEngineering/MoU/Mech_MOUs-2018-19.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -398,12 +424,12 @@ const DeptMech: React.FC = () => {
             );
           })()}
 
-          {/* ════ AICTE & UNIVERSITY FUNDING ═════════════════════ */}
+          {/* â•â•â•â• AICTE & UNIVERSITY FUNDING â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'aicte-funding' && (() => {
             const links = [
-              { label: 'Mumbai University Minor Research Grant', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/Mumbai-University-Minor-Research-Grant.pdf' },
-              { label: 'AICTE-SPICES', url: 'https://vcet.edu.in/wp-content/uploads/2022/08/AICTE-SPICES.pdf' },
-              { label: 'AICTE-MODROB', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/MODROB-Funding.pdf' },
+              { label: 'Mumbai University Minor Research Grant', url: 'pdfs/Department/MechanicalEngineering/AICTE&UniversityFunding/Mumbai-University-Minor-Research-Grant.pdf' },
+              { label: 'AICTE-SPICES', url: 'pdfs/Department/MechanicalEngineering/AICTE&UniversityFunding/AICTE-SPICES.pdf' },
+              { label: 'AICTE-MODROB', url: 'pdfs/Department/MechanicalEngineering/AICTE&UniversityFunding/MODROB-Funding.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -424,7 +450,7 @@ const DeptMech: React.FC = () => {
             );
           })()}
 
-          {/* ════ INNOVATIVE IN TEACHING LEARNING ════════════════ */}
+          {/* â•â•â•â• INNOVATIVE IN TEACHING LEARNING â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'teaching-learning' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="flex items-center gap-3 mb-4">
@@ -432,14 +458,14 @@ const DeptMech: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Innovative in Teaching learning<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2025/01/innovation-in-Teaching-learning-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs/Department/MechanicalEngineering/InnovativeinTeachinglearning/innovation-in-Teaching-learning-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>Innovation in Teaching Learning</span>
                 <i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
             </section>
           )}
 
-          {/* ════ JOURNAL PUBLICATION ════════════════════════════ */}
+          {/* â•â•â•â• JOURNAL PUBLICATION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'journal-publication' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="flex items-center gap-3 mb-4">
@@ -447,14 +473,14 @@ const DeptMech: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Journal Publication<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2024/04/Journal_Publication.pdf.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs/Department/MechanicalEngineering/JournalPublication/Journal_Publication.pdf.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>Journal Publication</span>
                 <i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
             </section>
           )}
 
-          {/* ════ STUDENT ACHIEVEMENT ════════════════════════════ */}
+          {/* â•â•â•â• STUDENT ACHIEVEMENT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'student-achievement' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="flex items-center gap-3 mb-4">
@@ -462,14 +488,14 @@ const DeptMech: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Student Achievements<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="https://vcet.edu.in/wp-content/uploads/2022/02/Student-Achievements-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="pdfs/Department/MechanicalEngineering/StudentAchievements/Student-Achievements-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>Student Achievements</span>
                 <i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
             </section>
           )}
 
-          {/* ════ INFRASTRUCTURE ═════════════════════════════════ */}
+          {/* â•â•â•â• INFRASTRUCTURE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'infrastructure' && (() => {
             const infrastructureLabs = [
               {
@@ -486,7 +512,7 @@ const DeptMech: React.FC = () => {
                 title: 'ENGINEERING DRAWING',
                 incharge: 'Mr. Swapnil Mane',
                 software: 'AUTOCAD',
-                hardware: 'Models of Projection of Solids, Prisms – Triangular, Square, Prisms-Pentagonal, Pyramids- Triangular, Square, Pentagonal, Hexagonal, Cylinder, Frustum of Pyramid, Models of Section of Solids & Intersection of solids Prisms – Triangular, Square, Pentagonal, Hexagonal Pyramids- Triangular, Square, Pentagonal, Hexagonal, Cylinder, Frustum Of pyramid',
+                hardware: 'Models of Projection of Solids, Prisms â€“ Triangular, Square, Prisms-Pentagonal, Pyramids- Triangular, Square, Pentagonal, Hexagonal, Cylinder, Frustum of Pyramid, Models of Section of Solids & Intersection of solids Prisms â€“ Triangular, Square, Pentagonal, Hexagonal Pyramids- Triangular, Square, Pentagonal, Hexagonal, Cylinder, Frustum Of pyramid',
               },
               {
                 title: 'STRENGTH OF MATERIAL',
@@ -497,7 +523,7 @@ const DeptMech: React.FC = () => {
               {
                 title: 'FLUID MECHANICS',
                 incharge: 'Dr.Ashish Chaudhari',
-                hardware: 'mpact of jet on vanes, Buoyance & Metacentric height apparatus Bernoulli’s theorem apparatus Close circuit calibration rig for measuring discharge through venturi meter and orifice meter Close circuit apparatus for determination of co efficient of discharge of orifice and mouthpiece Flow through nozzles Calibration of rotameter Pipe friction apparatus Pipes in series and parallel Vortex flow apparatus Reynolds Apparatus.',
+                hardware: 'mpact of jet on vanes, Buoyance & Metacentric height apparatus Bernoulliâ€™s theorem apparatus Close circuit calibration rig for measuring discharge through venturi meter and orifice meter Close circuit apparatus for determination of co efficient of discharge of orifice and mouthpiece Flow through nozzles Calibration of rotameter Pipe friction apparatus Pipes in series and parallel Vortex flow apparatus Reynolds Apparatus.',
               },
               {
                 title: 'COMPUTER CENTER',
@@ -578,15 +604,6 @@ const DeptMech: React.FC = () => {
                   <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
                 </div>
                 <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Infrastructure<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                <div className="space-y-4 text-slate-600 leading-8">
-                  <p>
-                    The Department features the state-of-the-art infrastructure including well developed laboratories, and is armed with the recent software&apos;s.
-                  </p>
-                  <p>
-                    The Department imparts the skills and expertise in the areas of Design, Thermal sciences, Manufacturing and Renewable energy that are the backbone of Industries.
-                  </p>
-                </div>
-
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                   {infrastructureLabs.map((lab, idx) => (
                     <article key={`${lab.title}-${idx}`} className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
@@ -628,7 +645,7 @@ const DeptMech: React.FC = () => {
             );
           })()}
 
-          {/* ════ TOPPERS ════════════════════════════════════════ */}
+          {/* â•â•â•â• TOPPERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'toppers' && (() => {
             const toppers = {
               SE: [
@@ -679,7 +696,7 @@ const DeptMech: React.FC = () => {
             );
           })()}
 
-          {/* ════ SYLLABUS ═══════════════════════════════════════ */}
+          {/* â•â•â•â• SYLLABUS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'syllabus' && (() => {
             const links = [
               { label: 'R-19 SE Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/R2019-SE_-Mechanical_BE-Sem-III-and-IV-Teaching-Scheme-and-Course-Content_Final_04072020.pdf' },
@@ -707,12 +724,16 @@ const DeptMech: React.FC = () => {
             );
           })()}
 
-          {/* ════ NEWSLETTER ═══════════════════════════════════════ */}
+          {/* â•â•â•â• NEWSLETTER â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'newsletter' && (
-            <NewsletterSection departmentName="Mechanical Engineering" departmentId="3" />
+            <DepartmentNewsletterPanel
+              departmentLabel="Mechanical Engineering"
+              newsletterItems={newsletterPdfs}
+              magazineItems={magazinePdfs}
+            />
           )}
 
-          {/* ════ OTHER SECTIONS (placeholder) ════════════════════ */}
+          {/* â•â•â•â• OTHER SECTIONS (placeholder) â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'paqic' && activeId !== 'mou' && activeId !== 'aicte-funding' && activeId !== 'teaching-learning' && activeId !== 'journal-publication' && activeId !== 'student-achievement' && activeId !== 'infrastructure' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'newsletter' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
@@ -730,3 +751,4 @@ const DeptMech: React.FC = () => {
 };
 
 export default DeptMech;
+

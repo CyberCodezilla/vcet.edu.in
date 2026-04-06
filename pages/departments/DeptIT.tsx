@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
-import NewsletterSection from '../../components/NewsletterSection';
+import { departmentApi } from '../../admin/api/departments';
+import type { Department } from '../../admin/types';
+import { resolveApiUrl } from '../../admin/api/client';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -20,7 +22,7 @@ const sidebarLinks = [
   { id: 'youtube',    label: 'Department YouTube Channel',   icon: 'ph-youtube-logo' },
   { id: 'toppers',    label: 'Toppers',                      icon: 'ph-medal' },
   { id: 'syllabus',   label: 'Syllabus',                     icon: 'ph-book-open' },
-  { id: 'newsletter', label: 'Newsletter',                   icon: 'ph-newspaper' },
+  { id: 'newsletter-magazine', label: 'Newsletter and Magazine', icon: 'ph-newspaper' },
 ];
 
 const delayClass = (idx: number) => {
@@ -29,9 +31,122 @@ const delayClass = (idx: number) => {
   return 'delay-300';
 };
 
+const itechIntroParagraphs = [
+  'ITECH is the departmental committee which provides an opportunity to the budding engineers of VCET to enhance their knowledge about the advancement in technology. ITECH looks after the technical activities as well as academic interests of the entire student pursuing engineering degree in VCET. We aim at keeping the students updated with the latest enthralling technologies and advancements.',
+  'The goal of education is not to increase the amount of knowledge but to create the possibilities for students to invent and discover new technical trends. And for good ideas and true innovation you need human interactions, conflicts, arguments, and debates. This results in a team of budding engineers who put in their efforts for ITECH magazine and newsletter.',
+  "This year ITECH has taken a step forward by transforming its publication 'LOGIN: to explore' from a magazine to a digitalized platform. The articles of ITECH are published on the VCET website. This committee has also released the departmental newsletter which includes news articles related to advance technical scenario in the global markets.",
+];
+
+const newsletterPdfs = [
+  { label: 'NEWSLETTER 2024-25', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2024-25.pdf' },
+  { label: 'NEWSLETTER 2023-24', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2023-24.pdf' },
+  { label: 'NEWSLETTER 2022-23', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2022-23.pdf' },
+  { label: 'NEWSLETTER 2021-22', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2021-22.pdf' },
+  { label: 'NEWSLETTER 2020-21', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2020-21.pdf' },
+  { label: 'NEWSLETTER 2019-20', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2019-20.pdf' },
+  { label: 'NEWSLETTER 2018-19', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2018-19.pdf' },
+  { label: 'NEWSLETTER 2017-18', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2017-18.pdf' },
+  { label: 'NEWSLETTER 2016-17', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2016-17.pdf' },
+  { label: 'NEWSLETTER 2015-16', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2015-16.pdf' },
+  { label: 'NEWSLETTER 2014-15', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2014-15.pdf' },
+  { label: 'NEWSLETTER 2013-14', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2013-14.pdf' },
+  { label: 'NEWSLETTER 2012-13', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2012-13.pdf' },
+  { label: 'NEWSLETTER 2011-12', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2011-12.pdf' },
+  { label: 'NEWSLETTER 2010-11', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2010-11.pdf' },
+  { label: 'NEWSLETTER 2009-10', href: '/pdfs/Department/InformationTechnology/Newsletter/NEWSLETTER-2009-10.pdf' },
+];
+
+const magazinePdfs = [
+  { label: 'MAGAZINE 2024-25', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2024-25.pdf' },
+  { label: 'MAGAZINE 2023-24', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2023-24.pdf' },
+  { label: 'MAGAZINE 2022-23', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2022-23.pdf' },
+  { label: 'MAGAZINE 2021-22', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2021-22.pdf' },
+  { label: 'MAGAZINE 2020-21', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2020-21.pdf' },
+  { label: 'MAGAZINE 2019-20', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2019-20.pdf' },
+  { label: 'MAGAZINE 2018-19', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2018-19.pdf' },
+  { label: 'MAGAZINE 2017-18', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2017-18.pdf' },
+  { label: 'MAGAZINE 2016-17', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2016-17.pdf' },
+  { label: 'MAGAZINE 2015-16', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2015-16.pdf' },
+  { label: 'MAGAZINE 2014-15', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2014-15.pdf' },
+  { label: 'MAGAZINE 2013-14', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2013-14.pdf' },
+  { label: 'MAGAZINE 2012-13', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2012-13.pdf' },
+  { label: 'MAGAZINE 2011-12', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2011-12.pdf' },
+  { label: 'MAGAZINE 2010-11', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2010-11.pdf' },
+  { label: 'MAGAZINE 2009-10', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2009-10.pdf' },
+];
+
+const editorialRows = [
+  { post: 'Chairman', names: ['Prathamesh Anil Karambe'] },
+  { post: 'Chief editor', names: ['Smita Verma', 'Revathi Nair', 'Gaurav Gawde'] },
+  { post: 'Newsletter Head', names: ['Khushboo Memon'] },
+  { post: 'Graphics head', names: ['Tarun Parmar'] },
+  { post: 'Treasurer', names: ['Ravikant Sharma', 'Shreyash Mhashilakar'] },
+  { post: 'Graphics Team', names: ['Mohit Mathkar', 'Shraddha Pawar', 'Isha Vartak', 'Vedang Koli'] },
+  { post: 'Editing Team', names: ['Kinjal Patel', 'Raj Kotadia', 'Krithika Suvarna', 'Yash Ajgaonkar', 'Kunal Bhoyar', 'Dishant Patil', 'Niketan Patil', 'Parshva Vora'] },
+  { post: 'Website Team', names: ['Deepchand Dubey', 'Yash Meghani', 'Shashank Kamble', 'Kritesh Suthar', 'Rahul Gandhi', 'Shweta Sawant'] },
+];
+
 const DeptIT: React.FC = () => {
   const [activeId, setActiveId] = useState('about');
+  const [department, setDepartment] = useState<Department | null>(null);
   const activeLink = sidebarLinks.find(l => l.id === activeId);
+
+  useEffect(() => {
+    departmentApi.getBySlug('information-technology')
+      .then((res) => {
+        if (res.success) setDepartment(res.data);
+      })
+      .catch(() => setDepartment(null));
+  }, []);
+
+  const sectionData = (department?.content as any)?.newsletterMagazineSection || null;
+  
+  const rawCommitteeDetails = String(sectionData?.committeeDetails || '');
+  const committeeDetails = (rawCommitteeDetails ? rawCommitteeDetails.split(/\n{2,}/) : itechIntroParagraphs)
+    .map((line: string) => line.trim())
+    .filter((line: string) => line.length > 0);
+
+  const newsletters = Array.isArray(sectionData?.newsletters)
+    ? sectionData.newsletters.filter((item: any) => String(item?.label || '').trim() && item?.pdf)
+    : [];
+  const magazines = Array.isArray(sectionData?.magazines)
+    ? sectionData.magazines.filter((item: any) => String(item?.label || '').trim() && item?.pdf)
+    : [];
+
+  const staticNewsletters = newsletterPdfs.map((item) => ({
+    label: item.label,
+    pdf: item.href,
+  }));
+  const staticMagazines = magazinePdfs.map((item) => ({
+    label: item.label,
+    pdf: item.href,
+  }));
+
+  const newsletterItems = newsletters.length > 0 ? newsletters : staticNewsletters;
+  const magazineItems = magazines.length > 0 ? magazines : staticMagazines;
+
+  const publicationPanels = [
+    { title: 'Newsletter', items: newsletterItems },
+    { title: 'Magazine', items: magazineItems },
+  ].filter((panel) => panel.items.length > 0);
+
+  const staff = sectionData?.staffIncharge || {};
+  const staffName = String(staff?.name || '').trim() || 'Prof. Bharati Gondhalekar';
+  const staffEmail = String(staff?.email || '').trim() || 'bharati.gondhalekar@vcet.edu.in';
+  const staffPhone = String(staff?.phone || '').trim() || '9423365470';
+  const staffImage = resolveApiUrl(staff?.image || null);
+  
+  // Show the staff section if there's any data, or if we fallback to empty placeholders
+  const hasStaffSection = true;
+
+  const tableTitle = String(sectionData?.tableTitle || '').trim() || 'ITECH Editorial Committee';
+  const tableRows = Array.isArray(sectionData?.tableRows) && sectionData.tableRows.length > 0 
+    && sectionData.tableRows.some((row: any) => String(row?.post || '').trim() || String(row?.name || '').trim())
+      ? sectionData.tableRows.filter((row: any) => String(row?.post || '').trim() || String(row?.name || '').trim())
+      : editorialRows.flatMap(row => row.names.map(name => ({ post: row.post, name })));
+
+  const hasNewsletterMagazineSection =
+    committeeDetails.length > 0 || publicationPanels.length > 0 || hasStaffSection || tableRows.length > 0;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -54,7 +169,7 @@ const DeptIT: React.FC = () => {
   return (
     <PageLayout>
 
-      {/* ── Hero Banner ─────────────────────────────────────────── */}
+      {/* â”€â”€ Hero Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header className="relative bg-gradient-to-r from-brand-navy to-slate-800 pt-24 md:pt-28 pb-12 md:pb-16 overflow-hidden shadow-lg border-b-4 border-brand-gold">
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-white opacity-5 blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-10 w-64 h-64 rounded-full bg-brand-gold opacity-10 blur-2xl pointer-events-none" />
@@ -71,14 +186,16 @@ const DeptIT: React.FC = () => {
         </div>
       </header>
 
-      {/* ── Page Body ───────────────────────────────────────────── */}
+      {/* â”€â”€ Page Body â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="container mx-auto px-4 sm:px-6 py-10 md:py-12 max-w-7xl flex flex-col lg:flex-row gap-8 lg:gap-10">
 
         {/* Sticky Sidebar */}
         <aside className="w-full lg:w-72 xl:w-80 flex-shrink-0">
           <div className="lg:sticky lg:top-24 bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
             <nav className="flex flex-col py-2">
-              {sidebarLinks.map((link) => {
+              {sidebarLinks
+                .filter((link) => link.id !== 'newsletter-magazine' || hasNewsletterMagazineSection)
+                .map((link) => {
                 const isActive = activeId === link.id;
                 return (
                   <button
@@ -107,11 +224,23 @@ const DeptIT: React.FC = () => {
         {/* Main Content */}
         <main className="w-full flex-1 space-y-14 md:space-y-16 min-w-0">
 
-          {/* ════ ABOUT ════════════════════════════════════════════ */}
+          {/* â•â•â•â• ABOUT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'about' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="space-y-6 text-slate-600 leading-8 text-left">
-                <p className="text-lg font-bold text-brand-navy">Dr. Thaksen Parvat, Professor &amp; Head Of Department, Dean IT Infrastructure</p>
+                <div className="mx-auto max-w-md text-center space-y-4">
+                  <div className="rounded-3xl border-2 border-dashed border-blue-200 bg-blue-50/40 px-6 py-12">
+                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm">
+                      <i className="ph ph-image text-2xl" />
+                    </div>
+                    <p className="text-base font-semibold text-slate-600">HOD Image Placeholder</p>
+                    <p className="text-sm text-slate-400">Add image later in this area</p>
+                  </div>
+                  <div>
+                    <p className="mt-4 text-2xl font-bold text-brand-navy">Dr. Thaksen Parvat</p>
+                    <p className="mt-1 text-sm font-semibold text-brand-gold">Professor &amp; Head Of Department, Dean IT Infrastructure</p>
+                  </div>
+                </div>
                 <p>
                   Established in 2000, the Department of Information Technology is amongst the premier Departments of VCET. Currently, it is running Under Graduate program, B.E in Information Technology with an intake of 60 seats. The Department is accredited by National Board of Accreditation (NBA) accredited from July 2022 to June 2025 and is affiliated to University of Mumbai.
                 </p>
@@ -128,7 +257,7 @@ const DeptIT: React.FC = () => {
             </section>
           )}
 
-          {/* ════ VISION & MISSION ═════════════════════════════════ */}
+          {/* â•â•â•â• VISION & MISSION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'vision' && (
             <div className="space-y-16">
               <div className="reveal flex items-center gap-4">
@@ -153,7 +282,7 @@ const DeptIT: React.FC = () => {
                     </blockquote>
                     <div className="flex items-center gap-4">
                       <div className="h-px flex-1 bg-white/10" />
-                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">VCET · Information Technology</span>
+                      <span className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-semibold">VCET Â· Information Technology</span>
                       <div className="h-px w-12 bg-brand-gold/40" />
                     </div>
                   </div>
@@ -186,7 +315,7 @@ const DeptIT: React.FC = () => {
             </div>
           )}
 
-          {/* ════ DAB ══════════════════════════════════════════════ */}
+          {/* â•â•â•â• DAB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'dab' && (() => {
             const members = [
               { sr: 1, name: 'Dr. Rakesh Himte', designation: 'Principal', org: 'VCET, Vasai', role: 'Chairman', tag: 'internal' },
@@ -262,21 +391,21 @@ const DeptIT: React.FC = () => {
             );
           })()}
 
-          {/* ════ POs, PEOs & PSOs ═════════════════════════════════ */}
+          {/* â•â•â•â• POs, PEOs & PSOs â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'peo' && (() => {
             const pos = [
-              { n: '01', text: 'An ability to apply knowledge of mathematics, science, and engineering.' },
-              { n: '02', text: 'An ability to design and conduct experiments, as well as to analyze and interpret data.' },
-              { n: '03', text: 'An ability to design a system, component, or process to meet desired needs within realistic constraints.' },
-              { n: '04', text: 'An ability to identify, formulate, and solve engineering problems.' },
-              { n: '05', text: 'An ability to use the techniques, skills, and modern engineering tools necessary for engineering practice.' },
-              { n: '06', text: 'Knowledge of contemporary issues.' },
-              { n: '07', text: 'The broad education necessary to understand the impact of engineering solutions in a global, economic, environmental and societal context.' },
-              { n: '08', text: 'An understanding of professional and ethical responsibility.' },
-              { n: '09', text: 'An ability to function in multidisciplinary teams.' },
-              { n: '10', text: 'An ability to communicate effectively.' },
-              { n: '11', text: 'Recognition of the need for, and an ability to engage in life-long learning.' },
-              { n: '12', text: 'An understanding of engineering and management principles and the ability to apply these to manage projects in multidisciplinary environments.' },
+              { n: '01', text: 'Engineering knowledge: Apply the knowledge of mathematics, science, engineering fundamentals, and an engineering specialization to the solution of complex engineering problems.' },
+              { n: '02', text: 'Problem analysis: Identify, formulate, review research literature, and analyze complex engineering problems reaching substantiated conclusions using first principles of mathematics, natural sciences, and engineering sciences.' },
+              { n: '03', text: 'Design/development of solutions: Design solutions for complex engineering problems and design system components or processes that meet the specified needs with appropriate consideration for the public health and safety, and the cultural, societal, and environmental considerations.' },
+              { n: '04', text: 'Conduct investigations of complex problems: Use research-based knowledge and research methods including design of experiments, analysis and interpretation of data, and synthesis of the information to provide valid conclusions.' },
+              { n: '05', text: 'Modern tool usage: Create, select, and apply appropriate techniques, resources, and modern engineering and IT tools including prediction and modeling to complex engineering activities with an understanding of the limitations.' },
+              { n: '06', text: 'The engineer and society: Apply reasoning informed by the contextual knowledge to assess societal, health, safety, legal and cultural issues and the consequent responsibilities relevant to the professional engineering practice.' },
+              { n: '07', text: 'Environment and sustainability: Understand the impact of the professional engineering solutions in societal and environmental contexts, and demonstrate the knowledge of, and need for sustainable development.' },
+              { n: '08', text: 'Ethics: Apply ethical principles and commit to professional ethics and responsibilities and norms of the engineering practice.' },
+              { n: '09', text: 'Individual and team work: Function effectively as an individual, and as a member or leader in diverse teams, and in multidisciplinary settings.' },
+              { n: '10', text: 'Communication: Communicate effectively on complex engineering activities with the engineering community and with society at large, such as, being able to comprehend and write effective reports and design documentation, make effective presentations, and give and receive clear instructions.' },
+              { n: '11', text: 'Project management and finance: Demonstrate knowledge and understanding of the engineering and management principles and apply these to oneâ€™s own work, as a member and leader in a team, to manage projects and in multidisciplinary environments.' },
+              { n: '12', text: 'Life-long learning: Recognize the need for, and have the preparation and ability to engage in independent and life-long learning in the broadest context of technological change.' },
             ];
             const psos = [
               { n: 'PSO1', text: 'Apply and implement IT solutions in allied fields of engineering to solve real word problems.' },
@@ -355,10 +484,10 @@ const DeptIT: React.FC = () => {
             );
           })()}
 
-          {/* ════ FACULTY ══════════════════════════════════════════ */}
+          {/* â•â•â•â• FACULTY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'faculty' && <DepartmentFacultySection departmentName="Information Technology" />}
 
-          {/* ════ MoU ══════════════════════════════════════════════ */}
+          {/* â•â•â•â• MoU â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'mou' && (() => {
             const links = [
               { label: 'MoU 2023-24', url: 'https://vcet.edu.in/wp-content/uploads/2024/07/List-of-ActiveMOUs.pdf' },
@@ -387,7 +516,7 @@ const DeptIT: React.FC = () => {
             );
           })()}
 
-          {/* ════ PAQIC ════════════════════════════════════════════ */}
+          {/* â•â•â•â• PAQIC â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'paqic' && (() => {
             const roles = [
               'Devise Standard Operating Procedure for assessment and evaluation of Outcome Based Education (OBE) for the program.',
@@ -435,7 +564,7 @@ const DeptIT: React.FC = () => {
             );
           })()}
 
-          {/* ════ FACULTY ACHIEVEMENTS ════════════════════════════ */}
+          {/* â•â•â•â• FACULTY ACHIEVEMENTS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'faculty-achievements' && (() => {
             const links = [
               { label: 'Faculty Patents and Copyright (2024-25)', url: 'https://vcet.edu.in/wp-content/uploads/2025/03/2024-25-Patent-1.pdf' },
@@ -462,11 +591,11 @@ const DeptIT: React.FC = () => {
             );
           })()}
 
-          {/* ════ STUDENT ACHIEVEMENTS ════════════════════════════ */}
+          {/* â•â•â•â• STUDENT ACHIEVEMENTS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'student-achievements' && (() => {
             const links = [
-              { label: 'Student Achievements (Hackathon Achievers)', url: 'https://vcet.edu.in/wp-content/uploads/2024/07/Hackathon-Achivers.pdf' },
-              { label: 'Sports/Cultural Activities at National/International Level', url: 'https://vcet.edu.in/wp-content/uploads/2024/07/Student-Cultural-Sports.pdf' },
+              { label: 'Student Achievements (Hackathon Achievers)', url: 'pdfs/Department/InformationTechnology/StudentsAchievements/Hackathon-Achivers.pdf' },
+              { label: 'Sports/Cultural Activities at National/International Level', url: 'pdfs/Department/InformationTechnology/StudentsAchievements/Student-Cultural-Sports.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -487,12 +616,12 @@ const DeptIT: React.FC = () => {
             );
           })()}
 
-          {/* ════ ACTIVITIES ═══════════════════════════════════════ */}
+          {/* â•â•â•â• ACTIVITIES â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'activities' && (() => {
             const externalLinks = [
-              { label: 'Code Craze', url: 'https://vcet.edu.in/wp-content/uploads/2024/07/Code-Craze.pdf' },
-              { label: 'Student Development Program', url: 'https://vcet.edu.in/wp-content/uploads/2024/07/student-development-program-1.pdf' },
-              { label: 'Faculty Development Program', url: 'https://vcet.edu.in/wp-content/uploads/2024/07/faculty-development-program-1.pdf' },
+              { label: 'Code Craze', url: 'pdfs/Department/InformationTechnology/Activities/Code-Craze.pdf' },
+              { label: 'Student Development Program', url: 'pdfs/Department/InformationTechnology/Activities/student-development-program-1.pdf' },
+              { label: 'Faculty Development Program', url: 'pdfs/Department/InformationTechnology/Activities/faculty-development-program-1.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -517,7 +646,7 @@ const DeptIT: React.FC = () => {
             );
           })()}
 
-          {/* ════ INFRASTRUCTURE ═══════════════════════════════════ */}
+          {/* â•â•â•â• INFRASTRUCTURE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'infrastructure' && (() => {
             const labs = [
               {
@@ -571,7 +700,6 @@ const DeptIT: React.FC = () => {
                   <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Information Technology</span>
                 </div>
                 <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Infrastructure<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                <p className="text-slate-600 leading-7">The department has laboratories which are well equipped with latest configuration machines, high speed internet, Wi-Fi and legal licensed software. Modern aids such as LCD, Educational CDs make classroom teaching more interesting.</p>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {labs.map((lab, idx) => (
@@ -611,7 +739,7 @@ const DeptIT: React.FC = () => {
             );
           })()}
 
-          {/* ════ TOPPERS ══════════════════════════════════════════ */}
+          {/* â•â•â•â• TOPPERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'toppers' && (() => {
             const topperYears = [
               {
@@ -622,19 +750,19 @@ const DeptIT: React.FC = () => {
               },
               {
                 year: '2022-23',
-                se: ['Dodiya Meet - 8.7 CGPI', 'Gharat Shruti - 8.66 CGPI', 'Abhishek Jani - 8.64 CGPI', 'Zaid Khan - 8.64 CGPI', 'Shash Harshi - 8.47 CGPI'],
-                te: ['Singh Shobit - 8.77 CGPI', 'Kolwankar Tejas - 9.27 CGPI', 'Malap Kedar - 8.53 CGPI', 'Jadhav Omkar - 8.52 CGPI', 'Vatsal Shah - 8.40 CGPI'],
-                be: ['Kadam Aaditi - 9.37 CGPI', 'Vedant Sankhe - 8.96 CGPI', 'Mulla Insha - 8.85 CGPI', 'Vartak Viditi - 8.76 CGPI'],
+                se: ['Dodiya Meet - 8.7 CGPI', 'Gharat Shruti - 8.6 CGPI', 'Maurya Akash - 8.48 CGPI', 'Shash Harshi - 8.47 CGPI', 'Gupta Sima - 8.41 CGPI'],
+                te: ['Singh Shobit - 8.77 CGPI', 'Abhishek Jani - 8.64 CGPI, Zaid Khan - 8.64 CGPI', 'Malap Kedar - 8.53 CGPI', 'Jadhav Omkar - 8.52 CGPI', 'Vatsal Shah - 8.40 CGPI'],
+                be: ['Kadam Aaditi - 9.37 CGPI', 'Kolwankar Tejas - 9.27 CGPI', 'Vedant Sankhe - 8.96 CGPI', 'Mulla Insha - 8.85 CGPI', 'Vartak Viditi - 8.76 CGPI'],
               },
               {
                 year: '2021-22',
-                se: ['Shah Vatsal - 9.3 CGPI', 'Madhavani Soham - 9.16 CGPI', 'Jani Abhishek - 9.16 CGPI', 'Dalvi Anish - 9.090 CGPI', 'Borase Dipak - 9.085 CGPI'],
-                te: ['Kolwankar Tejas - 9.40 CGPI', 'Malap Kedar - 9.20 CGPI', 'Hegde Akshay - 8.80 CGPI', 'Jain Yogesh - 8.75 CGPI', 'Bhalala Vaibhav - 8.73 CGPI'],
-                be: ['Kadam Aaditi - 9.40 CGPI', 'Churihar Mohd Asim - 9.04 CGPI', 'Jadhav Granthali - 9.05 CGPI', 'Deorukhkar Jayesh - 8.96 CGPI', 'Pandya Harsh - 8.91 CGPI'],
+                se: ['Shah Vtsal - 9.3 CGPI', 'Malap Kedar - 9.20 CGPI', 'Jani Abhishek - 9.16 CGPI', 'Dalvi Ansh - 9.090 CGPI', 'Borase Dipak - 9.085 CGPI'],
+                te: ['Kolwankar Tejas - 9.40 CGPI, Kadam Aaditi - 9.40 CGPI', 'Churihar Mohd Asim - 9.04 CGPI', 'Hegde Akhay - 8.80 CGPI', 'Jain Yogesh - 8.75 CGPI', 'Bhalala Vaibhav - 8.73 CGPI'],
+                be: ['Madhavani Soham - 9.16 CGPI', 'Jadhav Granthali - 9.05 CGPI', 'Deorukhkar Jayesh - 8.96 CGPI', 'Pandya Harsh - 8.91 CGPI', 'Bari Ruchi - 8.81 CGPI'],
               },
               {
                 year: '2020-21',
-                se: ['Kolvankar Tejas - 9.83 CGPI', 'Sankhe Vedant - 9.70 CGPI', 'Kadam Aditi - 9.68 CGPI', 'Modak Isha - 9.52 CGPI', 'Vartak Viditi - 9.52 CGPI'],
+                se: ['Kolvankar Tejas - 9.83 CGPI', 'Sankhe Vedant - 9.70 CGPI', 'Kadam Aditi - 9.68 CGPI', 'Modak Isha - 9.52 CGPI, Vartak Viditi - 9.52 CGPI', 'Shah Devansh - 9.46 CGPI'],
                 te: ['Jadhav Granthali - 9.67 CGPI', 'Gupta Sweta - 9.66 CGPI', 'Yewale Hardik - 9.64 CGPI', 'Singh Sweety - 9.60 CGPI', 'Shirke Shivani - 9.52 CGPI'],
                 be: ['Bandgar Saloni - 9.58 CGPI', 'Singh Vivek - 9.18 CGPI', 'Suthar Kirtesh - 8.97 CGPI', 'Shenoy Ritika - 8.94 CGPI', 'Sawant Shweta - 8.93 CGPI'],
               },
@@ -670,15 +798,15 @@ const DeptIT: React.FC = () => {
             );
           })()}
 
-          {/* ════ SYLLABUS ═════════════════════════════════════════ */}
+          {/* â•â•â•â• SYLLABUS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'syllabus' && (() => {
             const links = [
-              { label: 'Syllabus R12', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/4.78-S.E.-IT.pdf' },
-              { label: 'Syllabus R16', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/R16.pdf' },
-              { label: 'Syllabus R19', url: 'https://vcet.edu.in/wp-content/uploads/2022/04/R19-IT-III-IV_merged.pdf' },
+              { label: 'Syllabus R12', url: 'pdfs/Department/InformationTechnology/syllabus/SyllabusR1.pdf' },
+              { label: 'Syllabus R16', url: 'pdfs/Department/InformationTechnology/syllabus/SyllabusR16.pdf' },
+              { label: 'Syllabus R19', url: 'pdfs/Department/InformationTechnology/syllabus/SyllabusR19.pdf' },
               { label: 'Honours & Minor Degree Program (TE)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/Honours-Minor-Degree-Program-Data-Science.pdf' },
-              { label: 'PO PSO CO R16', url: 'https://vcet.edu.in/wp-content/uploads/2023/11/2.6.1_R-2016_IT_syllabus.pdf' },
-              { label: 'PO PSO CO R19', url: 'https://vcet.edu.in/wp-content/uploads/2023/11/2.6.1_IT_R-2019_syllabus.pdf' },
+              { label: 'PO PSO CO R16', url: 'pdfs/Department/InformationTechnology/syllabus/2.6.1_R-2016_IT_syllabus.pdf' },
+              { label: 'PO PSO CO R19', url: 'pdfs/Department/InformationTechnology/syllabus/2.6.1_IT_R-2019_syllabus.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -699,15 +827,15 @@ const DeptIT: React.FC = () => {
             );
           })()}
 
-          {/* ════ TIME TABLE ═══════════════════════════════════════ */}
+          {/* â•â•â•â• TIME TABLE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'time-table' && (() => {
             const links = [
-              { label: '2025-26 Odd Sem Time Table', url: 'https://vcet.edu.in/wp-content/uploads/2025/09/Timetable-V6.pdf' },
-              { label: '2024-25 Even Sem Time Table', url: 'https://vcet.edu.in/wp-content/uploads/2025/04/Eve-Sem-Time-Table-2024-25.pdf' },
-              { label: '2024-25 Odd Sem Time Table', url: 'https://vcet.edu.in/wp-content/uploads/2024/07/Adobe-Scan-6-Jul-2024.pdf' },
-              { label: '2023-24 Even Sem Time Table', url: 'https://vcet.edu.in/wp-content/uploads/2024/07/IT-timetable-18-03-2024.pdf' },
-              { label: '2023-24 Odd Sem Time Table', url: 'https://vcet.edu.in/wp-content/uploads/2024/07/Adobe-Scan-08-Jul-2024.pdf' },
-              { label: '2022-23 Even Sem Time Table', url: 'https://vcet.edu.in/wp-content/uploads/2024/07/TT-Jan-31-2023.pdf' },
+              { label: '2025-26 Odd Sem Time Table', url: 'pdfs/Department/InformationTechnology/TimeTable/2025-26OddSem.pdf' },
+              { label: '2024-25 Even Sem Time Table', url: 'pdfs/Department/InformationTechnology/TimeTable/Eve-Sem-Time-Table-2024-25.pdf' },
+              { label: '2024-25 Odd Sem Time Table', url: 'pdfs/Department/InformationTechnology/TimeTable/2024-25OddSem.pdf' },
+              { label: '2023-24 Even Sem Time Table', url: 'pdfs/Department/InformationTechnology/TimeTable/2023-24OddSem.pdf' },
+              { label: '2023-24 Odd Sem Time Table', url: 'pdfs/Department/InformationTechnology/TimeTable/2023-24EvenSem.pdf' },
+              { label: '2022-23 Even Sem Time Table', url: 'pdfs/Department/InformationTechnology/TimeTable/2022-23EvenSem.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -728,12 +856,135 @@ const DeptIT: React.FC = () => {
             );
           })()}
 
-          {/* ════ NEWSLETTER & MAGAZINE ═══════════════════════════ */}
-          {activeId === 'newsletter' && (
-            <NewsletterSection departmentName="Information Technology" departmentId="1" />
+          {/* â•â•â•â• NEWSLETTER & MAGAZINE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {activeId === 'newsletter-magazine' && hasNewsletterMagazineSection && (
+            <section className="reveal space-y-8">
+              {committeeDetails.length > 0 && (
+                <article className="bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="w-8 h-px bg-brand-gold" />
+                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Information Technology</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-brand-navy mb-6 relative inline-block">
+                    Committee Details
+                    <span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" />
+                  </h3>
+                  <div className="space-y-4 text-[15px] leading-8 text-slate-600">
+                    {committeeDetails.map((paragraph: string, idx: number) => (
+                      <p key={idx}>{paragraph}</p>
+                    ))}
+                  </div>
+                </article>
+              )}
+
+              {publicationPanels.length > 0 && (
+                <article className="bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                  <div className="mt-0 grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    {publicationPanels.map((panel) => (
+                      <div key={panel.title} className="border border-[#D9E3EE] bg-white shadow-[0_10px_20px_rgba(15,23,42,0.06)]">
+                        <div className="px-5 py-4 bg-gradient-to-r from-[#123E67] to-[#1E578B] border-b border-[#0F355B]">
+                          <h4 className="text-white text-[22px] font-display font-bold tracking-tight">{panel.title}</h4>
+                        </div>
+                        <div className="p-4 md:p-5 grid gap-2">
+                          {panel.items.map((item: any, idx: number) => (
+                            <a
+                              key={`${panel.title}-${item.label}-${idx}`}
+                              href={resolveApiUrl(item.pdf || '') || '#'}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center justify-between gap-3 px-4 py-2.5 border border-[#BCD2E8] bg-white text-[#1A4B7C] font-semibold text-[14px] hover:border-[#56A9D8] hover:bg-[#EDF6FD] transition-colors"
+                              style={{ transitionDelay: `${idx * 0.02}s` }}
+                            >
+                              <span className="inline-flex items-center gap-2">
+                                <span className="inline-flex items-center justify-center h-5 w-5 rounded-sm border border-[#56A9D8]/50 text-[#56A9D8] text-[10px] font-extrabold">PDF</span>
+                                <span>{item.label}</span>
+                              </span>
+                              <i className="ph ph-arrow-up-right text-[#4F6B86]" />
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              )}
+
+              {hasStaffSection && (
+                <article className="border border-[#D9E3EE] bg-white shadow-[0_10px_20px_rgba(15,23,42,0.06)]">
+                  <div className="px-5 py-4 bg-gradient-to-r from-[#123E67] to-[#1E578B] border-b border-[#0F355B]">
+                    <h4 className="text-white text-[20px] md:text-[22px] font-display font-bold tracking-tight">Committee Details / Staff Incharge</h4>
+                  </div>
+                  <div className="p-6 md:p-8">
+                    <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8">
+                      <div className="w-full md:w-[170px] lg:w-[190px] flex-shrink-0">
+                        <div className="aspect-[4/5] rounded-2xl border border-[#D8E6F3] bg-[#F4F8FC] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+                          {staffImage ? (
+                            <img src={staffImage} alt={staffName || 'Staff Incharge'} className="w-full h-full object-cover" />
+                          ) : (
+                            <>
+                              <i className="ph ph-user-circle text-[44px] text-[#56A9D8]" />
+                              <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[#4F6B86]">Faculty Image</p>
+                              <p className="text-[10px] text-[#6B7F95]">Image unavailable</p>
+                            </>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="min-w-0">
+                        {staffName && <h5 className="text-3xl font-display font-bold text-[#56A9D8]">{staffName}</h5>}
+                        <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-8 text-[#4F6B86] font-medium">
+                          {staffEmail && (
+                            <a href={`mailto:${staffEmail}`} className="inline-flex items-center gap-2 hover:text-[#1A4B7C] transition-colors">
+                              <i className="ph ph-envelope-simple text-[#56A9D8]" />
+                              <span>{staffEmail}</span>
+                            </a>
+                          )}
+                          {staffPhone && (
+                            <a href={`tel:${staffPhone}`} className="inline-flex items-center gap-2 hover:text-[#1A4B7C] transition-colors">
+                              <i className="ph ph-phone text-[#56A9D8]" />
+                              <span>{staffPhone}</span>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              )}
+
+              {(tableTitle || tableRows.length > 0) && (
+                <article className="border border-[#D9E3EE] bg-white shadow-[0_10px_20px_rgba(15,23,42,0.06)]">
+                  <div className="px-5 py-4 bg-gradient-to-r from-[#123E67] to-[#1E578B] border-b border-[#0F355B]">
+                    <h4 className="text-white text-[20px] md:text-[22px] font-display font-bold tracking-tight">{tableTitle || 'Committee Table'}</h4>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full min-w-[620px] border-collapse">
+                      <thead>
+                        <tr className="bg-[#F4F8FC] text-[#1A4B7C]">
+                          <th className="w-[40%] px-4 py-3 text-left text-[12px] uppercase tracking-[0.1em] font-extrabold border-r border-[#D8E2EE]">Post</th>
+                          <th className="px-4 py-3 text-left text-[12px] uppercase tracking-[0.1em] font-extrabold">Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tableRows.map((row: any, index: number) => (
+                          <tr key={`${row.post}-${row.name}-${index}`} className={`border-t border-[#E4EBF3] ${index % 2 === 0 ? 'bg-white' : 'bg-[#FBFDFF]'}`}>
+                            <td className="px-4 py-3.5 align-top text-[14px] md:text-[15px] font-semibold text-[#1A4B7C] border-r border-[#E4EBF3]">
+                              {row.post}
+                            </td>
+                            <td className="px-4 py-3.5 align-top text-[14px] md:text-[15px] text-[#374151] leading-[1.75]">
+                              {row.name}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </article>
+              )}
+            </section>
           )}
 
-          {/* ════ YOUTUBE ══════════════════════════════════════════ */}
+          {/* â•â•â•â• YOUTUBE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'youtube' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="flex items-center gap-3 mb-4">
@@ -748,8 +999,8 @@ const DeptIT: React.FC = () => {
             </section>
           )}
 
-          {/* ════ FALLBACK ════════════════════════════════════════ */}
-          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'mou' && activeId !== 'paqic' && activeId !== 'faculty-achievements' && activeId !== 'student-achievements' && activeId !== 'activities' && activeId !== 'infrastructure' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'time-table' && activeId !== 'newsletter' && activeId !== 'youtube' && (
+          {/* â•â•â•â• FALLBACK â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'mou' && activeId !== 'paqic' && activeId !== 'faculty-achievements' && activeId !== 'student-achievements' && activeId !== 'activities' && activeId !== 'infrastructure' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'time-table' && activeId !== 'newsletter-magazine' && activeId !== 'youtube' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
                 <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-brand-navy`} />
@@ -766,3 +1017,4 @@ const DeptIT: React.FC = () => {
 };
 
 export default DeptIT;
+

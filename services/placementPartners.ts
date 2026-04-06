@@ -1,7 +1,7 @@
-import { client } from '../admin/api/client';
+import { client, resolveApiUrl as resolveUploadedAssetUrl } from '../admin/api/client';
 import type { PlacementPartner } from '../admin/types';
 import { MOCK_PLACEMENT_PARTNERS, readMockCollection } from '../admin/api/mockStore';
-import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
+
 import { USE_PUBLIC_MOCK, sortBySortOrder, unwrapListResponse } from './publicData';
 
 export const placementPartnersService = {

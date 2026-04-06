@@ -14,6 +14,57 @@ const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
 let csrfBootstrapPromise: Promise<void> | null = null;
 let csrfToken: string | null = null;
 
+type PublicCacheEntry = {
+  ts: number;
+  data: unknown;
+};
+
+const PUBLIC_DEPT_CACHE_PREFIX = 'vcet:dept-cache:v1:';
+const PUBLIC_DEPT_CACHE_TTL_MS = Number(import.meta.env.VITE_PAGE_CACHE_TTL_MS ?? 10 * 60_000);
+const publicDeptMemoryCache = new Map<string, PublicCacheEntry>();
+
+function isPublicDeptRequest(path: string, method: string): boolean {
+  if (method !== 'GET') return false;
+  if (!path.startsWith('/departments/slug/')) return false;
+  if (typeof window === 'undefined') return false;
+  return !window.location.pathname.startsWith('/admin');
+}
+
+function getPublicDeptCacheKey(path: string): string {
+  return `${PUBLIC_DEPT_CACHE_PREFIX}${path}`;
+}
+
+function readPublicDeptCache(path: string): PublicCacheEntry | null {
+  const key = getPublicDeptCacheKey(path);
+  const mem = publicDeptMemoryCache.get(key);
+  if (mem) return mem;
+
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = window.localStorage.getItem(key);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as PublicCacheEntry;
+    if (!parsed || typeof parsed.ts !== 'number') return null;
+    publicDeptMemoryCache.set(key, parsed);
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function writePublicDeptCache(path: string, data: unknown): void {
+  const key = getPublicDeptCacheKey(path);
+  const entry: PublicCacheEntry = { ts: Date.now(), data };
+  publicDeptMemoryCache.set(key, entry);
+
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(key, JSON.stringify(entry));
+  } catch {
+    // Ignore storage failures.
+  }
+}
+
 function getCookie(name: string): string | null {
   if (typeof document === "undefined") return null;
 
@@ -114,6 +165,16 @@ async function request<T>(
   retryOnCsrf = true,
 ): Promise<T> {
   const method = (options.method ?? "GET").toUpperCase();
+  const publicDeptCacheEnabled = (import.meta.env.VITE_ENABLE_PUBLIC_CACHE as string | undefined) !== 'false';
+  const shouldUsePublicDeptCache = publicDeptCacheEnabled && isPublicDeptRequest(path, method);
+
+  if (shouldUsePublicDeptCache) {
+    const cached = readPublicDeptCache(path);
+    if (cached && Date.now() - cached.ts <= PUBLIC_DEPT_CACHE_TTL_MS) {
+      return cached.data as T;
+    }
+  }
+
   const headers = buildHeaders(options.headers);
   headers.set("Content-Type", "application/json");
 
@@ -140,6 +201,11 @@ async function request<T>(
 
     throw new Error(extractErrorMessage(res.status, json));
   }
+
+  if (shouldUsePublicDeptCache) {
+    writePublicDeptCache(path, json);
+  }
+
   return json as T;
 }
 
@@ -192,9 +258,9 @@ export function resolveApiUrl(path: any): string | null {
 
   if (typeof resolvedPath !== 'string') return null;
   if (/^https?:\/\//i.test(resolvedPath) || resolvedPath.startsWith("blob:") || resolvedPath.startsWith("data:")) return resolvedPath;
-  // Local frontend assets shouldn't be prefixed with API_ORIGIN
+  // Uploaded backend assets should be resolved against backend origin
   if (/^\/?(images|Images|pdfs|Pdfs)\//.test(resolvedPath)) {
-    return resolvedPath.startsWith("/") ? resolvedPath : `/${resolvedPath}`;
+    return `${API_ORIGIN}${resolvedPath.startsWith('/') ? '' : '/'}${resolvedPath}`;
   }
   return `${API_ORIGIN}${resolvedPath.startsWith("/") ? resolvedPath : `/${resolvedPath}`}`;
 }
