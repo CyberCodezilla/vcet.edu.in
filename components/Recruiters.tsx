@@ -277,26 +277,37 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
     const el = scrollRef.current;
     if (!el) return;
 
-    const oneSetWidth = el.scrollWidth / 3;
-    const pxPerFrame = oneSetWidth / (speed * 60);
-
-    if (!initRef.current) {
-      if (direction === "right") {
-        posRef.current = oneSetWidth;
-      }
-      initRef.current = true;
-    }
+    // Reset init when source rows change so direction starts from expected origin.
+    initRef.current = false;
 
     const wrap = () => {
       const el2 = scrollRef.current;
       if (!el2) return;
       const w = el2.scrollWidth / 3;
+      if (!w || !Number.isFinite(w)) return;
       if (posRef.current >= w * 2) posRef.current -= w;
       if (posRef.current < 0) posRef.current += w;
     };
 
     const tick = () => {
       if (!pausedRef.current && !draggingRef.current) {
+        const currentEl = scrollRef.current;
+        const oneSetWidth = currentEl ? currentEl.scrollWidth / 3 : 0;
+
+        // Wait until content width is measured (images may load after first paint).
+        if (!oneSetWidth || !Number.isFinite(oneSetWidth)) {
+          animRef.current = requestAnimationFrame(tick);
+          return;
+        }
+
+        if (!initRef.current) {
+          if (direction === "right") {
+            posRef.current = oneSetWidth;
+          }
+          initRef.current = true;
+        }
+
+        const pxPerFrame = oneSetWidth / (speed * 60);
         if (direction === "left") {
           posRef.current += pxPerFrame;
         } else {
@@ -310,7 +321,7 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
 
     animRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animRef.current);
-  }, [direction, speed]);
+  }, [direction, speed, items]);
 
   // -- Drag / touch handlers --
   const scheduleResume = () => {
