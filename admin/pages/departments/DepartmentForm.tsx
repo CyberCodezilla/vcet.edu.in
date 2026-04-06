@@ -190,17 +190,18 @@ export default function DepartmentForm() {
 
   /* ── Array Helpers ── */
   const updateArrayItem = <K extends keyof typeof initialContent>(key: K, index: number, value: any) => {
-    const arr = [...(content[key] as any[])];
+    const currentArray = content[key] as any[] || [];
+    const arr = [...currentArray];
     arr[index] = value;
     setContent(prev => ({ ...prev, [key]: arr }));
   };
 
   const addArrayItem = <K extends keyof typeof initialContent>(key: K, emptyValue: any) => {
-    setContent(prev => ({ ...prev, [key]: [...(prev[key] as any[]), emptyValue] }));
+    setContent(prev => ({ ...prev, [key]: [...((prev[key] as any[]) || []), emptyValue] }));
   };
 
   const removeArrayItem = <K extends keyof typeof initialContent>(key: K, index: number) => {
-    setContent(prev => ({ ...prev, [key]: (prev[key] as any[]).filter((_, i) => i !== index) }));
+    setContent(prev => ({ ...prev, [key]: ((prev[key] as any[]) || []).filter((_, i) => i !== index) }));
   };
 
   if (loading) {
