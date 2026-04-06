@@ -162,7 +162,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, startIndex = 1 }) =>
 
 const CoursesIntake: React.FC = () => {
   const [activeTab, setActiveTab] = useState('all');
-  const { section, error } = useAdmissionSection('courses-and-intake');
+  const { section, error } = useAdmissionSection('courses-intake');
   const groupedFromApi = mapCoursesFromSection(section?.items?.map((item) => ({
     title: item.title,
     intake: item.intake,
