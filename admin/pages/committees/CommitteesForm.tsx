@@ -32,18 +32,20 @@ const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: Re
 const inputBase = "w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all";
 const labelBase = "block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 ml-1";
 
-const filePreviewCache = new WeakMap<File, string>();
+const filePreviewCache = new Map<File, string>();
+const createdPreviewUrls = new Set<string>();
 const getFilePreviewUrl = (file: File): string => {
   const cached = filePreviewCache.get(file);
   if (cached) return cached;
   const url = URL.createObjectURL(file);
   filePreviewCache.set(file, url);
+  createdPreviewUrls.add(url);
   return url;
 };
 
 const resolveMediaUrl = (value: any): string | null => {
   if (!value) return null;
-  if (value instanceof File) return URL.createObjectURL(value);
+  if (value instanceof File) return getFilePreviewUrl(value);
   if (typeof value === 'string') return resolveUploadedAssetUrl(value) || value;
   if (typeof value === 'object') {
     const raw = value.url || value.fileUrl || value.imageUrl || value.path;
@@ -53,11 +55,6 @@ const resolveMediaUrl = (value: any): string | null => {
 };
 
 /* ── List Manager (Dynamic Strings) ────────────────────────────────────────── */
-const years = Array.from({ length: 15 }, (_, i) => {
-  const start = new Date().getFullYear() - 5 + i;
-  return `${start}-${start + 1}`;
-});
-
 const ListManager: React.FC<{
   title: string;
   items: string[];
@@ -111,6 +108,8 @@ const TableManager: React.FC<{
   columns: { key: keyof CommitteeMember; label: string; placeholder: string; limit?: number }[];
   maxItems?: number;
 }> = ({ items = [], onChange, columns, maxItems = 15 }) => {
+  const isValidIndex = (idx: number) => idx >= 0 && idx < items.length;
+
   const addItem = () => {
     if (items.length < maxItems) {
       const newItem: any = {};
@@ -118,8 +117,12 @@ const TableManager: React.FC<{
       onChange([...items, newItem]);
     }
   };
-  const removeItem = (idx: number) => onChange(items.filter((_, i) => i !== idx));
+  const removeItem = (idx: number) => {
+    if (!isValidIndex(idx)) return;
+    onChange(items.filter((_, i) => i !== idx));
+  };
   const updateItem = (idx: number, key: keyof CommitteeMember, val: string) => {
+    if (!isValidIndex(idx)) return;
     const next = [...items];
     next[idx] = { ...next[idx], [key]: val };
     onChange(next);
@@ -138,35 +141,37 @@ const TableManager: React.FC<{
               <th className="w-16 px-6 py-4"></th>
             </tr>
           </thead>
-          <SortableListContext
-            items={items}
-            onChange={onChange}
-            renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging) => (
-              <tr ref={setNodeRef} style={{...style}} className="border-t border-slate-100 group bg-white hover:bg-slate-50/30 transition-colors">
-                <td className="px-4 py-4 w-10">
-                  <div className="cursor-grab active:cursor-grabbing text-slate-400 hover:text-[#2563EB] opacity-50 group-hover:opacity-100 transition-opacity" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 8h16M4 16h16"/></svg>
-                  </div>
-                </td>
-                {columns.map(col => (
-                  <td key={col.key as string} className="px-6 py-4">
-                    <input 
-                      value={item[col.key] || ''} 
-                      onChange={e => updateItem(idx, col.key, e.target.value)}
-                      className="w-full bg-transparent border-none text-sm font-bold text-slate-700 focus:ring-0 p-0 placeholder:text-slate-300 placeholder:font-medium"
-                      placeholder={col.placeholder}
-                      maxLength={col.limit}
-                    />
+          <tbody>
+            <SortableListContext
+              items={items}
+              onChange={onChange}
+              renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <tr ref={setNodeRef} style={{...style}} className="border-t border-slate-100 group bg-white hover:bg-slate-50/30 transition-colors">
+                  <td className="px-4 py-4 w-10">
+                    <div className="cursor-grab active:cursor-grabbing text-slate-400 hover:text-[#2563EB] opacity-50 group-hover:opacity-100 transition-opacity" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 8h16M4 16h16"/></svg>
+                    </div>
                   </td>
-                ))}
-                <td className="px-6 py-4 text-right">
-                  <button type="button" onClick={() => removeItem(idx)} className="text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-all">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                  </button>
-                </td>
-              </tr>
-            )}
-          />
+                  {columns.map(col => (
+                    <td key={col.key as string} className="px-6 py-4">
+                      <input 
+                        value={item[col.key] || ''} 
+                        onChange={e => updateItem(idx, col.key, e.target.value)}
+                        className="w-full bg-transparent border-none text-sm font-bold text-slate-700 focus:ring-0 p-0 placeholder:text-slate-300 placeholder:font-medium"
+                        placeholder={col.placeholder}
+                        maxLength={col.limit}
+                      />
+                    </td>
+                  ))}
+                  <td className="px-6 py-4 text-right">
+                    <button type="button" onClick={() => removeItem(idx)} className="text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-all">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    </button>
+                  </td>
+                </tr>
+              )}
+            />
+          </tbody>
         </table>
       </div>
       {items.length < maxItems && (
@@ -191,13 +196,19 @@ const ReportManager: React.FC<{
     return `${start}-${String((start + 1) % 100).padStart(2, '0')}`;
   });
 
+  const isValidIndex = (idx: number) => idx >= 0 && idx < items.length;
+
   const addItem = () => {
     if (items.length < maxItems) {
       onChange([...items, { year: yearOptions[0], fileName: null, fileUrl: null }]);
     }
   };
-  const removeItem = (idx: number) => onChange(items.filter((_, i) => i !== idx));
+  const removeItem = (idx: number) => {
+    if (!isValidIndex(idx)) return;
+    onChange(items.filter((_, i) => i !== idx));
+  };
   const updateItem = (idx: number, updates: Partial<CommitteeReport & { file?: File | null }>) => {
+    if (!isValidIndex(idx)) return;
     const next = [...items];
     next[idx] = { ...next[idx], ...updates };
     onChange(next);
@@ -208,7 +219,13 @@ const ReportManager: React.FC<{
       <SortableListContext
         items={items}
         onChange={onChange}
-        renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging) => (
+        renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging) => {
+          const reportFile = (item as any).file;
+          const previewUrl = reportFile instanceof File
+            ? getFilePreviewUrl(reportFile)
+            : (resolveUploadedAssetUrl(item.fileUrl || item.url || '') || item.fileUrl || item.url || '#');
+
+          return (
           <div ref={setNodeRef} style={style} className="flex gap-4 p-6 bg-slate-50 border border-slate-200 rounded-3xl group relative shadow-sm flex-col md:flex-row">
             <div className="flex flex-col justify-center items-center mr-2 cursor-grab active:cursor-grabbing text-slate-400 hover:text-[#2563EB] opacity-50 group-hover:opacity-100 transition-opacity" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
                <svg className="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 8h16M4 16h16"/></svg>
@@ -248,7 +265,7 @@ const ReportManager: React.FC<{
                 {((item as any).file || item.fileUrl || item.url) && (
                   <div className="mt-3 flex gap-2">
                     <a
-                      href={(item as any).file instanceof File ? getFilePreviewUrl((item as any).file) : (resolveUploadedAssetUrl(item.fileUrl || item.url || '') || item.fileUrl || item.url || '#')}
+                      href={previewUrl}
                       target="_blank"
                       rel="noreferrer"
                       className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 text-xs font-black uppercase tracking-wider hover:bg-blue-100"
@@ -265,15 +282,10 @@ const ReportManager: React.FC<{
                   </div>
                 )}
               </div>
-              {(item.file || item.fileUrl || item.url) && (
-                <div className="mt-2 flex gap-2">
-                  <a href={item.file ? URL.createObjectURL(item.file) : (resolveUploadedAssetUrl(item.fileUrl || item.url || '') || '#')} target="_blank" rel="noreferrer" className="text-[10px] font-black uppercase text-[#2563EB] hover:underline">Preview</a>
-                  <button type="button" onClick={() => updateItem(idx, { file: null, fileName: null, fileUrl: '', url: '' })} className="text-[10px] font-black uppercase text-red-500 hover:underline">Remove</button>
-                </div>
-              )}
             </div>
           </div>
-        )}
+        );
+        }}
       />
       {items.length < maxItems && (
         <button type="button" onClick={addItem} className="text-[#2563EB] text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:opacity-80 transition-opacity ml-1">
@@ -292,13 +304,19 @@ const PDFDocumentManager: React.FC<{
   maxItems?: number;
   showUrlField?: boolean;
 }> = ({ items = [], onChange, maxItems = 10, showUrlField }) => {
+  const isValidIndex = (idx: number) => idx >= 0 && idx < items.length;
+
   const addItem = () => {
     if (items.length < maxItems) {
       onChange([...items, { title: '', fileName: null, fileUrl: null, pdfUrl: '', imageUrl: null }]);
     }
   };
-  const removeItem = (idx: number) => onChange(items.filter((_, i) => i !== idx));
+  const removeItem = (idx: number) => {
+    if (!isValidIndex(idx)) return;
+    onChange(items.filter((_, i) => i !== idx));
+  };
   const updateItem = (idx: number, updates: any) => {
+    if (!isValidIndex(idx)) return;
     const next = [...items];
     next[idx] = { ...next[idx], ...updates };
     onChange(next);
@@ -309,7 +327,14 @@ const PDFDocumentManager: React.FC<{
       <SortableListContext
         items={items}
         onChange={onChange}
-        renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging, actions) => (
+        renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging, actions) => {
+          const posterPreviewUrl = resolveMediaUrl(item.image || item.imageUrl);
+          const imagePreviewUrl = resolveMediaUrl(item.image) || resolveMediaUrl(item.imageUrl);
+          const pdfPreviewUrl = item.file instanceof File
+            ? getFilePreviewUrl(item.file)
+            : (resolveUploadedAssetUrl(item.fileUrl || item.pdfUrl || '') || item.fileUrl || item.pdfUrl || '#');
+
+          return (
           <div ref={setNodeRef} style={style} className="flex gap-4 p-6 bg-slate-50 border border-slate-200 rounded-3xl group relative space-y-4 shadow-sm">
             <div className="flex flex-col pt-12 justify-start items-center mr-2 cursor-grab active:cursor-grabbing text-slate-400 hover:text-[#2563EB] opacity-50 group-hover:opacity-100 transition-opacity" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
                <svg className="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 8h16M4 16h16"/></svg>
@@ -333,8 +358,8 @@ const PDFDocumentManager: React.FC<{
                   <label className={labelBase}>Poster / Thumbnail (Optional)</label>
                   <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-slate-200 bg-white group/img">
                     <input type="file" accept="image/*" onChange={e => updateItem(idx, { image: e.target.files?.[0] || null })} className="absolute inset-0 opacity-0 cursor-pointer z-10" />
-                    {resolveMediaUrl(item.image || item.imageUrl) ? (
-                      <img src={resolveMediaUrl(item.image || item.imageUrl)!} alt="" className="w-full h-full object-cover" />
+                    {posterPreviewUrl ? (
+                      <img src={posterPreviewUrl} alt="" className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-[10px] font-black uppercase text-slate-300">Click to upload image</div>
                     )}
@@ -342,7 +367,7 @@ const PDFDocumentManager: React.FC<{
                   {(item.file || item.fileUrl || item.pdfUrl) && (
                     <div className="mt-3 flex gap-2">
                       <a
-                        href={item.file instanceof File ? getFilePreviewUrl(item.file) : (resolveUploadedAssetUrl(item.fileUrl || item.pdfUrl || '') || item.fileUrl || item.pdfUrl || '#')}
+                        href={pdfPreviewUrl}
                         target="_blank"
                         rel="noreferrer"
                         className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 text-xs font-black uppercase tracking-wider hover:bg-blue-100"
@@ -363,7 +388,7 @@ const PDFDocumentManager: React.FC<{
                   <label className={labelBase}>Image Upload (Optional)</label>
                   <div className="rounded-2xl border border-slate-200 bg-white p-3 space-y-3">
                 <div className="relative aspect-[16/10] rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
-                  <input id="committeesform-image-1" name="committeesform-image-1" aria-label="committeesform image field"
+                  <input id={`committeesform-image-${idx}`} name={`committeesform-image-${idx}`} aria-label="committeesform image field"
                     type="file"
                     accept="image/*"
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
@@ -372,9 +397,9 @@ const PDFDocumentManager: React.FC<{
                       if (file) updateItem(idx, { image: file, imageUrl: file.name });
                     }}
                   />
-                  {resolveMediaUrl(item.image) || resolveMediaUrl(item.imageUrl) ? (
+                  {imagePreviewUrl ? (
                     <img
-                      src={resolveMediaUrl(item.image) || resolveMediaUrl(item.imageUrl) || ''}
+                      src={imagePreviewUrl}
                       alt="Document preview"
                       className="w-full h-full object-cover"
                     />
@@ -401,7 +426,8 @@ const PDFDocumentManager: React.FC<{
               </div>
             </div>
           </div>
-        )}
+        );
+        }}
       />
       {items.length < maxItems && (
         <button type="button" onClick={addItem} className="text-[#2563EB] text-[10px] font-black uppercase tracking-widest flex items-center gap-2 hover:opacity-80 transition-opacity ml-1">
@@ -436,6 +462,14 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
       })
       .finally(() => setLoading(false));
   }, [slug]);
+
+  useEffect(() => {
+    return () => {
+      createdPreviewUrls.forEach(url => URL.revokeObjectURL(url));
+      createdPreviewUrls.clear();
+      filePreviewCache.clear();
+    };
+  }, []);
 
   const saveChanges = async () => {
     setSaving(true);
@@ -603,6 +637,13 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
           </AdminFormSection>
         )}
       </form>
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </>
   );
 };

@@ -2,9 +2,9 @@ import { useRef } from 'react';
 
 export const useListSync = (items: any[]) => {
   const idsRef = useRef<string[]>([]);
+  const counterRef = useRef(0);
 
-  const createId = () =>
-    `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+  const createId = () => `row-${counterRef.current++}`;
 
   // Keep id list in sync during render so keys are available on the first paint.
   if (items.length > idsRef.current.length) {
