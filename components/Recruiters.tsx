@@ -7,7 +7,7 @@ import { resolveUploadedAssetUrl } from "../utils/uploadedAssets";
 type Recruiter = { name: string; logo: string; url: string };
 
 // Canonical name -> bundled local fallback image URLs.
-const LOGO_ARCON = new URL("/images/Main Page/recruiters/arcon-logo.png").href;
+const LOGO_ARCON = new URL("../images/Main Page/recruiters/arcon-logo.png", import.meta.url).href;
 const LOGO_BRISTLECONE = new URL("../recruiters/bristlecone-logo.png", import.meta.url).href;
 const LOGO_BUILTIO = new URL("../recruiters/builtio-300x72-1.png", import.meta.url).href;
 const LOGO_CAPGEMINI = new URL("../recruiters/Capgemini-300x67-1.png", import.meta.url).href;
