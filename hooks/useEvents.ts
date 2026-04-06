@@ -3,18 +3,17 @@ import type { Event } from '../admin/types';
 import { eventsService } from '../services/events';
 import { useFetch } from './useFetch';
 
-const REFRESH_INTERVAL_MS = 60_000;
+// Reduced polling from 60s to 5 minutes
+const REFRESH_INTERVAL_MS = 5 * 60_000;
 
-export function useEvents() {
+export function useEvents(enabled = true) {
   const fetchEvents = useCallback(() => eventsService.list(), []);
 
   const { data, loading, error } = useFetch<Event[]>(fetchEvents, {
+    enabled,
     initialData: [],
     cacheKey: 'public:events:list',
-    cacheTtlMs: 60_000,
     refreshIntervalMs: REFRESH_INTERVAL_MS,
-    revalidateOnFocus: true,
-    revalidateOnVisibility: true,
   });
 
   return { events: data, loading, error };

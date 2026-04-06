@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Search, ChevronDown, ChevronRight } from 'lucide-react';
+import { useHomepageData } from '../context/HomepageDataContext';
 import { academicsService, type AcademicDocument } from '../services/academics';
 import { naacScoresService, type DynamicNaacScoreUpload } from '../services/naacScores';
 import { getResearchSection } from '../services/research';
@@ -951,6 +952,8 @@ const MobileAccordionItem: React.FC<MobileAccordionItemProps> = ({ item, onClose
    MAIN HEADER COMPONENT
 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const Header: React.FC = () => {
+  const homepage = useHomepageData();
+  const useAggregate = Boolean(homepage);
   const navigate = useNavigate();
   const [liveCalendars, setLiveCalendars] = useState<AcademicDocument[]>([]);
   const [liveBooklets, setLiveBooklets] = useState<AcademicDocument[]>([]);
@@ -969,6 +972,13 @@ const Header: React.FC = () => {
   const [dropdownPos, setDropdownPos] = useState<{ top: number; left: number; right: number; alignRight: boolean }>({ top: 0, left: 0, right: 0, alignRight: false });
 
   useEffect(() => {
+    if (useAggregate) {
+      const data = homepage!.data.academics;
+      setLiveCalendars(Array.isArray(data.academicCalendars) ? data.academicCalendars : []);
+      setLiveBooklets(Array.isArray(data.programBooklets) ? data.programBooklets : []);
+      return;
+    }
+
     academicsService
       .get()
       .then((data) => {
@@ -979,16 +989,27 @@ const Header: React.FC = () => {
         setLiveCalendars([]);
         setLiveBooklets([]);
       });
-  }, []);
+  }, [homepage, useAggregate]);
 
   useEffect(() => {
+    if (useAggregate) {
+      setLiveNaacScoreDocs(Array.isArray(homepage!.data.naacScoreUploads) ? homepage!.data.naacScoreUploads : []);
+      return;
+    }
+
     naacScoresService
       .list()
       .then((items) => setLiveNaacScoreDocs(Array.isArray(items) ? items : []))
       .catch(() => setLiveNaacScoreDocs([]));
-  }, []);
+  }, [homepage, useAggregate]);
 
   useEffect(() => {
+    if (useAggregate) {
+      setResearchConventionHref(resolveResearchPdfHref(homepage!.data.research.conventions, RESEARCH_CONVENTION_FALLBACK));
+      setResearchPolicyHref(resolveResearchPdfHref(homepage!.data.research.policy, RESEARCH_POLICY_FALLBACK));
+      return;
+    }
+
     let mounted = true;
 
     Promise.all([
@@ -1009,7 +1030,7 @@ const Header: React.FC = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [homepage, useAggregate]);
 
   const navMenuGroups = useMemo(
     () => withLiveResearchDropdown(

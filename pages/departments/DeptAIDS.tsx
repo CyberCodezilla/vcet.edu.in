@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
@@ -6,6 +6,8 @@ import DepartmentNewsletterPanel from '../../components/DepartmentNewsletterPane
 import { departmentApi } from '../../admin/api/departments';
 import type { Department } from '../../admin/types';
 import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
+import { newsletterApi } from '../../admin/api/newsletterApi';
+import { resolveApiUrl } from '../../admin/api/client';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -46,16 +48,27 @@ const DeptAIDS: React.FC = () => {
   const [activeId, setActiveId] = useState('about');
   const activeLink = sidebarLinks.find(l => l.id === activeId);
   const [department, setDepartment] = useState<Department | null>(null);
+  const [dynamicApiItems, setDynamicApiItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     departmentApi.getBySlug('artificial-intelligence-data-science')
       .then(res => {
-        if (res.success) setDepartment(res.data);
+        if (res.success) {
+          setDepartment(res.data);
+          newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+        }
       })
       .catch(err => console.error("Failed to load department data", err))
       .finally(() => setLoading(false));
   }, []);
+
+  const newsletters = dynamicApiItems
+    .filter(item => item.type === 'newsletter' && item.pdf)
+    .map(item => ({ label: item.title, href: item.pdf }));
+  const magazines = dynamicApiItems
+    .filter(item => item.type === 'magazine' && item.pdf)
+    .map(item => ({ label: item.title, href: item.pdf }));
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -550,8 +563,8 @@ const DeptAIDS: React.FC = () => {
           {activeId === 'newsletter' && (
             <DepartmentNewsletterPanel
               departmentLabel="AI & Data Science"
-              newsletterItems={newsletterPdfs}
-              magazineItems={magazinePdfs}
+              newsletterItems={newsletters.length > 0 ? newsletters : newsletterPdfs}
+              magazineItems={magazines.length > 0 ? magazines : magazinePdfs}
             />
           )}
 

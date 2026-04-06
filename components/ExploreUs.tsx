@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GraduationCap, Monitor, PlayCircle } from 'lucide-react';
+import { useHomepageData } from '../context/HomepageDataContext';
 import { get } from '../services/api';
 
 const defaultItems = [
@@ -15,9 +16,24 @@ const iconMap: Record<string, any> = {
 };
 
 const ExploreUs: React.FC = () => {
+  const homepage = useHomepageData();
+  const useAggregate = Boolean(homepage);
   const [quickAccessItems, setQuickAccessItems] = useState(defaultItems);
 
   useEffect(() => {
+    if (useAggregate) {
+      const aggregatedItems = homepage!.data.exploreUs;
+      if (aggregatedItems.length > 0) {
+        setQuickAccessItems(aggregatedItems.map((item) => ({
+          id: item.identifier || String(item.id),
+          title: item.title,
+          icon: iconMap[item.icon || ''] || PlayCircle,
+          href: item.url,
+        })));
+      }
+      return;
+    }
+
     const fetchItems = async () => {
       try {
         const response = await get<any[]>('/explore-us');
@@ -35,7 +51,7 @@ const ExploreUs: React.FC = () => {
       }
     };
     fetchItems();
-  }, []);
+  }, [homepage, useAggregate]);
 
   return (
     <section

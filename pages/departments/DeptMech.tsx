@@ -7,6 +7,9 @@ import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
+import { departmentApi } from '../../admin/api/departments';
+import type { Department } from '../../admin/types';
+import { newsletterApi } from '../../admin/api/newsletterApi';
 import DepartmentNewsletterPanel from '../../components/DepartmentNewsletterPanel';
 
 const sidebarLinks = [
@@ -48,19 +51,29 @@ const magazinePdfs = [
 ];
 
 const DeptMech: React.FC = () => {
-  const [department, setDepartment] = useState<Department | null>(null);
-
-  useEffect(() => {
-    
-    departmentApi.getBySlug('mechanical-engineering')
-      .then(res => {
-        if (res.data) setDepartment(res.data);
-      })
-      .catch(console.error);
-  }, []);
-
   const [activeId, setActiveId] = useState('about');
   const activeLink = sidebarLinks.find(l => l.id === activeId);
+  const [department, setDepartment] = useState<Department | null>(null);
+  const [dynamicApiItems, setDynamicApiItems] = useState<any[]>([]);
+
+  useEffect(() => {
+    departmentApi.getBySlug('mechanical-engineering')
+      .then((res) => {
+        if (res.success) {
+          setDepartment(res.data);
+          newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+        }
+      })
+      .catch(() => setDepartment(null));
+  }, []);
+
+  const newsletters = dynamicApiItems
+    .filter(item => item.type === 'newsletter' && item.pdf)
+    .map(item => ({ label: item.title, href: item.pdf }));
+  const magazines = dynamicApiItems
+    .filter(item => item.type === 'magazine' && item.pdf)
+    .map(item => ({ label: item.title, href: item.pdf }));
+
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -754,8 +767,8 @@ const DeptMech: React.FC = () => {
           {activeId === 'newsletter' && (
             <DepartmentNewsletterPanel
               departmentLabel="Mechanical Engineering"
-              newsletterItems={newsletterPdfs}
-              magazineItems={magazinePdfs}
+              newsletterItems={newsletters.length > 0 ? newsletters : newsletterPdfs}
+              magazineItems={magazines.length > 0 ? magazines : magazinePdfs}
             />
           )}
 

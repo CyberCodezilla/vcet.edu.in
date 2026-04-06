@@ -41,7 +41,7 @@ export const homepageBannersApi = {
           data: response.data.map(normalizeBanner),
         } as ListResponse<HomepageBanner>;
       }
-    : async () => {
+      : async () => {
         const response = await client.request<ListResponse<HomepageBanner>>('/homepage-banners');
         return {
           ...response,

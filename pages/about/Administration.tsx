@@ -18,9 +18,33 @@ interface AdministrationData {
   adminCards?: AdminMember[];
 }
 
+const PARAG_PATIL_IMAGE_PATH = '/images/About Us/Adiminsitration/Mr._Parag_Patil.jpg';
+const VISHAL_PANDE_IMAGE_PATH = '/images/About Us/Adiminsitration/Prof._Vishal_Pande.jpg';
+
+const ADMIN_FALLBACK_IMAGE_MAP: Record<string, string> = {
+  'mr. parag patil': PARAG_PATIL_IMAGE_PATH,
+  'prof. vishal pande': VISHAL_PANDE_IMAGE_PATH,
+};
+
+function getAdminFallbackImage(name: string | undefined): string | null {
+  if (!name) return null;
+  const normalized = name.trim().toLowerCase();
+  return ADMIN_FALLBACK_IMAGE_MAP[normalized] ?? null;
+}
+
 const fallbackMembers: AdminMember[] = [
-  { name: 'Mr. Parag Patil', role: 'Registrar', email: 'registrar@vcet.edu.in' },
-  { name: 'Prof. Vishal Pande', role: 'Exam Incharge', email: 'icexam_vcet@vcet.edu.in' },
+  {
+    name: 'Mr. Parag Patil',
+    role: 'Registrar',
+    email: 'registrar@vcet.edu.in',
+    image: PARAG_PATIL_IMAGE_PATH,
+  },
+  {
+    name: 'Prof. Vishal Pande',
+    role: 'Exam Incharge',
+    email: 'icexam_vcet@vcet.edu.in',
+    image: VISHAL_PANDE_IMAGE_PATH,
+  },
 ];
 
 const Administration: React.FC = () => {
@@ -79,7 +103,7 @@ return (
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-3xl mx-auto">
               {members.map((member, idx) => {
-                const memberImage = resolveUploadedAssetUrl(member.image ?? null);
+                const memberImage = resolveUploadedAssetUrl(member.image ?? getAdminFallbackImage(member.name));
                 return (
                 <div key={`${member.name}-${idx}`} className="reveal" style={{ transitionDelay: `${idx * 0.15}s` }}>
                   <div className="bg-brand-light rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg hover:border-brand-gold/30 transition-all duration-500 group">

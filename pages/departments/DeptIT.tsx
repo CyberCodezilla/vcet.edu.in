@@ -1,10 +1,12 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
 import { departmentApi } from '../../admin/api/departments';
 import type { Department } from '../../admin/types';
 import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
+import { newsletterApi } from '../../admin/api/newsletterApi';
+import { resolveApiUrl } from '../../admin/api/client';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -90,11 +92,15 @@ const DeptIT: React.FC = () => {
   const [activeId, setActiveId] = useState('about');
   const [department, setDepartment] = useState<Department | null>(null);
   const activeLink = sidebarLinks.find(l => l.id === activeId);
+  const [dynamicApiItems, setDynamicApiItems] = useState<any[]>([]);
 
   useEffect(() => {
     departmentApi.getBySlug('information-technology')
       .then((res) => {
-        if (res.success) setDepartment(res.data);
+        if (res.success) {
+          setDepartment(res.data);
+          newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+        }
       })
       .catch(() => setDepartment(null));
   }, []);
@@ -106,12 +112,12 @@ const DeptIT: React.FC = () => {
     .map((line: string) => line.trim())
     .filter((line: string) => line.length > 0);
 
-  const newsletters = Array.isArray(sectionData?.newsletters)
-    ? sectionData.newsletters.filter((item: any) => String(item?.label || '').trim() && item?.pdf)
-    : [];
-  const magazines = Array.isArray(sectionData?.magazines)
-    ? sectionData.magazines.filter((item: any) => String(item?.label || '').trim() && item?.pdf)
-    : [];
+  const newsletters = dynamicApiItems
+    .filter(item => item.type === 'newsletter' && item.pdf)
+    .map(item => ({ label: item.title, pdf: item.pdf }));
+  const magazines = dynamicApiItems
+    .filter(item => item.type === 'magazine' && item.pdf)
+    .map(item => ({ label: item.title, pdf: item.pdf }));
 
   const staticNewsletters = newsletterPdfs.map((item) => ({
     label: item.label,

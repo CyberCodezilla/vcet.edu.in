@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
+import { useAdmissionSection } from '../../hooks/useAdmissionSection';
+import { getSectionHeadingValue } from './admissionSectionUtils';
 import { 
   GraduationCap, 
   BookOpen, 
@@ -28,6 +30,50 @@ const pgCourses = [
 const mgmtCourses = [
   { course: 'Master Of Management Studies (MMS)', intake: 120 },
 ];
+
+function normalizeToken(value: string | null | undefined): string {
+  return (value ?? '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function mapCoursesFromSection(items: Array<{ title: string; intake: number | null; group_key: string | null; category: string | null; badge: string | null; }> | undefined) {
+  const groups = {
+    ug: [] as { course: string; intake: number }[],
+    pg: [] as { course: string; intake: number }[],
+    management: [] as { course: string; intake: number }[],
+  };
+
+  (items ?? []).forEach((item) => {
+    const mapped = {
+      course: item.title,
+      intake: item.intake ?? 0,
+    };
+    const groupKey = normalizeToken(item.group_key);
+    const category = normalizeToken(item.category);
+    const badge = normalizeToken(item.badge);
+
+    if (groupKey === 'ug' || category === 'ug' || badge === 'ug' || groupKey === 'undergraduate' || category === 'undergraduate') {
+      groups.ug.push(mapped);
+      return;
+    }
+
+    if (
+      groupKey === 'management'
+      || category === 'management'
+      || groupKey === 'mgmt'
+      || category === 'mgmt'
+      || badge === 'mms'
+    ) {
+      groups.management.push(mapped);
+      return;
+    }
+
+    if (groupKey === 'pg' || category === 'pg' || badge === 'pg' || groupKey === 'postgraduate' || category === 'postgraduate') {
+      groups.pg.push(mapped);
+    }
+  });
+
+  return groups;
+}
 
 interface SidebarItemProps {
   icon: React.ElementType;
@@ -116,16 +162,27 @@ const CourseTable: React.FC<CourseTableProps> = ({ courses, startIndex = 1 }) =>
 
 const CoursesIntake: React.FC = () => {
   const [activeTab, setActiveTab] = useState('all');
+  const { section, error } = useAdmissionSection('courses-intake');
+  const groupedFromApi = mapCoursesFromSection(section?.items?.map((item) => ({
+    title: item.title,
+    intake: item.intake,
+    group_key: item.group_key,
+    category: item.category,
+    badge: item.badge,
+  })));
+  const ugData = groupedFromApi.ug.length > 0 ? groupedFromApi.ug : ugCourses;
+  const pgData = groupedFromApi.pg.length > 0 ? groupedFromApi.pg : pgCourses;
+  const mgmtData = groupedFromApi.management.length > 0 ? groupedFromApi.management : mgmtCourses;
 
-  const totalUG = ugCourses.reduce((sum, c) => sum + c.intake, 0);
-  const totalPG = pgCourses.reduce((sum, c) => sum + c.intake, 0);
-  const totalMgmt = mgmtCourses.reduce((sum, c) => sum + c.intake, 0);
+  const totalUG = ugData.reduce((sum, c) => sum + c.intake, 0);
+  const totalPG = pgData.reduce((sum, c) => sum + c.intake, 0);
+  const totalMgmt = mgmtData.reduce((sum, c) => sum + c.intake, 0);
   const grandTotal = totalUG + totalPG + totalMgmt;
 
   return (
     <PageLayout>
       <PageBanner
-        title="Courses and Intake"
+        title={section?.title || 'Courses and Intake'}
         breadcrumbs={[{ label: 'Courses and Intake' }]}
       />
 
@@ -167,34 +224,45 @@ const CoursesIntake: React.FC = () => {
 
           {/* Main Column - Program Tables */}
           <main className="flex-1 w-full">
+            {error && (
+              <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm font-medium text-amber-800">
+                Showing fallback course data because the live admission API could not be loaded.
+              </div>
+            )}
             <div className="space-y-12">
               {(activeTab === 'all' || activeTab === 'ug') && (
                 <section>
                   <div className="flex items-center gap-4 mb-6">
-                    <h4 className="text-lg sm:text-xl md:text-2xl font-black text-[#1e4e85] uppercase tracking-tight">Under Graduate Program</h4>
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-black text-[#1e4e85] uppercase tracking-tight">
+                      {getSectionHeadingValue(section, 'ug', 'Under Graduate Program')}
+                    </h4>
                     <div className="h-px bg-slate-200 flex-1"></div>
                   </div>
-                  <CourseTable courses={ugCourses} startIndex={1} />
+                  <CourseTable courses={ugData} startIndex={1} />
                 </section>
               )}
               
               {(activeTab === 'all' || activeTab === 'pg') && (
                 <section>
                   <div className="flex items-center gap-4 mb-6">
-                    <h4 className="text-lg sm:text-xl md:text-2xl font-black text-[#1e4e85] uppercase tracking-tight">Post Graduate Program</h4>
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-black text-[#1e4e85] uppercase tracking-tight">
+                      {getSectionHeadingValue(section, 'pg', 'Post Graduate Program')}
+                    </h4>
                     <div className="h-px bg-slate-200 flex-1"></div>
                   </div>
-                  <CourseTable courses={pgCourses} startIndex={ugCourses.length + 1} />
+                  <CourseTable courses={pgData} startIndex={ugData.length + 1} />
                 </section>
               )}
 
               {(activeTab === 'all' || activeTab === 'mgmt') && (
                 <section>
                   <div className="flex items-center gap-4 mb-6">
-                    <h4 className="text-lg sm:text-xl md:text-2xl font-black text-[#1e4e85] uppercase tracking-tight">Management Program</h4>
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-black text-[#1e4e85] uppercase tracking-tight">
+                      {getSectionHeadingValue(section, 'mgmt', 'Management Program')}
+                    </h4>
                     <div className="h-px bg-slate-200 flex-1"></div>
                   </div>
-                  <CourseTable courses={mgmtCourses} startIndex={ugCourses.length + pgCourses.length + 1} />
+                  <CourseTable courses={mgmtData} startIndex={ugData.length + pgData.length + 1} />
                 </section>
               )}
             </div>

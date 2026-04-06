@@ -4,6 +4,7 @@ import type { AdmissionItem, AdmissionItemPayload, AdmissionSection, AdmissionSe
 import { GripVertical, Settings, Type, List } from 'lucide-react';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 import AdminFormSection from '../../components/AdminFormSection';
+import { invalidatePublicPageCache } from '../../../services/api';
 
 type SectionKey = 'intake' | 'fees' | 'documents' | 'cutoffs' | 'brochure';
 
@@ -92,6 +93,25 @@ const COURSE_GROUPS = [
   { key: 'UG', label: 'Under Graduate Program' },
   { key: 'PG', label: 'Post Graduate Program' },
   { key: 'Management', label: 'Management Program' },
+];
+
+const ADMISSIONS_PUBLIC_CACHE_PATHS = [
+  '/pages/committees/anti-ragging',
+  '/pages/committees/cdc',
+  '/pages/committees/equal-opportunity',
+  '/pages/committees/grievance',
+  '/pages/committees/icc',
+  '/pages/committees/iqac',
+  '/pages/committees/sc-st',
+  '/pages/committees/sedg',
+  '/pages/committees/sgrc',
+  '/pages/facilities/central-computing',
+  '/pages/facilities/library',
+  '/pages/facilities/counselling-cell',
+  '/pages/facilities/ladies-common-room',
+  '/pages/facilities/sports-gymkhana',
+  '/pages/facilities/health-facilities',
+  '/pages/facilities/differently-abled',
 ];
 
 
@@ -700,6 +720,8 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ activeSection, onBack }) 
           await admissionsApi.deleteItem(existingItem.id);
         }
       }
+
+      invalidatePublicPageCache(ADMISSIONS_PUBLIC_CACHE_PATHS);
 
       await loadSection();
       setToast({ message: `${config.label} updated successfully.`, type: 'success' });

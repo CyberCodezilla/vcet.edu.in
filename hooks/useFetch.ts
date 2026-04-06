@@ -2,58 +2,17 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 type Fetcher<T> = () => Promise<T>;
 
-interface CacheEntry<T> {
-	data: T;
-	ts: number;
-}
-
 interface UseFetchOptions<T> {
 	deps?: ReadonlyArray<unknown>;
 	enabled?: boolean;
 	initialData: T;
+	/** Key for in-memory request deduplication (no localStorage) */
 	cacheKey?: string;
-	cacheTtlMs?: number;
 	refreshIntervalMs?: number;
-	revalidateOnFocus?: boolean;
-	revalidateOnVisibility?: boolean;
 }
 
-const DEFAULT_CACHE_TTL_MS = 5 * 60_000;
-const CACHE_PREFIX = 'vcet:hook-cache:';
-const memoryCache = new Map<string, CacheEntry<unknown>>();
-const PUBLIC_CACHE_ENABLED = (import.meta.env.VITE_ENABLE_PUBLIC_CACHE as string | undefined) !== 'false';
-
-function readCache<T>(key: string, ttlMs: number): T | null {
-	const inMemory = memoryCache.get(key) as CacheEntry<T> | undefined;
-	if (inMemory && Date.now() - inMemory.ts <= ttlMs) {
-		return inMemory.data;
-	}
-
-	if (typeof window === 'undefined') return null;
-
-	try {
-		const raw = window.localStorage.getItem(`${CACHE_PREFIX}${key}`);
-		if (!raw) return null;
-		const parsed = JSON.parse(raw) as CacheEntry<T>;
-		if (!parsed || Date.now() - parsed.ts > ttlMs) return null;
-		memoryCache.set(key, parsed as CacheEntry<unknown>);
-		return parsed.data;
-	} catch {
-		return null;
-	}
-}
-
-function writeCache<T>(key: string, data: T): void {
-	const payload: CacheEntry<T> = { data, ts: Date.now() };
-	memoryCache.set(key, payload as CacheEntry<unknown>);
-
-	if (typeof window === 'undefined') return;
-	try {
-		window.localStorage.setItem(`${CACHE_PREFIX}${key}`, JSON.stringify(payload));
-	} catch {
-		// Ignore quota/security storage errors.
-	}
-}
+// In-memory request deduplication: prevents duplicate concurrent requests for the same key
+const inflightRequests = new Map<string, Promise<unknown>>();
 
 export function useFetch<T>(fetcher: Fetcher<T>, options: UseFetchOptions<T>) {
 	const {
@@ -61,33 +20,47 @@ export function useFetch<T>(fetcher: Fetcher<T>, options: UseFetchOptions<T>) {
 		enabled = true,
 		initialData,
 		cacheKey,
-		cacheTtlMs = DEFAULT_CACHE_TTL_MS,
 		refreshIntervalMs,
-		revalidateOnFocus = true,
-		revalidateOnVisibility = true,
 	} = options;
 
-	const shouldUseCache = PUBLIC_CACHE_ENABLED && !!cacheKey;
-	const cachedInitial = shouldUseCache ? readCache<T>(cacheKey!, cacheTtlMs) : null;
-
 	const stableDeps = useMemo(() => deps, deps);
-	const [data, setData] = useState<T>(() => {
-		return cachedInitial ?? initialData;
-	});
-	const [loading, setLoading] = useState<boolean>(() => enabled && !(shouldUseCache && cachedInitial !== null));
+	const [data, setData] = useState<T>(initialData);
+	const [loading, setLoading] = useState<boolean>(enabled);
 	const [error, setError] = useState<string | null>(null);
 	const mountedRef = useRef(true);
+	const fetcherRef = useRef(fetcher);
+
+	useEffect(() => {
+		fetcherRef.current = fetcher;
+	}, [fetcher]);
 
 	const runFetch = useCallback(async (silent = false) => {
 		if (!enabled) return;
 		if (!silent) setLoading(true);
 
 		try {
-			const result = await fetcher();
+			let result: T;
+
+			// Dedupe concurrent requests for the same cacheKey
+			if (cacheKey && inflightRequests.has(cacheKey)) {
+				result = (await inflightRequests.get(cacheKey)) as T;
+			} else {
+				const promise = fetcherRef.current();
+				if (cacheKey) {
+					inflightRequests.set(cacheKey, promise);
+				}
+				try {
+					result = await promise;
+				} finally {
+					if (cacheKey) {
+						inflightRequests.delete(cacheKey);
+					}
+				}
+			}
+
 			if (!mountedRef.current) return;
 			setData(result);
 			setError(null);
-			if (shouldUseCache) writeCache(cacheKey!, result);
 		} catch (err) {
 			if (!mountedRef.current) return;
 			setError(err instanceof Error ? err.message : 'Request failed');
@@ -95,7 +68,7 @@ export function useFetch<T>(fetcher: Fetcher<T>, options: UseFetchOptions<T>) {
 			if (!mountedRef.current || silent) return;
 			setLoading(false);
 		}
-	}, [enabled, fetcher, shouldUseCache, cacheKey]);
+	}, [enabled, cacheKey]);
 
 	useEffect(() => {
 		mountedRef.current = true;
@@ -106,20 +79,7 @@ export function useFetch<T>(fetcher: Fetcher<T>, options: UseFetchOptions<T>) {
 			};
 		}
 
-		const hasCache = Boolean(shouldUseCache && readCache<T>(cacheKey!, cacheTtlMs) !== null);
-		void runFetch(hasCache);
-
-		const onFocus = () => {
-			if (revalidateOnFocus) {
-				void runFetch(true);
-			}
-		};
-
-		const onVisibilityChange = () => {
-			if (revalidateOnVisibility && document.visibilityState === 'visible') {
-				void runFetch(true);
-			}
-		};
+		void runFetch(false);
 
 		let intervalId: number | null = null;
 		if (refreshIntervalMs && refreshIntervalMs > 0) {
@@ -130,23 +90,14 @@ export function useFetch<T>(fetcher: Fetcher<T>, options: UseFetchOptions<T>) {
 			}, refreshIntervalMs);
 		}
 
-		if (revalidateOnFocus) window.addEventListener('focus', onFocus);
-		if (revalidateOnVisibility) document.addEventListener('visibilitychange', onVisibilityChange);
-
 		return () => {
 			mountedRef.current = false;
 			if (intervalId !== null) window.clearInterval(intervalId);
-			if (revalidateOnFocus) window.removeEventListener('focus', onFocus);
-			if (revalidateOnVisibility) document.removeEventListener('visibilitychange', onVisibilityChange);
 		};
 	}, [
 		enabled,
 		cacheKey,
-		shouldUseCache,
-		cacheTtlMs,
 		refreshIntervalMs,
-		revalidateOnFocus,
-		revalidateOnVisibility,
 		runFetch,
 		...stableDeps,
 	]);

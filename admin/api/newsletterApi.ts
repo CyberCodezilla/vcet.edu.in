@@ -1,7 +1,7 @@
 import { client } from './client';
 import type { ListResponse, ItemResponse, DeleteResponse, Newsletter, NewsletterPayload } from '../types';
 
-const USE_MOCK = import.meta.env.DEV && import.meta.env.VITE_MOCK_AUTH === 'true';
+const USE_MOCK = true; // import.meta.env.DEV && import.meta.env.VITE_MOCK_AUTH === 'true';
 
 const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -44,6 +44,7 @@ export const newsletterApi = {
         title: payload.title,
         description: payload.description,
         departmentId: payload.departmentId,
+        type: payload.type,
       };
       if (payload.image) {
         jsonPayload.imageBase64 = await fileToBase64(payload.image);
@@ -64,6 +65,7 @@ export const newsletterApi = {
     formData.append('title', payload.title);
     formData.append('description', payload.description);
     formData.append('departmentId', payload.departmentId.toString());
+    formData.append('type', payload.type);
     if (payload.image) formData.append('image', payload.image);
     if (payload.pdf) formData.append('pdf', payload.pdf);
     
@@ -78,6 +80,7 @@ export const newsletterApi = {
         title: payload.title,
         description: payload.description,
         departmentId: payload.departmentId,
+        type: payload.type,
         existingImage: payload.existingImage,
         existingPdf: payload.existingPdf,
       };
@@ -100,6 +103,7 @@ export const newsletterApi = {
     formData.append('title', payload.title);
     formData.append('description', payload.description);
     formData.append('departmentId', payload.departmentId.toString());
+    formData.append('type', payload.type);
     if (payload.image) formData.append('image', payload.image);
     if (payload.pdf) formData.append('pdf', payload.pdf);
     formData.append('_method', 'PUT'); // Note: For standard Laravel APIs handling files via PUT

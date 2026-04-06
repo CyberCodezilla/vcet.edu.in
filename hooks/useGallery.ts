@@ -9,9 +9,6 @@ export function useGallery() {
 	const { data, loading, error } = useFetch<Gallery[]>(fetchGallery, {
 		initialData: [],
 		cacheKey: 'public:gallery:list',
-		cacheTtlMs: 5 * 60_000,
-		revalidateOnFocus: true,
-		revalidateOnVisibility: true,
 	});
 
 	return { images: data, loading, error };

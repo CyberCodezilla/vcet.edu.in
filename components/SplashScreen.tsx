@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useHomepageData } from '../context/HomepageDataContext';
 
 const splashImages = [
   { src: '/images/Main Page/Packages/HIGEST_Package_banner.jpg', label: 'Highest Package' },
@@ -7,8 +8,16 @@ const splashImages = [
 ];
 
 const SplashScreen: React.FC = () => {
+  const homepage = useHomepageData();
   const [visible, setVisible] = useState(false);
   const [index, setIndex] = useState(0);
+  const dynamicImages = (homepage?.data.homepageBanners ?? [])
+    .filter((banner) => Boolean(banner.image_url))
+    .map((banner) => ({
+      src: banner.image_url as string,
+      label: banner.description || banner.title || 'Homepage Banner',
+    }));
+  const images = dynamicImages.length > 0 ? dynamicImages : splashImages;
 
   useEffect(() => {
     const seen = sessionStorage.getItem('splashSeen');
@@ -21,9 +30,13 @@ const SplashScreen: React.FC = () => {
   // Auto-advance every 10s
   useEffect(() => {
     if (!visible) return;
-    const t = setInterval(() => setIndex(i => (i + 1) % splashImages.length), 10000);
+    const t = setInterval(() => setIndex(i => (i + 1) % images.length), 10000);
     return () => clearInterval(t);
-  }, [visible]);
+  }, [visible, images.length]);
+
+  useEffect(() => {
+    setIndex((current) => (current >= images.length ? 0 : current));
+  }, [images.length]);
 
   if (!visible) return null;
 
@@ -47,8 +60,8 @@ const SplashScreen: React.FC = () => {
 
         {/* Image */}
         <img
-          src={splashImages[index].src}
-          alt={splashImages[index].label}
+          src={images[index].src}
+          alt={images[index].label}
           className="w-full h-auto block shadow-2xl"
           style={{ maxHeight: '86vh', objectFit: 'contain', width: '100%' }}
         />
@@ -56,12 +69,12 @@ const SplashScreen: React.FC = () => {
         {/* Navigation */}
         <div className="flex items-center gap-4 mt-4">
           <button
-            onClick={() => setIndex(i => (i - 1 + splashImages.length) % splashImages.length)}
+            onClick={() => setIndex(i => (i - 1 + images.length) % images.length)}
             className="w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 flex items-center justify-center transition-colors"
           >
             <ChevronLeft className="w-5 h-5 text-white" />
           </button>
-          {splashImages.map((_, i) => (
+          {images.map((_, i) => (
             <button
               key={i}
               onClick={() => setIndex(i)}
@@ -69,14 +82,14 @@ const SplashScreen: React.FC = () => {
             />
           ))}
           <button
-            onClick={() => setIndex(i => (i + 1) % splashImages.length)}
+            onClick={() => setIndex(i => (i + 1) % images.length)}
             className="w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 flex items-center justify-center transition-colors"
           >
             <ChevronRight className="w-5 h-5 text-white" />
           </button>
         </div>
         <p className="text-white/40 text-[11px] uppercase tracking-widest mt-2">
-          {splashImages[index].label} — {index + 1} / {splashImages.length} &nbsp;·&nbsp; Click outside to close
+          {images[index].label} — {index + 1} / {images.length} &nbsp;·&nbsp; Click outside to close
         </p>
       </div>
     </div>

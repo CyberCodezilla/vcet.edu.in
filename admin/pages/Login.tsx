@@ -10,8 +10,8 @@ const AdminLogin: React.FC = () => {
     (location.state as { from?: { pathname: string } })?.from?.pathname ??
     "/admin";
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("admin@vcet.edu");
+  const [password, setPassword] = useState("demo123");
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState("");
@@ -90,6 +90,9 @@ const AdminLogin: React.FC = () => {
             <p className="text-slate-400 font-medium">
               Welcome back. Please authenticate to proceed.
             </p>
+            <div className="mt-4 p-3 bg-blue-50 border border-blue-100 rounded-xl text-blue-700 text-xs font-semibold">
+              Demo mode is active. Credentials have been pre-filled for your convenience.
+            </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">

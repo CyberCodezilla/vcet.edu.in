@@ -19,7 +19,7 @@ export interface AuthUserResponse {
 }
 
 // Keep auth mode aligned with the rest of admin APIs.
-const USE_MOCK = import.meta.env.VITE_MOCK_AUTH === 'true';
+const USE_MOCK = true; // import.meta.env.VITE_MOCK_AUTH === 'true';
 
 const MOCK_USER: User = {
   id: 1,

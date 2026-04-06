@@ -2,7 +2,7 @@ import { client, clearPublicDeptCache } from './client';
 import type { ListResponse, ItemResponse, DeleteResponse, Department, DepartmentPayload } from '../types';
 import { createMockCrud, MOCK_DEPARTMENTS } from './mockStore';
 
-const USE_MOCK = import.meta.env.DEV && import.meta.env.VITE_MOCK_AUTH === 'true';
+const USE_MOCK = true; // import.meta.env.DEV && import.meta.env.VITE_MOCK_AUTH === 'true';
 const mock = USE_MOCK ? createMockCrud<Department>(MOCK_DEPARTMENTS, 'vcet_mock_departments') : null;
 
 function buildFormData(formData: FormData, data: any, parentKey?: string) {

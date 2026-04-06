@@ -34,3 +34,4 @@ export const homepageBannersService = {
     return sortBySortOrder(banners.filter((banner) => banner.is_active).map(normalizeBanner));
   },
 };
+

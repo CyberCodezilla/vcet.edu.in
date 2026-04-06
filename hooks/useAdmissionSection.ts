@@ -15,9 +15,6 @@ export function useAdmissionSection(slug: string) {
       initialData: null,
       deps: [slug],
       cacheKey: `public:admission-section:${slug}`,
-      cacheTtlMs: 10 * 60_000,
-      revalidateOnFocus: true,
-      revalidateOnVisibility: true,
     },
   );
 

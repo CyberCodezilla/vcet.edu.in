@@ -11,9 +11,6 @@ export function usePlacementPartners() {
 		{
 			initialData: [],
 			cacheKey: 'public:placement-partners:list',
-			cacheTtlMs: 10 * 60_000,
-			revalidateOnFocus: true,
-			revalidateOnVisibility: true,
 		},
 	);
 

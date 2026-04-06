@@ -40,8 +40,52 @@ function unwrapCommitteePayload<T>(value: unknown): T | null {
   return isRecord(current) ? (current as T) : null;
 }
 
+function isNotFoundLikeError(error: unknown): boolean {
+  return typeof error === 'object'
+    && error !== null
+    && 'status' in error
+    && ([404, 422] as number[]).includes((error as { status?: number }).status ?? -1);
+}
+
+function normalizeSlugToken(value: string): string {
+  return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+function getCommitteeSlugCandidates(slug: string): string[] {
+  const token = normalizeSlugToken(slug);
+  const aliases: Record<string, string[]> = {
+    cdc: ['college-development-committee', 'college-development', 'development-committee'],
+    iqac: ['i-q-a-c'],
+    sgrc: ['srgc', 'student-grievance', 'student-grievance-committee'],
+    'sc-st': ['scst', 'sc-st-committee'],
+    icc: ['internal-complaint', 'internal-complaint-committee'],
+    sedg: ['s-e-d-g', 'socio-economically-disadvantaged-groups'],
+  };
+  return [slug, token, ...(aliases[token] ?? [])]
+    .map((value) => value.trim())
+    .filter(Boolean);
+}
+
 export async function getCommitteeSection<T = Record<string, unknown>>(slug: string): Promise<T> {
-  const response = await get<CommitteeSectionResponse<T> | T>(`/pages/committees/${slug}`);
-  const payload = unwrapCommitteePayload<T>(response);
-  return (payload ?? ({} as T));
+  const candidates = getCommitteeSlugCandidates(slug);
+  let lastError: unknown = null;
+
+  for (const candidate of candidates) {
+    try {
+      const response = await get<CommitteeSectionResponse<T> | T>(`/pages/committees/${candidate}`);
+      const payload = unwrapCommitteePayload<T>(response);
+      return (payload ?? ({} as T));
+    } catch (error) {
+      lastError = error;
+      if (!isNotFoundLikeError(error)) {
+        throw error;
+      }
+    }
+  }
+
+  if (lastError) {
+    throw lastError;
+  }
+
+  return {} as T;
 }

@@ -1,46 +1,93 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useHomepageData } from "../context/HomepageDataContext";
 import { placementsService } from "../services/placements";
+import { resolveUploadedAssetUrl } from "../utils/uploadedAssets";
 
 // -- Data (all logos from /public/images/Main Page/recruiters/) ---------------------------
 type Recruiter = { name: string; logo: string; url: string };
+const RECRUITERS_BACKEND_DIR = "/images/Main Page/recruiters/";
 
-// Canonical name → local image path mapping (26 logos on disk)
-const IMG = "/images/Main Page/recruiters";
+// Canonical name -> bundled local fallback image URLs.
+const LOGO_ARCON = "/images/Main Page/recruiters/arcon-logo.png";
+const LOGO_BRISTLECONE = "/images/Main Page/recruiters/bristlecone-logo.png";
+const LOGO_BUILTIO = "/images/Main Page/recruiters/builtio-300x72-1.png";
+const LOGO_CAPGEMINI = "/images/Main Page/recruiters/Capgemini-300x67-1.png";
+const LOGO_COCA_COLA = "/images/Main Page/recruiters/coca-300x99-1.png";
+const LOGO_COGNIZANT = "/images/Main Page/recruiters/cognizant-logo.png";
+const LOGO_IBM = "/images/Main Page/recruiters/IBM-logo.png";
+const LOGO_INFOSYS = "/images/Main Page/recruiters/infosys-300x116-1.png";
+const LOGO_JOHNSON = "/images/Main Page/recruiters/Johnson-logo.png";
+const LOGO_LT = "/images/Main Page/recruiters/lt-300x81-1.jpg";
+const LOGO_LTI = "/images/Main Page/recruiters/lti-logo.png";
+const LOGO_MAHINDRA = "/images/Main Page/recruiters/mahindra-300x85-1.png";
+const LOGO_PERSISTENT = "/images/Main Page/recruiters/logo-rgb-black-e1751968833241.png";
+const LOGO_SCHNEIDER = "/images/Main Page/recruiters/schneider-logo.png";
+const LOGO_TATA_POWER = "/images/Main Page/recruiters/Tata-Power.png";
+const LOGO_TECHNIMANT = "/images/Main Page/recruiters/Technimant-logo.png";
+const LOGO_VERDANTIS = "/images/Main Page/recruiters/verdantis-300x77-1.png";
+const LOGO_VISTAAR = "/images/Main Page/recruiters/Vistaar-logo-1.png";
+const LOGO_VODAFONE = "/images/Main Page/recruiters/VODAPHONE.jpg";
+const LOGO_WIPRO = "/images/Main Page/recruiters/wipro-logo.png";
+const LOGO_ZENSOFT = "/images/Main Page/recruiters/Zensoft-logo.jpg";
+const LOGO_ZEUS = "/images/Main Page/recruiters/Zeus-Learning-logo.png";
+
 const recruiterLogoMap: Record<string, string> = {
-  "accenture":           `${IMG}/accenture-logo.png`,
-  "arcon":               `${IMG}/arcon-logo.png`,
-  "bristlecone":         `${IMG}/bristlecone-logo.png`,
-  "builtio":             `${IMG}/builtio-300x72-1.png`,
-  "capgemini":           `${IMG}/Capgemini-300x67-1.png`,
-  "coca-cola":           `${IMG}/coca-300x99-1.png`,
-  "cognizant":           `${IMG}/cognizant-logo.png`,
-  "godrej":              `${IMG}/godrej-infotech-logo.png`,
-  "godrej infotech":     `${IMG}/godrej-infotech-logo.png`,
-  "ibm":                 `${IMG}/IBM-logo.png`,
-  "infosys":             `${IMG}/infosys-300x116-1.png`,
-  "interactive brokers": `${IMG}/interactive-brokers-logo.png`,
-  "johnson controls":    `${IMG}/Johnson-logo.png`,
-  "l&t":                 `${IMG}/lt-300x81-1.jpg`,
-  "larsen":              `${IMG}/lt-300x81-1.jpg`,
-  "ltimindtree":         `${IMG}/lti-logo.png`,
-  "lti":                 `${IMG}/lti-logo.png`,
-  "mahindra":            `${IMG}/mahindra-300x85-1.png`,
-  "neebal":              `${IMG}/neebal-technologies-logo.png`,
-  "neebal technologies": `${IMG}/neebal-technologies-logo.png`,
-  "persistent":          `${IMG}/logo-rgb-black-e1751968833241.png`,
-  "persistent systems":  `${IMG}/logo-rgb-black-e1751968833241.png`,
-  "schneider":           `${IMG}/schneider-logo.png`,
-  "schneider electric":  `${IMG}/schneider-logo.png`,
-  "tata power":          `${IMG}/Tata-Power.png`,
-  "technimant":          `${IMG}/Technimant-logo.png`,
-  "verdantis":           `${IMG}/verdantis-300x77-1.png`,
-  "vistaar":             `${IMG}/Vistaar-logo-1.png`,
-  "vodafone":            `${IMG}/VODAPHONE.jpg`,
-  "wipro":               `${IMG}/wipro-logo.png`,
-  "zensoft":             `${IMG}/Zensoft-logo.jpg`,
-  "zeus learning":       `${IMG}/Zeus-Learning-logo.png`,
-  "zeus":                `${IMG}/Zeus-Learning-logo.png`,
+  "arcon":               LOGO_ARCON,
+  "bristlecone":         LOGO_BRISTLECONE,
+  "builtio":             LOGO_BUILTIO,
+  "capgemini":           LOGO_CAPGEMINI,
+  "coca-cola":           LOGO_COCA_COLA,
+  "cognizant":           LOGO_COGNIZANT,
+  "ibm":                 LOGO_IBM,
+  "infosys":             LOGO_INFOSYS,
+  "johnson controls":    LOGO_JOHNSON,
+  "l&t":                 LOGO_LT,
+  "larsen":              LOGO_LT,
+  "ltimindtree":         LOGO_LTI,
+  "lti":                 LOGO_LTI,
+  "mahindra":            LOGO_MAHINDRA,
+  "persistent":          LOGO_PERSISTENT,
+  "persistent systems":  LOGO_PERSISTENT,
+  "schneider":           LOGO_SCHNEIDER,
+  "schneider electric":  LOGO_SCHNEIDER,
+  "tata power":          LOGO_TATA_POWER,
+  "technimant":          LOGO_TECHNIMANT,
+  "verdantis":           LOGO_VERDANTIS,
+  "vistaar":             LOGO_VISTAAR,
+  "vodafone":            LOGO_VODAFONE,
+  "wipro":               LOGO_WIPRO,
+  "zensoft":             LOGO_ZENSOFT,
+  "zeus learning":       LOGO_ZEUS,
+  "zeus":                LOGO_ZEUS,
 };
+
+const forcedRecruiterFileByName: Record<string, string> = {
+  "accenture": "accenture.jpeg",
+  "godrej infoware": "Godrej-Infoware.jpeg",
+  "godrej infowere": "Godrej-Infoware.jpeg",
+  "hexaware": "hexaware.jpeg",
+  "hexawere": "hexaware.jpeg",
+  "interactive brokers": "interactive-brokers.jpeg",
+  "neebal technologies": "neebal-technologoes.jpeg",
+  "neebal technologoes": "neebal-technologoes.jpeg",
+};
+
+function toKey(value: unknown): string {
+  return typeof value === "string" ? value.toLowerCase().replace(/\s+/g, " ").trim() : "";
+}
+
+function getForcedRecruiterLogoByName(nameValue: unknown): string | null {
+  const key = toKey(nameValue);
+  if (!key) return null;
+
+  for (const [partnerName, fileName] of Object.entries(forcedRecruiterFileByName)) {
+    if (key.includes(partnerName)) {
+      return `${RECRUITERS_BACKEND_DIR}${fileName}`;
+    }
+  }
+
+  return null;
+}
 
 /** Try to find a local logo for a company name (case-insensitive, partial match) */
 function findLocalLogo(name: string): string | null {
@@ -53,35 +100,159 @@ function findLocalLogo(name: string): string | null {
   return null;
 }
 
+function extractFileName(pathValue: string): string | null {
+  const cleanPath = pathValue.split('?')[0].split('#')[0];
+  const segments = cleanPath.split('/').filter(Boolean);
+  return segments.length ? segments[segments.length - 1] : null;
+}
+
+function normalizeRecruiterLogoCandidate(candidate: unknown): string | null {
+  if (typeof candidate !== 'string') return null;
+
+  const trimmed = candidate.trim();
+  if (!trimmed) return trimmed;
+
+  // Bare filename from API should point to recruiters folder on backend.
+  if (!trimmed.includes('/')) {
+    return `${RECRUITERS_BACKEND_DIR}${trimmed}`;
+  }
+
+  // Upload-style values should map to the canonical recruiters folder.
+  const lower = trimmed.toLowerCase();
+  if (lower.startsWith('/uploads/') || lower.startsWith('uploads/') || lower.includes('/uploads/')) {
+    const fileName = extractFileName(trimmed);
+    if (fileName) return `${RECRUITERS_BACKEND_DIR}${fileName}`;
+  }
+
+  // Absolute URLs like https://.../uploads/<file>
+  try {
+    const parsed = new URL(trimmed);
+    const lowerPath = parsed.pathname.toLowerCase();
+    if (lowerPath.startsWith('/uploads/') || lowerPath.includes('/uploads/')) {
+      const fileName = extractFileName(parsed.pathname);
+      if (fileName) {
+        return `${parsed.origin}${encodeURI(`${RECRUITERS_BACKEND_DIR}${fileName}`)}`;
+      }
+    }
+  } catch {
+    // Non-absolute path: keep original behavior.
+  }
+
+  return trimmed;
+}
+
+function resolveRecruiterLogo(raw: any): string | null {
+  const forcedByName = getForcedRecruiterLogoByName(raw?.company ?? raw?.name);
+  if (forcedByName) {
+    return resolveUploadedAssetUrl(forcedByName) ?? forcedByName;
+  }
+
+  const rawCandidate =
+    raw?.logo ??
+    raw?.logo_url ??
+    raw?.logoUrl ??
+    raw?.image ??
+    raw?.image_url ??
+    raw?.imageUrl ??
+    null;
+
+  const candidate = normalizeRecruiterLogoCandidate(rawCandidate);
+
+  const backendLogo = resolveUploadedAssetUrl(candidate);
+  if (backendLogo) {
+    // Prevent mixed-content blocking when frontend is HTTPS.
+    if (typeof window !== "undefined" && window.location.protocol === "https:" && backendLogo.startsWith("http://")) {
+      return `https://${backendLogo.slice("http://".length)}`;
+    }
+    if (backendLogo.startsWith("//")) {
+      return `https:${backendLogo}`;
+    }
+    return backendLogo;
+  }
+
+  return null;
+}
+
+function getBackendImageRetryCandidates(url: string): string[] {
+  if (!url) return [];
+
+  const add = (set: Set<string>, next: string | null | undefined) => {
+    if (!next || next === url) return;
+    set.add(next);
+  };
+
+  const candidates = new Set<string>();
+
+  const recruitersPathRetry = (() => {
+    try {
+      const parsed = new URL(url);
+      const fileName = extractFileName(parsed.pathname);
+      if (!fileName) return null;
+      return `${parsed.origin}${encodeURI(`${RECRUITERS_BACKEND_DIR}${fileName}`)}`;
+    } catch {
+      const fileName = extractFileName(url);
+      if (!fileName) return null;
+      return encodeURI(`${RECRUITERS_BACKEND_DIR}${fileName}`);
+    }
+  })();
+  add(candidates, recruitersPathRetry);
+
+  // Common backend path mismatches in hosted deployments.
+  if (url.includes('/uploads/images/')) {
+    add(candidates, url.replace('/uploads/images/', '/images/'));
+    add(candidates, url.replace('/uploads/images/', '/Images/'));
+    add(candidates, url.replace('/uploads/images/', '/uploads/'));
+  }
+
+  if (url.includes('/images/')) {
+    add(candidates, url.replace('/images/', '/uploads/images/'));
+    add(candidates, url.replace('/images/', '/Images/'));
+    add(candidates, url.replace('/images/', '/uploads/'));
+  }
+
+  if (url.includes('/Images/')) {
+    add(candidates, url.replace('/Images/', '/uploads/images/'));
+    add(candidates, url.replace('/Images/', '/images/'));
+    add(candidates, url.replace('/Images/', '/uploads/'));
+  }
+
+  // If backend returned /uploads/<file>, also try image-folder conventions.
+  if (url.includes('/uploads/') && !url.includes('/uploads/images/')) {
+    add(candidates, url.replace('/uploads/', '/uploads/images/'));
+    add(candidates, url.replace('/uploads/', '/images/'));
+    add(candidates, url.replace('/uploads/', '/Images/'));
+  }
+
+  return Array.from(candidates);
+}
+
+function handleLogoLoadError(
+  event: React.SyntheticEvent<HTMLImageElement>,
+): void {
+  const img = event.currentTarget;
+  const originalSrc = img.dataset.originalSrc || img.src;
+  if (!img.dataset.originalSrc) {
+    img.dataset.originalSrc = originalSrc;
+  }
+
+  // Retry backend-only path variants before giving up.
+  const retries = getBackendImageRetryCandidates(originalSrc);
+  const retryIndex = Number(img.dataset.retryIndex || '0');
+
+  if (retryIndex < retries.length) {
+    img.dataset.retryIndex = String(retryIndex + 1);
+    img.dataset.altTried = '1';
+    img.src = retries[retryIndex];
+    return;
+  }
+
+  // Keep a visible placeholder state (no local logo fallback).
+  img.dataset.fallbackApplied = '1';
+  img.style.opacity = '0.2';
+}
+
 // Default hardcoded recruiters (used when API returns no data)
-const defaultRecruiters: Recruiter[] = [
-  { name: "Accenture",           logo: recruiterLogoMap["accenture"],           url: "https://www.accenture.com" },
-  { name: "Capgemini",           logo: recruiterLogoMap["capgemini"],           url: "https://www.capgemini.com" },
-  { name: "Coca-Cola",           logo: recruiterLogoMap["coca-cola"],           url: "https://www.coca-colacompany.com" },
-  { name: "Cognizant",           logo: recruiterLogoMap["cognizant"],           url: "https://www.cognizant.com" },
-  { name: "Godrej Infotech",     logo: recruiterLogoMap["godrej infotech"],     url: "https://www.godrejinfotech.com" },
-  { name: "IBM",                 logo: recruiterLogoMap["ibm"],                 url: "https://www.ibm.com" },
-  { name: "Infosys",             logo: recruiterLogoMap["infosys"],             url: "https://www.infosys.com" },
-  { name: "Interactive Brokers", logo: recruiterLogoMap["interactive brokers"], url: "https://www.interactivebrokers.com" },
-  { name: "L&T",                 logo: recruiterLogoMap["l&t"],                 url: "https://www.larsentoubro.com" },
-  { name: "LTIMindtree",         logo: recruiterLogoMap["ltimindtree"],         url: "https://www.ltimindtree.com" },
-  { name: "Mahindra",            logo: recruiterLogoMap["mahindra"],            url: "https://www.mahindra.com" },
-  { name: "Neebal Technologies", logo: recruiterLogoMap["neebal technologies"], url: "https://www.neebal.com" },
-  { name: "Persistent Systems",  logo: recruiterLogoMap["persistent systems"],  url: "https://www.persistent.com" },
-  { name: "Schneider Electric",  logo: recruiterLogoMap["schneider electric"],  url: "https://www.se.com" },
-  { name: "Tata Power",          logo: recruiterLogoMap["tata power"],          url: "https://www.tatapower.com" },
-  { name: "Vodafone",            logo: recruiterLogoMap["vodafone"],            url: "https://www.vodafone.com" },
-  { name: "Wipro",               logo: recruiterLogoMap["wipro"],               url: "https://www.wipro.com" },
-  { name: "Arcon",               logo: recruiterLogoMap["arcon"],               url: "https://www.arconnet.com" },
-  { name: "Bristlecone",         logo: recruiterLogoMap["bristlecone"],         url: "https://www.bristlecone.com" },
-  { name: "BuiltIO",             logo: recruiterLogoMap["builtio"],             url: "https://www.softwareag.com" },
-  { name: "Johnson Controls",    logo: recruiterLogoMap["johnson controls"],    url: "https://www.johnsoncontrols.com" },
-  { name: "Technimant",          logo: recruiterLogoMap["technimant"],          url: "https://www.technimant.com" },
-  { name: "Verdantis",           logo: recruiterLogoMap["verdantis"],           url: "https://www.verdantis.com" },
-  { name: "Vistaar",             logo: recruiterLogoMap["vistaar"],             url: "https://www.vfrpl.in" },
-  { name: "Zensoft",             logo: recruiterLogoMap["zensoft"],             url: "https://www.zensoft.io" },
-  { name: "Zeus Learning",       logo: recruiterLogoMap["zeus learning"],       url: "https://www.zeuslearning.com" },
-];
+const defaultRecruiters: Recruiter[] = [];
 
 function splitIntoRows(items: Recruiter[]): [Recruiter[], Recruiter[]] {
   const half = Math.ceil(items.length / 2);
@@ -121,10 +292,9 @@ interface MarqueeRowProps {
   items: Recruiter[];
   direction?: "left" | "right";
   speed?: number; // seconds for one full cycle
-  onItemClick?: (item: Recruiter) => void;
 }
 
-const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", speed = 40, onItemClick }) => {
+const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", speed = 40 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<number>(0);
@@ -135,33 +305,42 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
   const dragStartXRef = useRef(0);
   const dragStartPosRef = useRef(0);
   const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const wasDragRef = useRef(false);  // true if user dragged more than 5px
-  const clickTargetRef = useRef<Recruiter | null>(null);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
 
-    const oneSetWidth = el.scrollWidth / 3;
-    const pxPerFrame = oneSetWidth / (speed * 60);
-
-    if (!initRef.current) {
-      if (direction === "right") {
-        posRef.current = oneSetWidth;
-      }
-      initRef.current = true;
-    }
+    // Reset init when source rows change so direction starts from expected origin.
+    initRef.current = false;
 
     const wrap = () => {
       const el2 = scrollRef.current;
       if (!el2) return;
       const w = el2.scrollWidth / 3;
+      if (!w || !Number.isFinite(w)) return;
       if (posRef.current >= w * 2) posRef.current -= w;
       if (posRef.current < 0) posRef.current += w;
     };
 
     const tick = () => {
       if (!pausedRef.current && !draggingRef.current) {
+        const currentEl = scrollRef.current;
+        const oneSetWidth = currentEl ? currentEl.scrollWidth / 3 : 0;
+
+        // Wait until content width is measured (images may load after first paint).
+        if (!oneSetWidth || !Number.isFinite(oneSetWidth)) {
+          animRef.current = requestAnimationFrame(tick);
+          return;
+        }
+
+        if (!initRef.current) {
+          if (direction === "right") {
+            posRef.current = oneSetWidth;
+          }
+          initRef.current = true;
+        }
+
+        const pxPerFrame = oneSetWidth / (speed * 60);
         if (direction === "left") {
           posRef.current += pxPerFrame;
         } else {
@@ -175,7 +354,7 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
 
     animRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animRef.current);
-  }, [direction, speed]);
+  }, [direction, speed, items]);
 
   // -- Drag / touch handlers --
   const scheduleResume = () => {
@@ -187,8 +366,6 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
 
   const onPointerDown = (e: React.PointerEvent) => {
     draggingRef.current = true;
-    wasDragRef.current = false;
-    // Don't clear clickTargetRef here - it's set by individual cards
     pausedRef.current = true;
     if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
     dragStartXRef.current = e.clientX;
@@ -199,8 +376,6 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
   const onPointerMove = (e: React.PointerEvent) => {
     if (!draggingRef.current) return;
     const delta = dragStartXRef.current - e.clientX;
-    // If user moved more than 5px, it's a drag, not a click
-    if (Math.abs(delta) > 5) wasDragRef.current = true;
     const el = scrollRef.current;
     if (!el) return;
     const oneSetWidth = el.scrollWidth / 3;
@@ -211,32 +386,9 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
     el.style.transform = `translateX(${-posRef.current}px)`;
   };
 
-  const lastTapTimeRef = useRef<number>(0);
-
   const onPointerUp = () => {
-    const wasClick = !wasDragRef.current;
     draggingRef.current = false;
     scheduleResume();
-    
-    // If it was a click (not a drag), fire the click handler
-    if (wasClick && clickTargetRef.current && onItemClick) {
-      const isMobile = window.innerWidth < 768;
-      if (isMobile) {
-        const now = Date.now();
-        if (now - lastTapTimeRef.current < 400) {
-          // Double hit verified
-          onItemClick(clickTargetRef.current);
-          lastTapTimeRef.current = 0;
-        } else {
-          // First hit on mobile - wait for second
-          lastTapTimeRef.current = now;
-        }
-      } else {
-        // Single click always works on desktop
-        onItemClick(clickTargetRef.current);
-      }
-    }
-    clickTargetRef.current = null;
   };
 
   // -- Mouse wheel horizontal scrolling using native listener for passive: false --
@@ -287,13 +439,13 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
           <div
             key={`${company.name}-${i}`}
             className="flex-shrink-0 mx-3 sm:mx-4"
-            onPointerDown={() => { clickTargetRef.current = company; }}
           >
-            <div className="group flex flex-col items-center justify-center gap-3 w-[140px] sm:w-[160px] md:w-[180px] p-5 sm:p-6 border-2 border-gray-100 bg-white rounded-xl shadow-sm hover:border-brand-gold/60 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer">
+            <div className="group flex flex-col items-center justify-center gap-3 w-[140px] sm:w-[160px] md:w-[180px] p-5 sm:p-6 border-2 border-gray-100 bg-white rounded-xl shadow-sm hover:border-brand-gold/60 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
               <div className="w-full flex items-center justify-center h-[60px] sm:h-[70px]">
                 <img
                   src={company.logo}
                   alt={company.name}
+                  onError={(event) => handleLogoLoadError(event)}
                   className="max-w-full max-h-[60px] sm:max-h-[70px] w-auto object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300"
                   loading="lazy"
                 />
@@ -311,21 +463,45 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
 
 // -- Main ----------------------------------------------------------------------
 const Recruiters: React.FC = () => {
-  const [confirmTarget, setConfirmTarget] = useState<Recruiter | null>(null);
+  const homepage = useHomepageData();
+  const useAggregate = Boolean(homepage);
   const [rowOneData, setRowOneData] = useState<Recruiter[]>(defaultRowOne);
   const [rowTwoData, setRowTwoData] = useState<Recruiter[]>(defaultRowTwo);
 
   useEffect(() => {
+    const applyRows = (items: Recruiter[]) => {
+      if (!items.length) return false;
+      const [r1, r2] = splitIntoRows(items);
+      setRowOneData(r1);
+      setRowTwoData(r2);
+      return true;
+    };
+
+    if (useAggregate) {
+      const recruitersData: Recruiter[] = (homepage?.data?.placements || [])
+        .map((p: any) => {
+          const name = p.company || p.name || '';
+          const logo = resolveRecruiterLogo(p);
+          if (!name || !logo) return null;
+
+          return {
+            name,
+            logo,
+            url: p.website || p.url || '#',
+          };
+        })
+        .filter(Boolean) as Recruiter[];
+
+      if (applyRows(recruitersData)) return;
+    }
+
     placementsService.list().then((partners) => {
       if (partners && partners.length > 0) {
-        // Map API data to recruiters, resolving logos from local images first
+        // Prefer backend-provided logos and only then fall back to local mapped logos.
         const recruitersData: Recruiter[] = partners
           .map((p: any) => {
             const name = p.company || p.name || '';
-            const localLogo = findLocalLogo(name);
-            const apiLogo = p.logo;
-            // Use local logo if available, otherwise use API logo (only if it's a valid URL)
-            const logo = localLogo || (apiLogo && /^https?:\/\//i.test(apiLogo) ? apiLogo : null);
+            const logo = resolveRecruiterLogo(p);
             if (!logo) return null; // Skip companies with no usable logo
             return {
               name,
@@ -335,77 +511,13 @@ const Recruiters: React.FC = () => {
           })
           .filter(Boolean) as Recruiter[];
 
-        if (recruitersData.length > 0) {
-          const [r1, r2] = splitIntoRows(recruitersData);
-          setRowOneData(r1);
-          setRowTwoData(r2);
-        }
+        applyRows(recruitersData);
       }
     });
-  }, []);
-
-  const handleRecruiterClick = (item: Recruiter) => {
-    setConfirmTarget(item);
-  };
-
-  const handleConfirm = () => {
-    if (confirmTarget) {
-      window.open(confirmTarget.url, '_blank', 'noopener,noreferrer');
-    }
-    setConfirmTarget(null);
-  };
-
-  const handleCancel = () => {
-    setConfirmTarget(null);
-  };
+  }, [homepage, useAggregate]);
 
   return (
   <>
-  {/* Confirmation Popup */}
-  {confirmTarget && (
-    <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm"
-      onClick={handleCancel}
-    >
-      <div
-        className="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-[90vw] mx-4 text-center animate-fade-in"
-        onClick={(e) => e.stopPropagation()}
-        style={{ animation: 'fadeInUp 0.25s ease-out' }}
-      >
-        {/* Recruiter logo preview */}
-        <div className="w-20 h-20 mx-auto mb-5 rounded-xl border-2 border-gray-100 bg-gray-50 flex items-center justify-center p-3">
-          <img
-            src={confirmTarget.logo}
-            alt={confirmTarget.name}
-            className="max-w-full max-h-full object-contain"
-          />
-        </div>
-        <h3 className="text-lg font-bold text-brand-navy mb-2">
-          Visit {confirmTarget.name}?
-        </h3>
-        <p className="text-sm text-slate-500 mb-6 leading-relaxed">
-          Do you want to visit <span className="font-semibold text-brand-blue">{confirmTarget.name}</span>'s official site?<br />
-          <span className="text-xs text-slate-400 mt-1 block">{confirmTarget.url}</span>
-        </p>
-        <div className="flex items-center justify-center gap-3">
-          <button
-            onClick={handleCancel}
-            className="px-6 py-2.5 rounded-lg border-2 border-gray-200 text-sm font-semibold text-slate-600 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleConfirm}
-            className="px-6 py-2.5 rounded-lg text-sm font-semibold text-white transition-all duration-200 hover:brightness-110 active:scale-95"
-            style={{ background: 'linear-gradient(135deg, #0B3D91, #1E4DB7)' }}
-          >
-            Yes, Visit Site
-          </button>
-        </div>
-      </div>
-    </div>
-  )}
-
   <section id="recruiters" className="py-14 sm:py-18 md:py-24 relative overflow-hidden">
 
     {/* Background image */}
@@ -564,8 +676,8 @@ const Recruiters: React.FC = () => {
 
           {/* Marquee area */}
           <div className="bg-white px-0 py-8 sm:py-10 space-y-6 overflow-hidden">
-            <MarqueeRow items={rowOneData} direction="left" speed={45} onItemClick={handleRecruiterClick} />
-            <MarqueeRow items={rowTwoData} direction="right" speed={40} onItemClick={handleRecruiterClick} />
+            <MarqueeRow items={rowOneData} direction="left" speed={45} />
+            <MarqueeRow items={rowTwoData} direction="right" speed={40} />
           </div>
         </div>
 

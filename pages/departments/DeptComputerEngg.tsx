@@ -5,6 +5,7 @@ import DepartmentFacultySection from '../../components/DepartmentFacultySection'
 import DepartmentNewsletterPanel from '../../components/DepartmentNewsletterPanel';
 import { departmentApi } from '../../admin/api/departments';
 import type { Department } from '../../admin/types';
+import { newsletterApi } from '../../admin/api/newsletterApi';
 import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 /* â”€â”€ Sidebar navigation links â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -49,15 +50,27 @@ const delayClass = (idx: number) => {
 const DeptComputerEngg: React.FC = () => {
   const [activeId, setActiveId] = useState('about');
   const activeLink = sidebarLinks.find(l => l.id === activeId);
-    const [department, setDepartment] = useState<Department | null>(null);
+  const [department, setDepartment] = useState<Department | null>(null);
+  const [dynamicApiItems, setDynamicApiItems] = useState<any[]>([]);
 
-    useEffect(() => {
-      departmentApi.getBySlug('computer-engineering')
-        .then(res => {
-          if (res.data) setDepartment(res.data);
-        })
-        .catch(console.error);
-    }, []);
+  useEffect(() => {
+    departmentApi.getBySlug('computer-engineering')
+      .then((res) => {
+        if (res.success) {
+          setDepartment(res.data);
+          newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+        }
+      })
+      .catch(() => setDepartment(null));
+  }, []);
+
+  const newsletters = dynamicApiItems
+    .filter(item => item.type === 'newsletter' && item.pdf)
+    .map(item => ({ label: item.title, href: item.pdf }));
+  const magazines = dynamicApiItems
+    .filter(item => item.type === 'magazine' && item.pdf)
+    .map(item => ({ label: item.title, href: item.pdf }));
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -783,8 +796,8 @@ const DeptComputerEngg: React.FC = () => {
           {activeId === 'newsletter' && (
             <DepartmentNewsletterPanel
               departmentLabel="Computer Engineering"
-              newsletterItems={newsletterPdfs}
-              magazineItems={magazinePdfs}
+              newsletterItems={newsletters.length > 0 ? newsletters : newsletterPdfs}
+              magazineItems={magazines.length > 0 ? magazines : magazinePdfs}
             />
           )}
 

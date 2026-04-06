@@ -35,6 +35,22 @@ export default function GoverningCouncil() {
     };
   }, []);
 
+  const members = useMemo(() => {
+    const rows = (data?.councilMembers ?? [])
+      .filter((member) => member.isActive !== false)
+      .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
+
+    if (rows.length > 0) {
+      return rows;
+    }
+
+    return [
+      { role: 'Member', name: 'Sri. M.N. alias Bhausaheb Mohol', description: 'Industrialist' },
+      { role: 'Member', name: 'Sri. Pandurang alias Babansheth Naik', description: 'Educationist' },
+      { role: 'Member Secretary', name: 'Dr. Rakesh Himte', description: 'Principal' },
+    ];
+  }, [data]);
+
   if (!apiLoaded) {
     return (
       <PageLayout>
@@ -51,22 +67,6 @@ export default function GoverningCouncil() {
     name: 'Sri. Rajendraji Bhat',
     description: 'Industrialist'
   };
-
-  const members = useMemo(() => {
-    const rows = (data?.councilMembers ?? [])
-      .filter((member) => member.isActive !== false)
-      .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
-
-    if (rows.length > 0) {
-      return rows;
-    }
-
-    return [
-      { role: 'Member', name: 'Sri. M.N. alias Bhausaheb Mohol', description: 'Industrialist' },
-      { role: 'Member', name: 'Sri. Pandurang alias Babansheth Naik', description: 'Educationist' },
-      { role: 'Member Secretary', name: 'Dr. Rakesh Himte', description: 'Principal' },
-    ];
-  }, [data]);
 
   return (
     <PageLayout>

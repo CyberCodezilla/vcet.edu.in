@@ -20,9 +20,14 @@ export interface HeroSlideRecord {
 }
 
 function normalizeSlide(slide: HeroSlideRecord): HeroSlideRecord {
+  const shouldUseImageNamePath = Boolean(slide.image_name) && /^\/?api\/hero-slides\/\d+\/image$/i.test(slide.image_url ?? '');
+  const resolvedImageUrl = shouldUseImageNamePath
+    ? resolveUploadedAssetUrl(`/images/${slide.image_name}`)
+    : resolveUploadedAssetUrl(slide.image_url);
+
   return {
     ...slide,
-    image_url: resolveUploadedAssetUrl(slide.image_url),
+    image_url: resolvedImageUrl,
   };
 }
 
