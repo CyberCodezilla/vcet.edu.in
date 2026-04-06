@@ -1,7 +1,7 @@
 import { client } from './client';
 import type { ListResponse, ItemResponse, DeleteResponse, Newsletter, NewsletterPayload } from '../types';
 
-const USE_MOCK = true; // import.meta.env.DEV && import.meta.env.VITE_MOCK_AUTH === 'true';
+const USE_MOCK = false; // import.meta.env.DEV && import.meta.env.VITE_MOCK_AUTH === 'true';
 
 const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {

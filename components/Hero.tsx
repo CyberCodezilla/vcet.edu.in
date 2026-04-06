@@ -18,7 +18,6 @@ import { useHeroSlides } from "../hooks/useHeroSlides";
 import { useHomepageBanners } from "../hooks/useHomepageBanners";
 import { resolveUploadedAssetUrl } from "../utils/uploadedAssets";
 import ImagePreviewModal from "./ImagePreviewModal";
-import { resolveUploadedAssetUrl } from "../utils/uploadedAssets";
 
 const HOMEPAGE_BG_PATH = "/images/Main Page/Home background/VCET-Home-1-scaled.jpg";
 const HOMEPAGE_BG_URL = resolveUploadedAssetUrl(HOMEPAGE_BG_PATH) ?? HOMEPAGE_BG_PATH;
