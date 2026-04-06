@@ -5,7 +5,7 @@ import DepartmentFacultySection from '../../components/DepartmentFacultySection'
 import DepartmentNewsletterPanel from '../../components/DepartmentNewsletterPanel';
 import { departmentApi } from '../../admin/api/departments';
 import type { Department } from '../../admin/types';
-import { resolveApiUrl } from '../../admin/api/client';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -364,7 +364,7 @@ const DeptAIDS: React.FC = () => {
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Student Achievements<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
               <div className="space-y-3">
                 {department?.content?.studentAchievements?.length ? department.content.studentAchievements.map((ach, idx) => (
-                  <a key={idx} href={resolveApiUrl(ach.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                  <a key={idx} href={resolveUploadedAssetUrl(ach.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                     <span>{ach.title || `Achievement ${idx + 1}`}</span>
                     <i className="ph ph-arrow-up-right text-brand-gold" />
                   </a>
@@ -450,7 +450,7 @@ const DeptAIDS: React.FC = () => {
               { label: 'Honours & Minor Degree Program', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE.pdf' },
               { label: 'PO PSO CO', url: 'https://vcet.edu.in/wp-content/uploads/2023/11/2.6.1_Rev-2019_AIDS_Syllabus-.pdf' },
             ];
-            const links = department?.content?.syllabus?.length ? department.content.syllabus.map(s => ({ label: s.title, url: resolveApiUrl(s.pdf as string) || '#' })) : staticLinks;
+            const links = department?.content?.syllabus?.length ? department.content.syllabus.map(s => ({ label: s.title, url: resolveUploadedAssetUrl(s.pdf as string) || '#' })) : staticLinks;
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="flex items-center gap-3 mb-4">
@@ -480,7 +480,7 @@ const DeptAIDS: React.FC = () => {
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Patent / Copyrights<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
               <div className="space-y-3">
                 {department?.content?.patents?.length ? department.content.patents.map((p, idx) => (
-                  <a key={idx} href={resolveApiUrl(p.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                  <a key={idx} href={resolveUploadedAssetUrl(p.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                     <span>{p.title || `Patent ${idx + 1}`}</span>
                     <i className="ph ph-arrow-up-right text-brand-gold" />
                   </a>
@@ -532,7 +532,7 @@ const DeptAIDS: React.FC = () => {
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">MoU<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
               <div className="space-y-3">
                 {department?.content?.mous?.length ? department.content.mous.map((m, idx) => (
-                  <a key={idx} href={resolveApiUrl(m.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                  <a key={idx} href={resolveUploadedAssetUrl(m.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                     <span>{m.organization || `MoU ${idx + 1}`}</span>
                     <i className="ph ph-arrow-up-right text-brand-gold" />
                   </a>

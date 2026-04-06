@@ -4,7 +4,7 @@ import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
 import { departmentApi } from '../../admin/api/departments';
 import type { Department } from '../../admin/types';
-import { resolveApiUrl } from '../../admin/api/client';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -134,7 +134,7 @@ const DeptIT: React.FC = () => {
   const staffName = String(staff?.name || '').trim() || 'Prof. Bharati Gondhalekar';
   const staffEmail = String(staff?.email || '').trim() || 'bharati.gondhalekar@vcet.edu.in';
   const staffPhone = String(staff?.phone || '').trim() || '9423365470';
-  const staffImage = resolveApiUrl(staff?.image || null);
+  const staffImage = resolveUploadedAssetUrl(staff?.image || null);
   
   // Show the staff section if there's any data, or if we fallback to empty placeholders
   const hasStaffSection = true;
@@ -889,7 +889,7 @@ const DeptIT: React.FC = () => {
                           {panel.items.map((item: any, idx: number) => (
                             <a
                               key={`${panel.title}-${item.label}-${idx}`}
-                              href={resolveApiUrl(item.pdf || '') || '#'}
+                              href={resolveUploadedAssetUrl(item.pdf || '') || '#'}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center justify-between gap-3 px-4 py-2.5 border border-[#BCD2E8] bg-white text-[#1A4B7C] font-semibold text-[14px] hover:border-[#56A9D8] hover:bg-[#EDF6FD] transition-colors"

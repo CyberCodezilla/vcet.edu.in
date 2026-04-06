@@ -1,4 +1,9 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { departmentApi } from '../../admin/api/departments';
+import type { Department } from '../../admin/types';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
+
+
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
@@ -45,6 +50,17 @@ const magazinePdfs = [
 ];
 
 const DeptCivil: React.FC = () => {
+  const [department, setDepartment] = useState<Department | null>(null);
+
+  useEffect(() => {
+    
+    departmentApi.getBySlug('civil-engineering')
+      .then(res => {
+        if (res.data) setDepartment(res.data);
+      })
+      .catch(console.error);
+  }, []);
+
   const [activeId, setActiveId] = useState('about');
   const activeLink = sidebarLinks.find(l => l.id === activeId);
 
@@ -618,11 +634,26 @@ const DeptCivil: React.FC = () => {
           {activeId === 'mou' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Civil Engineering</span></div>
-              <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">MoU<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="pdfs/Department/CivilEngineering/MoU/MOU-Activity-Summary-Website-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
-                <span>MoU List</span><i className="ph ph-arrow-up-right text-brand-gold" />
-              </a>
-            </section>
+              <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">MoUs &amp; Collaborations<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <div className="space-y-4">
+                  {department?.content?.mous?.length ? department.content.mous.map((m, idx) => (
+                    <div key={idx} className="group rounded-2xl border border-slate-200 bg-white p-5 hover:border-brand-gold hover:bg-brand-navylight transition-colors shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div>
+                        <h4 className="text-base font-bold text-brand-navy">{m.organization || `MoU ${idx + 1}`}</h4>
+                        {m.description && <p className="text-sm text-slate-600 mt-1.5">{m.description}</p>}
+                      </div>
+                      {m.pdf && (
+                        <a href={resolveUploadedAssetUrl(m.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-brand-gold/10 text-brand-gold hover:bg-brand-gold hover:text-white transition-colors" title="View Document">
+                          <i className="ph ph-arrow-up-right text-lg" />
+                        </a>
+                      )}
+                    </div>
+                  )) : (
+                    <div className="text-sm text-slate-500 italic px-4 py-3">No MoUs or Collaborations available at this time.</div>
+                  )}
+                </div>
+              
+              </section>
           )}
 
           {/* â•â•â•â• NEWSLETTER & MAGAZINE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}

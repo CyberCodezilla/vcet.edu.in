@@ -1,4 +1,4 @@
-import { client } from './client';
+import { client, clearPublicDeptCache } from './client';
 import type { ListResponse, ItemResponse, DeleteResponse, Department, DepartmentPayload } from '../types';
 import { createMockCrud, MOCK_DEPARTMENTS } from './mockStore';
 

@@ -5,6 +5,7 @@ const BACKEND_CAPITAL_IMAGE_PATH_PATTERN = /^\/?Images\//;
 const BACKEND_IMAGE_PATH_PATTERN = /^\/?images\//;
 const BACKEND_UPLOAD_PATH_PATTERN = /^\/?uploads\//;
 const BACKEND_PDF_PATH_PATTERN = /^\/?pdfs\//;
+const BACKEND_STORAGE_PATH_PATTERN = /^\/?(departments|storage)\//;
 const ABSOLUTE_URL_PATTERN = /^[a-z][a-z\d+\-.]*:/i;
 
 const RAW_API_BASE =
@@ -34,7 +35,8 @@ function isBackendAssetPath(pathname: string): boolean {
     BACKEND_CAPITAL_IMAGE_PATH_PATTERN.test(pathname) ||
     BACKEND_IMAGE_PATH_PATTERN.test(pathname) ||
     BACKEND_UPLOAD_PATH_PATTERN.test(pathname) ||
-    BACKEND_PDF_PATH_PATTERN.test(pathname)
+    BACKEND_PDF_PATH_PATTERN.test(pathname) ||
+    BACKEND_STORAGE_PATH_PATTERN.test(pathname)
   );
 }
 
@@ -58,6 +60,10 @@ export function resolveUploadedAssetUrl(path: string | null | undefined): string
 
   // Uploaded/static assets should be served from backend origin in split-host setups.
   if (isBackendAssetPath(pathname)) {
+    // If it's a departments path, it's served from Laravel's public storage disk
+    if (pathname.startsWith('departments/')) {
+        return withApiOrigin(`storage/${pathname}`);
+    }
     return withApiOrigin(pathname);
   }
 

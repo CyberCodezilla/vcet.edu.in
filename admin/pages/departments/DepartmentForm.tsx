@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 import { departmentApi } from '../../api/departments';
 import { facultyApi } from '../../api/faculty';
 import type { DepartmentPayload, Department, Faculty } from '../../types';
@@ -31,17 +32,29 @@ const TrashIcon = () => (
 /* ── Custom File Input (PDF) ── */
 const FileUpload = ({ label, value, onChange, id, accept = ".pdf" }: { label: string; value: string | File | undefined; onChange: (f: File | undefined) => void; id: string; accept?: string }) => {
   const fileName = value instanceof File ? value.name : (value ? value.split('/').pop()?.split('?')[0] : 'Choose PDF file');
+  const isUploaded = typeof value === 'string' && value.length > 0;
+  
+  // Resolve asset URL safely inside the component
+  const assetUrl = isUploaded ? resolveUploadedAssetUrl(value) : null;
+
   return (
     <div className="space-y-2">
       <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">{label}</label>
       <div className="flex items-center gap-3">
         <label className="flex-1 flex items-center gap-3 p-3.5 bg-slate-50 ring-1 ring-slate-200 rounded-2xl cursor-pointer hover:bg-slate-100 transition-all overflow-hidden border border-dashed border-slate-300">
-          <svg className="w-4 h-4 text-indigo-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+          <svg className="w-4 h-4 text-indigo-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>        
           <span className="text-xs font-bold text-slate-600 truncate">{fileName}</span>
           <input id={id} name={id} aria-label="departmentform field" type="file" className="hidden" accept={accept} onChange={e => { const f = e.target.files?.[0]; if (f) onChange(f); }} />
         </label>
+        
+        {isUploaded && assetUrl && (
+          <a href={assetUrl} target="_blank" rel="noreferrer" title="View Current File" className="p-3 text-indigo-500 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-2xl transition-all">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+          </a>
+        )}
+
         {value && (
-          <button type="button" onClick={() => onChange(undefined)} className="p-3 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-all">
+          <button type="button" onClick={() => onChange(undefined)} className="p-3 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-2xl transition-all"> 
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         )}
@@ -87,6 +100,11 @@ const ImageUpload = ({ label, value, onChange, id }: { label: string; value: str
 
 /* ── Initial Empty Content State ────────────────────────────────────────────── */
 const initialContent = {
+  about: '',
+  vision: '',
+  mission: '',
+  peos: [] as string[],
+  psos: [] as string[],
   dabMembers: [{ name: '', designation: '', organization: '' }],
   faculty: [] as number[],
   toppers: [{ name: '', year: '', cgpa: '' }],
@@ -380,7 +398,48 @@ export default function DepartmentForm() {
             </div>
           </AdminFormSection>
 
-          {/* Patents */}
+            {/* Department Overview */}
+            <AdminFormSection
+              title="Department Overview"
+              icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
+              isOpen={activeSection === 'overview'}
+              onToggle={() => toggleSection('overview')}
+            >
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">About Us</label>
+                  <textarea
+                    value={content.about || ""}
+                    onChange={e => setContent({ ...content, about: e.target.value })}
+                    className="w-full bg-slate-50 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm transition-all outline-none"
+                    placeholder="A brief introduction to the department..."
+                    rows={4}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Vision</label>
+                  <textarea
+                    value={content.vision || ""}
+                    onChange={e => setContent({ ...content, vision: e.target.value })}
+                    className="w-full bg-slate-50 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm transition-all outline-none"
+                    placeholder="Department's Vision Statement..."
+                    rows={3}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Mission</label>
+                  <textarea
+                    value={content.mission || ""}
+                    onChange={e => setContent({ ...content, mission: e.target.value })}
+                    className="w-full bg-slate-50 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm transition-all outline-none"
+                    placeholder="Department's Mission Statement..."
+                    rows={3}
+                  />
+                </div>
+              </div>
+            </AdminFormSection>
+
+            {/* Patents */}
           <AdminFormSection 
             title="Patents" 
             icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>}
@@ -462,7 +521,7 @@ export default function DepartmentForm() {
                   <button type="button" onClick={() => removeArrayItem('mous', i)} className="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition-all"><TrashIcon /></button>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2">
-                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Organization Name</label>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Heading / Organization Name</label>
                       <input id={`departmentform-mou-org-${i}`} name={`departmentform-mou-org-${i}`} aria-label="departmentform field"
                         type="text"
                         value={mou.organization || ""}
@@ -1153,6 +1212,9 @@ export default function DepartmentForm() {
     </div>
   );
 }
+
+
+
 
 
 
