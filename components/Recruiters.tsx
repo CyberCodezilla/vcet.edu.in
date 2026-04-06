@@ -4,70 +4,92 @@ import { placementsService } from "../services/placements";
 // -- Data (all logos from /public/images/Main Page/recruiters/) ---------------------------
 type Recruiter = { name: string; logo: string; url: string };
 
-const recruiters: Recruiter[] = [
-  { name: "Accenture",           logo: "/images/Main Page/recruiters/Accenture-Logo-PNG-Vector-EPS-Free-Download.jpeg", url: "https://www.accenture.com" },
-  { name: "Arcon",               logo: "/images/Main Page/recruiters/arcon-logo.png",        url: "https://www.arconnet.com" },
-  { name: "Bristlecone",         logo: "/images/Main Page/recruiters/bristlecone-logo.png",   url: "https://www.bristlecone.com" },
-  { name: "BuiltIO",             logo: "/images/Main Page/recruiters/builtio-300x72-1.png",   url: "https://www.softwareag.com" },
-  { name: "Capgemini",           logo: "/images/Main Page/recruiters/Capgemini-300x67-1.png", url: "https://www.capgemini.com" },
-  { name: "Coca-Cola",           logo: "/images/Main Page/recruiters/coca-300x99-1.png",      url: "https://www.coca-colacompany.com" },
-  { name: "Cognizant",           logo: "/images/Main Page/recruiters/cognizant-logo.png",     url: "https://www.cognizant.com" },
-  { name: "Godrej Infotech",     logo: "/images/Main Page/recruiters/godrej-infotech.jpeg",   url: "https://www.godrejinfotech.com" },
-  { name: "Hexaware",            logo: "/images/Main Page/recruiters/hexaware-logo.jpeg",     url: "https://www.hexaware.com" },
-  { name: "IBM",                 logo: "/images/Main Page/recruiters/IBM-logo.png",           url: "https://www.ibm.com" },
-  { name: "Infosys",             logo: "/images/Main Page/recruiters/infosys-300x116-1.png",  url: "https://www.infosys.com" },
-  { name: "Interactive Brokers", logo: "/images/Main Page/recruiters/interactive-brokers.jpeg",url: "https://www.interactivebrokers.com" },
-  { name: "Johnson Controls",    logo: "/images/Main Page/recruiters/Johnson-logo.png",       url: "https://www.johnsoncontrols.com" },
-  { name: "L&T",                 logo: "/images/Main Page/recruiters/lt-300x81-1.jpg",        url: "https://www.larsentoubro.com" },
-  { name: "LTIMindtree",         logo: "/images/Main Page/recruiters/lti-logo.png",           url: "https://www.ltimindtree.com" },
-  { name: "Mahindra",            logo: "/images/Main Page/recruiters/mahindra-300x85-1.png",  url: "https://www.mahindra.com" },
-  { name: "Neebal Technologies", logo: "/images/Main Page/recruiters/neebal-technologoes.jpeg",url: "https://www.neebal.com" },
-  { name: "Persistent Systems",  logo: "/images/Main Page/recruiters/logo-rgb-black-e1751968833241.png", url: "https://www.persistent.com" },
-  { name: "Schneider Electric",  logo: "/images/Main Page/recruiters/schneider-logo.png",     url: "https://www.se.com" },
-  { name: "Tata Power",          logo: "/images/Main Page/recruiters/Tata-Power.png",         url: "https://www.tatapower.com" },
-  { name: "Technimant",          logo: "/images/Main Page/recruiters/Technimant-logo.png",    url: "https://www.technimant.com" },
-  { name: "Verdantis",           logo: "/images/Main Page/recruiters/verdantis-300x77-1.png", url: "https://www.verdantis.com" },
-  { name: "Vistaar",             logo: "/images/Main Page/recruiters/Vistaar-logo-1.png",     url: "https://www.vfrpl.in" },
-  { name: "Vodafone",            logo: "/images/Main Page/recruiters/VODAPHONE.jpg",          url: "https://www.vodafone.com" },
-  { name: "Wipro",               logo: "/images/Main Page/recruiters/wipro-logo.png",         url: "https://www.wipro.com" },
-  { name: "Zensoft",             logo: "/images/Main Page/recruiters/Zensoft-logo.jpg",       url: "https://www.zensoft.io" },
-  { name: "Zeus Learning",       logo: "/images/Main Page/recruiters/Zeus-Learning-logo.png", url: "https://www.zeuslearning.com" },
+// Canonical name → local image path mapping (26 logos on disk)
+const IMG = "/images/Main Page/recruiters";
+const recruiterLogoMap: Record<string, string> = {
+  "accenture":           `${IMG}/accenture-logo.png`,
+  "arcon":               `${IMG}/arcon-logo.png`,
+  "bristlecone":         `${IMG}/bristlecone-logo.png`,
+  "builtio":             `${IMG}/builtio-300x72-1.png`,
+  "capgemini":           `${IMG}/Capgemini-300x67-1.png`,
+  "coca-cola":           `${IMG}/coca-300x99-1.png`,
+  "cognizant":           `${IMG}/cognizant-logo.png`,
+  "godrej":              `${IMG}/godrej-infotech-logo.png`,
+  "godrej infotech":     `${IMG}/godrej-infotech-logo.png`,
+  "ibm":                 `${IMG}/IBM-logo.png`,
+  "infosys":             `${IMG}/infosys-300x116-1.png`,
+  "interactive brokers": `${IMG}/interactive-brokers-logo.png`,
+  "johnson controls":    `${IMG}/Johnson-logo.png`,
+  "l&t":                 `${IMG}/lt-300x81-1.jpg`,
+  "larsen":              `${IMG}/lt-300x81-1.jpg`,
+  "ltimindtree":         `${IMG}/lti-logo.png`,
+  "lti":                 `${IMG}/lti-logo.png`,
+  "mahindra":            `${IMG}/mahindra-300x85-1.png`,
+  "neebal":              `${IMG}/neebal-technologies-logo.png`,
+  "neebal technologies": `${IMG}/neebal-technologies-logo.png`,
+  "persistent":          `${IMG}/logo-rgb-black-e1751968833241.png`,
+  "persistent systems":  `${IMG}/logo-rgb-black-e1751968833241.png`,
+  "schneider":           `${IMG}/schneider-logo.png`,
+  "schneider electric":  `${IMG}/schneider-logo.png`,
+  "tata power":          `${IMG}/Tata-Power.png`,
+  "technimant":          `${IMG}/Technimant-logo.png`,
+  "verdantis":           `${IMG}/verdantis-300x77-1.png`,
+  "vistaar":             `${IMG}/Vistaar-logo-1.png`,
+  "vodafone":            `${IMG}/VODAPHONE.jpg`,
+  "wipro":               `${IMG}/wipro-logo.png`,
+  "zensoft":             `${IMG}/Zensoft-logo.jpg`,
+  "zeus learning":       `${IMG}/Zeus-Learning-logo.png`,
+  "zeus":                `${IMG}/Zeus-Learning-logo.png`,
+};
+
+/** Try to find a local logo for a company name (case-insensitive, partial match) */
+function findLocalLogo(name: string): string | null {
+  const key = name.toLowerCase().trim();
+  if (recruiterLogoMap[key]) return recruiterLogoMap[key];
+  // Partial match: check if any map key is contained in (or contains) the name
+  for (const [mapKey, path] of Object.entries(recruiterLogoMap)) {
+    if (key.includes(mapKey) || mapKey.includes(key)) return path;
+  }
+  return null;
+}
+
+// Default hardcoded recruiters (used when API returns no data)
+const defaultRecruiters: Recruiter[] = [
+  { name: "Accenture",           logo: recruiterLogoMap["accenture"],           url: "https://www.accenture.com" },
+  { name: "Capgemini",           logo: recruiterLogoMap["capgemini"],           url: "https://www.capgemini.com" },
+  { name: "Coca-Cola",           logo: recruiterLogoMap["coca-cola"],           url: "https://www.coca-colacompany.com" },
+  { name: "Cognizant",           logo: recruiterLogoMap["cognizant"],           url: "https://www.cognizant.com" },
+  { name: "Godrej Infotech",     logo: recruiterLogoMap["godrej infotech"],     url: "https://www.godrejinfotech.com" },
+  { name: "IBM",                 logo: recruiterLogoMap["ibm"],                 url: "https://www.ibm.com" },
+  { name: "Infosys",             logo: recruiterLogoMap["infosys"],             url: "https://www.infosys.com" },
+  { name: "Interactive Brokers", logo: recruiterLogoMap["interactive brokers"], url: "https://www.interactivebrokers.com" },
+  { name: "L&T",                 logo: recruiterLogoMap["l&t"],                 url: "https://www.larsentoubro.com" },
+  { name: "LTIMindtree",         logo: recruiterLogoMap["ltimindtree"],         url: "https://www.ltimindtree.com" },
+  { name: "Mahindra",            logo: recruiterLogoMap["mahindra"],            url: "https://www.mahindra.com" },
+  { name: "Neebal Technologies", logo: recruiterLogoMap["neebal technologies"], url: "https://www.neebal.com" },
+  { name: "Persistent Systems",  logo: recruiterLogoMap["persistent systems"],  url: "https://www.persistent.com" },
+  { name: "Schneider Electric",  logo: recruiterLogoMap["schneider electric"],  url: "https://www.se.com" },
+  { name: "Tata Power",          logo: recruiterLogoMap["tata power"],          url: "https://www.tatapower.com" },
+  { name: "Vodafone",            logo: recruiterLogoMap["vodafone"],            url: "https://www.vodafone.com" },
+  { name: "Wipro",               logo: recruiterLogoMap["wipro"],               url: "https://www.wipro.com" },
+  { name: "Arcon",               logo: recruiterLogoMap["arcon"],               url: "https://www.arconnet.com" },
+  { name: "Bristlecone",         logo: recruiterLogoMap["bristlecone"],         url: "https://www.bristlecone.com" },
+  { name: "BuiltIO",             logo: recruiterLogoMap["builtio"],             url: "https://www.softwareag.com" },
+  { name: "Johnson Controls",    logo: recruiterLogoMap["johnson controls"],    url: "https://www.johnsoncontrols.com" },
+  { name: "Technimant",          logo: recruiterLogoMap["technimant"],          url: "https://www.technimant.com" },
+  { name: "Verdantis",           logo: recruiterLogoMap["verdantis"],           url: "https://www.verdantis.com" },
+  { name: "Vistaar",             logo: recruiterLogoMap["vistaar"],             url: "https://www.vfrpl.in" },
+  { name: "Zensoft",             logo: recruiterLogoMap["zensoft"],             url: "https://www.zensoft.io" },
+  { name: "Zeus Learning",       logo: recruiterLogoMap["zeus learning"],       url: "https://www.zeuslearning.com" },
 ];
 
-// Row 1 — Top / best-known companies
-const rowOne: Recruiter[] = [
-  { name: "Accenture",           logo: "/images/Main Page/recruiters/Accenture-Logo-PNG-Vector-EPS-Free-Download.jpeg", url: "https://www.accenture.com" },
-  { name: "Capgemini",           logo: "/images/Main Page/recruiters/Capgemini-300x67-1.png", url: "https://www.capgemini.com" },
-  { name: "Coca-Cola",           logo: "/images/Main Page/recruiters/coca-300x99-1.png",      url: "https://www.coca-colacompany.com" },
-  { name: "Cognizant",           logo: "/images/Main Page/recruiters/cognizant-logo.png",     url: "https://www.cognizant.com" },
-  { name: "IBM",                 logo: "/images/Main Page/recruiters/IBM-logo.png",           url: "https://www.ibm.com" },
-  { name: "Infosys",             logo: "/images/Main Page/recruiters/infosys-300x116-1.png",  url: "https://www.infosys.com" },
-  { name: "L&T",                 logo: "/images/Main Page/recruiters/lt-300x81-1.jpg",        url: "https://www.larsentoubro.com" },
-  { name: "LTIMindtree",         logo: "/images/Main Page/recruiters/lti-logo.png",           url: "https://www.ltimindtree.com" },
-  { name: "Mahindra",            logo: "/images/Main Page/recruiters/mahindra-300x85-1.png",  url: "https://www.mahindra.com" },
-  { name: "Schneider Electric",  logo: "/images/Main Page/recruiters/schneider-logo.png",     url: "https://www.se.com" },
-  { name: "Tata Power",          logo: "/images/Main Page/recruiters/Tata-Power.png",         url: "https://www.tatapower.com" },
-  { name: "Vodafone",            logo: "/images/Main Page/recruiters/VODAPHONE.jpg",          url: "https://www.vodafone.com" },
-  { name: "Wipro",               logo: "/images/Main Page/recruiters/wipro-logo.png",         url: "https://www.wipro.com" },
-  { name: "Persistent Systems",  logo: "/images/Main Page/recruiters/logo-rgb-black-e1751968833241.png", url: "https://www.persistent.com" },
-];
+function splitIntoRows(items: Recruiter[]): [Recruiter[], Recruiter[]] {
+  const half = Math.ceil(items.length / 2);
+  return [items.slice(0, half), items.slice(half)];
+}
 
-// Row 2 — Remaining partners
-const rowTwo: Recruiter[] = [
-  { name: "Arcon",               logo: "/images/Main Page/recruiters/arcon-logo.png",         url: "https://www.arconnet.com" },
-  { name: "Bristlecone",         logo: "/images/Main Page/recruiters/bristlecone-logo.png",   url: "https://www.bristlecone.com" },
-  { name: "BuiltIO",             logo: "/images/Main Page/recruiters/builtio-300x72-1.png",   url: "https://www.softwareag.com" },
-  { name: "Godrej Infotech",     logo: "/images/Main Page/recruiters/godrej-infotech.jpeg",   url: "https://www.godrejinfotech.com" },
-  { name: "Hexaware",            logo: "/images/Main Page/recruiters/hexaware-logo.jpeg",     url: "https://www.hexaware.com" },
-  { name: "Interactive Brokers", logo: "/images/Main Page/recruiters/interactive-brokers.jpeg",url: "https://www.interactivebrokers.com" },
-  { name: "Johnson Controls",    logo: "/images/Main Page/recruiters/Johnson-logo.png",       url: "https://www.johnsoncontrols.com" },
-  { name: "Neebal Technologies", logo: "/images/Main Page/recruiters/neebal-technologoes.jpeg",url: "https://www.neebal.com" },
-  { name: "Technimant",          logo: "/images/Main Page/recruiters/Technimant-logo.png",    url: "https://www.technimant.com" },
-  { name: "Verdantis",           logo: "/images/Main Page/recruiters/verdantis-300x77-1.png", url: "https://www.verdantis.com" },
-  { name: "Vistaar",             logo: "/images/Main Page/recruiters/Vistaar-logo-1.png",     url: "https://www.vfrpl.in" },
-  { name: "Zensoft",             logo: "/images/Main Page/recruiters/Zensoft-logo.jpg",       url: "https://www.zensoft.io" },
-  { name: "Zeus Learning",       logo: "/images/Main Page/recruiters/Zeus-Learning-logo.png", url: "https://www.zeuslearning.com" },
-];
+const [defaultRowOne, defaultRowTwo] = splitIntoRows(defaultRecruiters);
+
 
 // -- BentoBox ------------------------------------------------------------------
 interface BentoBoxProps {
@@ -290,20 +312,34 @@ const MarqueeRow: React.FC<MarqueeRowProps> = ({ items, direction = "left", spee
 // -- Main ----------------------------------------------------------------------
 const Recruiters: React.FC = () => {
   const [confirmTarget, setConfirmTarget] = useState<Recruiter | null>(null);
-  const [rowOneData, setRowOneData] = useState<Recruiter[]>(rowOne);
-  const [rowTwoData, setRowTwoData] = useState<Recruiter[]>(rowTwo);
+  const [rowOneData, setRowOneData] = useState<Recruiter[]>(defaultRowOne);
+  const [rowTwoData, setRowTwoData] = useState<Recruiter[]>(defaultRowTwo);
 
   useEffect(() => {
     placementsService.list().then((partners) => {
       if (partners && partners.length > 0) {
-        const recruitersData: Recruiter[] = partners.map((p: any) => ({
-          name: p.company || p.name,
-          logo: p.logo,
-          url: p.website || '#',
-        }));
-        const half = Math.ceil(recruitersData.length / 2);
-        setRowOneData(recruitersData.slice(0, half));
-        setRowTwoData(recruitersData.slice(half));
+        // Map API data to recruiters, resolving logos from local images first
+        const recruitersData: Recruiter[] = partners
+          .map((p: any) => {
+            const name = p.company || p.name || '';
+            const localLogo = findLocalLogo(name);
+            const apiLogo = p.logo;
+            // Use local logo if available, otherwise use API logo (only if it's a valid URL)
+            const logo = localLogo || (apiLogo && /^https?:\/\//i.test(apiLogo) ? apiLogo : null);
+            if (!logo) return null; // Skip companies with no usable logo
+            return {
+              name,
+              logo,
+              url: p.website || '#',
+            };
+          })
+          .filter(Boolean) as Recruiter[];
+
+        if (recruitersData.length > 0) {
+          const [r1, r2] = splitIntoRows(recruitersData);
+          setRowOneData(r1);
+          setRowTwoData(r2);
+        }
       }
     });
   }, []);
