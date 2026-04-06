@@ -457,7 +457,6 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
           onBack={onBack}
         />
 
-      <div className="space-y-4">
         {/* CDC Responsibilities */}
         {slug === 'cdc' && (
           <AdminFormSection title="Core Responsibilities" icon="📋" isOpen={activeAccordionSection === 'responsibilities'} onToggle={() => setActiveAccordionSection(activeAccordionSection === 'responsibilities' ? null : 'responsibilities')}>
@@ -583,17 +582,17 @@ const CommitteesForm: React.FC<CommitteesFormProps> = ({ slug, onBack }) => {
         )}
 
         {['equal-opportunity', 'sedg'].includes(slug) && (
-          <AdminFormSection title="Regulatory Documentation" icon="📁" isOpen={activeAccordionSection === 'docs'} onToggle={() => setActiveAccordionSection(activeAccordionSection === 'docs' ? null : 'docs')}>
-            <PDFDocumentManager 
-              items={payload.documents || []} 
-              onChange={docs => setPayload({...payload, documents: docs})} 
+          <AdminFormSection title="Regulatory Documentation" icon="📄" isOpen={activeAccordionSection === 'docs'} onToggle={() => setActiveAccordionSection(activeAccordionSection === 'docs' ? null : 'docs')}>
+            <PDFDocumentManager
+              items={payload.documents || []}
+              onChange={docs => setPayload({...payload, documents: docs})}
               maxItems={10}
               showUrlField={slug === 'equal-opportunity'}
             />
           </AdminFormSection>
         )}
-      </div>
-    </div>
+      </form>
+    </>
   );
 };
 
