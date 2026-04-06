@@ -80,9 +80,11 @@ const PREFETCH_ENDPOINTS = [
 ];
 
 let warmed = false;
+const PREFETCH_ENABLED =
+  (import.meta.env.VITE_ENABLE_PAGE_PREFETCH as string | undefined) === 'true';
 
 export function warmPublicPageCache(): void {
-  if (warmed || typeof window === 'undefined') return;
+  if (!PREFETCH_ENABLED || warmed || typeof window === 'undefined') return;
   warmed = true;
 
   const run = () => prefetchPageData(PREFETCH_ENDPOINTS);

@@ -1,9 +1,12 @@
+import { useCallback } from 'react';
 import { newsTickerService } from '../services/newsTicker';
 import type { NewsTicker } from '../admin/types';
 import { useFetch } from './useFetch';
 
 export function useNewsTicker() {
-  const { data, loading, error } = useFetch<NewsTicker[]>(() => newsTickerService.list(), {
+  const fetchNewsTicker = useCallback(() => newsTickerService.list(), []);
+
+  const { data, loading, error } = useFetch<NewsTicker[]>(fetchNewsTicker, {
     initialData: [],
     cacheKey: 'public:news-ticker:list',
     cacheTtlMs: 60_000,
