@@ -408,32 +408,32 @@ const DeptFE: React.FC = () => {
           {/* â•â•â•â• TIME TABLE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'time-table' && (() => {
             const sem2Links = [
-              { label: 'Sem II - FE A (Comp 1)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivAComps1_Sem2_TT.pdf' },
-              { label: 'Sem II - FE B (Comp 2)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivBComps2_Sem2_TT-.pdf' },
-              { label: 'Sem II - FE C (Comp 3)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivCComps3_Sem2_TT.pdf' },
-              { label: 'Sem II - FE D (Civil)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivDCivil_Sem2_TT.pdf' },
-              { label: 'Sem II - FE E (CSEDS 1)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivECSEDS1_Sem2_TT.pdf' },
-              { label: 'Sem II - FE F (CSEDS 2)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivFCSEDS2_Sem2_TT.pdf' },
-              { label: 'Sem II - FE G (INFT)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/Div-G-INFT-Engg.-_-SemII-_-2024-25.pdf' },
-              { label: 'Sem II - FE H (AI & DS)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivHAIDS_Sem2_TT.pdf' },
-              { label: 'Sem II - FE I (EXTC)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/Div-I-EXTC-Engg._-semII_-2024-25.pdf' },
-              { label: 'Sem II - FE J (Mech)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-J_MECH.pdf' },
-              { label: 'Sem II - FE K (Civil & VLSI)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-K_-VLSI.pdf' },
-              { label: 'Sem II - FE L (CSEDS 3)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM2/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-L_-CSEDS-3.pdf' },
+              { label: 'Sem II - FE A (Comp 1)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivAComps1_Sem2_TT.pdf' },
+              { label: 'Sem II - FE B (Comp 2)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivBComps2_Sem2_TT-.pdf' },
+              { label: 'Sem II - FE C (Comp 3)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivCComps3_Sem2_TT.pdf' },
+              { label: 'Sem II - FE D (Civil)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivDCivil_Sem2_TT.pdf' },
+              { label: 'Sem II - FE E (CSEDS 1)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivECSEDS1_Sem2_TT.pdf' },
+              { label: 'Sem II - FE F (CSEDS 2)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivFCSEDS2_Sem2_TT.pdf' },
+              { label: 'Sem II - FE G (INFT)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM2/Div-G-INFT-Engg.-_-SemII-_-2024-25.pdf' },
+              { label: 'Sem II - FE H (AI & DS)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM2/DivHAIDS_Sem2_TT.pdf' },
+              { label: 'Sem II - FE I (EXTC)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM2/Div-I-EXTC-Engg._-semII_-2024-25.pdf' },
+              { label: 'Sem II - FE J (Mech)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM2/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-J_MECH.pdf' },
+              { label: 'Sem II - FE K (Civil & VLSI)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM2/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-K_-VLSI.pdf' },
+              { label: 'Sem II - FE L (CSEDS 3)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM2/V.2_SEM-II_DIV.-TT_2024-25.xlsx-DIV-L_-CSEDS-3.pdf' },
             ];
             const sem1Links = [
-              { label: 'Sem I - FE A (Comp 1)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-A-Comp1-_-TT.pdf' },
-              { label: 'Sem I - FE B (Comp 2)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-B-Comp2-_-TT.pdf' },
-              { label: 'Sem I - FE C (Comp 3)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-C-Comp3-_-TT.pdf' },
-              { label: 'Sem I - FE D (Civil)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-D-Civil-engg.-_-TT.pdf' },
-              { label: 'Sem I - FE E (CSEDS 1)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-E-CSE-DS-1-_-TT.pdf' },
-              { label: 'Sem I - FE F (CSEDS 2)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-F-CSE-DS-2-_-TT.pdf' },
-              { label: 'Sem I - FE G (INFT)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-G-INFT-engg-_-TT.pdf' },
-              { label: 'Sem I - FE H (AI-DS)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-H-AI-DS-engg.-_-TT.pdf' },
-              { label: 'Sem I - FE I (EXTC)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-I-EXTC-engg.-_-TT.pdf' },
-              { label: 'Sem I - FE J (Mech)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-J-Mech-engg.-_-TT.pdf' },
-              { label: 'Sem I - FE K (VLSI)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-K-VLSI-engg.-_-TT.pdf' },
-              { label: 'Sem I - FE L (CSE-DS 3)', url: 'pdfs/Department/FirstYearEngineering/TimeTable/SEM1/L-Div-_-CSE-DS-3_-TT.pdf' },
+              { label: 'Sem I - FE A (Comp 1)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-A-Comp1-_-TT.pdf' },
+              { label: 'Sem I - FE B (Comp 2)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-B-Comp2-_-TT.pdf' },
+              { label: 'Sem I - FE C (Comp 3)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-C-Comp3-_-TT.pdf' },
+              { label: 'Sem I - FE D (Civil)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-D-Civil-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE E (CSEDS 1)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-E-CSE-DS-1-_-TT.pdf' },
+              { label: 'Sem I - FE F (CSEDS 2)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-F-CSE-DS-2-_-TT.pdf' },
+              { label: 'Sem I - FE G (INFT)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-G-INFT-engg-_-TT.pdf' },
+              { label: 'Sem I - FE H (AI-DS)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-H-AI-DS-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE I (EXTC)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-I-EXTC-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE J (Mech)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-J-Mech-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE K (VLSI)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM1/Div-K-VLSI-engg.-_-TT.pdf' },
+              { label: 'Sem I - FE L (CSE-DS 3)', url: '/pdfs/Department/FirstYearEngineering/TimeTable/SEM1/L-Div-_-CSE-DS-3_-TT.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-8">
@@ -466,11 +466,11 @@ const DeptFE: React.FC = () => {
           {/* â•â•â•â• INNOVATIONS IN TEACHING LEARNING â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'teaching-learning' && (() => {
             const links = [
-              { label: 'Innovation in Teaching Report 2024-25', url: 'pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2024-25.pdf' },
-              { label: 'Innovation in Teaching Report 2023-24', url: 'pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2023-24.pdf' },
-              { label: 'Innovation in Teaching Report 2022-23', url: 'pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2022-23-Copy.pdf' },
-              { label: 'Innovation in Teaching Report 2021-22', url: 'pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2021-22-1.pdf' },
-              { label: 'Innovation in Teaching Report 2020-21', url: 'pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2020-21-2.pdf' },
+              { label: 'Innovation in Teaching Report 2024-25', url: '/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2024-25.pdf' },
+              { label: 'Innovation in Teaching Report 2023-24', url: '/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2023-24.pdf' },
+              { label: 'Innovation in Teaching Report 2022-23', url: '/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2022-23-Copy.pdf' },
+              { label: 'Innovation in Teaching Report 2021-22', url: '/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2021-22-1.pdf' },
+              { label: 'Innovation in Teaching Report 2020-21', url: '/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2020-21-2.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
