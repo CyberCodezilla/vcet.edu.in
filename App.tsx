@@ -59,7 +59,7 @@ const DeanAcademics = lazy(() => import('./pages/academics/DeanAcademics'));
 const AcademicCalendar = lazy(() => import('./pages/academics/AcademicCalendar'));
 const TeachingLearning = lazy(() => import('./pages/academics/TeachingLearning'));
 const HonoursMinor = lazy(() => import('./pages/academics/HonoursMinor'));
-const ExamCell = lazy(() => import('./pages/academics/ExamCell'));
+
 
 // pages/research
 const ResearchIntro = lazy(() => import('./pages/research/ResearchIntro'));
@@ -503,7 +503,6 @@ function App() {
             <Route path="/training" element={<Training />} />
             <Route path="/placement" element={<Placement />} />
             <Route path="/e-cell" element={<ECell />} />
-            <Route path="/iiic" element={<IIIC />} />
             {/* Exam Section */}
             <Route path="/exam" element={<ExamDashboard />} />
             <Route path="/exam/about" element={<ExamAbout />} />
@@ -629,7 +628,9 @@ element={<MMSStudentsLifeCustomEvent />} />
             <Route path="achievements/:id/edit" element={<AchievementsForm />} />
             <Route path="testimonials" element={<TestimonialsList />} />
             <Route path="testimonials/new" element={<TestimonialsForm />} />
-            <Route path="testimonials/:id/edit" element={<TestimonialsForm />} />              <Route path="explore-us" element={<ExploreUsList />} />            <Route path="gallery" element={<GalleryPage />} />
+            <Route path="testimonials/:id/edit" element={<TestimonialsForm />} />
+            <Route path="explore-us" element={<ExploreUsList />} />
+            <Route path="gallery" element={<GalleryPage />} />
             <Route path="placement-partners" element={<PlacementPartnersList />} />
             <Route path="placement-partners/new" element={<PlacementPartnersForm />} />
             <Route path="placement-partners/:id/edit" element={<PlacementPartnersForm />} />

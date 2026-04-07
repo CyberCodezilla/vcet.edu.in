@@ -17,7 +17,7 @@ const defaultFundingByYear = [
   { year: '2021-22', amount: 13.84 },
   { year: '2022-23', amount: 4.06 },
 ];
-const defaultFundingReportHref = 'https://vcet.edu.in/wp-content/uploads/2024/06/RESEARCH-FUNDING1.pdf';
+const defaultFundingReportHref = '/pdfs/Research/FundedResearch/RESEARCH-FUNDING1.pdf';
 
 type FundingRow = {
   year: string;

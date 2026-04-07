@@ -12,11 +12,11 @@ type LinkItem = {
 const defaultDocButtons = [
   {
     label: 'Form for research recommendation',
-    href: 'https://docs.google.com/document/d/1RqHvcqpi9CVdeQrYhDnDpt5BEEAOqR6x/view',
+    href: '/pdfs/Research/ResearchDownloads/Form for research recommendation.pdf',
   },
   {
     label: 'Form for Institute Research Funding Proposal',
-    href: 'https://docs.google.com/document/d/1em4Az-lpgdJsC0vCvbI5-CkytCz-pxuF/view',
+    href: '/pdfs/Research/ResearchDownloads/Form for Institute Research Funding Proposal.pdf',
   },
 ];
 
