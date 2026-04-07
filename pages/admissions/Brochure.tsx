@@ -12,9 +12,8 @@ const BROCHURE_FILE_NAME = 'CollegeBrochure2025-26.pdf';
 const Brochure: React.FC = () => {
   const { section, loading, error } = useAdmissionSection('brochure');
   const brochureItem = section?.items?.[0];
-  const brochureUrl = resolveBackendHref(
-    brochureItem?.document_url || brochureItem?.external_url || BROCHURE_PDF_URL,
-  );
+  const brochureSourceUrl = brochureItem?.document_url || brochureItem?.external_url || BROCHURE_PDF_URL;
+  const brochureUrl = resolveBackendHref(brochureSourceUrl);
   const brochureFileName = brochureItem?.pdf_name || BROCHURE_FILE_NAME;
 
   if (loading) {
