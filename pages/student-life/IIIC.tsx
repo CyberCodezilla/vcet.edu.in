@@ -3,6 +3,7 @@ import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { getStudentCareerSection } from '../../services/studentCareer';
 import { resolveApiUrl } from '../../services/api';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const sidebarLinks = [
   { id: 'about', label: 'About Industry-Institute Interaction Cell', icon: 'ph-info' },
@@ -154,7 +155,7 @@ const IIIC: React.FC = () => {
                     {event?.description && <p>{event.description}</p>}
                     {event?.image && (
                       <img
-                        src={resolveApiUrl(event.image) || event.image}
+                        src={resolveUploadedAssetUrl(event.image) ?? resolveApiUrl(event.image) ?? event.image}
                         alt={event?.title || `IIIC event ${index + 1}`}
                         className="w-full max-w-xl rounded-xl border border-slate-200"
                       />

@@ -30,6 +30,7 @@ import {
   Lightbulb,
   Trophy,
 } from 'lucide-react';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 /* ─────────────────────────────────────────────
    TYPES & DATA
@@ -241,7 +242,7 @@ const AboutPanel: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-[#ffb100]/20 to-[#0056b3]/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
             <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-slate-100 flex flex-col items-center gap-4">
               <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.instagram.com/ieee_vcet_sb"
+                src={resolveUploadedAssetUrl('https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.instagram.com/ieee_vcet_sb') ?? 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.instagram.com/ieee_vcet_sb'}
                 alt="Scan to follow IEEE VCET on Instagram"
                 className="w-40 h-40 rounded-xl"
               />

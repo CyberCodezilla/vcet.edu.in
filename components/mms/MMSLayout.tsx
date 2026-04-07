@@ -6,6 +6,7 @@ import Footer from '../Footer';
 import MMSHeader from './MMSHeader';
 import MMSEnquirePopup from './MMSEnquirePopup';
 import { MMS_IMAGES } from '../../services/mms/imagePool';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 interface MMSLayoutProps {
   title?: string;
@@ -290,7 +291,7 @@ export default function MMSLayout({ title, children }: MMSLayoutProps) {
               &times;
             </button>
             <img
-              src={MMS_IMAGES.banner}
+              src={resolveUploadedAssetUrl(MMS_IMAGES.banner) ?? MMS_IMAGES.banner}
               alt="MMS Admission Poster"
               className="block max-h-[92vh] w-auto max-w-[95vw] object-contain"
             />

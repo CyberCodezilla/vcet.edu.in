@@ -55,7 +55,12 @@ const FORCED_TESTIMONIAL_IMAGES: Record<string, string> = {
 };
 
 function normalizeName(name: string | null | undefined): string {
-  return (name ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
+  return (name ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function appendCacheBuster(url: string): string {
@@ -87,14 +92,19 @@ const Testimonials: React.FC = () => {
   const apiTestimonials = useAggregate ? homepage!.data.testimonials : fallbackTestimonials;
   
   // Use API data if available, otherwise fallback to static data
-  const displayTestimonials = apiTestimonials.length > 0 ? apiTestimonials.map(t => ({
-    id: t.id,
-    text: t.text,
-    name: t.name,
-    position: t.role || '',
-    company: '', // Backend doesn't have company distinct from role yet
-    image: resolveTestimonialPhoto(t.name, t.photo)
-  })) : testimonials;
+  const displayTestimonials = apiTestimonials.length > 0
+    ? apiTestimonials.map((t) => ({
+        id: t.id,
+        text: t.text,
+        name: t.name,
+        position: t.role || '',
+        company: '', // Backend doesn't have company distinct from role yet
+        image: resolveTestimonialPhoto(t.name, t.photo),
+      }))
+    : testimonials.map((t) => ({
+        ...t,
+        image: resolveTestimonialPhoto(t.name, t.image),
+      }));
   return (
     <section id="testimonials" className="py-10 md:py-16 bg-brand-light relative overflow-hidden">
       <div className="absolute bottom-0 right-0 w-[240px] h-[240px] sm:w-[380px] sm:h-[380px] md:w-[500px] md:h-[500px] bg-brand-blue/[0.03] rounded-full translate-x-1/3 translate-y-1/3" />

@@ -8,6 +8,7 @@ import {
   PlayCircle,
 } from 'lucide-react';
 import SectionHeader from '../../components/SectionHeader';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 type LinkIcon = 'default' | 'file' | 'instagram' | 'video';
 
@@ -155,6 +156,8 @@ export const IntroSection: React.FC<IntroSectionProps> = ({
   hideImage = false,
   imagePlaceholderLabel,
 }) => {
+  const resolvedImage = resolveUploadedAssetUrl(image) ?? image;
+
   return (
     <section id={id} className="py-8 md:py-16 lg:py-24 bg-white scroll-mt-32 md:scroll-mt-40">
       <div className="container mx-auto px-4 sm:px-6">
@@ -168,7 +171,7 @@ export const IntroSection: React.FC<IntroSectionProps> = ({
                 />
               ) : (
                 <img
-                  src={image}
+                  src={resolvedImage}
                   alt={imageAlt}
                   className={`h-full w-full aspect-4/3 ${imageFit === 'contain'
                       ? 'object-contain bg-white p-4 sm:p-6'
@@ -342,16 +345,19 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({ items }) => {
             />
           </div>
         ) : (
+          (() => {
+            const resolvedSrc = resolveUploadedAssetUrl(item.src) ?? item.src;
+            return (
           <a
             key={item.src}
-            href={item.src}
+            href={resolvedSrc}
             target="_blank"
             rel="noreferrer"
             className="reveal group relative block overflow-hidden rounded-2xl border border-brand-blue/10 bg-white shadow-sm"
             style={{ transitionDelay: `${index * 0.04}s` }}
           >
             <img
-              src={item.src}
+              src={resolvedSrc}
               alt={item.alt}
               loading="lazy"
               className="aspect-4/3 w-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -364,6 +370,8 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({ items }) => {
               </div>
             </div>
           </a>
+            );
+          })()
         )
       )}
     </div>
@@ -414,6 +422,8 @@ export const ProfileHighlight: React.FC<ProfileHighlightProps> = ({
   hideImage = false,
   imagePlaceholderLabel,
 }) => {
+  const resolvedImage = resolveUploadedAssetUrl(image) ?? image;
+
   return (
     <div className="reveal overflow-hidden rounded-4xl border border-brand-blue/10 bg-white shadow-[0_20px_50px_-30px_rgba(5,43,104,0.35)]">
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr]">
@@ -425,7 +435,7 @@ export const ProfileHighlight: React.FC<ProfileHighlightProps> = ({
             />
           ) : (
             <img
-              src={image}
+              src={resolvedImage}
               alt={imageAlt}
               className="h-full w-full object-cover aspect-4/3 md:aspect-auto"
               loading="lazy"

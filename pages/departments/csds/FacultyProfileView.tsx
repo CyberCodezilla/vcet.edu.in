@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
+import { resolveUploadedAssetUrl } from "../../../utils/uploadedAssets";
 import "./FacultyProfile.css";
 
-/* тРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРи
+/* О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
    EXPORTED TYPES  (import from here in every faculty data file)
-тРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРи */
+О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ */
 
 export interface ResearchDomain {
   icon?: string;
@@ -108,11 +109,11 @@ export interface FacultyData {
   memberships?: (Membership | string)[];
 }
 
-/* тЖгтЖгтЖг Helpers тЖгтЖгтЖг */
+/* О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ Helpers О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ */
 const has = <T,>(arr: T[] | undefined | null): arr is T[] =>
   Array.isArray(arr) && arr.length > 0;
 
-/* тЖгтЖгтЖг Reusable YouTube SVG icon тЖгтЖгтЖг */
+/* О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ Reusable YouTube SVG icon О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ */
 function YtSvg(): React.ReactElement {
   return (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -125,7 +126,7 @@ function YtSvg(): React.ReactElement {
   );
 }
 
-/* тЖгтЖгтЖг Accordion тЖгтЖгтЖг */
+/* О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ Accordion О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ */
 interface AccordionProps {
   extraClass?: string;
   defaultOpen?: boolean;
@@ -150,7 +151,7 @@ function Accordion({ extraClass, defaultOpen, summaryContent, children }: Readon
   );
 }
 
-/* тЖгтЖгтЖг Initials helper тЖгтЖгтЖг */
+/* О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ Initials helper О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ */
 function initials(name: string): string {
   return name
     .split(" ")
@@ -175,14 +176,14 @@ function parsePublicationLink(title: string): { text: string; url?: string } {
   return { text: text || title, url };
 }
 
-/* тРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРи
+/* О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
    SHARED FACULTY PROFILE VIEW  (accepts any FacultyData prop)
-тРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРитРи */
+О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ */
 
 interface Props { faculty: FacultyData; }
 
 const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
-  /* тЖгтЖг derive visibility flags тЖгтЖг */
+  /* О©╫О©╫О©╫О©╫О©╫О©╫ derive visibility flags О©╫О©╫О©╫О©╫О©╫О©╫ */
   const hasPublications   = has(faculty.publications);
   const hasBooks          = has(faculty.books);
   const hasPatents        = has(faculty.patents);
@@ -197,7 +198,7 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
   const hasPgProjects     = has(faculty.pgProjects);
   const hasSpecialization = has(faculty.specialization);
 
-  /* тЖгтЖг All 6 tabs are always visible тЖгтЖг */
+  /* О©╫О©╫О©╫О©╫О©╫О©╫ All 6 tabs are always visible О©╫О©╫О©╫О©╫О©╫О©╫ */
   const allTabs = [
     { id: "profile",      icon: "fa-id-badge",  label: "Profile Info" },
     { id: "academic",     icon: "fa-flask",      label: "Academic Work" },
@@ -223,18 +224,19 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
   const photoSrc = faculty.photo.startsWith('/') || /^https?:\/\//i.test(faculty.photo)
     ? faculty.photo
     : `/images/${faculty.photo}`;
+  const resolvedPhotoSrc = resolveUploadedAssetUrl(photoSrc) ?? photoSrc;
 
   return (
     <div className="faculty-profile-root">
       <div className="wrap">
 
-        {/* тЖгтЖг HERO тЖгтЖг */}
+        {/* О©╫О©╫О©╫О©╫О©╫О©╫ HERO О©╫О©╫О©╫О©╫О©╫О©╫ */}
         <div className="hero" ref={heroRef}>
           <div className="hero-g">
             <div className="ph-wrap">
               <div className="ph-circle">
                 {!photoFailed ? (
-                  <img src={photoSrc} alt={faculty.name} onError={() => setPhotoFailed(true)} />
+                  <img src={resolvedPhotoSrc} alt={faculty.name} onError={() => setPhotoFailed(true)} />
                 ) : (
                   <div
                     style={{
@@ -268,7 +270,7 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
           </div>
         </div>
 
-        {/* тЖгтЖг STAT RIBBON тЖгтЖг */}
+        {/* О©╫О©╫О©╫О©╫О©╫О©╫ STAT RIBBON О©╫О©╫О©╫О©╫О©╫О©╫ */}
         <div className="stat-ribbon">
           {faculty.experienceYears && (
             <div className="sr-item">
@@ -322,7 +324,7 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
           )}
         </div>
 
-        {/* тЖгтЖг TAB NAV тЖгтЖг */}
+        {/* О©╫О©╫О©╫О©╫О©╫О©╫ TAB NAV О©╫О©╫О©╫О©╫О©╫О©╫ */}
         <nav className="tab-nav" ref={tabNavRef}>
           <div className="tab-list" role="tablist">
             {allTabs.map(({ id, icon, label }) => (
@@ -337,7 +339,7 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
           </div>
         </nav>
 
-        {/* тРитРитРитРи TAB тгЖ PROFILE INFO тРитРитРитРи */}
+        {/* О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ TAB О©╫О©╫О©╫ PROFILE INFO О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ */}
         <div className={panel("profile")}>
           <div className="two-col">
 
@@ -432,7 +434,7 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
           )}
         </div>
 
-        {/* тРитРитРитРи TAB тгЖ ACADEMIC WORK тРитРитРитРи */}
+        {/* О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ TAB О©╫О©╫О©╫ ACADEMIC WORK О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ */}
         <div className={panel("academic")}>
           {!hasPgProjects && !hasResearch && !hasConsultancy && (
             <p className="empty-notice">This section will be updated with verified information shortly.</p>
@@ -524,7 +526,7 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
           )}
         </div>
 
-        {/* тРитРитРитРи TAB тгЖ PUBLICATIONS тРитРитРитРи */}
+        {/* О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ TAB О©╫О©╫О©╫ PUBLICATIONS О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ */}
         <div className={panel("publications")}>
           {!hasBooks && !hasPublications && !hasPatents && (
             <p className="empty-notice">This section will be updated with verified information shortly.</p>
@@ -669,7 +671,7 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
           )}
         </div>
 
-        {/* тРитРитРитРи TAB тгЖ ROLES & AWARDS тРитРитРитРи */}
+        {/* О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ TAB О©╫О©╫О©╫ ROLES & AWARDS О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ */}
         <div className={panel("roles")}>
           {!hasRoles && !hasAwards && (
             <p className="empty-notice">This section will be updated with verified information shortly.</p>
@@ -728,7 +730,7 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
           </div>
         </div>
 
-        {/* тРитРитРитРи TAB тгЖ ONLINE PRESENCE тРитРитРитРи */}
+        {/* О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ TAB О©╫О©╫О©╫ ONLINE PRESENCE О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ */}
         <div className={panel("online")}>
           {!hasWebsites && !hasYoutube && !hasEResources && (
             <p className="empty-notice">This section will be updated with verified information shortly.</p>
@@ -827,7 +829,7 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
           )}
         </div>
 
-        {/* тРитРитРитРи TAB тгЖ MEMBERSHIPS тРитРитРитРи */}
+        {/* О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ TAB О©╫О©╫О©╫ MEMBERSHIPS О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ */}
         <div className={panel("memberships")}>
           {hasMemberships ? (
             <div className="card">
@@ -841,9 +843,9 @@ const FacultyProfileView: React.FC<Readonly<Props>> = ({ faculty }) => {
               <div className="mem-row">
                 {(faculty.memberships as (Membership | string)[]).map((m, i) => {
                   const text  = typeof m === "string" ? m : m.label;
-                  const parts = text.split(/[\sтгТтгЖ-]+/);
+                  const parts = text.split(/[\sО©╫О©╫О©╫О©╫О©╫О©╫-]+/);
                   const org   = parts.find((p) => /^[A-Z]{2,6}$/.test(p)) ?? parts.at(-1)!;
-                  const id    = text.replaceAll(org, "").replaceAll(/[тгТтгЖ]/gu, "").replaceAll(/\s+/gu, " ").trim();
+                  const id    = text.replaceAll(org, "").replaceAll(/[О©╫О©╫О©╫О©╫О©╫О©╫]/gu, "").replaceAll(/\s+/gu, " ").trim();
                   return (
                     <div className="mem-card" key={i}>
                       <div className="m-org">{org}</div>

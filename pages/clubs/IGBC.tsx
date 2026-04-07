@@ -450,9 +450,7 @@ const GalleryPanel: React.FC = () => {
         ))}
       </div>
 
-      <p className="text-center text-sm text-[#94a3b8]">
-        📸 Photos will be updated after each event.
-      </p>
+     
     </div>
   );
 };

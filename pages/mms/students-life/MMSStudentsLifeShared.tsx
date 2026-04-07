@@ -1,5 +1,6 @@
 import React from 'react';
 import { ImageIcon } from 'lucide-react';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 interface StudentsLifeSectionCardProps {
   title: string;
@@ -29,13 +30,14 @@ interface StudentsLifeImageHolderProps {
 export function StudentsLifeImageHolder({ label, size = 'default', src }: StudentsLifeImageHolderProps) {
   const cardHeightClass = 'h-[400px]';
   const frameClass = 'h-[250px]';
+  const resolvedSrc = src ? resolveUploadedAssetUrl(src) ?? src : null;
 
   return (
     <article className={`group relative overflow-hidden rounded-none border border-brand-blue/20 bg-gradient-to-br from-slate-50 to-brand-light/35 p-[3px] shadow-[0_16px_28px_-20px_rgba(11,61,145,0.6)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_36px_-20px_rgba(11,61,145,0.65)] ${cardHeightClass}`}>
       <div className="flex h-full flex-col rounded-none border border-brand-blue/15 bg-white p-4">
-        {src ? (
+        {resolvedSrc ? (
           <div className={`w-full rounded-none bg-brand-navy ${frameClass}`}>
-            <img src={src} alt={label} className="h-full w-full object-contain" />
+            <img src={resolvedSrc} alt={label} className="h-full w-full object-contain" />
           </div>
         ) : (
           <div className={`flex ${frameClass} items-center justify-center rounded-none border-2 border-dashed border-brand-blue/30 bg-brand-navy text-center`}>

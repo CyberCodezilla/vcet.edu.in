@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { newsletterApi } from '../admin/api/newsletterApi';
 import type { Newsletter } from '../admin/types';
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
 
 interface NewsletterSectionProps {
   departmentName: string;
@@ -51,13 +52,16 @@ const NewsletterSection: React.FC<NewsletterSectionProps> = ({ departmentName, d
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {newsletters.map((n) => (
+          {newsletters.map((n) => {
+            const resolvedImage = n.image ? resolveUploadedAssetUrl(n.image) ?? n.image : null;
+
+            return (
             <article key={n.id} className="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-brand-navy/5 hover:-translate-y-1 transition-all duration-300 relative">
               
               {/* Image Banner */}
               <div className="w-full aspect-video bg-slate-100 overflow-hidden relative">
-                {n.image ? (
-                  <img src={n.image} alt={n.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                {resolvedImage ? (
+                  <img src={resolvedImage} alt={n.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center text-slate-300 bg-brand-navylight">
                      <i className="ph ph-newspaper text-4xl mb-2 opacity-50" />
@@ -94,7 +98,8 @@ const NewsletterSection: React.FC<NewsletterSectionProps> = ({ departmentName, d
                 )}
               </div>
             </article>
-          ))}
+          );
+          })}
         </div>
       )}
     </section>

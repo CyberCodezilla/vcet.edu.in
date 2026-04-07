@@ -3,6 +3,7 @@ import MMSLayout from '../../../components/mms/MMSLayout';
 import { PlacementSectionCard } from './MMSPlacementShared';
 import { get, resolveApiUrl } from '../../../services/api';
 import type { TrainingPlacementData } from '../../../admin/types';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 export default function MMSPlacementRecruiters() {
   const [data, setData] = useState<TrainingPlacementData | null>(null);
@@ -34,7 +35,9 @@ export default function MMSPlacementRecruiters() {
     '/Images/Departments/MMS(MBA)/Training And Placement/Placement/Our_Recruiters/Placement_-_Our_Recruiters_IMG9.png',
   ];
 
-  const bannerImg = data?.recruitersBanner?.image ? resolveApiUrl(data.recruitersBanner.image) : null;
+  const bannerImg = data?.recruitersBanner?.image
+    ? resolveUploadedAssetUrl(data.recruitersBanner.image) ?? resolveApiUrl(data.recruitersBanner.image)
+    : null;
 const bannerLabel = data?.recruitersBanner?.label || "";
 
   return (
@@ -53,7 +56,7 @@ const bannerLabel = data?.recruitersBanner?.label || "";
               )}
               {defaultImages.map((src, index) => (
                 <div key={index} className="flex items-center justify-center rounded-none bg-white p-4 shadow-sm border border-brand-blue/15">
-                  <img src={src} alt={`Recruiter ${index + 1}`} className="max-h-24 w-auto object-contain" />
+                  <img src={resolveUploadedAssetUrl(src) ?? src} alt={`Recruiter ${index + 1}`} className="max-h-24 w-auto object-contain" />
                 </div>
               ))}
             </div>

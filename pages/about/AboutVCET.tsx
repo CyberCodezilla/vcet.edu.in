@@ -3,6 +3,7 @@ import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Target, Eye, BookOpen, Award, MapPin, Calendar, Users, GraduationCap, Sparkles, Building2 } from 'lucide-react';
 import { getAboutSection } from '../../services/about';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 interface OverviewData {
   paragraphs?: string[];
@@ -11,6 +12,7 @@ interface OverviewData {
 }
 
 const AboutVCET: React.FC = () => {
+  const campusImage = resolveUploadedAssetUrl('/images/Main Page/Home background/VCET-Home-1-scaled.jpg') ?? '/images/Main Page/Home background/VCET-Home-1-scaled.jpg';
   const [data, setData] = useState<OverviewData | null>(null);
   const [apiLoaded, setApiLoaded] = useState(false);
 
@@ -149,7 +151,7 @@ return (
               })}
 
               <div className="reveal flex h-[300px] items-center justify-center overflow-hidden rounded-2xl border border-brand-blue/10 bg-brand-light shadow-sm md:h-[430px] lg:h-[430px]" style={{ transitionDelay: '0.16s' }}>
-                <img src="/images/Main Page/Home background/VCET-Home-1-scaled.jpg" alt="VCET Campus" className="w-full h-full object-cover" />
+                <img src={campusImage} alt="VCET Campus" className="w-full h-full object-cover" />
               </div>  
             </div>
 

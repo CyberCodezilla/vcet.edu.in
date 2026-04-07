@@ -5,31 +5,31 @@ import { resolveUploadedAssetUrl } from "../utils/uploadedAssets";
 
 // -- Data (all logos from /public/images/Main Page/recruiters/) ---------------------------
 type Recruiter = { name: string; logo: string; url: string };
-const RECRUITERS_BACKEND_DIR = "/images/Main Page/recruiters/";
+const RECRUITERS_BACKEND_DIR = resolveUploadedAssetUrl("/images/Main Page/recruiters/") ?? "/images/Main Page/recruiters/";
 
 // Canonical name -> bundled local fallback image URLs.
-const LOGO_ARCON = "/images/Main Page/recruiters/arcon-logo.png";
-const LOGO_BRISTLECONE = "/images/Main Page/recruiters/bristlecone-logo.png";
-const LOGO_BUILTIO = "/images/Main Page/recruiters/builtio-300x72-1.png";
-const LOGO_CAPGEMINI = "/images/Main Page/recruiters/Capgemini-300x67-1.png";
-const LOGO_COCA_COLA = "/images/Main Page/recruiters/coca-300x99-1.png";
-const LOGO_COGNIZANT = "/images/Main Page/recruiters/cognizant-logo.png";
-const LOGO_IBM = "/images/Main Page/recruiters/IBM-logo.png";
-const LOGO_INFOSYS = "/images/Main Page/recruiters/infosys-300x116-1.png";
-const LOGO_JOHNSON = "/images/Main Page/recruiters/Johnson-logo.png";
-const LOGO_LT = "/images/Main Page/recruiters/lt-300x81-1.jpg";
-const LOGO_LTI = "/images/Main Page/recruiters/lti-logo.png";
-const LOGO_MAHINDRA = "/images/Main Page/recruiters/mahindra-300x85-1.png";
-const LOGO_PERSISTENT = "/images/Main Page/recruiters/logo-rgb-black-e1751968833241.png";
-const LOGO_SCHNEIDER = "/images/Main Page/recruiters/schneider-logo.png";
-const LOGO_TATA_POWER = "/images/Main Page/recruiters/Tata-Power.png";
-const LOGO_TECHNIMANT = "/images/Main Page/recruiters/Technimant-logo.png";
-const LOGO_VERDANTIS = "/images/Main Page/recruiters/verdantis-300x77-1.png";
-const LOGO_VISTAAR = "/images/Main Page/recruiters/Vistaar-logo-1.png";
-const LOGO_VODAFONE = "/images/Main Page/recruiters/VODAPHONE.jpg";
-const LOGO_WIPRO = "/images/Main Page/recruiters/wipro-logo.png";
-const LOGO_ZENSOFT = "/images/Main Page/recruiters/Zensoft-logo.jpg";
-const LOGO_ZEUS = "/images/Main Page/recruiters/Zeus-Learning-logo.png";
+const LOGO_ARCON = resolveUploadedAssetUrl("/images/Main Page/recruiters/arcon-logo.png") ?? "/images/Main Page/recruiters/arcon-logo.png";
+const LOGO_BRISTLECONE = resolveUploadedAssetUrl("/images/Main Page/recruiters/bristlecone-logo.png") ?? "/images/Main Page/recruiters/bristlecone-logo.png";
+const LOGO_BUILTIO = resolveUploadedAssetUrl("/images/Main Page/recruiters/builtio-300x72-1.png") ?? "/images/Main Page/recruiters/builtio-300x72-1.png";
+const LOGO_CAPGEMINI = resolveUploadedAssetUrl("/images/Main Page/recruiters/Capgemini-300x67-1.png") ?? "/images/Main Page/recruiters/Capgemini-300x67-1.png";
+const LOGO_COCA_COLA = resolveUploadedAssetUrl("/images/Main Page/recruiters/coca-300x99-1.png") ?? "/images/Main Page/recruiters/coca-300x99-1.png";
+const LOGO_COGNIZANT = resolveUploadedAssetUrl("/images/Main Page/recruiters/cognizant-logo.png") ?? "/images/Main Page/recruiters/cognizant-logo.png";
+const LOGO_IBM = resolveUploadedAssetUrl("/images/Main Page/recruiters/IBM-logo.png") ?? "/images/Main Page/recruiters/IBM-logo.png";
+const LOGO_INFOSYS = resolveUploadedAssetUrl("/images/Main Page/recruiters/infosys-300x116-1.png") ?? "/images/Main Page/recruiters/infosys-300x116-1.png";
+const LOGO_JOHNSON = resolveUploadedAssetUrl("/images/Main Page/recruiters/Johnson-logo.png") ?? "/images/Main Page/recruiters/Johnson-logo.png";
+const LOGO_LT = resolveUploadedAssetUrl("/images/Main Page/recruiters/lt-300x81-1.jpg") ?? "/images/Main Page/recruiters/lt-300x81-1.jpg";
+const LOGO_LTI = resolveUploadedAssetUrl("/images/Main Page/recruiters/lti-logo.png") ?? "/images/Main Page/recruiters/lti-logo.png";
+const LOGO_MAHINDRA = resolveUploadedAssetUrl("/images/Main Page/recruiters/mahindra-300x85-1.png") ?? "/images/Main Page/recruiters/mahindra-300x85-1.png";
+const LOGO_PERSISTENT = resolveUploadedAssetUrl("/images/Main Page/recruiters/logo-rgb-black-e1751968833241.png") ?? "/images/Main Page/recruiters/logo-rgb-black-e1751968833241.png";
+const LOGO_SCHNEIDER = resolveUploadedAssetUrl("/images/Main Page/recruiters/schneider-logo.png") ?? "/images/Main Page/recruiters/schneider-logo.png";
+const LOGO_TATA_POWER = resolveUploadedAssetUrl("/images/Main Page/recruiters/Tata-Power.png") ?? "/images/Main Page/recruiters/Tata-Power.png";
+const LOGO_TECHNIMANT = resolveUploadedAssetUrl("/images/Main Page/recruiters/Technimant-logo.png") ?? "/images/Main Page/recruiters/Technimant-logo.png";
+const LOGO_VERDANTIS = resolveUploadedAssetUrl("/images/Main Page/recruiters/verdantis-300x77-1.png") ?? "/images/Main Page/recruiters/verdantis-300x77-1.png";
+const LOGO_VISTAAR = resolveUploadedAssetUrl("/images/Main Page/recruiters/Vistaar-logo-1.png") ?? "/images/Main Page/recruiters/Vistaar-logo-1.png";
+const LOGO_VODAFONE = resolveUploadedAssetUrl("/images/Main Page/recruiters/VODAPHONE.jpg") ?? "/images/Main Page/recruiters/VODAPHONE.jpg";
+const LOGO_WIPRO = resolveUploadedAssetUrl("/images/Main Page/recruiters/wipro-logo.png") ?? "/images/Main Page/recruiters/wipro-logo.png";
+const LOGO_ZENSOFT = resolveUploadedAssetUrl("/images/Main Page/recruiters/Zensoft-logo.jpg") ?? "/images/Main Page/recruiters/Zensoft-logo.jpg";
+const LOGO_ZEUS = resolveUploadedAssetUrl("/images/Main Page/recruiters/Zeus-Learning-logo.png") ?? "/images/Main Page/recruiters/Zeus-Learning-logo.png";
 
 const recruiterLogoMap: Record<string, string> = {
   "arcon":               LOGO_ARCON,
@@ -522,7 +522,7 @@ const Recruiters: React.FC = () => {
 
     {/* Background image */}
     <img
-      src="/images/Main Page/PLACEMENT/Placement_Background.jpg"
+      src={resolveUploadedAssetUrl("/images/Main Page/PLACEMENT/Placement_Background.jpg") ?? "/images/Main Page/PLACEMENT/Placement_Background.jpg"}
       alt=""
       className="absolute inset-0 w-full h-full object-cover"
       aria-hidden="true"

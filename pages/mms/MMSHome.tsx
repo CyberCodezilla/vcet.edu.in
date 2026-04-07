@@ -4,6 +4,7 @@ import MMSLayout from '../../components/mms/MMSLayout';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { mmsHomeContent } from './mmsHomeContent';
 import { get, resolveApiUrl } from '../../services/api';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const sectionTitleClass = 'text-2xl md:text-3xl font-display font-bold text-brand-blue';
 const sectionKickerClass = 'text-[11px] font-bold uppercase tracking-[0.2em] text-brand-gold';
@@ -141,7 +142,7 @@ const toArray = (obj: any): any[] => {
           <div className="overflow-hidden rounded-2xl border border-brand-blue/15 bg-white shadow-[0_20px_45px_-30px_rgba(13,45,86,0.45)]">
             {activeHeroSlide.imageUrl ? (
               <img
-                src={activeHeroSlide.imageUrl}
+                src={resolveUploadedAssetUrl(activeHeroSlide.imageUrl) ?? activeHeroSlide.imageUrl}
                 alt="MMS campus hero"
                 className="block h-auto w-full"
                 referrerPolicy="no-referrer"
@@ -206,7 +207,7 @@ const toArray = (obj: any): any[] => {
           <div className="overflow-hidden rounded-xl border border-white/25 bg-white/5">
             {(admissionSection?.items?.[0]?.imageUrl as string) ? (
               <img
-                src={admissionSection?.items?.[0]?.imageUrl as string}
+                src={resolveUploadedAssetUrl(admissionSection?.items?.[0]?.imageUrl as string) ?? (admissionSection?.items?.[0]?.imageUrl as string)}
                 alt="MMS Admission Banner"
                 className="block h-auto w-full"
                 referrerPolicy="no-referrer"
@@ -258,7 +259,7 @@ const toArray = (obj: any): any[] => {
               >
                 {(item.imageUrl as string) ? (
                   <img
-                    src={item.imageUrl as string}
+                    src={resolveUploadedAssetUrl(item.imageUrl as string) ?? (item.imageUrl as string)}
                     alt={`Internship logo ${index + 1}`}
                     className="max-h-20 w-full object-contain"
                     referrerPolicy="no-referrer"
@@ -285,7 +286,7 @@ const toArray = (obj: any): any[] => {
               >
                 {(item.imageUrl as string) ? (
                   <img
-                    src={item.imageUrl as string}
+                    src={resolveUploadedAssetUrl(item.imageUrl as string) ?? (item.imageUrl as string)}
                     alt={`MMS event ${index + 1}`}
                     className="block h-auto w-full"
                     referrerPolicy="no-referrer"
@@ -360,7 +361,7 @@ const toArray = (obj: any): any[] => {
                         poster={poster || undefined}
                         playsInline
                       >
-                        <source src={source} />
+                        <source src={resolveUploadedAssetUrl(source) ?? source} />
                         Your browser does not support the video tag.
                       </video>
                     );
@@ -369,7 +370,7 @@ const toArray = (obj: any): any[] => {
                   if (poster) {
                     return (
                       <img
-                        src={poster}
+                        src={resolveUploadedAssetUrl(poster) ?? poster}
                         alt={video.title as string}
                         className="block h-auto w-full"
                         referrerPolicy="no-referrer"

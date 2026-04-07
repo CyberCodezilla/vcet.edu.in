@@ -7,6 +7,9 @@ import { naacScoresService, type DynamicNaacScoreUpload } from '../services/naac
 import { getResearchSection } from '../services/research';
 import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
 
+const VCET_LOGO_PATH = '/images/VCET logo.jpeg';
+const VCET_LOGO_URL = resolveUploadedAssetUrl(VCET_LOGO_PATH) ?? VCET_LOGO_PATH;
+
 const CAREER_AT_VCET_PDF_URL =
   'https://vcet.edu.in/wp-content/uploads/2025/05/Recruitment-Advertise-15-May-2025.pdf';
 const SSS_GOOGLE_FORM_URL =
@@ -1190,7 +1193,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 mr-0.5">
             <img
-              src="/images/VCET logo.jpeg"
+              src={VCET_LOGO_URL}
               alt="VCET Logo"
               className="h-12 md:h-14 w-auto rounded-sm"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}

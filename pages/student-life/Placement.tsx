@@ -3,6 +3,7 @@ import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { FileText, ExternalLink, Check } from 'lucide-react';
 import { getPlacementPage, PlacementPageData } from '../../services/placementPage';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const sidebarLinks = [
   { id: 'objectives',  label: 'Objectives', icon: 'ph-target' },
@@ -169,7 +170,7 @@ const Placement: React.FC = () => {
                   {placementCellMembers.map((member, index) => (
                     <div key={`${member.name}-${index}`} className="flex flex-col">
                       {member.image && (
-                        <img src={member.image} alt={member.name} className="w-full aspect-[4/3] object-cover rounded-xl border border-slate-200 mb-4" />
+                        <img src={resolveUploadedAssetUrl(member.image) ?? member.image} alt={member.name} className="w-full aspect-[4/3] object-cover rounded-xl border border-slate-200 mb-4" />
                       )}
                       <h4 className="text-[#64b5f6] text-2xl font-bold mb-1">{member.name}</h4>
                       <p className="text-slate-600 mb-4">{member.role}</p>
@@ -226,7 +227,7 @@ const Placement: React.FC = () => {
                   {placementGallery.map((item, idx) => (
                     <div key={`${item.image}-${idx}`} className="aspect-[4/3] rounded-xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow bg-slate-100">
                       {item.image ? (
-                        <img src={item.image} alt={item.title || `Placement gallery ${idx + 1}`} className="w-full h-full object-cover" />
+                        <img src={resolveUploadedAssetUrl(item.image) ?? item.image} alt={item.title || `Placement gallery ${idx + 1}`} className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-slate-400">
                           <i className="ph ph-image text-4xl mb-3" />
@@ -343,7 +344,7 @@ const Placement: React.FC = () => {
               <div className="space-y-6 text-[#5b6574] leading-relaxed text-[15px]">
                 <h3 className="text-2xl font-bold text-[#1a4b7c] border-b border-slate-100 pb-3 mb-6">Our Recruiters</h3>
                 {recruitersBanner ? (
-                  <img src={recruitersBanner} alt="Our Recruiters" className="w-full rounded-lg border border-slate-200" />
+                  <img src={resolveUploadedAssetUrl(recruitersBanner) ?? recruitersBanner} alt="Our Recruiters" className="w-full rounded-lg border border-slate-200" />
                 ) : (
                   <div className="w-full min-h-[280px] rounded-lg border border-slate-200 bg-slate-50 flex items-center justify-center text-slate-400">
                     Recruiters banner not available

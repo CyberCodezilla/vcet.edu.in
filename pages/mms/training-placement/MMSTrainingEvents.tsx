@@ -3,6 +3,7 @@ import MMSLayout from '../../../components/mms/MMSLayout';
 import HorizontalTableShell from '../../../components/mms/HorizontalTableShell';
 import { get, resolveApiUrl } from '../../../services/api';
 import type { TrainingPlacementData, TrainingEvent } from '../../../admin/types';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 export default function MMSTrainingEvents() {
   const [data, setData] = useState<TrainingPlacementData | null>(null);
@@ -84,7 +85,7 @@ export default function MMSTrainingEvents() {
                       <div className="space-y-3">
                         {event.image ? (
                           <div className="flex h-32 items-center justify-center rounded-none border border-brand-blue/25 bg-slate-50 overflow-hidden">
-                            <img src={resolveApiUrl(event.image)} alt={event.eventName} className="h-full w-full object-cover" />
+                            <img src={resolveUploadedAssetUrl(event.image) ?? resolveApiUrl(event.image)} alt={event.eventName} className="h-full w-full object-cover" />
                           </div>
                         ) : null}
                         <p className="text-2xl leading-tight">{event.eventName}</p>        

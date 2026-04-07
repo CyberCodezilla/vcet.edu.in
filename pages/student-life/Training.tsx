@@ -3,6 +3,7 @@ import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { BookOpen, Users, Monitor, Briefcase, Target, Award, Lightbulb, Wrench, Check } from 'lucide-react';
 import { getTrainingSection, TrainingData } from '../../services/training';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   Users,
@@ -254,7 +255,7 @@ const Training: React.FC = () => {
                             {event?.name || '-'}
                             {event?.image && (
                               <img
-                                src={event.image}
+                                src={resolveUploadedAssetUrl(event.image) ?? event.image}
                                 alt={event?.name || `Training event ${idx + 1}`}
                                 className="mt-4 w-32 h-24 object-cover rounded-lg border border-slate-200"
                               />
@@ -297,7 +298,7 @@ const Training: React.FC = () => {
                             <p className="text-sm mb-1 text-slate-600">{row?.resourcePerson || '-'}</p>
                           </td>
                           <td className="p-3 align-middle w-48 border-y border-slate-200 border-r border-slate-200 border-l-0">
-                            {row?.image && <img src={row.image} alt={row?.event || `Career guidance ${idx + 1}`} className="w-full h-24 object-cover rounded-lg border border-slate-200" />}
+                            {row?.image && <img src={resolveUploadedAssetUrl(row.image) ?? row.image} alt={row?.event || `Career guidance ${idx + 1}`} className="w-full h-24 object-cover rounded-lg border border-slate-200" />}
                           </td>
                         </tr>
                       ))}
@@ -321,7 +322,7 @@ const Training: React.FC = () => {
                 )}
                 {internshipImage && (
                   <div className="mt-8">
-                    <img src={internshipImage} alt="Industries for Internships" className="w-full max-w-4xl mx-auto rounded-xl border border-slate-200 shadow-lg" />
+                    <img src={resolveUploadedAssetUrl(internshipImage) ?? internshipImage} alt="Industries for Internships" className="w-full max-w-4xl mx-auto rounded-xl border border-slate-200 shadow-lg" />
                   </div>
                 )}
               </div>
@@ -336,7 +337,7 @@ const Training: React.FC = () => {
                   {gallery.map((item: any, idx: number) => (
                     <div key={`${item?.image || 'gallery'}-${idx}`} className="aspect-[4/3] bg-slate-100 rounded-xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
                       {item?.image ? (
-                        <img src={item.image} alt={item?.title || `Gallery ${idx + 1}`} className="w-full h-full object-cover" />
+                        <img src={resolveUploadedAssetUrl(item.image) ?? item.image} alt={item?.title || `Gallery ${idx + 1}`} className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-slate-400">
                           <i className="ph ph-image text-4xl mb-3" />

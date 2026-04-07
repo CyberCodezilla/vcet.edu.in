@@ -3,6 +3,7 @@ import MMSLayout from '../../../components/mms/MMSLayout';
 import { Quote } from 'lucide-react';
 import { principalSignature } from './mmsAboutData';
 import { get, resolveApiUrl } from '../../../services/api';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 interface MMSAboutData {
   data: {
@@ -31,7 +32,7 @@ export default function MMSPrincipalsDesk() {
   const imageStr: string | null = rawImage != null && typeof rawImage === 'object' && 'url' in (rawImage as any) 
     ? (rawImage as any).url 
     : (typeof rawImage === 'string' ? rawImage : null);
-  const principalImageUrl = imageStr ? resolveApiUrl(imageStr) : null;
+  const principalImageUrl = imageStr ? resolveUploadedAssetUrl(imageStr) ?? resolveApiUrl(imageStr) : null;
   const descriptionParagraphs = data?.principalDesk?.message?.split('\n').filter((p: string) => p.trim().length > 0) || [];
 
   return (

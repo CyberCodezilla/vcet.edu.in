@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MMSLayout from '../../../components/mms/MMSLayout';
 import { get, resolveApiUrl } from '../../../services/api';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 interface FacultyMember {
   name: string;
@@ -74,7 +75,7 @@ export default function MMSFaculty() {
               const imageStr = rawImage && typeof rawImage === 'object' && 'url' in rawImage 
                 ? (rawImage as any).url 
                 : (typeof rawImage === 'string' ? rawImage : null);
-              const imageUrl = imageStr ? resolveApiUrl(imageStr) : null;
+              const imageUrl = imageStr ? resolveUploadedAssetUrl(imageStr) ?? resolveApiUrl(imageStr) : null;
 
               const initials = (faculty.name || 'F M')
                 .split(' ')

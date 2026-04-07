@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MMSLayout from '../../../components/mms/MMSLayout';
 import { get, resolveApiUrl } from '../../../services/api';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 interface MMSAboutData {
   data: {
@@ -29,7 +30,7 @@ export default function MMSAbout() {
   const imageStr: string | null = rawImage != null && typeof rawImage === 'object' && 'url' in (rawImage as any)
     ? (rawImage as any).url
     : (typeof rawImage === 'string' ? rawImage : null);
-  const aboutImageUrl = imageStr ? resolveApiUrl(imageStr) : null;
+  const aboutImageUrl = imageStr ? resolveUploadedAssetUrl(imageStr) ?? resolveApiUrl(imageStr) : null;
   const descriptionParagraphs = data?.aboutMMS?.description?.split('\n').filter(p => p.trim().length > 0) || [];
 
   return (

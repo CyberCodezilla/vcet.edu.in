@@ -20,6 +20,7 @@ import {
   Trophy,
   Wrench,
 } from 'lucide-react';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 /* ─────────────────────────────────────────────────────────────
    TYPES
@@ -468,7 +469,7 @@ const GalleryPanel: React.FC = () => {
             {item.img ? (
               /* ADMIN: Real photo — swap src when available */
               <img
-                src={item.img}
+                src={resolveUploadedAssetUrl(item.img) ?? item.img}
                 alt={item.label}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { facultyApi } from '../admin/api/faculty';
 import type { Faculty } from '../admin/types';
 import fallbackFacultyData from './fallbackFaculty.json';
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
 
 interface DepartmentFacultySectionProps {
   departmentName: string;
@@ -35,6 +36,33 @@ const DEPARTMENT_ALIASES: Record<string, string> = {
   'mechanical engineering': 'mechanical engineering',
 };
 
+const CE_IMAGE_BASE = '/images/Departments/Computer Engineering';
+const CE_FACULTY_IMAGE_BY_KEY: Record<string, string> = {
+  anilhingmire: 'facultycompsMr.-Anil-Hingmire.jpg',
+  atharva: 'facultycompsAtharva.jpeg',
+  awantika: 'facultycompsAwantika-pic.jpeg',
+  bhaktijadhav: 'facultycompsMs.Bhakti-Jadhav.png',
+  brinal: 'facultycompsBrinal.jpeg',
+  dineshpatil: 'facultycompsDinesh-Patil.jpg',
+  joyce: 'facultycompsJoyce.jpg',
+  manali: 'Ms.facultycompsManali.jpg',
+  meghatrivedi: 'facultycompsDr.-Megha-Trivedi.jpg',
+  nehasurti: 'facultycompsNeha-Surti1.jpg',
+  sanketpatil: 'facultycompsMr.-Sanket-Patil.jpg',
+  shilpa: 'facultycompsShilpa-J.jpeg',
+  smitajawale: 'facultycompsMrs.-Smita-Jawale.jpg',
+  snehamhatre: 'facultycompsMrs.-Sneha-Mhatre.jpg',
+  soniya: 'facultycompsSoniya-R-Khatu.jpg',
+  sridhar: 'facultycompsSridhar.jpeg',
+  sunilkatkar: 'facultycompsMr.-Sunil-Katkar.jpg',
+  swapnaborde: 'facultycompsDr.-Swapna-Borde.jpg',
+  sweetypatil: 'facultycompsMs.Sweety-Patil.jpg',
+  swativarma: 'facultycompsSwati-Varma.jpg',
+  vanashree: 'facultycompsvanashree.jpg',
+  vinal: 'facultycompsVinal-photo.jpeg',
+  vishalpande: 'facultycompsMr.Vishal-Pande.jpg',
+};
+
 const normalizeDepartmentName = (value: string): string => {
   const normalized = value
     .toLowerCase()
@@ -44,6 +72,19 @@ const normalizeDepartmentName = (value: string): string => {
     .trim();
 
   return DEPARTMENT_ALIASES[normalized] || normalized;
+};
+
+const normalizeFacultyKey = (value: string): string => {
+  return value
+    .toLowerCase()
+    .replace(/\b(dr|mr|mrs|ms|prof)\.?\s*/g, '')
+    .replace(/[^a-z]/g, '');
+};
+
+const getComputerFacultyImage = (name: string): string | undefined => {
+  const key = normalizeFacultyKey(name);
+  const entry = Object.entries(CE_FACULTY_IMAGE_BY_KEY).find(([matchKey]) => key.includes(matchKey));
+  return entry ? `${CE_IMAGE_BASE}/${entry[1]}` : undefined;
 };
 
 const isFacultyActive = (faculty: Faculty): boolean => {
@@ -72,11 +113,12 @@ const getInitials = (name: string) => {
 
 const ImageWithFallback: React.FC<{ url?: string; name: string }> = ({ url, name }) => {
   const [error, setError] = useState(false);
+  const resolvedUrl = url ? resolveUploadedAssetUrl(url) ?? url : undefined;
 
-  if (url && !error) {
+  if (resolvedUrl && !error) {
     return (
       <img
-        src={url}
+        src={resolvedUrl}
         alt={name}
         onError={() => setError(true)}
         className="w-full h-full object-cover object-top"
@@ -94,6 +136,7 @@ const ImageWithFallback: React.FC<{ url?: string; name: string }> = ({ url, name
 const DepartmentFacultySection: React.FC<DepartmentFacultySectionProps> = ({ departmentName }) => {
   const [faculty, setFaculty] = useState<Faculty[]>([]);
   const [loading, setLoading] = useState(true);
+  const isComputerDepartment = normalizeDepartmentName(departmentName) === 'computer engineering';
 
   useEffect(() => {
     setLoading(true);
@@ -176,7 +219,10 @@ const DepartmentFacultySection: React.FC<DepartmentFacultySectionProps> = ({ dep
               {/* Photo with gold badge at bottom-right */}
               <div className="relative w-32 h-36 mb-4 shrink-0">
                 <div className="w-full h-full overflow-hidden rounded-t-sm shadow-sm border border-slate-100">
-                  <ImageWithFallback url={f.profileImage?.url} name={f.basicInfo.fullName} />
+                  <ImageWithFallback
+                    url={f.profileImage?.url || (isComputerDepartment ? getComputerFacultyImage(f.basicInfo.fullName) : undefined)}
+                    name={f.basicInfo.fullName}
+                  />
                 </div>
                 {/* Gold accent square */}
                 <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#fdb813] shadow-sm" />

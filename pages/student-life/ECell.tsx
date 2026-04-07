@@ -3,6 +3,7 @@ import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { getStudentCareerSection } from '../../services/studentCareer';
 import { resolveApiUrl } from '../../services/api';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const sidebarLinks = [
   { id: 'about', label: 'Entrepreneurship Cell', icon: 'ph-info' },
@@ -210,7 +211,7 @@ const ECell: React.FC = () => {
                   {gallery.map((item: any, idx: number) => (
                     <div key={`${item?.image || 'gallery'}-${idx}`} className="aspect-[4/3] bg-slate-100 rounded-xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
                       {item?.image ? (
-                        <img src={resolveApiUrl(item.image) || item.image} alt={item?.title || `E-Cell gallery ${idx + 1}`} className="w-full h-full object-cover" />
+                        <img src={resolveUploadedAssetUrl(item.image) ?? resolveApiUrl(item.image) ?? item.image} alt={item?.title || `E-Cell gallery ${idx + 1}`} className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-slate-400">
                           <i className="ph ph-image text-4xl mb-3" />

@@ -10,6 +10,7 @@ import {
 import { Mail, Phone } from 'lucide-react';
 import { getStudentCareerSection } from '../../services/studentCareer';
 import { resolveApiUrl } from '../../services/api';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
@@ -301,7 +302,7 @@ return (
 
             <div className="relative mb-6 w-48 h-56 rounded-2xl overflow-hidden shadow-lg border border-brand-blue/10">
               <img
-                src={cImg}
+                src={resolveUploadedAssetUrl(cImg) ?? cImg}
                 alt={cName}
                 className="w-full h-full object-cover"
                 loading="lazy"

@@ -11,6 +11,14 @@ import {
 } from "lucide-react";
 import { useHomepageData } from "../context/HomepageDataContext";
 import { useNewsTicker } from "../hooks/useNewsTicker";
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
+
+const VCET_LOGO_PATH = '/images/VCET logo.jpeg';
+const VCET_LOGO_URL = resolveUploadedAssetUrl(VCET_LOGO_PATH) ?? VCET_LOGO_PATH;
+const NAAC_LOGO_PATH = '/images/Main Page/LOGO/NAAC_LOGO.png';
+const NAAC_LOGO_URL = resolveUploadedAssetUrl(NAAC_LOGO_PATH) ?? NAAC_LOGO_PATH;
+const NBA_LOGO_PATH = '/images/Main Page/LOGO/NBA_logo.jpeg';
+const NBA_LOGO_URL = resolveUploadedAssetUrl(NBA_LOGO_PATH) ?? NBA_LOGO_PATH;
 
 const TopBanner: React.FC = () => {
   const homepage = useHomepageData();
@@ -32,7 +40,7 @@ const TopBanner: React.FC = () => {
             <div className="flex flex-col lg:flex-row items-center text-center lg:text-left gap-3 lg:gap-5 flex-shrink-0 max-w-full">
               <div className="flex-shrink-0">
                 <img
-                  src="/images/VCET logo.jpeg"
+                  src={VCET_LOGO_URL}
                   alt="VCET Logo"
                   className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain drop-shadow-sm"
                   onError={(e) => {
@@ -60,7 +68,7 @@ const TopBanner: React.FC = () => {
             {/* NAAC & NBA Logos */}
             <div className="flex items-center justify-center gap-3 sm:gap-6 flex-shrink-0 w-full lg:w-auto mt-2 lg:mt-0">
               <img
-                src="/images/Main Page/LOGO/NAAC_LOGO.png"
+                src={NAAC_LOGO_URL}
                 alt="NAAC Accredited"
                 className="h-10 sm:h-14 lg:h-20 w-auto object-contain drop-shadow-sm"
                 onError={(e) => {
@@ -68,7 +76,7 @@ const TopBanner: React.FC = () => {
                 }}
               />
               <img
-                src="/images/Main Page/LOGO/NBA_logo.jpeg"
+                src={NBA_LOGO_URL}
                 alt="NBA Accredited"
                 className="h-10 sm:h-14 lg:h-20 w-auto object-contain drop-shadow-sm"
                 onError={(e) => {

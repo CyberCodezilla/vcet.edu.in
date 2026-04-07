@@ -1,4 +1,5 @@
 import React from 'react';
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
 
 interface PdfItem {
   label: string;
@@ -48,6 +49,8 @@ const DepartmentNewsletterPanel: React.FC<DepartmentNewsletterPanelProps> = ({
   tableTitle = 'ITECH Editorial Committee',
   tableRows = defaultEditorialRows,
 }) => {
+  const resolvedStaffImage = staffImage ? resolveUploadedAssetUrl(staffImage) ?? staffImage : null;
+
   return (
     <section className="reveal space-y-8">
       <article className="bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -126,8 +129,8 @@ const DepartmentNewsletterPanel: React.FC<DepartmentNewsletterPanelProps> = ({
           <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8">
             <div className="w-full md:w-[170px] lg:w-[190px] flex-shrink-0">
               <div className="aspect-[4/5] rounded-2xl border border-[#D8E6F3] bg-[#F4F8FC] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
-                {staffImage ? (
-                  <img src={staffImage} alt={staffName || 'Staff Incharge'} className="w-full h-full object-cover" />
+                {resolvedStaffImage ? (
+                  <img src={resolvedStaffImage} alt={staffName || 'Staff Incharge'} className="w-full h-full object-cover" />
                 ) : (
                   <>
                     <i className="ph ph-user-circle text-[44px] text-[#56A9D8]" />

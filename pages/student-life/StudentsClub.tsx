@@ -5,6 +5,7 @@ import {
   Users, Rocket, Code, Lightbulb, Globe, Wrench, Camera, Music, Award, 
   Info, Image as ImageIcon, Users2, Mail, Phone, ChevronRight, Eye, Target, Zap, Cpu, Trophy 
 } from 'lucide-react';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 /* ─────────────────────────────────────────────
    TYPES & DATA
@@ -153,7 +154,7 @@ const AboutPanel: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-[#ffb100]/20 to-[#0056b3]/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500" />
             <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-slate-100 flex flex-col items-center gap-4">
               <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.instagram.com/sae_vcet"
+                src={resolveUploadedAssetUrl('https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.instagram.com/sae_vcet') ?? 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.instagram.com/sae_vcet'}
                 alt="Scan to follow SAE VCET on Instagram"
                 className="w-40 h-40 rounded-xl"
               />
@@ -267,7 +268,7 @@ const TeamPanel: React.FC = () => {
             <div className="relative mx-auto w-32 h-32 mb-6 rounded-full bg-gradient-to-br from-[#eaf3ff] to-[#cde5ff] p-1 shadow-xl">
               <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white bg-slate-100">
                 <img
-                  src="https://vcet.edu.in/public/images/Team/Dipak-Choudhari.jpg"
+                  src={resolveUploadedAssetUrl('https://vcet.edu.in/public/images/Team/Dipak-Choudhari.jpg') ?? 'https://vcet.edu.in/public/images/Team/Dipak-Choudhari.jpg'}
                   alt="Mr. Dipak Choudhari"
                   className="w-full h-full object-cover"
                 />

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MMSLayout from '../../../components/mms/MMSLayout';
 import { Quote } from 'lucide-react';
 import { get, resolveApiUrl } from '../../../services/api';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 interface MMSAboutData {
   data: {
@@ -30,7 +31,7 @@ export default function MMSHODsDesk() {
   const imageStr: string | null = rawImage != null && typeof rawImage === 'object' && 'url' in (rawImage as any) 
     ? (rawImage as any).url 
     : (typeof rawImage === 'string' ? rawImage : null);
-  const hodImageUrl = imageStr ? resolveApiUrl(imageStr) : null;
+  const hodImageUrl = imageStr ? resolveUploadedAssetUrl(imageStr) ?? resolveApiUrl(imageStr) : null;
   const descriptionParagraphs = data?.hodDesk?.message?.split('\n').filter((p: string) => p.trim().length > 0) || [];
 
   return (

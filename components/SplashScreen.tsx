@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useHomepageData } from '../context/HomepageDataContext';
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
 
 const splashImages = [
-  { src: '/images/Main Page/Packages/HIGEST_Package_banner.jpg', label: 'Highest Package' },
-  { src: '/images/Main Page/Packages/AICTE-Pamphlet_page-0001.jpg', label: 'AICTE Pamphlet' },
+  {
+    src:
+      resolveUploadedAssetUrl('/images/Main Page/Packages/HIGEST_Package_banner.jpg') ??
+      '/images/Main Page/Packages/HIGEST_Package_banner.jpg',
+    label: 'Highest Package',
+  },
+  {
+    src:
+      resolveUploadedAssetUrl('/images/Main Page/Packages/AICTE-Pamphlet_page-0001.jpg') ??
+      '/images/Main Page/Packages/AICTE-Pamphlet_page-0001.jpg',
+    label: 'AICTE Pamphlet',
+  },
 ];
 
 const SplashScreen: React.FC = () => {
@@ -14,7 +25,7 @@ const SplashScreen: React.FC = () => {
   const dynamicImages = (homepage?.data.homepageBanners ?? [])
     .filter((banner) => Boolean(banner.image_url))
     .map((banner) => ({
-      src: banner.image_url as string,
+      src: resolveUploadedAssetUrl(banner.image_url as string) ?? (banner.image_url as string),
       label: banner.description || banner.title || 'Homepage Banner',
     }));
   const images = dynamicImages.length > 0 ? dynamicImages : splashImages;

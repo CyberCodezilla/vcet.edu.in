@@ -4,6 +4,7 @@ import { facultyApi } from '../admin/api/faculty';
 import type { Faculty } from '../admin/types';
 import PageLayout from '../components/PageLayout';
 import fallbackFacultyData from '../components/fallbackFaculty.json';
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
 import './departments/csds/FacultyProfile.css';
 
 const getInitials = (name: string) => {
@@ -25,9 +26,10 @@ const findFallbackFaculty = (id: string): Faculty | null =>
 
 const ImageWithFallback: React.FC<{ url?: string; name: string; altText: string }> = ({ url, name, altText }) => {
   const [error, setError] = useState(false);
+  const resolvedUrl = url ? resolveUploadedAssetUrl(url) ?? url : undefined;
 
-  if (url && !error) {
-    return <img src={url} alt={altText} onError={() => setError(true)} />;
+  if (resolvedUrl && !error) {
+    return <img src={resolvedUrl} alt={altText} onError={() => setError(true)} />;
   }
 
   return (

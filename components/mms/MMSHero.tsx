@@ -1,12 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { MMS_HERO_IMAGES } from '../../services/mms/imagePool';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const heroImages = [...MMS_HERO_IMAGES];
 
 export default function MMSHero() {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const activeImage = useMemo(() => heroImages[activeIndex] || null, [activeIndex]);
+  const activeImage = useMemo(() => {
+    const rawImage = heroImages[activeIndex];
+    if (!rawImage) return null;
+    return resolveUploadedAssetUrl(rawImage) ?? rawImage;
+  }, [activeIndex]);
 
   useEffect(() => {
     const timer = window.setInterval(() => {

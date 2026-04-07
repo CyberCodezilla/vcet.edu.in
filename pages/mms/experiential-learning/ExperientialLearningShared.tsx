@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ImageIcon } from 'lucide-react';
 import { useMmsImageHolder } from '../../../hooks/mms/useMmsImageHolder';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 interface ExperientialSectionCardProps {
   title: string;
@@ -27,6 +28,7 @@ interface ExperientialImageHolderProps {
 export function ExperientialImageHolder({ label, imageSrc }: ExperientialImageHolderProps) {
   const hookImageUrl = useMmsImageHolder('experiential', label, !!imageSrc);
   const imageUrl = imageSrc || hookImageUrl;
+  const resolvedImageUrl = imageUrl ? resolveUploadedAssetUrl(imageUrl) ?? imageUrl : null;
   const [isLoaded, setIsLoaded] = useState(false);
   const cardHeightClass = 'h-[400px]';
   const frameClass = 'h-[250px]';
@@ -34,7 +36,7 @@ export function ExperientialImageHolder({ label, imageSrc }: ExperientialImageHo
   return (
     <article className={`group relative overflow-hidden rounded-none border border-brand-blue/25 bg-gradient-to-br from-slate-50 to-brand-light/45 p-[3px] shadow-[0_18px_30px_-24px_rgba(11,61,145,0.65)] ${cardHeightClass}`}>
       <div className="relative flex h-full flex-col rounded-none border border-brand-blue/20 bg-white p-4 sm:p-5">
-        {imageUrl ? (
+        {resolvedImageUrl ? (
           <>
             {!isLoaded && (
               <div className={`absolute inset-x-4 top-4 sm:inset-x-5 flex items-center justify-center bg-brand-navy animate-pulse ${frameClass}`}>
@@ -43,7 +45,7 @@ export function ExperientialImageHolder({ label, imageSrc }: ExperientialImageHo
             )}
             <div className={`w-full rounded-none bg-brand-navy ${frameClass}`}>
               <img
-                src={imageUrl}
+                src={resolvedImageUrl}
                 alt={label}
                 onLoad={() => setIsLoaded(true)}
                 className={`block h-full w-full rounded-none object-contain transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}

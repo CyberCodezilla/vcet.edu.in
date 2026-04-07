@@ -1,6 +1,7 @@
 import React from 'react';
 import { ImageIcon } from 'lucide-react';
 import { useMmsImageHolder } from '../../../hooks/mms/useMmsImageHolder';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 interface FacilitiesSectionCardProps {
   title: string;
@@ -33,14 +34,15 @@ export function FacilitiesImageHolder(props: FacilitiesImageHolderProps) {
   const cardHeightClass = 'h-[400px]';
   const frameClass = 'h-[250px]';
   const imageUrl = props.src || props.imageSrc;
+  const resolvedImageUrl = imageUrl ? resolveUploadedAssetUrl(imageUrl) ?? imageUrl : null;
 
   return (
     <article className={`group relative overflow-hidden rounded-none border border-brand-blue/20 bg-gradient-to-br from-slate-50 to-brand-light/35 p-[3px] shadow-[0_16px_28px_-20px_rgba(11,61,145,0.6)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_36px_-20px_rgba(11,61,145,0.65)] ${cardHeightClass}`}>
       <div className="flex h-full flex-col rounded-none border border-brand-blue/15 bg-white p-4">
-        {imageUrl ? (
+        {resolvedImageUrl ? (
           <div className={`w-full rounded-none bg-brand-navy ${frameClass}`}>
             <img
-              src={imageUrl}
+              src={resolvedImageUrl}
               alt={label}
               className="block h-full w-full rounded-none object-contain"
               referrerPolicy="no-referrer"

@@ -1,5 +1,6 @@
 import React from 'react';
 import { X } from 'lucide-react';
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
 
 interface ImagePreviewModalProps {
   isOpen: boolean;
@@ -14,7 +15,8 @@ const ImagePreviewModal: React.FC<ImagePreviewModalProps> = ({
   imageUrl, 
   title = 'Event Poster' 
 }) => {
-  const safeImageUrl = imageUrl?.trim() || null;
+  const trimmedImageUrl = imageUrl?.trim() || null;
+  const safeImageUrl = trimmedImageUrl ? resolveUploadedAssetUrl(trimmedImageUrl) ?? trimmedImageUrl : null;
   if (!isOpen || !safeImageUrl) return null;
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {

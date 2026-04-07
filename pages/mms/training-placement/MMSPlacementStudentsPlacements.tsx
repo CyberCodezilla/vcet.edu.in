@@ -4,6 +4,7 @@ import MMSLayout from '../../../components/mms/MMSLayout';
 import { PlacementDataTableCard } from './MMSPlacementShared';
 import { get, resolveApiUrl } from '../../../services/api';
 import type { TrainingPlacementData } from '../../../admin/types';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 const defaultPlacementsRows = [
   {
@@ -86,9 +87,12 @@ export default function MMSPlacementStudentsPlacements() {
         student: row.studentName,
         specialization: row.specialization,
         company: row.company,
-        src: resolveApiUrl(row.image) || undefined,
+        src: resolveUploadedAssetUrl(row.image) ?? resolveApiUrl(row.image) ?? undefined,
       }))
-    : defaultPlacementsRows;
+    : defaultPlacementsRows.map((row) => ({
+        ...row,
+        src: resolveUploadedAssetUrl(row.src) ?? row.src,
+      }));
 
   const totalPages = Math.ceil(placementsRows.length / rowsPerPage);
   const paginatedRows = placementsRows.slice(

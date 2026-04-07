@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ImageIcon } from 'lucide-react';
 import { useMmsImageHolder } from '../../../hooks/mms/useMmsImageHolder';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 interface PlacementSectionCardProps {
   title: string;
@@ -34,12 +35,13 @@ export function PlacementImageHolder({ label, size = 'default', imageSrc, src }:
   const activeSrc = imageSrc || src;
   const hookImageUrl = useMmsImageHolder('placement', label, !!activeSrc);       
   const imageUrl = activeSrc || hookImageUrl;
+  const resolvedImageUrl = imageUrl ? resolveUploadedAssetUrl(imageUrl) ?? imageUrl : null;
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
     <article className={`group relative overflow-hidden rounded-none border border-brand-blue/20 bg-gradient-to-br from-slate-50 to-brand-light/35 p-[3px] shadow-[0_16px_28px_-20px_rgba(11,61,145,0.6)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_36px_-20px_rgba(11,61,145,0.65)] ${cardHeightClass}`}>
       <div className="relative flex h-full flex-col rounded-none border border-brand-blue/15 bg-white p-4">
-        {imageUrl ? (
+        {resolvedImageUrl ? (
           <>
             {!isLoaded && (
               <div className={`absolute inset-x-4 top-4 flex items-center justify-center bg-brand-navy animate-pulse ${frameClass}`}>
@@ -48,7 +50,7 @@ export function PlacementImageHolder({ label, size = 'default', imageSrc, src }:
             )}
             <div className={`w-full rounded-none bg-brand-navy ${frameClass}`}>
               <img
-                src={imageUrl}
+                src={resolvedImageUrl}
                 alt={label}
                 onLoad={() => setIsLoaded(true)}
                 className={`block h-full w-full rounded-none object-contain transition-opacity duration-700 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}

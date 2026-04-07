@@ -3,6 +3,10 @@ import { motion } from 'motion/react';
 import { LampContainer } from '../ui/lamp';
 import { placementStatsApi, type PlacementStat } from '../admin/api/placementStats';
 import { useHomepageData } from '../context/HomepageDataContext';
+import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
+
+const PLACEMENTS_BG_PATH = '/images/Main Page/PLACEMENT/Placement_Background.jpg';
+const PLACEMENTS_BG_URL = resolveUploadedAssetUrl(PLACEMENTS_BG_PATH) ?? PLACEMENTS_BG_PATH;
 
 interface ChartEntry {
   year: string;
@@ -222,7 +226,7 @@ const Placements: React.FC = () => {
       <div className="relative py-10 md:py-14 bg-gradient-to-b from-brand-dark to-brand-navy">
         <div className="absolute inset-0 z-0">
           <img
-            src="/images/Main Page/PLACEMENT/Placement_Background.jpg"
+            src={PLACEMENTS_BG_URL}
             alt="Placements Background"
             className="w-full h-full object-cover opacity-10"
           />

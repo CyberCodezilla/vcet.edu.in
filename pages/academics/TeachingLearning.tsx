@@ -3,6 +3,7 @@ import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { ChevronRight, Image as ImageIcon } from 'lucide-react';
 import { academicsService, ObeData } from '../../services/academics';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const flowPhases = [
   {
@@ -272,7 +273,7 @@ const TeachingLearning: React.FC = () => {
                       <div className="aspect-[16/9] w-full bg-slate-200 rounded-2xl animate-pulse" />
                     ) : obe.imageUrl ? (
                       <img
-                        src={obe.imageUrl}
+                        src={resolveUploadedAssetUrl(obe.imageUrl) ?? obe.imageUrl}
                         alt={obe.title || 'OBE Framework Diagram'}
                         className="w-full rounded-2xl"
                       />

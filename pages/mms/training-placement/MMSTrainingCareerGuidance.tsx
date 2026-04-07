@@ -3,6 +3,7 @@ import MMSLayout from '../../../components/mms/MMSLayout';
 import HorizontalTableShell from '../../../components/mms/HorizontalTableShell';
 import { get, resolveApiUrl } from '../../../services/api';
 import type { TrainingPlacementData, CareerGuidanceSeminar } from '../../../admin/types';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 
 export default function MMSTrainingCareerGuidance() {
   const [data, setData] = useState<TrainingPlacementData | null>(null);
@@ -123,7 +124,7 @@ export default function MMSTrainingCareerGuidance() {
                         <div className="space-y-2">
                           {seminar.image ? (
                             <div className="flex h-20 w-20 items-center justify-center rounded-none border border-brand-blue/25 bg-slate-50 overflow-hidden">
-                              <img src={resolveApiUrl(seminar.image)} alt={name} className="h-full w-full object-cover" />
+                              <img src={resolveUploadedAssetUrl(seminar.image) ?? resolveApiUrl(seminar.image)} alt={name} className="h-full w-full object-cover" />
                             </div>
                           ) : null}
                           {name ? <p className="text-base leading-7 font-semibold">{name}</p> : null}

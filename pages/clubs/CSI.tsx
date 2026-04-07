@@ -16,6 +16,7 @@ import {
   Trophy,
   Monitor,
 } from 'lucide-react';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 /* ─────────────────────────────────────────────
    TYPES & DATA
@@ -289,7 +290,7 @@ const GalleryPanel: React.FC = () => {
             {/* 
               ADMIN EDIT: IMAGE DISPLAY
               When imageUrl is available, replace the div below with:
-              <img src={item.imageUrl} alt={item.label} className="w-full h-full object-cover" />
+              <img src={resolveUploadedAssetUrl(item.imageUrl) ?? item.imageUrl} alt={item.label} className="w-full h-full object-cover" />
             */}
             <div className="w-10 h-10 bg-white/60 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <ImageIcon className="w-4 h-4 text-[#1a2b4b]/40" />
@@ -329,7 +330,7 @@ const TeamPanel: React.FC = () => {
             {/* 
               ADMIN EDIT: FACULTY IMAGE
               When image is available, replace the initials div below with:
-              <img src={faculty.imageUrl} alt={faculty.name} className="w-full h-full rounded-full object-cover border-4 border-white shadow-lg" />
+              <img src={resolveUploadedAssetUrl(faculty.imageUrl) ?? faculty.imageUrl} alt={faculty.name} className="w-full h-full rounded-full object-cover border-4 border-white shadow-lg" />
             */}
             <div className="relative mx-auto w-28 h-28 mb-5">
               <div className="w-full h-full rounded-full bg-gradient-to-br from-[#1a2b4b] to-[#0056b3] flex items-center justify-center text-white font-black text-2xl border-4 border-white shadow-lg">

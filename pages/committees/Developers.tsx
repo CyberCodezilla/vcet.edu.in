@@ -2,6 +2,7 @@ import React from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { Github, Linkedin, Globe, Code2, Users } from 'lucide-react';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 interface DevProfile {
   name: string;
@@ -92,7 +93,7 @@ const DevCard: React.FC<{ profile: DevProfile }> = ({ profile }) => (
     <div className="relative w-24 h-24 mb-4">
       <div className="absolute inset-0 bg-[#2563EB]/10 rounded-full blur group-hover:bg-[#2563EB]/20 transition-all" />
       <img
-        src={`https://github.com/${profile.githubUser}.png?size=150`}
+        src={resolveUploadedAssetUrl(`https://github.com/${profile.githubUser}.png?size=150`) ?? `https://github.com/${profile.githubUser}.png?size=150`}
         alt={profile.name}
         className="relative w-full h-full object-cover rounded-full border-2 border-white shadow-md relative z-10 bg-white"
         loading="lazy"
@@ -124,7 +125,7 @@ const MentorCard: React.FC<{ profile: typeof mentors[0] }> = ({ profile }) => (
     <div className="relative w-24 h-24 mb-4">
       <div className="absolute inset-0 bg-[#2563EB]/10 rounded-full blur group-hover:bg-[#2563EB]/20 transition-all" />
       <img
-        src={profile.imageUrl}
+        src={resolveUploadedAssetUrl(profile.imageUrl) ?? profile.imageUrl}
         alt={profile.name}
         className="relative w-full h-full object-cover rounded-full border-2 border-white shadow-md relative z-10 bg-white"
         loading="lazy"
