@@ -35,6 +35,8 @@ function getPublicDeptCacheKey(path: string): string {
 }
 
 function readPublicDeptCache(path: string): PublicCacheEntry | null {
+  if (import.meta.env.DEV || PUBLIC_DEPT_CACHE_TTL_MS <= 0) return null;
+
   const key = getPublicDeptCacheKey(path);
   const mem = publicDeptMemoryCache.get(key);
   if (mem) return mem;
@@ -64,7 +66,21 @@ function writePublicDeptCache(path: string, data: unknown): void {
     // Ignore storage failures.
   }
 }
-
+export function clearPublicDeptCache(): void {
+  publicDeptMemoryCache.clear();
+  if (typeof window === 'undefined') return;
+  try {
+    for (let i = 0; i < window.localStorage.length; i++) {
+      const key = window.localStorage.key(i);
+      if (key && key.startsWith(PUBLIC_DEPT_CACHE_PREFIX)) {
+        window.localStorage.removeItem(key);
+        i--;
+      }
+    }
+  } catch {
+    // Ignore storage failures.
+  }
+}
 function getCookie(name: string): string | null {
   if (typeof document === "undefined") return null;
 
@@ -165,6 +181,7 @@ async function request<T>(
   retryOnCsrf = true,
 ): Promise<T> {
   const method = (options.method ?? "GET").toUpperCase();
+  if (method !== "GET") clearPublicDeptCache();
   const publicDeptCacheEnabled = (import.meta.env.VITE_ENABLE_PUBLIC_CACHE as string | undefined) !== 'false';
   const shouldUsePublicDeptCache = publicDeptCacheEnabled && isPublicDeptRequest(path, method);
 
@@ -217,6 +234,7 @@ async function requestForm<T>(
   retryOnCsrf = true,
 ): Promise<T> {
   const normalizedMethod = method.toUpperCase();
+  if (normalizedMethod !== "GET") clearPublicDeptCache();
   const headers = buildHeaders();
 
   if (!SAFE_METHODS.has(normalizedMethod)) {

@@ -1,1 +1,0 @@
-admin/pages/departments/newsletter/DepartmentNewsletter.tsx(5,30): error TS2307: Cannot find module '../../../../components/admin/AdminFormSection' or its corresponding type declarations.

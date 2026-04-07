@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
 import DepartmentNewsletterPanel from '../../components/DepartmentNewsletterPanel';
+import DepartmentHodImage from '../../components/DepartmentHodImage';
 import { departmentApi } from '../../admin/api/departments';
 import type { Department } from '../../admin/types';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 import { newsletterApi } from '../../admin/api/newsletterApi';
 import { resolveApiUrl } from '../../admin/api/client';
 
@@ -21,6 +23,7 @@ const sidebarLinks = [
   { id: 'toppers',    label: 'Toppers',                      icon: 'ph-medal' },
   { id: 'syllabus',   label: 'Syllabus',                     icon: 'ph-book-open' },
   { id: 'newsletter', label: 'Newsletter',                   icon: 'ph-newspaper' },
+  { id: 'faculty-achievements', label: 'Faculty Achievements', icon: 'ph-trophy' },
 ];
 
 const delayClass = (idx: number) => {
@@ -61,6 +64,8 @@ const DeptAIDS: React.FC = () => {
       .catch(err => console.error("Failed to load department data", err))
       .finally(() => setLoading(false));
   }, []);
+
+  const hodImageUrl = resolveUploadedAssetUrl(department?.content?.hodImage as string | null);
 
   const newsletters = dynamicApiItems
     .filter(item => item.type === 'newsletter' && item.pdf)
@@ -133,7 +138,13 @@ const DeptAIDS: React.FC = () => {
         <aside className="w-full lg:w-72 xl:w-80 flex-shrink-0">
           <div className="lg:sticky lg:top-24 bg-white rounded-xl shadow-md overflow-hidden border border-slate-200 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
             <nav className="flex flex-col py-2">
-              {sidebarLinks.map((link) => {
+              {sidebarLinks.filter((link) => {
+  const fa = department?.content?.facultyAchievements?.length > 0;
+  const sa = department?.content?.studentAchievements?.length > 0;
+  if (link.id === 'faculty-achievements' && !fa) return false;
+  if (link.id === 'student-achievements' && !sa) return false;
+  return true;
+}).map((link) => {
                 const isActive = activeId === link.id;
                 return (
                   <button
@@ -165,13 +176,7 @@ const DeptAIDS: React.FC = () => {
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="space-y-6 text-slate-600 leading-8 text-left">
                 <div className="mx-auto max-w-md text-center space-y-4">
-                  <div className="rounded-3xl border-2 border-dashed border-blue-200 bg-blue-50/40 px-6 py-12">
-                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm">
-                      <i className="ph ph-image text-2xl" />
-                    </div>
-                    <p className="text-base font-semibold text-slate-600">HOD Image Placeholder</p>
-                    <p className="text-sm text-slate-400">Add image later in this area</p>
-                  </div>
+                  <DepartmentHodImage imageSrc={hodImageUrl} />
                   <div>
                     <p className="mt-4 text-2xl font-bold text-brand-navy">Dr. Tatwadarshi Nagarhalli</p>
                     <p className="mt-1 text-sm font-semibold text-brand-gold">Associate Professor &amp; Head Of Department</p>
@@ -376,7 +381,7 @@ const DeptAIDS: React.FC = () => {
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Student Achievements<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
               <div className="space-y-3">
                 {department?.content?.studentAchievements?.length ? department.content.studentAchievements.map((ach, idx) => (
-                  <a key={idx} href={resolveApiUrl(ach.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                  <a key={idx} href={resolveUploadedAssetUrl(ach.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                     <span>{ach.title || `Achievement ${idx + 1}`}</span>
                     <i className="ph ph-arrow-up-right text-brand-gold" />
                   </a>
@@ -462,7 +467,7 @@ const DeptAIDS: React.FC = () => {
               { label: 'Honours & Minor Degree Program', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE.pdf' },
               { label: 'PO PSO CO', url: 'https://vcet.edu.in/wp-content/uploads/2023/11/2.6.1_Rev-2019_AIDS_Syllabus-.pdf' },
             ];
-            const links = department?.content?.syllabus?.length ? department.content.syllabus.map(s => ({ label: s.title, url: resolveApiUrl(s.pdf as string) || '#' })) : staticLinks;
+            const links = department?.content?.syllabus?.length ? department.content.syllabus.map(s => ({ label: s.title, url: resolveUploadedAssetUrl(s.pdf as string) || '#' })) : staticLinks;
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="flex items-center gap-3 mb-4">
@@ -492,7 +497,7 @@ const DeptAIDS: React.FC = () => {
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Patent / Copyrights<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
               <div className="space-y-3">
                 {department?.content?.patents?.length ? department.content.patents.map((p, idx) => (
-                  <a key={idx} href={resolveApiUrl(p.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                  <a key={idx} href={resolveUploadedAssetUrl(p.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                     <span>{p.title || `Patent ${idx + 1}`}</span>
                     <i className="ph ph-arrow-up-right text-brand-gold" />
                   </a>
@@ -544,7 +549,7 @@ const DeptAIDS: React.FC = () => {
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">MoU<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
               <div className="space-y-3">
                 {department?.content?.mous?.length ? department.content.mous.map((m, idx) => (
-                  <a key={idx} href={resolveApiUrl(m.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                  <a key={idx} href={resolveUploadedAssetUrl(m.pdf as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                     <span>{m.organization || `MoU ${idx + 1}`}</span>
                     <i className="ph ph-arrow-up-right text-brand-gold" />
                   </a>
@@ -577,6 +582,80 @@ const DeptAIDS: React.FC = () => {
               <p className="text-slate-500">The content will be published soon!</p>
             </section>
           )}
+
+        ﻿          {/* ════ FACULTY ACHIEVEMENTS ════════════════════════════════ */}
+          {activeId === 'faculty-achievements' && (() => {
+            const hasStaticFa = false;
+            const dynamicAch = department?.content?.facultyAchievements || [];
+            if (!dynamicAch.length && !hasStaticFa) return null;
+            return (
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="w-8 h-px bg-brand-gold" />
+                  <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Excellence &amp; Recognition</span>
+                </div>
+                <h3 className="text-3xl md:text-4xl font-display font-bold text-brand-navy leading-tight mb-8">Faculty Achievements</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {dynamicAch.map((item, idx) => (
+                    <div key={idx} className="group relative bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                      {item.image && (
+                        <div className="mb-5 overflow-hidden rounded-xl h-48 w-full">
+                          <img src={resolveUploadedAssetUrl(item.image)} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        </div>
+                      )}
+                      <h4 className="text-xl font-bold text-brand-navy mb-2">{item.title}</h4>
+                      <p className="text-slate-600 text-sm leading-relaxed mb-4">{item.description}</p>
+                      {item.pdf && (
+                        <a href={resolveUploadedAssetUrl(item.pdf)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-brand-gold hover:text-brand-navy transition-colors">
+                          <i className="ph ph-file-pdf text-lg" />
+                          View Document
+                          <i className="ph ph-arrow-right" />
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            );
+          })()}
+
+          {/* ════ STUDENT ACHIEVEMENTS ════════════════════════════════ */}
+          {activeId === 'student-achievements' && (() => {
+            const hasStaticSa = false;
+            const dynamicAch = department?.content?.studentAchievements || [];
+            if (!dynamicAch.length && !hasStaticSa) return null;
+            return (
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="w-8 h-px bg-brand-gold" />
+                  <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Student Laurels</span>
+                </div>
+                <h3 className="text-3xl md:text-4xl font-display font-bold text-brand-navy leading-tight mb-8">Students Achievements</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {dynamicAch.map((item, idx) => (
+                    <div key={idx} className="group relative bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                      {item.image && (
+                        <div className="mb-5 overflow-hidden rounded-xl h-48 w-full">
+                          <img src={resolveUploadedAssetUrl(item.image)} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        </div>
+                      )}
+                      <h4 className="text-xl font-bold text-brand-navy mb-2">{item.title}</h4>
+                      <p className="text-slate-600 text-sm leading-relaxed mb-4">{item.description}</p>
+                      {item.pdf && (
+                        <a href={resolveUploadedAssetUrl(item.pdf)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-brand-gold hover:text-brand-navy transition-colors">
+                          <i className="ph ph-file-pdf text-lg" />
+                          View Document
+                          <i className="ph ph-arrow-right" />
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            );
+          })()}
 
         </main>
       </div>

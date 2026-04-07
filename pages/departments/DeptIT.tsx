@@ -1,11 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../components/PageLayout';
+import DepartmentHodImage from '../../components/DepartmentHodImage';
 import DepartmentFacultySection from '../../components/DepartmentFacultySection';
 import { departmentApi } from '../../admin/api/departments';
 import type { Department } from '../../admin/types';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 import { newsletterApi } from '../../admin/api/newsletterApi';
 import { resolveApiUrl } from '../../admin/api/client';
+
+const resolveDepartmentAssetUrl = (value: unknown): string | null => {
+  if (!value) return null;
+
+  if (typeof value === 'string') {
+    return resolveUploadedAssetUrl(value) ?? resolveApiUrl(value);
+  }
+
+  if (typeof value === 'object') {
+    const candidate =
+      (value as { url?: unknown; path?: unknown; fileUrl?: unknown; pdfUrl?: unknown }).url ??
+      (value as { url?: unknown; path?: unknown; fileUrl?: unknown; pdfUrl?: unknown }).path ??
+      (value as { url?: unknown; path?: unknown; fileUrl?: unknown; pdfUrl?: unknown }).fileUrl ??
+      (value as { url?: unknown; path?: unknown; fileUrl?: unknown; pdfUrl?: unknown }).pdfUrl;
+
+    return resolveDepartmentAssetUrl(candidate);
+  }
+
+  return null;
+};
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -76,6 +98,18 @@ const magazinePdfs = [
   { label: 'MAGAZINE 2009-10', href: '/pdfs/Department/InformationTechnology/Magazine/MAGAZINE-2009-10.pdf' },
 ];
 
+const facultyAchievementLinks = [
+  { label: 'Faculty Patents and Copyright (2024-25)', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/2024-25-Patent-1.pdf' },
+  { label: 'Faculty Awards', href: 'https://vcet.edu.in/wp-content/uploads/2024/07/Staff_achievements.pdf' },
+  { label: 'Faculty Publications', href: 'https://vcet.edu.in/wp-content/uploads/2024/07/Staff_Publications_Stats.pdf' },
+  { label: 'Research Grants Received', href: 'https://vcet.edu.in/wp-content/uploads/2024/07/Research-Grants-of-IT-Dept-1-1.pdf' },
+];
+
+const studentAchievementLinks = [
+  { label: 'Student Achievements (Hackathon Achievers)', href: 'pdfs/Department/InformationTechnology/StudentsAchievements/Hackathon-Achivers.pdf' },
+  { label: 'Sports/Cultural Activities at National/International Level', href: 'pdfs/Department/InformationTechnology/StudentsAchievements/Student-Cultural-Sports.pdf' },
+];
+
 const editorialRows = [
   { post: 'Chairman', names: ['Prathamesh Anil Karambe'] },
   { post: 'Chief editor', names: ['Smita Verma', 'Revathi Nair', 'Gaurav Gawde'] },
@@ -103,6 +137,8 @@ const DeptIT: React.FC = () => {
       })
       .catch(() => setDepartment(null));
   }, []);
+
+  const hodImageUrl = resolveDepartmentAssetUrl(department?.content?.hodImage);
 
   const sectionData = (department?.content as any)?.newsletterMagazineSection || null;
   
@@ -139,7 +175,7 @@ const DeptIT: React.FC = () => {
   const staffName = String(staff?.name || '').trim() || 'Prof. Bharati Gondhalekar';
   const staffEmail = String(staff?.email || '').trim() || 'bharati.gondhalekar@vcet.edu.in';
   const staffPhone = String(staff?.phone || '').trim() || '9423365470';
-  const staffImage = resolveApiUrl(staff?.image || null);
+  const staffImage = resolveUploadedAssetUrl(staff?.image || null);
   
   // Show the staff section if there's any data, or if we fallback to empty placeholders
   const hasStaffSection = true;
@@ -234,13 +270,7 @@ const DeptIT: React.FC = () => {
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="space-y-6 text-slate-600 leading-8 text-left">
                 <div className="mx-auto max-w-md text-center space-y-4">
-                  <div className="rounded-3xl border-2 border-dashed border-blue-200 bg-blue-50/40 px-6 py-12">
-                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-white text-slate-400 shadow-sm">
-                      <i className="ph ph-image text-2xl" />
-                    </div>
-                    <p className="text-base font-semibold text-slate-600">HOD Image Placeholder</p>
-                    <p className="text-sm text-slate-400">Add image later in this area</p>
-                  </div>
+                  <DepartmentHodImage imageSrc={hodImageUrl} />
                   <div>
                     <p className="mt-4 text-2xl font-bold text-brand-navy">Dr. Thaksen Parvat</p>
                     <p className="mt-1 text-sm font-semibold text-brand-gold">Professor &amp; Head Of Department, Dean IT Infrastructure</p>
@@ -569,53 +599,139 @@ const DeptIT: React.FC = () => {
             );
           })()}
 
-          {/* â•â•â•â• FACULTY ACHIEVEMENTS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+                    {/* ===================== FACULTY ACHIEVEMENTS ===================== */} 
           {activeId === 'faculty-achievements' && (() => {
-            const links = [
-              { label: 'Faculty Patents and Copyright (2024-25)', url: 'https://vcet.edu.in/wp-content/uploads/2025/03/2024-25-Patent-1.pdf' },
-              { label: 'Faculty Awards', url: 'https://vcet.edu.in/wp-content/uploads/2024/07/Staff_achievements.pdf' },
-              { label: 'Faculty Publications', url: 'https://vcet.edu.in/wp-content/uploads/2024/07/Staff_Publications_Stats.pdf' },
-              { label: 'Research Grants Received', url: 'https://vcet.edu.in/wp-content/uploads/2024/07/Research-Grants-of-IT-Dept-1-1.pdf' },
-            ];
+            const dynamicAch = department?.content?.facultyAchievements || [];
+            const validAch = dynamicAch.filter((item: any) =>
+              [
+                item?.title,
+                item?.description,
+                item?.image,
+                item?.image_url,
+                item?.photo,
+                item?.url,
+                item?.pdf,
+                item?.pdf_url,
+                item?.document_url,
+                item?.fileUrl,
+              ].some((value) => {
+                if (typeof value === 'string') return value.trim().length > 0;
+                return Boolean(value);
+              }),
+            );
+            const dynamicLinks = validAch.map((item: any) => ({
+              label: item.title?.trim() || 'Untitled Achievement',
+              description: item.description?.trim() || '',
+              href: resolveDepartmentAssetUrl(item.pdf ?? item.pdf_url ?? item.document_url ?? item.fileUrl ?? item.image ?? item.image_url ?? item.photo ?? item.url),
+            }));
+            const rows = [...facultyAchievementLinks, ...dynamicLinks];
+            
+            if (!rows.length) return null;
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-6">
                   <span className="w-8 h-px bg-brand-gold" />
                   <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Information Technology</span>
                 </div>
-                <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Faculty Achievements<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <h3 className="text-3xl md:text-4xl font-display font-bold text-brand-navy leading-tight mb-8">Faculty Achievements</h3>
+                
                 <div className="space-y-3">
-                  {links.map((item) => (
-                    <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
-                      <span>{item.label}</span>
-                      <i className="ph ph-arrow-up-right text-brand-gold" />
-                    </a>
-                  ))}
+                  {rows.map((item, idx) => {
+                    const row = (
+                      <>
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-semibold text-brand-navy">{item.label}</span>
+                          {item.description && (
+                            <span className="mt-1 block text-xs text-slate-500 leading-relaxed">{item.description}</span>
+                          )}
+                        </span>
+                        <i className="ph ph-arrow-up-right text-brand-gold shrink-0" />
+                      </>
+                    );
+
+                    if (item.href) {
+                      return (
+                        <a key={`${item.label}-${idx}`} href={item.href} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                          {row}
+                        </a>
+                      );
+                    }
+
+                    return (
+                      <div key={`${item.label}-${idx}`} className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy">
+                        {row}
+                      </div>
+                    );
+                  })}
                 </div>
               </section>
             );
           })()}
 
-          {/* â•â•â•â• STUDENT ACHIEVEMENTS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+                    {/* ===================== STUDENT ACHIEVEMENTS ===================== */} 
           {activeId === 'student-achievements' && (() => {
-            const links = [
-              { label: 'Student Achievements (Hackathon Achievers)', url: 'pdfs/Department/InformationTechnology/StudentsAchievements/Hackathon-Achivers.pdf' },
-              { label: 'Sports/Cultural Activities at National/International Level', url: 'pdfs/Department/InformationTechnology/StudentsAchievements/Student-Cultural-Sports.pdf' },
-            ];
+            const dynamicAch = department?.content?.studentAchievements || [];
+            const validAch = dynamicAch.filter((item: any) =>
+              [
+                item?.title,
+                item?.description,
+                item?.image,
+                item?.image_url,
+                item?.photo,
+                item?.url,
+                item?.pdf,
+                item?.pdf_url,
+                item?.document_url,
+                item?.fileUrl,
+              ].some((value) => {
+                if (typeof value === 'string') return value.trim().length > 0;
+                return Boolean(value);
+              }),
+            );
+            const dynamicLinks = validAch.map((item: any) => ({
+              label: item.title?.trim() || 'Untitled Achievement',
+              description: item.description?.trim() || '',
+              href: resolveDepartmentAssetUrl(item.pdf ?? item.pdf_url ?? item.document_url ?? item.fileUrl ?? item.image ?? item.image_url ?? item.photo ?? item.url),
+            }));
+            const rows = [...studentAchievementLinks, ...dynamicLinks];
+            
+            if (!rows.length) return null;
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-6">
                   <span className="w-8 h-px bg-brand-gold" />
                   <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Information Technology</span>
                 </div>
-                <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Students Achievements<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <h3 className="text-3xl md:text-4xl font-display font-bold text-brand-navy leading-tight mb-8">Students Achievements</h3>
+                
                 <div className="space-y-3">
-                  {links.map((item) => (
-                    <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
-                      <span>{item.label}</span>
-                      <i className="ph ph-arrow-up-right text-brand-gold" />
-                    </a>
-                  ))}
+                  {rows.map((item, idx) => {
+                    const row = (
+                      <>
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-semibold text-brand-navy">{item.label}</span>
+                          {item.description && (
+                            <span className="mt-1 block text-xs text-slate-500 leading-relaxed">{item.description}</span>
+                          )}
+                        </span>
+                        <i className="ph ph-arrow-up-right text-brand-gold shrink-0" />
+                      </>
+                    );
+
+                    if (item.href) {
+                      return (
+                        <a key={`${item.label}-${idx}`} href={item.href} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                          {row}
+                        </a>
+                      );
+                    }
+
+                    return (
+                      <div key={`${item.label}-${idx}`} className="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy">
+                        {row}
+                      </div>
+                    );
+                  })}
                 </div>
               </section>
             );
@@ -894,7 +1010,7 @@ const DeptIT: React.FC = () => {
                           {panel.items.map((item: any, idx: number) => (
                             <a
                               key={`${panel.title}-${item.label}-${idx}`}
-                              href={resolveApiUrl(item.pdf || '') || '#'}
+                              href={resolveUploadedAssetUrl(item.pdf || '') || '#'}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center justify-between gap-3 px-4 py-2.5 border border-[#BCD2E8] bg-white text-[#1A4B7C] font-semibold text-[14px] hover:border-[#56A9D8] hover:bg-[#EDF6FD] transition-colors"

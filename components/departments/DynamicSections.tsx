@@ -1,5 +1,26 @@
 import React from 'react';
 import { resolveApiUrl } from '../../admin/api/client';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
+
+const resolveDepartmentAssetUrl = (value: unknown): string | null => {
+  if (!value) return null;
+
+  if (typeof value === 'string') {
+    return resolveUploadedAssetUrl(value) ?? resolveApiUrl(value);
+  }
+
+  if (typeof value === 'object') {
+    const candidate =
+      (value as { url?: unknown; path?: unknown; fileUrl?: unknown; pdfUrl?: unknown }).url ??
+      (value as { url?: unknown; path?: unknown; fileUrl?: unknown; pdfUrl?: unknown }).path ??
+      (value as { url?: unknown; path?: unknown; fileUrl?: unknown; pdfUrl?: unknown }).fileUrl ??
+      (value as { url?: unknown; path?: unknown; fileUrl?: unknown; pdfUrl?: unknown }).pdfUrl;
+
+    return resolveDepartmentAssetUrl(candidate);
+  }
+
+  return null;
+};
 
 export const DynamicDab = ({ members, deptName }: { members: any[], deptName: string }) => {
   return (
@@ -74,7 +95,7 @@ export const DynamicLinksList = ({ items, deptName, title, labelKey, urlKey }: {
       <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">{title}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
       <div className="space-y-3">
         {items.map((item, idx) => (
-          <a key={idx} href={resolveApiUrl(item[urlKey] as string) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+          <a key={idx} href={resolveDepartmentAssetUrl(item[urlKey]) || '#'} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
             <span>{item[labelKey] || `${title} ${idx + 1}`}</span>
             <i className="ph ph-arrow-up-right text-brand-gold" />
           </a>
@@ -85,6 +106,24 @@ export const DynamicLinksList = ({ items, deptName, title, labelKey, urlKey }: {
 };
 
 export const DynamicFacultyAchievements = ({ achievements, deptName }: { achievements: any[], deptName: string }) => {
+  const validAchievements = (achievements || []).filter((ach: any) =>
+    [
+      ach?.title,
+      ach?.description,
+      ach?.image,
+      ach?.image_url,
+      ach?.photo,
+      ach?.url,
+      ach?.pdf,
+      ach?.pdf_url,
+      ach?.document_url,
+      ach?.fileUrl,
+    ].some((value) => {
+      if (typeof value === 'string') return value.trim().length > 0;
+      return Boolean(value);
+    }),
+  );
+
   return (
     <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-8">
       <div className="flex items-center gap-3 mb-4">
@@ -93,22 +132,22 @@ export const DynamicFacultyAchievements = ({ achievements, deptName }: { achieve
       </div>
       <h3 className="text-2xl font-bold text-brand-navy relative inline-block">Faculty Achievements<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
       
-      {(!achievements || achievements.length === 0) ? (
+      {validAchievements.length === 0 ? (
         <p className="text-slate-500 italic">Faculty achievements will be updated soon.</p>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {achievements.map((ach, idx) => (
+          {validAchievements.map((ach, idx) => (
             <div key={idx} className="flex flex-col bg-slate-50 rounded-2xl p-5 border border-slate-100 hover:shadow-md transition-shadow">
-              {ach.image && (
+              {resolveDepartmentAssetUrl(ach.image ?? ach.image_url ?? ach.photo ?? ach.url) && (
                 <div className="h-40 mb-4 rounded-xl overflow-hidden bg-slate-200">
-                  <img src={resolveApiUrl(ach.image as string)} alt={ach.title} className="w-full h-full object-cover" />
+                  <img src={resolveDepartmentAssetUrl(ach.image ?? ach.image_url ?? ach.photo ?? ach.url) || ''} alt={ach.title} className="w-full h-full object-cover" />
                 </div>
               )}
               <h4 className="font-bold text-brand-navy mb-2">{ach.title}</h4>
               <p className="text-sm text-slate-600 mb-4 flex-grow">{ach.description}</p>
-              {ach.pdf && (
+              {resolveDepartmentAssetUrl(ach.pdf ?? ach.pdf_url ?? ach.document_url ?? ach.fileUrl) && (
                 <a 
-                  href={resolveApiUrl(ach.pdf as string)} 
+                  href={resolveDepartmentAssetUrl(ach.pdf ?? ach.pdf_url ?? ach.document_url ?? ach.fileUrl) || '#'} 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="inline-flex items-center gap-2 text-brand-gold font-semibold text-sm hover:text-brand-navy transition-colors"
