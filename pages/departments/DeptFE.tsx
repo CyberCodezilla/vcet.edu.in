@@ -466,11 +466,11 @@ const DeptFE: React.FC = () => {
           {/* â•â•â•â• INNOVATIONS IN TEACHING LEARNING â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'teaching-learning' && (() => {
             const links = [
-              { label: 'Innovation in Teaching Report 2024-25', url: 'public/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2024-25.pdf' },
-              { label: 'Innovation in Teaching Report 2023-24', url: 'public/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2023-24.pdf' },
-              { label: 'Innovation in Teaching Report 2022-23', url: 'public/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2022-23-Copy.pdf' },
-              { label: 'Innovation in Teaching Report 2021-22', url: 'public/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2021-22-1.pdf' },
-              { label: 'Innovation in Teaching Report 2020-21', url: 'public/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2020-21-2.pdf' },
+              { label: 'Innovation in Teaching Report 2024-25', url: 'pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2024-25.pdf' },
+              { label: 'Innovation in Teaching Report 2023-24', url: 'pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2023-24.pdf' },
+              { label: 'Innovation in Teaching Report 2022-23', url: 'pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2022-23-Copy.pdf' },
+              { label: 'Innovation in Teaching Report 2021-22', url: 'pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2021-22-1.pdf' },
+              { label: 'Innovation in Teaching Report 2020-21', url: 'pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2020-21-2.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">

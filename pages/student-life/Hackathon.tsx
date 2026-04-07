@@ -313,9 +313,7 @@ const FacultyPanel: React.FC = () => {
         </div>
       </div>
 
-      <p className="text-xs text-[#94a3b8] text-center">
-        * Faculty list can be updated by modifying the facultyData array in the source code
-      </p>
+     
     </div>
   );
 };
@@ -365,9 +363,6 @@ const TeamPanel: React.FC = () => {
         </div>
       </div>
 
-      <p className="text-xs text-[#94a3b8] text-center">
-        * Team list can be updated by modifying the teamData array in the source code
-      </p>
     </div>
   );
 };
@@ -418,9 +413,7 @@ const GalleryPanel: React.FC = () => {
         ))}
       </div>
 
-      <p className="text-center text-sm text-[#94a3b8]">
-        📸 Images can be added by replacing placeholders in the GalleryPanel component
-      </p>
+      
     </div>
   );
 };
