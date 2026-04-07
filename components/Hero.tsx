@@ -16,7 +16,7 @@ import { useEvents } from "../hooks/useEvents";
 import { useNotices } from "../hooks/useNotices";
 import { useHeroSlides } from "../hooks/useHeroSlides";
 import { useHomepageBanners } from "../hooks/useHomepageBanners";
-import { resolveUploadedAssetUrl } from "../utils/uploadedAssets";
+import { resolveUploadedAssetUrl, resolveBackendHref } from "../utils/uploadedAssets";
 import ImagePreviewModal from "./ImagePreviewModal";
 
 const HOMEPAGE_BG_PATH = "/images/Main Page/Home background/VCET-Home-1-scaled.jpg";
@@ -568,7 +568,7 @@ const Hero: React.FC = () => {
                             >
                               {n.pdf_url || n.link_url ? (
                                 <a
-                                  href={n.pdf_url ?? n.link_url ?? "#"}
+                                  href={resolveBackendHref(n.pdf_url ?? n.link_url)}
                                   target="_blank"
                                   rel="noreferrer"
                                   className="group inline-flex flex-col"
@@ -596,7 +596,7 @@ const Hero: React.FC = () => {
                                 </span>
                                 {n.has_pdf && (
                                   <a
-                                    href={n.pdf_url ?? "#"}
+                                    href={resolveBackendHref(n.pdf_url)}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-brand-gold text-brand-dark rounded hover:brightness-110 transition-all"
@@ -606,7 +606,7 @@ const Hero: React.FC = () => {
                                 )}
                                 {!n.has_pdf && n.link_url && (
                                   <a
-                                    href={n.link_url}
+                                    href={resolveBackendHref(n.link_url)}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-white/10 text-white rounded border border-white/20 hover:bg-white/20 transition-colors"
@@ -672,7 +672,7 @@ const Hero: React.FC = () => {
                                   </button>
                                 ) : ev.attachment ? (
                                   <a
-                                    href={ev.attachment}
+                                    href={resolveBackendHref(ev.attachment)}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="text-[15px] font-medium text-white leading-snug hover:text-brand-gold transition-colors"
@@ -704,7 +704,7 @@ const Hero: React.FC = () => {
                                   )}
                                   {ev.attachment && (
                                     <a
-                                      href={ev.attachment}
+                                      href={resolveBackendHref(ev.attachment)}
                                       target="_blank"
                                       rel="noreferrer"
                                       className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-white/10 text-white rounded border border-white/20 hover:bg-white/20 transition-colors"
@@ -969,7 +969,7 @@ const Hero: React.FC = () => {
                       <div key={n.id} className="rounded-xl border border-white/15 bg-white/5 p-3">
                         {n.pdf_url || n.link_url ? (
                           <a
-                            href={n.pdf_url ?? n.link_url ?? "#"}
+                            href={resolveBackendHref(n.pdf_url ?? n.link_url)}
                             target="_blank"
                             rel="noreferrer"
                             className="text-sm font-semibold leading-snug text-white hover:text-brand-gold"

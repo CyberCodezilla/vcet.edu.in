@@ -5,7 +5,7 @@ import { useHomepageData } from '../context/HomepageDataContext';
 import { academicsService, type AcademicDocument } from '../services/academics';
 import { naacScoresService, type DynamicNaacScoreUpload } from '../services/naacScores';
 import { getResearchSection } from '../services/research';
-import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
+import { resolveUploadedAssetUrl, resolveBackendHref } from '../utils/uploadedAssets';
 
 const VCET_LOGO_PATH = '/images/VCET logo.jpeg';
 const VCET_LOGO_URL = resolveUploadedAssetUrl(VCET_LOGO_PATH) ?? VCET_LOGO_PATH;
@@ -634,13 +634,16 @@ const NestedFlyout: React.FC<{ sub: SubItem }> = ({ sub }) => {
   return (
     <div className="relative group/nested" onMouseEnter={openSub} onMouseLeave={closeSub}>
       <div className="flex items-center justify-between px-4 py-2.5 text-[11.5px] text-slate-600 hover:text-brand-blue hover:bg-brand-blue/5 transition-all duration-150 border-l-2 border-transparent hover:border-brand-gold cursor-pointer select-none">
-        {itemHasLink ? (
-          sub.href!.startsWith('/') ? (
-            <Link to={sub.href!} className="flex-1">{linkContent}</Link>
+        {itemHasLink ? (() => {
+          const resolvedHref = resolveBackendHref(sub.href);
+          const isExternal = resolvedHref.startsWith('http') || resolvedHref.startsWith('blob:') || resolvedHref.startsWith('data:');
+          
+          return isExternal ? (
+            <a href={resolvedHref} target="_blank" rel="noopener noreferrer" className="flex-1">{linkContent}</a>
           ) : (
-            <a href={sub.href!} className="flex-1" target="_blank" rel="noopener noreferrer">{linkContent}</a>
-          )
-        ) : (
+            <Link to={resolvedHref} className="flex-1">{linkContent}</Link>
+          );
+        })() : (
           <div className="flex-1">{linkContent}</div>
         )}
         <ChevronRight className={`w-3.5 h-3.5 transition-transform ${open ? 'text-brand-blue translate-x-1' : 'text-brand-gold/50'}`} />
@@ -652,13 +655,16 @@ const NestedFlyout: React.FC<{ sub: SubItem }> = ({ sub }) => {
       >
         <div className="bg-white rounded-xl shadow-2xl border border-gray-100 min-w-[200px] py-2 ring-1 ring-black/5">
           {sub.subItems!.map(child => {
-            const isInternal = child.href?.startsWith('/');
+            const resolvedHref = resolveBackendHref(child.href);
+            const isExternal = resolvedHref.startsWith('http') || resolvedHref.startsWith('blob:') || resolvedHref.startsWith('data:');
+            
             const cls = "flex items-center gap-2.5 px-4 py-2.5 text-[11.5px] text-slate-600 hover:text-brand-blue hover:bg-brand-blue/5 transition-all duration-150 border-l-2 border-transparent hover:border-brand-gold group whitespace-nowrap";
             const dot = <span className="w-1.5 h-1.5 rounded-full bg-brand-gold/40 flex-shrink-0 group-hover:bg-brand-blue transition-colors duration-150" />;
-            return isInternal ? (
-              <Link key={child.label} to={child.href!} className={cls}>{dot}{child.label}</Link>
+            
+            return isExternal ? (
+              <a key={child.label} href={resolvedHref} className={cls} target="_blank" rel="noopener noreferrer">{dot}{child.label}</a>
             ) : (
-              <a key={child.label} href={child.href!} className={cls} target="_blank" rel="noopener noreferrer">{dot}{child.label}</a>
+              <Link key={child.label} to={resolvedHref} className={cls}>{dot}{child.label}</Link>
             );
           })}
         </div>
@@ -719,15 +725,20 @@ const DesktopDropdownItem: React.FC<DesktopDropdownItemProps> = ({ item, flipSub
         onMouseLeave={closeSub}
       >
         {/* Trigger row — clickable link to navigate */}
-        {isInternal ? (
-          <Link to={item.href!} className={triggerClassName}>
-            {triggerContent}
-          </Link>
-        ) : (
-          <a href={item.href} target="_blank" rel="noopener noreferrer" className={triggerClassName}>
-            {triggerContent}
-          </a>
-        )}
+        {(() => {
+          const resolvedHref = resolveBackendHref(item.href);
+          const isExternal = resolvedHref.startsWith('http') || resolvedHref.startsWith('blob:') || resolvedHref.startsWith('data:');
+          
+          return isExternal ? (
+            <a href={resolvedHref} target="_blank" rel="noopener noreferrer" className={triggerClassName}>
+              {triggerContent}
+            </a>
+          ) : (
+            <Link to={resolvedHref} className={triggerClassName}>
+              {triggerContent}
+            </Link>
+          );
+        })()}
 
         {/* Sub-flyout panel */}
         <div
@@ -750,19 +761,22 @@ const DesktopDropdownItem: React.FC<DesktopDropdownItemProps> = ({ item, flipSub
               if (sub.subItems && sub.subItems.length > 0) {
                 return <NestedFlyout key={sub.label} sub={sub} />;
               }
-              const isInternal = sub.href?.startsWith('/');
+              const resolvedHref = resolveBackendHref(sub.href);
+              const isExternal = resolvedHref.startsWith('http') || resolvedHref.startsWith('blob:') || resolvedHref.startsWith('data:');
+              
               const cls = "flex items-center gap-2.5 px-4 py-2.5 text-[11.5px] text-slate-600 hover:text-brand-blue hover:bg-brand-blue/5 transition-all duration-150 border-l-2 border-transparent hover:border-brand-gold group whitespace-nowrap";
               const dot = <span className="w-1.5 h-1.5 rounded-full bg-brand-gold/40 flex-shrink-0 group-hover:bg-brand-blue transition-colors duration-150" />;
-              return isInternal ? (
-                <Link key={sub.label} to={sub.href!} className={cls}>
-                  {dot}
-                  {sub.label}
-                </Link>
-              ) : (
-                <a key={sub.label} href={sub.href!} target="_blank" rel="noopener noreferrer" className={cls}>
+              
+              return isExternal ? (
+                <a key={sub.label} href={resolvedHref} target="_blank" rel="noopener noreferrer" className={cls}>
                   {dot}
                   {sub.label}
                 </a>
+              ) : (
+                <Link key={sub.label} to={resolvedHref} className={cls}>
+                  {dot}
+                  {sub.label}
+                </Link>
               );
             })}
           </div>
@@ -772,10 +786,13 @@ const DesktopDropdownItem: React.FC<DesktopDropdownItemProps> = ({ item, flipSub
   }
 
   /* ── Plain link ── */
-  if (item.href?.startsWith('/')) {
+  const resolvedHref = resolveBackendHref(item.href);
+  const isExternal = resolvedHref.startsWith('http') || resolvedHref.startsWith('blob:') || resolvedHref.startsWith('data:');
+
+  if (!isExternal) {
     return (
       <Link
-        to={item.href}
+        to={resolvedHref}
         className="block px-4 py-2.5 text-[11.5px] font-semibold text-slate-700 hover:text-brand-blue hover:bg-brand-blue/5 transition-all duration-150 border-l-2 border-transparent hover:border-brand-gold"
       >
         {item.label}
@@ -784,8 +801,8 @@ const DesktopDropdownItem: React.FC<DesktopDropdownItemProps> = ({ item, flipSub
   }
   return (
     <a
-      href={item.href}
-      target={item.href?.startsWith('http') ? '_blank' : '_self'}
+      href={resolvedHref}
+      target="_blank"
       rel="noopener noreferrer"
       className="block px-4 py-2.5 text-[11.5px] font-semibold text-slate-700 hover:text-brand-blue hover:bg-brand-blue/5 transition-all duration-150 border-l-2 border-transparent hover:border-brand-gold"
     >

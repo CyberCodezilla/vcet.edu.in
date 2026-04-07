@@ -124,3 +124,27 @@ export function resolveBackendMediaUrl(path: string | null | undefined): string 
   if (!isBackendAssetPath(pathname)) return null;
   return withApiOrigin(pathname);
 }
+
+/**
+ * Resolves a URL that points to a backend asset (like /pdfs/ or /images/)
+ * for use in href attributes. If the path is not a backend asset, it's returned as is.
+ */
+export function resolveBackendHref(href: string | undefined | null): string {
+  if (!href) return '#';
+  const trimmed = href.trim();
+  if (!trimmed) return '#';
+  
+  // Return absolute URLs, blobs, and data URIs as is
+  if (ABSOLUTE_URL_PATTERN.test(trimmed) || trimmed.startsWith('blob:') || trimmed.startsWith('data:')) {
+    return trimmed;
+  }
+
+  const pathname = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
+  
+  // If it's a backend asset path, prefix with API origin
+  if (isBackendAssetPath(pathname)) {
+    return withApiOrigin(pathname);
+  }
+  
+  return href;
+}

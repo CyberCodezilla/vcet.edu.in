@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Linkedin, Youtube, ArrowRight, MapPin, Phone, Mail, ExternalLink } from 'lucide-react';
+import { resolveBackendHref } from '../utils/uploadedAssets';
 
 const Footer: React.FC = () => {
   return (
@@ -30,7 +31,7 @@ const Footer: React.FC = () => {
               ].map((item) => (
                 <li key={item.label}>
                   <a
-                    href={item.href}
+                    href={resolveBackendHref(item.href)}
                     target={item.external ? '_blank' : undefined}
                     rel={item.external ? 'noopener noreferrer' : undefined}
                     className="text-white/40 text-[13px] hover:text-white hover:pl-1 transition-all duration-300 block break-words leading-snug"
@@ -55,10 +56,12 @@ const Footer: React.FC = () => {
                 { label: 'Online Grievance Form', href: '#', external: false },
                 { label: 'AICTE Feedback', href: '#', external: false },
                 { label: 'VCET HR policy', href: 'https://vcet.edu.in/NAAC/VCET_HR_POLICY.pdf', external: true },
-                { label: 'Institute Research Policy', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/Institute-Research-Policy.pdf', external: true },                { label: 'Development Team', href: '/developers', external: false },              ].map((item) => (
+                { label: 'Institute Research Policy', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/Institute-Research-Policy.pdf', external: true },
+                { label: 'Development Team', href: '/developers', external: false },
+              ].map((item) => (
                 <li key={item.label}>
                   <a 
-                    href={item.href} 
+                    href={resolveBackendHref(item.href)} 
                     target={item.external ? '_blank' : undefined}
                     rel={item.external ? 'noopener noreferrer' : undefined}
                     className="text-white/40 text-[13px] hover:text-white hover:pl-1 transition-all duration-300 flex items-start gap-1.5 min-w-0"
