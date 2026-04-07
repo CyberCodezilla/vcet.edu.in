@@ -57,17 +57,16 @@ const coreTeam: DevProfile[] = [
 ];
 
 const fellowship: DevProfile[] = [
-  { name: 'Sahil2802-coder', githubUser: 'Sahil2802-coder', githubUrl: 'https://github.com/Sahil2802-coder', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
-  { name: 'sawantshreya008', githubUser: 'sawantshreya008', githubUrl: 'https://github.com/sawantshreya008', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
-  { name: 'sumritasawant101-droid', githubUser: 'sumritasawant101-droid', githubUrl: 'https://github.com/sumritasawant101-droid', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
-  { name: 'dakshata2405956201-svg', githubUser: 'dakshata2405956201-svg', githubUrl: 'https://github.com/dakshata2405956201-svg', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
-  { name: 'shweta1909patil-maker', githubUser: 'shweta1909patil-maker', githubUrl: 'https://github.com/shweta1909patil-maker', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'Sawant Shreya', githubUser: 'sawantshreya008', githubUrl: 'https://github.com/sawantshreya008', linkedinUrl: 'https://www.linkedin.com/in/shreya-sawant-82b285382/', portfolioUrl: 'https://shreya-sawant.vercel.app', role: 'Student Fellowship' },
+  { name: 'Sumrita Sawant', githubUser: 'sumritasawant101-droid', githubUrl: 'https://github.com/sumritasawant101-droid', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'Dakshata Salgaonkar', githubUser: 'dakshata2405956201-svg', githubUrl: 'https://github.com/dakshata2405956201-svg', linkedinUrl: 'https://www.linkedin.com/in/dakshata-salgaonkar-043a41398', portfolioUrl: 'https://dakshata-salgaonkar.vercel.app', role: 'Student Fellowship' },
+  { name: 'Shweta Patil', githubUser: 'shweta1909patil-maker', githubUrl: 'https://github.com/shweta1909patil-maker', linkedinUrl: 'https://www.linkedin.com/in/shweta-patil-abab72392', portfolioUrl: 'https://shweta-patil.vercel.app/', role: 'Student Fellowship' },
   { name: 'Sumit Vishwakarma', githubUser: 'Sumitc0de', githubUrl: 'https://github.com/Sumitc0de', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
-  { name: 'antarikshsingh', githubUser: 'antarikshsingh', githubUrl: 'https://github.com/antarikshsingh', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
-  { name: 'PratikRaval24', githubUser: 'PratikRavale24', githubUrl: 'https://github.com/PratikRavale24', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
-  { name: 'Pranish Harish Shetty', githubUser: 'pranishshetty', githubUrl: 'https://share.google/b5ZkgP5lON5wfUw4y', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'Antariksh Singh', githubUser: 'antarikshsingh', githubUrl: 'https://github.com/antarikshsingh', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'Pratik Ravale', githubUser: 'PratikRavale24', githubUrl: 'https://github.com/PratikRavale24', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'Pranish Shetty', githubUser: 'pranishshetty', githubUrl: 'https://share.google/b5ZkgP5lON5wfUw4y', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
   { name: 'Rehan Pinjari', githubUser: 'rehanw1', githubUrl: 'https://github.com/rehanw1', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
-  { name: 'Pritiyadav', githubUser: 'Pritiyadav6', githubUrl: 'https://github.com/Pritiyadav6', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'Priti Yadav', githubUser: 'Pritiyadav6', githubUrl: 'https://github.com/Pritiyadav6', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
 ];
 
 const mentors = [
