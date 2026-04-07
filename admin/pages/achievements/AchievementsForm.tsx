@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 import { achievementsApi } from '../../api/achievements';
 import type { AchievementPayload } from '../../types';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
+
+const resolveAchievementImage = (path: string | null | undefined): string => {
+  if (!path) return '';
+  return resolveUploadedAssetUrl(path.replace(/\s+/g, '_')) ?? '';
+};
 
 const AchievementsForm: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -20,6 +26,8 @@ const AchievementsForm: React.FC = () => {
     document_url: '',
     description: '',
     icon: '🏆',
+    image_url: '',
+    participant_avatar: '',
     sort_order: 0,
     is_active: true
   });
@@ -44,6 +52,8 @@ const AchievementsForm: React.FC = () => {
           document_url: a.document_url ?? '',
           description: a.description ?? '',
           icon: a.icon ?? '🏆',
+          image_url: a.image_url ?? '',
+          participant_avatar: a.participant_avatar ?? '',
           sort_order: a.sort_order,
           is_active: a.is_active
         });
@@ -132,6 +142,38 @@ const AchievementsForm: React.FC = () => {
             <div>
               <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Participant Role</label>
               <input id="achievementsform-5" aria-label="achievementsform field" name="participant_role" value={form.participant_role ?? ''} onChange={handleChange} placeholder="e.g., Final Year IT" className="w-full bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
+            </div>
+          </div>
+
+          <div className="space-y-4 pt-4 border-t border-slate-50">
+            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Appearance & Media</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Main Image URL</label>
+                <div className="flex gap-4">
+                   <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200 overflow-hidden shrink-0">
+                      {form.image_url ? (
+                        <img src={resolveAchievementImage(form.image_url)} className="w-full h-full object-cover" alt="Preview"/>
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-slate-300 text-xs uppercase font-bold">None</div>
+                      )}
+                   </div>
+                   <input id="achievementsform-imgurl" name="image_url" value={form.image_url ?? ''} onChange={handleChange} placeholder="/images/.../filename.png" className="flex-1 bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2.5 ml-1">Participant Avatar URL</label>
+                <div className="flex gap-4">
+                   <div className="w-14 h-14 rounded-full bg-slate-50 border border-slate-200 overflow-hidden shrink-0">
+                      {form.participant_avatar ? (
+                        <img src={resolveAchievementImage(form.participant_avatar)} className="w-full h-full object-cover" alt="Preview"/>
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-slate-300 text-xs uppercase font-bold">None</div>
+                      )}
+                   </div>
+                   <input id="achievementsform-avatarurl" name="participant_avatar" value={form.participant_avatar ?? ''} onChange={handleChange} placeholder="/images/.../avatar.png" className="flex-1 bg-slate-50 border-0 ring-1 ring-slate-200 focus:ring-2 focus:ring-[#1e293b] rounded-2xl px-5 py-4 text-sm font-bold transition-all outline-none" />
+                </div>
+              </div>
             </div>
           </div>
 

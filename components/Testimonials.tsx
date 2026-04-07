@@ -50,8 +50,8 @@ const testimonials: Testimonial[] = [
 
 const TESTIMONIAL_CACHE_BUSTER = 'v=20260407';
 const FORCED_TESTIMONIAL_IMAGES: Record<string, string> = {
-  'dr amrita m a': 'https://vcet-3vjm.onrender.com/images/Main%20Page/testimonials/Dr_Amrita_M_A.jpg',
-  'anish patki': 'https://vcet-3vjm.onrender.com/images/Main%20Page/testimonials/Anish_Patki.jpg',
+  'dr amrita m a': '/images/Main Page/testimonials/Dr_Amrita_M_A.jpg',
+  'anish patki': '/images/Main Page/testimonials/Anish_Patki.jpg',
 };
 
 function normalizeName(name: string | null | undefined): string {
@@ -75,7 +75,7 @@ function normalizeImagePath(path: string): string {
 
 function resolveTestimonialPhoto(name: string, rawPhoto: string | null | undefined): string | null {
   const forced = FORCED_TESTIMONIAL_IMAGES[normalizeName(name)];
-  if (forced) return appendCacheBuster(forced);
+  if (forced) return appendCacheBuster(resolveUploadedAssetUrl(forced) ?? forced);
 
   if (!rawPhoto) return null;
   const normalized = normalizeImagePath(rawPhoto);

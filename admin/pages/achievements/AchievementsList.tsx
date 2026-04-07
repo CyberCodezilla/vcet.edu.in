@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { achievementsApi } from '../../api/achievements';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
+import { achievementsApi } from '../../../admin/api/achievements';
 import type { Achievement } from '../../types';
+
+const resolveAchievementImage = (path: string | null | undefined): string => {
+  if (!path) return '';
+  return resolveUploadedAssetUrl(path.replace(/\s+/g, '_')) ?? '';
+};
 
 const AchievementsList: React.FC = () => {
   const [items, setItems] = useState<Achievement[]>([]);
@@ -183,8 +189,20 @@ const AchievementsList: React.FC = () => {
                   <tr key={item.id} className="group hover:bg-slate-50/50 transition-all duration-300">
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-2xl shadow-inner border border-slate-100 group-hover:scale-110 transition-transform">
-                          {item.icon || '🏆'}
+                        <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-2xl shadow-inner border border-slate-100 group-hover:scale-110 transition-transform overflow-hidden">
+                          {item.image_url ? (
+                            <img 
+                              src={resolveAchievementImage(item.image_url)} 
+                              alt="" 
+                              className="w-full h-full object-cover" 
+                              onError={(e) => {
+                                console.error('Image load failed:', (e.currentTarget as HTMLImageElement).src);
+                                (e.currentTarget as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(item.title)}&background=random`;
+                              }}
+                            />
+                          ) : (
+                            item.icon || '🏆'
+                          )}
                         </div>
                         <div className="flex flex-col">
                           <span className="text-slate-900 font-extrabold text-base leading-tight group-hover:text-[#1e293b] transition-colors">{item.title}</span>
@@ -196,7 +214,7 @@ const AchievementsList: React.FC = () => {
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-slate-100 border-2 border-white shadow-sm flex items-center justify-center text-[10px] font-black text-slate-500 uppercase overflow-hidden">
                           {item.participant_avatar ? (
-                            <img src={item.participant_avatar} alt="" className="w-full h-full object-cover" />
+                            <img src={resolveAchievementImage(item.participant_avatar)} alt="" className="w-full h-full object-cover" />
                           ) : (
                             getInitials(item.participant_name)
                           )}

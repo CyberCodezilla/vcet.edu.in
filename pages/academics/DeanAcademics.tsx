@@ -6,10 +6,9 @@ import { academicsService, DeanData } from '../../services/academics';
 import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const DEAN_IMAGE_PATH = '/images/Professor Teacher Profile/Dr.Vikas-Gupta/imgi_8_Dr.Vikas-Gupta-225x300.jpg';
-const DEAN_IMAGE_ABSOLUTE_URL = 'https://vcet-3vjm.onrender.com/images/Professor%20Teacher%20Profile/Dr.Vikas-Gupta/imgi_8_Dr.Vikas-Gupta-225x300.jpg';
 
 function getDeanImageUrl(imageUrl?: string | null): string {
-  const preferred = resolveUploadedAssetUrl(DEAN_IMAGE_PATH) ?? DEAN_IMAGE_ABSOLUTE_URL;
+  const preferred = resolveUploadedAssetUrl(DEAN_IMAGE_PATH) ?? '';
   if (!imageUrl) return preferred;
 
   const trimmed = imageUrl.trim();
