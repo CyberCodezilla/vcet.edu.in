@@ -177,7 +177,9 @@ return (
                   professional, we invite you to explore exciting career opportunities at VCET.
                 </p>
                 <a
-                  href="#openings"
+                  href="https://vcet.edu.in/wp-content/uploads/2025/05/Recruitment-Advertise-15-May-2025.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-brand-blue text-white px-6 py-3 rounded-lg font-semibold text-sm hover:bg-brand-navy transition-colors duration-300"
                 >
                   <FileText className="w-4 h-4" />

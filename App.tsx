@@ -84,6 +84,7 @@ const HealthFacilities = lazy(() => import('./pages/facilities/HealthFacilities'
 const DifferentlyAbled = lazy(() => import('./pages/facilities/DifferentlyAbled'));
 
 // pages/student-life
+const CareerAtVCET = lazy(() => import('./pages/student-life/CareerAtVCET'));
 const CulturalCommittee = lazy(() => import('./pages/student-life/CulturalCommittee'));
 const SportsCommittee = lazy(() => import('./pages/student-life/SportsCommittee'));
 const Literati = lazy(() => import('./pages/student-life/Literati'));
@@ -451,6 +452,7 @@ function App() {
             <Route path="/differently-abled" element={<DifferentlyAbled />} />
 
             {/* Student Life */}
+            <Route path="/career-at-vcet" element={<CareerAtVCET />} />
             <Route path="/students-council" element={<Navigate to="/" replace />} />
             <Route path="/cultural-committee" element={<CulturalCommittee />} />
             <Route path="/sports-committee" element={<SportsCommittee />} />
