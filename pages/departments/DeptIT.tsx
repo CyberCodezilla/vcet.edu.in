@@ -106,8 +106,8 @@ const facultyAchievementLinks = [
 ];
 
 const studentAchievementLinks = [
-  { label: 'Student Achievements (Hackathon Achievers)', href: 'pdfs/Department/InformationTechnology/StudentsAchievements/Hackathon-Achivers.pdf' },
-  { label: 'Sports/Cultural Activities at National/International Level', href: 'pdfs/Department/InformationTechnology/StudentsAchievements/Student-Cultural-Sports.pdf' },
+  { label: 'Student Achievements (Hackathon Achievers)', href: '/pdfs/Department/InformationTechnology/StudentsAchievements/Hackathon-Achivers.pdf' },
+  { label: 'Sports/Cultural Activities at National/International Level', href: '/pdfs/Department/InformationTechnology/StudentsAchievements/Student-Cultural-Sports.pdf' },
 ];
 
 const editorialRows = [
@@ -740,9 +740,9 @@ const DeptIT: React.FC = () => {
           {/* â•â•â•â• ACTIVITIES â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'activities' && (() => {
             const externalLinks = [
-              { label: 'Code Craze', url: 'pdfs/Department/InformationTechnology/Activities/Code-Craze.pdf' },
-              { label: 'Student Development Program', url: 'pdfs/Department/InformationTechnology/Activities/student-development-program-1.pdf' },
-              { label: 'Faculty Development Program', url: 'pdfs/Department/InformationTechnology/Activities/faculty-development-program-1.pdf' },
+              { label: 'Code Craze', url: '/pdfs/Department/InformationTechnology/Activities/Code-Craze.pdf' },
+              { label: 'Student Development Program', url: '/pdfs/Department/InformationTechnology/Activities/student-development-program-1.pdf' },
+              { label: 'Faculty Development Program', url: '/pdfs/Department/InformationTechnology/Activities/faculty-development-program-1.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -922,12 +922,12 @@ const DeptIT: React.FC = () => {
           {/* â•â•â•â• SYLLABUS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'syllabus' && (() => {
             const links = [
-              { label: 'Syllabus R12', url: 'pdfs/Department/InformationTechnology/syllabus/SyllabusR1.pdf' },
-              { label: 'Syllabus R16', url: 'pdfs/Department/InformationTechnology/syllabus/SyllabusR16.pdf' },
-              { label: 'Syllabus R19', url: 'pdfs/Department/InformationTechnology/syllabus/SyllabusR19.pdf' },
+              { label: 'Syllabus R12', url: '/pdfs/Department/InformationTechnology/syllabus/SyllabusR1.pdf' },
+              { label: 'Syllabus R16', url: '/pdfs/Department/InformationTechnology/syllabus/SyllabusR16.pdf' },
+              { label: 'Syllabus R19', url: '/pdfs/Department/InformationTechnology/syllabus/SyllabusR19.pdf' },
               { label: 'Honours & Minor Degree Program (TE)', url: 'https://vcet.edu.in/wp-content/uploads/2023/07/Honours-Minor-Degree-Program-Data-Science.pdf' },
-              { label: 'PO PSO CO R16', url: 'pdfs/Department/InformationTechnology/syllabus/2.6.1_R-2016_IT_syllabus.pdf' },
-              { label: 'PO PSO CO R19', url: 'pdfs/Department/InformationTechnology/syllabus/2.6.1_IT_R-2019_syllabus.pdf' },
+              { label: 'PO PSO CO R16', url: '/pdfs/Department/InformationTechnology/syllabus/2.6.1_R-2016_IT_syllabus.pdf' },
+              { label: 'PO PSO CO R19', url: '/pdfs/Department/InformationTechnology/syllabus/2.6.1_IT_R-2019_syllabus.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -951,12 +951,12 @@ const DeptIT: React.FC = () => {
           {/* â•â•â•â• TIME TABLE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'time-table' && (() => {
             const links = [
-              { label: '2025-26 Odd Sem Time Table', url: 'pdfs/Department/InformationTechnology/TimeTable/2025-26OddSem.pdf' },
-              { label: '2024-25 Even Sem Time Table', url: 'pdfs/Department/InformationTechnology/TimeTable/Eve-Sem-Time-Table-2024-25.pdf' },
-              { label: '2024-25 Odd Sem Time Table', url: 'pdfs/Department/InformationTechnology/TimeTable/2024-25OddSem.pdf' },
-              { label: '2023-24 Even Sem Time Table', url: 'pdfs/Department/InformationTechnology/TimeTable/2023-24OddSem.pdf' },
-              { label: '2023-24 Odd Sem Time Table', url: 'pdfs/Department/InformationTechnology/TimeTable/2023-24EvenSem.pdf' },
-              { label: '2022-23 Even Sem Time Table', url: 'pdfs/Department/InformationTechnology/TimeTable/2022-23EvenSem.pdf' },
+              { label: '2025-26 Odd Sem Time Table', url: '/pdfs/Department/InformationTechnology/TimeTable/2025-26OddSem.pdf' },
+              { label: '2024-25 Even Sem Time Table', url: '/pdfs/Department/InformationTechnology/TimeTable/Eve-Sem-Time-Table-2024-25.pdf' },
+              { label: '2024-25 Odd Sem Time Table', url: '/pdfs/Department/InformationTechnology/TimeTable/2024-25OddSem.pdf' },
+              { label: '2023-24 Even Sem Time Table', url: '/pdfs/Department/InformationTechnology/TimeTable/2023-24OddSem.pdf' },
+              { label: '2023-24 Odd Sem Time Table', url: '/pdfs/Department/InformationTechnology/TimeTable/2023-24EvenSem.pdf' },
+              { label: '2022-23 Even Sem Time Table', url: '/pdfs/Department/InformationTechnology/TimeTable/2022-23EvenSem.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">

@@ -630,11 +630,11 @@ const DeptCSDS: React.FC = () => {
           {/* â”€â”€ SYLLABUS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'syllabus' && (() => {
             const links = [
-              { label: 'Syllabus Revised 2019-20 (Computer SE New 8 Branch)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Computer_SE_New_8_Branch_R2019_1.7.2021.pdf' },
-              { label: 'Syllabus Revised 2019-20 (Final Syllabus)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Final-Syllabus-1.pdf' },
-              { label: 'Syllabus Revised 2019-20 (BE CSE AIML / CSE DS)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE.pdf' },
-              { label: 'Honours & Minor Degree Program (Data Science)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Honours-Minor-Degree-Program-Data-Science(1).pdf' },
-              { label: 'PO PSO CO (Rev-2019 CSEDS Syllabus)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/2.6.1_Rev-2019_CSEDS_Syllabus.pdf' },
+              { label: 'Syllabus Revised 2019-20 (Computer SE New 8 Branch)', url: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Computer_SE_New_8_Branch_R2019_1.7.2021.pdf' },
+              { label: 'Syllabus Revised 2019-20 (Final Syllabus)', url: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Final-Syllabus-1.pdf' },
+              { label: 'Syllabus Revised 2019-20 (BE CSE AIML / CSE DS)', url: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE.pdf' },
+              { label: 'Honours & Minor Degree Program (Data Science)', url: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Honours-Minor-Degree-Program-Data-Science(1).pdf' },
+              { label: 'PO PSO CO (Rev-2019 CSEDS Syllabus)', url: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/2.6.1_Rev-2019_CSEDS_Syllabus.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">

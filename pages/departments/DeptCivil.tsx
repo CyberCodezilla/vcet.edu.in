@@ -410,10 +410,10 @@ const DeptCivil: React.FC = () => {
           {/* â•â•â•â• FACULTY LIST â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'faculty-list' && (() => {
             const links = [
-              { label: 'Faculty List 2023-24', url: 'pdfs/Department/CivilEngineering/FacultyList/Faculty-List-2023-24.pdf' },
-              { label: 'Faculty List 2022-23', url: 'pdfs/Department/CivilEngineering/FacultyList/Faculty-List-2022-23.pdf' },
-              { label: 'Faculty List 2021-22', url: 'pdfs/Department/CivilEngineering/FacultyList/Faculty-List-2021-22.pdf' },
-              { label: 'Faculty List 2020-21', url: 'pdfs/Department/CivilEngineering/FacultyList/Faculty-List-2020-21.pdf' },
+              { label: 'Faculty List 2023-24', url: '/pdfs/Department/CivilEngineering/FacultyList/Faculty-List-2023-24.pdf' },
+              { label: 'Faculty List 2022-23', url: '/pdfs/Department/CivilEngineering/FacultyList/Faculty-List-2022-23.pdf' },
+              { label: 'Faculty List 2021-22', url: '/pdfs/Department/CivilEngineering/FacultyList/Faculty-List-2021-22.pdf' },
+              { label: 'Faculty List 2020-21', url: '/pdfs/Department/CivilEngineering/FacultyList/Faculty-List-2020-21.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -433,8 +433,8 @@ const DeptCivil: React.FC = () => {
           {/* â•â•â•â• STUDENT LIST â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'student-list' && (() => {
             const links = [
-              { label: 'Student List 2023-24', url: 'pdfs/Department/CivilEngineering/StudentList/Student-List-23-24.pdf' },
-              { label: 'Student List 2022-23', url: 'pdfs/Department/CivilEngineering/StudentList/Student-List-2022-23.pdf' },
+              { label: 'Student List 2023-24', url: '/pdfs/Department/CivilEngineering/StudentList/Student-List-23-24.pdf' },
+              { label: 'Student List 2022-23', url: '/pdfs/Department/CivilEngineering/StudentList/Student-List-2022-23.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -456,7 +456,7 @@ const DeptCivil: React.FC = () => {
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Civil Engineering</span></div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Placement Record<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="pdfs/Department/CivilEngineering/PlacementRecord/Placement-Record.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+              <a href="/pdfs/Department/CivilEngineering/PlacementRecord/Placement-Record.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                 <span>Placement Record - Civil</span><i className="ph ph-arrow-up-right text-brand-gold" />
               </a>
             </section>
@@ -581,15 +581,15 @@ const DeptCivil: React.FC = () => {
           {/* â•â•â•â• SYLLABUS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'syllabus' && (() => {
             const links = [
-              { label: 'Syllabus UG SE R-16', url: 'pdfs/Department/CivilEngineering/Syllabus/SE-Civil-CBCGS-Syllabus.pdf' },
-              { label: 'Syllabus UG TE R-16', url: 'pdfs/Department/CivilEngineering/Syllabus/TE-Civil_Syllabus_R16.pdf' },
-              { label: 'Syllabus UG BE R-16', url: 'pdfs/Department/CivilEngineering/Syllabus/BE-Civil_Syllabus_R16.pdf' },
-              { label: 'Syllabus 2019-20 SE R-19 C Scheme', url: 'pdfs/Department/CivilEngineering/Syllabus/S.E.-Civil-Engg-Sem-III-IV.pdf' },
-              { label: 'Syllabus 2019-20 TE R-19 C Scheme', url: 'pdfs/Department/CivilEngineering/Syllabus/T.E.-Civil-Engg-Sem-V-VI.pdf' },
-              { label: 'Syllabus 2019-20 BE R-19 C Scheme', url: 'pdfs/Department/CivilEngineering/Syllabus/B.E.-Civil-Engg.-Sem.-VII-VIII.pdf' },
-              { label: 'PO PSO CO (R16)', url: 'pdfs/Department/CivilEngineering/Syllabus/Civil_R16-COs.pdf' },
-              { label: 'PO PSO CO (R19)', url: 'pdfs/Department/CivilEngineering/Syllabus/Civil_R-19-COs.pdf' },
-              { label: 'Syllabus PG ME Rev 2022', url: 'pdfs/Department/CivilEngineering/Syllabus/ME-Str-Syllabus-R22_Final-1.pdf' },
+              { label: 'Syllabus UG SE R-16', url: '/pdfs/Department/CivilEngineering/Syllabus/SE-Civil-CBCGS-Syllabus.pdf' },
+              { label: 'Syllabus UG TE R-16', url: '/pdfs/Department/CivilEngineering/Syllabus/TE-Civil_Syllabus_R16.pdf' },
+              { label: 'Syllabus UG BE R-16', url: '/pdfs/Department/CivilEngineering/Syllabus/BE-Civil_Syllabus_R16.pdf' },
+              { label: 'Syllabus 2019-20 SE R-19 C Scheme', url: '/pdfs/Department/CivilEngineering/Syllabus/S.E.-Civil-Engg-Sem-III-IV.pdf' },
+              { label: 'Syllabus 2019-20 TE R-19 C Scheme', url: '/pdfs/Department/CivilEngineering/Syllabus/T.E.-Civil-Engg-Sem-V-VI.pdf' },
+              { label: 'Syllabus 2019-20 BE R-19 C Scheme', url: '/pdfs/Department/CivilEngineering/Syllabus/B.E.-Civil-Engg.-Sem.-VII-VIII.pdf' },
+              { label: 'PO PSO CO (R16)', url: '/pdfs/Department/CivilEngineering/Syllabus/Civil_R16-COs.pdf' },
+              { label: 'PO PSO CO (R19)', url: '/pdfs/Department/CivilEngineering/Syllabus/Civil_R-19-COs.pdf' },
+              { label: 'Syllabus PG ME Rev 2022', url: '/pdfs/Department/CivilEngineering/Syllabus/ME-Str-Syllabus-R22_Final-1.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
@@ -609,14 +609,14 @@ const DeptCivil: React.FC = () => {
           {/* â•â•â•â• INNOVATIONS IN TEACHING LEARNING â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'teaching-learning' && (() => {
             const innovationLinks = [
-              { label: 'Innovation in Teaching Learning (2022-23)', url: 'pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_Innovation-Index_Civil_2022-23-1.pdf' },
-              { label: 'Innovation in Teaching Learning (2021-22)', url: 'pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_Innovation-Index_Civil_2021-22-1.pdf' },
-              { label: 'Innovation in Teaching Learning (2020-21)', url: 'pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_Innovation-Index_Civil_2020-21-1.pdf' },
+              { label: 'Innovation in Teaching Learning (2022-23)', url: '/pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_Innovation-Index_Civil_2022-23-1.pdf' },
+              { label: 'Innovation in Teaching Learning (2021-22)', url: '/pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_Innovation-Index_Civil_2021-22-1.pdf' },
+              { label: 'Innovation in Teaching Learning (2020-21)', url: '/pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_Innovation-Index_Civil_2020-21-1.pdf' },
             ];
             const ictLinks = [
-              { label: 'ICT Tools in Teaching Learning (2022-23)', url: 'pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_ICT-Index_Civil_22-23-2.pdf' },
-              { label: 'ICT Tools in Teaching Learning (2021-22)', url: 'pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_ICT-Index_Civil_21-22-2.pdf' },
-              { label: 'ICT Tools in Teaching Learning (2020-21)', url: 'pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_ICT-Index_Civil_20-21-2.pdf' },
+              { label: 'ICT Tools in Teaching Learning (2022-23)', url: '/pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_ICT-Index_Civil_22-23-2.pdf' },
+              { label: 'ICT Tools in Teaching Learning (2021-22)', url: '/pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_ICT-Index_Civil_21-22-2.pdf' },
+              { label: 'ICT Tools in Teaching Learning (2020-21)', url: '/pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_ICT-Index_Civil_20-21-2.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-6">
@@ -688,9 +688,9 @@ const DeptCivil: React.FC = () => {
           {/* â•â•â•â• VCET-ADT CELL â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'vcet-adt-cell' && (() => {
             const consultLinks = [
-              { label: 'Consultancy 23-24', url: 'pdfs/Department/CivilEngineering/VCET-ADTCELL/Consultancy-Data_final_11-march-2024-23-24.pdf' },
-              { label: 'Consultancy 22-23', url: 'pdfs/Department/CivilEngineering/VCET-ADTCELL/Consultancy-Data_final_11-march-2024-22-23.pdf' },
-              { label: 'Consultancy 21-22', url: 'pdfs/Department/CivilEngineering/VCET-ADTCELL/Consultancy-Data_final_11-march-2024-21-22.pdf' },
+              { label: 'Consultancy 23-24', url: '/pdfs/Department/CivilEngineering/VCET-ADTCELL/Consultancy-Data_final_11-march-2024-23-24.pdf' },
+              { label: 'Consultancy 22-23', url: '/pdfs/Department/CivilEngineering/VCET-ADTCELL/Consultancy-Data_final_11-march-2024-22-23.pdf' },
+              { label: 'Consultancy 21-22', url: '/pdfs/Department/CivilEngineering/VCET-ADTCELL/Consultancy-Data_final_11-march-2024-21-22.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100 space-y-6">
