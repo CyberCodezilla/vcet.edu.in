@@ -171,7 +171,7 @@ return () => {
 
   const consultancyReportHref =
     resolveUploadedAssetUrl(apiData?.consultancyReport?.fileUrl ?? apiData?.consultancyReport?.url ?? null)
-    || 'https://vcet.edu.in/wp-content/uploads/2024/06/CONSULTANCY-PROJECTS-revised.pdf';
+    || '/pdfs/Research/ConsultancyProjects/CONSULTANCY-PROJECTS-revised.pdf';
 
   const MAX_VAL = Math.max(DEFAULT_MAX_VAL, ...revenueData.map((d) => d.value), 1);
   const SLOT_W = PLOT_W / Math.max(revenueData.length, 1);

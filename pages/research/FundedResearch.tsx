@@ -17,7 +17,7 @@ const defaultFundingByYear = [
   { year: '2021-22', amount: 13.84 },
   { year: '2022-23', amount: 4.06 },
 ];
-const defaultFundingReportHref = 'https://vcet.edu.in/wp-content/uploads/2024/06/RESEARCH-FUNDING1.pdf';
+const defaultFundingReportHref = '/pdfs/Research/FundedResearch/RESEARCH-FUNDING1.pdf';
 
 type FundingRow = {
   year: string;
@@ -41,7 +41,7 @@ const FundedResearch: React.FC = () => {
     };
   }, []);
 
-    const fundingByYear = useMemo<FundingRow[]>(() => {
+  const fundingByYear = useMemo<FundingRow[]>(() => {
     const rows = Array.isArray(apiData?.funding)
       ? apiData.funding
           .map((row: any) => ({
@@ -60,26 +60,29 @@ const FundedResearch: React.FC = () => {
 
   const maxFunding = Math.max(...fundingByYear.map((d: FundingRow) => d.amount), 1);
   const totalFunding = fundingByYear.reduce((s: number, d: FundingRow) => s + d.amount, 0);
-  const peakYear = fundingByYear.reduce((a: FundingRow, b: FundingRow) => (b.amount > a.amount ? b : a), fundingByYear[0]);
-
-        if (!apiLoaded) {
-  return (
-  <PageLayout>
-  <PageBanner
-  title="Funded Research"
-  breadcrumbs={[
-  { label: 'Research', href: '/research' },
-  { label: 'Funded Research' },
-  ]}
-  />
-  <section className="py-16 bg-white">
-  <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
-  </section>
-  </PageLayout>
+  const peakYear = fundingByYear.reduce(
+    (a: FundingRow, b: FundingRow) => (b.amount > a.amount ? b : a),
+    fundingByYear[0]
   );
+
+  if (!apiLoaded) {
+     return (
+       <PageLayout>
+        <PageBanner
+          title="Funded Research"
+          breadcrumbs={[
+            { label: 'Research', href: '/research' },
+            { label: 'Funded Research' },
+          ]}
+        />
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 text-center text-slate-500">Loading content...</div>
+        </section>
+      </PageLayout>
+    );
   }
 
-return (
+  return (
     <PageLayout>
       <PageBanner
         title="Funded Research"

@@ -16,9 +16,9 @@ const defaultBooksPublished = [
   { year: '2022-23', count: 24 },
 ];
 const defaultPublicationPdfs = [
-  'https://vcet.edu.in/wp-content/uploads/2024/06/BOOKS-PUBLISHED1.pdf',
-  'https://vcet.edu.in/wp-content/uploads/2024/04/CONFERENCE-PUBLICATIONS-R1.pdf',
-  'https://vcet.edu.in/wp-content/uploads/2024/04/JOURNAL-PAPER-PUBLICATION.pdf',
+  '/pdfs/Research/Publications(Journals,Conference,Books)/BOOKS-PUBLISHED1.pdf',
+  '/pdfs/Research/Publications(Journals,Conference,Books)/CONFERENCE-PUBLICATIONS-R1.pdf',
+  '/pdfs/Research/Publications(Journals,Conference,Books)/JOURNAL-PAPER-PUBLICATION.pdf',
 ];
 
 /* ── Journal & Conference Papers Data ── */

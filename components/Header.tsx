@@ -269,7 +269,13 @@ const menuGroups: MenuGroup[] = [
     ],
   },
 
-  // 12. TRAINING & PLACEMENT
+  // 12. ACCREDITATION
+  {
+    label: 'Accreditation',
+    href: '/pdfs/Accreditation/NBA_Certificate.pdf',
+  },
+
+  // 13. TRAINING & PLACEMENT
   {
     label: 'Training & Placement',
     dropdown: [
@@ -475,6 +481,7 @@ const keywordMap: Record<string, string[]> = {
   '/iiic': ['iiic', 'industry interaction', 'mou'],
   '/exam': ['exam', 'examination', 'results', 'hall ticket', 'exam cell'],
   '/exam-cell': ['exam', 'examination', 'results', 'hall ticket', 'exam cell'],
+  '/pdfs/Accreditation/NBA_Certificate.pdf': ['accreditation', 'nba', 'national board', 'nba certificate', 'accredited'],
   '/centurion': ['centurion', 'atv', 'quad bike', 'student club'],
   '/airnova': ['airnova', 'aeronautics', 'aerospace', 'uav', 'student club'],
   '/emechto': ['emechto', 'e-bike', 'electric bike', 'sustainable mobility', 'student club'],

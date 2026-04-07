@@ -17,9 +17,9 @@ const sectionTabs = [
 ];
 
 const defaultReportPdfs: PdfItem[] = [
-  { title: 'NIRF 2025 Engineering - VCET', year: '2025', href: 'https://vcet.edu.in/wp-content/uploads/2025/02/NIRF2025_ENGINEERING_VCET.pdf', note: 'Engineering category PDF' },
-  { title: 'NIRF 2025 Management - VCET', year: '2025', href: 'https://vcet.edu.in/wp-content/uploads/2025/02/NIRF_2025_MANAGEMENT_VCET.pdf', note: 'Management category PDF' },
-  { title: 'NIRF 2025 Overall - VCET', year: '2025', href: 'https://vcet.edu.in/wp-content/uploads/2025/02/NIRF2025_Overall_VCET.pdf', note: 'Overall category PDF' },
+  { title: 'NIRF 2025 Engineering - VCET', year: '2025', href: '/pdfs/Research/NIRF/NIRF_2025_MANAGEMENT_VCET.pdf', note: 'Engineering category PDF' },
+  { title: 'NIRF 2025 Management - VCET', year: '2025', href: '/pdfs/Research/NIRF/NIRF2025_ENGINEERING_VCET.pdf', note: 'Management category PDF' },
+  { title: 'NIRF 2025 Overall - VCET', year: '2025', href: '/pdfs/Research/NIRF/NIRF2025_Overall_VCET.pdf', note: 'Overall category PDF' },
 ];
 
 const PdfGrid: React.FC<{ items: PdfItem[] }> = ({ items }) => {
