@@ -279,7 +279,7 @@ const DeptComputerEngg: React.FC = () => {
 
           {/* â•â•â•â• DAB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'dab' && (() => {
-            const members = [
+            const staticMembers = [
               { sr: 1, name: 'Dr. Rakesh Himte', designation: 'Principal', org: 'VCET, Vasai', role: 'Chairman', tag: 'internal' },
               { sr: 2, name: 'Dr. Vikas Gupta', designation: 'Dean, Academics', org: 'VCET, Vasai', role: 'Dean', tag: 'internal' },
               { sr: 3, name: 'Dr. Megha Trivedi', designation: 'HOD, Comps', org: 'VCET, Vasai', role: 'HOD', tag: 'internal' },
@@ -295,6 +295,9 @@ const DeptComputerEngg: React.FC = () => {
               { sr: 13, name: 'Mr. Aditya Lawate', designation: 'T.E. Computer Engineering', org: 'VCET, Vasai', role: 'Student Representative', tag: 'student' },
               { sr: 14, name: 'Dr. Anil Hingmire', designation: 'Assistant Professor', org: 'VCET, Vasai', role: 'Convener', tag: 'internal' },
             ];
+            const members = department?.content?.dabMembers?.length
+              ? department.content.dabMembers.map((m, i) => ({ sr: i + 1, name: m.name || '-', designation: m.designation || '-', org: m.organization || '-', role: '-', tag: 'internal' }))
+              : staticMembers;
             const tagStyle: Record<string, string> = {
               internal: 'bg-brand-navylight text-brand-navy',
               academic: 'bg-blue-50 text-blue-700',
@@ -447,7 +450,7 @@ const DeptComputerEngg: React.FC = () => {
           })()}
 
           {/* â•â•â•â• FACULTY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Computer Engineering" />}
+          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Computer Engineering" selectedFacultyIds={department?.content?.faculty} />}
 
           {/* â•â•â•â• PAQIC â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'paqic' && (() => {
@@ -606,6 +609,32 @@ const DeptComputerEngg: React.FC = () => {
 
           {/* â•â•â•â• TOPPERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'toppers' && (() => {
+            const dynamicToppers = department?.content?.toppers || [];
+            if (dynamicToppers.length > 0) {
+              return (
+                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="w-8 h-px bg-brand-gold" />
+                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Computer Engineering</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Toppers<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {dynamicToppers.map((t, idx) => (
+                      <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center text-center hover:bg-slate-100/80 transition-colors">
+                        <div className="w-16 h-16 bg-brand-navy/5 text-brand-gold rounded-full flex items-center justify-center mb-3">
+                          <i className="ph-fill ph-medal text-3xl" />
+                        </div>
+                        <h4 className="font-bold text-brand-navy text-lg mb-1">{t.name}</h4>
+                        <p className="text-slate-500 text-sm font-medium mb-3">{t.year}</p>
+                        <div className="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-sm font-bold border border-emerald-100">
+                          CGPA: {t.cgpa}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
             const toppers = {
               SE: ['Yadav Rishiraj - 9.51', 'Barve Smit - 9.49', 'Yadav Visha - 9.48'],
               TE: ['Chavan Yash - 9.74', 'Bargude Vivek - 9.61', 'Borhade Shruti - 9.52'],
@@ -644,21 +673,23 @@ const DeptComputerEngg: React.FC = () => {
 
           {/* â•â•â•â• SYLLABUS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'syllabus' && (() => {
-            const links = [
-              { label: 'SE - R16 Syllabus', url: '/pdfs/Department//ComputerEngineering//Syllabus//SE-Comps_CBCGS_Syllabus.pdf' },
-              { label: 'TE / BE - R16 Syllabus', url: '/pdfs/Department//ComputerEngineering//Syllabus//TE_BE-Comp_Engg_CBCGS_Syllabus.pdf' },
-              { label: 'BE - R12 Syllabus', url: '/pdfs/Department//ComputerEngineering//Syllabus//BE-Comps_VII_VIII_Syllabus-1.pdf' },
-              { label: 'First Year - R19 Syllabus', url: '/pdfs/Department//ComputerEngineering//Syllabus//FE-Final-Syllabus-R19.pdf' },
-              { label: 'SE - R19 Syllabus', url: '/pdfs/Department//ComputerEngineering//Syllabus//SE-C-scheme-syllabus-Computer-Engg.pdf' },
-              { label: 'TE - R19 Syllabus', url: '/pdfs/Department//ComputerEngineering//Syllabus//T.E.-C-scheme-syllabus-Computer-Engg.pdf' },
-              { label: 'BE - R19 Syllabus', url: '/pdfs/Department//ComputerEngineering//Syllabus//B.E.-C-scheme-syllabus-Computer-Engg.pdf' },
-              { label: 'First Year (NEP) 2024-25', url: '/pdfs/Department//ComputerEngineering//Syllabus//First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25-1.pdf' },
-              { label: 'Honours & Minor Degree Program (Data Science)', url: '/pdfs/Department//ComputerEngineering//Syllabus//Honours-Minor-Degree-Program-Data-Science.pdf' },
-              { label: 'PO PSO CO - R12', url: '/pdfs/Department//ComputerEngineering//Syllabus//NAAC-Comp_PO_PSO_CO_R-12.pdf' },
-              { label: 'PO PSO CO - R16', url: '/pdfs/Department//ComputerEngineering//Syllabus//NAAC-Comp_PO_PSO_CO_R-16.pdf' },
-              { label: 'PO PSO CO - R19', url: '/pdfs/Department//ComputerEngineering//Syllabus//NACC-COMP_PO_PSO_CO_R-19-updated.pdf' },
+            const staticLinks = [
+              { label: 'SE - R16 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//SE-Comps_CBCGS_Syllabus.pdf' },
+              { label: 'TE / BE - R16 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//TE_BE-Comp_Engg_CBCGS_Syllabus.pdf' },
+              { label: 'BE - R12 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//BE-Comps_VII_VIII_Syllabus-1.pdf' },
+              { label: 'First Year - R19 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//FE-Final-Syllabus-R19.pdf' },
+              { label: 'SE - R19 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//SE-C-scheme-syllabus-Computer-Engg.pdf' },
+              { label: 'TE - R19 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//T.E.-C-scheme-syllabus-Computer-Engg.pdf' },
+              { label: 'BE - R19 Syllabus', url: 'pdfs/Department//ComputerEngineering//Syllabus//B.E.-C-scheme-syllabus-Computer-Engg.pdf' },
+              { label: 'First Year (NEP) 2024-25', url: 'pdfs/Department//ComputerEngineering//Syllabus//First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25-1.pdf' },
+              { label: 'Honours & Minor Degree Program (Data Science)', url: 'pdfs/Department//ComputerEngineering//Syllabus//Honours-Minor-Degree-Program-Data-Science.pdf' },
+              { label: 'PO PSO CO - R12', url: 'pdfs/Department//ComputerEngineering//Syllabus//NAAC-Comp_PO_PSO_CO_R-12.pdf' },
+              { label: 'PO PSO CO - R16', url: 'pdfs/Department//ComputerEngineering//Syllabus//NAAC-Comp_PO_PSO_CO_R-16.pdf' },
+              { label: 'PO PSO CO - R19', url: 'pdfs/Department//ComputerEngineering//Syllabus//NACC-COMP_PO_PSO_CO_R-19-updated.pdf' },
             ];
-            const syllabusLinks: { label: string, url: string }[] = [];
+            const links = department?.content?.syllabus?.length
+              ? department.content.syllabus.map((s) => ({ label: s.title, url: resolveUploadedAssetUrl(s.pdf as string) || '#' }))
+              : staticLinks;
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="flex items-center gap-3 mb-4">
@@ -668,7 +699,7 @@ const DeptComputerEngg: React.FC = () => {
                 <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Syllabus<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
                 <p className="text-slate-600 mb-5">NEP-2020 MU syllabus link is currently not available in the provided document.</p>
                 <div className="grid md:grid-cols-2 gap-3">
-                  {syllabusLinks.map((item) => (
+                  {links.map((item) => (
                     <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
                       <span>{item.label}</span>
                       <i className="ph ph-arrow-up-right text-brand-gold" />
@@ -736,6 +767,39 @@ const DeptComputerEngg: React.FC = () => {
 
           {/* â•â•â•â• INNOVATION & TECHNIQUE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'teaching-learning' && (() => {
+            const activities = department?.content?.activities || [];
+            if (activities.length > 0) {
+              return (
+                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                  <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Computer Engineering</span></div>
+                  <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Department Activities<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {activities.map((a, idx) => (
+                      <div key={idx} className="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col group">
+                        {a.image ? (
+                          <div className="h-48 overflow-hidden bg-slate-100">
+                            <img src={resolveUploadedAssetUrl(a.image as string)} alt={a.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          </div>
+                        ) : (
+                          <div className="h-24 bg-gradient-to-r from-brand-navy to-slate-800 flex items-center justify-center text-white/20">
+                            <i className="ph-fill ph-image text-3xl" />
+                          </div>
+                        )}
+                        <div className="p-6 flex-1 flex flex-col">
+                          <h4 className="font-bold text-brand-navy text-[17px] leading-snug mb-3">{a.title}</h4>
+                          <p className="text-slate-600 text-sm leading-relaxed mb-5 flex-1">{a.description}</p>
+                          {a.pdf && (
+                            <a href={resolveUploadedAssetUrl(a.pdf as string) || '#'} target="_blank" rel="noreferrer" className="mt-auto inline-flex items-center justify-center w-full gap-2 px-4 py-2.5 bg-slate-50 text-slate-700 rounded-xl text-sm font-semibold hover:bg-brand-gold hover:text-white transition-colors border border-slate-200">
+                              <i className="ph-bold ph-download-simple" /> View Details
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
             const links = [
               { label: 'Innovation in Teaching Learning 2025-26', url: '/pdfs/Department/ComputerEngineering/InnovationinTeachingLearning/Innovative-activities-in-Teaching-Learning_2025-26_Odd_Sem.pdf' },
               { label: 'Innovation in Teaching Learning 2024-25', url: '/pdfs/Department/ComputerEngineering/InnovationinTeachingLearning/Innovative-activities-in-Teaching-Learning_2024-25_Odd_Even.pdf' },

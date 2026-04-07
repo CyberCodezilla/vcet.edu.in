@@ -252,7 +252,7 @@ const DeptMech: React.FC = () => {
 
           {/* â•â•â•â• DAB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'dab' && (() => {
-            const members = [
+            const staticMembers = [
               { sr: 1, name: 'Dr. Rakesh Himte', designation: 'Principal', org: 'VCET, Vasai', role: 'Chairman', tag: 'internal' },
               { sr: 2, name: 'Dr. Vikas Gupta', designation: 'Dean (Academic)', org: 'VCET, Vasai', role: 'Dean', tag: 'internal' },
               { sr: 3, name: 'Dr. Uday Aswalekar', designation: 'HOD, Mech', org: 'VCET, Vasai', role: 'HOD', tag: 'internal' },
@@ -265,6 +265,9 @@ const DeptMech: React.FC = () => {
               { sr: 10, name: 'Dr. Ashish Choudhari', designation: 'Asso. Professor', org: 'VCET, Vasai', role: 'Sr. Faculty', tag: 'internal' },
               { sr: 11, name: 'Mr. D. J. Choudhari', designation: 'Asst. Professor', org: 'VCET, Vasai', role: 'Convener', tag: 'internal' },
             ];
+            const members = department?.content?.dabMembers?.length
+              ? department.content.dabMembers.map((m, i) => ({ sr: i + 1, name: m.name || '-', designation: m.designation || '-', org: m.organization || '-', role: '-', tag: 'internal' }))
+              : staticMembers;
             const tagStyle: Record<string, string> = { internal: 'bg-brand-navylight text-brand-navy', academic: 'bg-blue-50 text-blue-700', industry: 'bg-amber-50 text-amber-700', student: 'bg-emerald-50 text-emerald-700', parent: 'bg-purple-50 text-purple-700' };
             return (
               <div className="space-y-10">
@@ -376,7 +379,7 @@ const DeptMech: React.FC = () => {
           })()}
 
           {/* â•â•â•â• FACULTY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Mechanical Engineering" />}
+          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Mechanical Engineering" selectedFacultyIds={department?.content?.faculty} />}
 
           {/* â•â•â•â• PAQIC â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'paqic' && (() => {
@@ -493,19 +496,57 @@ const DeptMech: React.FC = () => {
           })()}
 
           {/* â•â•â•â• INNOVATIVE IN TEACHING LEARNING â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-          {activeId === 'teaching-learning' && (
-            <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="w-8 h-px bg-brand-gold" />
-                <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
-              </div>
-              <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Innovative in Teaching learning<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-              <a href="/pdfs/Department/MechanicalEngineering/InnovativeinTeachinglearning/innovation-in-Teaching-learning-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
-                <span>Innovation in Teaching Learning</span>
-                <i className="ph ph-arrow-up-right text-brand-gold" />
-              </a>
-            </section>
-          )}
+          {activeId === 'teaching-learning' && (() => {
+            const activities = department?.content?.activities || [];
+            if (activities.length > 0) {
+              return (
+                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="w-8 h-px bg-brand-gold" />
+                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Department Activities<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {activities.map((a, idx) => (
+                      <div key={idx} className="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col group">
+                        {a.image ? (
+                          <div className="h-48 overflow-hidden bg-slate-100">
+                            <img src={resolveUploadedAssetUrl(a.image as string)} alt={a.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          </div>
+                        ) : (
+                          <div className="h-24 bg-gradient-to-r from-brand-navy to-slate-800 flex items-center justify-center text-white/20">
+                            <i className="ph-fill ph-image text-3xl" />
+                          </div>
+                        )}
+                        <div className="p-6 flex-1 flex flex-col">
+                          <h4 className="font-bold text-brand-navy text-[17px] leading-snug mb-3">{a.title}</h4>
+                          <p className="text-slate-600 text-sm leading-relaxed mb-5 flex-1">{a.description}</p>
+                          {a.pdf && (
+                            <a href={resolveUploadedAssetUrl(a.pdf as string) || '#'} target="_blank" rel="noreferrer" className="mt-auto inline-flex items-center justify-center w-full gap-2 px-4 py-2.5 bg-slate-50 text-slate-700 rounded-xl text-sm font-semibold hover:bg-brand-gold hover:text-white transition-colors border border-slate-200">
+                              <i className="ph-bold ph-download-simple" /> View Details
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
+            return (
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="w-8 h-px bg-brand-gold" />
+                  <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
+                </div>
+                <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Innovative in Teaching learning<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                <a href="pdfs/Department/MechanicalEngineering/InnovativeinTeachinglearning/innovation-in-Teaching-learning-1.pdf" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-brand-navy hover:border-brand-gold hover:bg-brand-navylight transition-colors">
+                  <span>Innovation in Teaching Learning</span>
+                  <i className="ph ph-arrow-up-right text-brand-gold" />
+                </a>
+              </section>
+            );
+          })()}
 
           {/* â•â•â•â• JOURNAL PUBLICATION â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'journal-publication' && (
@@ -741,6 +782,32 @@ const DeptMech: React.FC = () => {
 
           {/* â•â•â•â• TOPPERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'toppers' && (() => {
+            const dynamicToppers = department?.content?.toppers || [];
+            if (dynamicToppers.length > 0) {
+              return (
+                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="w-8 h-px bg-brand-gold" />
+                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Toppers<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {dynamicToppers.map((t, idx) => (
+                      <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center text-center hover:bg-slate-100/80 transition-colors">
+                        <div className="w-16 h-16 bg-brand-navy/5 text-brand-gold rounded-full flex items-center justify-center mb-3">
+                          <i className="ph-fill ph-medal text-3xl" />
+                        </div>
+                        <h4 className="font-bold text-brand-navy text-lg mb-1">{t.name}</h4>
+                        <p className="text-slate-500 text-sm font-medium mb-3">{t.year}</p>
+                        <div className="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-sm font-bold border border-emerald-100">
+                          CGPA: {t.cgpa}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
             const toppers = {
               SE: [
                 'BHATKAR VED MAHESH VANDANA : 9',
@@ -792,13 +859,16 @@ const DeptMech: React.FC = () => {
 
           {/* â•â•â•â• SYLLABUS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'syllabus' && (() => {
-            const links = [
+            const staticLinks = [
               { label: 'R-19 SE Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/R2019-SE_-Mechanical_BE-Sem-III-and-IV-Teaching-Scheme-and-Course-Content_Final_04072020.pdf' },
               { label: 'R-19 TE Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2021/11/R2019Third_Year_Mechanical_BE-Sem-V-and-VI-Teaching-Scheme-and-Course-Content_Draft_Copy.pdf' },
               { label: 'R-19 BE Syllabus', url: 'https://vcet.edu.in/wp-content/uploads/2024/04/BE-Mechanical-Syllabus.pdf' },
               { label: 'PO PSO CO (R16)', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/R-2016.pdf' },
               { label: 'PO PSO CO (R19)', url: 'https://vcet.edu.in/wp-content/uploads/2024/03/R-2019.pdf' },
             ];
+            const links = department?.content?.syllabus?.length
+              ? department.content.syllabus.map((s) => ({ label: s.title, url: resolveUploadedAssetUrl(s.pdf as string) || '#' }))
+              : staticLinks;
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="flex items-center gap-3 mb-4">

@@ -349,7 +349,7 @@ const DeptCSDS: React.FC = () => {
 
           {/* â”€â”€ DEPARTMENTAL ADVISORY BOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'dab' && (() => {
-            const members = [
+            const staticMembers = [
               { sr: 1,  name: 'Dr. Rakesh Himte',          designation: 'Principal',                          org: 'VCET, Vasai',                                              role: 'Chairman',                tag: 'internal' },
               { sr: 2,  name: 'Dr. Vikas Gupta',           designation: 'Dean Academics and HOD-CSEDS',       org: 'VCET, Vasai',                                              role: 'Dean',                    tag: 'internal' },
               { sr: 3,  name: 'Dr. Bhushan Jadhav',        designation: 'Associate Professor, AIDS Dept.',    org: 'Thadomal Sahani College of Engineering',                   role: 'Academic Representative', tag: 'academic' },
@@ -362,6 +362,9 @@ const DeptCSDS: React.FC = () => {
               { sr: 10, name: 'Ms. Puja Chafekar',         designation: 'TE Student',                         org: 'VCET, Vasai',                                              role: 'Student Representative', tag: 'student' },
               { sr: 11, name: 'Adv. Sunil V. Varavdekar',  designation: 'BAR Council',                        org: 'Bombay High Court',                                        role: 'Parent Representative',  tag: 'parent'  },
             ];
+            const members = department?.content?.dabMembers?.length
+              ? department.content.dabMembers.map((m, i) => ({ sr: i + 1, name: m.name || '-', designation: m.designation || '-', org: m.organization || '-', role: '-', tag: 'internal' }))
+              : staticMembers;
 
             const tagStyle: Record<string, string> = {
               internal: 'bg-brand-navylight text-brand-navy',
@@ -589,10 +592,33 @@ const DeptCSDS: React.FC = () => {
           )}
 
           {/* â”€â”€ FACULTY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Computer Science & Data Science" />}
+          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Computer Science & Data Science" selectedFacultyIds={department?.content?.faculty} />}
 
           {/* â”€â”€ TOPPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'toppers' && (() => {
+            const dynamicToppers = department?.content?.toppers || [];
+            if (dynamicToppers.length > 0) {
+              return (
+                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                  <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering Â· Data Science</span></div>
+                  <h3 className="text-2xl font-bold text-brand-navy mb-1 relative inline-block">Toppers{' '}<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                    {dynamicToppers.map((t, idx) => (
+                      <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center text-center hover:bg-slate-100/80 transition-colors">
+                        <div className="w-16 h-16 bg-brand-navy/5 text-brand-gold rounded-full flex items-center justify-center mb-3">
+                          <i className="ph-fill ph-medal text-3xl" />
+                        </div>
+                        <h4 className="font-bold text-brand-navy text-lg mb-1">{t.name}</h4>
+                        <p className="text-slate-500 text-sm font-medium mb-3">{t.year}</p>
+                        <div className="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-sm font-bold border border-emerald-100">
+                          CGPA: {t.cgpa}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
             const toppers = [
               { rank: 1, name: 'Shukla Abhay Devnath', score: '9.79 SGPI' },
               { rank: 2, name: 'Kalathiya Deven Gunvanthbhai', score: '9.08 SGPI' },
@@ -629,13 +655,16 @@ const DeptCSDS: React.FC = () => {
 
           {/* â”€â”€ SYLLABUS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           {activeId === 'syllabus' && (() => {
-            const links = [
-              { label: 'Syllabus Revised 2019-20 (Computer SE New 8 Branch)', url: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Computer_SE_New_8_Branch_R2019_1.7.2021.pdf' },
-              { label: 'Syllabus Revised 2019-20 (Final Syllabus)', url: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Final-Syllabus-1.pdf' },
-              { label: 'Syllabus Revised 2019-20 (BE CSE AIML / CSE DS)', url: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE.pdf' },
-              { label: 'Honours & Minor Degree Program (Data Science)', url: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Honours-Minor-Degree-Program-Data-Science(1).pdf' },
-              { label: 'PO PSO CO (Rev-2019 CSEDS Syllabus)', url: '/pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/2.6.1_Rev-2019_CSEDS_Syllabus.pdf' },
+            const staticLinks = [
+              { label: 'Syllabus Revised 2019-20 (Computer SE New 8 Branch)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Computer_SE_New_8_Branch_R2019_1.7.2021.pdf' },
+              { label: 'Syllabus Revised 2019-20 (Final Syllabus)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Final-Syllabus-1.pdf' },
+              { label: 'Syllabus Revised 2019-20 (BE CSE AIML / CSE DS)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/BE_CSE_AIML__CSE_DS__AI_DS_AI_ML_DE.pdf' },
+              { label: 'Honours & Minor Degree Program (Data Science)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/Honours-Minor-Degree-Program-Data-Science(1).pdf' },
+              { label: 'PO PSO CO (Rev-2019 CSEDS Syllabus)', url: 'pdfs/Department/ComputerScienceandEngineering(DataScience)/Syllabus/2.6.1_Rev-2019_CSEDS_Syllabus.pdf' },
             ];
+            const links = department?.content?.syllabus?.length
+              ? department.content.syllabus.map((s) => ({ label: s.title, url: resolveUploadedAssetUrl(s.pdf as string) || '#' }))
+              : staticLinks;
             return (
               <section className="reveal bg-white rounded-3xl p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">CS &amp; Engineering Â· Data Science</span></div>

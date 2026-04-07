@@ -369,7 +369,7 @@ const DeptAIDS: React.FC = () => {
           })()}
 
           {/* â•â•â•â• FACULTY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Artificial Intelligence & Data Science" />}
+          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Artificial Intelligence & Data Science" selectedFacultyIds={department?.content?.faculty} />}
 
           {/* â•â•â•â• STUDENT ACHIEVEMENTS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'student-achievements' && (
@@ -397,6 +397,28 @@ const DeptAIDS: React.FC = () => {
 
           {/* â•â•â•â• TOPPERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'toppers' && (() => {
+            const dynamicToppers = department?.content?.toppers || [];
+            if (dynamicToppers.length > 0) {
+              return (
+                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-100">
+                  <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Toppers<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {dynamicToppers.map((t, idx) => (
+                      <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center text-center hover:bg-slate-100/80 transition-colors">
+                        <div className="w-16 h-16 bg-brand-navy/5 text-brand-gold rounded-full flex items-center justify-center mb-3">
+                          <i className="ph-fill ph-medal text-3xl" />
+                        </div>
+                        <h4 className="font-bold text-brand-navy text-lg mb-1">{t.name}</h4>
+                        <p className="text-slate-500 text-sm font-medium mb-3">{t.year}</p>
+                        <div className="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-sm font-bold border border-emerald-100">
+                          CGPA: {t.cgpa}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
             const topperYears = [
               {
                 year: '24-25',
@@ -513,6 +535,42 @@ const DeptAIDS: React.FC = () => {
 
           {/* â•â•â•â• INNOVATIONS IN TEACHING LEARNING â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'teaching-learning' && (() => {
+            const activities = department?.content?.activities || [];
+            if (activities.length > 0) {
+              return (
+                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="w-8 h-px bg-brand-gold" />
+                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">AI &amp; Data Science</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Department Activities<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {activities.map((a, idx) => (
+                      <div key={idx} className="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col group">
+                        {a.image ? (
+                          <div className="h-48 overflow-hidden bg-slate-100">
+                            <img src={resolveUploadedAssetUrl(a.image as string)} alt={a.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          </div>
+                        ) : (
+                          <div className="h-24 bg-gradient-to-r from-brand-navy to-slate-800 flex items-center justify-center text-white/20">
+                            <i className="ph-fill ph-image text-3xl" />
+                          </div>
+                        )}
+                        <div className="p-6 flex-1 flex flex-col">
+                          <h4 className="font-bold text-brand-navy text-[17px] leading-snug mb-3">{a.title}</h4>
+                          <p className="text-slate-600 text-sm leading-relaxed mb-5 flex-1">{a.description}</p>
+                          {a.pdf && (
+                            <a href={resolveUploadedAssetUrl(a.pdf as string) || '#'} target="_blank" rel="noreferrer" className="mt-auto inline-flex items-center justify-center w-full gap-2 px-4 py-2.5 bg-slate-50 text-slate-700 rounded-xl text-sm font-semibold hover:bg-brand-gold hover:text-white transition-colors border border-slate-200">
+                              <i className="ph-bold ph-download-simple" /> View Details
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
             const links = [
               { label: 'Innovation in Teaching Learning 2024-25 (Even)', url: '/pdfs/Department/ArtificialIntelligenceandDataScience/InnovationinTeachingLearning/EVEN-SEM-Innovation-in-Teaching-learning-2024-25-.pdf' },
               { label: 'Innovation in Teaching Learning 2024-25 (Odd)', url: '/pdfs/Department/ArtificialIntelligenceandDataScience/InnovationinTeachingLearning/ODD-SEM-Innovation-in-Teaching-learning-2024-25-.docx.pdf' },

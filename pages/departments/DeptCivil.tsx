@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { departmentApi } from '../../admin/api/departments';
-import type { Department } from '../../admin/types';
-import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
-import DepartmentHodImage from '../../components/DepartmentHodImage';
-
-
 import { Link } from 'react-router-dom';
-import PageLayout from '../../components/PageLayout';
-import DepartmentFacultySection from '../../components/DepartmentFacultySection';
 import { departmentApi } from '../../admin/api/departments';
-import type { Department } from '../../admin/types';
 import { newsletterApi } from '../../admin/api/newsletterApi';
+import type { Department } from '../../admin/types';
+import DepartmentFacultySection from '../../components/DepartmentFacultySection';
+import DepartmentHodImage from '../../components/DepartmentHodImage';
 import DepartmentNewsletterPanel from '../../components/DepartmentNewsletterPanel';
+import PageLayout from '../../components/PageLayout';
+import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -238,7 +234,7 @@ const DeptCivil: React.FC = () => {
 
           {/* â•â•â•â• DAB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'dab' && (() => {
-            const members = [
+            const staticMembers = [
               { sr: 1, name: 'Dr. Rakesh Himte', designation: 'Principal', org: 'VCET, Vasai', role: 'Chairman', tag: 'internal' },
               { sr: 2, name: 'Dr. Vikas Gupta', designation: 'Dean, Academic', org: 'VCET, Vasai', role: 'Vice-Chairman', tag: 'internal' },
               { sr: 3, name: 'Dr. Ajay Radke', designation: 'HOD, Civil', org: 'VCET, Vasai', role: 'Convener', tag: 'internal' },
@@ -249,6 +245,9 @@ const DeptCivil: React.FC = () => {
               { sr: 8, name: 'Ms. Darpita Gharat', designation: 'Student', org: 'VCET, Vasai', role: 'Student Member', tag: 'student' },
               { sr: 9, name: 'Dr. Viren Chandanshive', designation: 'Assistant Professor', org: 'Civil Dept., VCET', role: 'Faculty Member', tag: 'internal' },
             ];
+            const members = department?.content?.dabMembers?.length
+              ? department.content.dabMembers.map((m, i) => ({ sr: i + 1, name: m.name || '-', designation: m.designation || '-', org: m.organization || '-', role: '-', tag: 'internal' }))
+              : staticMembers;
             const tagStyle: Record<string, string> = { internal: 'bg-brand-navylight text-brand-navy', academic: 'bg-blue-50 text-blue-700', industry: 'bg-amber-50 text-amber-700', student: 'bg-emerald-50 text-emerald-700' };
             return (
               <div className="space-y-10">
@@ -355,7 +354,7 @@ const DeptCivil: React.FC = () => {
           })()}
 
           {/* â•â•â•â• FACULTY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Civil Engineering" />}
+          {activeId === 'faculty' && <DepartmentFacultySection departmentName="Civil Engineering" selectedFacultyIds={department?.content?.faculty} />}
 
           {/* â•â•â•â• PAQIC â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'paqic' && (() => {
@@ -550,6 +549,29 @@ const DeptCivil: React.FC = () => {
 
           {/* â•â•â•â• TOPPERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'toppers' && (() => {
+            const dynamicToppers = department?.content?.toppers || [];
+            if (dynamicToppers.length > 0) {
+              return (
+                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                  <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Civil Engineering</span></div>
+                  <h3 className="text-2xl font-bold text-brand-navy mb-3 relative inline-block">Toppers<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {dynamicToppers.map((t, idx) => (
+                      <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center text-center hover:bg-slate-100/80 transition-colors">
+                        <div className="w-16 h-16 bg-brand-navy/5 text-brand-gold rounded-full flex items-center justify-center mb-3">
+                          <i className="ph-fill ph-medal text-3xl" />
+                        </div>
+                        <h4 className="font-bold text-brand-navy text-lg mb-1">{t.name}</h4>
+                        <p className="text-slate-500 text-sm font-medium mb-3">{t.year}</p>
+                        <div className="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-sm font-bold border border-emerald-100">
+                          CGPA: {t.cgpa}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
             const toppers = {
               SE: ['1. Ghule Amey : 9.44 SGPI', '2. Solanki Pratham : 9.13 SGPI', '3. Jagtap Apurva : 8.77 SGPI'],
               TE: ['1. Medge Jeevan : 9.39 CGPI', '2. Shetty Deeksha : 8.74 CGPI', '3. Ghelani Jeet : 8.52 CGPI'],
@@ -580,17 +602,20 @@ const DeptCivil: React.FC = () => {
 
           {/* â•â•â•â• SYLLABUS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'syllabus' && (() => {
-            const links = [
-              { label: 'Syllabus UG SE R-16', url: '/pdfs/Department/CivilEngineering/Syllabus/SE-Civil-CBCGS-Syllabus.pdf' },
-              { label: 'Syllabus UG TE R-16', url: '/pdfs/Department/CivilEngineering/Syllabus/TE-Civil_Syllabus_R16.pdf' },
-              { label: 'Syllabus UG BE R-16', url: '/pdfs/Department/CivilEngineering/Syllabus/BE-Civil_Syllabus_R16.pdf' },
-              { label: 'Syllabus 2019-20 SE R-19 C Scheme', url: '/pdfs/Department/CivilEngineering/Syllabus/S.E.-Civil-Engg-Sem-III-IV.pdf' },
-              { label: 'Syllabus 2019-20 TE R-19 C Scheme', url: '/pdfs/Department/CivilEngineering/Syllabus/T.E.-Civil-Engg-Sem-V-VI.pdf' },
-              { label: 'Syllabus 2019-20 BE R-19 C Scheme', url: '/pdfs/Department/CivilEngineering/Syllabus/B.E.-Civil-Engg.-Sem.-VII-VIII.pdf' },
-              { label: 'PO PSO CO (R16)', url: '/pdfs/Department/CivilEngineering/Syllabus/Civil_R16-COs.pdf' },
-              { label: 'PO PSO CO (R19)', url: '/pdfs/Department/CivilEngineering/Syllabus/Civil_R-19-COs.pdf' },
-              { label: 'Syllabus PG ME Rev 2022', url: '/pdfs/Department/CivilEngineering/Syllabus/ME-Str-Syllabus-R22_Final-1.pdf' },
+            const staticLinks = [
+              { label: 'Syllabus UG SE R-16', url: 'pdfs/Department/CivilEngineering/Syllabus/SE-Civil-CBCGS-Syllabus.pdf' },
+              { label: 'Syllabus UG TE R-16', url: 'pdfs/Department/CivilEngineering/Syllabus/TE-Civil_Syllabus_R16.pdf' },
+              { label: 'Syllabus UG BE R-16', url: 'pdfs/Department/CivilEngineering/Syllabus/BE-Civil_Syllabus_R16.pdf' },
+              { label: 'Syllabus 2019-20 SE R-19 C Scheme', url: 'pdfs/Department/CivilEngineering/Syllabus/S.E.-Civil-Engg-Sem-III-IV.pdf' },
+              { label: 'Syllabus 2019-20 TE R-19 C Scheme', url: 'pdfs/Department/CivilEngineering/Syllabus/T.E.-Civil-Engg-Sem-V-VI.pdf' },
+              { label: 'Syllabus 2019-20 BE R-19 C Scheme', url: 'pdfs/Department/CivilEngineering/Syllabus/B.E.-Civil-Engg.-Sem.-VII-VIII.pdf' },
+              { label: 'PO PSO CO (R16)', url: 'pdfs/Department/CivilEngineering/Syllabus/Civil_R16-COs.pdf' },
+              { label: 'PO PSO CO (R19)', url: 'pdfs/Department/CivilEngineering/Syllabus/Civil_R-19-COs.pdf' },
+              { label: 'Syllabus PG ME Rev 2022', url: 'pdfs/Department/CivilEngineering/Syllabus/ME-Str-Syllabus-R22_Final-1.pdf' },
             ];
+            const links = department?.content?.syllabus?.length
+              ? department.content.syllabus.map((s) => ({ label: s.title, url: resolveUploadedAssetUrl(s.pdf as string) || '#' }))
+              : staticLinks;
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Civil Engineering</span></div>
@@ -608,6 +633,39 @@ const DeptCivil: React.FC = () => {
 
           {/* â•â•â•â• INNOVATIONS IN TEACHING LEARNING â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'teaching-learning' && (() => {
+            const activities = department?.content?.activities || [];
+            if (activities.length > 0) {
+              return (
+                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                  <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Civil Engineering</span></div>
+                  <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Department Activities<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {activities.map((a, idx) => (
+                      <div key={idx} className="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col group">
+                        {a.image ? (
+                          <div className="h-48 overflow-hidden bg-slate-100">
+                            <img src={resolveUploadedAssetUrl(a.image as string)} alt={a.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          </div>
+                        ) : (
+                          <div className="h-24 bg-gradient-to-r from-brand-navy to-slate-800 flex items-center justify-center text-white/20">
+                            <i className="ph-fill ph-image text-3xl" />
+                          </div>
+                        )}
+                        <div className="p-6 flex-1 flex flex-col">
+                          <h4 className="font-bold text-brand-navy text-[17px] leading-snug mb-3">{a.title}</h4>
+                          <p className="text-slate-600 text-sm leading-relaxed mb-5 flex-1">{a.description}</p>
+                          {a.pdf && (
+                            <a href={resolveUploadedAssetUrl(a.pdf as string) || '#'} target="_blank" rel="noreferrer" className="mt-auto inline-flex items-center justify-center w-full gap-2 px-4 py-2.5 bg-slate-50 text-slate-700 rounded-xl text-sm font-semibold hover:bg-brand-gold hover:text-white transition-colors border border-slate-200">
+                              <i className="ph-bold ph-download-simple" /> View Details
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
             const innovationLinks = [
               { label: 'Innovation in Teaching Learning (2022-23)', url: '/pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_Innovation-Index_Civil_2022-23-1.pdf' },
               { label: 'Innovation in Teaching Learning (2021-22)', url: '/pdfs/Department/CivilEngineering/InnovationsinTeachingLearning/2.3.1_Innovation-Index_Civil_2021-22-1.pdf' },
