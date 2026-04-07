@@ -51,6 +51,17 @@ type CommitteeRow = { name: string; role: string; sub: string };
 type FineRow = { period: string; amount: string };
 type GalleryRow = { label: string; imageUrl: string | null };
 
+const LIBRARY_GALLERY_FALLBACK_PATHS = [
+  '/images/Departments/MMS(MBA)/faciliteis/library-1.jpeg',
+  '/images/Departments/MMS(MBA)/faciliteis/library-2.jpeg',
+  '/images/Departments/MMS(MBA)/faciliteis/library-3.jpeg',
+  '/images/Departments/MMS(MBA)/faciliteis/library-4.jpeg',
+  '/images/Departments/MMS(MBA)/faciliteis/library-5.jpeg',
+  '/images/Departments/MMS(MBA)/faciliteis/library-6.jpeg',
+  '/images/Departments/MMS(MBA)/faciliteis/library-7.jpeg',
+  '/images/Departments/MMS(MBA)/faciliteis/library-8.jpeg',
+] as const;
+
 /* ═══════════════════════════════════════════════════════════════ */
 /* ─── Shared Components ──────────────────────────────────────── */
 /* ═══════════════════════════════════════════════════════════════ */
@@ -269,6 +280,13 @@ const Library: React.FC = () => {
         }))
         .filter((item: any) => !!item.imageUrl)
     : [];
+
+  const fallbackGalleryRows: GalleryRow[] = LIBRARY_GALLERY_FALLBACK_PATHS
+    .map((path, idx) => ({
+      label: `Library Gallery ${idx + 1}`,
+      imageUrl: resolveUploadedAssetUrl(path),
+    }))
+    .filter((item): item is GalleryRow => !!item.imageUrl);
 
   // Scroll logic for tab navigation
   useEffect(() => {
@@ -883,9 +901,9 @@ const Library: React.FC = () => {
                       <SectionTitle title="Library Photo Gallery" subtitle="Visual archives of our scholarly environment and academic infrastructure" />
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-                         {((galleryRows.length > 0 ? galleryRows : Array.from({ length: 8 }).map((_, idx) => ({
-                            label: `Library Gallery ${idx + 1}`,
-                            imageUrl: null as string | null,
+                         {((galleryRows.length > 0 ? galleryRows : fallbackGalleryRows.length > 0 ? fallbackGalleryRows : Array.from({ length: 8 }).map((_, idx) => ({
+                           label: `Library Gallery ${idx + 1}`,
+                           imageUrl: null as string | null,
                          }))) as GalleryRow[]).map((item: GalleryRow, idx: number) => (
                             <motion.div 
                               key={idx} 
