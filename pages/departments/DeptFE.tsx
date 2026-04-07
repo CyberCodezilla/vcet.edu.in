@@ -384,11 +384,11 @@ const DeptFE: React.FC = () => {
           {/* â•â•â•â• SYLLABUS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'syllabus' && (() => {
             const links = [
-              { label: 'All Branches Scheme Syllabus (Sem I & Sem II)', url: 'pdfs/Department/FirstYearEngineering/Syllabus/First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25.pdf' },
-              { label: 'Course Outcomes for First Year Engineering', url: 'pdfs/Department/FirstYearEngineering/Syllabus/Course-Outcomes-for-First-Year-Engineering.pdf' },
-              { label: 'NEP 2020 Theory CO (All Subjects)', url: 'pdfs/Department/FirstYearEngineering/Syllabus/FE-COsNEP-2020-All-Subjects-Theory.pdf' },
-              { label: 'Lab COs', url: 'pdfs/Department/FirstYearEngineering/Syllabus/LAB-COs.pdf' },
-              { label: 'NEP 2020 Lab CO (All Subjects)', url: 'pdfs/Department/FirstYearEngineering/Syllabus/FE-COsNEP-2020-All-Subjects-LAB.pdf' },
+              { label: 'All Branches Scheme Syllabus (Sem I & Sem II)', url: '/pdfs/Department/FirstYearEngineering/Syllabus/First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25.pdf' },
+              { label: 'Course Outcomes for First Year Engineering', url: '/pdfs/Department/FirstYearEngineering/Syllabus/Course-Outcomes-for-First-Year-Engineering.pdf' },
+              { label: 'NEP 2020 Theory CO (All Subjects)', url: '/pdfs/Department/FirstYearEngineering/Syllabus/FE-COsNEP-2020-All-Subjects-Theory.pdf' },
+              { label: 'Lab COs', url: '/pdfs/Department/FirstYearEngineering/Syllabus/LAB-COs.pdf' },
+              { label: 'NEP 2020 Lab CO (All Subjects)', url: '/pdfs/Department/FirstYearEngineering/Syllabus/FE-COsNEP-2020-All-Subjects-LAB.pdf' },
             ];
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
