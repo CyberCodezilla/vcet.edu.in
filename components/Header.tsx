@@ -123,9 +123,10 @@ const menuGroups: MenuGroup[] = [
         ],
       },
       { label: 'Teaching Learning Process', href: '/teaching-learning' },
-      { label: 'Swayam - NPTEL', href: 'https://nptel.ac.in/' },
+      { label: 'Swayam - NPTEL', href: '/swayam-nptel' },
       {
         label: 'Honours / Minor Degree Program',
+        href: '/honours-minor',
         subItems: [
           { label: 'Booklet Part 1', href: '/pdfs/Academics/Honours-Minor-Degree-Program/Honours-Minor-Degree-Program-_Booklet_Part-1-Final.pdf' },
           { label: 'Booklet Part 2', href: '/pdfs/Academics/Honours-Minor-Degree-Program/Honours-Minor-Degree-Program-Booklet-_Part-2_Detailed-Syllabus-Final.pdf' },

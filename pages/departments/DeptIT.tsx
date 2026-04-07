@@ -8,6 +8,7 @@ import type { Department } from '../../admin/types';
 import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 import { newsletterApi } from '../../admin/api/newsletterApi';
 import { resolveApiUrl } from '../../admin/api/client';
+import { DynamicToppers } from '../../components/departments/DynamicSections';
 
 const resolveDepartmentAssetUrl = (value: unknown): string | null => {
   if (!value) return null;
@@ -128,14 +129,27 @@ const DeptIT: React.FC = () => {
   const [dynamicApiItems, setDynamicApiItems] = useState<any[]>([]);
 
   useEffect(() => {
-    departmentApi.getBySlug('information-technology')
-      .then((res) => {
-        if (res.success) {
-          setDepartment(res.data);
-          newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+    const candidateSlugs = [
+      'information-technology',
+    ];
+
+    const loadDepartment = async () => {
+      for (const candidateSlug of candidateSlugs) {
+        try {
+          const res = await departmentApi.getBySlug(candidateSlug);
+          if (res.success) {
+            setDepartment(res.data);
+            newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+            return;
+          }
+        } catch {
+          // Try next compatible slug.
         }
-      })
-      .catch(() => setDepartment(null));
+      }
+      setDepartment(null);
+    };
+
+    loadDepartment();
   }, []);
 
   const hodImageUrl = resolveDepartmentAssetUrl(department?.content?.hodImage);
@@ -903,25 +917,7 @@ const DeptIT: React.FC = () => {
           {activeId === 'toppers' && (() => {
             const dynamicToppers = department?.content?.toppers || [];
             if (dynamicToppers.length > 0) {
-              return (
-                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-100">
-                  <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Toppers<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {dynamicToppers.map((t, idx) => (
-                      <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center text-center hover:bg-slate-100/80 transition-colors">
-                        <div className="w-16 h-16 bg-brand-navy/5 text-brand-gold rounded-full flex items-center justify-center mb-3">
-                          <i className="ph-fill ph-medal text-3xl" />
-                        </div>
-                        <h4 className="font-bold text-brand-navy text-lg mb-1">{t.name}</h4>
-                        <p className="text-slate-500 text-sm font-medium mb-3">{t.year}</p>
-                        <div className="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-sm font-bold border border-emerald-100">
-                          CGPA: {t.cgpa}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              );
+              return <DynamicToppers toppers={dynamicToppers} deptName="Information Technology" />;
             }
             const topperYears = [
               {

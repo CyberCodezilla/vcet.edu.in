@@ -22,13 +22,12 @@ const sidebarLinks = [
   { id: 'aicte-funding', label: 'AICTE & University Funding', icon: 'ph-bank' },
   { id: 'teaching-learning', label: 'Innovative in Teaching learning', icon: 'ph-lightbulb' },
   { id: 'journal-publication', label: 'Journal Publication', icon: 'ph-file-text' },
-  { id: 'student-achievement', label: 'Student Achievement', icon: 'ph-medal' },
+  { id: 'student-achievements', label: 'Student Achievements', icon: 'ph-medal' },
   { id: 'infrastructure', label: 'Infrastructure',           icon: 'ph-buildings' },
   { id: 'toppers',    label: 'Toppers',                      icon: 'ph-medal' },
   { id: 'syllabus',   label: 'Syllabus',                     icon: 'ph-book-open' },
   { id: 'newsletter', label: 'Newsletter',                   icon: 'ph-newspaper' },
   { id: 'faculty-achievements', label: 'Faculty Achievements', icon: 'ph-trophy' },
-  { id: 'student-achievements', label: 'Students Achievements', icon: 'ph-medal' },
 ];
 
 const delayClass = (idx: number) => {
@@ -58,14 +57,27 @@ const DeptMech: React.FC = () => {
   const [dynamicApiItems, setDynamicApiItems] = useState<any[]>([]);
 
   useEffect(() => {
-    departmentApi.getBySlug('mechanical-engineering')
-      .then((res) => {
-        if (res.success) {
-          setDepartment(res.data);
-          newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+    const candidateSlugs = [
+      'mechanical-engineering',
+    ];
+
+    const loadDepartment = async () => {
+      for (const candidateSlug of candidateSlugs) {
+        try {
+          const res = await departmentApi.getBySlug(candidateSlug);
+          if (res.success) {
+            setDepartment(res.data);
+            newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+            return;
+          }
+        } catch {
+          // Try next compatible slug.
         }
-      })
-      .catch(() => setDepartment(null));
+      }
+      setDepartment(null);
+    };
+
+    loadDepartment();
   }, []);
 
   const hodImageUrl = resolveUploadedAssetUrl(department?.content?.hodImage as string | null);
@@ -125,9 +137,7 @@ const DeptMech: React.FC = () => {
             <nav className="flex flex-col py-2">
               {sidebarLinks.filter((link) => {
   const fa = department?.content?.facultyAchievements?.length > 0;
-  const sa = department?.content?.studentAchievements?.length > 0;
   if (link.id === 'faculty-achievements' && !fa) return false;
-  if (link.id === 'student-achievements' && !sa) return false;
   return true;
 }).map((link) => {
                 const isActive = activeId === link.id;
@@ -564,7 +574,7 @@ const DeptMech: React.FC = () => {
           )}
 
           {/* â•â•â•â• STUDENT ACHIEVEMENT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-          {activeId === 'student-achievement' && (
+          {activeId === 'student-achievements' && (
             <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
               <div className="flex items-center gap-3 mb-4">
                 <span className="w-8 h-px bg-brand-gold" />
@@ -791,19 +801,25 @@ const DeptMech: React.FC = () => {
                     <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Mechanical Engineering</span>
                   </div>
                   <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Toppers<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {dynamicToppers.map((t, idx) => (
-                      <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center text-center hover:bg-slate-100/80 transition-colors">
-                        <div className="w-16 h-16 bg-brand-navy/5 text-brand-gold rounded-full flex items-center justify-center mb-3">
-                          <i className="ph-fill ph-medal text-3xl" />
-                        </div>
-                        <h4 className="font-bold text-brand-navy text-lg mb-1">{t.name}</h4>
-                        <p className="text-slate-500 text-sm font-medium mb-3">{t.year}</p>
-                        <div className="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-sm font-bold border border-emerald-100">
-                          CGPA: {t.cgpa}
-                        </div>
-                      </div>
-                    ))}
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-brand-navy text-white">
+                          <th className="px-4 py-3 text-left">Name</th>
+                          <th className="px-4 py-3 text-left">Year</th>
+                          <th className="px-4 py-3 text-left">CGPA</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {dynamicToppers.map((t, idx) => (
+                          <tr key={idx} className="border-t border-slate-100">
+                            <td className="px-4 py-3 text-slate-700">{t.name || '-'}</td>
+                            <td className="px-4 py-3 text-slate-700">{t.year || '-'}</td>
+                            <td className="px-4 py-3 text-slate-700">{t.cgpa || '-'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </section>
               );
@@ -898,7 +914,7 @@ const DeptMech: React.FC = () => {
           )}
 
           {/* â•â•â•â• OTHER SECTIONS (placeholder) â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'paqic' && activeId !== 'mou' && activeId !== 'aicte-funding' && activeId !== 'teaching-learning' && activeId !== 'journal-publication' && activeId !== 'student-achievement' && activeId !== 'infrastructure' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'newsletter' && (
+          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'faculty-achievements' && activeId !== 'paqic' && activeId !== 'mou' && activeId !== 'aicte-funding' && activeId !== 'teaching-learning' && activeId !== 'journal-publication' && activeId !== 'student-achievements' && activeId !== 'student-achievement' && activeId !== 'infrastructure' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'newsletter' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
                 <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-brand-navy`} />
@@ -920,43 +936,6 @@ const DeptMech: React.FC = () => {
                   <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Excellence &amp; Recognition</span>
                 </div>
                 <h3 className="text-3xl md:text-4xl font-display font-bold text-brand-navy leading-tight mb-8">Faculty Achievements</h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {dynamicAch.map((item, idx) => (
-                    <div key={idx} className="group relative bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                      {item.image && (
-                        <div className="mb-5 overflow-hidden rounded-xl h-48 w-full">
-                          <img src={resolveUploadedAssetUrl(item.image)} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                        </div>
-                      )}
-                      <h4 className="text-xl font-bold text-brand-navy mb-2">{item.title}</h4>
-                      <p className="text-slate-600 text-sm leading-relaxed mb-4">{item.description}</p>
-                      {item.pdf && (
-                        <a href={resolveUploadedAssetUrl(item.pdf)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-brand-gold hover:text-brand-navy transition-colors">
-                          <i className="ph ph-file-pdf text-lg" />
-                          View Document
-                          <i className="ph ph-arrow-right" />
-                        </a>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </section>
-            );
-          })()}
-
-          {/* ════ STUDENT ACHIEVEMENTS ════════════════════════════════ */}
-          {activeId === 'student-achievements' && (() => {
-            const hasStaticSa = false;
-            const dynamicAch = department?.content?.studentAchievements || [];
-            if (!dynamicAch.length && !hasStaticSa) return null;
-            return (
-              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="w-8 h-px bg-brand-gold" />
-                  <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Student Laurels</span>
-                </div>
-                <h3 className="text-3xl md:text-4xl font-display font-bold text-brand-navy leading-tight mb-8">Students Achievements</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {dynamicAch.map((item, idx) => (

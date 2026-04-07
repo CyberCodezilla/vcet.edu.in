@@ -59,14 +59,28 @@ const DeptENTC: React.FC = () => {
   const [dynamicApiItems, setDynamicApiItems] = useState<any[]>([]);
 
   useEffect(() => {
-    departmentApi.getBySlug('electronics-and-telecommunication-engineering')
-      .then((res) => {
-        if (res.success) {
-          setDepartment(res.data);
-          newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+    const candidateSlugs = [
+      'electronics-telecommunication-engineering',
+      'electronics-and-telecommunication-engineering',
+    ];
+
+    const loadDepartment = async () => {
+      for (const candidateSlug of candidateSlugs) {
+        try {
+          const res = await departmentApi.getBySlug(candidateSlug);
+          if (res.success) {
+            setDepartment(res.data);
+            newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+            return;
+          }
+        } catch {
+          // Try next compatible slug.
         }
-      })
-      .catch(() => setDepartment(null));
+      }
+      setDepartment(null);
+    };
+
+    loadDepartment();
   }, []);
 
   const hodImageUrl = resolveUploadedAssetUrl(department?.content?.hodImage as string | null);
@@ -560,19 +574,25 @@ const DeptENTC: React.FC = () => {
                     <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Electronics &amp; Telecommunication Engineering</span>
                   </div>
                   <h3 className="text-2xl font-bold text-brand-navy relative inline-block">Toppers<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                    {dynamicToppers.map((t, idx) => (
-                      <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center text-center hover:bg-slate-100/80 transition-colors">
-                        <div className="w-16 h-16 bg-brand-navy/5 text-brand-gold rounded-full flex items-center justify-center mb-3">
-                          <i className="ph-fill ph-medal text-3xl" />
-                        </div>
-                        <h4 className="font-bold text-brand-navy text-lg mb-1">{t.name}</h4>
-                        <p className="text-slate-500 text-sm font-medium mb-3">{t.year}</p>
-                        <div className="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-sm font-bold border border-emerald-100">
-                          CGPA: {t.cgpa}
-                        </div>
-                      </div>
-                    ))}
+                  <div className="overflow-x-auto mt-6">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-brand-navy text-white">
+                          <th className="px-4 py-3 text-left">Name</th>
+                          <th className="px-4 py-3 text-left">Year</th>
+                          <th className="px-4 py-3 text-left">CGPA</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {dynamicToppers.map((t, idx) => (
+                          <tr key={idx} className="border-t border-slate-100">
+                            <td className="px-4 py-3 text-slate-700">{t.name || '-'}</td>
+                            <td className="px-4 py-3 text-slate-700">{t.year || '-'}</td>
+                            <td className="px-4 py-3 text-slate-700">{t.cgpa || '-'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </section>
               );
@@ -816,7 +836,7 @@ const DeptENTC: React.FC = () => {
           )}
 
           {/* â•â•â•â• OTHER SECTIONS (placeholder) â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'paqic' && activeId !== 'mou' && activeId !== 'student-achievements' && activeId !== 'infrastructure' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'time-table' && activeId !== 'teaching-learning' && activeId !== 'newsletter' && activeId !== 'distinguished-alumni' && (
+          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'faculty-achievements' && activeId !== 'paqic' && activeId !== 'mou' && activeId !== 'student-achievements' && activeId !== 'infrastructure' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'time-table' && activeId !== 'teaching-learning' && activeId !== 'newsletter' && activeId !== 'distinguished-alumni' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
                 <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-brand-navy`} />

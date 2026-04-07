@@ -6,6 +6,9 @@ import { facultyApi } from '../../api/faculty';
 import type { DepartmentPayload, Department, Faculty } from '../../types';
 import AdminFormSection from '../../components/AdminFormSection';
 
+const MAX_TOPPERS = 5;
+const MAX_SYLLABUS_ITEMS = 8;
+
 /* ── Toast Component ────────────────────────────────────────────────────────── */
 const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () => void }> = ({ message, type, onClose }) => {
   useEffect(() => { const t = setTimeout(onClose, 3500); return () => clearTimeout(t); }, [onClose]);
@@ -108,11 +111,11 @@ const initialContent = {
   psos: [] as string[],
   dabMembers: [{ name: '', designation: '', organization: '' }],
   faculty: [] as number[],
-  toppers: [{ name: '', year: '', cgpa: '' }],
+  toppers: [] as { name: string; year: string; cgpa: string }[],
   // New / Modernized Structure
   patents: [{ title: '', description: '', pdf: undefined as string | File | undefined }],
   mous: [{ organization: '', description: '', pdf: undefined as string | File | undefined }],
-  syllabus: [{ title: '', pdf: undefined as string | File | undefined }],
+  syllabus: [] as { title: string; pdf?: string | File }[],
   timetable: [{ class: '', pdf: undefined as string | File | undefined }],
   facultyAchievements: [{ title: '', description: '', image: undefined as string | File | undefined, pdf: undefined as string | File | undefined }],
   studentAchievements: [{ title: '', description: '', image: undefined as string | File | undefined, pdf: undefined as string | File | undefined }],
@@ -152,6 +155,29 @@ export default function DepartmentForm() {
   const toggleSection = (id: string) => setActiveSection(prev => prev === id ? null : id);
 
   const [availableFaculty, setAvailableFaculty] = useState<Faculty[]>([]);
+
+  const sanitizeContent = (raw: typeof content) => {
+    const normalizedToppers = (raw.toppers || [])
+      .map((t) => ({
+        name: (t?.name || '').trim(),
+        year: (t?.year || '').trim(),
+        cgpa: (t?.cgpa || '').trim(),
+      }))
+      .filter((t) => t.name || t.year || t.cgpa);
+
+    const normalizedSyllabus = (raw.syllabus || [])
+      .map((s) => ({
+        title: (s?.title || '').trim(),
+        pdf: s?.pdf,
+      }))
+      .filter((s) => s.title || s.pdf);
+
+    return {
+      ...raw,
+      toppers: normalizedToppers,
+      syllabus: normalizedSyllabus,
+    };
+  };
 
   useEffect(() => {
     facultyApi.list().then(res => setAvailableFaculty(res.data)).catch(console.error);
@@ -208,7 +234,7 @@ export default function DepartmentForm() {
       name,
       slug,
       is_active,
-      content
+      content: sanitizeContent(content)
     };
 
     try {
@@ -413,7 +439,7 @@ export default function DepartmentForm() {
             </div>
             <div className="space-y-6">
               {content.patents?.map((patent, i) => (
-                <div key={`patent-${patent.title || 'row'}-${i}`} className="p-6 bg-slate-50 rounded-3xl border border-slate-100 relative group/row space-y-4">
+                <div key={`patent-${i}`} className="p-6 bg-slate-50 rounded-3xl border border-slate-100 relative group/row space-y-4">
                   <button type="button" onClick={() => removeArrayItem('patents', i)} className="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition-all"><TrashIcon /></button>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2">
@@ -473,7 +499,7 @@ export default function DepartmentForm() {
             </div>
             <div className="space-y-6">
               {content.mous?.map((mou, i) => (
-                <div key={`mou-${mou.organization || 'row'}-${i}`} className="p-6 bg-slate-50 rounded-3xl border border-slate-100 relative group/row space-y-4">
+                <div key={`mou-${i}`} className="p-6 bg-slate-50 rounded-3xl border border-slate-100 relative group/row space-y-4">
                   <button type="button" onClick={() => removeArrayItem('mous', i)} className="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition-all"><TrashIcon /></button>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2">
@@ -533,7 +559,7 @@ export default function DepartmentForm() {
                 </div>
                 <div className="space-y-4">
                   {content.facultyAchievements?.map((ach, i) => (
-                    <div key={`fac-ach-${ach.title || 'row'}-${i}`} className="p-5 bg-slate-50/50 rounded-3xl border border-slate-100 relative group/row space-y-4">
+                    <div key={`fac-ach-${i}`} className="p-5 bg-slate-50/50 rounded-3xl border border-slate-100 relative group/row space-y-4">
                       <button type="button" onClick={() => removeArrayItem('facultyAchievements', i)} className="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition-all"><TrashIcon /></button>
                       <input id={`departmentform-fac-ach-title-${i}`} name={`departmentform-fac-ach-title-${i}`} aria-label="departmentform field"
                         type="text"
@@ -568,7 +594,7 @@ export default function DepartmentForm() {
                 </div>
                 <div className="space-y-4">
                   {content.studentAchievements?.map((ach, i) => (
-                    <div key={`stu-ach-${ach.title || 'row'}-${i}`} className="p-5 bg-slate-50/50 rounded-3xl border border-slate-100 relative group/row space-y-4">
+                    <div key={`stu-ach-${i}`} className="p-5 bg-slate-50/50 rounded-3xl border border-slate-100 relative group/row space-y-4">
                       <button type="button" onClick={() => removeArrayItem('studentAchievements', i)} className="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition-all"><TrashIcon /></button>
                       <input id={`departmentform-stu-ach-title-${i}`} name={`departmentform-stu-ach-title-${i}`} aria-label="departmentform field"
                         type="text"
@@ -612,7 +638,7 @@ export default function DepartmentForm() {
             </div>
             <div className="space-y-6">
               {content.activities?.map((act, i) => (
-                <div key={`activity-${act.title || 'row'}-${i}`} className="p-6 bg-slate-50 rounded-3xl border border-slate-100 relative group/row space-y-4">
+                <div key={`activity-${i}`} className="p-6 bg-slate-50 rounded-3xl border border-slate-100 relative group/row space-y-4">
                   <button type="button" onClick={() => removeArrayItem('activities', i)} className="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition-all"><TrashIcon /></button>
                   <div className="grid grid-cols-1 gap-4">
                     <div>
@@ -762,20 +788,33 @@ export default function DepartmentForm() {
             <div className="flex justify-end mb-4">
               <button 
                 type="button"
-                onClick={(e) => { e.stopPropagation(); addArrayItem('toppers', { name: '', year: '', cgpa: '' }); }} 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if ((content.toppers?.length || 0) < MAX_TOPPERS) {
+                    addArrayItem('toppers', { name: '', year: '', cgpa: '' });
+                  }
+                }}
+                disabled={(content.toppers?.length || 0) >= MAX_TOPPERS}
                 className="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-50 text-amber-600 rounded-xl text-[11px] font-bold hover:bg-amber-100 transition-all border border-amber-100"
               >
                 <PlusIcon /> Add Topper
               </button>
             </div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">
+              {(content.toppers?.length || 0)} / {MAX_TOPPERS} entries
+            </p>
             <div className="space-y-4">
+              {(content.toppers?.length || 0) === 0 && (
+                <p className="text-xs text-slate-500 italic">No toppers added yet. Use "Add Topper" to create entries.</p>
+              )}
               {content.toppers?.map((topper, i) => (
-                <div key={`topper-${topper.name || topper.year || 'row'}-${i}`} className="flex gap-4 items-center group/row">
+                <div key={`topper-${i}`} className="flex gap-4 items-center group/row">
                   <input id={`departmentform-topper-name-${i}`} name={`departmentform-topper-name-${i}`} aria-label="departmentform field"
                     type="text"
                     placeholder="Student Name"
                     value={topper.name || ""}
                     onChange={e => updateArrayItem('toppers', i, { ...topper, name: e.target.value })}
+                    maxLength={50}
                     className="flex-1 bg-slate-50 border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-amber-500 rounded-2xl px-5 py-4 text-sm font-medium outline-none transition-all"
                   />
                   <input id={`departmentform-topper-year-${i}`} name={`departmentform-topper-year-${i}`} aria-label="departmentform field"
@@ -783,6 +822,7 @@ export default function DepartmentForm() {
                     placeholder="Year (e.g. 2023-24)"
                     value={topper.year || ""}
                     onChange={e => updateArrayItem('toppers', i, { ...topper, year: e.target.value })}
+                    maxLength={20}
                     className="w-48 bg-slate-50 border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-amber-500 rounded-2xl px-5 py-4 text-sm font-medium outline-none transition-all"
                   />
                   <input id={`departmentform-topper-cgpa-${i}`} name={`departmentform-topper-cgpa-${i}`} aria-label="departmentform field"
@@ -790,6 +830,7 @@ export default function DepartmentForm() {
                     placeholder="CGPA"
                     value={topper.cgpa || ""}
                     onChange={e => updateArrayItem('toppers', i, { ...topper, cgpa: e.target.value })}
+                    maxLength={10}
                     className="w-32 bg-slate-50 border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-amber-500 rounded-2xl px-5 py-4 text-sm font-medium outline-none transition-all"
                   />
                   <button 
@@ -819,20 +860,33 @@ export default function DepartmentForm() {
             <div className="flex justify-end mb-4">
               <button 
                 type="button"
-                onClick={(e) => { e.stopPropagation(); addArrayItem('syllabus', { title: '', pdf: undefined }); }} 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if ((content.syllabus?.length || 0) < MAX_SYLLABUS_ITEMS) {
+                    addArrayItem('syllabus', { title: '', pdf: undefined });
+                  }
+                }}
+                disabled={(content.syllabus?.length || 0) >= MAX_SYLLABUS_ITEMS}
                 className="inline-flex items-center gap-1 bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-xl text-[10px] font-bold hover:bg-indigo-100 transition-all shadow-sm border border-indigo-100"
               >
                 <PlusIcon /> Add Item
               </button>
             </div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">
+              {(content.syllabus?.length || 0)} / {MAX_SYLLABUS_ITEMS} entries
+            </p>
             <div className="space-y-4">
+              {(content.syllabus?.length || 0) === 0 && (
+                <p className="text-xs text-slate-500 italic">No syllabus rows added yet. Use "Add Item" to create links.</p>
+              )}
               {content.syllabus?.map((s, i) => (
-                <div key={`syllabus-${s.title || 'row'}-${i}`} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-3xl border border-slate-100 relative group/row hover:border-slate-200 transition-all font-sans">
+                <div key={`syllabus-${i}`} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-3xl border border-slate-100 relative group/row hover:border-slate-200 transition-all font-sans">
                   <input id={`departmentform-syllabus-title-${i}`} name={`departmentform-syllabus-title-${i}`} aria-label="departmentform field"
                     type="text"
                     placeholder="e.g. FE Syllabus 2024"
                     value={s.title || ""}
                     onChange={e => updateArrayItem('syllabus', i, { ...s, title: e.target.value })}
+                    maxLength={100}
                     className="w-full bg-white border-0 ring-1 ring-slate-200/50 focus:ring-2 focus:ring-indigo-500 rounded-2xl px-4 py-3 text-xs font-bold outline-none"
                   />
                   <FileUpload 
@@ -871,7 +925,7 @@ export default function DepartmentForm() {
             </div>
             <div className="space-y-4">
               {content.timetable?.map((t, i) => (
-                <div key={`timetable-${t.class || 'row'}-${i}`} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-3xl border border-slate-100 relative group/row hover:border-slate-200 transition-all font-sans">
+                <div key={`timetable-${i}`} className="flex flex-col gap-3 p-4 bg-slate-50 rounded-3xl border border-slate-100 relative group/row hover:border-slate-200 transition-all font-sans">
                   <input id={`departmentform-timetable-class-${i}`} name={`departmentform-timetable-class-${i}`} aria-label="departmentform field"
                     type="text"
                     placeholder="Class (e.g. SE IT)"
