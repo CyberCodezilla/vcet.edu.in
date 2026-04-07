@@ -5,6 +5,7 @@ import { GripVertical, Settings, Type, List } from 'lucide-react';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 import AdminFormSection from '../../components/AdminFormSection';
 import { invalidatePublicPageCache } from '../../../services/api';
+import { resolveApiUrl } from '../../api/client';
 
 type SectionKey = 'intake' | 'fees' | 'documents' | 'cutoffs' | 'brochure';
 
@@ -1166,6 +1167,21 @@ const AdmissionForm: React.FC<AdmissionFormProps> = ({ activeSection, onBack }) 
                         <p className="mt-3 text-xs font-semibold text-slate-400">
                           {item.pdfFile?.name || item.currentDocumentName || item.currentDocumentUrl || 'No document selected yet.'}
                         </p>
+                        {(item.currentDocumentUrl || item.existingExternalUrl) && !item.pdfFile && (
+                          <div className="mt-3">
+                            <a
+                              href={resolveApiUrl(item.currentDocumentUrl || item.existingExternalUrl) ?? '#'}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 rounded-xl bg-slate-100 px-4 py-2 text-[10px] font-bold text-slate-600 transition hover:bg-slate-200"
+                            >
+                              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                              Preview existing document
+                            </a>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

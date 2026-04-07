@@ -188,9 +188,24 @@ const SortableDocumentItem = ({ id, item, idx, type, removeItem, updateItem }: a
                 <div className="w-8 h-8 rounded-lg bg-red-50 text-red-500 flex items-center justify-center">
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z" /></svg>
                 </div>
-                <span className="text-xs font-bold text-slate-600 truncate">
-                  {item.file?.name || item.fileName || 'Click or drag to upload PDF'}
-                </span>
+                <div className="flex flex-col gap-1 min-w-0">
+                  <span className="text-xs font-bold text-slate-600 truncate">
+                    {item.file?.name || item.fileName || 'Click or drag to upload PDF'}
+                  </span>
+                  {(item.fileUrl || item.external_url) && !item.file && (
+                    <a
+                      href={resolveApiUrl(item.fileUrl || item.external_url) ?? '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-[#2563EB] hover:text-[#1d4ed8] transition-colors"
+                    >
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      Preview document
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           </div>
