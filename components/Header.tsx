@@ -171,7 +171,7 @@ const menuGroups: MenuGroup[] = [
   {
     label: 'Student & Career',
     dropdown: [
-      { label: 'Career @ VCET', href: CAREER_AT_VCET_PDF_URL },
+      { label: 'Career @ VCET', href: '/career-at-vcet' },
       {
         label: 'Extra curricular Activities',
         subItems: [
