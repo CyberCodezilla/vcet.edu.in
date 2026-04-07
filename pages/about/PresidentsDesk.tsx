@@ -81,7 +81,7 @@ return (
                 <div className="sticky top-28">
                   <div className="rounded-3xl p-[2.5px] bg-gradient-to-br from-yellow-300 via-brand-gold to-yellow-500 shadow-[0_0_40px_6px_rgba(253,184,19,0.4)]">
                     <div className="bg-white rounded-[22px] overflow-hidden">
-                      <div className="relative w-full overflow-hidden bg-brand-light" style={{ height: '280px' }}>
+                      <div className="relative w-full aspect-[4/5] bg-brand-light">
                         <img src={profileImage} alt={`${name} – ${role}`} className="w-full h-full object-cover object-top" />
                       </div>
                       <div className="px-5 py-4 bg-gradient-to-b from-white to-amber-50/40">

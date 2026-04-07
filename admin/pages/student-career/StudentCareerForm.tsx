@@ -1564,7 +1564,7 @@ const StudentCareerForm: React.FC<StudentCareerFormProps> = ({ slug, onBack }) =
                 textFields={[
                   { key: 'label', label: 'Label', placeholder: 'Placement 2024-25', maxLength: 120 },
                   { key: 'year', label: 'Year', placeholder: '2024-25', maxLength: 40 },
-                  { key: 'href', label: 'Report URL', placeholder: '/pdfs/Trainging & Placement/Placement/file.pdf', maxLength: 600 },
+                  { key: 'href', label: 'Report URL', placeholder: '/pdfs/Training & Placement/Placement/file.pdf', maxLength: 600 },
                 ]}
                 mediaField={{ key: 'fileUrl', label: 'Upload Report PDF', accept: '.pdf,application/pdf' }}
               />

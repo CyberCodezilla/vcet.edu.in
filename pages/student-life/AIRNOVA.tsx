@@ -202,7 +202,7 @@ const TeamPanel: React.FC<{ faculty: Record<string, string>; team: TeamMember[] 
     <div ref={ref} className={`p-8 lg:p-12 space-y-10 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
       <SectionHeading title="Professional Team" />
       <div className="bg-white rounded-3xl border border-slate-100 p-8 shadow-sm flex flex-col md:flex-row gap-8">
-        <div className="w-40 h-48 rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
+        <div className="w-full aspect-[4/5] rounded-2xl border border-slate-200 bg-slate-50">
           {faculty.fImg ? <img src={faculty.fImg} alt={faculty.fName || 'Faculty Advisor'} className="w-full h-full object-cover" /> : null}
         </div>
         <div className="space-y-2">

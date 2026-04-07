@@ -34,10 +34,12 @@ function resolveApiOrigin(): string {
   })();
   const isEnvLocal = envHost === 'localhost' || envHost === '127.0.0.1';
   const isCurrentLocal = currentHost === 'localhost' || currentHost === '127.0.0.1';
+  const isStaticFrontendHost = /(?:^|\.)vercel\.app$/i.test(currentHost) || /(?:^|\.)netlify\.app$/i.test(currentHost);
   const shouldUseBrowserOrigin = !!browserOrigin && isEnvLocal && !isCurrentLocal;
+  const fallbackOrigin = isStaticFrontendHost ? 'https://vcet.edu.in' : (browserOrigin || 'https://vcet.edu.in');
   const raw = shouldUseBrowserOrigin
     ? browserOrigin
-    : (sanitizedEnv || browserOrigin || 'https://vcet.edu.in');
+    : (sanitizedEnv || fallbackOrigin);
   return raw.replace(/\/api\/?$/i, '').replace(/\/$/, '');
 }
 

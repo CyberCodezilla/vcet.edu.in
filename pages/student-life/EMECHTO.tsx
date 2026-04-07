@@ -303,7 +303,7 @@ const TeamPanel: React.FC = () => {
                 <div className="flex flex-col md:flex-row items-center gap-10 bg-white rounded-3xl border border-slate-100 p-8 shadow-sm">
                     <div className="relative group">
                         <div className="absolute inset-0 bg-[#082b64]/5 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500" />
-                        <div className="relative w-48 h-56 rounded-2xl overflow-hidden border-4 border-white shadow-xl bg-slate-100 flex items-center justify-center text-slate-400">
+                        <div className="relative w-full aspect-[4/5] rounded-2xl border-4 border-white shadow-xl bg-slate-100 flex items-center justify-center text-slate-400">
                             {/* Image Placeholder logic: if we had the actual image path, we'd use it here */}
                             <img
                                 src={resolveUploadedAssetUrl('/images/StudentLife/CO-Curricular-activities/Student_clubs/EMECHTO/Mr.-RISHABH-Melwanki.jpg') ?? '/images/StudentLife/CO-Curricular-activities/Student_clubs/EMECHTO/Mr.-RISHABH-Melwanki.jpg'}

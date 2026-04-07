@@ -309,7 +309,7 @@ const TeamPanel: React.FC<{ faculty: Record<string, any>; team: TeamMember[] }> 
         <div className="flex flex-col md:flex-row items-center gap-10 bg-white rounded-3xl border border-slate-100 p-8 shadow-sm">
           <div className="relative group">
             <div className="absolute inset-0 bg-[#082b64]/5 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500" />
-            <div className="relative w-48 h-56 rounded-2xl overflow-hidden border-4 border-white shadow-xl bg-slate-100">
+            <div className="relative w-full aspect-[4/5] rounded-2xl border-4 border-white shadow-xl bg-slate-100">
               {faculty.fImg ? (
                 <img
                   src={faculty.fImg}

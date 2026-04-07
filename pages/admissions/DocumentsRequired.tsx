@@ -35,12 +35,18 @@ const fallbackDocuments = [
 
 const DocumentsRequired: React.FC = () => {
   const { section, loading, error } = useAdmissionSection('documents-required');
-  const documents = section?.items?.map((item) => ({
-    title: item.title,
-    description: item.description || '',
-    link: resolveBackendHref(item.document_url || item.external_url || '#'),
-    tag: item.tag || item.category || '',
-  })) ?? fallbackDocuments;
+  const documents = (section?.items?.length
+    ? section.items.map((item, idx) => ({
+        title: item.title || fallbackDocuments[idx]?.title || `Admission Document ${idx + 1}`,
+        description: item.description || fallbackDocuments[idx]?.description || '',
+        link: item.document_url || item.external_url || fallbackDocuments[idx]?.link || '#',
+        tag: item.tag || item.category || fallbackDocuments[idx]?.tag || '',
+      }))
+    : fallbackDocuments
+  ).map((item) => ({
+    ...item,
+    link: resolveBackendHref(item.link),
+  }));
 
   if (loading) {
     return (
@@ -133,7 +139,7 @@ const DocumentsRequired: React.FC = () => {
                         </td>
                         <td className="px-8 py-6 text-center">
                           <a 
-                            href={resolveBackendHref(item.link)}
+                            href={item.link}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center justify-center text-[#1a4b7c] hover:text-[#fdb813] transition-all duration-300"

@@ -344,105 +344,112 @@ const AcademicsForm: React.FC<AcademicsFormProps> = ({ activeSection, onBack }) 
       />
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <AdminFormSection
-          title="Academic Calendars"
-          icon={<Calendar className="w-5 h-5" />}
-          isOpen={currentActiveSection === 'calendars'}
-          onToggle={() => toggleSection('calendars')}
-        >
-          <DocumentListManager 
-            type="calendars" 
-            items={payload.academicCalendars || []} 
-            onChange={items => setPayload(prev => ({ ...prev, academicCalendars: items }))} 
-          />
-        </AdminFormSection>
+        {(!activeSection || activeSection === 'calendars') && (
+          <AdminFormSection
+            title="Academic Calendars"
+            icon={<Calendar className="w-5 h-5" />}
+            isOpen={currentActiveSection === 'calendars'}
+            onToggle={() => toggleSection('calendars')}
+          >
+            <DocumentListManager 
+              type="calendars" 
+              items={payload.academicCalendars || []} 
+              onChange={items => setPayload(prev => ({ ...prev, academicCalendars: items }))} 
+            />
+          </AdminFormSection>
+        )}
 
-        <AdminFormSection
-          title="Program Booklets"
-          icon={<BookOpen className="w-5 h-5" />}
-          isOpen={currentActiveSection === 'booklets'}
-          onToggle={() => toggleSection('booklets')}
-        >
-          <DocumentListManager 
-            type="booklets" 
-            items={payload.programBooklets || []} 
-            onChange={items => setPayload(prev => ({ ...prev, programBooklets: items }))} 
-          />
-        </AdminFormSection>
+        {(!activeSection || activeSection === 'booklets') && (
+          <AdminFormSection
+            title="Program Booklets"
+            icon={<BookOpen className="w-5 h-5" />}
+            isOpen={currentActiveSection === 'booklets'}
+            onToggle={() => toggleSection('booklets')}
+          >
+            <DocumentListManager 
+              type="booklets" 
+              items={payload.programBooklets || []} 
+              onChange={items => setPayload(prev => ({ ...prev, programBooklets: items }))} 
+            />
+          </AdminFormSection>
+        )}
 
-        <AdminFormSection
-          title="Dean Academics"
-          icon={<UserCircle className="w-5 h-5" />}
-          isOpen={currentActiveSection === 'dean'}
-          onToggle={() => toggleSection('dean')}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-6">
-              <ImageUpload 
-                label="Dean's Profile Picture"
-                imageUrl={payload.dean?.imageUrl || null}
-                onFileSelect={file => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, image: file, deleteImage: false } }))}
-                onDelete={() => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, image: undefined, imageUrl: null, deleteImage: true } }))}
-              />
+        {(!activeSection || activeSection === 'dean') && (
+          <AdminFormSection
+            title="Dean Academics"
+            icon={<UserCircle className="w-5 h-5" />}
+            isOpen={currentActiveSection === 'dean'}
+            onToggle={() => toggleSection('dean')}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-6">
+                <ImageUpload 
+                  label="Dean's Profile Picture"
+                  imageUrl={payload.dean?.imageUrl || null}
+                  onFileSelect={file => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, image: file, deleteImage: false } }))}
+                  onDelete={() => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, image: undefined, imageUrl: null, deleteImage: true } }))}
+                />
+              </div>
+              <div className="space-y-6">
+                <div>
+                  <label className={labelBase}>Full Name</label>
+                  <input id="academicsform-5" name="academicsform-5" aria-label="academicsform field" 
+                    value={payload.dean?.name || ''} 
+                    onChange={e => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, name: e.target.value } }))}
+                    className={inputBase}
+                    placeholder="e.g. Dr. Vikas Gupta"
+                  />
+                </div>
+                <div>
+                  <label className={labelBase}>Qualification</label>
+                  <input id="academicsform-6" name="academicsform-6" aria-label="academicsform field" 
+                    value={payload.dean?.qualification || ''} 
+                    onChange={e => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, qualification: e.target.value } }))}
+                    className={inputBase}
+                    placeholder="e.g. Ph D (Electronics...)"
+                  />
+                </div>
+                <div>
+                  <label className={labelBase}>Designation</label>
+                  <input id="academicsform-7" name="academicsform-7" aria-label="academicsform field" 
+                    value={payload.dean?.designation || ''} 
+                    onChange={e => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, designation: e.target.value } }))}
+                    className={inputBase}
+                    placeholder="e.g. Dean, Academics"
+                  />
+                </div>
+                <div>
+                  <label className={labelBase}>Institution / College</label>
+                  <input id="academicsform-8" name="academicsform-8" aria-label="academicsform field" 
+                    value={payload.dean?.institution || ''} 
+                    onChange={e => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, institution: e.target.value } }))}
+                    className={inputBase}
+                    placeholder="e.g. VCET, Vasai"
+                  />
+                </div>
+              </div>
+              <div className="md:col-span-2">
+                <label className={labelBase}>Dean's Message (Quote)</label>
+                <textarea id="academicsform-textarea-2" name="academicsform-textarea-2" aria-label="academicsform textarea field" 
+                  value={payload.dean?.message || ''} 
+                  onChange={e => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, message: e.target.value } }))}
+                  className={`${inputBase} min-h-52 resize-none py-4 leading-relaxed`}
+                  placeholder="It is my pleasure to welcome you to..."
+                />
+              </div>
             </div>
-            <div className="space-y-6">
-              <div>
-                <label className={labelBase}>Full Name</label>
-                <input id="academicsform-5" name="academicsform-5" aria-label="academicsform field" 
-                  value={payload.dean?.name || ''} 
-                  onChange={e => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, name: e.target.value } }))}
-                  className={inputBase}
-                  placeholder="e.g. Dr. Vikas Gupta"
-                />
-              </div>
-              <div>
-                <label className={labelBase}>Qualification</label>
-                <input id="academicsform-6" name="academicsform-6" aria-label="academicsform field" 
-                  value={payload.dean?.qualification || ''} 
-                  onChange={e => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, qualification: e.target.value } }))}
-                  className={inputBase}
-                  placeholder="e.g. Ph D (Electronics...)"
-                />
-              </div>
-              <div>
-                <label className={labelBase}>Designation</label>
-                <input id="academicsform-7" name="academicsform-7" aria-label="academicsform field" 
-                  value={payload.dean?.designation || ''} 
-                  onChange={e => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, designation: e.target.value } }))}
-                  className={inputBase}
-                  placeholder="e.g. Dean, Academics"
-                />
-              </div>
-              <div>
-                <label className={labelBase}>Institution / College</label>
-                <input id="academicsform-8" name="academicsform-8" aria-label="academicsform field" 
-                  value={payload.dean?.institution || ''} 
-                  onChange={e => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, institution: e.target.value } }))}
-                  className={inputBase}
-                  placeholder="e.g. VCET, Vasai"
-                />
-              </div>
-            </div>
-            <div className="md:col-span-2">
-              <label className={labelBase}>Dean's Message (Quote)</label>
-              <textarea id="academicsform-textarea-2" name="academicsform-textarea-2" aria-label="academicsform textarea field" 
-                value={payload.dean?.message || ''} 
-                onChange={e => setPayload(prev => ({ ...prev, dean: { ...prev.dean!, message: e.target.value } }))}
-                className={`${inputBase} min-h-52 resize-none py-4 leading-relaxed`}
-                placeholder="It is my pleasure to welcome you to..."
-              />
-            </div>
-          </div>
-        </AdminFormSection>
+          </AdminFormSection>
+        )}
 
-        <AdminFormSection
-          title="Outcome Based Education"
-          icon={<Award className="w-5 h-5" />}
-          isOpen={currentActiveSection === 'obe'}
-          onToggle={() => toggleSection('obe')}
-        >
-          <div className="grid grid-cols-1 gap-8">
-             <div>
+        {(!activeSection || activeSection === 'obe') && (
+          <AdminFormSection
+            title="Outcome Based Education"
+            icon={<Award className="w-5 h-5" />}
+            isOpen={currentActiveSection === 'obe'}
+            onToggle={() => toggleSection('obe')}
+          >
+            <div className="grid grid-cols-1 gap-8">
+              <div>
                 <label className={labelBase}>Framework Title</label>
                 <input id="academicsform-9" name="academicsform-9" aria-label="academicsform field" 
                   value={payload.obe?.title || ''} 
@@ -467,10 +474,9 @@ const AcademicsForm: React.FC<AcademicsFormProps> = ({ activeSection, onBack }) 
                 onFileSelect={file => setPayload(prev => ({ ...prev, obe: { ...prev.obe!, image: file, deleteImage: false } }))}
                 onDelete={() => setPayload(prev => ({ ...prev, obe: { ...prev.obe!, image: undefined, imageUrl: null, deleteImage: true } }))}
               />
-          </div>
-        </AdminFormSection>
-
-
+            </div>
+          </AdminFormSection>
+        )}
       </form>
 
       <style>{`

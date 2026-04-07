@@ -265,8 +265,8 @@ const TeamPanel: React.FC = () => {
             <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#082b64]/10 to-transparent" />
 
             {/* Avatar with stronger image holder */}
-            <div className="relative mx-auto w-32 h-32 mb-6 rounded-full bg-gradient-to-br from-[#eaf3ff] to-[#cde5ff] p-1 shadow-xl">
-              <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white bg-slate-100">
+            <div className="relative mx-auto w-32 aspect-square mb-6 rounded-full bg-gradient-to-br from-[#eaf3ff] to-[#cde5ff] p-1 shadow-xl">
+              <div className="relative w-full h-full rounded-full border-4 border-white bg-slate-100">
                 <img
                   src={resolveUploadedAssetUrl('https://vcet.edu.in/public/images/Team/Dipak-Choudhari.jpg') ?? 'https://vcet.edu.in/public/images/Team/Dipak-Choudhari.jpg'}
                   alt="Mr. Dipak Choudhari"
