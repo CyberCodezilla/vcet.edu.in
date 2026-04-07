@@ -254,6 +254,7 @@ export interface Achievement {
   document_url: string | null;
   description: string | null;
   icon: string | null;
+  image_url: string | null;
   sort_order: number;
   is_active: boolean;
   created_at: string;
@@ -271,6 +272,8 @@ export interface AchievementPayload {
   document_url?: string;
   description?: string;
   icon?: string;
+  image_url?: string;
+  participant_avatar?: string;
   sort_order?: number;
   is_active?: boolean;
 }

@@ -9,12 +9,18 @@ const BACKEND_STORAGE_PATH_PATTERN = /^\/?(departments|storage)\//;
 const BACKEND_API_PATH_PATTERN = /^\/?api\//;
 const ABSOLUTE_URL_PATTERN = /^[a-z][a-z\d+\-.]*:/i;
 
+const RAW_BACKEND_ORIGIN = ((import.meta.env.VITE_BACKEND_ORIGIN as string | undefined) ?? '').trim();
+
 const RAW_API_BASE =
   ((import.meta.env.VITE_API_BASE_URL as string | undefined) ??
     (import.meta.env.VITE_API_URL as string | undefined) ??
     '').trim();
 
 function resolveApiOrigin(): string {
+  if (RAW_BACKEND_ORIGIN) {
+    return RAW_BACKEND_ORIGIN.replace(/\/api\/?$/i, '').replace(/\/$/, '');
+  }
+
   const browserOrigin = typeof window !== 'undefined' ? window.location.origin : '';
   const sanitizedEnv = RAW_API_BASE ? RAW_API_BASE.replace(/\/api\/?$/i, '').replace(/\/$/, '') : '';
   const currentHost = typeof window !== 'undefined' ? window.location.hostname : '';

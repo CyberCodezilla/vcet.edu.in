@@ -18,14 +18,7 @@ interface AchievementItem {
   image: string;
 }
 
-const RENDER_ORIGIN = 'https://vcet-3vjm.onrender.com';
 const ACHIEVEMENTS_DIR = '/images/Main Page/Remarkable Acheivements/';
-
-function withRenderOrigin(pathname: string): string {
-  if (!pathname) return '';
-  const normalized = pathname.startsWith('/') ? pathname : `/${pathname}`;
-  return `${RENDER_ORIGIN}${normalized}`;
-}
 
 function extractFileName(pathValue: string): string | null {
   if (!pathValue) return null;
@@ -34,10 +27,6 @@ function extractFileName(pathValue: string): string | null {
   return segments.length ? segments[segments.length - 1] : null;
 }
 
-/**
- * Handles mapping potential backend file path patterns to the frontend static directory
- * while avoiding mangling paths that already look like full paths.
- */
 function normalizeAchievementImagePath(pathValue: string): string {
   const trimmed = (pathValue || '').trim();
   if (!trimmed) return trimmed;
@@ -46,29 +35,21 @@ function normalizeAchievementImagePath(pathValue: string): string {
     return trimmed;
   }
 
-  // If path looks like it is already relative to root (/images, /storage, /uploads), keep it as is
   if (trimmed.startsWith('/') || trimmed.startsWith('images/') || trimmed.startsWith('storage/') || trimmed.startsWith('uploads/')) {
     return trimmed;
   }
 
-  // Otherwise treat it as a filename from the legacy Remarkable Achievements dir
   const fileName = extractFileName(trimmed);
   if (!fileName) return trimmed;
 
   return `${ACHIEVEMENTS_DIR}${fileName}`;
 }
 
-/**
- * Robustly resolves an image path to an absolute URL, handling backend storage patterns.
- * Fixes compatibility with the backend by replacing spaces with underscores in the filename.
- */
 function resolveAchievementImage(pathValue: string): string {
   if (!pathValue) return '';
 
   const normalizedPath = normalizeAchievementImagePath(pathValue);
 
-  // CRITICAL FIX: Backend filenames replace spaces with underscores.
-  // We need to mirror this on the FINAL segment (the filename) to avoid 404 errors.
   const segments = normalizedPath.split('/');
   const lastIdx = segments.length - 1;
   if (lastIdx >= 0) {
@@ -76,13 +57,7 @@ function resolveAchievementImage(pathValue: string): string {
   }
   const spaceResolvedPath = segments.join('/');
 
-  const resolved = resolveUploadedAssetUrl(spaceResolvedPath) ?? spaceResolvedPath;
-
-  if (/^https?:\/\//i.test(resolved) || resolved.startsWith('data:') || resolved.startsWith('blob:')) {
-    return resolved;
-  }
-
-  return withRenderOrigin(resolved);
+  return resolveUploadedAssetUrl(spaceResolvedPath) ?? '';
 }
 
 function handleAchievementImageError(event: React.SyntheticEvent<HTMLImageElement>): void {
@@ -93,23 +68,20 @@ function handleAchievementImageError(event: React.SyntheticEvent<HTMLImageElemen
     img.dataset.originalSrc = originalSrc;
   }
 
-  // Retry once with underscores if we haven't already.
-  // Standard web servers/Laravel often santize filenames (space -> underscore).
   if (img.dataset.renderRetry !== '1') {
     img.dataset.renderRetry = '1';
     const fileName = extractFileName(originalSrc);
     if (fileName) {
-      // FORCE UNDERSCORES on retry
       const sanitizedFileName = fileName.replace(/\s+/g, '_');
-      const retryUrl = `${RENDER_ORIGIN}${encodeURI(`${ACHIEVEMENTS_DIR}${sanitizedFileName}`)}`;
-      if (retryUrl !== img.src) {
+      const retryPath = `${ACHIEVEMENTS_DIR}${sanitizedFileName}`;
+      const retryUrl = resolveUploadedAssetUrl(retryPath);
+      if (retryUrl && retryUrl !== img.src) {
         img.src = retryUrl;
         return;
       }
     }
   }
 
-  // Keep backend URL intact in src; UI should not hide/replace the image URL.
   img.dataset.loadFailed = '1';
 }
 
@@ -326,15 +298,22 @@ const Achievements: React.FC = () => {
 
   const displayAchievements = useMemo(() => {
     if (backendAchievements && backendAchievements.length > 0) {
-      return wrapAchievements(
-        backendAchievements.map((item) => ({
+      const mapped = backendAchievements
+        .map((item) => ({
           id: item.id,
           title: item.title,
           description: item.description || '',
-          // Prefer icon if set (often used for these tiles), fallback to participant_avatar
-          image: item.icon || item.participant_avatar || '',
-        })).filter(a => a.image)
-      );
+          // Use the dedicated image_url field added in the migration/seeder
+          image: item.image_url || '',
+        }))
+        .filter((a) => a.image);
+
+      // If backend has records but none with images, fall back to static data
+      if (mapped.length === 0) {
+        return wrapAchievements(STATIC_ACHIEVEMENTS);
+      }
+
+      return wrapAchievements(mapped);
     }
     return wrapAchievements(STATIC_ACHIEVEMENTS);
   }, [backendAchievements]);

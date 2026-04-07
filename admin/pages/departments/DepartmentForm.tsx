@@ -667,7 +667,7 @@ export default function DepartmentForm() {
             </div>
             <div className="space-y-4">
               {content.dabMembers?.map((member, i) => (
-                <div key={`dab-${member.name || member.designation || 'row'}-${i}`} className="flex gap-4 items-center group/row">
+                <div key={`dab-${i}`} className="flex gap-4 items-center group/row">
                   <input id={`departmentform-dab-name-${i}`} name={`departmentform-dab-name-${i}`} aria-label="departmentform field"
                     type="text"
                     placeholder="Name"

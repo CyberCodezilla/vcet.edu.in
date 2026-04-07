@@ -206,13 +206,36 @@ const DeptFE: React.FC = () => {
 
           {/* â•â•â•â• DAB â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'dab' && (() => {
+            const members = department?.content?.dabMembers || [];
             return (
-              <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
-                <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
-                  <i className="ph ph-users-three text-3xl text-brand-navy" />
-                </div>
-                <h3 className="text-xl font-bold text-brand-navy mb-2">Departmental Advisory Board</h3>
-                <p className="text-slate-500">The content will be published soon.</p>
+              <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering</span></div>
+                <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Departmental Advisory Board<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                {members.length > 0 ? (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-brand-navy text-white">
+                          {['Sr.', 'Name', 'Designation', 'Organisation'].map((h) => (
+                            <th key={h} className="px-4 py-4 text-left text-[11px] font-bold uppercase tracking-widest">{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {members.map((m, idx) => (
+                          <tr key={idx} className="border-t border-slate-100">
+                            <td className="px-4 py-4 font-bold text-brand-navy/40 text-xs">{String(idx + 1).padStart(2, '0')}</td>
+                            <td className="px-4 py-4 font-semibold text-brand-navy whitespace-nowrap">{m.name || '-'}</td>
+                            <td className="px-4 py-4 text-slate-600">{m.designation || '-'}</td>
+                            <td className="px-4 py-4 text-slate-600">{m.organization || '-'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p className="text-slate-500 italic">No advisory board members added yet.</p>
+                )}
               </section>
             );
           })()}
@@ -286,7 +309,7 @@ const DeptFE: React.FC = () => {
           )}
 
           {/* â•â•â•â• FACULTY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-          {activeId === 'faculty' && <DepartmentFacultySection departmentName="First Year Engineering" />}
+          {activeId === 'faculty' && <DepartmentFacultySection departmentName="First Year Engineering" selectedFacultyIds={department?.content?.faculty} />}
 
           {/* â•â•â•â• INFRASTRUCTURE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'infrastructure' && (() => {
@@ -383,13 +406,16 @@ const DeptFE: React.FC = () => {
 
           {/* â•â•â•â• SYLLABUS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'syllabus' && (() => {
-            const links = [
-              { label: 'All Branches Scheme Syllabus (Sem I & Sem II)', url: '/pdfs/Department/FirstYearEngineering/Syllabus/First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25.pdf' },
-              { label: 'Course Outcomes for First Year Engineering', url: '/pdfs/Department/FirstYearEngineering/Syllabus/Course-Outcomes-for-First-Year-Engineering.pdf' },
-              { label: 'NEP 2020 Theory CO (All Subjects)', url: '/pdfs/Department/FirstYearEngineering/Syllabus/FE-COsNEP-2020-All-Subjects-Theory.pdf' },
-              { label: 'Lab COs', url: '/pdfs/Department/FirstYearEngineering/Syllabus/LAB-COs.pdf' },
-              { label: 'NEP 2020 Lab CO (All Subjects)', url: '/pdfs/Department/FirstYearEngineering/Syllabus/FE-COsNEP-2020-All-Subjects-LAB.pdf' },
+            const staticLinks = [
+              { label: 'All Branches Scheme Syllabus (Sem I & Sem II)', url: 'pdfs/Department/FirstYearEngineering/Syllabus/First-Year-Engineering-All-Branches-Scheme-Syllabus-Sem-I-and-Sem-II-Final-1-July-2024-25.pdf' },
+              { label: 'Course Outcomes for First Year Engineering', url: 'pdfs/Department/FirstYearEngineering/Syllabus/Course-Outcomes-for-First-Year-Engineering.pdf' },
+              { label: 'NEP 2020 Theory CO (All Subjects)', url: 'pdfs/Department/FirstYearEngineering/Syllabus/FE-COsNEP-2020-All-Subjects-Theory.pdf' },
+              { label: 'Lab COs', url: 'pdfs/Department/FirstYearEngineering/Syllabus/LAB-COs.pdf' },
+              { label: 'NEP 2020 Lab CO (All Subjects)', url: 'pdfs/Department/FirstYearEngineering/Syllabus/FE-COsNEP-2020-All-Subjects-LAB.pdf' },
             ];
+            const links = department?.content?.syllabus?.length
+              ? department.content.syllabus.map((s) => ({ label: s.title, url: resolveUploadedAssetUrl(s.pdf as string) || '#' }))
+              : staticLinks;
             return (
               <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
                 <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering</span></div>
@@ -465,6 +491,39 @@ const DeptFE: React.FC = () => {
 
           {/* â•â•â•â• INNOVATIONS IN TEACHING LEARNING â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'teaching-learning' && (() => {
+            const activities = department?.content?.activities || [];
+            if (activities.length > 0) {
+              return (
+                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                  <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering</span></div>
+                  <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Department Activities<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {activities.map((a, idx) => (
+                      <div key={idx} className="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col group">
+                        {a.image ? (
+                          <div className="h-48 overflow-hidden bg-slate-100">
+                            <img src={resolveUploadedAssetUrl(a.image as string)} alt={a.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          </div>
+                        ) : (
+                          <div className="h-24 bg-gradient-to-r from-brand-navy to-slate-800 flex items-center justify-center text-white/20">
+                            <i className="ph-fill ph-image text-3xl" />
+                          </div>
+                        )}
+                        <div className="p-6 flex-1 flex flex-col">
+                          <h4 className="font-bold text-brand-navy text-[17px] leading-snug mb-3">{a.title}</h4>
+                          <p className="text-slate-600 text-sm leading-relaxed mb-5 flex-1">{a.description}</p>
+                          {a.pdf && (
+                            <a href={resolveUploadedAssetUrl(a.pdf as string) || '#'} target="_blank" rel="noreferrer" className="mt-auto inline-flex items-center justify-center w-full gap-2 px-4 py-2.5 bg-slate-50 text-slate-700 rounded-xl text-sm font-semibold hover:bg-brand-gold hover:text-white transition-colors border border-slate-200">
+                              <i className="ph-bold ph-download-simple" /> View Details
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
             const links = [
               { label: 'Innovation in Teaching Report 2024-25', url: '/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2024-25.pdf' },
               { label: 'Innovation in Teaching Report 2023-24', url: '/pdfs/Department/FirstYearEngineering/InnovationsinTeachingLearning/Innovation-in-Teaching-report-2023-24.pdf' },
@@ -517,6 +576,29 @@ const DeptFE: React.FC = () => {
 
           {/* â•â•â•â• TOPPERS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeId === 'toppers' && (() => {
+            const dynamicToppers = department?.content?.toppers || [];
+            if (dynamicToppers.length > 0) {
+              return (
+                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
+                  <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-brand-gold" /><span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">First Year Engineering</span></div>
+                  <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Toppers<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {dynamicToppers.map((t, idx) => (
+                      <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center text-center hover:bg-slate-100/80 transition-colors">
+                        <div className="w-16 h-16 bg-brand-navy/5 text-brand-gold rounded-full flex items-center justify-center mb-3">
+                          <i className="ph-fill ph-medal text-3xl" />
+                        </div>
+                        <h4 className="font-bold text-brand-navy text-lg mb-1">{t.name}</h4>
+                        <p className="text-slate-500 text-sm font-medium mb-3">{t.year}</p>
+                        <div className="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-sm font-bold border border-emerald-100">
+                          CGPA: {t.cgpa}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              );
+            }
             const toppers = [
               { term: '2020-21 SEM-I', topper: 'Thakur Mihir Ashish', score: '9.26 SGPI' },
               { term: '2020-21 SEM-II', topper: 'Singh Mohit', score: '9.83 SGPI' },
