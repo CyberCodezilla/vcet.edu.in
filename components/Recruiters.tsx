@@ -31,6 +31,13 @@ const LOGO_WIPRO = "/images/Main Page/recruiters/wipro-logo.png";
 const LOGO_ZENSOFT = "/images/Main Page/recruiters/Zensoft-logo.jpg";
 const LOGO_ZEUS = "/images/Main Page/recruiters/Zeus-Learning-logo.png";
 
+// Additional fallbacks matching backend public/images/Main Page/recruiters/
+const LOGO_ACCENTURE = "/images/Main Page/recruiters/accenture-logo.png";
+const LOGO_GODREJ = "/images/Main Page/recruiters/godrej-infotech-logo.png";
+const LOGO_HEXAWARE = "/images/Main Page/recruiters/hexaware-logo.jpeg";
+const LOGO_INTERACTIVE_BROKERS = "/images/Main Page/recruiters/interactive-brokers-logo.png";
+const LOGO_NEEBAL = "/images/Main Page/recruiters/neebal-technologies-logo.png";
+
 const recruiterLogoMap: Record<string, string> = {
   "arcon":               LOGO_ARCON,
   "bristlecone":         LOGO_BRISTLECONE,
@@ -59,17 +66,21 @@ const recruiterLogoMap: Record<string, string> = {
   "zensoft":             LOGO_ZENSOFT,
   "zeus learning":       LOGO_ZEUS,
   "zeus":                LOGO_ZEUS,
+  "godrej":              LOGO_GODREJ,
+  "accenture":           LOGO_ACCENTURE,
+  "hexaware":            LOGO_HEXAWARE,
+  "interactive brokers": LOGO_INTERACTIVE_BROKERS,
+  "neebal":              LOGO_NEEBAL,
 };
 
+const CLEAN_RECRUITERS_PATH = "/images/recruiters_clean/";
+
 const forcedRecruiterFileByName: Record<string, string> = {
-  "accenture": "accenture.jpeg",
-  "godrej infoware": "Godrej-Infoware.jpeg",
-  "godrej infowere": "Godrej-Infoware.jpeg",
-  "hexaware": "hexaware.jpeg",
-  "hexawere": "hexaware.jpeg",
+  "accenture":           "Accenture-Logo-PNG-Vector-EPS-Free-Download.jpeg",
+  "godrej":              "godrej-infotech.jpeg",
+  "hexaware":            "hexaware-logo.jpeg",
   "interactive brokers": "interactive-brokers.jpeg",
-  "neebal technologies": "neebal-technologoes.jpeg",
-  "neebal technologoes": "neebal-technologoes.jpeg",
+  "neebal":              "neebal-technologoes.jpeg",
 };
 
 function toKey(value: unknown): string {
@@ -82,7 +93,7 @@ function getForcedRecruiterLogoByName(nameValue: unknown): string | null {
 
   for (const [partnerName, fileName] of Object.entries(forcedRecruiterFileByName)) {
     if (key.includes(partnerName)) {
-      return `${RECRUITERS_BACKEND_PATH}${fileName}`;
+      return `${CLEAN_RECRUITERS_PATH}${fileName}`;
     }
   }
 
