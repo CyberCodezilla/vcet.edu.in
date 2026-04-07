@@ -9,6 +9,7 @@ import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 import { newsletterApi } from '../../admin/api/newsletterApi';
 import { resolveApiUrl } from '../../admin/api/client';
 import { DynamicToppers } from '../../components/departments/DynamicSections';
+import PageBanner from '../../components/PageBanner';
 
 const resolveDepartmentAssetUrl = (value: unknown): string | null => {
   if (!value) return null;
@@ -225,21 +226,10 @@ const DeptIT: React.FC = () => {
     <PageLayout>
 
       {/* â”€â”€ Hero Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-      <header className="relative bg-gradient-to-r from-brand-navy to-slate-800 pt-24 md:pt-28 pb-12 md:pb-16 overflow-hidden shadow-lg border-b-4 border-brand-gold">
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-white opacity-5 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-10 w-64 h-64 rounded-full bg-brand-gold opacity-10 blur-2xl pointer-events-none" />
-        <nav className="absolute top-6 left-6 z-20 flex items-center space-x-2 text-sm font-medium text-white/70">
-          <Link to="/" className="hover:text-brand-gold transition-colors duration-200 flex items-center"><i className="ph ph-house text-base" /></Link>
-          <i className="ph ph-caret-right text-xs" />
-          <span className="text-brand-gold font-semibold">Information Technology</span>
-        </nav>
-        <div className="container mx-auto px-6 max-w-7xl relative z-10">
-
-          <h1 className="font-display font-bold text-white leading-tight tracking-tight text-center">
-            <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl">Information Technology</span>
-          </h1>
-        </div>
-      </header>
+      <PageBanner 
+        title="Information Technology" 
+        breadcrumbs={[{ label: 'Information Technology' }]} 
+      />
 
       {/* â”€â”€ Page Body â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="container mx-auto px-4 sm:px-6 py-10 md:py-12 max-w-7xl flex flex-col lg:flex-row gap-8 lg:gap-10">
