@@ -8,6 +8,7 @@ import { departmentApi } from '../../admin/api/departments';
 import type { Department } from '../../admin/types';
 import { newsletterApi } from '../../admin/api/newsletterApi';
 import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
+import { DynamicToppers } from '../../components/departments/DynamicSections';
 
 /* â”€â”€ Sidebar navigation links â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const sidebarLinks = [
@@ -59,14 +60,27 @@ const DeptComputerEngg: React.FC = () => {
   const [dynamicApiItems, setDynamicApiItems] = useState<any[]>([]);
 
   useEffect(() => {
-    departmentApi.getBySlug('computer-engineering')
-      .then((res) => {
-        if (res.success) {
-          setDepartment(res.data);
-          newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+    const candidateSlugs = [
+      'computer-engineering',
+    ];
+
+    const loadDepartment = async () => {
+      for (const candidateSlug of candidateSlugs) {
+        try {
+          const res = await departmentApi.getBySlug(candidateSlug);
+          if (res.success) {
+            setDepartment(res.data);
+            newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+            return;
+          }
+        } catch {
+          // Try next compatible slug.
         }
-      })
-      .catch(() => setDepartment(null));
+      }
+      setDepartment(null);
+    };
+
+    loadDepartment();
   }, []);
 
   const hodImageUrl =
@@ -611,29 +625,7 @@ const DeptComputerEngg: React.FC = () => {
           {activeId === 'toppers' && (() => {
             const dynamicToppers = department?.content?.toppers || [];
             if (dynamicToppers.length > 0) {
-              return (
-                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-100">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="w-8 h-px bg-brand-gold" />
-                    <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">Computer Engineering</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Toppers<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {dynamicToppers.map((t, idx) => (
-                      <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center text-center hover:bg-slate-100/80 transition-colors">
-                        <div className="w-16 h-16 bg-brand-navy/5 text-brand-gold rounded-full flex items-center justify-center mb-3">
-                          <i className="ph-fill ph-medal text-3xl" />
-                        </div>
-                        <h4 className="font-bold text-brand-navy text-lg mb-1">{t.name}</h4>
-                        <p className="text-slate-500 text-sm font-medium mb-3">{t.year}</p>
-                        <div className="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-sm font-bold border border-emerald-100">
-                          CGPA: {t.cgpa}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              );
+              return <DynamicToppers toppers={dynamicToppers} deptName="Computer Engineering" />;
             }
             const toppers = {
               SE: ['Yadav Rishiraj - 9.51', 'Barve Smit - 9.49', 'Yadav Visha - 9.48'],
@@ -883,7 +875,7 @@ const DeptComputerEngg: React.FC = () => {
           )}
 
           {/* â•â•â•â• FALLBACK â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'paqic' && activeId !== 'infrastructure' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'patent' && activeId !== 'teaching-learning' && activeId !== 'mou' && activeId !== 'time-table' && activeId !== 'newsletter' && (
+          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'paqic' && activeId !== 'infrastructure' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'patent' && activeId !== 'teaching-learning' && activeId !== 'mou' && activeId !== 'time-table' && activeId !== 'newsletter' && activeId !== 'faculty-achievements' && activeId !== 'student-achievements' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
                 <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-brand-navy`} />

@@ -389,7 +389,7 @@ const DynamicDepartment: React.FC<{ slugProp?: string }> = ({ slugProp }) => {
           )}
 
           {/* FALLBACK */}
-          {activeId !== 'dab' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'faculty' && activeId !== 'newsletter' && activeId !== 'mou' && activeId !== 'patent' && activeId !== 'time-table' && activeId !== 'teaching-learning' && (
+          {activeId !== 'dab' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'faculty' && activeId !== 'faculty-achievements' && activeId !== 'student-achievements' && activeId !== 'newsletter' && activeId !== 'mou' && activeId !== 'patent' && activeId !== 'time-table' && activeId !== 'teaching-learning' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
                 <i className={`ph ${activeLink?.icon} text-3xl text-brand-navy`} />

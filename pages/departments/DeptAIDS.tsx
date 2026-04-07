@@ -9,6 +9,7 @@ import type { Department } from '../../admin/types';
 import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 import { newsletterApi } from '../../admin/api/newsletterApi';
 import { resolveApiUrl } from '../../admin/api/client';
+import { DynamicToppers } from '../../components/departments/DynamicSections';
 
 const sidebarLinks = [
   { id: 'about',      label: 'About',                        icon: 'ph-info' },
@@ -54,15 +55,27 @@ const DeptAIDS: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    departmentApi.getBySlug('artificial-intelligence-data-science')
-      .then(res => {
-        if (res.success) {
-          setDepartment(res.data);
-          newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+    const candidateSlugs = [
+      'artificial-intelligence-data-science',
+    ];
+
+    const loadDepartment = async () => {
+      for (const candidateSlug of candidateSlugs) {
+        try {
+          const res = await departmentApi.getBySlug(candidateSlug);
+          if (res.success) {
+            setDepartment(res.data);
+            newsletterApi.list(res.data.id).then(n => setDynamicApiItems(n.data)).catch(console.error);
+            return;
+          }
+        } catch {
+          // Try next compatible slug.
         }
-      })
-      .catch(err => console.error("Failed to load department data", err))
-      .finally(() => setLoading(false));
+      }
+      setDepartment(null);
+    };
+
+    loadDepartment().finally(() => setLoading(false));
   }, []);
 
   const hodImageUrl = resolveUploadedAssetUrl(department?.content?.hodImage as string | null);
@@ -399,25 +412,7 @@ const DeptAIDS: React.FC = () => {
           {activeId === 'toppers' && (() => {
             const dynamicToppers = department?.content?.toppers || [];
             if (dynamicToppers.length > 0) {
-              return (
-                <section className="reveal bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-100">
-                  <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">Toppers<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {dynamicToppers.map((t, idx) => (
-                      <div key={idx} className="bg-slate-50 border border-slate-100 rounded-2xl p-5 flex flex-col items-center text-center hover:bg-slate-100/80 transition-colors">
-                        <div className="w-16 h-16 bg-brand-navy/5 text-brand-gold rounded-full flex items-center justify-center mb-3">
-                          <i className="ph-fill ph-medal text-3xl" />
-                        </div>
-                        <h4 className="font-bold text-brand-navy text-lg mb-1">{t.name}</h4>
-                        <p className="text-slate-500 text-sm font-medium mb-3">{t.year}</p>
-                        <div className="bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full text-sm font-bold border border-emerald-100">
-                          CGPA: {t.cgpa}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              );
+              return <DynamicToppers toppers={dynamicToppers} deptName="Artificial Intelligence & Data Science" />;
             }
             const topperYears = [
               {
@@ -631,7 +626,7 @@ const DeptAIDS: React.FC = () => {
           )}
 
           {/* â•â•â•â• FALLBACK â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
-          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'student-achievements' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'patent' && activeId !== 'teaching-learning' && activeId !== 'mou' && activeId !== 'newsletter' && (
+          {activeId !== 'about' && activeId !== 'vision' && activeId !== 'dab' && activeId !== 'peo' && activeId !== 'faculty' && activeId !== 'faculty-achievements' && activeId !== 'student-achievements' && activeId !== 'toppers' && activeId !== 'syllabus' && activeId !== 'patent' && activeId !== 'teaching-learning' && activeId !== 'mou' && activeId !== 'newsletter' && (
             <section className="reveal bg-white rounded-3xl p-12 shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center min-h-[300px]">
               <div className="w-16 h-16 rounded-2xl bg-brand-navylight flex items-center justify-center mb-4">
                 <i className={`ph ${activeLink?.icon ?? 'ph-folder'} text-3xl text-brand-navy`} />
