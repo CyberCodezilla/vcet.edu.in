@@ -66,7 +66,7 @@ const fellowship: DevProfile[] = [
   { name: 'Antariksh Singh', githubUser: 'antarikshsingh', githubUrl: 'https://github.com/antarikshsingh', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
   { name: 'Pratik Ravale', githubUser: 'PratikRavale24', githubUrl: 'https://github.com/PratikRavale24', linkedinUrl: 'https://www.linkedin.com/in/pratik-ravale-04b081238/', portfolioUrl: 'https://pratik-ravale.vercel.app/', role: 'Student Fellowship' },
   { name: 'Pranish Shetty', githubUser: 'pranishshetty', githubUrl: 'https://share.google/b5ZkgP5lON5wfUw4y', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
-  { name: 'Rehan Pinjari', githubUser: 'rehanw1', githubUrl: 'https://github.com/rehanw1', linkedinUrl: 'https://www.linkedin.com/in/rehan-pinjari-bbb2193a9', portfolioUrl: 'rehan-pinjari.vercel.app', role: 'Student Fellowship'},
+  { name: 'Rehan Pinjari', githubUser: 'rehanw1', githubUrl: 'https://github.com/rehanw1', linkedinUrl: 'https://www.linkedin.com/in/rehan-pinjari-bbb2193a9', portfolioUrl: 'https://rehan-pinjari.vercel.app', role: 'Student Fellowship'},
   { name: 'Priti Yadav', githubUser: 'Pritiyadav6', githubUrl: 'https://github.com/Pritiyadav6', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
 ];
 
