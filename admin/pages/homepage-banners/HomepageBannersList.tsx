@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { homepageBannersApi } from '../../api/homepageBanners';
 import type { HomepageBanner } from '../../types';
 
+const MAX_TOTAL_BANNERS = 20;
+
 const HomepageBannersList: React.FC = () => {
   const [items, setItems] = useState<HomepageBanner[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,6 +37,8 @@ const HomepageBannersList: React.FC = () => {
     });
   }, [items, searchTerm]);
 
+  const isAtBannerLimit = items.length >= MAX_TOTAL_BANNERS;
+
   const handleDelete = async (item: HomepageBanner) => {
     if (item.is_fixed) {
       alert('This is a default homepage banner and cannot be deleted. You can edit it.');
@@ -66,14 +70,28 @@ const HomepageBannersList: React.FC = () => {
           <p className="mt-2 text-sm text-slate-500">
             Manage the two default package banners plus any extra banners for the homepage modal.
           </p>
+          <p className="mt-1 text-xs font-semibold text-slate-500">
+            Total images: {items.length}/{MAX_TOTAL_BANNERS}
+          </p>
         </div>
-        <Link
-          to="/admin/homepage-banners/new"
-          className="bg-[#1e293b] hover:bg-[#0f172a] text-white font-bold px-6 py-3 rounded-full text-sm transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-          Add Banner
-        </Link>
+        {isAtBannerLimit ? (
+          <button
+            type="button"
+            disabled
+            className="bg-slate-400 text-white font-bold px-6 py-3 rounded-full text-sm shadow-lg cursor-not-allowed flex items-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Add Banner
+          </button>
+        ) : (
+          <Link
+            to="/admin/homepage-banners/new"
+            className="bg-[#1e293b] hover:bg-[#0f172a] text-white font-bold px-6 py-3 rounded-full text-sm transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            Add Banner
+          </Link>
+        )}
       </div>
 
       <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">

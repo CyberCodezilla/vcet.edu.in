@@ -1,10 +1,14 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import SectionHeader from './SectionHeader';
 import { Target, Eye, Users, BookOpen, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
 import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
+import { useHomepageBanners } from '../hooks/useHomepageBanners';
+import { useGalleries } from '../hooks/useGalleries';
 
 const HOMEPAGE_BG_PATH = '/images/Main Page/Home background/VCET-Home-1-scaled.jpg';
 const HOMEPAGE_BG_URL = resolveUploadedAssetUrl(HOMEPAGE_BG_PATH) ?? HOMEPAGE_BG_PATH;
+const ABOUT_SLIDE_INTERVAL_MS = 4500;
+const ABOUT_MAX_SLIDES = 20;
 
 const ESTABLISHED_DATE = new Date(1994, 6, 1); // July 1994
 const currentYear = new Date().getFullYear();
@@ -68,6 +72,56 @@ const StatCard: React.FC<{ stat: typeof stats[0]; onVisible: () => void }> = ({ 
 };
 
 const About: React.FC = () => {
+  const { banners } = useHomepageBanners();
+  const { galleries } = useGalleries();
+  const [aboutSlideIndex, setAboutSlideIndex] = useState(0);
+
+  const aboutSlides = useMemo(() => {
+    const gallerySlides = [...galleries]
+      .sort((a, b) => a.sort_order - b.sort_order)
+      .filter((gallery) => Boolean(gallery.image_url))
+      .slice(0, ABOUT_MAX_SLIDES)
+      .map((gallery) => ({
+        src: gallery.image_url as string,
+        alt: gallery.subtitle || gallery.title || 'VCET Campus',
+      }));
+
+    const bannerSlides = [...banners]
+      .sort((a, b) => a.sort_order - b.sort_order)
+      .filter((banner) => Boolean(banner.image_url))
+      .slice(0, ABOUT_MAX_SLIDES)
+      .map((banner) => ({
+        src: banner.image_url as string,
+        alt: banner.description || banner.title || 'VCET Campus',
+      }));
+
+    if (gallerySlides.length > 0) {
+      return gallerySlides;
+    }
+
+    if (bannerSlides.length > 0) {
+      return bannerSlides;
+    }
+
+    return [{ src: HOMEPAGE_BG_URL, alt: 'VCET Campus' }];
+  }, [banners, galleries]);
+
+  useEffect(() => {
+    setAboutSlideIndex((previousIndex) => (previousIndex >= aboutSlides.length ? 0 : previousIndex));
+  }, [aboutSlides.length]);
+
+  useEffect(() => {
+    if (aboutSlides.length <= 1) {
+      return;
+    }
+
+    const timer = window.setInterval(() => {
+      setAboutSlideIndex((previousIndex) => (previousIndex + 1) % aboutSlides.length);
+    }, ABOUT_SLIDE_INTERVAL_MS);
+
+    return () => window.clearInterval(timer);
+  }, [aboutSlides.length]);
+
   return (
     <section id="about" className="pt-2 pb-12 md:py-28 bg-white relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
@@ -90,12 +144,35 @@ const About: React.FC = () => {
             </p>
             
             <div className="group relative h-[380px] w-full overflow-hidden rounded-2xl border border-brand-blue/10 bg-brand-light sm:h-[480px] md:h-[520px]">
-              <img 
-                src={HOMEPAGE_BG_URL}
-                alt="VCET Campus" 
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
+              <div className="relative h-full w-full">
+                {aboutSlides.map((slide, index) => (
+                  <img
+                    key={`${slide.src}-${index}`}
+                    src={slide.src}
+                    alt={slide.alt}
+                    className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 group-hover:scale-105 ${
+                      index === aboutSlideIndex ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                  />
+                ))}
+              </div>
               <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/20 to-transparent transition-opacity duration-300 pointer-events-none" />
+              {aboutSlides.length > 1 && (
+                <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+                  {aboutSlides.map((_, index) => (
+                    <button
+                      key={`about-slide-dot-${index}`}
+                      type="button"
+                      onClick={() => setAboutSlideIndex(index)}
+                      className={`h-2.5 w-2.5 rounded-full transition-all ${
+                        index === aboutSlideIndex ? 'bg-white' : 'bg-white/50 hover:bg-white/80'
+                      }`}
+                      aria-label={`Show slide ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
