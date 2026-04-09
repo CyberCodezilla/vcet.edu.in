@@ -37,7 +37,7 @@ const coreTeam: DevProfile[] = [
     linkedinUrl: 'https://www.linkedin.com/in/sahil-rane-6a539132b/',
     portfolioUrl: 'https://sahil-rane-portfolio.vercel.app/',
     role: 'Frontend Developer'
-   
+
   },
   {
     name: 'Yash Dedhia',
@@ -58,16 +58,16 @@ const coreTeam: DevProfile[] = [
 ];
 
 const fellowship: DevProfile[] = [
-  { name: 'Sawant Shreya', githubUser: 'sawantshreya008', githubUrl: 'https://github.com/sawantshreya008', linkedinUrl: 'https://www.linkedin.com/in/shreya-sawant-82b285382/', portfolioUrl: 'https://shreya-sawant.vercel.app', role: 'Student Fellowship' },
-  { name: 'Sumrita Sawant', githubUser: 'sumritasawant101-droid', githubUrl: 'https://github.com/sumritasawant101-droid', linkedinUrl: 'www.linkedin.com/in/sumrita-sawant-3651a2400', portfolioUrl: 'https://sumrita-sawant.vercel.app', role: 'Student Fellowship' },
-  { name: 'Dakshata Salgaonkar', githubUser: 'dakshata2405956201-svg', githubUrl: 'https://github.com/dakshata2405956201-svg', linkedinUrl: 'https://www.linkedin.com/in/dakshata-salgaonkar-043a41398', portfolioUrl: 'https://dakshata-salgaonkar.vercel.app', role: 'Student Fellowship' },
-  { name: 'Shweta Patil', githubUser: 'shweta1909patil-maker', githubUrl: 'https://github.com/shweta1909patil-maker', linkedinUrl: 'https://www.linkedin.com/in/shweta-patil-abab72392', portfolioUrl: 'https://shweta-patil.vercel.app/', role: 'Student Fellowship' },
-  { name: 'Sumit Vishwakarma', githubUser: 'Sumitc0de', githubUrl: 'https://github.com/Sumitc0de', linkedinUrl: 'https://www.linkedin.com/in/sumit-vishwakarma-b818b7268?utm_source=share_via&utm_content=profile&utm_medium=member_android', portfolioUrl: 'https://sumit-x-dev.vercel.app/', role: 'Student Fellowship' },
-  { name: 'Antariksh Singh', githubUser: 'antarikshsingh', githubUrl: 'https://github.com/antarikshsingh', linkedinUrl: 'https://www.linkedin.com/me?trk=p_mwlite_feed-secondary_nav', portfolioUrl: '#', role: 'Student Fellowship' },
-  { name: 'Pratik Ravale', githubUser: 'PratikRavale24', githubUrl: 'https://github.com/PratikRavale24', linkedinUrl: 'https://www.linkedin.com/in/pratik-ravale-04b081238/', portfolioUrl: 'https://pratik-ravale.vercel.app/', role: 'Student Fellowship' },
-  { name: 'Pranish Shetty', githubUser: 'pranishshetty', githubUrl: 'https://share.google/b5ZkgP5lON5wfUw4y', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
-  { name: 'Rehan Pinjari', githubUser: 'rehanw1', githubUrl: 'https://github.com/rehanw1', linkedinUrl: 'https://www.linkedin.com/in/rehan-pinjari-bbb2193a9', portfolioUrl: 'https://rehan-pinjari.vercel.app', role: 'Student Fellowship'},
-  { name: 'Priti Yadav', githubUser: 'Pritiyadav6', githubUrl: 'https://github.com/Pritiyadav6', linkedinUrl: '#', portfolioUrl: '#', role: 'Student Fellowship' },
+  { name: 'Sawant Shreya', githubUser: 'sawantshreya008', githubUrl: 'https://github.com/sawantshreya008', linkedinUrl: 'https://www.linkedin.com/in/shreya-sawant-82b285382/', portfolioUrl: 'https://shreya-sawant.vercel.app', role: 'Contributor' },
+  { name: 'Sumrita Sawant', githubUser: 'sumritasawant101-droid', githubUrl: 'https://github.com/sumritasawant101-droid', linkedinUrl: 'www.linkedin.com/in/sumrita-sawant-3651a2400', portfolioUrl: 'https://sumrita-sawant.vercel.app', role: 'Contributor' },
+  { name: 'Dakshata Salgaonkar', githubUser: 'dakshata2405956201-svg', githubUrl: 'https://github.com/dakshata2405956201-svg', linkedinUrl: 'https://www.linkedin.com/in/dakshata-salgaonkar-043a41398', portfolioUrl: 'https://dakshata-salgaonkar.vercel.app', role: 'Contributor' },
+  { name: 'Shweta Patil', githubUser: 'shweta1909patil-maker', githubUrl: 'https://github.com/shweta1909patil-maker', linkedinUrl: 'https://www.linkedin.com/in/shweta-patil-abab72392', portfolioUrl: 'https://shweta-patil.vercel.app/', role: 'Contributor' },
+  { name: 'Sumit Vishwakarma', githubUser: 'Sumitc0de', githubUrl: 'https://github.com/Sumitc0de', linkedinUrl: 'https://www.linkedin.com/in/sumit-vishwakarma-b818b7268?utm_source=share_via&utm_content=profile&utm_medium=member_android', portfolioUrl: 'https://sumit-x-dev.vercel.app/', role: 'Contributor' },
+  { name: 'Antariksh Singh', githubUser: 'antarikshsingh', githubUrl: 'https://github.com/antarikshsingh', linkedinUrl: 'https://www.linkedin.com/me?trk=p_mwlite_feed-secondary_nav', portfolioUrl: '#', role: 'Contributor' },
+  { name: 'Pratik Ravale', githubUser: 'PratikRavale24', githubUrl: 'https://github.com/PratikRavale24', linkedinUrl: 'https://www.linkedin.com/in/pratik-ravale-04b081238/', portfolioUrl: 'https://pratik-ravale.vercel.app/', role: 'Contributor' },
+  { name: 'Pranish Shetty', githubUser: 'pranishshetty', githubUrl: 'https://share.google/b5ZkgP5lON5wfUw4y', linkedinUrl: '#', portfolioUrl: '#', role: 'Contributor' },
+  { name: 'Rehan Pinjari', githubUser: 'rehanw1', githubUrl: 'https://github.com/rehanw1', linkedinUrl: 'https://www.linkedin.com/in/rehan-pinjari-bbb2193a9', portfolioUrl: 'https://rehan-pinjari.vercel.app', role: 'Contributor' },
+  { name: 'Priti Yadav', githubUser: 'Pritiyadav6', githubUrl: 'https://github.com/Pritiyadav6', linkedinUrl: '#', portfolioUrl: '#', role: 'Contributor' },
 ];
 
 const mentors = [
@@ -152,7 +152,7 @@ const Developers: React.FC = () => {
 
       <section className="py-16 md:py-24 bg-slate-50/50 relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-7xl animate-fade-in">
-          
+
           <div className="text-center mb-16">
             <h2 className="text-sm font-bold text-amber-500 tracking-[0.2em] uppercase mb-2">Guidance & Support</h2>
             <h3 className="text-3xl md:text-5xl font-display font-bold text-[#111827] flex items-center justify-center gap-4">
@@ -165,11 +165,11 @@ const Developers: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap gap-6 mb-24 justify-center">
-             {mentors.map((mentor, i) => (
-               <div key={i} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]">
-                 <MentorCard profile={mentor} />
-               </div>
-             ))}
+            {mentors.map((mentor, i) => (
+              <div key={i} className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]">
+                <MentorCard profile={mentor} />
+              </div>
+            ))}
           </div>
 
           <div className="text-center mb-16">
@@ -184,16 +184,16 @@ const Developers: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-24 justify-center max-w-7xl mx-auto">
-             {coreTeam.map((dev, i) => (
-               <DevCard key={i} profile={dev} />
-             ))}
+            {coreTeam.map((dev, i) => (
+              <DevCard key={i} profile={dev} />
+            ))}
           </div>
 
           <div className="text-center mb-16">
             <h2 className="text-sm font-bold text-amber-500 tracking-[0.2em] uppercase mb-2">Contributors</h2>
             <h3 className="text-3xl md:text-5xl font-display font-bold text-[#111827] flex items-center justify-center gap-4">
               <Users className="w-8 h-8 md:w-10 md:h-10 text-[#2563EB]" />
-               These are Developers who collaborated with the lead team
+              These are Developers who collaborated with the lead team
             </h3>
             <p className="mt-4 max-w-2xl mx-auto text-slate-600">
               A dedicated team of students who collaborated to build features, manage data, and bring the platform to life.
@@ -206,7 +206,7 @@ const Developers: React.FC = () => {
 
         </div>
       </section>
-      
+
       <style>{`
         @keyframes fade-in { 
           from { opacity: 0; transform: translateY(15px); } 
