@@ -8,11 +8,11 @@ const HOMEPAGE_BG_URL = resolveUploadedAssetUrl(HOMEPAGE_BG_PATH) ?? HOMEPAGE_BG
 const ABOUT_SLIDE_INTERVAL_MS = 4500;
 const ABOUT_MAX_SLIDES = 20;
 const WHO_WE_ARE_IMAGE_PATHS = [
-  '/images/home/who-we-are/who-we-are-01.jpg',
-  '/images/home/who-we-are/who-we-are-02.jpg',
-  '/images/home/who-we-are/who-we-are-03.jpg',
-  '/images/home/who-we-are/who-we-are-04.jpg',
-  '/images/home/who-we-are/who-we-are-05.jpg',
+  '/images/about/slide1.jpeg',
+  '/images/about/slide2.jpeg',
+  '/images/about/slide3.jpeg',
+  '/images/about/slide4.jpeg',
+  '/images/about/slide5.jpeg',
 ];
 const WHO_WE_ARE_HARDCODED_SLIDES = WHO_WE_ARE_IMAGE_PATHS.slice(0, ABOUT_MAX_SLIDES).map((path, index) => ({
   src: resolveUploadedAssetUrl(path) ?? path,

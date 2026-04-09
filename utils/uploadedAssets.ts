@@ -5,7 +5,7 @@ const BACKEND_CAPITAL_IMAGE_PATH_PATTERN = /^\/?Images\//;
 const BACKEND_IMAGE_PATH_PATTERN = /^\/?images\//;
 const BACKEND_UPLOAD_PATH_PATTERN = /^\/?uploads\//;
 const BACKEND_PDF_PATH_PATTERN = /^\/?pdfs\//;
-const BACKEND_STORAGE_PATH_PATTERN = /^\/?(departments|storage)\//;
+const BACKEND_STORAGE_PATH_PATTERN = /^\/?(departments|storage|about)\//;
 const BACKEND_API_PATH_PATTERN = /^\/?api\//;
 const ABSOLUTE_URL_PATTERN = /^[a-z][a-z\d+\-.]*:/i;
 
