@@ -388,7 +388,7 @@ const Hero: React.FC = () => {
     const attachAutoScroll = (el: HTMLDivElement | null) => {
       if (!el) return () => undefined;
 
-      let pausedUntil = 0;
+      let pausedUntil = Date.now() + 1200;
       const pauseAutoScroll = () => {
         pausedUntil = Date.now() + 3000;
       };
@@ -396,13 +396,13 @@ const Hero: React.FC = () => {
       const onUserIntent = () => pauseAutoScroll();
       el.addEventListener("wheel", onUserIntent, { passive: true });
       el.addEventListener("touchstart", onUserIntent, { passive: true });
+      el.addEventListener("mousedown", onUserIntent);
       el.addEventListener("keydown", onUserIntent);
 
       const timerId = window.setInterval(() => {
         const hasOverflow = el.scrollHeight - el.clientHeight > 10;
         if (!hasOverflow) return;
         if (Date.now() < pausedUntil) return;
-        if (el.matches(":hover")) return;
 
         const reachedBottom =
           el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
@@ -414,18 +414,24 @@ const Hero: React.FC = () => {
         }
 
         el.scrollTop += 1;
-      }, 55);
+      }, 40);
 
       return () => {
         window.clearInterval(timerId);
         el.removeEventListener("wheel", onUserIntent);
         el.removeEventListener("touchstart", onUserIntent);
+        el.removeEventListener("mousedown", onUserIntent);
         el.removeEventListener("keydown", onUserIntent);
       };
     };
 
-    const cleanupDesktop = attachAutoScroll(desktopFeedRef.current);
-    const cleanupMobile = attachAutoScroll(mobileFeedRef.current);
+    const cleanupDesktop = panelOpen
+      ? attachAutoScroll(desktopFeedRef.current)
+      : () => undefined;
+    const cleanupMobile =
+      mobileAdmissionOpen && mobilePanel !== "admission"
+        ? attachAutoScroll(mobileFeedRef.current)
+        : () => undefined;
 
     return () => {
       cleanupDesktop();
@@ -439,6 +445,18 @@ const Hero: React.FC = () => {
     notices.length,
     events.length,
   ]);
+
+  useEffect(() => {
+    if (!panelOpen) return;
+    if (!desktopFeedRef.current) return;
+    desktopFeedRef.current.scrollTop = 0;
+  }, [panelOpen, activeTab]);
+
+  useEffect(() => {
+    if (!mobileAdmissionOpen || mobilePanel === "admission") return;
+    if (!mobileFeedRef.current) return;
+    mobileFeedRef.current.scrollTop = 0;
+  }, [mobileAdmissionOpen, mobilePanel]);
 
   return (
     <>
@@ -566,7 +584,7 @@ const Hero: React.FC = () => {
                   <AdmissionForm />
                 </div>
               ) : (
-                <div className="flex flex-col h-full">
+                <div className="flex h-full min-h-0 flex-col">
                   {/* Tab switcher */}
                   <div className="mb-5 grid flex-shrink-0 grid-cols-2 gap-2">
                     <button
@@ -604,7 +622,7 @@ const Hero: React.FC = () => {
                   </div>
 
                   {/* Scrollable content */}
-                  <div ref={desktopFeedRef} className="flex-1 overflow-y-auto gold-scrollbar pr-1">
+                  <div ref={desktopFeedRef} className="flex-1 min-h-0 overflow-y-auto gold-scrollbar pr-1">
                     {activeTab === "notices" ? (
                       <div>
                         {noticesLoading ? (
@@ -986,7 +1004,7 @@ const Hero: React.FC = () => {
       {mobileAdmissionOpen && (
         <div className="lg:hidden fixed inset-0 z-[9997] flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm" onClick={() => setMobileAdmissionOpen(false)}>
           <div
-            className="relative w-full max-w-md max-h-[85vh] flex flex-col rounded-2xl border border-white/20 bg-[#0f1e38] shadow-2xl overflow-hidden"
+            className="relative w-full max-w-md max-h-[85vh] min-h-0 flex flex-col rounded-2xl border border-white/20 bg-[#0f1e38] shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex shrink-0 items-center justify-between px-5 py-4 border-b border-white/10 bg-[#0a1526]">
@@ -1005,7 +1023,7 @@ const Hero: React.FC = () => {
                 <X className="w-4 h-4 text-white" />
               </button>
             </div>
-            <div ref={mobileFeedRef} className="px-5 py-4 overflow-y-auto">
+            <div ref={mobileFeedRef} className="min-h-0 px-5 py-4 overflow-y-auto">
               {mobilePanel === "admission" ? (
                 <AdmissionForm />
               ) : mobilePanel === "notices" ? (
