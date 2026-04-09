@@ -4,6 +4,7 @@ function resolveApiOrigin(): string {
     const browserOrigin = typeof window !== 'undefined' ? window.location.origin : '';
     const sanitizedEnv = envBase ? envBase.replace(/\/api\/?$/i, '').replace(/\/$/, '') : '';
     const currentHost = typeof window !== 'undefined' ? window.location.hostname : '';
+    const currentPort = typeof window !== 'undefined' ? window.location.port : '';
     const envHost = (() => {
         if (!sanitizedEnv) return '';
         try {
@@ -15,9 +16,11 @@ function resolveApiOrigin(): string {
     const isEnvLocal = envHost === 'localhost' || envHost === '127.0.0.1';
     const isCurrentLocal = currentHost === 'localhost' || currentHost === '127.0.0.1';
     const shouldUseBrowserOrigin = !!browserOrigin && isEnvLocal && !isCurrentLocal;
+    const localLaravelOrigin = 'http://127.0.0.1:8000';
+    const shouldUseLocalLaravelFallback = !sanitizedEnv && isCurrentLocal && currentPort !== '8000';
     const raw = shouldUseBrowserOrigin
         ? browserOrigin
-        : (sanitizedEnv || browserOrigin || 'https://vcet.edu.in');
+        : (sanitizedEnv || (shouldUseLocalLaravelFallback ? localLaravelOrigin : browserOrigin) || 'https://vcet.edu.in');
     return raw.replace(/\/api\/?$/i, '').replace(/\/$/, '');
 }
 
@@ -163,6 +166,7 @@ export function clearCacheIfVersionChanged(newVersion: string | null): boolean {
 
 async function fetchJson<T>(path: string): Promise<T> {
     const response = await fetch(`${API_BASE}/api${path}`, {
+        cache: 'no-store',
         headers: {
             Accept: 'application/json',
         },
@@ -217,6 +221,7 @@ interface ApiError {
 export async function post<T>(path: string, body: unknown): Promise<T> {
     const response = await fetch(`${API_BASE}/api${path}`, {
         method: 'POST',
+        cache: 'no-store',
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -236,6 +241,7 @@ export async function post<T>(path: string, body: unknown): Promise<T> {
 export async function put<T>(path: string, body: unknown): Promise<T> {
     const response = await fetch(`${API_BASE}/api${path}`, {
         method: 'PUT',
+        cache: 'no-store',
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',

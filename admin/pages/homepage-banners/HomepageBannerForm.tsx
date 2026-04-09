@@ -7,6 +7,7 @@ import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 const MAX_DESCRIPTION_LENGTH = 140;
 const MAX_TITLE_LENGTH = 60;
 const MAX_IMAGE_SIZE_MB = 3;
+const MAX_TOTAL_BANNERS = 20;
 
 const HomepageBannerForm: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -24,6 +25,7 @@ const HomepageBannerForm: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(isEdit);
   const [error, setError] = useState('');
+  const [bannerCount, setBannerCount] = useState(0);
 
   useEffect(() => {
     if (isEdit) return;
@@ -31,8 +33,15 @@ const HomepageBannerForm: React.FC = () => {
     homepageBannersApi
       .list()
       .then((response) => {
+        const totalBanners = response.data?.length ?? 0;
+        setBannerCount(totalBanners);
+
         const maxSortOrder = (response.data ?? []).reduce((max, item) => Math.max(max, Number(item.sort_order ?? 0)), 0);
         setForm((prev) => ({ ...prev, sort_order: maxSortOrder + 1 }));
+
+        if (totalBanners >= MAX_TOTAL_BANNERS) {
+          setError(`Banner limit reached. Maximum ${MAX_TOTAL_BANNERS} images are allowed.`);
+        }
       })
       .catch(() => {
         // Keep fallback default if prefill fails.
@@ -105,6 +114,11 @@ const HomepageBannerForm: React.FC = () => {
 
     if (!isEdit && !imageFile) {
       setError('Please upload a banner image.');
+      return;
+    }
+
+    if (!isEdit && bannerCount >= MAX_TOTAL_BANNERS) {
+      setError(`Cannot add more banners. Maximum ${MAX_TOTAL_BANNERS} images are allowed.`);
       return;
     }
 
@@ -213,6 +227,7 @@ const HomepageBannerForm: React.FC = () => {
               <input id="homepagebannerform-3" name="homepagebannerform-3" aria-label="homepagebannerform field"
                 type="file"
                 accept="image/*"
+                disabled={!isEdit && bannerCount >= MAX_TOTAL_BANNERS}
                 onChange={(e) => handleImageChange(e.target.files?.[0] ?? null)}
                 className="absolute inset-0 opacity-0 cursor-pointer"
               />
@@ -223,6 +238,9 @@ const HomepageBannerForm: React.FC = () => {
                   <div className="text-center text-slate-400">
                     <p className="text-sm font-semibold">Upload banner image</p>
                     <p className="text-xs mt-1">Max file size: {MAX_IMAGE_SIZE_MB}MB</p>
+                    {!isEdit && bannerCount >= MAX_TOTAL_BANNERS && (
+                      <p className="mt-2 text-xs font-semibold text-red-500">Maximum {MAX_TOTAL_BANNERS} banners reached</p>
+                    )}
                   </div>
                 )}
               </div>
@@ -234,6 +252,7 @@ const HomepageBannerForm: React.FC = () => {
             <ul className="text-xs text-slate-300 space-y-2">
               <li>Description max length: {MAX_DESCRIPTION_LENGTH} characters</li>
               <li>Image max file size: {MAX_IMAGE_SIZE_MB}MB</li>
+              <li>Total banners limit: {MAX_TOTAL_BANNERS}</li>
               <li>First two default banners can be edited but not deleted</li>
             </ul>
             {error && <p className="text-red-400 text-xs font-semibold">{error}</p>}

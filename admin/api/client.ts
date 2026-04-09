@@ -3,7 +3,15 @@
 function resolveApiOrigin(): string {
   const envBase = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
   const browserOrigin = typeof window !== "undefined" ? window.location.origin : "";
-  const raw = envBase || browserOrigin || "https://vcet.edu.in";
+  const currentHost = typeof window !== "undefined" ? window.location.hostname : "";
+  const currentPort = typeof window !== "undefined" ? window.location.port : "";
+  const isCurrentLocal = currentHost === "localhost" || currentHost === "127.0.0.1";
+  const hasExplicitEnv = Boolean(envBase);
+  const localLaravelOrigin = "http://127.0.0.1:8000";
+  const shouldUseLocalLaravelFallback = !hasExplicitEnv && isCurrentLocal && currentPort !== "8000";
+  const raw = shouldUseLocalLaravelFallback
+    ? localLaravelOrigin
+    : (envBase || browserOrigin || "https://vcet.edu.in");
   return raw.replace(/\/api\/?$/i, "").replace(/\/$/, "");
 }
 
@@ -203,6 +211,7 @@ async function request<T>(
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
     method,
+    cache: "no-store",
     credentials: "include",
     headers,
   });
@@ -247,6 +256,7 @@ async function requestForm<T>(
 
   const res = await fetch(`${API_BASE}${path}`, {
     method: normalizedMethod,
+    cache: "no-store",
     credentials: "include",
     headers,
     body,

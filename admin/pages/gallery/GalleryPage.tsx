@@ -15,9 +15,13 @@ const GalleryPage: React.FC = () => {
 
   const fetchImages = () => {
     setLoading(true);
+    setError('');
     galleryApi.list()
       .then((r) => setImages(r.data))
-      .catch(console.error)
+      .catch((e) => {
+        setImages([]);
+        setError(e instanceof Error ? e.message : 'Unable to load gallery images.');
+      })
       .finally(() => setLoading(false));
   };
 
@@ -98,12 +102,15 @@ const GalleryPage: React.FC = () => {
               <button
                 onClick={() => handleDelete(img)}
                 disabled={deletingId === img.id}
-                className="absolute top-2 right-2 w-8 h-8 rounded-lg bg-white/90 backdrop-blur-sm border border-slate-200 text-red-500 hover:bg-red-50 hover:border-red-200 opacity-0 group-hover:opacity-100 transition-all disabled:opacity-50 flex items-center justify-center shadow-sm"
-                title="Delete"
+                className="absolute top-2 right-2 min-w-8 h-8 rounded-lg bg-white/95 backdrop-blur-sm border border-slate-200 text-red-500 hover:bg-red-50 hover:border-red-200 transition-all disabled:opacity-50 flex items-center justify-center shadow-sm px-2 gap-1"
+                title="Delete Image"
               >
                 {deletingId === img.id
                   ? <div className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
-                  : <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5}><path d="M18 6L6 18M6 6l12 12" strokeLinecap="round"/></svg>
+                  : <>
+                      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5}><path d="M18 6L6 18M6 6l12 12" strokeLinecap="round"/></svg>
+                      <span className="text-[10px] font-semibold uppercase tracking-wide">Delete</span>
+                    </>
                 }
               </button>
             </div>
