@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   ArrowDown,
   Send,
@@ -337,6 +337,8 @@ const Hero: React.FC = () => {
   const [slideIndex, setSlideIndex] = useState(0);
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
   const [imageModalOpen, setImageModalOpen] = useState(false);
+  const desktopFeedRef = useRef<HTMLDivElement | null>(null);
+  const mobileFeedRef = useRef<HTMLDivElement | null>(null);
   const homepage = useHomepageData();
   const useAggregate = Boolean(homepage);
   const { notices: fallbackNotices, loading: noticesLoading } = useNotices(!useAggregate);
@@ -381,6 +383,63 @@ const Hero: React.FC = () => {
     if (!packageImages.length) return;
     setPackageIndex((prev) => (prev >= packageImages.length ? 0 : prev));
   }, [packageImages.length]);
+
+  useEffect(() => {
+    const attachAutoScroll = (el: HTMLDivElement | null) => {
+      if (!el) return () => undefined;
+
+      let pausedUntil = 0;
+      const pauseAutoScroll = () => {
+        pausedUntil = Date.now() + 3000;
+      };
+
+      const onUserIntent = () => pauseAutoScroll();
+      el.addEventListener("wheel", onUserIntent, { passive: true });
+      el.addEventListener("touchstart", onUserIntent, { passive: true });
+      el.addEventListener("keydown", onUserIntent);
+
+      const timerId = window.setInterval(() => {
+        const hasOverflow = el.scrollHeight - el.clientHeight > 10;
+        if (!hasOverflow) return;
+        if (Date.now() < pausedUntil) return;
+        if (el.matches(":hover")) return;
+
+        const reachedBottom =
+          el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+
+        if (reachedBottom) {
+          el.scrollTo({ top: 0, behavior: "smooth" });
+          pausedUntil = Date.now() + 1200;
+          return;
+        }
+
+        el.scrollTop += 1;
+      }, 55);
+
+      return () => {
+        window.clearInterval(timerId);
+        el.removeEventListener("wheel", onUserIntent);
+        el.removeEventListener("touchstart", onUserIntent);
+        el.removeEventListener("keydown", onUserIntent);
+      };
+    };
+
+    const cleanupDesktop = attachAutoScroll(desktopFeedRef.current);
+    const cleanupMobile = attachAutoScroll(mobileFeedRef.current);
+
+    return () => {
+      cleanupDesktop();
+      cleanupMobile();
+    };
+  }, [
+    panelOpen,
+    activeTab,
+    mobileAdmissionOpen,
+    mobilePanel,
+    notices.length,
+    events.length,
+  ]);
+
   return (
     <>
       <section
@@ -545,7 +604,7 @@ const Hero: React.FC = () => {
                   </div>
 
                   {/* Scrollable content */}
-                  <div className="flex-1 overflow-y-auto gold-scrollbar pr-1">
+                  <div ref={desktopFeedRef} className="flex-1 overflow-y-auto gold-scrollbar pr-1">
                     {activeTab === "notices" ? (
                       <div>
                         {noticesLoading ? (
@@ -561,7 +620,7 @@ const Hero: React.FC = () => {
                             </p>
                           </div>
                         ) : (
-                          notices.slice(0, 6).map((n) => (
+                          notices.map((n) => (
                             <div
                               key={n.id}
                               className="py-4 border-b border-white/10 last:border-0"
@@ -634,7 +693,7 @@ const Hero: React.FC = () => {
                             </p>
                           </div>
                         ) : (
-                          events.slice(0, 6).map((ev) => {
+                          events.map((ev) => {
                             let day = "TBA";
                             let year = "TBA";
                             try {
@@ -946,7 +1005,7 @@ const Hero: React.FC = () => {
                 <X className="w-4 h-4 text-white" />
               </button>
             </div>
-            <div className="px-5 py-4 overflow-y-auto">
+            <div ref={mobileFeedRef} className="px-5 py-4 overflow-y-auto">
               {mobilePanel === "admission" ? (
                 <AdmissionForm />
               ) : mobilePanel === "notices" ? (
@@ -956,7 +1015,7 @@ const Hero: React.FC = () => {
                   ) : notices.length === 0 ? (
                     <p className="text-sm text-white/75">No active notices available right now.</p>
                   ) : (
-                    notices.slice(0, 8).map((n) => (
+                    notices.map((n) => (
                       <div key={n.id} className="rounded-xl border border-white/15 bg-white/5 p-3">
                         {n.pdf_url || n.link_url ? (
                           <a
@@ -988,7 +1047,7 @@ const Hero: React.FC = () => {
                   ) : events.length === 0 ? (
                     <p className="text-sm text-white/75">No upcoming events right now.</p>
                   ) : (
-                    events.slice(0, 8).map((ev) => (
+                    events.map((ev) => (
                       <div key={ev.id} className="rounded-xl border border-white/15 bg-white/5 p-3">
                         {ev.image ? (
                           <button
