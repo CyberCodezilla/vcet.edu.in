@@ -52,19 +52,11 @@ const PdfPreviewModal: React.FC<PdfPreviewModalProps> = ({ isOpen, onClose, pdfU
 
         {/* Content */}
         <div className="flex-1 bg-slate-100 p-2 sm:p-4 rounded-b-2xl overflow-hidden relative">
-          {safePdfUrl.startsWith('data:') || safePdfUrl.startsWith('blob:') ? (
-            <iframe
-              src={safePdfUrl}
-              className="w-full h-full rounded-xl bg-white shadow-sm border border-slate-200"
-              title={title}
-            />
-          ) : (
-            <iframe
-              src={`https://docs.google.com/viewer?url=${encodeURIComponent(safePdfUrl)}&embedded=true`}
-              className="w-full h-full rounded-xl bg-white shadow-sm border border-slate-200"
-              title={title}
-            />
-          )}
+          <iframe
+            src={safePdfUrl}
+            className="w-full h-full rounded-xl bg-white shadow-sm border border-slate-200"
+            title={title}
+          />
         </div>
       </div>
     </div>
