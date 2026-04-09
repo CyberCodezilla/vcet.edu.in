@@ -3,6 +3,7 @@ import { pagesApi } from '../../api/pagesApi';
 import { ExamData, ExamPayload, AdmissionDocument as DocItem, SyllabusSection, ResultSection } from '../../types';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
 import { SortableListContext } from '../../components/SortableList';
+import { resolveBackendHref } from '../../../utils/uploadedAssets';
 
 const SectionCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => (
   <div className="bg-white border border-slate-200/60 rounded-5xl overflow-hidden shadow-sm transition-all hover:shadow-md">
@@ -57,7 +58,11 @@ const DocumentListManager: React.FC<{
       <SortableListContext
         items={items}
         onChange={onChange}
-        renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging, actions) => (
+        renderItem={(item, idx, id, dragHandleProps, setNodeRef, style, isDragging, actions) => {
+          const selectedFile = (item as DocItem & { file?: File | null }).file;
+          const existingFileHref = item.fileUrl ? resolveBackendHref(item.fileUrl) : null;
+
+          return (
           <div ref={setNodeRef} style={style} className="relative group flex items-start gap-6 bg-slate-50 border border-slate-200 rounded-4xl p-6 transition-all hover:shadow-md hover:border-slate-300">
             <div className="shrink-0 w-12 h-12 border-2 border-slate-200 rounded-xl flex items-center justify-center text-slate-400 font-black text-lg bg-white cursor-grab active:cursor-grabbing hover:bg-slate-50 hover:text-[#2563EB] transition-colors" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 8h16M4 16h16"/></svg>
@@ -95,11 +100,11 @@ const DocumentListManager: React.FC<{
                    <div className="md:col-span-1">
                       <label className={labelBase}>PDF Document</label>
                       <div className="relative overflow-hidden bg-white border-2 border-dashed border-slate-200 rounded-2xl p-4 transition-all hover:border-[#2563EB]">
-                        <input id={`examsform-file-${idx}`} name={`examsform-file-${idx}`} aria-label="examsform field" 
+                        <input id={`examsform-file-${type}-${idx}`} name={`examsform-file-${type}-${idx}`} aria-label="examsform field" 
                           type="file" 
                           accept="application/pdf"
                           onChange={e => updateItem(idx, { file: e.target.files?.[0] || null })}
-                          className="absolute inset-0 opacity-0 cursor-pointer z-10"
+                          className="sr-only"
                         />
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400">
@@ -107,8 +112,33 @@ const DocumentListManager: React.FC<{
                           </div>
                           <div className="grow min-w-0">
                             <p className="text-sm font-medium text-slate-700 truncate">
-                              {(item as any).file?.name || item.fileName || 'Click to upload PDF'}
+                              {selectedFile?.name || item.fileName || 'Click to upload PDF'}
                             </p>
+                            <label
+                              htmlFor={`examsform-file-${type}-${idx}`}
+                              className="mt-1 inline-flex cursor-pointer text-[11px] font-semibold text-[#2563EB] hover:text-blue-700"
+                            >
+                              Choose PDF
+                            </label>
+                            {!selectedFile && existingFileHref && (
+                              <div className="mt-1 flex items-center gap-3 text-[11px] font-semibold">
+                                <a
+                                  href={existingFileHref}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="text-[#2563EB] hover:text-blue-700"
+                                >
+                                  Preview
+                                </a>
+                                <a
+                                  href={existingFileHref}
+                                  download
+                                  className="text-slate-600 hover:text-slate-900"
+                                >
+                                  Download
+                                </a>
+                              </div>
+                            )}
                             <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold mt-0.5">PDF ONLY • MAX 10MB</p>
                           </div>
                         </div>
@@ -118,7 +148,8 @@ const DocumentListManager: React.FC<{
               </div>
             </div>
           </div>
-        )}
+          );
+        }}
       />
 
       <button
