@@ -731,15 +731,6 @@ const Hero: React.FC = () => {
                     )}
                   </div>
 
-                  {/* Footer link */}
-                  <div className="flex-shrink-0 pt-3 border-t border-white/10 mt-2">
-                    <button className="text-[11px] font-bold uppercase tracking-widest text-white/45 hover:text-white/80 flex items-center gap-1 transition-colors">
-                      {activeTab === "notices"
-                        ? "View All Notices"
-                        : "Full Calendar"}
-                      <ChevronRight className="w-3 h-3" />
-                    </button>
-                  </div>
                 </div>
               )}
             </div>
