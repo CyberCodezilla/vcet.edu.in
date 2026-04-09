@@ -34,10 +34,7 @@ const defaultSamplePaperGroups: PDFGroup[] = [
      
     ]
   },
-  {
-    groupName: 'Old Semester',
-    pdfs: []
-  }
+ 
 ];
 
 const ExamSamplePapers: React.FC = () => {
