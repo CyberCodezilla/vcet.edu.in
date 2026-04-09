@@ -52,7 +52,7 @@ const NoticesList: React.FC = () => {
   };
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;
-  const [sortConfig, setSortConfig] = useState<{ key: 'created_at' | 'expiry_date'; direction: 'asc' | 'desc' }>({
+  const [sortConfig, setSortConfig] = useState<{ key: 'created_at' | 'deactivates_at'; direction: 'asc' | 'desc' }>({
     key: 'created_at', direction: 'desc'
   });
 
@@ -75,7 +75,7 @@ const NoticesList: React.FC = () => {
   useEffect(load, []);
 
   // Handlers
-  const handleSort = (key: 'created_at' | 'expiry_date') => {
+  const handleSort = (key: 'created_at' | 'deactivates_at') => {
     setSortConfig(prev => ({
       key,
       direction: prev.key === key && prev.direction === 'desc' ? 'asc' : 'desc'
@@ -114,9 +114,8 @@ const NoticesList: React.FC = () => {
   };
 
   const isExpired = (n: Notice) => {
-    if (!n.expiry_date) return false;
-    const expiryStr = `${n.expiry_date}T${n.expiry_time || '23:59:00'}`;
-    return new Date() > new Date(expiryStr);
+    if (!n.deactivates_at) return false;
+    return new Date() > new Date(n.deactivates_at);
   };
 
   // Memoized Filtering & Sorting
@@ -255,10 +254,10 @@ const NoticesList: React.FC = () => {
                       )}
                     </div>
                   </th>
-                  <th className="px-6 py-4 cursor-pointer hover:text-slate-600 group" onClick={() => handleSort('expiry_date')}>
+                  <th className="px-6 py-4 cursor-pointer hover:text-slate-600 group" onClick={() => handleSort('deactivates_at')}>
                     <div className="flex items-center gap-1">
                       Expiry Date & Time
-                      {sortConfig.key === 'expiry_date' && (
+                      {sortConfig.key === 'deactivates_at' && (
                         <svg className={`w-3 h-3 transition-transform ${sortConfig.direction === 'desc' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 15l7-7 7 7" /></svg>
                       )}
                     </div>
@@ -305,10 +304,14 @@ const NoticesList: React.FC = () => {
                         {new Date(n.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                       </td>
                       <td className="px-6 py-4">
-                        {n.expiry_date ? (
+                        {n.deactivates_at ? (
                           <div className="flex flex-col text-xs">
-                            <span className="font-semibold text-slate-700">{n.expiry_date}</span>
-                            <span className="text-slate-400">{n.expiry_time || '23:59:00'}</span>
+                            <span className="font-semibold text-slate-700">
+                              {new Date(n.deactivates_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                            </span>
+                            <span className="text-slate-400">
+                              {new Date(n.deactivates_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                            </span>
                           </div>
                         ) : (
                           <span className="text-xs text-slate-400 italic">No Expiry</span>

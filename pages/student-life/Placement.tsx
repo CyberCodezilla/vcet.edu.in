@@ -13,7 +13,7 @@ const sidebarLinks = [
   { id: 'our-recruiters',   label: 'Our Recruiters', icon: 'ph-buildings' },
 ];
 
-const PLACEMENT_STATISTICS_PDF_BASE = '/pdfs/Training%26Placements/Placement/PlacementStatistics';
+const PLACEMENT_STATISTICS_PDF_BASE = '/pdfs/Training & Placement/Placement/PlacementStatistics';
 
 const DEFAULT_PLACEMENT_REPORTS: PlacementReport[] = [
   {

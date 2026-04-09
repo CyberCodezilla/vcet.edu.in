@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
 import PageBanner from '../components/PageBanner';
+import aicteIdeaLabLogoFallback from '../assets/aicte-idea-lab-logo.png';
+import pidiliteLogoFallback from '../assets/pidilite-industries-logo.png';
 
 const sidebarLinks = [
   { id: 'about',             label: 'About',             icon: 'ph-info' },
@@ -10,8 +12,20 @@ const sidebarLinks = [
   { id: 'tender',            label: 'Tender',            icon: 'ph-file-text' },
 ];
 
+const withBaseUrl = (relativePath: string): string => {
+  const base = import.meta.env.BASE_URL || '/';
+  const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+  const normalizedPath = relativePath.replace(/^\/+/, '');
+  return `${normalizedBase}${normalizedPath}`;
+};
+
+const AICTE_IDEA_LOGO_URL = withBaseUrl('uploads/images/aicte-idea-lab-logo.png');
+const PIDILITE_LOGO_URL = withBaseUrl('uploads/images/pidilite-industries-logo.png');
+
 const AICTEIdeaVCET: React.FC = () => {
   const [activeId, setActiveId] = useState('about');
+  const [ideaLabLogoSrc, setIdeaLabLogoSrc] = useState(AICTE_IDEA_LOGO_URL);
+  const [pidiliteLogoSrc, setPidiliteLogoSrc] = useState(PIDILITE_LOGO_URL);
   const activeLink = sidebarLinks.find(l => l.id === activeId);
 
   useEffect(() => {
@@ -83,6 +97,21 @@ const AICTEIdeaVCET: React.FC = () => {
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">AICTE Idea VCET</span>
               </div>
               <h3 className="text-2xl font-bold text-brand-navy mb-5 relative inline-block">About<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+              <div className="mb-6 rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-3 sm:p-4 shadow-sm">
+                <div className="rounded-xl border border-slate-200 bg-white p-3 sm:p-4">
+                  <img
+                    src={ideaLabLogoSrc}
+                    alt="AICTE and AICTE IDEA Lab logos"
+                    className="mx-auto h-auto w-full max-w-sm object-contain"
+                    loading="lazy"
+                    onError={() => {
+                      if (ideaLabLogoSrc !== aicteIdeaLabLogoFallback) {
+                        setIdeaLabLogoSrc(aicteIdeaLabLogoFallback);
+                      }
+                    }}
+                  />
+                </div>
+              </div>
               <p className="text-slate-600 leading-8">
                 About AICTE IDEA Lab:
 
@@ -176,6 +205,22 @@ Organize workshops, training sessions, hackathons, and internships to strengthen
                   <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-brand-gold">AICTE Idea VCET</span>
                 </div>
                 <h3 className="text-2xl font-bold text-brand-navy relative inline-block">Industry Partners<span className="absolute -bottom-2 left-0 w-12 h-1 bg-brand-gold rounded-full" /></h3>
+
+                <div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-3 sm:p-4 shadow-sm">
+                  <div className="rounded-xl border border-slate-200 bg-white p-3 sm:p-4">
+                    <img
+                      src={pidiliteLogoSrc}
+                      alt="Pidilite Industries logo"
+                      className="mx-auto h-auto w-full max-w-xs object-contain"
+                      loading="lazy"
+                      onError={() => {
+                        if (pidiliteLogoSrc !== pidiliteLogoFallback) {
+                          setPidiliteLogoSrc(pidiliteLogoFallback);
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
                 
                 <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                   <div className="overflow-x-auto">

@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../components/PageLayout';
 import PageBanner from '../components/PageBanner';
+import dataAcquisitionInstrumentFallback from '../assets/machinery-diagnostics-data-acquisition-instrument.png';
+import motorSpeedAdjustingFallback from '../assets/machinery-diagnostics-motor-speed-adjusting-instruments.png';
+import piezoelectricSpeedSensorFallback from '../assets/machinery-diagnostics-piezoelectric-speed-sensor.png';
+import eddyCurrentSensorFallback from '../assets/machinery-diagnostics-eddy-current-sensor-adapter-support.png';
 
 const sidebarLinks = [
   { id: 'about',          label: 'About',          icon: 'ph-info' },
@@ -11,9 +15,54 @@ const sidebarLinks = [
   { id: 'gallery',        label: 'Gallery',        icon: 'ph-image' },
 ];
 
+const withBaseUrl = (relativePath: string): string => {
+  const base = import.meta.env.BASE_URL || '/';
+  const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+  const normalizedPath = relativePath.replace(/^\/+/, '');
+  return `${normalizedBase}${normalizedPath}`;
+};
+
+const MACHINERY_SPEC_IMAGES = [
+  {
+    primary: withBaseUrl('uploads/images/machinery-diagnostics-data-acquisition-instrument.png'),
+    fallback: dataAcquisitionInstrumentFallback,
+    alt: 'Data Acquisition Instrument',
+  },
+  {
+    primary: withBaseUrl('uploads/images/machinery-diagnostics-motor-speed-adjusting-instruments.png'),
+    fallback: motorSpeedAdjustingFallback,
+    alt: 'Motor and Speed Adjusting Instruments',
+  },
+  {
+    primary: withBaseUrl('uploads/images/machinery-diagnostics-piezoelectric-speed-sensor.png'),
+    fallback: piezoelectricSpeedSensorFallback,
+    alt: 'Piezoelectric speed sensor',
+  },
+  {
+    primary: withBaseUrl('uploads/images/machinery-diagnostics-eddy-current-sensor-adapter-support.png'),
+    fallback: eddyCurrentSensorFallback,
+    alt: 'Eddy current sensor, Adapter and support',
+  },
+];
+
 const MachineryDiagnostics: React.FC = () => {
   const [activeId, setActiveId] = useState('about');
+  const [specImageSrcs, setSpecImageSrcs] = useState<string[]>(() =>
+    MACHINERY_SPEC_IMAGES.map((image) => image.primary),
+  );
   const activeLink = sidebarLinks.find(l => l.id === activeId);
+
+  const handleSpecImageError = (index: number) => {
+    setSpecImageSrcs((prev) => {
+      if (prev[index] === MACHINERY_SPEC_IMAGES[index].fallback) {
+        return prev;
+      }
+
+      const next = [...prev];
+      next[index] = MACHINERY_SPEC_IMAGES[index].fallback;
+      return next;
+    });
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -37,8 +86,8 @@ const MachineryDiagnostics: React.FC = () => {
     <PageLayout>
       {/* ── Hero Banner ─────────────────────────────────────────── */}
       <PageBanner 
-        title="Machinery Diagnostics" 
-        breadcrumbs={[{ label: 'Machinery Diagnostics' }]} 
+        title="Industry Sponsored Lab-Machinery Diagnostics" 
+        breadcrumbs={[{ label: 'Industry Sponsored Lab-Machinery Diagnostics' }]} 
       />
 
       {/* ── Page Body ────────────────────────────────────────────── */}
@@ -219,36 +268,52 @@ const MachineryDiagnostics: React.FC = () => {
                   <h4 className="text-lg font-semibold text-brand-navy mb-3">Equipment Highlights</h4>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="border border-slate-200 rounded-2xl p-4 flex flex-col gap-3">
-                      <div className="aspect-video rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 text-sm">
-                        Image placeholder
-                      </div>
+                      <img
+                        src={specImageSrcs[0]}
+                        alt={MACHINERY_SPEC_IMAGES[0].alt}
+                        className="aspect-video rounded-xl w-full object-contain bg-slate-100 p-2"
+                        loading="lazy"
+                        onError={() => handleSpecImageError(0)}
+                      />
                       <div>
                         <p className="font-semibold text-brand-navy">Data Acquisition Instrument</p>
                         <p className="text-sm text-slate-600">High-speed multi-channel DAQ system for capturing vibration and speed signals.</p>
                       </div>
                     </div>
                     <div className="border border-slate-200 rounded-2xl p-4 flex flex-col gap-3">
-                      <div className="aspect-video rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 text-sm">
-                        Image placeholder
-                      </div>
+                      <img
+                        src={specImageSrcs[1]}
+                        alt={MACHINERY_SPEC_IMAGES[1].alt}
+                        className="aspect-video rounded-xl w-full object-contain bg-slate-100 p-2"
+                        loading="lazy"
+                        onError={() => handleSpecImageError(1)}
+                      />
                       <div>
                         <p className="font-semibold text-brand-navy">Motor and Speed Adjusting Instruments</p>
                         <p className="text-sm text-slate-600">Variable-speed motor setup for dynamic machinery diagnostics experiments.</p>
                       </div>
                     </div>
                     <div className="border border-slate-200 rounded-2xl p-4 flex flex-col gap-3">
-                      <div className="aspect-video rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 text-sm">
-                        Image placeholder
-                      </div>
+                      <img
+                        src={specImageSrcs[2]}
+                        alt={MACHINERY_SPEC_IMAGES[2].alt}
+                        className="aspect-video rounded-xl w-full object-contain bg-slate-100 p-2"
+                        loading="lazy"
+                        onError={() => handleSpecImageError(2)}
+                      />
                       <div>
                         <p className="font-semibold text-brand-navy">Piezoelectric Speed Sensor</p>
                         <p className="text-sm text-slate-600">High-sensitivity sensor for accurate rotational speed measurement.</p>
                       </div>
                     </div>
                     <div className="border border-slate-200 rounded-2xl p-4 flex flex-col gap-3">
-                      <div className="aspect-video rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 text-sm">
-                        Image placeholder
-                      </div>
+                      <img
+                        src={specImageSrcs[3]}
+                        alt={MACHINERY_SPEC_IMAGES[3].alt}
+                        className="aspect-video rounded-xl w-full object-contain bg-slate-100 p-2"
+                        loading="lazy"
+                        onError={() => handleSpecImageError(3)}
+                      />
                       <div>
                         <p className="font-semibold text-brand-navy">Eddy Current Sensor, Adapter and Support</p>
                         <p className="text-sm text-slate-600">Non-contact displacement measurement system for shaft and component monitoring.</p>

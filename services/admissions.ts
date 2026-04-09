@@ -11,7 +11,8 @@ function normalizeItem(item: AdmissionItem): AdmissionItem {
     admin_image_url: resolveUploadedAssetUrl(item.admin_image_url),
     pdf_url: resolveUploadedAssetUrl(item.pdf_url),
     admin_pdf_url: resolveUploadedAssetUrl(item.admin_pdf_url),
-    document_url: resolveUploadedAssetUrl(item.document_url) ?? item.external_url ?? null,
+    external_url: resolveUploadedAssetUrl(item.external_url),
+    document_url: resolveUploadedAssetUrl(item.document_url) ?? resolveUploadedAssetUrl(item.external_url) ?? null,
   };
 }
 
