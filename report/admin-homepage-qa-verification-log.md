@@ -16,6 +16,20 @@ After every admin-panel test cycle, add one new entry under Test Cycle Log and u
 - Backend local URL: http://127.0.0.1:8000
 - Verification mode: Manual functional QA
 
+## Commit Reference
+Use this section to map QA outcomes to backend/frontend git commits.
+
+| Feature Bundle | Backend Commit (vcet) | Frontend Commit (vcet.edu.in) | Notes |
+|---|---|---|---|
+| MMS About seed data | `2bef97f` | - | Adds `mms-about` payload in `MmsPageContentSeeder` |
+| MMS About faculty email visibility + QA log update | - | `d952567` | Shows faculty emails on MMS Faculty cards |
+| MMS enquiries admin actions + MMS homepage editor updates | `bbfe40c` | `433b95c` | Includes read/unread, delete, MMS enquiries page/actions, and notifications editor |
+| Shared bot-protection and API hardening | `7f6092f` | `433b95c` | Backend rate limiting + bot checks; frontend enquiry flow updates shipped in same feature bundle |
+
+### Current HEAD References
+- Backend (vcet): `2bef97f` (full: `2bef97fe8d775e19701aceafdae8a01e8bf9f795`)
+- Frontend (vcet.edu.in): `d952567`
+
 ## How to Update This File After Every Test
 1. Add a new section under Test Cycle Log with date and tester name.
 2. List each tested page/section and result.
