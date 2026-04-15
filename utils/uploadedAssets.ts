@@ -82,10 +82,37 @@ function encodeFileName(fileName: string): string {
   }
 }
 
-export function resolveUploadedAssetUrl(path: string | null | undefined): string | null {
-  if (!path) return null;
+function normalizeAssetPath(input: unknown): string | null {
+  if (typeof input === 'string') {
+    return input;
+  }
 
-  const trimmed = path.trim();
+  if (typeof input === 'number') {
+    return String(input);
+  }
+
+  if (!input || typeof input !== 'object') {
+    return null;
+  }
+
+  const record = input as Record<string, unknown>;
+  const candidateKeys = ['url', 'path', 'fileUrl', 'pdfUrl', 'imageUrl', 'image', 'src', 'href', 'value'];
+
+  for (const key of candidateKeys) {
+    const candidate = record[key];
+    if (typeof candidate === 'string' && candidate.trim()) {
+      return candidate;
+    }
+  }
+
+  return null;
+}
+
+export function resolveUploadedAssetUrl(path: unknown): string | null {
+  const normalizedPath = normalizeAssetPath(path);
+  if (!normalizedPath) return null;
+
+  const trimmed = normalizedPath.trim();
   if (!trimmed) return null;
   if (trimmed.startsWith('blob:') || trimmed.startsWith('data:')) return trimmed;
   if (ABSOLUTE_URL_PATTERN.test(trimmed)) return trimmed;
@@ -118,9 +145,11 @@ export function resolveUploadedAssetUrl(path: string | null | undefined): string
   return withApiOrigin(normalizedUploadPath);
 }
 
-export function resolveBackendMediaUrl(path: string | null | undefined): string | null {
-  if (!path) return null;
-  const trimmed = path.trim();
+export function resolveBackendMediaUrl(path: unknown): string | null {
+  const normalizedPath = normalizeAssetPath(path);
+  if (!normalizedPath) return null;
+
+  const trimmed = normalizedPath.trim();
   if (!trimmed) return null;
   if (trimmed.startsWith('blob:') || trimmed.startsWith('data:')) return trimmed;
   if (ABSOLUTE_URL_PATTERN.test(trimmed)) return trimmed;
@@ -134,9 +163,11 @@ export function resolveBackendMediaUrl(path: string | null | undefined): string 
  * Resolves a URL that points to a backend asset (like /pdfs/ or /images/)
  * for use in href attributes. If the path is not a backend asset, it's returned as is.
  */
-export function resolveBackendHref(href: string | undefined | null): string {
-  if (!href) return '#';
-  const trimmed = href.trim();
+export function resolveBackendHref(href: unknown): string {
+  const normalizedPath = normalizeAssetPath(href);
+  if (!normalizedPath) return '#';
+
+  const trimmed = normalizedPath.trim();
   if (!trimmed) return '#';
   
   // Return absolute URLs, blobs, and data URIs as is
@@ -151,5 +182,5 @@ export function resolveBackendHref(href: string | undefined | null): string {
     return withApiOrigin(pathname);
   }
   
-  return href;
+  return trimmed;
 }

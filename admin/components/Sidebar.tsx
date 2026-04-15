@@ -156,6 +156,7 @@ const navSections: NavSection[] = [
     label: 'Enquiries',
     items: [
       { label: 'Enquiries', path: '/admin/enquiries', icon: <MailIcon /> },
+      { label: 'MMS Enquiries', path: '/admin/pages/mms/enquiries', icon: <MailIcon /> },
     ],
   },
   {

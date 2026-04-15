@@ -238,6 +238,13 @@ const mmsEditables = [
       ],
     },
   {
+    title: 'Enquiries',
+    description: 'View MMS homepage enquiry submissions from students and export them to Excel or PDF.',
+    links: [
+      { label: 'View MMS Enquiries', to: '/admin/pages/mms/enquiries' },
+    ],
+  },
+  {
     title: 'About',
     description: 'Manage the MMS department overview, vision, mission, program highlights, and general information.',
     links: [

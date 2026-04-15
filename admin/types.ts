@@ -334,6 +334,8 @@ export interface Enquiry {
   department: string;
   course: string;
   specialization: string | null;
+  message?: string | null;
+  source?: string | null;
   consent: boolean;
   ip_address: string | null;
   is_read: boolean;
@@ -1251,8 +1253,8 @@ export interface MMSHomeNotification { title: string; text: string; }
 export interface MMSHomeInternship { title: string; altText: string; logo: File | string | null; }
 export interface MMSHomeEvent { title: string; eventTitle: string; altText: string; image: File | string | null; }
 export interface MMSHomeTestimonial { sectionTitle: string; name: string; role: string; quote: string; }
-export interface MMSHomeVideo { sectionTitle: string; videoTitle: string; posterAlt: string; videoFile: File | null; videoUrl: string; poster: File | string | null; }
-export interface MMSHomeDocument { label: string; url: string; pdfFile: File | null; }
+export interface MMSHomeVideo { sectionTitle: string; videoTitle: string; posterAlt: string; videoFile: File | string | null; videoUrl: string; poster: File | string | null; }
+export interface MMSHomeDocument { label: string; url: string; pdfFile: File | string | null; }
 
 export interface MMSHomeData {
   sliders: MMSHomeSlider[];

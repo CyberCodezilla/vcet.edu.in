@@ -11,21 +11,51 @@ const EnquiriesList: React.FC = () => {
   const [total, setTotal] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'read' | 'unread'>('all');
+  const [updatingStatusId, setUpdatingStatusId] = useState<number | null>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
 
-  const toggleFilter = () => {
-    setStatusFilter(prev => prev === 'all' ? 'unread' : prev === 'unread' ? 'read' : 'all');
+  const handleToggleReadStatus = async (item: Enquiry) => {
+    setUpdatingStatusId(item.id);
+    try {
+      await enquiriesApi.updateReadStatus(item.id, !item.is_read);
+      setItems((prev) => prev.map((current) => (
+        current.id === item.id ? { ...current, is_read: !current.is_read } : current
+      )));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to update enquiry status.';
+      window.alert(message);
+    } finally {
+      setUpdatingStatusId(null);
+    }
+  };
+
+  const handleDelete = async (item: Enquiry) => {
+    const confirmed = window.confirm(`Delete enquiry from ${item.name}? This cannot be undone.`);
+    if (!confirmed) return;
+
+    setDeletingId(item.id);
+    try {
+      await enquiriesApi.remove(item.id);
+      setItems((prev) => prev.filter((current) => current.id !== item.id));
+      setTotal((prev) => Math.max(0, prev - 1));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to delete enquiry.';
+      window.alert(message);
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   const handleExport = () => {
-    let exportItems = [];
+    let exportItems: Enquiry[] = [];
     try { exportItems = filteredItems; } catch(e) { try { exportItems = items; } catch(e) {} }
     if (!exportItems || exportItems.length === 0) {
       alert('No data to export');
       return;
     }
-    const headers = Object.keys(exportItems[0]);
+    const headers = Object.keys(exportItems[0]) as Array<keyof Enquiry>;
     const csvData = exportItems.map(item => 
-      headers.map(h => `"${String((item)[h] ?? '').replace(/"/g, '""')}"`).join(',')
+      headers.map((h) => `"${String(item[h] ?? '').replace(/"/g, '""')}"`).join(',')
     );
     csvData.unshift(headers.join(','));
     const blob = new Blob([csvData.join('\n')], { type: 'text/csv' });
@@ -97,10 +127,26 @@ const EnquiriesList: React.FC = () => {
           <svg className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
         </div>
         <div className="flex items-center gap-3">
-          <button onClick={toggleFilter} className={`flex items-center gap-2 ring-1 px-6 py-4 rounded-2xl text-xs font-bold transition-all shadow-sm ${statusFilter !== 'all' ? 'bg-[#1e293b] text-white ring-[#1e293b]' : 'bg-white text-slate-600 ring-slate-200 hover:bg-slate-50'}`}>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4.5h18m-18 5h18m-18 5h18m-18 5h18" /></svg>
-            Filter: {statusFilter === 'all' ? 'All' : statusFilter === 'unread' ? 'Unread' : 'Read'}
-          </button>
+          <div className="inline-flex overflow-hidden rounded-2xl ring-1 ring-slate-200 shadow-sm">
+            <button
+              onClick={() => setStatusFilter('all')}
+              className={`px-4 py-3 text-xs font-bold transition-all ${statusFilter === 'all' ? 'bg-[#1e293b] text-white' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
+            >
+              All
+            </button>
+            <button
+              onClick={() => setStatusFilter('unread')}
+              className={`px-4 py-3 text-xs font-bold transition-all ${statusFilter === 'unread' ? 'bg-amber-500 text-white' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
+            >
+              Unread
+            </button>
+            <button
+              onClick={() => setStatusFilter('read')}
+              className={`px-4 py-3 text-xs font-bold transition-all ${statusFilter === 'read' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-50'}`}
+            >
+              Read
+            </button>
+          </div>
           <button onClick={handleExport} className="flex items-center gap-2 bg-white ring-1 ring-slate-200 px-6 py-4 rounded-2xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
             Export
@@ -130,6 +176,8 @@ const EnquiriesList: React.FC = () => {
                   <th className="text-left px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Student</th>
                   <th className="text-left px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Academic Details</th>
                   <th className="text-left px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Location & Consent</th>
+                  <th className="text-left px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Status Action</th>
+                  <th className="text-left px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Delete</th>
                   <th className="text-right px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Timestamp</th>
                 </tr>
               </thead>
@@ -163,6 +211,30 @@ const EnquiriesList: React.FC = () => {
                           {item.consent ? 'Consent given' : 'Consent missing'}
                         </span>
                       </div>
+                    </td>
+                    <td className="px-8 py-6">
+                      <button
+                        type="button"
+                        onClick={() => handleToggleReadStatus(item)}
+                        disabled={updatingStatusId === item.id}
+                        className={`rounded-xl px-4 py-2 text-[11px] font-bold uppercase tracking-wider transition-all disabled:cursor-not-allowed disabled:opacity-60 ${item.is_read ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-100 hover:bg-amber-100' : 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100 hover:bg-emerald-100'}`}
+                      >
+                        {updatingStatusId === item.id
+                          ? 'Updating...'
+                          : item.is_read
+                            ? 'Mark as Unread'
+                            : 'Mark as Read'}
+                      </button>
+                    </td>
+                    <td className="px-8 py-6">
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(item)}
+                        disabled={deletingId === item.id}
+                        className="rounded-xl bg-rose-50 px-4 py-2 text-[11px] font-bold uppercase tracking-wider text-rose-700 ring-1 ring-rose-100 transition-all hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60"
+                      >
+                        {deletingId === item.id ? 'Deleting...' : 'Delete'}
+                      </button>
                     </td>
                     <td className="px-8 py-6 text-right">
                       <div className="flex flex-col items-end">

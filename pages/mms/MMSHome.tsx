@@ -9,6 +9,45 @@ import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
 const sectionTitleClass = 'text-2xl md:text-3xl font-display font-bold text-brand-blue';
 const sectionKickerClass = 'text-[11px] font-bold uppercase tracking-[0.2em] text-brand-gold';
 
+const normalizeDocumentItem = (item: unknown, index: number) => {
+  if (!item) return null;
+
+  if (typeof item === 'string') {
+    const trimmed = item.trim();
+    if (!trimmed) return null;
+
+    const resolved = resolveUploadedAssetUrl(trimmed) ?? trimmed;
+
+    return {
+      id: `doc-${index}`,
+      label: `Document ${index + 1}`,
+      url: resolved,
+    };
+  }
+
+  if (typeof item !== 'object') return null;
+
+  const row = item as Record<string, unknown>;
+  const label = [
+    row.label,
+    row.title,
+    row.name,
+    row.fileName,
+    (row.pdfFile as Record<string, unknown> | undefined)?.name,
+  ].find((value) => typeof value === 'string' && value.trim()) as string | undefined;
+
+  const urlSource = row.url ?? row.fileUrl ?? row.pdfUrl ?? row.href ?? row.pdfFile;
+  const resolvedUrl = resolveUploadedAssetUrl(urlSource);
+  const rawUrl = typeof urlSource === 'string' ? urlSource.trim() : '';
+  const finalUrl = resolvedUrl ?? rawUrl;
+
+  return {
+    id: typeof row.id === 'string' && row.id.trim() ? row.id : `doc-${index}`,
+    label: label ?? `Document ${index + 1}`,
+    url: finalUrl,
+  };
+};
+
 export default function MMSHome() {
   const [activeHero, setActiveHero] = useState(0);
   const [data, setData] = useState<any>(null);
@@ -64,12 +103,12 @@ const toArray = (obj: any): any[] => {
           .filter((i:any)=> i.logo || i.title)
           .map((i:any, idx:number) => ({
             id: String(idx),
-            imageUrl: resolveApiUrl(i.logo) || fallbackInternshipItems[idx % Math.max(1, fallbackInternshipItems.length)]?.imageUrl || '',
+            imageUrl: resolveUploadedAssetUrl(i.logo) || resolveApiUrl(i.logo) || fallbackInternshipItems[idx % Math.max(1, fallbackInternshipItems.length)]?.imageUrl || '',
             alt: i.altText || i.title || fallbackInternshipItems[idx % Math.max(1, fallbackInternshipItems.length)]?.alt || `Internship logo ${idx + 1}`,
           })),
         ...fallbackInternshipItems.filter((item) => {
           const imageUrl = (item.imageUrl || '').trim();
-          return imageUrl && !internshipsList.some((entry:any) => resolveApiUrl(entry.logo) === imageUrl);
+          return imageUrl && !internshipsList.some((entry:any) => (resolveUploadedAssetUrl(entry.logo) || resolveApiUrl(entry.logo)) === imageUrl);
         }),
       ].filter((item, index, arr) => {
         const imageUrl = (item.imageUrl as string) || '';
@@ -101,7 +140,7 @@ const toArray = (obj: any): any[] => {
 
   const eventsList = toArray(data?.events);
   const eventsSection = eventsList.some((e:any)=> e.image || e.title)
-    ? { id: 'events', title: 'Our Events', items: eventsList.filter((e:any)=> e.image || e.title).map((e:any, idx:number) => ({ id: String(idx), imageUrl: resolveApiUrl(e.image), title: e.title || e.eventTitle || '' })) }
+    ? { id: 'events', title: 'Our Events', items: eventsList.filter((e:any)=> e.image || e.title).map((e:any, idx:number) => ({ id: String(idx), imageUrl: resolveUploadedAssetUrl(e.image) || resolveApiUrl(e.image), title: e.title || e.eventTitle || '' })) }
     : getFallback('events');
 
   const testimonialsList = toArray(data?.testimonials);
@@ -111,12 +150,18 @@ const toArray = (obj: any): any[] => {
 
   const videosList = toArray(data?.videos);
   const videosSection = videosList.some((v:any)=> v.videoUrl || v.videoFile)
-    ? { id: 'experiential-videos', title: videosList[0]?.sectionTitle || 'Experiential Learning Videos', items: videosList.filter((v:any)=> v.videoUrl || v.videoFile).map((v:any, idx:number) => ({ id: String(idx), title: v.videoTitle, videoUrl: v.videoUrl, fileUrl: resolveApiUrl(v.videoFile), poster: resolveApiUrl(v.poster) || '' })) }
+    ? { id: 'experiential-videos', title: videosList[0]?.sectionTitle || 'Experiential Learning Videos', items: videosList.filter((v:any)=> v.videoUrl || v.videoFile).map((v:any, idx:number) => ({ id: String(idx), title: v.videoTitle, videoUrl: v.videoUrl, fileUrl: resolveUploadedAssetUrl(v.videoFile) || resolveApiUrl(v.videoFile), poster: resolveUploadedAssetUrl(v.poster) || resolveApiUrl(v.poster) || '' })) }
     : getFallback('experiential-videos');
 
   const documentsList = toArray(data?.documents);
   const docsSection = documentsList.some((d:any)=> d.url || d.pdfFile)
-    ? { id: 'pdf-docs', title: 'Documents', items: documentsList.filter((d:any)=> d.url || d.pdfFile).map((d:any, idx:number) => ({ id: String(idx), label: d.label || d.pdfFile?.name || 'Document', url: resolveUploadedAssetUrl(d.pdfFile) || d.url })) }
+    ? {
+      id: 'pdf-docs',
+      title: 'Documents',
+      items: documentsList
+        .map((d: unknown, idx: number) => normalizeDocumentItem(d, idx))
+        .filter((item): item is { id: string; label: string; url: string } => Boolean(item)),
+    }
     : getFallback('pdf-docs');
 
   const noticesList = toArray(data?.notices);
@@ -444,7 +489,7 @@ const toArray = (obj: any): any[] => {
             {docsSection?.items.map((doc) => (
               <a
                 key={doc.id as string}
-                href={doc.url as string}
+                href={(doc.url as string) || '#'}
                 className="rounded-lg border border-brand-blue/15 bg-slate-50 px-4 py-3 text-sm font-semibold text-brand-blue transition hover:bg-brand-light"
                 target="_blank"
                 rel="noreferrer"

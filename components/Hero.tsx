@@ -55,6 +55,7 @@ const AdmissionForm: React.FC = () => {
     consent: false,
   });
   const [submitted, setSubmitted] = useState(false);
+  const formStartedAtRef = useRef<number>(Date.now());
 
   const handle = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -76,12 +77,19 @@ const AdmissionForm: React.FC = () => {
     setErrorMessage(null);
 
     try {
-      await post("/enquiries", form);
+      await post("/enquiries", {
+        ...form,
+        website: "",
+        form_started_at: formStartedAtRef.current,
+      });
       setSubmitted(true);
+      formStartedAtRef.current = Date.now();
       setTimeout(() => setSubmitted(false), 4000);
     } catch (err: unknown) {
       const apiError = err as { status?: number };
-      if (apiError?.status === 422) {
+      if (apiError?.status === 429) {
+        setErrorMessage("Too many attempts. Please wait a minute and try again.");
+      } else if (apiError?.status === 422) {
         setErrorMessage("Please check your details and try again.");
       } else {
         setErrorMessage("Something went wrong. Please try again later.");

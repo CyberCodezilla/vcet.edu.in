@@ -9,6 +9,8 @@ export interface AdmissionEnquiryPayload {
   department: string;
   course: string;
   specialization?: string;
+  website?: string;
+  form_started_at?: number;
   consent: boolean;
 }
 

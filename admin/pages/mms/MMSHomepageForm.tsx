@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Image as ImageIcon, Video, Trash2, Plus, CheckCircle, AlertTriangle, GripVertical, FileText } from 'lucide-react';
 import { resolveApiUrl } from '../../../services/api';
+import { resolveUploadedAssetUrl } from '../../../utils/uploadedAssets';
 import type { MMSHomePayload } from '../../types';
 import { mmsHomeApi } from '../../api/mmsHomeApi';
 import PageEditorHeader from '../../../components/admin/PageEditorHeader';
@@ -11,8 +12,12 @@ import AdminFormSection from '../../components/AdminFormSection';
 const inputBase = "w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all text-slate-700";
 const labelBase = "block text-xs font-black text-slate-400 uppercase tracking-widest mb-2 ml-1";
 
+const createEmptyInternship = () => ({ title: '', altText: '', logo: null as File | string | null });
+const createEmptyEvent = () => ({ title: '', eventTitle: '', altText: '', image: null as File | string | null });
+const createEmptyVideo = () => ({ sectionTitle: '', videoTitle: '', posterAlt: '', videoFile: null as File | null, videoUrl: '', poster: null as File | string | null });
+
 const emptyForm: MMSHomePayload = {
-  sliders: Array(3).fill({ title: '', subtitle: '', image: null }),
+  sliders: Array.from({ length: 3 }, () => ({ title: '', subtitle: '', image: null })),
   admission: { heading: '', description: '', banner: null },
   notices: [],
   notifications: [],
@@ -85,9 +90,9 @@ const MMSHomepageForm: React.FC = () => {
 
   const resolvePreview = (file: any, type: 'image' | 'video' | 'pdf') => {
     if (!file) return null;
-    if (typeof file === 'string') return resolveApiUrl(file);
+    if (typeof file === 'string') return resolveUploadedAssetUrl(file) ?? resolveApiUrl(file);
     if (file instanceof Blob || file instanceof File) return URL.createObjectURL(file);
-    if (file.url) return resolveApiUrl(file.url);
+    if (file.url) return resolveUploadedAssetUrl(file.url) ?? resolveApiUrl(file.url);
     return null;
   };
 
@@ -148,8 +153,204 @@ const MMSHomepageForm: React.FC = () => {
           </div>
         </AdminFormSection>
 
+        {/* Summer Internships */}
+        <AdminFormSection title={`2. Summer Internship's (${form.internships.length})`} icon="🏢" isOpen={activeSection === 'internships'} onToggle={() => setActiveSection(activeSection === 'internships' ? null : 'internships')}>
+          <div className="space-y-4">
+            <SortableListContext
+              items={form.internships}
+              onChange={val => setForm({...form, internships: val})}
+              renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <button type="button" onClick={() => setForm({...form, internships: form.internships.filter((_, idx) => idx !== i)})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"><Trash2 className="w-4 h-4"/></button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className={labelBase}>Title</label>
+                      <input maxLength={60} value={item.title || ''} onChange={e => handleArrayChange('internships', i, 'title', e.target.value)} className={inputBase} placeholder="e.g. Summer Internship Batch 2026" />
+                    </div>
+                    <div>
+                      <label className={labelBase}>Alt Text</label>
+                      <input maxLength={80} value={item.altText || ''} onChange={e => handleArrayChange('internships', i, 'altText', e.target.value)} className={inputBase} placeholder="Accessible image description" />
+                    </div>
+
+                    <div className="md:col-span-2">
+                      <label className={labelBase}>Internship Logo / Image</label>
+                      <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-video flex items-center justify-center overflow-hidden">
+                        <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => handleArrayChange('internships', i, 'logo', e.target.files?.[0] || null)} />
+                        {item.logo ? (
+                          <img src={resolvePreview(item.logo, 'image') || ''} alt={item.altText || 'Internship image'} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="flex flex-col items-center gap-2 text-slate-400">
+                            <ImageIcon className="w-8 h-8" />
+                            <span className="text-[10px] font-black uppercase tracking-widest">Upload Internship Image</span>
+                          </div>
+                        )}
+                        {item.logo && (
+                          <button type="button" onClick={(e) => { e.stopPropagation(); handleArrayChange('internships', i, 'logo', null); }} className="absolute top-3 right-3 p-2 rounded-xl bg-white/90 text-red-500 opacity-0 group-hover:opacity-100 transition-all z-20"><Trash2 className="w-4 h-4"/></button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
+            <button type="button" onClick={() => setForm({...form, internships: [...form.internships, createEmptyInternship()]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+              <Plus className="w-4 h-4" /> Add Internship Item
+            </button>
+          </div>
+        </AdminFormSection>
+
+        {/* Our Events */}
+        <AdminFormSection title={`3. Our Events (${form.events.length})`} icon="🎉" isOpen={activeSection === 'events'} onToggle={() => setActiveSection(activeSection === 'events' ? null : 'events')}>
+          <div className="space-y-4">
+            <SortableListContext
+              items={form.events}
+              onChange={val => setForm({...form, events: val})}
+              renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <button type="button" onClick={() => setForm({...form, events: form.events.filter((_, idx) => idx !== i)})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"><Trash2 className="w-4 h-4"/></button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className={labelBase}>Card Title</label>
+                      <input maxLength={80} value={item.title || ''} onChange={e => handleArrayChange('events', i, 'title', e.target.value)} className={inputBase} placeholder="e.g. Skill Development Session" />
+                    </div>
+                    <div>
+                      <label className={labelBase}>Event Subtitle (Optional)</label>
+                      <input maxLength={80} value={item.eventTitle || ''} onChange={e => handleArrayChange('events', i, 'eventTitle', e.target.value)} className={inputBase} placeholder="e.g. Guest Lecture" />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className={labelBase}>Alt Text</label>
+                      <input maxLength={120} value={item.altText || ''} onChange={e => handleArrayChange('events', i, 'altText', e.target.value)} className={inputBase} placeholder="Accessible image description" />
+                    </div>
+
+                    <div className="md:col-span-2">
+                      <label className={labelBase}>Event Image</label>
+                      <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 aspect-video flex items-center justify-center overflow-hidden">
+                        <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => handleArrayChange('events', i, 'image', e.target.files?.[0] || null)} />
+                        {item.image ? (
+                          <img src={resolvePreview(item.image, 'image') || ''} alt={item.altText || 'Event image'} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="flex flex-col items-center gap-2 text-slate-400">
+                            <ImageIcon className="w-8 h-8" />
+                            <span className="text-[10px] font-black uppercase tracking-widest">Upload Event Image</span>
+                          </div>
+                        )}
+                        {item.image && (
+                          <button type="button" onClick={(e) => { e.stopPropagation(); handleArrayChange('events', i, 'image', null); }} className="absolute top-3 right-3 p-2 rounded-xl bg-white/90 text-red-500 opacity-0 group-hover:opacity-100 transition-all z-20"><Trash2 className="w-4 h-4"/></button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
+            <button type="button" onClick={() => setForm({...form, events: [...form.events, createEmptyEvent()]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+              <Plus className="w-4 h-4" /> Add Event Item
+            </button>
+          </div>
+        </AdminFormSection>
+
+        {/* Experiential Learning Videos */}
+        <AdminFormSection title={`4. Experiential Learning Videos (${form.videos.length})`} icon="🎬" isOpen={activeSection === 'videos'} onToggle={() => setActiveSection(activeSection === 'videos' ? null : 'videos')}>
+          <div className="space-y-4">
+            <SortableListContext
+              items={form.videos}
+              onChange={val => setForm({...form, videos: val})}
+              renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <button type="button" onClick={() => setForm({...form, videos: form.videos.filter((_, idx) => idx !== i)})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"><Trash2 className="w-4 h-4"/></button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className={labelBase}>Section Title (Optional)</label>
+                      <input maxLength={60} value={item.sectionTitle || ''} onChange={e => handleArrayChange('videos', i, 'sectionTitle', e.target.value)} className={inputBase} placeholder="e.g. Experiential Learning Videos" />
+                    </div>
+                    <div>
+                      <label className={labelBase}>Video Title</label>
+                      <input maxLength={80} value={item.videoTitle || ''} onChange={e => handleArrayChange('videos', i, 'videoTitle', e.target.value)} className={inputBase} placeholder="e.g. Role Play Session" />
+                    </div>
+                    <div className="md:col-span-2">
+                      <label className={labelBase}>Poster Alt Text</label>
+                      <input maxLength={120} value={item.posterAlt || ''} onChange={e => handleArrayChange('videos', i, 'posterAlt', e.target.value)} className={inputBase} placeholder="Accessible poster description" />
+                    </div>
+
+                    <div className="md:col-span-2">
+                      <label className={labelBase}>External Video URL (YouTube / Hosted URL)</label>
+                      <input value={item.videoUrl || ''} onChange={e => handleArrayChange('videos', i, 'videoUrl', e.target.value)} className={inputBase} placeholder="https://..." />
+                    </div>
+
+                    <div>
+                      <label className={labelBase}>Upload Video File</label>
+                      <div className="group relative rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 h-32 flex flex-col items-center justify-center overflow-hidden">
+                        <input type="file" accept="video/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => handleArrayChange('videos', i, 'videoFile', e.target.files?.[0] || null)} />
+                        <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                          <Video className={`w-5 h-5 ${item.videoFile ? 'text-blue-500' : 'text-slate-300 group-hover:text-blue-400'}`} />
+                        </div>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{item.videoFile ? 'Video Selected' : 'Upload Video'}</span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className={labelBase}>Upload Poster Image</label>
+                      <div className="relative group rounded-2xl border-2 border-dashed border-slate-100 bg-slate-50/50 h-32 flex items-center justify-center overflow-hidden">
+                        <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onChange={e => handleArrayChange('videos', i, 'poster', e.target.files?.[0] || null)} />
+                        {item.poster ? (
+                          <img src={resolvePreview(item.poster, 'image') || ''} alt={item.posterAlt || 'Video poster'} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="flex flex-col items-center gap-2 text-slate-400">
+                            <ImageIcon className="w-8 h-8" />
+                            <span className="text-[10px] font-black uppercase tracking-widest">Upload Poster</span>
+                          </div>
+                        )}
+                        {item.poster && (
+                          <button type="button" onClick={(e) => { e.stopPropagation(); handleArrayChange('videos', i, 'poster', null); }} className="absolute top-3 right-3 p-2 rounded-xl bg-white/90 text-red-500 opacity-0 group-hover:opacity-100 transition-all z-20"><Trash2 className="w-4 h-4"/></button>
+                        )}
+                      </div>
+                    </div>
+
+                    {(item.videoFile || item.videoUrl) && (
+                      <div className="md:col-span-2 border border-slate-100 rounded-2xl p-4 bg-slate-50/50">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Video Preview</p>
+                        <video controls preload="metadata" className="w-full max-h-72 rounded-xl bg-black">
+                          <source src={resolvePreview(item.videoFile, 'video') || item.videoUrl || ''} />
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            />
+            <button type="button" onClick={() => setForm({...form, videos: [...form.videos, createEmptyVideo()]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+              <Plus className="w-4 h-4" /> Add Video Item
+            </button>
+          </div>
+        </AdminFormSection>
+
         {/* Notice Board */}
-        <AdminFormSection title={`2. Notice Board (${form.notices.length})`} icon="📢" isOpen={activeSection === 'notices'} onToggle={() => setActiveSection(activeSection === 'notices' ? null : 'notices')}>
+        <AdminFormSection title={`5. Notice Board (${form.notices.length})`} icon="📢" isOpen={activeSection === 'notices'} onToggle={() => setActiveSection(activeSection === 'notices' ? null : 'notices')}>
           <div className="space-y-4">
             <SortableListContext
               items={form.notices}
@@ -187,8 +388,43 @@ const MMSHomepageForm: React.FC = () => {
           </div>
         </AdminFormSection>
 
+        {/* Latest Notifications */}
+        <AdminFormSection title={`6. Latest Notifications (${form.notifications.length})`} icon="🔔" isOpen={activeSection === 'notifications'} onToggle={() => setActiveSection(activeSection === 'notifications' ? null : 'notifications')}>
+          <div className="space-y-4">
+            <SortableListContext
+              items={form.notifications}
+              onChange={val => setForm({...form, notifications: val})}
+              renderItem={(item, i, id, dragHandleProps, setNodeRef, style, isDragging) => (
+                <div ref={setNodeRef} style={style} className={`p-6 bg-white border border-slate-100 rounded-3xl relative shadow-sm hover:shadow-md transition-all ${isDragging ? 'shadow-xl z-50 ring-4 ring-blue-50 bg-white' : ''}`}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col cursor-grab active:cursor-grabbing text-slate-200 hover:text-[#2563EB] transition-colors p-1" {...dragHandleProps.attributes} {...dragHandleProps.listeners}>
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current mb-0.5 rounded-full" />
+                      <div className="w-5 h-0.5 bg-current rounded-full" />
+                    </div>
+                    <button type="button" onClick={() => setForm({...form, notifications: form.notifications.filter((_, idx) => idx !== i)})} className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"><Trash2 className="w-4 h-4"/></button>
+                  </div>
+                  <div className="space-y-6">
+                    <div>
+                      <label className={labelBase}>Notification Title</label>
+                      <input maxLength={80} value={item.title || ''} onChange={e => handleArrayChange('notifications', i, 'title', e.target.value)} className={inputBase} placeholder="e.g. Workshop Announcements" />
+                    </div>
+                    <div>
+                      <label className={labelBase}>Notification Text</label>
+                      <textarea maxLength={180} value={item.text || ''} onChange={e => handleArrayChange('notifications', i, 'text', e.target.value)} className={inputBase + " h-24"} rows={3} placeholder="Update details..." />
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
+            <button type="button" onClick={() => setForm({...form, notifications: [...form.notifications, {title: '', text: ''}]})} className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-2xl p-4 text-slate-400 font-bold hover:border-blue-400 hover:text-blue-500 hover:bg-blue-50/30 transition-all uppercase tracking-widest text-[10px]">
+              <Plus className="w-4 h-4" /> Add Notification
+            </button>
+          </div>
+        </AdminFormSection>
+
         {/* Testimonials */}
-        <AdminFormSection title={`3. Student Testimonials (${form.testimonials.length})`} icon="💬" isOpen={activeSection === 'testimonials'} onToggle={() => setActiveSection(activeSection === 'testimonials' ? null : 'testimonials')}>
+        <AdminFormSection title={`7. Student Testimonials (${form.testimonials.length})`} icon="💬" isOpen={activeSection === 'testimonials'} onToggle={() => setActiveSection(activeSection === 'testimonials' ? null : 'testimonials')}>
           <div className="space-y-4">
             <SortableListContext
               items={form.testimonials}
@@ -229,7 +465,7 @@ const MMSHomepageForm: React.FC = () => {
         </AdminFormSection>
 
         {/* Resources / Documents */}
-        <AdminFormSection title={`4. Resources & Documents (${form.documents.length})`} icon="📄" isOpen={activeSection === 'documents'} onToggle={() => setActiveSection(activeSection === 'documents' ? null : 'documents')}>
+        <AdminFormSection title={`8. Resources & Documents (${form.documents.length})`} icon="📄" isOpen={activeSection === 'documents'} onToggle={() => setActiveSection(activeSection === 'documents' ? null : 'documents')}>
           <div className="space-y-4">
             <SortableListContext
               items={form.documents}

@@ -48,6 +48,7 @@ async function fetchLocationSuggestions(query: string, kind: LocationKind): Prom
 
 export default function MMSEnquirePopup() {
   const [open, setOpen] = useState(false);
+  const [formStartedAt, setFormStartedAt] = useState<number>(() => Date.now());
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -69,6 +70,7 @@ export default function MMSEnquirePopup() {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';
+      setFormStartedAt(Date.now());
     } else {
       document.body.style.overflow = '';
     }
@@ -139,12 +141,22 @@ export default function MMSEnquirePopup() {
       `Enquiry: ${enquiryText}`,
     ].join(' | ');
 
+    const normalizedCourse = course === 'MMS (MBA)' ? 'MBA' : course;
+
     const ok = await submit({
       name,
       email,
       phone,
+      state: stateName,
+      city,
+      department: 'Master of Management Studies (MBA)',
+      course: normalizedCourse,
+      specialization: 'General',
       message: composedMessage,
-      course,
+      website: '',
+      form_started_at: formStartedAt,
+      consent,
+      source: 'mms-home-popup',
     });
 
     if (ok) {
@@ -162,6 +174,7 @@ export default function MMSEnquirePopup() {
       setCourse('');
       setEnquiryText('');
       setConsent(false);
+      setFormStartedAt(Date.now());
     }
   };
 
