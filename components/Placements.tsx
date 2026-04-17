@@ -333,6 +333,11 @@ const Placements: React.FC = () => {
                               ★ Best
                             </span>
                           )}
+                          {isCurrent && (
+                            <span className={`absolute left-1/2 -translate-x-1/2 ${isPeak ? '-top-11' : '-top-6'} text-[10px] md:text-[13px] text-brand-gold font-extrabold uppercase tracking-wider whitespace-nowrap drop-shadow-[0_0_8px_rgba(212,175,55,0.7)]`}>
+                              ★ Current
+                            </span>
+                          )}
                         </div>
 
                         {/* Bar */}

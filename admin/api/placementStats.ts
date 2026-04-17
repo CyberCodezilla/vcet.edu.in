@@ -30,7 +30,7 @@ const SEED_STATS: PlacementStat[] = [
   { id: 6, year: '2022-23', count: 261, is_covid: false, is_ongoing: false, sort_order: 6 },
   { id: 7, year: '2023-24', count: 228, is_covid: false, is_ongoing: false, sort_order: 7 },
   { id: 8, year: '2024-25', count: 241, is_covid: false, is_ongoing: false, sort_order: 8 },
-  { id: 9, year: '2025-26', count: 140, is_covid: false, is_ongoing: true,  sort_order: 9 },
+  { id: 9, year: '2025-26', count: 190, is_covid: false, is_ongoing: true,  sort_order: 9 },
 ];
 
 let _nextId = 100;
