@@ -16,6 +16,8 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@types/react-router-dom": "^5.3.3",
+    "axios": "^1.15.0",
+    "cheerio": "^1.2.0",
     "framer-motion": "^12.34.3",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.7",
