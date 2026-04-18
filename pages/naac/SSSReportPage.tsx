@@ -7,23 +7,23 @@ import { resolveBackendHref } from '../../utils/uploadedAssets';
 const sssReports = [
   {
     label: "SSS Report 2018-19",
-    href: "/pdfs/NAAC/SSSReport/SSS-2018-19_Report.pdf",
+    href: "/pdfs/NAAC/SSS Report/SSS-2018-19_Report.pdf",
   },
   {
     label: "SSS Report 2019-20",
-    href: "/pdfs/NAAC/SSSReport/SSS-2019-20_Report.pdf",
+    href: "/pdfs/NAAC/SSS Report/SSS-2019-20_Report.pdf",
   },
   {
     label: "SSS Report 2020-21",
-    href: "/pdfs/NAAC/SSSReport/SSS-2020-21_Report.pdf",
+    href: "/pdfs/NAAC/SSS Report/SSS-2020-21_Report.pdf",
   },
   {
     label: "SSS Report 2021-22",
-    href: "/pdfs/NAAC/SSSReport/SSS-2021-22_Report.pdf",
+    href: "/pdfs/NAAC/SSS Report/SSS-2021-22_Report.pdf",
   },
   {
     label: "SSS Report 2022-23",
-    href: "/pdfs/NAAC/SSSReport/SSS-2022-23_Report.pdf",
+    href: "/pdfs/NAAC/SSS Report/SSS-2022-23_Report.pdf",
   },
 ];
 
