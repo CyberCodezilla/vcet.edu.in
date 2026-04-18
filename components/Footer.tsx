@@ -84,7 +84,7 @@ const Footer: React.FC = () => {
                 { label: 'AICTE', href: 'https://www.aicte-india.org/', external: true },
                 { label: 'DTE Maharashtra', href: 'https://dte.maharashtra.gov.in/', external: true },
                 { label: 'Helpline for Divyagjan', href: '/helpline-for-divyangjan', external: false },
-                { label: 'Online Grievance Form', href: '#', external: false },
+                { label: 'Online Grievance Form', href: 'https://docs.google.com/forms/d/e/1FAIpQLSe5gwVSZDJS4B4a9tCQsoaBgnGBoaH0xzveLpA0bTaoPgIByg/viewform', external: true },
                 { label: 'AICTE Feedback', href: '#', external: false },
                 { label: 'VCET HR policy', href: 'https://vcet.edu.in/NAAC/VCET_HR_POLICY.pdf', external: true },
                 { label: 'Institute Research Policy', href: 'https://vcet.edu.in/wp-content/uploads/2025/03/Institute-Research-Policy.pdf', external: true },
