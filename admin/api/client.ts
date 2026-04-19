@@ -9,9 +9,20 @@ function resolveApiOrigin(): string {
   const hasExplicitEnv = Boolean(envBase);
   const localLaravelOrigin = "http://127.0.0.1:8000";
   const shouldUseLocalLaravelFallback = !hasExplicitEnv && isCurrentLocal && currentPort !== "8000";
+  const envHost = (() => {
+    if (!envBase) return "";
+    try {
+      return new URL(envBase).hostname;
+    } catch {
+      return "";
+    }
+  })();
+  const isEnvRenderHost = /(?:^|\.)onrender\.com$/i.test(envHost);
+  const isCurrentRenderHost = /(?:^|\.)onrender\.com$/i.test(currentHost);
+  const shouldUseProxyMode = isEnvRenderHost && !!browserOrigin && !isCurrentLocal && !isCurrentRenderHost;
   const raw = shouldUseLocalLaravelFallback
     ? localLaravelOrigin
-    : (envBase || browserOrigin || "https://vcet.edu.in");
+    : (shouldUseProxyMode ? browserOrigin : (envBase || browserOrigin || "https://vcet.edu.in"));
   return raw.replace(/\/api\/?$/i, "").replace(/\/$/, "");
 }
 

@@ -1,5 +1,10 @@
 {
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://vcet-3vjm.onrender.com/api/$1" },
+    { "source": "/images/(.*)", "destination": "https://vcet-3vjm.onrender.com/images/$1" },
+    { "source": "/Images/(.*)", "destination": "https://vcet-3vjm.onrender.com/Images/$1" },
+    { "source": "/pdfs/(.*)", "destination": "https://vcet-3vjm.onrender.com/pdfs/$1" },
+    { "source": "/storage/(.*)", "destination": "https://vcet-3vjm.onrender.com/storage/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

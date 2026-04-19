@@ -33,10 +33,12 @@ function resolveApiOrigin(): string {
     }
   })();
   const isEnvLocal = envHost === 'localhost' || envHost === '127.0.0.1';
+  const isEnvRenderHost = /(?:^|\.)onrender\.com$/i.test(envHost);
   const isCurrentLocal = currentHost === 'localhost' || currentHost === '127.0.0.1';
+  const isCurrentRenderHost = /(?:^|\.)onrender\.com$/i.test(currentHost);
   const currentPort = typeof window !== 'undefined' ? window.location.port : '';
   const isStaticFrontendHost = /(?:^|\.)vercel\.app$/i.test(currentHost) || /(?:^|\.)netlify\.app$/i.test(currentHost);
-  const shouldUseBrowserOrigin = !!browserOrigin && isEnvLocal && !isCurrentLocal && !isStaticFrontendHost;
+  const shouldUseBrowserOrigin = !!browserOrigin && ((isEnvLocal && !isCurrentLocal && !isStaticFrontendHost) || (isEnvRenderHost && !isCurrentLocal && !isCurrentRenderHost));
   const localLaravelOrigin = 'http://127.0.0.1:8000';
   const shouldUseLocalLaravelFallback = !sanitizedEnv && isCurrentLocal && currentPort !== '8000';
   const fallbackOrigin = isStaticFrontendHost ? 'https://vcet.edu.in' : (browserOrigin || 'https://vcet.edu.in');
@@ -47,6 +49,30 @@ function resolveApiOrigin(): string {
 }
 
 const API_ORIGIN = resolveApiOrigin();
+
+function getApiHostName(): string {
+  try {
+    return new URL(API_ORIGIN).hostname;
+  } catch {
+    return '';
+  }
+}
+
+function normalizeKnownBackendAbsoluteUrl(raw: string): string {
+  try {
+    const parsed = new URL(raw);
+    const apiHost = getApiHostName();
+    const isKnownBackendHost =
+      (apiHost && parsed.hostname === apiHost) ||
+      /(?:^|\.)onrender\.com$/i.test(parsed.hostname);
+    if (!isKnownBackendHost) {
+      return raw;
+    }
+    return `${parsed.pathname}${parsed.search}`;
+  } catch {
+    return raw;
+  }
+}
 
 function withApiOrigin(pathname: string): string {
   const normalized = pathname.startsWith('/') ? pathname : `/${pathname}`;
@@ -115,7 +141,13 @@ export function resolveUploadedAssetUrl(path: unknown): string | null {
   const trimmed = normalizedPath.trim();
   if (!trimmed) return null;
   if (trimmed.startsWith('blob:') || trimmed.startsWith('data:')) return trimmed;
-  if (ABSOLUTE_URL_PATTERN.test(trimmed)) return trimmed;
+  if (ABSOLUTE_URL_PATTERN.test(trimmed)) {
+    const normalizedAbsolute = normalizeKnownBackendAbsoluteUrl(trimmed);
+    if (normalizedAbsolute !== trimmed) {
+      return withApiOrigin(normalizedAbsolute);
+    }
+    return trimmed;
+  }
 
   const pathname = toUrlPath(trimmed.replace(/\\/g, '/'));
 
@@ -152,7 +184,13 @@ export function resolveBackendMediaUrl(path: unknown): string | null {
   const trimmed = normalizedPath.trim();
   if (!trimmed) return null;
   if (trimmed.startsWith('blob:') || trimmed.startsWith('data:')) return trimmed;
-  if (ABSOLUTE_URL_PATTERN.test(trimmed)) return trimmed;
+  if (ABSOLUTE_URL_PATTERN.test(trimmed)) {
+    const normalizedAbsolute = normalizeKnownBackendAbsoluteUrl(trimmed);
+    if (normalizedAbsolute !== trimmed) {
+      return withApiOrigin(normalizedAbsolute);
+    }
+    return trimmed;
+  }
 
   const pathname = toUrlPath(trimmed.replace(/\\/g, '/'));
   if (!isBackendAssetPath(pathname)) return null;
@@ -171,7 +209,14 @@ export function resolveBackendHref(href: unknown): string {
   if (!trimmed) return '#';
   
   // Return absolute URLs, blobs, and data URIs as is
-  if (ABSOLUTE_URL_PATTERN.test(trimmed) || trimmed.startsWith('blob:') || trimmed.startsWith('data:')) {
+  if (ABSOLUTE_URL_PATTERN.test(trimmed)) {
+    const normalizedAbsolute = normalizeKnownBackendAbsoluteUrl(trimmed);
+    if (normalizedAbsolute !== trimmed) {
+      return withApiOrigin(normalizedAbsolute);
+    }
+    return trimmed;
+  }
+  if (trimmed.startsWith('blob:') || trimmed.startsWith('data:')) {
     return trimmed;
   }
 
