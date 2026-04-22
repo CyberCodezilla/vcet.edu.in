@@ -3,31 +3,63 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useHomepageData } from '../context/HomepageDataContext';
 import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
 
-const splashImages = [
+type SplashImage = {
+  src: string;
+  label: string;
+  fallbackSrc?: string;
+};
+
+const highestPackageFallback =
+  resolveUploadedAssetUrl('/images/Main Page/Packages/HIGEST_Package_banner.jpg') ??
+  '/images/Main Page/Packages/HIGEST_Package_banner.jpg';
+
+const aictePamphletFallback =
+  resolveUploadedAssetUrl('/images/about/aicte-pamphlet-banner.jpg') ??
+  '/images/about/aicte-pamphlet-banner.jpg';
+
+const splashImages: SplashImage[] = [
   {
-    src:
-      resolveUploadedAssetUrl('/images/Main Page/Packages/HIGEST_Package_banner.jpg') ??
-      '/images/Main Page/Packages/HIGEST_Package_banner.jpg',
+    src: highestPackageFallback,
     label: 'Highest Package',
+    fallbackSrc: highestPackageFallback,
   },
   {
-    src:
-      resolveUploadedAssetUrl('/images/about/aicte-pamphlet-banner.jpg') ??
-      '/images/about/aicte-pamphlet-banner.jpg',
+    src: aictePamphletFallback,
     label: 'AICTE Pamphlet',
+    fallbackSrc: aictePamphletFallback,
   },
 ];
+
+function getBannerFallback(label: string): string | undefined {
+  const normalized = label.toLowerCase();
+
+  if (normalized.includes('highest package')) {
+    return highestPackageFallback;
+  }
+
+  if (normalized.includes('aicte')) {
+    return aictePamphletFallback;
+  }
+
+  return undefined;
+}
 
 const SplashScreen: React.FC = () => {
   const homepage = useHomepageData();
   const [visible, setVisible] = useState(false);
   const [index, setIndex] = useState(0);
-  const dynamicImages = (homepage?.data.homepageBanners ?? [])
+  const dynamicImages: SplashImage[] = (homepage?.data.homepageBanners ?? [])
     .filter((banner) => Boolean(banner.image_url))
-    .map((banner) => ({
-      src: resolveUploadedAssetUrl(banner.image_url as string) ?? (banner.image_url as string),
-      label: banner.description || banner.title || 'Homepage Banner',
-    }));
+    .map((banner) => {
+      const label = banner.description || banner.title || 'Homepage Banner';
+      const fallbackKey = `${banner.title ?? ''} ${label}`;
+
+      return {
+        src: resolveUploadedAssetUrl(banner.image_url as string) ?? (banner.image_url as string),
+        label,
+        fallbackSrc: getBannerFallback(fallbackKey),
+      };
+    });
   const images = dynamicImages.length > 0 ? dynamicImages : splashImages;
 
   useEffect(() => {
@@ -73,6 +105,20 @@ const SplashScreen: React.FC = () => {
         <img
           src={images[index].src}
           alt={images[index].label}
+          onError={(event) => {
+            const fallbackSrc = images[index]?.fallbackSrc;
+            if (!fallbackSrc) {
+              return;
+            }
+
+            const target = event.currentTarget;
+            if (target.dataset.fallbackApplied === '1') {
+              return;
+            }
+
+            target.dataset.fallbackApplied = '1';
+            target.src = fallbackSrc;
+          }}
           className="w-full h-auto block shadow-2xl"
           style={{ maxHeight: '86vh', objectFit: 'contain', width: '100%' }}
         />
