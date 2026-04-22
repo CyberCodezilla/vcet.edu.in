@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useHomepageData } from '../context/HomepageDataContext';
 import { resolveUploadedAssetUrl } from '../utils/uploadedAssets';
@@ -48,19 +48,26 @@ const SplashScreen: React.FC = () => {
   const homepage = useHomepageData();
   const [visible, setVisible] = useState(false);
   const [index, setIndex] = useState(0);
+  const [isImageLoading, setIsImageLoading] = useState(true);
+  const [isNavigating, setIsNavigating] = useState(false);
+
   const dynamicImages: SplashImage[] = (homepage?.data.homepageBanners ?? [])
     .filter((banner) => Boolean(banner.image_url))
     .map((banner) => {
       const label = banner.description || banner.title || 'Homepage Banner';
       const fallbackKey = `${banner.title ?? ''} ${label}`;
+      const fallbackSrc = getBannerFallback(fallbackKey);
+      const primarySrc = resolveUploadedAssetUrl(banner.image_url as string) ?? (banner.image_url as string);
 
       return {
-        src: resolveUploadedAssetUrl(banner.image_url as string) ?? (banner.image_url as string),
+        // Prefer stable static path for known fixed banners to avoid delayed 404->fallback hops.
+        src: fallbackSrc ?? primarySrc,
         label,
-        fallbackSrc: getBannerFallback(fallbackKey),
+        fallbackSrc,
       };
     });
   const images = dynamicImages.length > 0 ? dynamicImages : splashImages;
+  const currentImage = useMemo(() => images[index] ?? images[0], [images, index]);
 
   useEffect(() => {
     const seen = sessionStorage.getItem('splashSeen');
@@ -81,7 +88,35 @@ const SplashScreen: React.FC = () => {
     setIndex((current) => (current >= images.length ? 0 : current));
   }, [images.length]);
 
-  if (!visible) return null;
+  useEffect(() => {
+    setIsImageLoading(true);
+  }, [index, currentImage?.src]);
+
+  const moveSlide = (delta: number) => {
+    if (isNavigating || images.length <= 1) {
+      return;
+    }
+
+    setIsNavigating(true);
+    setIndex(i => (i + delta + images.length) % images.length);
+    window.setTimeout(() => {
+      setIsNavigating(false);
+    }, 180);
+  };
+
+  const goToSlide = (nextIndex: number) => {
+    if (isNavigating || images.length <= 1) {
+      return;
+    }
+
+    setIsNavigating(true);
+    setIndex(nextIndex);
+    window.setTimeout(() => {
+      setIsNavigating(false);
+    }, 180);
+  };
+
+  if (!visible || !currentImage) return null;
 
   return (
     <div
@@ -103,11 +138,16 @@ const SplashScreen: React.FC = () => {
 
         {/* Image */}
         <img
-          src={images[index].src}
-          alt={images[index].label}
+          key={`${index}-${currentImage.src}`}
+          src={currentImage.src}
+          alt={currentImage.label}
+          onLoad={() => {
+            setIsImageLoading(false);
+          }}
           onError={(event) => {
-            const fallbackSrc = images[index]?.fallbackSrc;
+            const fallbackSrc = currentImage.fallbackSrc;
             if (!fallbackSrc) {
+              setIsImageLoading(false);
               return;
             }
 
@@ -126,6 +166,7 @@ const SplashScreen: React.FC = () => {
             }
 
             if (!fallbackSrc.trim()) {
+              setIsImageLoading(false);
               return;
             }
             target.src = fallbackSrc;
@@ -133,31 +174,41 @@ const SplashScreen: React.FC = () => {
           className="w-full h-auto block shadow-2xl"
           style={{ maxHeight: '86vh', objectFit: 'contain', width: '100%' }}
         />
+        {isImageLoading && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="px-3 py-1.5 rounded-full bg-black/40 text-white/75 text-xs tracking-wide">
+              Loading banner...
+            </div>
+          </div>
+        )}
 
         {/* Navigation */}
         <div className="flex items-center gap-4 mt-4">
           <button
-            onClick={() => setIndex(i => (i - 1 + images.length) % images.length)}
-            className="w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 flex items-center justify-center transition-colors"
+            onClick={() => moveSlide(-1)}
+            disabled={isNavigating}
+            className="w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
           >
             <ChevronLeft className="w-5 h-5 text-white" />
           </button>
           {images.map((_, i) => (
             <button
               key={i}
-              onClick={() => setIndex(i)}
+              onClick={() => goToSlide(i)}
+              disabled={isNavigating}
               className={`rounded-full transition-all duration-200 ${i === index ? 'w-5 h-2.5 bg-brand-gold' : 'w-2.5 h-2.5 bg-white/40 hover:bg-white/70'}`}
             />
           ))}
           <button
-            onClick={() => setIndex(i => (i + 1) % images.length)}
-            className="w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 flex items-center justify-center transition-colors"
+            onClick={() => moveSlide(1)}
+            disabled={isNavigating}
+            className="w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center transition-colors"
           >
             <ChevronRight className="w-5 h-5 text-white" />
           </button>
         </div>
         <p className="text-white/40 text-[11px] uppercase tracking-widest mt-2">
-          {images[index].label} — {index + 1} / {images.length} &nbsp;·&nbsp; Click outside to close
+          {currentImage.label} — {index + 1} / {images.length} &nbsp;·&nbsp; Click outside to close
         </p>
       </div>
     </div>
