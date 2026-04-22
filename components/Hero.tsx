@@ -19,6 +19,18 @@ import { useHomepageBanners } from "../hooks/useHomepageBanners";
 import { resolveUploadedAssetUrl, resolveBackendHref } from "../utils/uploadedAssets";
 import ImagePreviewModal from "./ImagePreviewModal";
 
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: string, params: any) => string;
+      reset: (widgetId?: string) => void;
+      getResponse: (widgetId?: string) => string | undefined;
+      remove: (widgetId?: string) => void;
+      ready: (callback: () => void) => void;
+    };
+  }
+}
+
 const HOMEPAGE_BG_PATH = "/images/Main Page/Home background/VCET-Home-1-scaled.jpg";
 const HOMEPAGE_BG_URL = resolveUploadedAssetUrl(HOMEPAGE_BG_PATH) ?? HOMEPAGE_BG_PATH;
 
@@ -55,7 +67,53 @@ const AdmissionForm: React.FC = () => {
     consent: false,
   });
   const [submitted, setSubmitted] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileWidgetId, setTurnstileWidgetId] = useState<string | null>(null);
+  const [turnstileError, setTurnstileError] = useState<string | null>(null);
   const formStartedAtRef = useRef<number>(Date.now());
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const loadTurnstileScript = () => {
+      if (document.querySelector('script[src*="turnstile"]')) {
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        if (window.turnstile && turnstileContainerRef.current) {
+          const widgetId = window.turnstile.render(turnstileContainerRef.current, {
+            sitekey: import.meta.env.VITE_TURNSTILE_SITE_KEY || '',
+            callback: (token: string) => {
+              setTurnstileToken(token);
+              setTurnstileError(null);
+            },
+            'error-callback': () => {
+              setTurnstileError('Verification failed. Please try again.');
+              setTurnstileToken(null);
+            },
+            'expired-callback': () => {
+              setTurnstileToken(null);
+              setTurnstileError('Verification expired. Please try again.');
+            },
+          });
+          setTurnstileWidgetId(widgetId);
+        }
+      };
+      document.head.appendChild(script);
+    };
+
+    loadTurnstileScript();
+
+    return () => {
+      if (turnstileWidgetId && window.turnstile) {
+        window.turnstile.remove(turnstileWidgetId);
+      }
+    };
+  }, []);
 
   const handle = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -76,15 +134,27 @@ const AdmissionForm: React.FC = () => {
     setIsSubmitting(true);
     setErrorMessage(null);
 
+    if (!turnstileToken) {
+      setTurnstileError('Please complete the verification.');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       await post("/enquiries", {
         ...form,
         website: "",
         form_started_at: formStartedAtRef.current,
+        'cf-turnstile-response': turnstileToken,
       });
       setSubmitted(true);
       formStartedAtRef.current = Date.now();
       setTimeout(() => setSubmitted(false), 4000);
+      
+      if (turnstileWidgetId && window.turnstile) {
+        window.turnstile.reset(turnstileWidgetId);
+      }
+      setTurnstileToken(null);
     } catch (err: unknown) {
       const apiError = err as { status?: number };
       if (apiError?.status === 429) {
@@ -295,6 +365,18 @@ const AdmissionForm: React.FC = () => {
                 SMS or email.
               </span>
             </label>
+
+            {/* Turnstile Widget */}
+            <div className="flex justify-center py-2">
+              <div 
+                ref={turnstileContainerRef}
+                className="w-full flex items-center justify-center min-h-[65px]"
+              >
+                {turnstileError && (
+                  <p className="text-xs text-red-400 text-center px-2">{turnstileError}</p>
+                )}
+              </div>
+            </div>
 
             {/* Error message */}
             {errorMessage && (
