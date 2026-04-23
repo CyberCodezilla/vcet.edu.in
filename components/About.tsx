@@ -179,9 +179,12 @@ const About: React.FC = () => {
                 <span className="text-xs font-bold text-brand-gold/40 uppercase tracking-widest">02</span>
               </div>
               <h3 className="mb-3 text-2xl md:text-[1.65rem] font-bold text-brand-navy">Our Mission</h3>
-              <p className="text-base md:text-lg leading-relaxed text-slate-700">
-                To provide technologically inspiring environment for learning. To promote creativity, innovation and professional activities. To inculcate ethical and moral values. To cater personal, professional and societal needs through quality education.
-              </p>
+              <ul className="list-disc space-y-2 pl-5 text-base md:text-lg leading-relaxed text-slate-700">
+                <li>To provide technologically inspiring environment for learning.</li>
+                <li>To promote creativity, innovation and professional activities.</li>
+                <li>To inculcate ethical and moral values.</li>
+                <li>To cater personal, professional and societal needs through quality education.</li>
+              </ul>
             </div>
 
             <div className="rounded-2xl bg-gradient-to-r from-brand-blue to-brand-navy p-8 text-center shadow-lg shadow-brand-blue/20">

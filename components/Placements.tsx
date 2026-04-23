@@ -12,6 +12,7 @@ interface ChartEntry {
   year: string;
   count: number;
   isCovid?: boolean;
+  isOngoing?: boolean;
 }
 
 function toChartEntries(stats: PlacementStat[]): ChartEntry[] {
@@ -22,12 +23,13 @@ function toChartEntries(stats: PlacementStat[]): ChartEntry[] {
       // Normalize legacy production payload where ongoing 2025-26 may still be 140.
       count: s.year === '2025-26' && s.is_ongoing ? Math.max(s.count, 190) : s.count,
       ...(s.is_covid ? { isCovid: true } : {}),
+      ...(s.is_ongoing ? { isOngoing: true } : {}),
     }));
 }
 
 function getChartSignature(entries: ChartEntry[]): string {
   return entries
-    .map((entry) => `${entry.year}:${entry.count}:${entry.isCovid ? 1 : 0}`)
+    .map((entry) => `${entry.year}:${entry.count}:${entry.isCovid ? 1 : 0}:${entry.isOngoing ? 1 : 0}`)
     .join('|');
 }
 
@@ -295,7 +297,7 @@ const Placements: React.FC = () => {
                 {placementData.map((item, index) => {
                     const barH = maxCount > 0 ? (item.count / maxCount) * CHART_H * 0.92 : 0;
                     const isPeak = index === maxIdx;
-                    const isCurrent = item.year.includes('*');
+                  const isCurrent = !!item.isOngoing;
                     const isCovid = !!item.isCovid;
                     const isHovered = hoveredIdx === index;
 
@@ -334,11 +336,6 @@ const Placements: React.FC = () => {
                               ★ Best
                             </span>
                           )}
-                          {isCurrent && (
-                            <span className={`absolute left-1/2 -translate-x-1/2 ${isPeak ? '-top-11' : '-top-6'} text-[10px] md:text-[13px] text-brand-gold font-extrabold uppercase tracking-wider whitespace-nowrap drop-shadow-[0_0_8px_rgba(212,175,55,0.7)]`}>
-                              ★ Current
-                            </span>
-                          )}
                         </div>
 
                         {/* Bar */}
@@ -349,6 +346,11 @@ const Placements: React.FC = () => {
                             transition: `height 1.1s cubic-bezier(0.34,1.1,0.64,1) ${index * 100}ms`,
                           }}
                         >
+                          {isCurrent && (
+                            <span className="absolute -top-6 left-1/2 z-20 -translate-x-1/2 text-[9px] md:text-[11px] text-brand-gold font-extrabold uppercase tracking-wider whitespace-nowrap drop-shadow-[0_0_8px_rgba(212,175,55,0.7)]">
+                              * Current
+                            </span>
+                          )}
                           {/* Main gradient fill */}
                           <div
                             className={`absolute inset-0 rounded-t-xl transition-all duration-300 ${

@@ -34,15 +34,40 @@ declare global {
 const HOMEPAGE_BG_PATH = "/images/Main Page/Home background/VCET-Home-1-scaled.jpg";
 const HOMEPAGE_BG_URL = resolveUploadedAssetUrl(HOMEPAGE_BG_PATH) ?? HOMEPAGE_BG_PATH;
 
-const departments = [
-  "Computer Engineering",
-  "Computer Science & Engineering (Data Science)",
-  "Information Technology",
-  "Artificial Intelligence & Data Science",
-  "Mechanical Engineering",
-  "Electronics & Telecommunication Engineering",
-  "Civil Engineering",
-  "Master of Management Studies (MBA)",
+const departmentOptions = [
+  { label: "UNDER GRADUATE PROGRAMS (UG)", value: "", disabled: true },
+  { label: "Computer Engineering", value: "Computer Engineering" },
+  {
+    label: "Computer Science & Engineering (Data Science)",
+    value: "Computer Science & Engineering (Data Science)",
+  },
+  { label: "Information Technology", value: "Information Technology" },
+  {
+    label: "Artificial Intelligence & Data Science",
+    value: "Artificial Intelligence & Data Science",
+  },
+  { label: "Mechanical Engineering", value: "Mechanical Engineering" },
+  {
+    label: "Electronics & Telecommunication Engineering",
+    value: "Electronics & Telecommunication Engineering",
+  },
+  { label: "Civil Engineering", value: "Civil Engineering" },
+  { label: "POST GRADUATE PROGRAMS (PG)", value: "", disabled: true },
+  {
+    label: "Civil Engineering (Structural)",
+    value: "Civil Engineering (Structural)",
+  },
+  { label: "Computer Engineering", value: "Computer Engineering" },
+  {
+    label: "Electronics & Telecommunication Engineering",
+    value: "Electronics & Telecommunication Engineering",
+  },
+  { label: "Mechanical Engineering", value: "Mechanical Engineering" },
+  { label: "MANAGEMENT COURSE (PG)", value: "", disabled: true },
+  {
+    label: "Master of Management Studies (MMS)",
+    value: "Master of Management Studies (MMS)",
+  },
 ];
 
 const AdmissionForm: React.FC = () => {
@@ -282,9 +307,14 @@ const AdmissionForm: React.FC = () => {
                   <option value="" disabled className="bg-brand-dark">
                     Select Department
                   </option>
-                  {departments.map((d) => (
-                    <option key={d} value={d} className="bg-brand-dark">
-                      {d}
+                  {departmentOptions.map((option, index) => (
+                    <option
+                      key={`${option.label}-${index}`}
+                      value={option.value}
+                      disabled={option.disabled}
+                      className="bg-brand-dark"
+                    >
+                      {option.label}
                     </option>
                   ))}
                 </select>
