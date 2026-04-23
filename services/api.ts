@@ -42,7 +42,7 @@ const PAGE_CACHE_TTL_MS = Number(import.meta.env.VITE_PAGE_CACHE_TTL_MS ?? 10 * 
 const PAGE_CACHE_REVALIDATE_MS = Number(import.meta.env.VITE_PAGE_CACHE_REVALIDATE_MS ?? 60_000);
 
 function isPublicPageRequest(path: string): boolean {
-    return path.startsWith('/pages/');
+    return path.startsWith('/pages/') && !path.startsWith('/pages/footer/');
 }
 
 function isAdminRoute(): boolean {

@@ -1,8 +1,9 @@
-﻿import React from 'react';
+﻿import React, { useEffect, useMemo, useState } from 'react';
 import PageLayout from '../../components/PageLayout';
 import PageBanner from '../../components/PageBanner';
 import { ExternalLink, FileText } from 'lucide-react';
 import { resolveUploadedAssetUrl } from '../../utils/uploadedAssets';
+import { get } from '../../services/api';
 
 type StatementItem = {
   label: string;
@@ -12,38 +13,80 @@ type StatementItem = {
 
 const statementItems: StatementItem[] = [
   {
-    label: 'Audited Statement 2019-2020',
-    description: 'Income and expenditure statement for FY 2019-20.',
-    href: 'pdfs/Facilities/FOOTER/AuditedStatement/Income-Expenditure-2019-20.pdf',
-  },
-  {
-    label: 'Audited Statement 2020-2021',
-    description: 'Income and expenditure statement for FY 2020-21.',
-    href: 'pdfs/Facilities/FOOTER/AuditedStatement/Income-Expenditure-2020-2021.pdf',
-  },
-  {
     label: 'Audited Statement 2021-2022',
     description: 'Income and expenditure statement for FY 2021-22.',
-    href: 'pdfs/Facilities/FOOTER/AuditedStatement/Income-Expenditure-2021-22.pdf',
+    href: '/pdfs/Facilities/FOOTER/AuditedStatement/2021-22-1.pdf',
   },
   {
     label: 'Audited Statement 2022-2023',
     description: 'Income and expenditure statement for FY 2022-23.',
-    href: 'pdfs/Facilities/FOOTER/AuditedStatement/Income-Expenditure-2022-23.pdf',
-  },
-  {
-    label: 'Audited Statement 2023-2024',
-    description: 'Income and expenditure statement for FY 2023-24.',
-    href: 'pdfs/Facilities/FOOTER/AuditedStatement/AUDITED-STATEMENT-2023-24.pdf',
-  },
-  {
-    label: 'Audited Statement 2024-2025',
-    description: 'Income and expenditure statement for FY 2024-25.',
-    href: 'pdfs/Facilities/FOOTER/AuditedStatement/INCOME-EXPENDITURE-STATEMET-FOR-THE-YEAR-ENDED-31ST-MARCH-2025.pdf',
+    href: '/pdfs/Facilities/FOOTER/AuditedStatement/2022-23-1.pdf',
   },
 ];
 
+type PageResponse = {
+  data?: {
+    items?: Array<Record<string, unknown>>;
+  } | Record<string, unknown>;
+};
+
+const toText = (value: unknown): string => (typeof value === 'string' ? value : '');
+
+const normalizeDynamicItems = (raw: unknown): StatementItem[] => {
+  if (!raw || typeof raw !== 'object') {
+    return [];
+  }
+
+  const data = raw as Record<string, unknown>;
+  const items = Array.isArray(data.items) ? data.items : [];
+
+  return items
+    .filter((item): item is Record<string, unknown> => !!item && typeof item === 'object')
+    .map((item) => {
+      const fallbackFile = item.file && typeof item.file === 'object' ? (item.file as Record<string, unknown>) : null;
+      const href =
+        toText(item.href) ||
+        toText(item.fileUrl) ||
+        toText(item.url) ||
+        toText(fallbackFile?.url);
+
+      return {
+        label: toText(item.label),
+        description: toText(item.description),
+        href,
+      };
+    })
+    .filter((item) => Boolean(item.href));
+};
+
 const AuditedStatement: React.FC = () => {
+  const [dynamicItems, setDynamicItems] = useState<StatementItem[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const load = async () => {
+      try {
+        const response = await get<PageResponse>('/pages/footer/audited-statement');
+        if (!mounted) return;
+        setDynamicItems(normalizeDynamicItems(response?.data));
+      } catch {
+        if (!mounted) return;
+        setDynamicItems([]);
+      }
+    };
+
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const renderedItems = useMemo(
+    () => (dynamicItems.length > 0 ? dynamicItems : statementItems),
+    [dynamicItems],
+  );
+
   return (
     <PageLayout>
       <PageBanner
@@ -56,7 +99,7 @@ const AuditedStatement: React.FC = () => {
       <section className="py-10 md:py-20 bg-[#F7F9FC] border-b border-[#E5E7EB]">
         <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-6">
-            {statementItems.map((item, idx) => (
+            {renderedItems.map((item, idx) => (
               <div key={`${item.label}-${idx}`} className="reveal border border-[#E5E7EB] bg-white" style={{ transitionDelay: `${idx * 0.04}s` }}>
                 <a
                   href={resolveUploadedAssetUrl(item.href) || item.href}

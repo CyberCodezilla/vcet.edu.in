@@ -1,11 +1,75 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Linkedin, Youtube, ArrowRight, MapPin, Phone, Mail, ExternalLink } from 'lucide-react';
 import { resolveBackendHref } from '../utils/uploadedAssets';
+import { get } from '../services/api';
+
+type FooterMenuItem = {
+  label: string;
+  href: string;
+  external: boolean;
+};
+
+type FooterPageResponse = {
+  data?: {
+    items?: Array<Record<string, unknown>>;
+  } | Record<string, unknown>;
+};
+
+const STATIC_MENU_ITEMS: FooterMenuItem[] = [
+  { label: 'Home', href: '/', external: false },
+  { label: 'Mandatory Disclosure', href: '/pdfs/Facilities/FOOTER/Mandatory-Disclosure-as-On-December-2025-FINAL.pdf', external: true },
+  { label: 'German Language Club', href: '/german-language-club', external: false },
+  { label: 'FRA FEE PROPOSAL 2025-26 - ENGG', href: '/pdfs/Facilities/FOOTER/FRA-FEE-PROPOSAL-2025-26-ENGG.pdf', external: true },
+  { label: 'FRA FEE PROPOSAL 2025-26-ME', href: '/pdfs/Facilities/FOOTER/FRA-FEE-PROPOSAL-2025-26-ME.pdf', external: true },
+  { label: 'FRA FEE PROPOSAL 2025-26-MBA', href: '/pdfs/Facilities/FOOTER/FRA-FEE-PROPOSAL-2025-26-MBA.pdf', external: true },
+  { label: 'Fee Approved By FRA for 25-26', href: '/pdfs/Facilities/FOOTER/FRA-Fee-2025-26-17.7.25.pdf', external: true },
+  { label: 'Audited Statement', href: '/audited-statement', external: false },
+  { label: 'EOA 1994 to 2024', href: '/pdfs/Facilities/FOOTER/EOA-1994-2024.pdf', external: true },
+  { label: 'EOA Report 25-26', href: '/pdfs/Facilities/FOOTER/EOA-Report-2025-2026.pdf', external: true },
+  { label: 'Certificate - Medium of Instruction', href: '/pdfs/Facilities/FOOTER/Medium-of-Instruction-Cert.pdf', external: true },
+];
+
+const DEFAULT_AUDITED_STATEMENT_LABELS = new Set([
+  'Audited Statement 2019-2020',
+  'Audited Statement 2020-2021',
+  'Audited Statement 2021-2022',
+  'Audited Statement 2022-2023',
+  'Audited Statement 2023-2024',
+  'Audited Statement 2024-2025',
+]);
+
+const toText = (value: unknown): string => (typeof value === 'string' ? value : '');
+
+const normalizeFooterAuditedItems = (raw: unknown): FooterMenuItem[] => {
+  if (!raw || typeof raw !== 'object') {
+    return [];
+  }
+
+  const data = raw as Record<string, unknown>;
+  const items = Array.isArray(data.items) ? data.items : [];
+
+  return items
+    .filter((item): item is Record<string, unknown> => !!item && typeof item === 'object')
+    .map((item) => {
+      const fileObj = item.file && typeof item.file === 'object' ? (item.file as Record<string, unknown>) : null;
+      const href = toText(item.href) || toText(item.fileUrl) || toText(item.url) || toText(fileObj?.url);
+      const label = toText(item.label).trim();
+
+      return {
+        label: label || 'Audited Statement PDF',
+        href,
+        external: true,
+      };
+    })
+    .filter((item) => !DEFAULT_AUDITED_STATEMENT_LABELS.has(item.label))
+    .filter((item) => Boolean(item.href));
+};
 
 const Footer: React.FC = () => {
   const DEFAULT_COPYRIGHT_YEAR = 2026;
   const [currentYear, setCurrentYear] = useState<number>(DEFAULT_COPYRIGHT_YEAR);
+  const [auditedStatementMenuItems, setAuditedStatementMenuItems] = useState<FooterMenuItem[]>([]);
 
   useEffect(() => {
     let mounted = true;
@@ -35,6 +99,44 @@ const Footer: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    let mounted = true;
+
+    const loadAuditedStatementItems = async () => {
+      try {
+        const response = await get<FooterPageResponse>('/pages/footer/audited-statement');
+        if (!mounted) return;
+        setAuditedStatementMenuItems(normalizeFooterAuditedItems(response?.data));
+      } catch {
+        if (!mounted) return;
+        setAuditedStatementMenuItems([]);
+      }
+    };
+
+    loadAuditedStatementItems();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const menuItems = useMemo(() => {
+    if (auditedStatementMenuItems.length === 0) {
+      return STATIC_MENU_ITEMS;
+    }
+
+    const auditedStatementIndex = STATIC_MENU_ITEMS.findIndex((item) => item.href === '/audited-statement');
+    if (auditedStatementIndex === -1) {
+      return [...STATIC_MENU_ITEMS, ...auditedStatementMenuItems];
+    }
+
+    return [
+      ...STATIC_MENU_ITEMS.slice(0, auditedStatementIndex + 1),
+      ...auditedStatementMenuItems,
+      ...STATIC_MENU_ITEMS.slice(auditedStatementIndex + 1),
+    ];
+  }, [auditedStatementMenuItems]);
+
   return (
     <footer id="footer" className="bg-brand-dark text-white relative overflow-hidden">
       {/* Top decorative line */}
@@ -47,20 +149,8 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-xs font-bold uppercase tracking-[0.15em] mb-5 text-brand-gold">Menu</h3>
             <ul className="space-y-2.5">
-              {[
-                { label: 'Home', href: '/', external: false },
-                { label: 'Mandatory Disclosure', href: 'https://vcet.edu.in/wp-content/uploads/2026/01/Mandatory-Disclosure-as-On-December-2025-FINAL.pdf', external: true },
-                { label: 'German Language Club', href: '/german-language-club', external: false },
-                { label: 'FRA FEE PROPOSAL 2025-26 – ENGG', href: 'https://vcet.edu.in/wp-content/uploads/2025/05/FRA-FEE-PROPOSAL-2025-26-ENGG.pdf', external: true },
-                { label: 'FRA FEE PROPOSAL 2025-26-ME', href: 'https://vcet.edu.in/wp-content/uploads/2025/05/FRA-FEE-PROPOSAL-2025-26-ME.pdf', external: true },
-                { label: 'FRA FEE PROPOSAL 2025-26-MBA', href: 'https://vcet.edu.in/wp-content/uploads/2025/05/FRA-FEE-PROPOSAL-2025-26-MBA.pdf', external: true },
-                { label: 'Fee Approved By FRA for 25-26', href: 'https://vcet.edu.in/wp-content/uploads/2025/10/FRA-Fee-2025-26-17.7.25.pdf', external: true },
-                { label: 'Audited Statement', href: '/audited-statement', external: false },
-                { label: 'EOA 1994 to 2024', href: 'https://vcet.edu.in/wp-content/uploads/2026/03/EOA-1994-2024.pdf', external: true },
-                { label: 'EOA Report 25-26', href: 'https://vcet.edu.in/wp-content/uploads/2025/06/EOA-Report-2025-2026.pdf', external: true },
-                { label: 'Certificate – Medium of Instruction', href: 'https://vcet.edu.in/wp-content/uploads/2026/03/Medium-of-Instruction-Cert.pdf', external: true },
-              ].map((item) => (
-                <li key={item.label}>
+              {menuItems.map((item, idx) => (
+                <li key={`${item.label}-${item.href}-${idx}`}>
                   <a
                     href={resolveBackendHref(item.href)}
                     target={item.external ? '_blank' : undefined}

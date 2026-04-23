@@ -282,6 +282,8 @@ const MMSEnquiriesList = lazy(() => import('./admin/pages/mms/MMSEnquiriesList')
 const MMSSyllabusForm = lazy(() => import('./admin/pages/mms/MMSSyllabusForm'));
 const MMSFacilitiesForm = lazy(() => import('./admin/pages/mms/MMSFacilitiesForm'));
 const MMSFaqsForm = lazy(() => import('./admin/pages/mms/MMSFaqsForm'));
+const FooterContentList = lazy(() => import('./admin/pages/footer/FooterContentList'));
+const FooterForm = lazy(() => import('./admin/pages/footer/FooterForm'));
 
 /* ── Loading Spinner ── */
 const PageLoader = () => (
@@ -636,6 +638,8 @@ element={<MMSStudentsLifeCustomEvent />} />
             <Route path="testimonials/new" element={<TestimonialsForm />} />
             <Route path="testimonials/:id/edit" element={<TestimonialsForm />} />
             <Route path="explore-us" element={<ExploreUsList />} />
+            <Route path="footer-pdfs" element={<FooterContentList />} />
+            <Route path="footer-pdfs/audited-statement" element={<FooterForm slug="audited-statement" onBack={() => { window.location.href = '/admin/footer-pdfs'; }} />} />
             <Route path="gallery" element={<GalleryPage />} />
             <Route path="placement-partners" element={<PlacementPartnersList />} />
             <Route path="placement-partners/new" element={<PlacementPartnersForm />} />

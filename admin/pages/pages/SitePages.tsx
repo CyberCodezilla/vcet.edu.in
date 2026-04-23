@@ -167,6 +167,7 @@ const naacEditables = [
   { slug: 'naac-score', title: 'NAAC Accreditation Score', description: 'Score summary, validity, and official certification details.' },
 ];
 
+
 const aboutEditables = [
   { slug: 'overview', title: 'Institute Overview', description: 'Institutional history, accreditation, and quick facts.' },
   { slug: 'president-desk', title: 'President\'s Desk', description: 'Leadership message and profile of the President.' },
@@ -388,6 +389,7 @@ const SitePages: React.FC = () => {
   if (activeTab.key === 'naac' && activeSection) {
     return <NaacForm slug={activeSection} onBack={() => setActiveSection(null)} />;
   }
+
 
   if (activeTab.key === 'about-us' && activeSection) {
     return <AboutUsForm slug={activeSection} onBack={() => setActiveSection(null)} />;

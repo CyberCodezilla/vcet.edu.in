@@ -150,6 +150,7 @@ const navSections: NavSection[] = [
       { label: 'Achievements', path: '/admin/achievements', icon: <StarIcon /> },
       { label: 'Testimonials', path: '/admin/testimonials', icon: <QuoteIcon /> },
       { label: 'Explore Us Links', path: '/admin/explore-us', icon: <MonitorIcon /> },
+      { label: 'Footer PDF Forms', path: '/admin/footer-pdfs', icon: <FileTextIcon /> },
     ],
   },
   {
