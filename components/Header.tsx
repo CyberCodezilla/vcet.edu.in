@@ -475,6 +475,16 @@ const tokenizeSearch = (value: string): string[] => normalizeSearchText(value).s
 
 const uniqueTerms = (terms: string[]): string[] => Array.from(new Set(terms.filter(Boolean)));
 
+const SEARCH_STOP_WORDS = new Set([
+  'a', 'an', 'the', 'of', 'for', 'to', 'in', 'on', 'at', 'by', 'and', 'or', 'with', 'from',
+]);
+
+const buildQueryTerms = (query: string): string[] => {
+  const raw = tokenizeSearch(query);
+  const filtered = raw.filter((term) => !SEARCH_STOP_WORDS.has(term));
+  return uniqueTerms(filtered.length > 0 ? filtered : raw);
+};
+
 const levenshteinDistance = (a: string, b: string): number => {
   if (a === b) return 0;
   if (!a.length) return b.length;
@@ -754,112 +764,174 @@ function searchPages(query: string, index: SearchEntry[]): SearchEntry[] {
   const q = normalizeSearchText(query);
   if (!q) return [];
 
-  const terms = uniqueTerms(q.split(/\s+/).filter(Boolean));
-  const allowFuzzy = terms.length > 1 || q.length >= 6;
+  const terms = buildQueryTerms(q);
+  const queryJoined = terms.join(' ');
 
-  type Scored = { entry: SearchEntry; score: number };
-  const scored: Scored[] = [];
+  type FieldBucket = {
+    labelNorm: string;
+    catNorm: string;
+    contextNorm: string;
+    hrefNorm: string;
+    labelTokens: string[];
+    keywordTokens: string[];
+    categoryTokens: string[];
+    contextTokens: string[];
+    hrefTokens: string[];
+  };
 
-  for (const entry of index) {
+  const buildFieldBucket = (entry: SearchEntry): FieldBucket => {
     const labelNorm = normalizeSearchText(entry.label);
     const catNorm = normalizeSearchText(entry.category);
     const contextNorm = normalizeSearchText(entry.context || '');
     const hrefNorm = normalizeSearchText(entry.href);
-    const keywordNorm = uniqueTerms(entry.keywords.flatMap((k) => tokenizeSearch(k)));
 
-    const matchSources: string[] = [];
-    let termScore = 0;
-    let allMatch = true;
-    let fuzzyTermsUsed = 0;
+    return {
+      labelNorm,
+      catNorm,
+      contextNorm,
+      hrefNorm,
+      labelTokens: tokenizeSearch(entry.label),
+      keywordTokens: uniqueTerms(entry.keywords.flatMap((k) => tokenizeSearch(k))),
+      categoryTokens: tokenizeSearch(entry.category),
+      contextTokens: tokenizeSearch(entry.context || ''),
+      hrefTokens: tokenizeSearch(entry.href),
+    };
+  };
 
-    for (const term of terms) {
-      let directBest = 0;
-      let fuzzyBest = 0;
+  const scoreTokenAgainstField = (
+    term: string,
+    tokens: string[],
+    mode: 'strict' | 'fuzzy',
+    allowContains: boolean,
+  ): { score: number; fuzzy: boolean } => {
+    let best = 0;
+    let usedFuzzy = false;
 
-      if (labelNorm.includes(term)) {
-        directBest = Math.max(directBest, 70);
-        if (!matchSources.includes('label')) matchSources.push('label');
+    for (const token of tokens) {
+      if (!token) continue;
+      if (token === term) {
+        best = Math.max(best, 100);
+        continue;
       }
-      if (catNorm.includes(term)) {
-        directBest = Math.max(directBest, 24);
-        if (!matchSources.includes('category')) matchSources.push('category');
+      if (token.startsWith(term) || term.startsWith(token)) {
+        best = Math.max(best, 72);
+        continue;
       }
-      if (contextNorm.includes(term)) {
-        directBest = Math.max(directBest, 30);
-        if (!matchSources.includes('context')) matchSources.push('context');
+      if (allowContains && token.includes(term)) {
+        best = Math.max(best, 48);
+        continue;
       }
-      if (hrefNorm.includes(term)) {
-        directBest = Math.max(directBest, 26);
-        if (!matchSources.includes('href')) matchSources.push('href');
+      if (mode === 'fuzzy' && fuzzyTokenMatch(term, token)) {
+        best = Math.max(best, 28);
+        usedFuzzy = true;
       }
+    }
 
-      const keywordExact = keywordNorm.some((token) => token.includes(term));
-      if (keywordExact) {
-        directBest = Math.max(directBest, 42);
-        if (!matchSources.includes('keywords')) matchSources.push('keywords');
-      } else if (allowFuzzy) {
-        const keywordFuzzy = keywordNorm.some((token) => fuzzyTokenMatch(term, token));
-        if (keywordFuzzy) {
-          fuzzyBest = Math.max(fuzzyBest, 18);
-          if (!matchSources.includes('keywords')) matchSources.push('keywords');
+    return { score: best, fuzzy: usedFuzzy };
+  };
+
+  type Scored = { entry: SearchEntry; score: number };
+  const runPass = (mode: 'strict' | 'fuzzy'): Scored[] => {
+    const scored: Scored[] = [];
+
+    for (const entry of index) {
+      const bucket = buildFieldBucket(entry);
+      const matchSources: string[] = [];
+      let allTermsMatched = true;
+      let score = 0;
+      let fuzzyTermsUsed = 0;
+      let strongLabelOrKeywordMatch = false;
+
+      for (const term of terms) {
+        const allowContains = term.length >= 4;
+
+        const labelMatch = scoreTokenAgainstField(term, bucket.labelTokens, mode, allowContains);
+        const keywordMatch = scoreTokenAgainstField(term, bucket.keywordTokens, mode, allowContains);
+        const contextMatch = scoreTokenAgainstField(term, bucket.contextTokens, mode, allowContains);
+        const categoryMatch = scoreTokenAgainstField(term, bucket.categoryTokens, mode, allowContains);
+        const hrefMatch = scoreTokenAgainstField(term, bucket.hrefTokens, mode, allowContains);
+
+        if (labelMatch.score > 0) matchSources.push('label');
+        if (keywordMatch.score > 0) matchSources.push('keywords');
+        if (contextMatch.score > 0) matchSources.push('context');
+        if (categoryMatch.score > 0) matchSources.push('category');
+        if (hrefMatch.score > 0) matchSources.push('href');
+
+        const weightedLabel = Math.round(labelMatch.score * 1.0);
+        const weightedKeyword = Math.round(keywordMatch.score * 0.8);
+        const weightedContext = Math.round(contextMatch.score * 0.46);
+        const weightedCategory = Math.round(categoryMatch.score * 0.36);
+        const weightedHref = Math.round(hrefMatch.score * 0.34);
+
+        const termBest = Math.max(weightedLabel, weightedKeyword, weightedContext, weightedCategory, weightedHref);
+        if (termBest <= 0) {
+          allTermsMatched = false;
+          break;
         }
+
+        if (weightedLabel >= 72 || weightedKeyword >= 64) {
+          strongLabelOrKeywordMatch = true;
+        }
+
+        const usedFuzzy =
+          (labelMatch.fuzzy && weightedLabel === termBest) ||
+          (keywordMatch.fuzzy && weightedKeyword === termBest) ||
+          (contextMatch.fuzzy && weightedContext === termBest) ||
+          (categoryMatch.fuzzy && weightedCategory === termBest) ||
+          (hrefMatch.fuzzy && weightedHref === termBest);
+
+        if (usedFuzzy) fuzzyTermsUsed += 1;
+        score += termBest;
       }
 
-      const labelTokens = tokenizeSearch(entry.label);
-      if (allowFuzzy && directBest === 0 && labelTokens.some((token) => fuzzyTokenMatch(term, token))) {
-        fuzzyBest = Math.max(fuzzyBest, 20);
-        if (!matchSources.includes('label')) matchSources.push('label');
+      if (!allTermsMatched) continue;
+
+      if (terms.length === 1 && terms[0].length >= 3 && !strongLabelOrKeywordMatch) {
+        continue;
       }
 
-      const best = directBest > 0 ? directBest : fuzzyBest;
-      if (best === 0) {
-        allMatch = false;
-        break;
+      if (bucket.labelNorm === q) score += 170;
+      if (bucket.labelNorm.startsWith(queryJoined)) score += 85;
+      if (bucket.labelNorm.includes(queryJoined) && queryJoined.length >= 4) score += 36;
+
+      if (entry.category.toLowerCase() === 'faculty') score += 10;
+
+      const acronym = bucket.labelTokens.map((part) => part[0]).join('');
+      if (acronym && acronym.includes(queryJoined.replace(/\s+/g, ''))) {
+        score += 22;
       }
 
-      if (directBest === 0 && fuzzyBest > 0) {
-        fuzzyTermsUsed += 1;
+      if (fuzzyTermsUsed > 0) {
+        score -= fuzzyTermsUsed * 16;
       }
-      termScore += best;
+
+      const minScore = terms.length === 1 ? (terms[0].length <= 3 ? 82 : 68) : 58;
+      if (score < minScore) continue;
+
+      const uniqueSources = Array.from(new Set(matchSources));
+      const matchContext = entry.context || (() => {
+        if (uniqueSources.includes('label')) return `Matched by title · ${entry.category}`;
+        if (uniqueSources.includes('keywords')) return `Matched by keywords · ${entry.category}`;
+        if (uniqueSources.includes('context')) return `Matched in context · ${entry.category}`;
+        if (uniqueSources.includes('href')) return 'Matched by file/path keyword';
+        return entry.category;
+      })();
+
+      scored.push({
+        entry: {
+          ...entry,
+          context: matchContext,
+        },
+        score,
+      });
     }
 
-    if (!allMatch) continue;
-    if (!allowFuzzy && fuzzyTermsUsed > 0) continue;
+    scored.sort((a, b) => b.score - a.score || a.entry.label.localeCompare(b.entry.label));
+    return scored;
+  };
 
-    let score = 0;
-    score += termScore;
-
-    if (labelNorm === q) score += 140;
-    if (labelNorm.startsWith(q)) score += 75;
-    if (entry.category.toLowerCase() === 'faculty') score += 12;
-
-    const acronym = tokenizeSearch(entry.label).map((part) => part[0]).join('');
-    if (acronym && acronym.includes(q.replace(/\s+/g, ''))) {
-      score += 24;
-    }
-
-    if (fuzzyTermsUsed > 0) {
-      score -= fuzzyTermsUsed * 14;
-      // For single-word fuzzy matches, keep only high-confidence candidates.
-      if (terms.length === 1 && score < 52) continue;
-    }
-
-    const matchContext = entry.context || (() => {
-      if (matchSources.includes('label')) return `Matched by title · ${entry.category}`;
-      if (matchSources.includes('context')) return `Matched in context · ${entry.category}`;
-      if (matchSources.includes('keywords')) return `Matched by keywords · ${entry.category}`;
-      if (matchSources.includes('href')) return 'Matched by file/path keyword';
-      return entry.category;
-    })();
-
-    scored.push({
-      entry: {
-        ...entry,
-        context: matchContext,
-      },
-      score,
-    });
-  }
+  const strictScored = runPass('strict');
+  const scored = strictScored.length > 0 ? strictScored : runPass('fuzzy');
 
   scored.sort((a, b) => b.score - a.score || a.entry.label.localeCompare(b.entry.label));
 
