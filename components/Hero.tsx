@@ -312,7 +312,7 @@ const AdmissionForm: React.FC = () => {
                       key={`${option.label}-${index}`}
                       value={option.value}
                       disabled={option.disabled}
-                      className="bg-brand-dark"
+                      className={option.disabled ? "bg-brand-dark text-yellow-300 font-bold" : "bg-brand-dark text-white"}
                     >
                       {option.label}
                     </option>
