@@ -1,7 +1,7 @@
 # PHP 8.4 Syntax Scan Report
 
 **Generated:** 04/27/2026 18:02:29  
-**Project:** C:/Users/sunanda.AMFIIND/Desktop/SHUBHAM PROJECT/VCET BACKEND_and_FRONTEND/vcet
+**Project:** vcet
 
 ---
 
