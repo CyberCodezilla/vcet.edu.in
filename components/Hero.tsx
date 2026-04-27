@@ -91,6 +91,7 @@ const AdmissionForm: React.FC = () => {
   useEffect(() => {
     let widgetId: string | null = null;
     let isUnmounted = false;
+    const getTurnstileApi = () => window.turnstile;
 
     const renderWidget = () => {
       if (isUnmounted || !window.turnstile || !turnstileContainerRef.current) {
@@ -130,11 +131,11 @@ const AdmissionForm: React.FC = () => {
     const scriptSelector = 'script[src*="challenges.cloudflare.com/turnstile"]';
     const existingScript = document.querySelector(scriptSelector) as HTMLScriptElement | null;
 
-    if (window.turnstile) {
-      renderWidget();
+    if (getTurnstileApi()) {
+      getTurnstileApi()?.ready(renderWidget);
     } else if (existingScript) {
       if (existingScript.dataset.loaded === 'true') {
-        renderWidget();
+        getTurnstileApi()?.ready(renderWidget);
       } else {
         existingScript.addEventListener('load', renderWidget, { once: true });
       }
@@ -145,7 +146,10 @@ const AdmissionForm: React.FC = () => {
       script.defer = true;
       script.onload = () => {
         script.dataset.loaded = 'true';
-        renderWidget();
+        getTurnstileApi()?.ready(renderWidget);
+      };
+      script.onerror = () => {
+        setTurnstileError('Unable to load verification service. Please refresh and try again.');
       };
       document.head.appendChild(script);
     }
